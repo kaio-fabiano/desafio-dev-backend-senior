@@ -1,0 +1,4614 @@
+{
+  "nodes": [
+    {
+      "id": "g0",
+      "type": "group",
+      "label": "Planejamento e Arquitetura",
+      "x": 0,
+      "y": 0,
+      "width": 1760,
+      "height": 820,
+      "color": "1"
+    },
+    {
+      "id": "n_docs_knowledge_apollo_mcp_apollo_mcp",
+      "type": "file",
+      "file": "Apollo MCP.md",
+      "x": 20,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_03_identidade_e_oauth_better_auth_authorization_server",
+      "type": "file",
+      "file": "Better Auth como Authorization Server OAuth 2.1OIDC.md",
+      "x": 220,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_01_arquitetura_e_dominio_bounded_contexts",
+      "type": "file",
+      "file": "Bounded contexts do marketplace.md",
+      "x": 420,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_03_identidade_e_oauth_wordpress_identity_link",
+      "type": "file",
+      "file": "Cadastro com v\u00ednculo de identidade WordPress.md",
+      "x": 620,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_graphql_federation_federated_me_path",
+      "type": "file",
+      "file": "Caminho federado da query me.md",
+      "x": 820,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_01_arquitetura_e_dominio_outbox_inbox_consistency",
+      "type": "file",
+      "file": "Consist\u00eancia por Outbox e Inbox.md",
+      "x": 1020,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_02_graphql_federation_schema_first_contract",
+      "type": "file",
+      "file": "Contrato schema-first com SDL versionado.md",
+      "x": 1220,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_08_riscos_e_decisoes_pendentes_sse_protocol_incompatibility",
+      "type": "file",
+      "file": "D-001 Incompatibilidade graphql-sse e Apollo multipart.md",
+      "x": 1420,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_08_riscos_e_decisoes_pendentes_audience_same_token_risk",
+      "type": "file",
+      "file": "D-002 Audience distinta versus mesmo token.md",
+      "x": 20,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_08_riscos_e_decisoes_pendentes_order_authority_risk",
+      "type": "file",
+      "file": "D-011 Origem autoritativa de pedidos.md",
+      "x": 220,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_02_graphql_federation_request_scoped_dataloader",
+      "type": "file",
+      "file": "DataLoader por requisi\u00e7\u00e3o.md",
+      "x": 420,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_02_graphql_federation_resolvable_entity_keys",
+      "type": "file",
+      "file": "Entidades federadas com @key resolv\u00edvel.md",
+      "x": 620,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_saga_e_idempotencia_monotonic_order_state",
+      "type": "file",
+      "file": "Estado monot\u00f4nico do pedido.md",
+      "x": 820,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_fontes_technical_sources",
+      "type": "file",
+      "file": "Fontes t\u00e9cnicas oficiais.md",
+      "x": 1020,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_02_graphql_federation_rover_composition_gate",
+      "type": "file",
+      "file": "Gate de composi\u00e7\u00e3o com Rover.md",
+      "x": 1220,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_graphql_federation_graphql_federation",
+      "type": "file",
+      "file": "GraphQL Federation.md",
+      "x": 1420,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_04_commerce_saga_e_realtime_end_to_end_idempotency",
+      "type": "file",
+      "file": "Idempot\u00eancia ponta a ponta por operationKey.md",
+      "x": 20,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_identidade_oauth2_oauth2_identity",
+      "type": "file",
+      "file": "Identidade OAuth2.md",
+      "x": 220,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_06_plataforma_qualidade_e_entrega_testcontainers_journey",
+      "type": "file",
+      "file": "Jornada E2E com Vitest e Testcontainers.md",
+      "x": 420,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_00_contexto_e_escopo_critical_journey",
+      "type": "file",
+      "file": "Jornada cr\u00edtica E2E do marketplace.md",
+      "x": 620,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_mapa_do_projeto_project_map",
+      "type": "file",
+      "file": "Mapa do Projeto.md",
+      "x": 820,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_07_roadmap_vertical_delivery_milestones",
+      "type": "file",
+      "file": "Marcos de entrega vertical.md",
+      "x": 1020,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_readme_requirement_prd_proof_matrix",
+      "type": "file",
+      "file": "Matriz requisito \u2192 PRD \u2192 prova.md",
+      "x": 1220,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_spec_features_project_planning_memory_spec_persistent_navigable_memory",
+      "type": "file",
+      "file": "Mem\u00f3ria f\u00edsica persistente, naveg\u00e1vel e verific\u00e1vel.md",
+      "x": 1420,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_00_contexto_e_escopo_project_scope",
+      "type": "file",
+      "file": "PRD 00 \u2014 Contexto, escopo e sucesso.md",
+      "x": 20,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_01_arquitetura_e_dominio_architecture_domain",
+      "type": "file",
+      "file": "PRD 01 \u2014 Arquitetura e dom\u00ednio.md",
+      "x": 220,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_02_graphql_federation_federation_prd",
+      "type": "file",
+      "file": "PRD 02 \u2014 GraphQL Federation, Connections e DataLoader.md",
+      "x": 420,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_03_identidade_e_oauth_identity_prd",
+      "type": "file",
+      "file": "PRD 03 \u2014 Identidade, OAuth2 e autoriza\u00e7\u00e3o.md",
+      "x": 620,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_04_commerce_saga_e_realtime_commerce_saga_prd",
+      "type": "file",
+      "file": "PRD 04 \u2014 Carrinho, pedidos, saga e tempo real.md",
+      "x": 820,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_05_apollo_mcp_mcp_prd",
+      "type": "file",
+      "file": "PRD 05 \u2014 Apollo MCP autenticado.md",
+      "x": 1020,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_06_plataforma_qualidade_e_entrega_platform_quality_prd",
+      "type": "file",
+      "file": "PRD 06 \u2014 Plataforma, qualidade e entrega.md",
+      "x": 1220,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_07_roadmap_implementation_roadmap",
+      "type": "file",
+      "file": "PRD 07 \u2014 Roadmap de implementa\u00e7\u00e3o.md",
+      "x": 1420,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_08_riscos_e_decisoes_pendentes_risk_register",
+      "type": "file",
+      "file": "PRD 08 \u2014 Riscos e decis\u00f5es pendentes.md",
+      "x": 20,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_05_apollo_mcp_graphql_mcp_parity",
+      "type": "file",
+      "file": "Paridade GraphQL \u00d7 MCP.md",
+      "x": 220,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_apollo_mcp_identity_parity",
+      "type": "file",
+      "file": "Paridade de identidade GraphQL e MCP.md",
+      "x": 420,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_06_plataforma_qualidade_e_entrega_reproducible_delivery_pipeline",
+      "type": "file",
+      "file": "Pipeline reproduz\u00edvel de qualidade e entrega.md",
+      "x": 620,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_subscriptions_sse_protocol_poc",
+      "type": "file",
+      "file": "PoC de compatibilidade graphql-sse e Federa\u00e7\u00e3o.md",
+      "x": 820,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_07_roadmap_critical_compatibility_pocs",
+      "type": "file",
+      "file": "PoCs cr\u00edticas de compatibilidade.md",
+      "x": 1020,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_02_graphql_federation_relay_connections",
+      "type": "file",
+      "file": "Relay Cursor Connections com keyset pagination.md",
+      "x": 1220,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_04_commerce_saga_e_realtime_choreographed_saga",
+      "type": "file",
+      "file": "Saga coreografada de pagamento e estoque.md",
+      "x": 1420,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_saga_e_idempotencia_saga_idempotency",
+      "type": "file",
+      "file": "Saga e Idempot\u00eancia.md",
+      "x": 20,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_spec_features_project_planning_memory_spec_project_planning_memory",
+      "type": "file",
+      "file": "Spec Mem\u00f3ria de planejamento do marketplace B2B.md",
+      "x": 220,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_04_commerce_saga_e_realtime_graphql_sse_stream",
+      "type": "file",
+      "file": "Stream graphql-sse por operationKey.md",
+      "x": 420,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_subscriptions_sse_subscriptions_sse",
+      "type": "file",
+      "file": "Subscriptions SSE.md",
+      "x": 620,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_graphql_federation_supergraph_model",
+      "type": "file",
+      "file": "Supergraph como contrato composto de SDLs.md",
+      "x": 820,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_spec_features_project_planning_memory_tasks_physical_memory_task",
+      "type": "file",
+      "file": "T-001 Criar e validar a mem\u00f3ria f\u00edsica do projeto.md",
+      "x": 1020,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_03_identidade_e_oauth_multi_audience_token",
+      "type": "file",
+      "file": "Token multi-audience para gateway e MCP.md",
+      "x": 1220,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_knowledge_identidade_oauth2_resource_server_validation",
+      "type": "file",
+      "file": "Valida\u00e7\u00e3o OAuth2 por resource server.md",
+      "x": 1420,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_05_apollo_mcp_curated_tools",
+      "type": "file",
+      "file": "Whitelist de tools MCP curadas.md",
+      "x": 20,
+      "y": 560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_docs_prds_readme_prd_index",
+      "type": "file",
+      "file": "\u00cdndice dos PRDs do marketplace.md",
+      "x": 220,
+      "y": 560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g1",
+      "type": "group",
+      "label": "Orquestra\u00e7\u00e3o CLI",
+      "x": 1840,
+      "y": 0,
+      "width": 1540,
+      "height": 820,
+      "color": "2"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_estados_faixa",
+      "type": "file",
+      "file": "ESTADOS_FAIXA.md",
+      "x": 1860,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_frescor_ia_ms",
+      "type": "file",
+      "file": "FRESCOR_IA_MS.md",
+      "x": 2060,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_icone_estado",
+      "type": "file",
+      "file": "ICONE_ESTADO.md",
+      "x": 2260,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_max_execucoes",
+      "type": "file",
+      "file": "MAX_EXECUCOES.md",
+      "x": 2460,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_nomes_tool_cursor",
+      "type": "file",
+      "file": "NOMES_TOOL_CURSOR.md",
+      "x": 2660,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_skills_dir_projeto",
+      "type": "file",
+      "file": "SKILLS_DIR_PROJETO.md",
+      "x": 2860,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_skill_dir_por_agente",
+      "type": "file",
+      "file": "SKILL_DIR_POR_AGENTE.md",
+      "x": 3060,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_templates_dir",
+      "type": "file",
+      "file": "TEMPLATES_DIR.md",
+      "x": 1860,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_dirname",
+      "type": "file",
+      "file": "__dirname.md",
+      "x": 2060,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream",
+      "type": "file",
+      "file": "caminhoStream().md",
+      "x": 2260,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "type": "file",
+      "file": "caminhos().md",
+      "x": 2460,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_celula",
+      "type": "file",
+      "file": "celula().md",
+      "x": 2660,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_chavestream",
+      "type": "file",
+      "file": "chaveStream().md",
+      "x": 2860,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "type": "file",
+      "file": "cli.js.md",
+      "x": 3060,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdevento",
+      "type": "file",
+      "file": "cmdEvento().md",
+      "x": 1860,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit",
+      "type": "file",
+      "file": "cmdInit().md",
+      "x": 2060,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "type": "file",
+      "file": "cmdResumo().md",
+      "x": 2260,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstreamresumo",
+      "type": "file",
+      "file": "cmdStreamResumo().md",
+      "x": 2460,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia",
+      "type": "file",
+      "file": "contextoParaIa().md",
+      "x": 2660,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_copydirifexists",
+      "type": "file",
+      "file": "copyDirIfExists().md",
+      "x": 2860,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta",
+      "type": "file",
+      "file": "corta().md",
+      "x": 3060,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_detectaragente",
+      "type": "file",
+      "file": "detectarAgente().md",
+      "x": 1860,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_execucaoalvo",
+      "type": "file",
+      "file": "execucaoAlvo().md",
+      "x": 2060,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_fraseexecucao",
+      "type": "file",
+      "file": "fraseExecucao().md",
+      "x": 2260,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_homeonp",
+      "type": "file",
+      "file": "homeOnp().md",
+      "x": 2460,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "type": "file",
+      "file": "ledger.js.md",
+      "x": 2660,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "type": "file",
+      "file": "lerEventos().md",
+      "x": 2860,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "type": "file",
+      "file": "lerStream().md",
+      "x": 3060,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_montararvore",
+      "type": "file",
+      "file": "montarArvore().md",
+      "x": 1860,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual",
+      "type": "file",
+      "file": "montarResumoAtual().md",
+      "x": 2060,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "type": "file",
+      "file": "podarLedger().md",
+      "x": 2260,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "type": "file",
+      "file": "registrarEvento().md",
+      "x": 2460,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo",
+      "type": "file",
+      "file": "registrarResumo().md",
+      "x": 2660,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_resolveskilldir",
+      "type": "file",
+      "file": "resolveSkillDir().md",
+      "x": 2860,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "type": "file",
+      "file": "resumirStream().md",
+      "x": 3060,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "type": "file",
+      "file": "resumo.js.md",
+      "x": 1860,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "type": "file",
+      "file": "resumoDeterministico().md",
+      "x": 2060,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "type": "file",
+      "file": "resumoFerramenta().md",
+      "x": 2260,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "type": "file",
+      "file": "resumoItemCodex().md",
+      "x": 2460,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "type": "file",
+      "file": "resumoToolCallCursor().md",
+      "x": 2660,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "type": "file",
+      "file": "skillAgentMarker().md",
+      "x": 2860,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_streamsdaexecucao",
+      "type": "file",
+      "file": "streamsDaExecucao().md",
+      "x": 3060,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento",
+      "type": "file",
+      "file": "tabelaAndamento().md",
+      "x": 1860,
+      "y": 560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao",
+      "type": "file",
+      "file": "tabelaExecucao().md",
+      "x": 2060,
+      "y": 560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_template",
+      "type": "file",
+      "file": "template().md",
+      "x": 2260,
+      "y": 560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_textodeconteudo",
+      "type": "file",
+      "file": "textoDeConteudo().md",
+      "x": 2460,
+      "y": 560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "type": "file",
+      "file": "ultimaAcao().md",
+      "x": 2660,
+      "y": 560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g2",
+      "type": "group",
+      "label": "Motor de Auditoria",
+      "x": 3460,
+      "y": 0,
+      "width": 1540,
+      "height": 720,
+      "color": "3"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_asm_statuses",
+      "type": "file",
+      "file": "ASM_STATUSES.md",
+      "x": 3480,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_ci_escalates",
+      "type": "file",
+      "file": "CI_ESCALATES.md",
+      "x": 3680,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_dash",
+      "type": "file",
+      "file": "DASH.md",
+      "x": 3880,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_id_patterns",
+      "type": "file",
+      "file": "ID_PATTERNS.md",
+      "x": 4080,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_obligation_levels",
+      "type": "file",
+      "file": "OBLIGATION_LEVELS.md",
+      "x": 4280,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_q_statuses",
+      "type": "file",
+      "file": "Q_STATUSES.md",
+      "x": 4480,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_re_ac",
+      "type": "file",
+      "file": "RE_AC.md",
+      "x": 4680,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_re_story",
+      "type": "file",
+      "file": "RE_STORY.md",
+      "x": 3480,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_re_task_any",
+      "type": "file",
+      "file": "RE_TASK_ANY.md",
+      "x": 3680,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_spec_statuses",
+      "type": "file",
+      "file": "SPEC_STATUSES.md",
+      "x": 3880,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_task_statuses",
+      "type": "file",
+      "file": "TASK_STATUSES.md",
+      "x": 4080,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_text_extensions",
+      "type": "file",
+      "file": "TEXT_EXTENSIONS.md",
+      "x": 4280,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "type": "file",
+      "file": "annotations.js.md",
+      "x": 4480,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_anyglobmatch",
+      "type": "file",
+      "file": "anyGlobMatch().md",
+      "x": 4680,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "type": "file",
+      "file": "audit.js.md",
+      "x": 3480,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "type": "file",
+      "file": "auditProject().md",
+      "x": 3680,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution",
+      "type": "file",
+      "file": "constitution.js.md",
+      "x": 3880,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_finding",
+      "type": "file",
+      "file": "finding().md",
+      "x": 4080,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_globtoregexp",
+      "type": "file",
+      "file": "globToRegExp().md",
+      "x": 4280,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern",
+      "type": "file",
+      "file": "grepPattern().md",
+      "x": 4480,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_istableseparator",
+      "type": "file",
+      "file": "isTableSeparator().md",
+      "x": 4680,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_latestmtime",
+      "type": "file",
+      "file": "latestMtime().md",
+      "x": 3480,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "type": "file",
+      "file": "loadProject().md",
+      "x": 3680,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_normalizesection",
+      "type": "file",
+      "file": "normalizeSection().md",
+      "x": 3880,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution",
+      "type": "file",
+      "file": "parseConstitution().md",
+      "x": 4080,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "type": "file",
+      "file": "parseSpec().md",
+      "x": 4280,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "type": "file",
+      "file": "parseTasks().md",
+      "x": 4480,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "type": "file",
+      "file": "project.js.md",
+      "x": 4680,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_scanannotations",
+      "type": "file",
+      "file": "scanAnnotations().md",
+      "x": 3480,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "type": "file",
+      "file": "spec.js.md",
+      "x": 3680,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "type": "file",
+      "file": "splitLines().md",
+      "x": 3880,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_staticdirof",
+      "type": "file",
+      "file": "staticDirOf().md",
+      "x": 4080,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_tablecells",
+      "type": "file",
+      "file": "tableCells().md",
+      "x": 4280,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks",
+      "type": "file",
+      "file": "tasks.js.md",
+      "x": 4480,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "type": "file",
+      "file": "text.js.md",
+      "x": 4680,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_walk",
+      "type": "file",
+      "file": "walk().md",
+      "x": 3480,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "type": "file",
+      "file": "walkFiles().md",
+      "x": 3680,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g3",
+      "type": "group",
+      "label": "Registro de Li\u00e7\u00f5es",
+      "x": 5080,
+      "y": 0,
+      "width": 1320,
+      "height": 720,
+      "color": "4"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_config_default_config",
+      "type": "file",
+      "file": "DEFAULT_CONFIG.md",
+      "x": 5100,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_licao_statuses",
+      "type": "file",
+      "file": "LICAO_STATUSES.md",
+      "x": 5300,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_licoes_defaults",
+      "type": "file",
+      "file": "LICOES_DEFAULTS.md",
+      "x": 5500,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_sinais_defaults",
+      "type": "file",
+      "file": "SINAIS_DEFAULTS.md",
+      "x": 5700,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_adicionarlicao",
+      "type": "file",
+      "file": "adicionarLicao().md",
+      "x": 5900,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_agora",
+      "type": "file",
+      "file": "agora().md",
+      "x": 6100,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_agora",
+      "type": "file",
+      "file": "agora()_1.md",
+      "x": 5100,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_buscarsinal",
+      "type": "file",
+      "file": "buscarSinal().md",
+      "x": 5300,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_caminhorender",
+      "type": "file",
+      "file": "caminhoRender().md",
+      "x": 5500,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_caminhosinais",
+      "type": "file",
+      "file": "caminhoSinais().md",
+      "x": 5700,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_caminhostore",
+      "type": "file",
+      "file": "caminhoStore().md",
+      "x": 5900,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_campo",
+      "type": "file",
+      "file": "campo().md",
+      "x": 6100,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_carregarlicoes",
+      "type": "file",
+      "file": "carregarLicoes().md",
+      "x": 5100,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_carregarsinais",
+      "type": "file",
+      "file": "carregarSinais().md",
+      "x": 5300,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "type": "file",
+      "file": "cmdLicoes().md",
+      "x": 5500,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_compactar",
+      "type": "file",
+      "file": "compactar().md",
+      "x": 5700,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_config",
+      "type": "file",
+      "file": "config.js.md",
+      "x": 5900,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_escopocasa",
+      "type": "file",
+      "file": "escopoCasa().md",
+      "x": 6100,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "type": "file",
+      "file": "index.js.md",
+      "x": 5100,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes",
+      "type": "file",
+      "file": "licoes.js.md",
+      "x": 5300,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_linhalicao",
+      "type": "file",
+      "file": "linhaLicao().md",
+      "x": 5500,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_listarlicoes",
+      "type": "file",
+      "file": "listarLicoes().md",
+      "x": 5700,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_normalizar",
+      "type": "file",
+      "file": "normalizar().md",
+      "x": 5900,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_pad3",
+      "type": "file",
+      "file": "pad3().md",
+      "x": 6100,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_penalizarlicao",
+      "type": "file",
+      "file": "penalizarLicao().md",
+      "x": 5100,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_podarlicoes",
+      "type": "file",
+      "file": "podarLicoes().md",
+      "x": 5300,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_refdoachado",
+      "type": "file",
+      "file": "refDoAchado().md",
+      "x": 5500,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_refsdisponiveis",
+      "type": "file",
+      "file": "refsDisponiveis().md",
+      "x": 5700,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_registrar",
+      "type": "file",
+      "file": "registrar().md",
+      "x": 5900,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_registrarachados",
+      "type": "file",
+      "file": "registrarAchados().md",
+      "x": 6100,
+      "y": 400,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_registrarverify",
+      "type": "file",
+      "file": "registrarVerify().md",
+      "x": 5100,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_renderlicoes",
+      "type": "file",
+      "file": "renderLicoes().md",
+      "x": 5300,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_salvarlicoes",
+      "type": "file",
+      "file": "salvarLicoes().md",
+      "x": 5500,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_salvarsinais",
+      "type": "file",
+      "file": "salvarSinais().md",
+      "x": 5700,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais",
+      "type": "file",
+      "file": "sinais.js.md",
+      "x": 5900,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_sugerirlicoes",
+      "type": "file",
+      "file": "sugerirLicoes().md",
+      "x": 6100,
+      "y": 480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g4",
+      "type": "group",
+      "label": "Requisitos do Desafio",
+      "x": 0,
+      "y": 900,
+      "width": 1320,
+      "height": 720,
+      "color": "5"
+    },
+    {
+      "id": "n_readme_docker_compose",
+      "type": "file",
+      "file": "Ambiente completo em Docker Compose.md",
+      "x": 20,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_apollo_federation_v2",
+      "type": "file",
+      "file": "Apollo Federation v2.md",
+      "x": 220,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_apollo_mcp",
+      "type": "file",
+      "file": "Apollo MCP Server autenticado.md",
+      "x": 420,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_better_auth_oauth_provider",
+      "type": "file",
+      "file": "Better Auth OAuth Provider.md",
+      "x": 620,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_idempotency_key",
+      "type": "file",
+      "file": "Chave de opera\u00e7\u00e3o e idempot\u00eancia ponta a ponta.md",
+      "x": 820,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_spec_constituicao_project_constitution",
+      "type": "file",
+      "file": "Constitui\u00e7\u00e3o vigente do projeto.md",
+      "x": 1020,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_ddd_ports_adapters",
+      "type": "file",
+      "file": "DDD com portas e adapters.md",
+      "x": 20,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_dataloader",
+      "type": "file",
+      "file": "DataLoader por requisi\u00e7\u00e3o_1.md",
+      "x": 220,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_sst_v3",
+      "type": "file",
+      "file": "Deploy com SST v3.md",
+      "x": 420,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_graphql_gateway",
+      "type": "file",
+      "file": "Gateway GraphQL federado.md",
+      "x": 620,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_graphql_sse",
+      "type": "file",
+      "file": "GraphQL Subscriptions sobre SSE.md",
+      "x": 820,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_schema_first",
+      "type": "file",
+      "file": "GraphQL schema-first com SDL como fonte da verdade.md",
+      "x": 1020,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_marketplace_b2b_challenge",
+      "type": "file",
+      "file": "Marketplace B2B federado com MCP e saga de pagamentos.md",
+      "x": 20,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_nestjs_better_auth",
+      "type": "file",
+      "file": "NestJS Better Auth.md",
+      "x": 220,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_oauth2_audience_scope",
+      "type": "file",
+      "file": "OAuth2 audience e scopes por resource server.md",
+      "x": 420,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_opentelemetry",
+      "type": "file",
+      "file": "Observabilidade com OpenTelemetry.md",
+      "x": 620,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_outbox_pattern",
+      "type": "file",
+      "file": "Outbox Pattern.md",
+      "x": 820,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_product_ownership",
+      "type": "file",
+      "file": "Ownership de produtos por fornecedor.md",
+      "x": 1020,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_spec_constituicao_requirement_proof_principle",
+      "type": "file",
+      "file": "P-001 Todo requisito tem prova execut\u00e1vel.md",
+      "x": 20,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_spec_constituicao_no_secrets_principle",
+      "type": "file",
+      "file": "P-002 Segredos nunca em c\u00f3digo.md",
+      "x": 220,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_payment_processor",
+      "type": "file",
+      "file": "Processador de pagamento em runtime separado.md",
+      "x": 420,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_query_me",
+      "type": "file",
+      "file": "Query federada me.md",
+      "x": 620,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_rabbitmq",
+      "type": "file",
+      "file": "RabbitMQ.md",
+      "x": 820,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_relay_cursor_connections",
+      "type": "file",
+      "file": "Relay Cursor Connections.md",
+      "x": 1020,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_choreographed_saga",
+      "type": "file",
+      "file": "Saga coreografada de pagamento e estoque_1.md",
+      "x": 20,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_templates_constituicao_base_no_secrets_principle",
+      "type": "file",
+      "file": "Segredos nunca em c\u00f3digo.md",
+      "x": 220,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_orders_subgraph",
+      "type": "file",
+      "file": "Subgraph de carrinho e pedidos.md",
+      "x": 420,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_users_subgraph",
+      "type": "file",
+      "file": "Subgraph de usu\u00e1rios e identidade.md",
+      "x": 620,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_subscription_before_mutation",
+      "type": "file",
+      "file": "Subscription aberta antes da mutation.md",
+      "x": 820,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_templates_constituicao_base_base_constitution_template",
+      "type": "file",
+      "file": "Template de constitui\u00e7\u00e3o base.md",
+      "x": 1020,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_e2e_testcontainers",
+      "type": "file",
+      "file": "Teste E2E com Vitest e Testcontainers.md",
+      "x": 20,
+      "y": 1380,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_templates_constituicao_base_requirement_proof_principle",
+      "type": "file",
+      "file": "Todo requisito tem prova execut\u00e1vel.md",
+      "x": 220,
+      "y": 1380,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_user_wordpress_account_link",
+      "type": "file",
+      "file": "V\u00ednculo Better Auth com conta WordPress.md",
+      "x": 420,
+      "y": 1380,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_woocommerce_catalog",
+      "type": "file",
+      "file": "WooCommerce e WPGraphQL como cat\u00e1logo.md",
+      "x": 620,
+      "y": 1380,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g5",
+      "type": "group",
+      "label": "Fluxo Spec Driven",
+      "x": 1840,
+      "y": 900,
+      "width": 1320,
+      "height": 720,
+      "color": "6"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_licoes_lesson_lifecycle",
+      "type": "file",
+      "file": "Candidata \u2192 confirmada \u2192 quarentena.md",
+      "x": 1860,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_learning_loop",
+      "type": "file",
+      "file": "Ciclo de aprendizado com lastro mec\u00e2nico.md",
+      "x": 2060,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_constituicao_project_constitution",
+      "type": "file",
+      "file": "Constitui\u00e7\u00e3o do projeto.md",
+      "x": 2260,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_escrevendo_specs_auditable_acceptance_criteria",
+      "type": "file",
+      "file": "Crit\u00e9rios de aceite observ\u00e1veis e audit\u00e1veis.md",
+      "x": 2460,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_escrevendo_specs_global_trace_codes",
+      "type": "file",
+      "file": "C\u00f3digos globais de rastreio.md",
+      "x": 2660,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_escrevendo_specs_given_when_then",
+      "type": "file",
+      "file": "Dado  Quando  Ent\u00e3o.md",
+      "x": 2860,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_executable_definition_of_done",
+      "type": "file",
+      "file": "Defini\u00e7\u00e3o de pronto execut\u00e1vel.md",
+      "x": 1860,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_spec_anchored_development",
+      "type": "file",
+      "file": "Desenvolvimento spec-anchored.md",
+      "x": 2060,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_execution_workflow",
+      "type": "file",
+      "file": "Especificar \u2192 Projetar \u2192 Tarefas \u2192 Plano \u2192 Executar \u2192 Auditar \u2192 Aprender.md",
+      "x": 2260,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_fluxo_end_to_end_flow",
+      "type": "file",
+      "file": "Fluxo do zero ao audit limpo.md",
+      "x": 2460,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_audit_ci_gate",
+      "type": "file",
+      "file": "Gate onp-spec audit --ci.md",
+      "x": 2660,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_github_workflows_ci_github_actions_checkout",
+      "type": "file",
+      "file": "GitHub Actions checkout.md",
+      "x": 2860,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_licoes_signal_history",
+      "type": "file",
+      "file": "Hist\u00f3rico de sinais de audit e verify.md",
+      "x": 1860,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_fluxo_ci_integration",
+      "type": "file",
+      "file": "Integra\u00e7\u00e3o do gate com CI.md",
+      "x": 2060,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_licoes_mechanically_grounded_lessons",
+      "type": "file",
+      "file": "Li\u00e7\u00f5es com lastro mec\u00e2nico.md",
+      "x": 2260,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_readme_nx_monorepo",
+      "type": "file",
+      "file": "Monorepo Nx.md",
+      "x": 2460,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_github_workflows_ci_nx_quality_gate",
+      "type": "file",
+      "file": "Nx lint, test, build e typecheck.md",
+      "x": 2660,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_constituicao_principle_obligation_levels",
+      "type": "file",
+      "file": "N\u00edveis DEVE, RECOMENDADO e PODE.md",
+      "x": 2860,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_fluxo_worktree_parallelism",
+      "type": "file",
+      "file": "Paralelismo por arquivos disjuntos e worktrees.md",
+      "x": 1860,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_github_workflows_ci_ci_pipeline",
+      "type": "file",
+      "file": "Pipeline CI.md",
+      "x": 2060,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_parallel_execution_plan",
+      "type": "file",
+      "file": "Plano de execu\u00e7\u00e3o paralela com worktrees.md",
+      "x": 2260,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_constituicao_lgpd_education_preset",
+      "type": "file",
+      "file": "Preset LGPD + Educa\u00e7\u00e3o.md",
+      "x": 2460,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_fluxo_runner_evidence",
+      "type": "file",
+      "file": "Prova produzida pelo test runner.md",
+      "x": 2660,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_traceability_chain",
+      "type": "file",
+      "file": "Rastreabilidade hist\u00f3ria \u2192 crit\u00e9rio \u2192 tarefa \u2192 teste.md",
+      "x": 2860,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_escrevendo_specs_assumptions_open_questions",
+      "type": "file",
+      "file": "Suposi\u00e7\u00f5es e perguntas em aberto.md",
+      "x": 1860,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_templates_spec_feature_spec_template",
+      "type": "file",
+      "file": "Template de especifica\u00e7\u00e3o de feature.md",
+      "x": 2060,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_templates_tasks_feature_tasks_template",
+      "type": "file",
+      "file": "Template de tarefas de feature.md",
+      "x": 2260,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_references_constituicao_executable_principle_verification",
+      "type": "file",
+      "file": "Verifica\u00e7\u00e3o execut\u00e1vel de princ\u00edpios.md",
+      "x": 2460,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_pnpm_workspace_nx_workspace_packages",
+      "type": "file",
+      "file": "Workspace apps e libs.md",
+      "x": 2660,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_skill_onp_spec_driven",
+      "type": "file",
+      "file": "onp-spec-driven.md",
+      "x": 2860,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_github_workflows_ci_pnpm_install",
+      "type": "file",
+      "file": "pnpm frozen-lockfile install.md",
+      "x": 1860,
+      "y": 1380,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g6",
+      "type": "group",
+      "label": "Planejador de Execu\u00e7\u00e3o",
+      "x": 3460,
+      "y": 900,
+      "width": 1320,
+      "height": 720,
+      "color": "1"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_agentes",
+      "type": "file",
+      "file": "AGENTES.md",
+      "x": 3480,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_esforco_cli",
+      "type": "file",
+      "file": "ESFORCO_CLI.md",
+      "x": 3680,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_allowedtools",
+      "type": "file",
+      "file": "allowedTools().md",
+      "x": 3880,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdplano",
+      "type": "file",
+      "file": "cmdPlano().md",
+      "x": 4080,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdtarefa",
+      "type": "file",
+      "file": "cmdTarefa().md",
+      "x": 4280,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_definircampotarefa",
+      "type": "file",
+      "file": "definirCampoTarefa().md",
+      "x": 4480,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_descrevetarefa",
+      "type": "file",
+      "file": "descreveTarefa().md",
+      "x": 3480,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_ehmodeloclaude",
+      "type": "file",
+      "file": "ehModeloClaude().md",
+      "x": 3680,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_esc",
+      "type": "file",
+      "file": "esc().md",
+      "x": 3880,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_esforcoparaagente",
+      "type": "file",
+      "file": "esforcoParaAgente().md",
+      "x": 4080,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_fecharplano",
+      "type": "file",
+      "file": "fecharPlano().md",
+      "x": 4280,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_flagsregenerar",
+      "type": "file",
+      "file": "flagsRegenerar().md",
+      "x": 4480,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_fn",
+      "type": "file",
+      "file": "fn().md",
+      "x": 3480,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_foldstatus",
+      "type": "file",
+      "file": "foldStatus().md",
+      "x": 3680,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_gerarartefatosplano",
+      "type": "file",
+      "file": "gerarArtefatosPlano().md",
+      "x": 3880,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_intersecta",
+      "type": "file",
+      "file": "intersecta().md",
+      "x": 4080,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_linhasregras",
+      "type": "file",
+      "file": "linhasRegras().md",
+      "x": 4280,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_montarplano",
+      "type": "file",
+      "file": "montarPlano().md",
+      "x": 4480,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_normfile",
+      "type": "file",
+      "file": "normFile().md",
+      "x": 3480,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_normalizaresforco",
+      "type": "file",
+      "file": "normalizarEsforco().md",
+      "x": 3680,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano",
+      "type": "file",
+      "file": "plano.js.md",
+      "x": 3880,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_promptfaixa",
+      "type": "file",
+      "file": "promptFaixa().md",
+      "x": 4080,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_prompttarefa",
+      "type": "file",
+      "file": "promptTarefa().md",
+      "x": 4280,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_renderplanohtml",
+      "type": "file",
+      "file": "renderPlanoHtml().md",
+      "x": 4480,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_renderplanojson",
+      "type": "file",
+      "file": "renderPlanoJson().md",
+      "x": 3480,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_renderplanomd",
+      "type": "file",
+      "file": "renderPlanoMd().md",
+      "x": 3680,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_renderplanosh",
+      "type": "file",
+      "file": "renderPlanoSh().md",
+      "x": 3880,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_resumomodelparaagente",
+      "type": "file",
+      "file": "resumoModelParaAgente().md",
+      "x": 4080,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_shq",
+      "type": "file",
+      "file": "shq().md",
+      "x": 4280,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_tabelafaixa",
+      "type": "file",
+      "file": "tabelaFaixa().md",
+      "x": 4480,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_plano_usaexecutorsh",
+      "type": "file",
+      "file": "usaExecutorSh().md",
+      "x": 3480,
+      "y": 1380,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g7",
+      "type": "group",
+      "label": "Comandos e Relat\u00f3rios",
+      "x": 5080,
+      "y": 900,
+      "width": 1100,
+      "height": 620,
+      "color": "2"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_labels_finding_labels",
+      "type": "file",
+      "file": "FINDING_LABELS.md",
+      "x": 5100,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify_status_rank",
+      "type": "file",
+      "file": "STATUS_RANK.md",
+      "x": 5300,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_allacs",
+      "type": "file",
+      "file": "allAcs().md",
+      "x": 5500,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_report_c",
+      "type": "file",
+      "file": "c.md",
+      "x": 5700,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdassumptions",
+      "type": "file",
+      "file": "cmdAssumptions().md",
+      "x": 5900,
+      "y": 980,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdnew",
+      "type": "file",
+      "file": "cmdNew().md",
+      "x": 5100,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstatus",
+      "type": "file",
+      "file": "cmdStatus().md",
+      "x": 5300,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify_extracttags",
+      "type": "file",
+      "file": "extractTags().md",
+      "x": 5500,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_fill",
+      "type": "file",
+      "file": "fill().md",
+      "x": 5700,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_labels_findinglabel",
+      "type": "file",
+      "file": "findingLabel().md",
+      "x": 5900,
+      "y": 1060,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify_gitrev",
+      "type": "file",
+      "file": "gitRev().md",
+      "x": 5100,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_labels",
+      "type": "file",
+      "file": "labels.js.md",
+      "x": 5300,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_config_loadconfig",
+      "type": "file",
+      "file": "loadConfig().md",
+      "x": 5500,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_onp_spec",
+      "type": "file",
+      "file": "onp-spec.mjs.md",
+      "x": 5700,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_parseflags",
+      "type": "file",
+      "file": "parseFlags().md",
+      "x": 5900,
+      "y": 1140,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify_parsejsonreport",
+      "type": "file",
+      "file": "parseJsonReport().md",
+      "x": 5100,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify_parsetap",
+      "type": "file",
+      "file": "parseTap().md",
+      "x": 5300,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_report_renderjson",
+      "type": "file",
+      "file": "renderJson().md",
+      "x": 5500,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_report_rendermarkdown",
+      "type": "file",
+      "file": "renderMarkdown().md",
+      "x": 5700,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_report_renderterminal",
+      "type": "file",
+      "file": "renderTerminal().md",
+      "x": 5900,
+      "y": 1220,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_report",
+      "type": "file",
+      "file": "report.js.md",
+      "x": 5100,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify_resultsbytag",
+      "type": "file",
+      "file": "resultsByTag().md",
+      "x": 5300,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "type": "file",
+      "file": "run().md",
+      "x": 5500,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify_runverify",
+      "type": "file",
+      "file": "runVerify().md",
+      "x": 5700,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_verify",
+      "type": "file",
+      "file": "verify.js.md",
+      "x": 5900,
+      "y": 1300,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g8",
+      "type": "group",
+      "label": "Configura\u00e7\u00e3o TypeScript Base",
+      "x": 0,
+      "y": 1700,
+      "width": 1100,
+      "height": 620,
+      "color": "3"
+    },
+    {
+      "id": "n_ref_desafio_dev_backend_senior_source",
+      "type": "file",
+      "file": "@desafio-dev-backend-seniorsource.md",
+      "x": 20,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions",
+      "type": "file",
+      "file": "compilerOptions.md",
+      "x": 220,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_composite",
+      "type": "file",
+      "file": "composite.md",
+      "x": 420,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_customconditions",
+      "type": "file",
+      "file": "customConditions.md",
+      "x": 620,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_declarationmap",
+      "type": "file",
+      "file": "declarationMap.md",
+      "x": 820,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_emitdeclarationonly",
+      "type": "file",
+      "file": "emitDeclarationOnly.md",
+      "x": 20,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_es2022",
+      "type": "file",
+      "file": "es2022.md",
+      "x": 220,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_importhelpers",
+      "type": "file",
+      "file": "importHelpers.md",
+      "x": 420,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_isolatedmodules",
+      "type": "file",
+      "file": "isolatedModules.md",
+      "x": 620,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_lib",
+      "type": "file",
+      "file": "lib.md",
+      "x": 820,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_module",
+      "type": "file",
+      "file": "module.md",
+      "x": 20,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_moduleresolution",
+      "type": "file",
+      "file": "moduleResolution.md",
+      "x": 220,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_noemitonerror",
+      "type": "file",
+      "file": "noEmitOnError.md",
+      "x": 420,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_nofallthroughcasesinswitch",
+      "type": "file",
+      "file": "noFallthroughCasesInSwitch.md",
+      "x": 620,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_noimplicitoverride",
+      "type": "file",
+      "file": "noImplicitOverride.md",
+      "x": 820,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_noimplicitreturns",
+      "type": "file",
+      "file": "noImplicitReturns.md",
+      "x": 20,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_nounusedlocals",
+      "type": "file",
+      "file": "noUnusedLocals.md",
+      "x": 220,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_skiplibcheck",
+      "type": "file",
+      "file": "skipLibCheck.md",
+      "x": 420,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_strict",
+      "type": "file",
+      "file": "strict.md",
+      "x": 620,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base_compileroptions_target",
+      "type": "file",
+      "file": "target.md",
+      "x": 820,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_base",
+      "type": "file",
+      "file": "tsconfig.base.json.md",
+      "x": 20,
+      "y": 2100,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g9",
+      "type": "group",
+      "label": "Depend\u00eancias do Workspace",
+      "x": 1840,
+      "y": 1700,
+      "width": 1100,
+      "height": 520,
+      "color": "4"
+    },
+    {
+      "id": "n_nx_js",
+      "type": "file",
+      "file": "@nxjs_1.md",
+      "x": 1860,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_devdependencies_nx_js",
+      "type": "file",
+      "file": "@nxjs.md",
+      "x": 2060,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_devdependencies_swc_helpers",
+      "type": "file",
+      "file": "@swchelpers.md",
+      "x": 2260,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_swc_helpers",
+      "type": "file",
+      "file": "@swchelpers_1.md",
+      "x": 2460,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_dependencies",
+      "type": "file",
+      "file": "dependencies.md",
+      "x": 2660,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_devdependencies",
+      "type": "file",
+      "file": "devDependencies.md",
+      "x": 1860,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_license",
+      "type": "file",
+      "file": "license.md",
+      "x": 2060,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_name",
+      "type": "file",
+      "file": "name.md",
+      "x": 2260,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_devdependencies_nx",
+      "type": "file",
+      "file": "nx.md",
+      "x": 2460,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_json_nx",
+      "type": "file",
+      "file": "nx_1.md",
+      "x": 2660,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package",
+      "type": "file",
+      "file": "package.json.md",
+      "x": 1860,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_devdependencies_prettier",
+      "type": "file",
+      "file": "prettier.md",
+      "x": 2060,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_prettier",
+      "type": "file",
+      "file": "prettier_1.md",
+      "x": 2260,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_private",
+      "type": "file",
+      "file": "private.md",
+      "x": 2460,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_scripts",
+      "type": "file",
+      "file": "scripts.md",
+      "x": 2660,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_devdependencies_tslib",
+      "type": "file",
+      "file": "tslib.md",
+      "x": 1860,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tslib",
+      "type": "file",
+      "file": "tslib_1.md",
+      "x": 2060,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_devdependencies_typescript",
+      "type": "file",
+      "file": "typescript.md",
+      "x": 2260,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_typescript",
+      "type": "file",
+      "file": "typescript_1.md",
+      "x": 2460,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_package_version",
+      "type": "file",
+      "file": "version.md",
+      "x": 2660,
+      "y": 2020,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g10",
+      "type": "group",
+      "label": "Configura\u00e7\u00e3o Nx",
+      "x": 3460,
+      "y": 1700,
+      "width": 880,
+      "height": 420,
+      "color": "5"
+    },
+    {
+      "id": "n_nx_schema",
+      "type": "file",
+      "file": "$schema.md",
+      "x": 3480,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_nx_analytics",
+      "type": "file",
+      "file": "analytics.md",
+      "x": 3680,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_nx_namedinputs_default",
+      "type": "file",
+      "file": "default.md",
+      "x": 3880,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_default",
+      "type": "file",
+      "file": "default_1.md",
+      "x": 4080,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_nx_namedinputs",
+      "type": "file",
+      "file": "namedInputs.md",
+      "x": 3480,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_nx_json_nx",
+      "type": "file",
+      "file": "nx.json.md",
+      "x": 3680,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_nx_plugins",
+      "type": "file",
+      "file": "plugins.md",
+      "x": 3880,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_nx_namedinputs_production",
+      "type": "file",
+      "file": "production.md",
+      "x": 4080,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_nx_namedinputs_sharedglobals",
+      "type": "file",
+      "file": "sharedGlobals.md",
+      "x": 3480,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_sharedglobals",
+      "type": "file",
+      "file": "sharedGlobals_1.md",
+      "x": 3680,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_projectroot",
+      "type": "file",
+      "file": "{projectRoot}.md",
+      "x": 3880,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_workspaceroot_github_workflows_ci_yml",
+      "type": "file",
+      "file": "{workspaceRoot}.githubworkflowsci.yml.md",
+      "x": 4080,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g11",
+      "type": "group",
+      "label": "Gerador de Testes",
+      "x": 5080,
+      "y": 1700,
+      "width": 660,
+      "height": 420,
+      "color": "6"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_detectstyle",
+      "type": "file",
+      "file": "detectStyle().md",
+      "x": 5100,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsfail",
+      "type": "file",
+      "file": "jsFail().md",
+      "x": 5300,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsheader",
+      "type": "file",
+      "file": "jsHeader().md",
+      "x": 5500,
+      "y": 1780,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjsprinciple",
+      "type": "file",
+      "file": "renderJsPrinciple().md",
+      "x": 5100,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjstest",
+      "type": "file",
+      "file": "renderJsTest().md",
+      "x": 5300,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpyprinciple",
+      "type": "file",
+      "file": "renderPyPrinciple().md",
+      "x": 5500,
+      "y": 1860,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpytest",
+      "type": "file",
+      "file": "renderPyTest().md",
+      "x": 5100,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "type": "file",
+      "file": "scaffold.js.md",
+      "x": 5300,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "type": "file",
+      "file": "scaffoldTests().md",
+      "x": 5500,
+      "y": 1940,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g12",
+      "type": "group",
+      "label": "Projeto TypeScript",
+      "x": 0,
+      "y": 2400,
+      "width": 660,
+      "height": 400,
+      "color": "1"
+    },
+    {
+      "id": "n_ref_tsconfig_base_json",
+      "type": "file",
+      "file": "dot-tsconfig.base.json.md",
+      "x": 20,
+      "y": 2480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_compileonsave",
+      "type": "file",
+      "file": "compileOnSave.md",
+      "x": 220,
+      "y": 2480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_extends",
+      "type": "file",
+      "file": "extends.md",
+      "x": 420,
+      "y": 2480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_files",
+      "type": "file",
+      "file": "files.md",
+      "x": 20,
+      "y": 2560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig_references",
+      "type": "file",
+      "file": "references.md",
+      "x": 220,
+      "y": 2560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_tsconfig",
+      "type": "file",
+      "file": "tsconfig.json.md",
+      "x": 420,
+      "y": 2560,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g13",
+      "type": "group",
+      "label": "Testes da Mem\u00f3ria",
+      "x": 1840,
+      "y": 2400,
+      "width": 600,
+      "height": 400,
+      "color": "2"
+    },
+    {
+      "id": "n_test_project_planning_memory_test",
+      "type": "file",
+      "file": "project-planning-memory.test.mjs.md",
+      "x": 1860,
+      "y": 2480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_test_project_planning_memory_test_read",
+      "type": "file",
+      "file": "read().md",
+      "x": 2060,
+      "y": 2480,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g14",
+      "type": "group",
+      "label": "Template LGPD Educa\u00e7\u00e3o",
+      "x": 3460,
+      "y": 2400,
+      "width": 600,
+      "height": 400,
+      "color": "3"
+    },
+    {
+      "id": "n_agents_skills_onp_spec_driven_scripts_lib_templates_constituicao_lgpd_educacao_lgpd_education_constitution_template",
+      "type": "file",
+      "file": "Template de constitui\u00e7\u00e3o LGPD + Educa\u00e7\u00e3o.md",
+      "x": 3480,
+      "y": 2480,
+      "width": 180,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdevento_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdevento_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdevento_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit_agents_skills_onp_spec_driven_scripts_lib_src_cli_template",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_template",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit_agents_skills_onp_spec_driven_scripts_lib_src_cli_resolveskilldir",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_resolveskilldir",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit_agents_skills_onp_spec_driven_scripts_lib_src_cli_copydirifexists",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_copydirifexists",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdinit",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_montararvore",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_montararvore",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_execucaoalvo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_execucaoalvo",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstreamresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstreamresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstreamresumo_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstreamresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstreamresumo_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdstreamresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_copydirifexists_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_copydirifexists",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_detectaragente_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdplano",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_detectaragente",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdplano",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_detectaragente_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_detectaragente",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_detectaragente_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_detectaragente",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_resolveskilldir_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_resolveskilldir",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_resolveskilldir_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_resolveskilldir",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_skillagentmarker",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_template_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdnew",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_template",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdnew",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_template_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_template",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_homeonp",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_homeonp",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_streamsdaexecucao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_streamsdaexecucao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_caminhostream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_chavestream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_chavestream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_corta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_homeonp_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_homeonp",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lereventos",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_lerstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_montararvore_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_montararvore",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_montararvore_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_montararvore",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger_agents_skills_onp_spec_driven_scripts_lib_src_cli_gerarartefatosplano",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_gerarartefatosplano",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_podarledger",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento_agents_skills_onp_spec_driven_scripts_lib_src_cli_gerarartefatosplano",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_gerarartefatosplano",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_registrarevento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_textodeconteudo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_textodeconteudo",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumirstream",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoferramenta",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumoitemcodex",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_resumotoolcallcursor",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_streamsdaexecucao_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_streamsdaexecucao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_textodeconteudo_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger_textodeconteudo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_ledger",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_celula_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_celula",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_celula_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_celula",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_contextoparaia",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_execucaoalvo_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_execucaoalvo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_execucaoalvo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_execucaoalvo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_fraseexecucao_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_fraseexecucao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_fraseexecucao_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_fraseexecucao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_fraseexecucao_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_fraseexecucao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "label": "indirect_call [INFERRED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_montarresumoatual",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_registrarresumo",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_resumodeterministico",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaandamento",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao",
+      "label": "indirect_call [INFERRED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_tabelaexecucao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo_ultimaacao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_resumo",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_detectstyle_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_detectstyle",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_detectstyle_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_detectstyle",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsfail_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjsprinciple",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsfail",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjsprinciple",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsfail_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjstest",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsfail",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjstest",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsfail_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsfail",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsheader_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsheader",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsheader_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_jsheader",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjsprinciple_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjsprinciple",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjsprinciple_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjsprinciple",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjstest_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjstest",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjstest_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderjstest",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpyprinciple_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpyprinciple",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpyprinciple_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpyprinciple",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpytest_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpytest",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpytest_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_renderpytest",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "label": "re_exports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold_scaffoldtests",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_scaffold",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_test_project_planning_memory_test_read_test_project_planning_memory_test",
+      "fromNode": "n_test_project_planning_memory_test_read",
+      "toNode": "n_test_project_planning_memory_test",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_finding",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_finding",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_core_project_latestmtime",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_latestmtime",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_allacs",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_allacs",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "label": "re_exports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_auditproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_finding_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit_finding",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_latestmtime_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_latestmtime",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_latestmtime_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_latestmtime",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdnew",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdnew",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_scanannotations",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_scanannotations",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "label": "re_exports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project_loadproject",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_audit",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_greppattern",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_scanannotations_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_scanannotations",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_scanannotations_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_scanannotations",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_staticdirof_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_staticdirof",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_staticdirof_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_staticdirof",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_walk",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_walk",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_agents_skills_onp_spec_driven_scripts_lib_src_util_text_globtoregexp",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_globtoregexp",
+      "label": "indirect_call [INFERRED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_walk_agents_skills_onp_spec_driven_scripts_lib_src_util_text_anyglobmatch",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations_walkfiles_walk",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_anyglobmatch",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "label": "re_exports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution_parseconstitution",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_normalizesection_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_normalizesection",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_normalizesection_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_normalizesection",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec_agents_skills_onp_spec_driven_scripts_lib_src_util_text_tablecells",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_tablecells",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec_agents_skills_onp_spec_driven_scripts_lib_src_util_text_istableseparator",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_istableseparator",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "label": "re_exports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec_parsespec",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks_agents_skills_onp_spec_driven_scripts_lib_src_util_text_foldstatus",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_foldstatus",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_project",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_index",
+      "label": "re_exports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks_parsetasks",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_anyglobmatch_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_anyglobmatch",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_anyglobmatch_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_anyglobmatch",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_globtoregexp_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_globtoregexp",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_annotations",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_globtoregexp_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_globtoregexp",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_istableseparator_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_istableseparator",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_istableseparator_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_istableseparator",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_constitution",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_tasks",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_splitlines",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_tablecells_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_tablecells",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_parsers_spec",
+      "label": "imports [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_util_text_tablecells_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text_tablecells",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_util_text",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_carregarlicoes",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_carregarlicoes",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_carregarsinais",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_carregarsinais",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_adicionarlicao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_adicionarlicao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_podarlicoes",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_podarlicoes",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_salvarlicoes",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_salvarlicoes",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_listarlicoes",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_listarlicoes",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_cli_linhalicao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_linhalicao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_sugerirlicoes",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_sugerirlicoes",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_penalizarlicao",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_penalizarlicao",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_run",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_cmdlicoes",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_cli_linhalicao_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli_linhalicao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_cli",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_adicionarlicao_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_buscarsinal",
+      "fromNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_licoes_adicionarlicao",
+      "toNode": "n_agents_skills_onp_spec_driven_scripts_lib_src_core_sinais_buscarsinal",
+      "label": "calls [EXTRACTED]"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "feature": "project-planning-memory",
+  "timestamp": "2026-08-26T14:19:30.208Z",
+  "gitRev": "386b5f5",
+  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-workspace.test.mjs test/marco-0-pocs.spec.test.js",
+  "reporter": "tap",
+  "exitCode": 1,
+  "testsParsed": 16,
+  "results": {
+    "AC-001": {
+      "status": "pass",
+      "testName": "@spec:AC-001 index tracks requirements, deliverables, and risks",
+      "method": "tap"
+    },
+    "AC-002": {
+      "status": "pass",
+      "testName": "@spec:AC-002 capabilities are separated into PRDs",
+      "method": "tap"
+    },
+    "AC-003": {
+      "status": "pass",
+      "testName": "@spec:AC-003 federation has an operational guide",
+      "method": "tap"
+    },
+    "AC-004": {
+      "status": "pass",
+      "testName": "@spec:AC-004 critical risks are explicit",
+      "method": "tap"
+    },
+    "AC-005": {
+      "status": "pass",
+      "testName": "@spec:AC-005 sources include their origin and consultation date",
+      "method": "tap"
+    },
+    "AC-006": {
+      "status": "pass",
+      "testName": "@spec:AC-006 memory is navigable in Obsidian and Graphify",
+      "method": "tap"
+    },
+    "AC-007": {
+      "status": "pass",
+      "testName": "@spec:AC-007 plan declares model and effort before execution",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
