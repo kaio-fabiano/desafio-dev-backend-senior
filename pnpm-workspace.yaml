@@ -2,6 +2,9 @@ packages:
   - "apps/*"
   - "libs/*"
 
+allowBuilds:
+  nx: true
+
 autoInstallPeers: true
 onlyBuiltDependencies:
   - nx

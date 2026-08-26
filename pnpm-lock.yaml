@@ -27,6 +27,8 @@ importers:
         specifier: ~6.0.3
         version: 6.0.3
 
+  apps/poc-harness: {}
+
 packages:
 
   '@babel/code-frame@7.29.7':

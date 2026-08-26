@@ -1,0 +1,419 @@
+{
+  "schema": 1,
+  "sinais": {
+    "ARQUIVO_INEXISTENTE::project-planning-memory::T-001": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "project-planning-memory",
+      "ref": "T-001",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T02:06:19.247Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::project-planning-memory::AC-001": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "AC-001",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::project-planning-memory::AC-002": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "AC-002",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::project-planning-memory::AC-003": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "AC-003",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::project-planning-memory::AC-004": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "AC-004",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::project-planning-memory::AC-005": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "AC-005",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::project-planning-memory::AC-006": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "AC-006",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "GLOB_SEM_ARQUIVOS::—::P-002": {
+      "codigo": "GLOB_SEM_ARQUIVOS",
+      "feature": "—",
+      "ref": "P-002",
+      "ocorrencias": 12,
+      "primeiraVez": "2026-08-26T02:06:19.247Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "STATUS_INVALIDO::marco-0-pocs::.spec/features/marco-0-pocs/spec.md": {
+      "codigo": "STATUS_INVALIDO",
+      "feature": "marco-0-pocs",
+      "ref": ".spec/features/marco-0-pocs/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.248Z",
+      "gitRev": "386b5f5"
+    },
+    "ARQUIVO_INEXISTENTE::marco-0-pocs::T-003": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "marco-0-pocs",
+      "ref": "T-003",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.248Z",
+      "gitRev": "386b5f5"
+    },
+    "ARQUIVO_INEXISTENTE::marco-0-pocs::T-004": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "marco-0-pocs",
+      "ref": "T-004",
+      "ocorrencias": 56,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "ARQUIVO_INEXISTENTE::marco-0-pocs::T-005": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "marco-0-pocs",
+      "ref": "T-005",
+      "ocorrencias": 56,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "ARQUIVO_INEXISTENTE::marco-0-pocs::T-006": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "marco-0-pocs",
+      "ref": "T-006",
+      "ocorrencias": 56,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "ARQUIVO_INEXISTENTE::marco-0-pocs::T-007": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "marco-0-pocs",
+      "ref": "T-007",
+      "ocorrencias": 21,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-008": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-008",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-009": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-009",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-010": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-010",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-011": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-011",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-012": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-012",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-013": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-013",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-014": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-014",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-015": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-015",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_TESTE::marco-0-pocs::AC-016": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "marco-0-pocs",
+      "ref": "AC-016",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T13:32:06.144Z",
+      "ultimaVez": "2026-08-26T13:32:06.144Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-008": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-008",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:32:06.248Z",
+      "ultimaVez": "2026-08-26T13:34:39.438Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-009": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-009",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.248Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-010": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-010",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-011": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-011",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-012": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-012",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-013": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-013",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-014": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-014",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-015": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-015",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::marco-0-pocs::AC-016": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "marco-0-pocs",
+      "ref": "AC-016",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_OBSOLETO::project-planning-memory::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "project-planning-memory",
+      "ref": "—",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-26T13:32:06.249Z",
+      "ultimaVez": "2026-08-26T13:35:18.142Z",
+      "gitRev": "386b5f5"
+    },
+    "Q_ABERTA::marco-0-pocs::Q-002": {
+      "codigo": "Q_ABERTA",
+      "feature": "marco-0-pocs",
+      "ref": "Q-002",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-26T13:34:39.438Z",
+      "ultimaVez": "2026-08-26T14:19:30.293Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-009": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-009",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-010": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-010",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-011": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-011",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-012": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-012",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-013": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-013",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-014": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-014",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-015": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-015",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_FALHOU::marco-0-pocs::AC-016": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "marco-0-pocs",
+      "ref": "AC-016",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T13:35:18.081Z",
+      "ultimaVez": "2026-08-26T14:18:58.042Z",
+      "gitRev": "386b5f5"
+    },
+    "VERIFY_OBSOLETO::marco-0-pocs::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "marco-0-pocs",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-26T14:18:56.620Z",
+      "ultimaVez": "2026-08-26T14:18:56.620Z",
+      "gitRev": "386b5f5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "T-001",
+      "ocorrencias": 12,
+      "primeiraVez": "2026-08-26T14:18:56.620Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-002": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "T-002",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T14:18:56.620Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    },
+    "AC_SEM_PROVA::project-planning-memory::AC-007": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "project-planning-memory",
+      "ref": "AC-007",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-26T14:18:56.620Z",
+      "ultimaVez": "2026-08-26T14:18:58.098Z",
+      "gitRev": "386b5f5"
+    }
+  }
+}

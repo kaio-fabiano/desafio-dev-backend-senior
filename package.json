@@ -2,7 +2,9 @@
   "name": "@desafio-dev-backend-senior/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "test:spec": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js"
+  },
   "private": true,
   "dependencies": {},
   "devDependencies": {

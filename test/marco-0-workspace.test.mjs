@@ -1,0 +1,23 @@
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+
+test('AC-008: Workspace installs and recognizes the proofs @spec:AC-008', () => {
+  const workspace = readFileSync('pnpm-workspace.yaml', 'utf8');
+  assert.match(workspace, /allowBuilds:\s*\n\s+nx: true/);
+
+  const projects = execFileSync('pnpm', ['exec', 'nx', 'show', 'projects'], {
+    encoding: 'utf8',
+  });
+  assert.match(projects, /@desafio-dev-backend-senior\/poc-harness/);
+
+  const project = JSON.parse(
+    execFileSync(
+      'pnpm',
+      ['exec', 'nx', 'show', 'project', '@desafio-dev-backend-senior/poc-harness', '--json'],
+      { encoding: 'utf8' },
+    ),
+  );
+  assert.ok(project.targets['test:spec']);
+});

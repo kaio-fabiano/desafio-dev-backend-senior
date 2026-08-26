@@ -1,0 +1,57 @@
+{
+  "feature": "marco-0-pocs",
+  "timestamp": "2026-08-26T14:18:58.034Z",
+  "gitRev": "386b5f5",
+  "command": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js",
+  "reporter": "tap",
+  "exitCode": 1,
+  "testsParsed": 10,
+  "results": {
+    "AC-008": {
+      "status": "pass",
+      "testName": "AC-008: Workspace installs and recognizes the proofs @spec:AC-008",
+      "method": "tap"
+    },
+    "AC-009": {
+      "status": "fail",
+      "testName": "AC-009: Event crosses gateway and subgraph through SSE @spec:AC-009",
+      "method": "tap"
+    },
+    "AC-010": {
+      "status": "fail",
+      "testName": "AC-010: Compatibility failure produces a reproducible decision @spec:AC-010",
+      "method": "tap"
+    },
+    "AC-011": {
+      "status": "fail",
+      "testName": "AC-011: The same grant serves the gateway and MCP @spec:AC-011",
+      "method": "tap"
+    },
+    "AC-012": {
+      "status": "fail",
+      "testName": "AC-012: Missing audience is rejected @spec:AC-012",
+      "method": "tap"
+    },
+    "AC-013": {
+      "status": "fail",
+      "testName": "AC-013: WordPress composes into the supergraph @spec:AC-013",
+      "method": "tap"
+    },
+    "AC-014": {
+      "status": "fail",
+      "testName": "AC-014: Critical Woo capabilities have evidence @spec:AC-014",
+      "method": "tap"
+    },
+    "AC-015": {
+      "status": "fail",
+      "testName": "AC-015: Each proof closes a decision with evidence @spec:AC-015",
+      "method": "tap"
+    },
+    "AC-016": {
+      "status": "fail",
+      "testName": "AC-016: Delivery constraints are explicit @spec:AC-016",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

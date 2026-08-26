@@ -1,0 +1,135 @@
+{
+  "runId": "desafio-dev-backend-senior-marco-0-pocs-mta6km67",
+  "feature": "marco-0-pocs",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-004",
+    "T-005",
+    "T-006"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-26 14:19",
+  "branchTrabalho": "spec/marco-0-pocs",
+  "baseDir": ".spec/features/marco-0-pocs",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-marco-0-pocs-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/marco-0-pocs-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-marco-0-pocs-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-004",
+          "titulo": "Validate graphql-sse in the federated gateway",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/poc-sse/package.json",
+            "apps/poc-sse/tsconfig.json",
+            "apps/poc-sse/src/gateway.ts",
+            "apps/poc-sse/src/subgraph.ts",
+            "apps/poc-sse/src/probe.ts",
+            "apps/poc-sse/project.json",
+            "test/marco-0-sse.test.mjs",
+            "docs/adrs/001-graphql-sse-federado.md"
+          ],
+          "refs": [
+            "US-005",
+            "AC-009",
+            "AC-010"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/marco-0-pocs-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-marco-0-pocs-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-005",
+          "titulo": "Validate the Better Auth token at the gateway and MCP",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/poc-auth/package.json",
+            "apps/poc-auth/tsconfig.json",
+            "apps/poc-auth/src/auth-server.ts",
+            "apps/poc-auth/src/resource-servers.ts",
+            "apps/poc-auth/src/probe.ts",
+            "apps/poc-auth/project.json",
+            "test/marco-0-auth.test.mjs",
+            "docs/adrs/002-oauth-multi-resource.md"
+          ],
+          "refs": [
+            "US-006",
+            "AC-011",
+            "AC-012"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/marco-0-pocs-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-marco-0-pocs-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-006",
+          "titulo": "Validate WordPress plugin composition",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/poc-wordpress/package.json",
+            "apps/poc-wordpress/project.json",
+            "apps/poc-wordpress/compose.yaml",
+            "apps/poc-wordpress/scripts/install-plugins.sh",
+            "apps/poc-wordpress/scripts/probe.mjs",
+            "apps/poc-wordpress/fixtures/products.json",
+            "test/marco-0-wordpress.test.mjs",
+            "docs/adrs/003-wordpress-federation.md"
+          ],
+          "refs": [
+            "US-007",
+            "AC-013",
+            "AC-014"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-007",
+      "titulo": "Pin versions, deadline, and decisions in ADRs",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "docs/adrs/README.md",
+        "docs/adrs/004-restricoes-de-entrega.md",
+        "docs/prds/08-riscos-e-decisoes-pendentes.md",
+        "test/marco-0-decisions.test.mjs"
+      ],
+      "refs": [
+        "US-008",
+        "AC-015",
+        "AC-016"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-003"
+  ],
+  "avisos": []
+}
