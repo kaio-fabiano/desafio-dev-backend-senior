@@ -60,7 +60,7 @@ test('AC-015: Each proof closes a decision with evidence @spec:AC-015', () => {
 
 // US-008 — Marco 0 decisions are auditable
 test('AC-016: Delivery constraints are explicit @spec:AC-016', () => {
-  // Given: the README requires SST v3 and gives the deadline as 08/07/2026 at 12:00 BRT
+  // Given: the README requires SST v3 and the owner confirmed the new deadline as 2026-09-03
   // When: the delivery constraints are consulted
   // Then: the SST version and the confirmed interpretation of the deadline appear in the decision record
   assert.fail('acceptance criterion AC-016 is not yet proven — implement this test');

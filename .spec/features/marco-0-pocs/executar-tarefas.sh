@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano marco-0-pocs` em 2026-08-26 14:19
+# executar-tarefas.sh — gerado por `onp-spec plano marco-0-pocs` em 2026-08-26 14:22
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-marco-0-pocs-mta6km67'
+RUN_ID='desafio-dev-backend-senior-marco-0-pocs-mta6ocg2'
 FEATURE='marco-0-pocs'
 BASE_BRANCH='spec/marco-0-pocs'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'

@@ -1,6 +1,6 @@
 # Plano de execução — marco-0-pocs
 
-> gerado por `onp-spec plano` em 2026-08-26 14:19 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-26 14:22 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano marco-0-pocs --paralelizar T-004,T-005,T-006`
 
 ## Resumo — o que vai acontecer

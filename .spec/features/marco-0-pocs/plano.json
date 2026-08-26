@@ -1,5 +1,5 @@
 {
-  "runId": "desafio-dev-backend-senior-marco-0-pocs-mta6km67",
+  "runId": "desafio-dev-backend-senior-marco-0-pocs-mta6ocg2",
   "feature": "marco-0-pocs",
   "agent": "codex",
   "modo": "paralelo",
@@ -10,7 +10,7 @@
   ],
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-08-26 14:19",
+  "geradoEm": "2026-08-26 14:22",
   "branchTrabalho": "spec/marco-0-pocs",
   "baseDir": ".spec/features/marco-0-pocs",
   "specDir": ".spec",

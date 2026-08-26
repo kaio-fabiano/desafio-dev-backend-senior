@@ -113,4 +113,4 @@ the monorepo foundation uses only proven paths.
 
 | ID | Question | Status | Answer |
 |---|---|---|---|
-| Q-002 | Has the 08/07/2026 at 12:00 BRT deadline passed, or was it extended? | aberta | Awaiting confirmation from the responsible owner. |
+| Q-002 | Has the 08/07/2026 at 12:00 BRT deadline passed, or was it extended? | respondida | The owner confirmed nine calendar days from 2026-08-25, resulting in 2026-09-03; the delivery time remains unconfirmed. |

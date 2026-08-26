@@ -39,4 +39,4 @@
 - Arquivos: docs/adrs/README.md, docs/adrs/004-restricoes-de-entrega.md, docs/prds/08-riscos-e-decisoes-pendentes.md, test/marco-0-decisions.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
-- Notas: Consolidate after T-004, T-005, and T-006; depends on the answer to question Q-002 to close the deadline.
+- Notas: Consolidate after T-004, T-005, and T-006; Q-002 confirms 2026-09-03 as the date, while the delivery time remains pending.

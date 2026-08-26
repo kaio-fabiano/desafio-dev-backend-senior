@@ -63,7 +63,7 @@ verifiability.
 
 ## Time constraint
 
-The README states a delivery deadline of **08/07/2026 at 12:00 BRT**. As of the
-date of this note (2026-08-25), that deadline appears to have elapsed if the
-format is DD/MM/YYYY. The validity of the deadline must be confirmed before
-using the roadmap for an external commitment.
+The README states the historical delivery deadline as **08/07/2026 at 12:00
+BRT**. On 2026-08-26, the owner confirmed a new deadline of nine calendar days
+from 2026-08-25, resulting in **2026-09-03**. The delivery time remains
+unconfirmed; the previous 12:00 BRT time must not be assumed.

@@ -1,11 +1,11 @@
 {
   "feature": "marco-0-pocs",
-  "timestamp": "2026-08-26T14:18:58.034Z",
-  "gitRev": "386b5f5",
-  "command": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js",
+  "timestamp": "2026-08-26T14:22:55.351Z",
+  "gitRev": "bf6c285",
+  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-workspace.test.mjs test/marco-0-pocs.spec.test.js",
   "reporter": "tap",
   "exitCode": 1,
-  "testsParsed": 10,
+  "testsParsed": 16,
   "results": {
     "AC-008": {
       "status": "pass",
