@@ -8,7 +8,9 @@ export const MARKETPLACE_READ_SCOPE = 'marketplace:read';
 export const CART_READ_SCOPE = 'cart:read';
 export const ORDERS_READ_SCOPE = 'orders:read';
 export const CART_WRITE_SCOPE = 'cart:write';
+export const MCP_SCOPE = 'mcp:tools';
 export const MCP_TOOL_SCOPES = [
+  MCP_SCOPE,
   MARKETPLACE_READ_SCOPE,
   CART_READ_SCOPE,
   ORDERS_READ_SCOPE,

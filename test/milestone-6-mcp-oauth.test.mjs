@@ -19,6 +19,7 @@ import {
   GATEWAY_AUDIENCE as IDENTITY_GATEWAY_AUDIENCE,
   MARKETPLACE_READ_SCOPE,
   MCP_AUDIENCE as IDENTITY_MCP_AUDIENCE,
+  MCP_SCOPE,
   MCP_TOOL_SCOPES,
   ORDERS_READ_SCOPE,
   createIdentityAuth,
@@ -90,6 +91,7 @@ test('AC-062: Invalid MCP authentication is rejected @spec:AC-062', async () => 
 
 test('AC-063: Tool scopes are enforced @spec:AC-063', async () => {
   assert.deepEqual(MCP_TOOL_SCOPES, [
+    MCP_SCOPE,
     MARKETPLACE_READ_SCOPE,
     CART_READ_SCOPE,
     ORDERS_READ_SCOPE,
