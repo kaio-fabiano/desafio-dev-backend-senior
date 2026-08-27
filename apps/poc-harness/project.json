@@ -1,0 +1,14 @@
+{
+  "name": "@desafio-dev-backend-senior/poc-harness",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "root": "apps/poc-harness",
+  "targets": {
+    "milestone-4-acceptance": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && docker compose --file compose.yaml config --quiet && docker build --file apps/payment-processor/Dockerfile --tag milestone-4-payment-processor:acceptance . && docker build --file apps/stock-worker/Dockerfile --tag milestone-4-stock-worker:acceptance . && docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
+      }
+    }
+  }
+}

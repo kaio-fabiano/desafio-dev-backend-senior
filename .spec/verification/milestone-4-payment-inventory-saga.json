@@ -1,45 +1,70 @@
 {
-  "feature": "milestone-1-foundation",
-  "timestamp": "2026-08-27T16:55:11.115Z",
+  "feature": "milestone-4-payment-inventory-saga",
+  "timestamp": "2026-08-27T16:51:40.349Z",
   "gitRev": "555d3b1",
   "command": "node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js",
   "reporter": "tap",
   "exitCode": 0,
   "testsParsed": 111,
   "results": {
-    "AC-017": {
+    "AC-041": {
       "status": "pass",
-      "testName": "AC-017: Previous milestone is closed without an inert secret check @spec:AC-017",
+      "testName": "AC-041: versioned events carry a confirmed-publication-safe envelope @spec:AC-041",
       "method": "tap"
     },
-    "AC-018": {
+    "AC-042": {
       "status": "pass",
-      "testName": "AC-018: Invalid cross-domain imports are rejected @spec:AC-018",
+      "testName": "AC-042: Compose starts durable broker dependencies and retry consumers only after readiness @spec:AC-042",
       "method": "tap"
     },
-    "AC-019": {
+    "AC-043": {
       "status": "pass",
-      "testName": "AC-019: Skeleton services report health and readiness @spec:AC-019",
+      "testName": "AC-043: Card authorization has stable payment and operation identifiers @spec:AC-043",
       "method": "tap"
     },
-    "AC-020": {
+    "AC-044": {
       "status": "pass",
-      "testName": "AC-020: The Milestone 1 supergraph composes @spec:AC-020",
+      "testName": "AC-044: Pix generation is terminal and carries the stable code @spec:AC-044",
       "method": "tap"
     },
-    "AC-021": {
+    "AC-045": {
       "status": "pass",
-      "testName": "AC-021: Valid events pass and malformed events fail @spec:AC-021",
+      "testName": "AC-045: Compose gives payment its own ready database and consumers close gracefully @spec:AC-045",
       "method": "tap"
     },
-    "AC-022": {
+    "AC-046": {
       "status": "pass",
-      "testName": "AC-022: Local infrastructure becomes ready @spec:AC-022",
+      "testName": "AC-046: Stock reservation requests and results identify one operation @spec:AC-046",
       "method": "tap"
     },
-    "AC-023": {
+    "AC-047": {
       "status": "pass",
-      "testName": "AC-023: One command proves the foundation gate @spec:AC-023",
+      "testName": "AC-047: Insufficient stock has a safe, explicit failure reason @spec:AC-047",
+      "method": "tap"
+    },
+    "AC-048": {
+      "status": "pass",
+      "testName": "AC-048: Card journey contracts connect authorization to reservation @spec:AC-048",
+      "method": "tap"
+    },
+    "AC-049": {
+      "status": "pass",
+      "testName": "AC-049: Compensation contracts connect stock failure to one refund @spec:AC-049",
+      "method": "tap"
+    },
+    "AC-050": {
+      "status": "pass",
+      "testName": "AC-050: Pix journey exposes its generated code without stock commands @spec:AC-050",
+      "method": "tap"
+    },
+    "AC-051": {
+      "status": "pass",
+      "testName": "AC-051: Crash after effect before acknowledgement is harmless @spec:AC-051",
+      "method": "tap"
+    },
+    "AC-052": {
+      "status": "pass",
+      "testName": "AC-052: Milestone acceptance runs from one workspace command @spec:AC-052",
       "method": "tap"
     }
   },

@@ -10,9 +10,9 @@ export class RabbitMqLifecycle implements OnModuleInit, OnApplicationShutdown {
   private runtime?: RabbitMqRuntime;
 
   async onModuleInit(): Promise<void> {
-    this.runtime = await connectRabbitMq(
-      process.env.RABBITMQ_URL ?? 'amqp://localhost:5672',
-    );
+    if (process.env.RABBITMQ_URL) {
+      this.runtime = await connectRabbitMq(process.env.RABBITMQ_URL);
+    }
   }
 
   async onApplicationShutdown(): Promise<void> {

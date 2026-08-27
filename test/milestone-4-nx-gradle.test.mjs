@@ -15,7 +15,9 @@ const [packageJson, nxJson, build, application, source, applicationTest] = await
 test('AC-045: Payment processor is operable through Nx @spec:AC-045', () => {
   const pkg = JSON.parse(packageJson);
   const nx = JSON.parse(nxJson);
-  const gradle = nx.plugins.find(({ plugin }) => plugin === '@nx/gradle/plugin');
+  const gradle = nx.plugins.find(
+    ({ plugin }) => plugin === '@nx/gradle',
+  );
 
   assert.equal(pkg.devDependencies['@nx/gradle'], '23.1.1');
   assert.deepEqual(gradle.options, { buildTargetName: 'build', testTargetName: 'test' });

@@ -26,7 +26,7 @@
       "options": { "targetName": "lint" }
     },
     {
-      "plugin": "@nx/gradle/plugin",
+      "plugin": "@nx/gradle",
       "options": {
         "buildTargetName": "build",
         "testTargetName": "test"
