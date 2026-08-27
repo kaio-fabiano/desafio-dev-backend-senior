@@ -14,6 +14,7 @@
     "@apollo/gateway": "2.14.4",
     "@apollo/server": "5.4.0",
     "@apollo/subgraph": "2.14.4",
+    "@as-integrations/express5": "1.1.2",
     "@better-auth/oauth-provider": "1.7.1",
     "@mikro-orm/core": "6.6.16",
     "@mikro-orm/migrations": "6.6.16",

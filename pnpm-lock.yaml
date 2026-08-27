@@ -17,6 +17,9 @@ importers:
       '@apollo/subgraph':
         specifier: 2.14.4
         version: 2.14.4(graphql@16.11.0)
+      '@as-integrations/express5':
+        specifier: 1.1.2
+        version: 1.1.2(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(express@5.1.0(supports-color@7.2.0))
       '@better-auth/oauth-provider':
         specifier: 1.7.1
         version: 1.7.1(@better-auth/core@1.7.1(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(@opentelemetry/api@1.9.1)(better-call@1.4.0(zod@4.4.3))(jose@6.2.10)(kysely@0.29.5)(nanostores@1.5.2))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-auth@1.7.1(@opentelemetry/api@1.9.1)(pg@8.23.0)(vitest@3.2.4(@types/node@24.13.3)(supports-color@7.2.0)(yaml@2.9.0)))(better-call@1.4.0(zod@4.4.3))
@@ -31,7 +34,7 @@ importers:
         version: 6.6.16(@mikro-orm/core@6.6.16)(supports-color@7.2.0)
       '@nestjs/apollo':
         specifier: 13.4.5
-        version: 13.4.5(@apollo/gateway@2.14.4(graphql@16.11.0)(supports-color@7.2.0))(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(@apollo/subgraph@2.14.4(graphql@16.11.0))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(@nestjs/graphql@13.4.5(@apollo/subgraph@2.14.4(graphql@16.11.0))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(graphql@16.11.0)(reflect-metadata@0.2.2))(graphql@16.11.0)
+        version: 13.4.5(@apollo/gateway@2.14.4(graphql@16.11.0)(supports-color@7.2.0))(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(@apollo/subgraph@2.14.4(graphql@16.11.0))(@as-integrations/express5@1.1.2(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(express@5.1.0(supports-color@7.2.0)))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(@nestjs/graphql@13.4.5(@apollo/subgraph@2.14.4(graphql@16.11.0))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(graphql@16.11.0)(reflect-metadata@0.2.2))(graphql@16.11.0)
       '@nestjs/common':
         specifier: 11.1.6
         version: 11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)
@@ -307,6 +310,13 @@ packages:
 
   '@apollographql/graphql-playground-html@1.6.29':
     resolution: {integrity: sha512-xCcXpoz52rI4ksJSdOCxeOCn2DLocxwHf9dVT/Q90Pte1LX+LY+91SFtJF3KXVHH8kEin+g1KKCQPKBjZJfWNA==}
+
+  '@as-integrations/express5@1.1.2':
+    resolution: {integrity: sha512-BxfwtcWNf2CELDkuPQxi5Zl3WqY/dQVJYafeCBOGoFQjv5M0fjhxmAFZ9vKx/5YKKNeok4UY6PkFbHzmQrdxIA==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@apollo/server': ^4.0.0 || ^5.0.0
+      express: ^5.0.0
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -4949,6 +4959,11 @@ snapshots:
     dependencies:
       xss: 1.0.15
 
+  '@as-integrations/express5@1.1.2(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(express@5.1.0(supports-color@7.2.0))':
+    dependencies:
+      '@apollo/server': 5.4.0(graphql@16.11.0)(supports-color@7.2.0)
+      express: 5.1.0(supports-color@7.2.0)
+
   '@babel/code-frame@7.29.7':
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
@@ -6098,7 +6113,7 @@ snapshots:
       '@emnapi/runtime': 1.4.5
       '@tybys/wasm-util': 0.9.0
 
-  '@nestjs/apollo@13.4.5(@apollo/gateway@2.14.4(graphql@16.11.0)(supports-color@7.2.0))(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(@apollo/subgraph@2.14.4(graphql@16.11.0))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(@nestjs/graphql@13.4.5(@apollo/subgraph@2.14.4(graphql@16.11.0))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(graphql@16.11.0)(reflect-metadata@0.2.2))(graphql@16.11.0)':
+  '@nestjs/apollo@13.4.5(@apollo/gateway@2.14.4(graphql@16.11.0)(supports-color@7.2.0))(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(@apollo/subgraph@2.14.4(graphql@16.11.0))(@as-integrations/express5@1.1.2(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(express@5.1.0(supports-color@7.2.0)))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(@nestjs/graphql@13.4.5(@apollo/subgraph@2.14.4(graphql@16.11.0))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.6)(graphql@16.11.0)(reflect-metadata@0.2.2))(graphql@16.11.0)':
     dependencies:
       '@apollo/server': 5.4.0(graphql@16.11.0)(supports-color@7.2.0)
       '@apollo/server-plugin-landing-page-graphql-playground': 4.0.1(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))
@@ -6112,6 +6127,7 @@ snapshots:
     optionalDependencies:
       '@apollo/gateway': 2.14.4(graphql@16.11.0)(supports-color@7.2.0)
       '@apollo/subgraph': 2.14.4(graphql@16.11.0)
+      '@as-integrations/express5': 1.1.2(@apollo/server@5.4.0(graphql@16.11.0)(supports-color@7.2.0))(express@5.1.0(supports-color@7.2.0))
 
   '@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0)':
     dependencies:
