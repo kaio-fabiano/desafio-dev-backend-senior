@@ -44,7 +44,7 @@
 - Esforço: alto
 - Notas: This is saga consistency work. Encode an explicit transition table, reject regression, and write transition, inbox, and next outbox event in one transaction.
 
-## T-034 — Wire services, databases, and graceful lifecycle in Compose [pendente]
+## T-034 — Wire services, databases, and graceful lifecycle in Compose [concluida]
 - Refs: US-026, US-027, US-028, AC-042, AC-045
 - Arquivos: compose.yaml, apps/commerce-subgraph/src/app.module.ts, apps/payment-processor/Dockerfile, apps/stock-worker/Dockerfile, apps/stock-worker/src/app.module.ts, test/milestone-4-compose.test.mjs
 - Modelo: gpt-5.6-terra
