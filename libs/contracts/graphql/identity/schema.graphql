@@ -9,6 +9,19 @@ type User @key(fields: "id") {
 type SupplierCompany @key(fields: "id") {
   id: ID!
   name: String!
+  members: [SupplierMembership!]!
+}
+
+type SupplierMembership {
+  user: User!
+  role: SupplierRole!
+  validFrom: String!
+  validUntil: String
+}
+
+enum SupplierRole {
+  OWNER
+  MANAGER
 }
 
 type Query {
