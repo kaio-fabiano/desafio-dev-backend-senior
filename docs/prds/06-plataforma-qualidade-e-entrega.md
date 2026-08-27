@@ -15,6 +15,10 @@ reproducible path to AWS through SST.
 - custom generators create bounded contexts, subgraphs, and contracts following the standard;
 - the project graph and module-boundary lint demonstrate architecture;
 - Rover and codegen outputs correctly enter the cache.
+- `@nx/gradle` registers the Spring Boot processor and its Gradle tasks in the
+  same project graph, so `affected`, caching, and CI apply across languages;
+- use Nx's dynamic terminal output, Nx Console, and `nx graph` as the centralized
+  operator experience; build a custom TUI only after a documented workflow gap.
 
 ## Docker Compose
 

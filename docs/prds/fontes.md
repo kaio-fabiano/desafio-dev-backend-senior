@@ -1,7 +1,8 @@
 # Technical sources
 
-> Consulted on 2026-08-25. Preference is given to specifications, official
-> documentation, and maintainer repositories. Check again when pinning versions.
+> Consulted on 2026-08-25 and extended on 2026-08-27. Preference is given to
+> specifications, official documentation, and maintainer repositories. Check
+> again when pinning versions.
 
 ## References indicated in the interview
 
@@ -47,6 +48,9 @@ writing custom infrastructure.
 
 - [Nx — Run Tasks](https://nx.dev/docs/features/run-tasks)
 - [Nx — Cache Task Results](https://nx.dev/docs/features/cache-task-results)
+- [Nx — Java and Gradle](https://nx.dev/docs/technologies/java/introduction)
+- [MikroORM — NestJS integration](https://mikro-orm.io/docs/usage-with-nestjs)
+- [MikroORM — Migrations](https://mikro-orm.io/docs/migrations)
 - [Testcontainers](https://testcontainers.com/)
 - [Testcontainers for Node.js](https://node.testcontainers.org/)
 - [SST — documentation](https://sst.dev/docs/)

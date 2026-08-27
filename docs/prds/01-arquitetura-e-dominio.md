@@ -15,9 +15,9 @@
 
 | Context | Responsibility | Entities/aggregates | Proposed persistence |
 |---|---|---|---|
-| Identity | user, session, OAuth, WordPress link | User, Account, OAuthClient, SupplierCompany | PostgreSQL + Better Auth schema |
+| Identity | user, session, OAuth, WordPress link | User, Account, OAuthClient, SupplierCompany | PostgreSQL; Better Auth owns its tables, while MikroORM owns first-party tables |
 | Federated WordPress | commercial catalog and orders, with native WPGraphQL/WooGraphQL capabilities | Product, Category, Order, OrderItem | WordPress/MySQL is the authoritative source |
-| Commerce | idempotency, journey orchestration, saga, and stream | Cart or reference to the Woo cart, CheckoutOperation, OrderWorkflow | PostgreSQL, without duplicating the full commercial order |
+| Commerce | idempotency, journey orchestration, saga, and stream | Cart or reference to the Woo cart, CheckoutOperation, OrderWorkflow | PostgreSQL through MikroORM, without duplicating the full commercial order |
 | Payment | idempotent charging and compensation | Payment, PaymentAttempt, InboxRecord | dedicated PostgreSQL, separate runtime |
 | Inventory | reservation and release in WooCommerce | StockReservation | local inbox + WooCommerce |
 | Edge/MCP | composition, auth, transports, and tools | no persistent domain | stateless |
@@ -32,13 +32,14 @@ apps/
 ├── catalog-subgraph/        minimum fallback, only if the WP plugin fails in the PoC
 ├── stock-worker/            reservation/compensation
 ├── apollo-mcp/              configuration and allowed operations
-├── payment-processor/       Go (proposed; pending decision)
+├── payment-processor/       Java 21 + Spring Boot + Gradle
 └── e2e/                     Vitest + Testcontainers
 ```
 
 WordPress, RabbitMQ, and databases are infrastructure services; they do not need
-to be represented as TypeScript apps. The Go processor can be an Nx project with
-`build`, `test`, and `docker` targets run by commands.
+to be represented as TypeScript apps. The Java processor is registered in the
+same Nx project graph through `@nx/gradle`, with cacheable `build`, `test`, and
+`docker` targets.
 
 ## Proposed Nx libs
 
@@ -94,8 +95,10 @@ flowchart LR
 ## Proposed, still reversible decisions
 
 - PostgreSQL for identity, commerce, and payment, with separate databases.
-- Go for the payment processor, due to its lean binary, explicit concurrency, and
-  architectural contrast useful for evaluation.
+- MikroORM for first-party NestJS persistence, repositories, transactions, and
+  migrations. Better Auth remains the sole owner of its internal schema and adapter.
+- Java 21 and Spring Boot for the payment processor, built with Gradle and integrated
+  into the Nx task graph through `@nx/gradle`.
 - Direct participation by WordPress in the supergraph with
   `wp-graphql-federations`; a minimal NestJS adapter/wrapper is only a fallback
   for proven composition, authorization, or batching gaps.

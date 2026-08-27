@@ -22,6 +22,16 @@ handle correctly will not be recreated. The federation plugin is a candidate,
 not a guarantee: its compatibility with Federation v2 and WooCommerce types
 must pass Rover composition and gateway E2E testing.
 
+### Federation plugin administration
+
+The federation plugin's administration screen is the first option for adding
+supported directives such as `@key`, `@external`, and `@requires` to WordPress
+types and fields. Configuration made in the screen cannot remain click-only:
+bootstrap or export it into a versioned repository artifact, document how to
+reapply it, and prove the resulting `_service.sdl` with Rover. A deterministic
+publication-boundary normalization remains allowed only for a schema shape the
+screen cannot represent, such as the interface gap recorded in ADR 003.
+
 ## Schema-first contract
 
 - Every subgraph keeps versioned SDL in `libs/contracts/graphql/<subgraph>/`.

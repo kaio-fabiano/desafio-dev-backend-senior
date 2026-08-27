@@ -31,6 +31,16 @@ complements the README and connects [[GraphQL Federation]], [[Subscriptions SSE]
 All links were indicated as useful. The Relay link and the federation plugin
 repository are therefore an explicit part of the technical guidance.
 
+### Guidance received on 2026-08-27
+
+- consider MikroORM because of its NestJS integration;
+- write the GraphQL contracts as part of specification before implementation;
+- document and evaluate the federation plugin administration screen for adding
+  directives such as `@key`, `@external`, and `@requires`;
+- use Java/Spring for the payment processor and integrate Gradle through Nx;
+- rely on Nx's daemon, task graph, cache, and centralized output before creating
+  a custom TUI.
+
 ## Implementation Consequences
 
 1. Use WPGraphQL and WPGraphQL for WooCommerce as the starting point for
@@ -42,17 +52,24 @@ repository are therefore an explicit part of the technical guidance.
    to modules/subgraphs are only for unit tests or diagnostics.
 6. Treat Relay as a contract: opaque cursor, `edges`, `PageInfo`, and pagination in
    the datasource, including for lists coming from WordPress.
+7. Use MikroORM only for first-party NestJS persistence; Better Auth keeps ownership
+   of its internal schema.
+8. Keep Java/Gradle in the same Nx task graph and defer a custom TUI until a real
+   operational gap is measured.
 
 ## WordPress PoC Gate
 
-- [ ] install WPGraphQL, WPGraphQL for WooCommerce, and the federation plugin;
-- [ ] introspect `Product`, `Order`, cart, checkout, and their Connections;
-- [ ] compose the WordPress subgraph with Rover under Federation v2;
-- [ ] resolve `Product` and `Order` by `@key` through the gateway;
-- [ ] test mutation ownership with propagated identity;
-- [ ] count calls and prove the absence of N+1;
-- [ ] record any gap before writing a fallback;
-- [ ] keep WooCommerce as the authoritative source for the commercial order.
+- [x] install WPGraphQL, GraphQL for eCommerce, and the federation plugin;
+- [x] introspect `Product`, `Order`, and their Relay Connections;
+- [x] compose the WordPress subgraph with Rover under Federation v2;
+- [x] resolve batched `Product` representations by `@key` through the plugin;
+- [x] test mutation ownership with a restricted WordPress vendor identity;
+- [x] count calls and prove batched loading rather than N+1;
+- [x] record the interface-key gap before adding publication-boundary normalization;
+- [x] keep WooCommerce as the authoritative source for the commercial order;
+- [ ] verify the directive administration screen and capture its configuration in
+  reproducible bootstrap/export evidence;
+- [ ] extend the vertical gateway proof to cart and checkout in Milestone 3.
 
 ## Decision Rule
 

@@ -45,6 +45,7 @@ tests. A custom wrapper is introduced only if one of these tests exposes a gap.
 ## Milestone 3 — Cart and idempotent order
 
 - Cart and Order;
+- MikroORM repositories and versioned migrations for first-party commerce data;
 - order/item Connections;
 - idempotency constraint + command hash;
 - outbox publisher;
@@ -54,7 +55,8 @@ tests. A custom wrapper is introduced only if one of these tests exposes a gap.
 
 ## Milestone 4 — Payment, inventory, and saga
 
-- Go processor with ports/adapters, health, and graceful shutdown;
+- Java 21/Spring Boot processor with ports/adapters, health, and graceful shutdown;
+- Gradle targets registered in Nx through `@nx/gradle`;
 - inbox/idempotency and confirmed publishing;
 - inventory worker and compensation;
 - retry/backoff/DLQ;
@@ -86,6 +88,8 @@ tests. A custom wrapper is introduced only if one of these tests exposes a gap.
 - ≥ 70% coverage in critical domains;
 - P95 load testing and N+1 counters;
 - final images, Compose, and operational documentation;
+- validate the unified Nx graph, affected execution, and local/CI cache across
+  Node and Java projects; do not add a custom TUI without a demonstrated gap;
 - SST, `sst diff`, deployment, and evidence;
 - OpenTelemetry as a differentiator.
 

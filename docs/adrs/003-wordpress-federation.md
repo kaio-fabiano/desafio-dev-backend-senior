@@ -59,3 +59,9 @@ mutations, and WordPress capabilities. Add only the deterministic SDL
 normalization at the schema publication boundary. Do not build a NestJS proxy
 or replicate the WooCommerce schema. Revisit the normalization if a pinned
 `wp-graphql-federations` release emits a directly composable Federation v2 SDL.
+
+For future directive changes, first use the plugin administration screen for
+supported `@key`, `@external`, and `@requires` configuration. Capture the applied
+configuration in reproducible bootstrap/export evidence and composition tests;
+the current proof did not verify that screen and therefore does not claim it can
+represent the interface normalization described above.
