@@ -1,0 +1,15 @@
+federation_version: =2.11
+
+subgraphs:
+  identity:
+    routing_url: http://identity-subgraph:3001/graphql
+    schema:
+      file: ./identity/schema.graphql
+  catalog:
+    routing_url: http://catalog:3002/graphql
+    schema:
+      file: ./catalog/schema.graphql
+  commerce:
+    routing_url: http://commerce-subgraph:3003/graphql
+    schema:
+      file: ./commerce/schema.graphql
