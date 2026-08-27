@@ -150,3 +150,55 @@ test('AC-058: Cancelling the edge iterator aborts and disposes Commerce resource
   assert.equal(downstreamReturned, 1);
   assert.equal(clientDisposed, 1);
 });
+
+test('AC-058: Aborting the HTTP SSE response returns the delegated iterator @spec:AC-058', async () => {
+  let returned = 0;
+  let wake;
+  const server = await listen(
+    createGatewaySseHandler({
+      token,
+      verify: async () => context,
+      commerce: {
+        subscribe() {
+          return {
+            [Symbol.asyncIterator]() {
+              return this;
+            },
+            next() {
+              return new Promise((resolve) => {
+                wake = resolve;
+              });
+            },
+            async return() {
+              returned += 1;
+              wake?.({ done: true, value: undefined });
+              return { done: true, value: undefined };
+            },
+          };
+        },
+      },
+    }),
+  );
+  const controller = new AbortController();
+  try {
+    const response = await fetch(server.url, {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        authorization: 'Bearer valid',
+        accept: 'text/event-stream',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(subscription),
+    });
+    controller.abort();
+    await assert.rejects(response.text(), /abort/i);
+    for (let attempt = 0; attempt < 20 && returned === 0; attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 5));
+    }
+    assert.equal(returned, 1);
+  } finally {
+    controller.abort();
+    await server.close();
+  }
+});

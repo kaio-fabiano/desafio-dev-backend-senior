@@ -38,6 +38,7 @@ export function createGatewaySseHandler({
   verify = verifyGatewayRequest,
 }: GatewaySseOptions) {
   const authenticated = new WeakMap<IncomingMessage, AuthContext>();
+  const active = new WeakMap<IncomingMessage, AsyncGenerator>();
   const handler = createHandler<AuthContext>({
     authenticate: async ({ raw }) => {
       authenticated.set(raw, await verify(toRequest(raw), token));
@@ -51,11 +52,21 @@ export function createGatewaySseHandler({
     onSubscribe: (_request, params) => {
       const context = authenticated.get(_request.raw);
       if (!context) throw new Error('Unauthenticated subscription');
-      return commerce.subscribe(params, context);
+      const subscription = commerce.subscribe(params, context);
+      active.set(_request.raw, subscription);
+      return subscription;
     },
   });
 
   return async (request: IncomingMessage, response: ServerResponse) => {
+    let closing: Promise<unknown> | undefined;
+    const closeSubscription = () => {
+      const subscription = active.get(request);
+      if (!subscription || closing) return;
+      closing = Promise.resolve(subscription.return(undefined)).catch(() => {});
+    };
+    request.once('aborted', closeSubscription);
+    response.once('close', closeSubscription);
     try {
       await handler(request, response);
     } catch {
@@ -63,6 +74,11 @@ export function createGatewaySseHandler({
         response.writeHead(authenticated.has(request) ? 502 : 401);
       response.end();
     } finally {
+      closeSubscription();
+      await closing;
+      request.off('aborted', closeSubscription);
+      response.off('close', closeSubscription);
+      active.delete(request);
       authenticated.delete(request);
     }
   };
