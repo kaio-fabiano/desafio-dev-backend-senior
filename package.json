@@ -8,6 +8,9 @@
   "private": true,
   "dependencies": {
     "@better-auth/oauth-provider": "1.7.1",
+    "@mikro-orm/core": "6.6.16",
+    "@mikro-orm/migrations": "6.6.16",
+    "@mikro-orm/postgresql": "6.6.16",
     "@nestjs/common": "11.1.6",
     "@nestjs/core": "11.1.6",
     "@nestjs/platform-express": "11.1.6",
