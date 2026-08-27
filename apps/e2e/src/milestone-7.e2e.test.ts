@@ -10,6 +10,7 @@ const requiredComponents = [
   'wordpress-database',
   'rabbitmq',
   'wordpress',
+  'wordpress-setup',
   'identity-subgraph',
   'commerce-subgraph',
   'stock-worker',

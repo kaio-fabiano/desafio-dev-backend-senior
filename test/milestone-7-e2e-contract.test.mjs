@@ -18,7 +18,7 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
   assert.match(environment, /DockerComposeEnvironment/);
   assert.match(environment, /\.withBuild\(\)/);
   assert.doesNotMatch(environment, /SERVICE_SOURCE|node', '-e'|createServer|ROLE/);
-  for (const component of ['rabbitmq', 'postgres', 'identity-database', 'payment-database', 'wordpress-database', 'wordpress', 'identity-subgraph', 'commerce-subgraph', 'stock-worker', 'payment-processor', 'gateway', 'apollo-mcp']) {
+  for (const component of ['rabbitmq', 'postgres', 'identity-database', 'payment-database', 'wordpress-database', 'wordpress', 'wordpress-setup', 'identity-subgraph', 'commerce-subgraph', 'stock-worker', 'payment-processor', 'gateway', 'apollo-mcp']) {
     assert.match(environment, new RegExp(component.replaceAll('.', '\\.'), 'i'));
   }
   assert.match(environment, /catch \(error\)[\s\S]*await stop\(\)/);

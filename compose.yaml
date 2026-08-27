@@ -81,6 +81,44 @@ services:
       retries: 60
     volumes:
       - wordpress-data:/var/www/html
+    networks:
+      default:
+        aliases:
+          - wordpress-integration
+
+  wordpress-setup:
+    image: wordpress:cli-2.12.0-php8.3
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: wordpress-database
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_USER: wordpress
+    user: "33:33"
+    entrypoint: ["/bin/sh", "-ec"]
+    command:
+      - |
+        wp core is-installed || wp core install --url=http://wordpress --title='Marketplace' --admin_user=admin --admin_password=admin-local-only --admin_email=admin@example.test --skip-email
+        wp plugin install https://downloads.wordpress.org/plugin/woocommerce.10.4.3.zip --activate --force
+        wp plugin install https://downloads.wordpress.org/plugin/wp-graphql.2.20.0.zip --activate --force
+        wp plugin install https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip --activate --force
+        wp plugin install https://github.com/Manuel-Antunes/wp-graphql-federations/archive/ac480974ceb6a1680410f955005e060056f150da.zip --force
+        wp plugin activate wp-graphql-federations
+        wp option update wpgraphql_federation_settings '{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}' --format=json
+        wp role create marketplace_vendor 'Marketplace Vendor' || true
+        wp cap add marketplace_vendor read edit_products edit_published_products publish_products
+        wp cap remove marketplace_vendor edit_others_products || true
+        wp user get vendor-alpha || wp user create vendor-alpha vendor-alpha@example.test --role=marketplace_vendor --user_pass=vendor-alpha-local-only
+        wp user get vendor-beta || wp user create vendor-beta vendor-beta@example.test --role=marketplace_vendor --user_pass=vendor-beta-local-only
+        wp post list --post_type=product --meta_key=_sku --meta_value=POC-ALPHA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Alpha product' --type=simple --regular_price=19.90 --sku=POC-ALPHA --status=publish
+        wp post list --post_type=product --meta_key=_sku --meta_value=POC-BETA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Beta product' --type=simple --regular_price=29.90 --sku=POC-BETA --status=publish
+        wp post list --post_type=product --meta_key=_sku --meta_value=POC-GAMMA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Gamma product' --type=simple --regular_price=39.90 --sku=POC-GAMMA --status=publish
+        wp rewrite structure '/%postname%/' --hard
+        wp cache flush
+    volumes:
+      - wordpress-data:/var/www/html
 
   gateway:
     build:
@@ -130,6 +168,8 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@identity-database:5432/identity
       IDENTITY_BASE_URL: http://identity-subgraph:3001
       PORT: 3001
+      SEED_ADMIN_EMAIL: admin@marketplace.local
+      SEED_ADMIN_PASSWORD: local-e2e-admin-password-change-me
     depends_on:
       identity-database:
         condition: service_healthy
@@ -158,6 +198,8 @@ services:
         condition: service_healthy
       wordpress:
         condition: service_healthy
+      wordpress-setup:
+        condition: service_completed_successfully
       rabbitmq:
         condition: service_healthy
     healthcheck:

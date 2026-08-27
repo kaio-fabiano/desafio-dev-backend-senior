@@ -13,6 +13,7 @@ const COMPOSE_SERVICES = [
   'payment-database',
   'wordpress-database',
   'wordpress',
+  'wordpress-setup',
   'identity-subgraph',
   'commerce-subgraph',
   'stock-worker',
