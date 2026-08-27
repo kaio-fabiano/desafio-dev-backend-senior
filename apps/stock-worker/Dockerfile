@@ -9,7 +9,6 @@ WORKDIR /workspace
 ENV NODE_ENV=production
 RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home app
 COPY --from=dependencies --chown=app:app /workspace/node_modules ./node_modules
-COPY --chown=app:app apps/commerce-subgraph/src/messaging/rabbitmq.ts ./apps/commerce-subgraph/src/messaging/rabbitmq.ts
 COPY --chown=app:app apps/stock-worker ./apps/stock-worker
 USER app
 CMD ["node", "--experimental-transform-types", "apps/stock-worker/src/app.module.ts"]

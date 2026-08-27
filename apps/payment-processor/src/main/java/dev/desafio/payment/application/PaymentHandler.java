@@ -1,6 +1,5 @@
 package dev.desafio.payment.application;
 
-import dev.desafio.payment.adapter.persistence.PaymentRepository;
 import dev.desafio.payment.domain.Payment;
 
 import java.time.Clock;

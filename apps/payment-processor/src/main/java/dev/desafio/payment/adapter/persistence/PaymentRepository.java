@@ -10,32 +10,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface PaymentRepository {
-    ProcessingResult process(UUID incomingEventId, Payment.Command command, Instant occurredAt);
-
-    record ProcessingResult(Payment payment, Payment.OutgoingEvent outgoingEvent, boolean duplicateDelivery) {
-        public ProcessingResult {
-            Objects.requireNonNull(payment, "payment");
-            Objects.requireNonNull(outgoingEvent, "outgoingEvent");
-        }
-    }
+public interface PaymentRepository extends dev.desafio.payment.application.PaymentRepository {
 
     final class Jdbc implements PaymentRepository {
         private final DataSource dataSource;
 
         public Jdbc(DataSource dataSource) {
-            this.dataSource = Objects.requireNonNull(dataSource, "dataSource");
+            this.dataSource = java.util.Objects.requireNonNull(dataSource, "dataSource");
         }
 
         @Override
         public ProcessingResult process(UUID incomingEventId, Payment.Command command, Instant occurredAt) {
-            Objects.requireNonNull(incomingEventId, "incomingEventId");
-            Objects.requireNonNull(command, "command");
-            Objects.requireNonNull(occurredAt, "occurredAt");
+            java.util.Objects.requireNonNull(incomingEventId, "incomingEventId");
+            java.util.Objects.requireNonNull(command, "command");
+            java.util.Objects.requireNonNull(occurredAt, "occurredAt");
 
             try (var connection = dataSource.getConnection()) {
                 connection.setAutoCommit(false);

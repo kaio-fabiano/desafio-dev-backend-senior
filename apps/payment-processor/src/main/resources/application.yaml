@@ -3,6 +3,15 @@ spring:
     name: payment-processor
   lifecycle:
     timeout-per-shutdown-phase: 30s
+  rabbitmq:
+    addresses: ${RABBITMQ_URL:amqp://localhost:5672}
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 10
+        default-requeue-rejected: false
+    publisher-confirm-type: correlated
+    publisher-returns: true
 server:
   shutdown: graceful
 management:
