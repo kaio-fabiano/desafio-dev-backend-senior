@@ -8,6 +8,15 @@ import { jwt, testUtils } from 'better-auth/plugins';
 export const GATEWAY_AUDIENCE = 'https://gateway.poc.local';
 export const MCP_AUDIENCE = 'https://mcp.poc.local';
 export const REQUIRED_SCOPE = 'marketplace:read';
+export const CART_READ_SCOPE = 'cart:read';
+export const ORDERS_READ_SCOPE = 'orders:read';
+export const CART_WRITE_SCOPE = 'cart:write';
+export const TOOL_SCOPES = [
+  REQUIRED_SCOPE,
+  CART_READ_SCOPE,
+  ORDERS_READ_SCOPE,
+  CART_WRITE_SCOPE,
+];
 
 const AUTH_PATH = '/api/auth';
 const AUTH_SECRET = 'milestone-zero-auth-proof-secret-at-least-32-characters';
@@ -20,9 +29,16 @@ type OAuthClient = {
 
 export type StartedAuthServer = {
   close(): Promise<void>;
-  issueToken(resources: readonly string[]): Promise<string>;
+  issueToken(
+    resources: readonly string[],
+    scopes?: readonly string[],
+  ): Promise<string>;
   issuer: string;
   jwksUrl: string;
+};
+
+type AuthServerOptions = {
+  m2mAccessTokenExpiresIn?: number;
 };
 
 function requestHeaders(source: IncomingHttpHeaders): Headers {
@@ -56,7 +72,9 @@ async function close(server: Server): Promise<void> {
   });
 }
 
-export async function startAuthServer(): Promise<StartedAuthServer> {
+export async function startAuthServer(
+  options: AuthServerOptions = {},
+): Promise<StartedAuthServer> {
   let handler: ((request: Request) => Promise<Response>) | undefined;
   const server = createServer(async (incoming, outgoing) => {
     try {
@@ -109,10 +127,13 @@ export async function startAuthServer(): Promise<StartedAuthServer> {
       oauthProvider({
         loginPage: '/sign-in',
         consentPage: '/consent',
-        scopes: [REQUIRED_SCOPE],
+        scopes: TOOL_SCOPES,
+        ...(options.m2mAccessTokenExpiresIn === undefined
+          ? {}
+          : { m2mAccessTokenExpiresIn: options.m2mAccessTokenExpiresIn }),
         resources: [
-          { identifier: GATEWAY_AUDIENCE, allowedScopes: [REQUIRED_SCOPE] },
-          { identifier: MCP_AUDIENCE, allowedScopes: [REQUIRED_SCOPE] },
+          { identifier: GATEWAY_AUDIENCE, allowedScopes: TOOL_SCOPES },
+          { identifier: MCP_AUDIENCE, allowedScopes: TOOL_SCOPES },
         ],
         clientRegistrationDefaultResources: [GATEWAY_AUDIENCE, MCP_AUDIENCE],
         clientPrivileges: async ({ user }) => user?.id === ADMINISTRATOR_ID,
@@ -137,17 +158,17 @@ export async function startAuthServer(): Promise<StartedAuthServer> {
         client_name: 'Milestone 0 multi-resource proof',
         grant_types: ['client_credentials'],
         token_endpoint_auth_method: 'client_secret_basic',
-        client_credentials_scopes: [REQUIRED_SCOPE],
+        client_credentials_scopes: TOOL_SCOPES,
       },
     })) as OAuthClient;
 
     return {
       issuer,
       jwksUrl: `${issuer}/jwks`,
-      async issueToken(resources) {
+      async issueToken(resources, scopes = [REQUIRED_SCOPE]) {
         const body = new URLSearchParams({
           grant_type: 'client_credentials',
-          scope: REQUIRED_SCOPE,
+          scope: scopes.join(' '),
         });
         for (const resource of resources) body.append('resource', resource);
 
