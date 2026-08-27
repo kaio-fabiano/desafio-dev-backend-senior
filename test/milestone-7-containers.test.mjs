@@ -28,6 +28,8 @@ test('@spec:AC-075 Compose builds application images and waits for healthchecks'
   assert.doesNotMatch(compose, /image: node:/);
   assert.doesNotMatch(compose, /- \.:\/workspace/);
   assert.match(compose, /condition: service_healthy/);
-  assert.match(compose, /apollo-mcp:[\s\S]*?127\.0\.0\.1:8000\/health/);
-  assert.doesNotMatch(compose, /127\.0\.0\.1:8000\/mcp/);
+  const apollo = compose.match(/^  apollo-mcp:\n([\s\S]*?)(?=^  [\w-]+:\n)/m)?.[0] ?? '';
+  assert.match(apollo, /test: \["CMD", "\/bin\/wget", "--quiet", "--spider", "http:\/\/127\.0\.0\.1:8000\/health"\]/);
+  assert.doesNotMatch(apollo, /127\.0\.0\.1:8000\/mcp/);
+  assert.doesNotMatch(apollo, /CMD-SHELL/);
 });
