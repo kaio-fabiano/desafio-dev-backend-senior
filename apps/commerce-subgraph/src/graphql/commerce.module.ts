@@ -45,8 +45,7 @@ export function commerceRequestContext({
   req: { headers: Record<string, string | string[] | undefined> };
 }) {
   const rawSubject = req.headers['x-authenticated-subject'];
-  const subject = Array.isArray(rawSubject) ? rawSubject[0] : rawSubject;
-  if (!subject?.trim()) throw new Error('Authenticated subject is required');
+  const subject = (Array.isArray(rawSubject) ? rawSubject[0] : rawSubject) ?? '';
   return {
     subject,
     scopes: [],

@@ -23,6 +23,11 @@ type CheckoutOperationView = Omit<CheckoutOperation, 'status'> & {
   status: 'PENDING' | 'COMPLETED' | 'FAILED';
 };
 
+function authenticatedSubject(context: AuthContext): string {
+  if (!context.subject.trim()) throw new Error('Authenticated subject is required');
+  return context.subject;
+}
+
 export class CommerceResolver<Cart, Order, Workflow> {
   constructor(
     private readonly cart: Pick<CartService, 'addItem' | 'removeItem'>,
@@ -40,21 +45,21 @@ export class CommerceResolver<Cart, Order, Workflow> {
   ) {}
 
   addToCart(context: AuthContext, productId: string, quantity: number) {
-    return this.cart.addItem(context.subject, {
+    return this.cart.addItem(authenticatedSubject(context), {
       productId: Number(productId),
       quantity,
     }) as Promise<Cart>;
   }
 
   removeFromCart(context: AuthContext, productId: string, quantity: number) {
-    return this.cart.removeItem(context.subject, {
+    return this.cart.removeItem(authenticatedSubject(context), {
       itemKey: productId,
       quantity,
     }) as Promise<Cart>;
   }
 
   checkout(context: AuthContext, input: CheckoutInput) {
-    return this.runCheckout(context.subject, input);
+    return this.runCheckout(authenticatedSubject(context), input);
   }
 
   workflow(order: OrderReference) {
@@ -73,7 +78,7 @@ export class CommerceResolver<Cart, Order, Workflow> {
     if (!this.subscriptions) {
       throw new Error('Order event subscriptions are not configured');
     }
-    return this.subscriptions.subscribe(context.subject, operationKey, {
+    return this.subscriptions.subscribe(authenticatedSubject(context), operationKey, {
       signal,
     });
   }

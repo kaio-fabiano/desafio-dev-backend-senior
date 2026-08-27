@@ -63,6 +63,17 @@ test('AC-083: Commerce presentation delegates checkout through configured runtim
     }).subject,
     'buyer-1',
   );
+  assert.equal(
+    commerceRequestContext({ req: { headers: {} } }).subject,
+    '',
+  );
+  assert.throws(
+    () => resolver.checkout(
+      { subject: '', scopes: [], audience: [], requestId: 'request-2' },
+      { operationKey: 'operation-2', paymentMethod: 'PIX' },
+    ),
+    /Authenticated subject is required/,
+  );
 
   const dockerfile = await readFile('apps/commerce-subgraph/Dockerfile', 'utf8');
   assert.match(
