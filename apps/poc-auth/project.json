@@ -1,0 +1,21 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/poc-auth",
+  "projectType": "application",
+  "sourceRoot": "apps/poc-auth/src",
+  "targets": {
+    "probe": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-strip-types apps/poc-auth/src/probe.ts"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --test --experimental-strip-types test/marco-0-auth.test.mjs"
+      }
+    }
+  },
+  "tags": ["type:poc", "scope:identity"]
+}
