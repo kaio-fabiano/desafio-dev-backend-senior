@@ -1,21 +1,26 @@
 {
-  "generated_at": "2026-08-27T03:59:10.888468+00:00",
+  "generated_at": "2026-08-27T15:39:54.490419+00:00",
   "nodes": {
     "docs_prds_02_graphql_federation_federation_prd": {
-      "code_fingerprint": "d494274921e78448ab206aa655e340ef8012cecdff6b822b82a952799aeb5507",
+      "code_fingerprint": "e5a7030e2c7f4a42ad5bd2902ebab9b1ee651b94f01752389b5b9136e5ba418e",
       "label": "PRD 02 — GraphQL Federation, Connections e DataLoader",
-      "last": "2026-08-26T02:54:02.202100+00:00",
+      "last": "2026-08-27T14:46:19.739266+00:00",
       "provenance": [
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        },
         {
           "date": "2026-08-26T02:54:02.202100+00:00",
           "outcome": "useful",
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.976139123,
+      "score": 1.964366338,
       "source_file": "docs/prds/02-graphql-federation.md",
-      "status": "tentative",
-      "uses": 1
+      "status": "preferred",
+      "uses": 2
     },
     "readme_docker_compose": {
       "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
@@ -28,7 +33,7 @@
           "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
         }
       ],
-      "score": 0.999870975,
+      "score": 0.988692175,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -44,7 +49,7 @@
           "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
         }
       ],
-      "score": 0.999870975,
+      "score": 0.988692175,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -52,15 +57,52 @@
     "readme_graphql_gateway": {
       "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
       "label": "Gateway GraphQL federado",
-      "last": "2026-08-27T03:51:08.373519+00:00",
+      "last": "2026-08-27T14:46:19.739266+00:00",
       "provenance": [
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        },
         {
           "date": "2026-08-27T03:51:08.373519+00:00",
           "outcome": "useful",
           "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
         }
       ],
-      "score": 0.999870975,
+      "score": 1.987832862,
+      "source_file": "README.md",
+      "status": "preferred",
+      "uses": 2
+    },
+    "readme_orders_subgraph": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Subgraph de carrinho e pedidos",
+      "last": "2026-08-27T14:46:19.739266+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        }
+      ],
+      "score": 0.999140687,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_outbox_pattern": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Outbox Pattern",
+      "last": "2026-08-27T14:46:19.739266+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        }
+      ],
+      "score": 0.999140687,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -76,7 +118,7 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.976139123,
+      "score": 0.965225651,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -92,7 +134,7 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.976139123,
+      "score": 0.965225651,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
