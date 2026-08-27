@@ -1,11 +1,47 @@
 {
   "feature": "milestone-1-foundation",
-  "timestamp": "2026-08-27T04:00:29.001Z",
-  "gitRev": "ac00c0d",
-  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js",
+  "timestamp": "2026-08-27T04:21:59.755Z",
+  "gitRev": "e5a7de7",
+  "command": "node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 17,
-  "results": {},
+  "testsParsed": 24,
+  "results": {
+    "AC-017": {
+      "status": "pass",
+      "testName": "AC-017: Previous milestone is closed without an inert secret check @spec:AC-017",
+      "method": "tap"
+    },
+    "AC-018": {
+      "status": "pass",
+      "testName": "AC-018: Invalid cross-domain imports are rejected @spec:AC-018",
+      "method": "tap"
+    },
+    "AC-019": {
+      "status": "pass",
+      "testName": "AC-019: Skeleton services report health and readiness @spec:AC-019",
+      "method": "tap"
+    },
+    "AC-020": {
+      "status": "pass",
+      "testName": "AC-020: The Milestone 1 supergraph composes @spec:AC-020",
+      "method": "tap"
+    },
+    "AC-021": {
+      "status": "pass",
+      "testName": "AC-021: Valid events pass and malformed events fail @spec:AC-021",
+      "method": "tap"
+    },
+    "AC-022": {
+      "status": "pass",
+      "testName": "AC-022: Local infrastructure becomes ready @spec:AC-022",
+      "method": "tap"
+    },
+    "AC-023": {
+      "status": "pass",
+      "testName": "AC-023: One command proves the foundation gate @spec:AC-023",
+      "method": "tap"
+    }
+  },
   "principles": {}
 }

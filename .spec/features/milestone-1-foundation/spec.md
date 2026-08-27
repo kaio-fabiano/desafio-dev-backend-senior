@@ -1,7 +1,7 @@
 # Spec: Milestone 1 — Monorepo foundation and contracts
 
 > feature: milestone-1-foundation
-> status: pronta
+> status: auditada
 
 ## Context
 
