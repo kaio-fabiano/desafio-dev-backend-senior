@@ -78,11 +78,13 @@ async function issueToken(
   };
   for (const [name, value] of Object.entries(parameters)) authorization.searchParams.set(name, value);
   for (const audience of audiences) authorization.searchParams.append('resource', audience);
-  const authorize = await fetch(authorization, { headers: { cookie } }).then(
-    (response) => response.json() as Promise<{ url: string }>,
-  );
+  const authorizeResponse = await fetch(authorization, { headers: { cookie } });
+  const authorize = await authorizeResponse.json() as { url?: string };
+  if (!authorizeResponse.ok || !authorize.url) {
+    throw new Error(`OAuth authorization failed: ${JSON.stringify(authorize)}`);
+  }
   const consentUrl = new URL(authorize.url, environment.identityUrl);
-  const consent = await fetch(`${environment.identityUrl}/api/auth/oauth2/consent`, {
+  const consentResponse = await fetch(`${environment.identityUrl}/api/auth/oauth2/consent`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -90,7 +92,11 @@ async function issueToken(
       origin: 'http://identity-subgraph:3001',
     },
     body: JSON.stringify({ accept: true, oauth_query: consentUrl.search.slice(1) }),
-  }).then((response) => response.json() as Promise<{ url: string }>);
+  });
+  const consent = await consentResponse.json() as { url?: string };
+  if (!consentResponse.ok || !consent.url) {
+    throw new Error(`OAuth consent failed: ${JSON.stringify(consent)}`);
+  }
   const code = new URL(consent.url).searchParams.get('code');
   if (!code) throw new Error(`OAuth consent did not return a code: ${JSON.stringify(consent)}`);
   const token = await fetch(`${environment.identityUrl}/api/auth/oauth2/token`, {

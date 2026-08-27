@@ -117,6 +117,14 @@ services:
         wp post list --post_type=product --meta_key=_sku --meta_value=POC-GAMMA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Gamma product' --type=simple --regular_price=39.90 --sku=POC-GAMMA --status=publish
         wp rewrite structure '/%postname%/' --hard
         wp cache flush
+        touch /tmp/wordpress-setup-ready
+        tail -f /dev/null
+    healthcheck:
+      test: ["CMD", "test", "-f", "/tmp/wordpress-setup-ready"]
+      interval: 1s
+      timeout: 1s
+      retries: 300
+      start_period: 30s
     volumes:
       - wordpress-data:/var/www/html
 
@@ -202,7 +210,7 @@ services:
       wordpress:
         condition: service_healthy
       wordpress-setup:
-        condition: service_completed_successfully
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
     healthcheck:

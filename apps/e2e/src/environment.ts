@@ -2,6 +2,7 @@ import { resolve } from 'node:path';
 
 import {
   DockerComposeEnvironment,
+  Wait,
   type StartedDockerComposeEnvironment,
 } from 'testcontainers';
 
@@ -45,8 +46,9 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
     environment = await new DockerComposeEnvironment(resolve('.'), 'compose.yaml')
       .withBuild()
       .withEnvironment({ MCP_PORT: '0' })
+      .withDefaultWaitStrategy(Wait.forHealthCheck())
       .withStartupTimeout(STARTUP_TIMEOUT)
-      .up([...COMPOSE_SERVICES]);
+      .up(COMPOSE_SERVICES.filter((service) => service !== 'wordpress-setup'));
     const gateway = environment.getContainer('gateway-1');
     const identity = environment.getContainer('identity-subgraph-1');
     const mcp = environment.getContainer('apollo-mcp-1');

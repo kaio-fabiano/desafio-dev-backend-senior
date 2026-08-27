@@ -2,7 +2,7 @@ FROM node:24.19.0-bookworm-slim AS dependencies
 WORKDIR /workspace
 RUN corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --config.minimumReleaseAge=0 --config.dangerouslyAllowAllBuilds=true --frozen-lockfile --prod
+RUN pnpm install --config.minimumReleaseAge=0 --frozen-lockfile --prod
 
 FROM node:24.19.0-bookworm-slim AS runtime
 WORKDIR /workspace
