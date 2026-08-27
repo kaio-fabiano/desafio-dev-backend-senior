@@ -23,8 +23,7 @@
 - Esforço: medio
 - Notas: Execute after T-009. Reuse one minimal app pattern without introducing a framework wrapper library.
 
-## T-011 — Define and compose GraphQL contracts [pendente]
-
+## T-011 — Define and compose GraphQL contracts [concluida]
 - Refs: US-012, AC-020
 - Arquivos: libs/contracts/graphql/identity/schema.graphql, libs/contracts/graphql/catalog/schema.graphql, libs/contracts/graphql/commerce/schema.graphql, libs/contracts/graphql/supergraph.yaml, test/milestone-1-graphql-contracts.test.mjs
 - Modelo: gpt-5.6-luna
