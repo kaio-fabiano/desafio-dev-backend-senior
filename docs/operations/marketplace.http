@@ -1,0 +1,22 @@
+### Health
+GET http://localhost:4000/health
+
+### Gateway introspection-safe probe
+GET http://localhost:4000/graphql
+Accept: application/json
+
+### GraphQL operation (supply a short-lived token at request time)
+POST http://localhost:4000/graphql
+Content-Type: application/json
+Authorization: Bearer {{$dotenv MARKETPLACE_ACCESS_TOKEN}}
+
+{"query":"query Me { me { id } }"}
+
+### MCP tools
+POST http://localhost:8000/mcp
+Content-Type: application/json
+Authorization: Bearer {{$dotenv MCP_ACCESS_TOKEN}}
+
+{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}
+
+# Tokens are deliberately read from an uncommitted environment file; never paste values here.

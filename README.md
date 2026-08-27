@@ -641,6 +641,10 @@ você desenha as fronteiras.
 
 ## 22. Glossário
 
+### Operação e evidências da entrega
+
+Para executar a entrega completa, consulte os [runbooks de desenvolvimento local](docs/runbooks/local-development.md), [E2E](docs/runbooks/e2e.md) e [deploy](docs/runbooks/deployment.md). A [coleção HTTP](docs/operations/marketplace.http) contém operações sem credenciais embutidas. A rastreabilidade dos requisitos está no [índice de evidências do Milestone 7](docs/evidence/milestone-7/README.md), incluindo o [índice MCP Inspector](docs/evidence/mcp/README.md).
+
 - **Subgraph**: serviço GraphQL que contribui com parte do schema federado.
 - **Supergraph**: schema federado resultante da composição dos subgraphs.
 - **Schema-first**: o SDL é a fonte da verdade, e os resolvers são implementados contra ele.
