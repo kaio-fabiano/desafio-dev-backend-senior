@@ -73,7 +73,15 @@ services:
     working_dir: /workspace
     command: node --experimental-transform-types apps/gateway/src/main.ts
     environment:
+      COMMERCE_SUBSCRIPTION_URL: http://commerce-subgraph:3003/graphql/stream
+      GATEWAY_AUDIENCE: https://gateway.marketplace.local
+      OAUTH_ISSUER: http://identity-subgraph:3001/api/auth
       PORT: 3000
+    depends_on:
+      commerce-subgraph:
+        condition: service_healthy
+      identity-subgraph:
+        condition: service_healthy
     volumes:
       - .:/workspace
     healthcheck:
@@ -81,6 +89,18 @@ services:
       interval: 2s
       timeout: 2s
       retries: 30
+
+  apollo-mcp:
+    build:
+      context: .
+      dockerfile: apps/apollo-mcp/Dockerfile
+    depends_on:
+      gateway:
+        condition: service_healthy
+      identity-subgraph:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
 
   identity-subgraph:
     image: node:24.19.0-bookworm-slim

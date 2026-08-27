@@ -60,3 +60,8 @@ overrides:
 health_check:
   enabled: true
   path: /health
+  readiness:
+    allowed: 0
+    interval:
+      sampling: 5s
+      unready: 10s
