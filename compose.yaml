@@ -1,0 +1,42 @@
+services:
+  gateway:
+    image: node:24.19.0-bookworm-slim
+    working_dir: /workspace
+    command: node --experimental-transform-types apps/gateway/src/main.ts
+    environment:
+      PORT: 3000
+    volumes:
+      - .:/workspace
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  identity-subgraph:
+    image: node:24.19.0-bookworm-slim
+    working_dir: /workspace
+    command: node --experimental-transform-types apps/identity-subgraph/src/main.ts
+    environment:
+      PORT: 3001
+    volumes:
+      - .:/workspace
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  commerce-subgraph:
+    image: node:24.19.0-bookworm-slim
+    working_dir: /workspace
+    command: node --experimental-transform-types apps/commerce-subgraph/src/main.ts
+    environment:
+      PORT: 3003
+    volumes:
+      - .:/workspace
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3003/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
