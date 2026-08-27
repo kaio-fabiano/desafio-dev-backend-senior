@@ -1,5 +1,3 @@
-import type { EntityManager } from '@mikro-orm/core';
-
 import {
   checkoutCommandHash,
   checkoutWooReference,
@@ -80,7 +78,7 @@ export class CheckoutService {
   }
 
   private enqueueCheckoutRequested(
-    transaction: EntityManager,
+    transaction: unknown,
     workflowId: string,
     checkoutId: string,
   ): Promise<void> {

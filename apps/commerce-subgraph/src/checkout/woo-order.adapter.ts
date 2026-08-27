@@ -9,7 +9,9 @@ export type WooOrder = Record<string, unknown> & {
 
 export type CreateWooOrder = {
   reference: string;
-  order: Record<string, unknown> & {
+  cartSnapshot?: unknown;
+  paymentMethod?: string;
+  order?: Record<string, unknown> & {
     meta_data?: Array<{ key: string; value: unknown }>;
   };
 };
@@ -68,7 +70,9 @@ export function createWooOrderAdapter({
 
   async function create({
     reference,
-    order,
+    order = {},
+    cartSnapshot,
+    paymentMethod,
   }: CreateWooOrder): Promise<WooOrder> {
     assertReference(reference);
     const response = await request(new URL('/wp-json/wc/v3/orders', endpoint), {
@@ -76,6 +80,12 @@ export function createWooOrderAdapter({
       headers,
       body: JSON.stringify({
         ...order,
+        ...(cartSnapshot && typeof cartSnapshot === 'object'
+          ? {
+              line_items: wooLineItems(cartSnapshot),
+              payment_method: paymentMethod,
+            }
+          : {}),
         meta_data: [
           ...(order.meta_data ?? []).filter(
             ({ key }) => key !== WOO_OPERATION_REFERENCE_META_KEY,
@@ -95,6 +105,27 @@ export function createWooOrderAdapter({
       return (await findByReference(command.reference)) ?? create(command);
     },
   };
+}
+
+function wooLineItems(
+  cartSnapshot: object,
+): Array<{ product_id: number; quantity: number }> {
+  const items = Reflect.get(cartSnapshot, 'items');
+  if (!Array.isArray(items)) return [];
+  return items.map((item: unknown) => {
+    if (!item || typeof item !== 'object')
+      throw new TypeError('Cart item is invalid');
+    const id = Number(Reflect.get(item, 'id'));
+    const quantity = Number(Reflect.get(item, 'quantity'));
+    if (
+      !Number.isSafeInteger(id) ||
+      !Number.isSafeInteger(quantity) ||
+      quantity < 1
+    ) {
+      throw new TypeError('Cart item is invalid');
+    }
+    return { product_id: id, quantity };
+  });
 }
 
 function assertReference(reference: string) {

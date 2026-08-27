@@ -14,7 +14,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-3-*.test.mjs test/milestone-5-commerce-subscription.test.mjs"
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-3-*.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-8-commerce-runtime.test.mjs"
       }
     },
     "serve": {

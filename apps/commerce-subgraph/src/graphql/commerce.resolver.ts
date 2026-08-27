@@ -1,9 +1,27 @@
+import {
+  Args,
+  Context,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+  Subscription,
+} from '@nestjs/graphql';
+
 import type { AuthContext } from '../../../gateway/src/auth/auth-context.ts';
+import type { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
 import type { CartService } from '../cart/cart.service.ts';
 import type { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
 
-type CheckoutInput = { operationKey: string; paymentMethod: 'PIX' | 'CARD' };
+export type CheckoutInput = {
+  operationKey: string;
+  paymentMethod: 'PIX' | 'CARD';
+};
 type OrderReference = { wooOrderId: string };
+type CheckoutOperationView = Omit<CheckoutOperation, 'status'> & {
+  status: 'PENDING' | 'COMPLETED' | 'FAILED';
+};
 
 export class CommerceResolver<Cart, Order, Workflow> {
   constructor(
@@ -16,6 +34,9 @@ export class CommerceResolver<Cart, Order, Workflow> {
       wooOrderId: string,
     ) => Promise<Workflow | null>,
     private readonly subscriptions?: OrderEventsSubscription,
+    private readonly findCheckout?: (
+      id: string,
+    ) => Promise<CheckoutOperationView | null>,
   ) {}
 
   addToCart(context: AuthContext, productId: string, quantity: number) {
@@ -40,6 +61,10 @@ export class CommerceResolver<Cart, Order, Workflow> {
     return this.findWorkflow(order.wooOrderId);
   }
 
+  checkoutOperation(id: string) {
+    return this.findCheckout?.(id) ?? null;
+  }
+
   orderEvents(
     context: AuthContext,
     operationKey: string,
@@ -53,3 +78,53 @@ export class CommerceResolver<Cart, Order, Workflow> {
     });
   }
 }
+
+Resolver()(CommerceResolver);
+Context()(CommerceResolver.prototype, 'addToCart', 0);
+Args('productId')(CommerceResolver.prototype, 'addToCart', 1);
+Args('quantity')(CommerceResolver.prototype, 'addToCart', 2);
+Mutation('addToCart')(
+  CommerceResolver.prototype,
+  'addToCart',
+  Object.getOwnPropertyDescriptor(CommerceResolver.prototype, 'addToCart')!,
+);
+Context()(CommerceResolver.prototype, 'removeFromCart', 0);
+Args('productId')(CommerceResolver.prototype, 'removeFromCart', 1);
+Args('quantity')(CommerceResolver.prototype, 'removeFromCart', 2);
+Mutation('removeFromCart')(
+  CommerceResolver.prototype,
+  'removeFromCart',
+  Object.getOwnPropertyDescriptor(
+    CommerceResolver.prototype,
+    'removeFromCart',
+  )!,
+);
+Context()(CommerceResolver.prototype, 'checkout', 0);
+Args('input')(CommerceResolver.prototype, 'checkout', 1);
+Mutation('checkout')(
+  CommerceResolver.prototype,
+  'checkout',
+  Object.getOwnPropertyDescriptor(CommerceResolver.prototype, 'checkout')!,
+);
+Parent()(CommerceResolver.prototype, 'workflow', 0);
+ResolveField('workflow')(
+  CommerceResolver.prototype,
+  'workflow',
+  Object.getOwnPropertyDescriptor(CommerceResolver.prototype, 'workflow')!,
+);
+Args('id')(CommerceResolver.prototype, 'checkoutOperation', 0);
+Query('checkout')(
+  CommerceResolver.prototype,
+  'checkoutOperation',
+  Object.getOwnPropertyDescriptor(
+    CommerceResolver.prototype,
+    'checkoutOperation',
+  )!,
+);
+Context()(CommerceResolver.prototype, 'orderEvents', 0);
+Args('operationKey')(CommerceResolver.prototype, 'orderEvents', 1);
+Subscription('orderEvents', { resolve: (event: unknown) => event })(
+  CommerceResolver.prototype,
+  'orderEvents',
+  Object.getOwnPropertyDescriptor(CommerceResolver.prototype, 'orderEvents')!,
+);

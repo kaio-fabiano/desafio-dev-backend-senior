@@ -24,7 +24,7 @@ export interface ClaimedCheckout {
 }
 
 export type ConfirmCheckout = (
-  transaction: EntityManager,
+  transaction: unknown,
   workflow: OrderWorkflow,
 ) => Promise<void>;
 

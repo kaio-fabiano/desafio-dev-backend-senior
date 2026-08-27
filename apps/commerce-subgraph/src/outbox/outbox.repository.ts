@@ -10,7 +10,7 @@ export interface CheckoutRequestedEvent {
 
 export interface OutboxRepository {
   enqueueCheckoutRequested(
-    transaction: EntityManager,
+    transaction: unknown,
     workflowId: string,
     event: CheckoutRequestedEvent,
   ): Promise<void>;
@@ -18,10 +18,11 @@ export interface OutboxRepository {
 
 export class MikroOrmOutboxRepository implements OutboxRepository {
   async enqueueCheckoutRequested(
-    transaction: EntityManager,
+    context: unknown,
     workflowId: string,
     event: CheckoutRequestedEvent,
   ): Promise<void> {
+    const transaction = context as EntityManager;
     const outboxEvent = transaction.create(OutboxEvent, {
       id: randomUUID(),
       workflowId,

@@ -11,6 +11,7 @@ export type RemoveCartItem = {
 };
 
 export type WooCartPort = {
+  get(subject: string): Promise<WooCart>;
   addItem(subject: string, input: AddCartItem): Promise<WooCart>;
   removeItem(subject: string, input: RemoveCartItem): Promise<WooCart>;
 };

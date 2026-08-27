@@ -15,25 +15,51 @@ export class WooCartMutationError extends Error {
   }
 }
 
-export function createWooCartAdapter(endpoint: string, request: Fetch = fetch): WooCartPort {
-  async function mutate(path: string, subject: string, input: AddCartItem | RemoveCartItem) {
-    const response = await request(new URL(`/wp-json/wc/store/v1/cart/${path}`, endpoint), {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-authenticated-subject': subject,
+export function createWooCartAdapter(
+  endpoint: string,
+  request: Fetch = fetch,
+): WooCartPort {
+  async function mutate(
+    path: string,
+    subject: string,
+    input: AddCartItem | RemoveCartItem,
+  ) {
+    const response = await request(
+      new URL(`/wp-json/wc/store/v1/cart/${path}`, endpoint),
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-authenticated-subject': subject,
+        },
+        body: JSON.stringify(
+          'productId' in input
+            ? { id: input.productId, quantity: input.quantity }
+            : { key: input.itemKey, quantity: input.quantity },
+        ),
       },
-      body: JSON.stringify(
-        'productId' in input
-          ? { id: input.productId, quantity: input.quantity }
-          : { key: input.itemKey, quantity: input.quantity },
-      ),
-    });
+    );
     if (!response.ok) throw new WooCartMutationError(response.status);
-    return { ...((await response.json()) as Record<string, unknown>), subject } as WooCart;
+    return {
+      ...((await response.json()) as Record<string, unknown>),
+      subject,
+    } as WooCart;
   }
 
   return {
+    async get(subject) {
+      const response = await request(
+        new URL('/wp-json/wc/store/v1/cart', endpoint),
+        {
+          headers: { 'x-authenticated-subject': subject },
+        },
+      );
+      if (!response.ok) throw new WooCartMutationError(response.status);
+      return {
+        ...((await response.json()) as Record<string, unknown>),
+        subject,
+      };
+    },
     addItem: (subject, input) => mutate('add-item', subject, input),
     removeItem: (subject, input) => mutate('remove-item', subject, input),
   };

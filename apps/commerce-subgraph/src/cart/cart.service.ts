@@ -1,4 +1,8 @@
-import type { AddCartItem, RemoveCartItem, WooCartPort } from './woo-cart.port.ts';
+import type {
+  AddCartItem,
+  RemoveCartItem,
+  WooCartPort,
+} from './woo-cart.port.ts';
 
 type UntrustedIdentity = {
   subject?: unknown;
@@ -15,6 +19,15 @@ export class CartAuthorizationError extends Error {
 export class CartService {
   constructor(private readonly cart: WooCartPort) {}
 
+  get(subject: string) {
+    if (!subject.trim()) {
+      throw new CartAuthorizationError(
+        'Cart identity must come from authentication',
+      );
+    }
+    return this.cart.get(subject);
+  }
+
   addItem(subject: string, input: AddCartItem & UntrustedIdentity) {
     this.assertInput(subject, input);
     return this.cart.addItem(subject, input);
@@ -25,9 +38,14 @@ export class CartService {
     return this.cart.removeItem(subject, input);
   }
 
-  private assertInput(subject: string, input: { quantity: number; subject?: unknown }) {
+  private assertInput(
+    subject: string,
+    input: { quantity: number; subject?: unknown },
+  ) {
     if (!subject || Object.hasOwn(input, 'subject')) {
-      throw new CartAuthorizationError('Cart identity must come from authentication');
+      throw new CartAuthorizationError(
+        'Cart identity must come from authentication',
+      );
     }
     if (!Number.isSafeInteger(input.quantity) || input.quantity <= 0) {
       throw new CartInputError('Cart quantity must be a positive integer');
