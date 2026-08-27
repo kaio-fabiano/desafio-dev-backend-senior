@@ -4,6 +4,6 @@
   "title": "Payment authorized event v1",
   "allOf": [
     { "$ref": "envelope.schema.json" },
-    { "type": "object", "properties": { "eventType": { "const": "payment.authorized" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["paymentId"], "properties": { "paymentId": { "type": "string", "minLength": 1 } } } }, "required": ["payload"] }
+    { "type": "object", "properties": { "eventType": { "const": "payment.authorized" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["paymentId"], "properties": { "paymentId": { "type": "string", "minLength": 1 }, "orderId": { "type": "string", "minLength": 1 } } } }, "required": ["payload"] }
   ]
 }

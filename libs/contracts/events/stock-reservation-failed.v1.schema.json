@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desafio.dev/contracts/events/stock-reservation-failed.v1.schema.json",
+  "title": "Stock reservation failed event v1",
+  "allOf": [{ "$ref": "envelope.schema.json" }, { "type": "object", "properties": { "eventType": { "const": "stock.reservation-failed" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["orderId", "reason"], "properties": { "orderId": { "type": "string", "minLength": 1 }, "reason": { "type": "string", "enum": ["INSUFFICIENT_STOCK", "RESERVATION_FAILED"] } } } }, "required": ["payload"] }]
+}

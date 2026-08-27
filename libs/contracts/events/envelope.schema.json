@@ -19,6 +19,7 @@
         "spanId": { "type": "string", "pattern": "^[0-9a-f]{16}$" }
       }
     },
-    "operationKey": { "type": "string", "minLength": 1 }
+    "operationKey": { "type": "string", "minLength": 1 },
+    "payload": { "type": "object" }
   }
 }

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desafio.dev/contracts/events/payment-refund-requested.v1.schema.json",
+  "title": "Payment refund requested event v1",
+  "allOf": [{ "$ref": "envelope.schema.json" }, { "type": "object", "properties": { "eventType": { "const": "payment.refund-requested" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["paymentId", "orderId", "reason"], "properties": { "paymentId": { "type": "string", "minLength": 1 }, "orderId": { "type": "string", "minLength": 1 }, "reason": { "type": "string", "minLength": 1 } } } }, "required": ["payload"] }]
+}
