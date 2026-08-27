@@ -1,7 +1,7 @@
 # Tasks: Milestone 6 — Authenticated Apollo MCP
 > feature: milestone-6-apollo-mcp
 
-## T-041 — Define the curated GraphQL operation manifest [pendente]
+## T-041 — Define the curated GraphQL operation manifest [concluida]
 - Refs: US-034, AC-060, AC-061
 - Arquivos: apps/apollo-mcp/operations/me.graphql, apps/apollo-mcp/operations/search-products.graphql, apps/apollo-mcp/operations/get-product.graphql, apps/apollo-mcp/operations/get-my-cart.graphql, apps/apollo-mcp/operations/get-my-orders.graphql, apps/apollo-mcp/operations/add-to-cart.graphql, apps/apollo-mcp/operations/remove-from-cart.graphql, test/milestone-6-mcp-operations.test.mjs
 - Modelo: gpt-5.6-luna
