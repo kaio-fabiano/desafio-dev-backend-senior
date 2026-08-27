@@ -69,9 +69,9 @@ services:
       - wordpress-data:/var/www/html
 
   gateway:
-    image: node:24.19.0-bookworm-slim
-    working_dir: /workspace
-    command: node --experimental-transform-types apps/gateway/src/main.ts
+    build:
+      context: .
+      dockerfile: apps/gateway/Dockerfile
     environment:
       COMMERCE_SUBSCRIPTION_URL: http://commerce-subgraph:3003/graphql/stream
       GATEWAY_AUDIENCE: https://gateway.marketplace.local
@@ -82,8 +82,6 @@ services:
         condition: service_healthy
       identity-subgraph:
         condition: service_healthy
-    volumes:
-      - .:/workspace
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
       interval: 2s
@@ -101,15 +99,18 @@ services:
         condition: service_healthy
     ports:
       - "8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --spider http://127.0.0.1:8000/mcp"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
 
   identity-subgraph:
-    image: node:24.19.0-bookworm-slim
-    working_dir: /workspace
-    command: node --experimental-transform-types apps/identity-subgraph/src/main.ts
+    build:
+      context: .
+      dockerfile: apps/identity-subgraph/Dockerfile
     environment:
       PORT: 3001
-    volumes:
-      - .:/workspace
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
       interval: 2s
@@ -117,9 +118,9 @@ services:
       retries: 30
 
   commerce-subgraph:
-    image: node:24.19.0-bookworm-slim
-    working_dir: /workspace
-    command: node --experimental-transform-types apps/commerce-subgraph/src/main.ts
+    build:
+      context: .
+      dockerfile: apps/commerce-subgraph/Dockerfile
     environment:
       COMMERCE_DB_HOST: postgres
       COMMERCE_DB_NAME: commerce
@@ -134,8 +135,6 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-    volumes:
-      - .:/workspace
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3003/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
       interval: 2s
@@ -178,6 +177,11 @@ services:
         condition: service_healthy
       wordpress:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('node:net').connect(5672, 'rabbitmq').on('connect', () => process.exit(0)).on('error', () => process.exit(1))"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
     stop_grace_period: 35s
 
 volumes:
