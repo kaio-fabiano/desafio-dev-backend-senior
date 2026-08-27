@@ -1,4 +1,53 @@
 services:
+  postgres:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: commerce
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d commerce"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  wordpress-database:
+    image: mariadb:11.8.3
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: wordpress-root
+      MARIADB_USER: wordpress
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - wordpress-database-data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6.8.2-php8.3-apache
+    depends_on:
+      wordpress-database:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: wordpress-database
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_USER: wordpress
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1/wp-login.php"]
+      interval: 2s
+      timeout: 2s
+      retries: 60
+    ports:
+      - "127.0.0.1:18080:80"
+    volumes:
+      - wordpress-data:/var/www/html
+
   gateway:
     image: node:24.19.0-bookworm-slim
     working_dir: /workspace
@@ -32,7 +81,16 @@ services:
     working_dir: /workspace
     command: node --experimental-transform-types apps/commerce-subgraph/src/main.ts
     environment:
+      COMMERCE_DB_HOST: postgres
+      COMMERCE_DB_NAME: commerce
+      COMMERCE_DB_PASSWORD: postgres
+      COMMERCE_DB_USER: postgres
       PORT: 3003
+    depends_on:
+      postgres:
+        condition: service_healthy
+      wordpress:
+        condition: service_healthy
     volumes:
       - .:/workspace
     healthcheck:
@@ -40,3 +98,8 @@ services:
       interval: 2s
       timeout: 2s
       retries: 30
+
+volumes:
+  postgres-data:
+  wordpress-database-data:
+  wordpress-data:

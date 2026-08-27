@@ -10,6 +10,12 @@
       "options": {
         "command": "node --experimental-transform-types apps/commerce-subgraph/src/main.ts"
       }
+    },
+    "acceptance": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-3-*.test.mjs"
+      }
     }
   }
 }
