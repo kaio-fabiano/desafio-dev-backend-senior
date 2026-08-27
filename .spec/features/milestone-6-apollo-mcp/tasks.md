@@ -8,14 +8,14 @@
 - Esforço: baixo
 - Notas: Use only schema-backed named operations. Do not expose execute, introspection, checkout, payment, administration, supplier, or catalog mutation capabilities.
 
-## T-042 — Configure the official self-hosted Apollo MCP Server [pendente]
+## T-042 — Configure the official self-hosted Apollo MCP Server [concluida]
 - Refs: US-034, US-035, AC-060, AC-061, AC-062, AC-063
 - Arquivos: apps/apollo-mcp/mcp.yaml, apps/apollo-mcp/schema.graphql, apps/apollo-mcp/Dockerfile, apps/apollo-mcp/project.json, docs/prds/08-riscos-e-decisoes-pendentes.md, test/milestone-6-mcp-config.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Pin 1.17.0, streamable HTTP, a versioned composed client schema with local operations, explicit issuer/audience/scopes, `allow_any_audience: false`, no GraphOS key, and close D-012 with MIT/container evidence. The artifact must be validated against the subgraph contracts in CI.
 
-## T-043 — Seed MCP OAuth resources and scoped client grants [pendente]
+## T-043 — Seed MCP OAuth resources and scoped client grants [concluida]
 - Refs: US-035, AC-062, AC-063, AC-064
 - Arquivos: apps/identity-subgraph/src/auth/config.ts, apps/identity-subgraph/src/auth/seed.ts, apps/poc-auth/src/auth-server.ts, test/milestone-6-mcp-oauth.test.mjs
 - Modelo: gpt-5.6-sol
