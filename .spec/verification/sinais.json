@@ -648,6 +648,240 @@
       "primeiraVez": "2026-08-27T04:00:29.128Z",
       "ultimaVez": "2026-08-27T04:00:29.128Z",
       "gitRev": "ac00c0d"
+    },
+    "SECAO_AUSENTE::milestone-2-identity-catalog::.spec/features/milestone-2-identity-catalog/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": ".spec/features/milestone-2-identity-catalog/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-024": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-024",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-025": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-025",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-026": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-026",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-027": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-027",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-028": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-028",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-029": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-029",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-030": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-030",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-031": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-031",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "AC_INCOMPLETO::milestone-2-identity-catalog::AC-032": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-032",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:15.048Z",
+      "gitRev": "14b3606"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-014": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "T-014",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-015": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "T-015",
+      "ocorrencias": 10,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-016": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "T-016",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-017": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "T-017",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-018": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "T-018",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-019": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "T-019",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-020": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "T-020",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-024": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-024",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-025": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-025",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-026": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-026",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-027": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-027",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-028": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-028",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-029": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-029",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-030": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-030",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-031": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-031",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
+    },
+    "AC_SEM_TESTE::milestone-2-identity-catalog::AC-032": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-2-identity-catalog",
+      "ref": "AC-032",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T05:16:15.048Z",
+      "ultimaVez": "2026-08-27T05:16:42.198Z",
+      "gitRev": "14b3606"
     }
   }
 }
