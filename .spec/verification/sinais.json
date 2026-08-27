@@ -1058,136 +1058,136 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-021",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
     },
     "ARQUIVO_INEXISTENTE::milestone-3-cart-order::T-022": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-022",
-      "ocorrencias": 8,
+      "ocorrencias": 12,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
     },
     "ARQUIVO_INEXISTENTE::milestone-3-cart-order::T-023": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-023",
-      "ocorrencias": 12,
+      "ocorrencias": 18,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
     },
     "ARQUIVO_INEXISTENTE::milestone-3-cart-order::T-024": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-024",
-      "ocorrencias": 14,
+      "ocorrencias": 21,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
     },
     "ARQUIVO_INEXISTENTE::milestone-3-cart-order::T-025": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-025",
-      "ocorrencias": 8,
+      "ocorrencias": 12,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
     },
     "ARQUIVO_INEXISTENTE::milestone-3-cart-order::T-026": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-026",
-      "ocorrencias": 8,
+      "ocorrencias": 12,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "ARQUIVO_INEXISTENTE::milestone-3-cart-order::T-027": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-027",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-033": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-033",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-034": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-034",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-035": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-035",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-036": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-036",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-037": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-037",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-038": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-038",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-039": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-039",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "AC_SEM_TESTE::milestone-3-cart-order::AC-040": {
       "codigo": "AC_SEM_TESTE",
       "feature": "milestone-3-cart-order",
       "ref": "AC-040",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:46:04.385Z",
-      "gitRev": "4e564f2"
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     },
     "ASM_STATUS_INVALIDO::milestone-3-cart-order::ASM-009": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -1215,6 +1215,69 @@
       "primeiraVez": "2026-08-27T14:46:04.385Z",
       "ultimaVez": "2026-08-27T14:46:04.385Z",
       "gitRev": "4e564f2"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-3-cart-order::T-021": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-3-cart-order",
+      "ref": "T-021",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-27T14:51:10.460Z",
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-3-cart-order::T-022": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-3-cart-order",
+      "ref": "T-022",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T14:51:10.460Z",
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-3-cart-order::T-023": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-3-cart-order",
+      "ref": "T-023",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-27T14:51:10.460Z",
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-3-cart-order::T-024": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-3-cart-order",
+      "ref": "T-024",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-27T14:51:10.460Z",
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-3-cart-order::T-025": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-3-cart-order",
+      "ref": "T-025",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T14:51:10.460Z",
+      "ultimaVez": "2026-08-27T14:51:10.460Z",
+      "gitRev": "7e8acfb"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-3-cart-order::T-026": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-3-cart-order",
+      "ref": "T-026",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T14:51:10.461Z",
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-3-cart-order::T-027": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-3-cart-order",
+      "ref": "T-027",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-08-27T14:51:10.461Z",
+      "ultimaVez": "2026-08-27T14:51:10.461Z",
+      "gitRev": "7e8acfb"
     }
   }
 }
