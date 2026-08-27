@@ -13,11 +13,30 @@ type Product @key(fields: "id") {
   supplier: SupplierCompany
 }
 
+type Cart @key(fields: "id") {
+  id: ID!
+  items(first: Int, after: String): CartItemConnection!
+}
+
+type CartItem {
+  quantity: Int!
+  product: Product!
+}
+
+type CartItemConnection {
+  edges: [CartItemEdge!]!
+  pageInfo: PageInfo!
+}
+
+type CartItemEdge {
+  node: CartItem!
+}
+
 type SupplierCompany @key(fields: "id") {
   id: ID!
 }
 
-type Order @key(fields: "id") {
+type Order @key(fields: "id") @key(fields: "wooOrderId") {
   id: ID!
   wooOrderId: ID! @shareable
   status: OrderStatus!
@@ -65,5 +84,6 @@ enum PaymentMethod {
 }
 
 type Query {
+  cart: Cart!
   product(id: ID!): Product
 }
