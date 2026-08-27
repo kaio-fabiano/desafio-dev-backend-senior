@@ -1,5 +1,54 @@
 {
-  "generated_at": "2026-08-26T02:50:47.512526+00:00",
-  "nodes": {},
+  "generated_at": "2026-08-27T03:48:28.268681+00:00",
+  "nodes": {
+    "docs_prds_02_graphql_federation_federation_prd": {
+      "code_fingerprint": "d494274921e78448ab206aa655e340ef8012cecdff6b822b82a952799aeb5507",
+      "label": "PRD 02 — GraphQL Federation, Connections e DataLoader",
+      "last": "2026-08-26T02:54:02.202100+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-26T02:54:02.202100+00:00",
+          "outcome": "useful",
+          "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
+        }
+      ],
+      "score": 0.976306885,
+      "source_file": "docs/prds/02-graphql-federation.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_relay_cursor_connections": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Relay Cursor Connections",
+      "last": "2026-08-26T02:54:02.202100+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-26T02:54:02.202100+00:00",
+          "outcome": "useful",
+          "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
+        }
+      ],
+      "score": 0.976306885,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_woocommerce_catalog": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "WooCommerce e WPGraphQL como catálogo",
+      "last": "2026-08-26T02:54:02.202100+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-26T02:54:02.202100+00:00",
+          "outcome": "useful",
+          "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
+        }
+      ],
+      "score": 0.976306885,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    }
+  },
   "version": 1
 }
