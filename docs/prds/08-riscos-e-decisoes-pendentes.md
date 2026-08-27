@@ -17,7 +17,7 @@
 | D-009 | `08/07/2026 12:00 BRT` deadline | the historical date has expired | use the owner-confirmed date `2026-09-03`; do not carry over the old time or timezone without confirmation | ADR 004 and owner response on 2026-08-26 | confirmed date; time pending |
 | D-010 | General `users` list | risk of PII exposure | require an administrative role/scope and limit fields | authorization test and approved policy | proposed |
 | D-011 | WooCommerce order integration with local idempotency and saga | duplicating the order would create two sources of truth; remote writes are not transactional with the local outbox | WooCommerce is the commercial system of record; commerce stores only the operation/workflow and `wooOrderId` reference | idempotent checkout PoC + failure between Woo and local persistence + reconciliation | decided; PoC design pending |
-| D-012 | Licensing/use of GraphOS Router and Apollo MCP | may affect local execution and deployment | verify self-hosted mode and the pinned version's license | images start in CI without an unexpected dependency | open |
+| D-012 | Licensing/use of GraphOS Router and Apollo MCP | may affect local execution and deployment | pin the official self-hosted Apollo MCP image and keep schema/operations local | the pinned image starts in CI without GraphOS credentials | decided |
 
 ## D-001 — Mandatory PoC for federated subscriptions over SSE
 
@@ -82,6 +82,23 @@ The PoC still needs to resolve the failure window between creating the remote
 order and confirming the local operation. The solution must use an idempotent
 reference and reconciliation, without creating a competing authoritative copy of
 the order.
+
+## D-012 — Self-hosted Apollo MCP
+
+Apollo MCP Server 1.17.0 is distributed under the MIT license and publishes the
+official `ghcr.io/apollographql/apollo-mcp-server:v1.17.0` OCI image. The local
+image derives directly from that version, copies only the pinned client schema,
+reviewed operations, and configuration, and requires neither an Apollo key nor a
+GraphOS graph reference at build or runtime.
+
+The Nx `container-smoke` target builds the derived image and starts its official
+binary with `--version`. The feature acceptance target separately starts the
+authenticated Streamable HTTP service against the local gateway and identity
+provider.
+
+Evidence: [v1.17.0 release](https://github.com/apollographql/apollo-mcp-server/releases/tag/v1.17.0),
+[MIT license at v1.17.0](https://github.com/apollographql/apollo-mcp-server/blob/v1.17.0/LICENSE),
+and [official OCI package declaration](https://github.com/apollographql/apollo-mcp-server/blob/v1.17.0/server.json).
 
 ## Questions for the product/challenge owner
 
