@@ -9,22 +9,21 @@
 - Esforço: baixo
 - Notas: Extend the existing Commerce schema with `Subscription.orderEvents(operationKey: ID!): OrderEvent!`. Keep the payload limited to operation key, order reference, state, optional Pix code, and event time.
 
-## T-037 — Publish committed workflow transitions through RabbitMQ [pendente]
+## T-037 — Publish committed workflow transitions through RabbitMQ [concluida]
 - Refs: US-031, AC-053, AC-054
 - Arquivos: apps/commerce-subgraph/src/saga/order-event.consumer.ts, apps/commerce-subgraph/src/subscriptions/order-transition.publisher.ts, apps/commerce-subgraph/src/messaging/rabbitmq.ts, libs/contracts/events/order-workflow-transitioned.v1.schema.json, test/milestone-5-transition-publication.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: This is a transaction and delivery-boundary change. Publish only committed applied transitions, preserve state order, include the owning subject and operation key for routing, and do not emit ignored or duplicate deliveries.
 
-## T-038 — Implement the authenticated Commerce SSE subscription source [pendente]
-
+## T-038 — Implement the authenticated Commerce SSE subscription source [concluida]
 - Refs: US-031, US-032, US-033, AC-053, AC-054, AC-056, AC-058
 - Arquivos: apps/commerce-subgraph/src/subscriptions/order-events.subscription.ts, apps/commerce-subgraph/src/subscriptions/order-event-broker.ts, apps/commerce-subgraph/src/graphql/commerce.module.ts, apps/commerce-subgraph/src/graphql/commerce.resolver.ts, test/milestone-5-commerce-subscription.test.mjs, test/milestone-5-subscription-lifecycle.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Consume the live transition route into bounded per-stream async iterators filtered by `(subject, operationKey)`. Configure heartbeat, idle timeout, finite buffering, terminal completion, and deterministic cleanup. No replay store.
 
-## T-039 — Add the hybrid GraphQL SSE endpoint to the gateway [pendente]
+## T-039 — Add the hybrid GraphQL SSE endpoint to the gateway [concluida]
 - Refs: US-032, US-033, AC-055, AC-057, AC-058
 - Arquivos: package.json, pnpm-lock.yaml, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/commerce-subscription.client.ts, test/milestone-5-gateway-sse.test.mjs
 - Modelo: gpt-5.6-sol
