@@ -67,7 +67,7 @@ type OrderItemEdge {
   node: OrderItem!
 }
 
-type PageInfo {
+type PageInfo @shareable {
   hasNextPage: Boolean!
   endCursor: String
 }

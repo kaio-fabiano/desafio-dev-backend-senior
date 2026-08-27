@@ -1,5 +1,5 @@
 extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key"])
+  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key", "@shareable"])
 
 type User @key(fields: "id") {
   id: ID!
@@ -29,7 +29,7 @@ type UserEdge {
   node: User!
 }
 
-type PageInfo {
+type PageInfo @shareable {
   hasNextPage: Boolean!
   endCursor: String
 }
