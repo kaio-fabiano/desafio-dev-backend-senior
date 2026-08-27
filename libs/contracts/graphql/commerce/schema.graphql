@@ -13,6 +13,10 @@ extend type Order @key(fields: "wooOrderId") {
   pixCode: String
 }
 
+extend type Cart @key(fields: "id") {
+  id: ID! @external
+}
+
 type OrderWorkflow {
   state: WorkflowState!
 }
@@ -30,6 +34,22 @@ enum WorkflowState {
   FAILED
 }
 
+input CheckoutInput {
+  operationKey: ID!
+  paymentMethod: PaymentMethod!
+}
+
+enum PaymentMethod {
+  PIX
+  CARD
+}
+
 type Query {
   checkout(id: ID!): CheckoutOperation
+}
+
+type Mutation {
+  addToCart(productId: ID!, quantity: Int!): Cart!
+  removeFromCart(productId: ID!, quantity: Int!): Cart!
+  checkout(input: CheckoutInput!): Order!
 }
