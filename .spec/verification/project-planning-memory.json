@@ -1,11 +1,11 @@
 {
   "feature": "project-planning-memory",
-  "timestamp": "2026-08-26T14:23:06.107Z",
-  "gitRev": "bf6c285",
-  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-workspace.test.mjs test/marco-0-pocs.spec.test.js",
+  "timestamp": "2026-08-27T03:42:47.117Z",
+  "gitRev": "694c6e6",
+  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js",
   "reporter": "tap",
-  "exitCode": 1,
-  "testsParsed": 16,
+  "exitCode": 0,
+  "testsParsed": 17,
   "results": {
     "AC-001": {
       "status": "pass",

@@ -9,32 +9,28 @@
 - Esforço: medio
 - Notas: Execute first. Preserve Nx-inferred targets and add only the configuration required for installation and project discovery.
 
-## T-004 — Validate graphql-sse in the federated gateway [pendente]
-
+## T-004 — Validate graphql-sse in the federated gateway [concluida]
 - Refs: US-005, AC-009, AC-010
 - Arquivos: apps/poc-sse/package.json, apps/poc-sse/tsconfig.json, apps/poc-sse/src/gateway.ts, apps/poc-sse/src/subgraph.ts, apps/poc-sse/src/probe.ts, apps/poc-sse/project.json, test/marco-0-sse.test.mjs, docs/adrs/001-graphql-sse-federado.md
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Execute after T-003. The proof must decide between direct support and the smallest verifiable alternative pipeline.
 
-## T-005 — Validate the Better Auth token at the gateway and MCP [pendente]
-
+## T-005 — Validate the Better Auth token at the gateway and MCP [concluida]
 - Refs: US-006, AC-011, AC-012
 - Arquivos: apps/poc-auth/package.json, apps/poc-auth/tsconfig.json, apps/poc-auth/src/auth-server.ts, apps/poc-auth/src/resource-servers.ts, apps/poc-auth/src/probe.ts, apps/poc-auth/project.json, test/marco-0-auth.test.mjs, docs/adrs/002-oauth-multi-resource.md
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Execute after T-003; never accept audience or scope through a permissive fallback.
 
-## T-006 — Validate WordPress plugin composition [pendente]
-
+## T-006 — Validate WordPress plugin composition [concluida]
 - Refs: US-007, AC-013, AC-014
 - Arquivos: apps/poc-wordpress/package.json, apps/poc-wordpress/project.json, apps/poc-wordpress/compose.yaml, apps/poc-wordpress/scripts/install-plugins.sh, apps/poc-wordpress/scripts/probe.mjs, apps/poc-wordpress/fixtures/products.json, test/marco-0-wordpress.test.mjs, docs/adrs/003-wordpress-federation.md
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Execute after T-003; use plugin-first, and introduce a wrapper only if the proof records the gap.
 
-## T-007 — Pin versions, deadline, and decisions in ADRs [pendente]
-
+## T-007 — Pin versions, deadline, and decisions in ADRs [concluida]
 - Refs: US-008, AC-015, AC-016
 - Arquivos: docs/adrs/README.md, docs/adrs/004-restricoes-de-entrega.md, docs/prds/08-riscos-e-decisoes-pendentes.md, test/marco-0-decisions.test.mjs
 - Modelo: gpt-5.6-luna

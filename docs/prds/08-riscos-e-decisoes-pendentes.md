@@ -13,8 +13,8 @@
 | D-005 | A Pix terminal state does not imply confirmed payment | inventory may remain reserved without payment | at minimum, end in `PIX_GENERATED`; decide whether the reservation is deferred or temporary | approved rule and expiration/compensation test | open |
 | D-006 | Idempotency-key scope | collision between users or enumeration leak | `(userId, operationKey)` constraint and indistinguishable authorization | tests between two users and divergent payloads | proposed |
 | D-007 | Registration rollback if WordPress fails | partially created identity | compensate if the API allows it; otherwise, pending state + reconciler | fault injection in the WordPress adapter | open |
-| D-008 | SST version | README requires v3; current docs are on a later generation | pin v3 explicitly or obtain approval for the current version | decision recorded in the ADR/lockfile | open |
-| D-009 | `08/07/2026 12:00 BRT` deadline | the historical date has expired | use the owner-confirmed deadline of nine calendar days from 2026-08-25: `2026-09-03`; do not carry over the old 12:00 BRT time without confirmation | owner response on 2026-08-26 | confirmed |
+| D-008 | SST version | README requires v3; current docs are on a later generation | keep SST on v3 until explicit approval to migrate | ADR 004 records the constraint | decided |
+| D-009 | `08/07/2026 12:00 BRT` deadline | the historical date has expired | use the owner-confirmed date `2026-09-03`; do not carry over the old time or timezone without confirmation | ADR 004 and owner response on 2026-08-26 | confirmed date; time pending |
 | D-010 | General `users` list | risk of PII exposure | require an administrative role/scope and limit fields | authorization test and approved policy | proposed |
 | D-011 | WooCommerce order integration with local idempotency and saga | duplicating the order would create two sources of truth; remote writes are not transactional with the local outbox | WooCommerce is the commercial system of record; commerce stores only the operation/workflow and `wooOrderId` reference | idempotent checkout PoC + failure between Woo and local persistence + reconciliation | decided; PoC design pending |
 | D-012 | Licensing/use of GraphOS Router and Apollo MCP | may affect local execution and deployment | verify self-hosted mode and the pinned version's license | images start in CI without an unexpected dependency | open |
@@ -85,9 +85,9 @@ the order.
 
 ## Questions for the product/challenge owner
 
-1. What time applies to the confirmed 2026-09-03 deadline?
+1. What time and timezone apply to the confirmed 2026-09-03 deadline?
 2. For Pix, does the saga end when generating the code, or must it also reserve inventory?
-3. Must SST be exactly v3, even with a later current version?
+3. Must SST remain exactly v3, even with a later current version? (ADR 004 keeps this as the current constraint until approval.)
 
 ## Maintenance rule
 

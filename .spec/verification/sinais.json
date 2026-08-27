@@ -68,10 +68,10 @@
       "codigo": "GLOB_SEM_ARQUIVOS",
       "feature": "—",
       "ref": "P-002",
-      "ocorrencias": 13,
+      "ocorrencias": 15,
       "primeiraVez": "2026-08-26T02:06:19.247Z",
-      "ultimaVez": "2026-08-26T14:22:55.440Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-08-27T03:42:47.198Z",
+      "gitRev": "694c6e6"
     },
     "STATUS_INVALIDO::marco-0-pocs::.spec/features/marco-0-pocs/spec.md": {
       "codigo": "STATUS_INVALIDO",
@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-26T14:22:55.440Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-08-27T03:41:34.304Z",
+      "gitRev": "694c6e6"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",

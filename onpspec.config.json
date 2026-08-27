@@ -1,5 +1,5 @@
 {
-  "testCommand": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-workspace.test.mjs test/marco-0-pocs.spec.test.js",
+  "testCommand": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js",
   "reporter": "tap",
   "testGlobs": [
     "test/**",

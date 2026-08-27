@@ -1,11 +1,11 @@
 {
   "feature": "marco-0-pocs",
-  "timestamp": "2026-08-26T14:22:55.351Z",
-  "gitRev": "bf6c285",
-  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-workspace.test.mjs test/marco-0-pocs.spec.test.js",
+  "timestamp": "2026-08-27T03:41:29.079Z",
+  "gitRev": "694c6e6",
+  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js",
   "reporter": "tap",
-  "exitCode": 1,
-  "testsParsed": 16,
+  "exitCode": 0,
+  "testsParsed": 17,
   "results": {
     "AC-008": {
       "status": "pass",
@@ -13,43 +13,43 @@
       "method": "tap"
     },
     "AC-009": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-009: Event crosses gateway and subgraph through SSE @spec:AC-009",
       "method": "tap"
     },
     "AC-010": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-010: Compatibility failure produces a reproducible decision @spec:AC-010",
       "method": "tap"
     },
     "AC-011": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-011: The same grant serves the gateway and MCP @spec:AC-011",
       "method": "tap"
     },
     "AC-012": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-012: Missing audience is rejected @spec:AC-012",
       "method": "tap"
     },
     "AC-013": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-013: WordPress composes into the supergraph @spec:AC-013",
       "method": "tap"
     },
     "AC-014": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-014: Critical Woo capabilities have evidence @spec:AC-014",
       "method": "tap"
     },
     "AC-015": {
-      "status": "fail",
+      "status": "pass",
       "testName": "AC-015: Each proof closes a decision with evidence @spec:AC-015",
       "method": "tap"
     },
     "AC-016": {
-      "status": "fail",
-      "testName": "AC-016: Delivery constraints are explicit @spec:AC-016",
+      "status": "pass",
+      "testName": "AC-016: Delivery constraints remain explicit @spec:AC-016",
       "method": "tap"
     }
   },
