@@ -63,6 +63,12 @@ test('AC-083: Commerce presentation delegates checkout through configured runtim
     }).subject,
     'buyer-1',
   );
+
+  const dockerfile = await readFile('apps/commerce-subgraph/Dockerfile', 'utf8');
+  assert.match(
+    dockerfile,
+    /COPY --chown=app:app libs\/contracts\/graphql\/commerce\/schema\.graphql \.\/libs\/contracts\/graphql\/commerce\/schema\.graphql/,
+  );
 });
 
 test('AC-086: Commerce domain and application code do not import frameworks or adapters @spec:AC-086', async () => {

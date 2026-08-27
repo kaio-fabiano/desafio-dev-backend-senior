@@ -11,5 +11,6 @@ RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home app
 COPY --from=dependencies --chown=app:app /workspace/node_modules ./node_modules
 COPY --chown=app:app apps/gateway/src/auth/auth-context.ts ./apps/gateway/src/auth/auth-context.ts
 COPY --chown=app:app apps/commerce-subgraph ./apps/commerce-subgraph
+COPY --chown=app:app libs/contracts/graphql/commerce/schema.graphql ./libs/contracts/graphql/commerce/schema.graphql
 USER app
 CMD ["node", "--experimental-transform-types", "apps/commerce-subgraph/src/main.ts"]
