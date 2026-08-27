@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-5-subscription-sse` em 2026-08-27 17:08
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-5-subscription-sse` em 2026-08-27 17:11
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-5-subscription-sse-mtbs1ax8'
+RUN_ID='desafio-dev-backend-senior-milestone-5-subscription-sse-mtbs59fo'
 FEATURE='milestone-5-subscription-sse'
 BASE_BRANCH='spec/milestone-5-subscription-sse'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -258,38 +258,6 @@ Regras inegociáveis:
   return 0
 }
 
-# ── sequencial T-036 (fora da seleção do usuário) ──
-executar_seq_T_036() {
-  info 'sequencial T-036 — Define the subscription and event contracts'
-  if rodar_tarefa seq 'T-036' 'Você executa UMA tarefa da feature "milestone-5-subscription-sse" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-5-subscription-sse/spec.md, .spec/features/milestone-5-subscription-sse/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-036 — "Define the subscription and event contracts"
-  critérios/refs: AC-053 (A pre-mutation Card stream reaches completion), AC-054 (A pre-mutation Pix stream returns its stable code), AC-056 (Operation keys are isolated by authenticated subject), AC-057 (The edge uses GraphQL SSE through both segments)
-  arquivos permitidos (e seus testes): libs/contracts/graphql/commerce/schema.graphql, libs/contracts/events/order-workflow-transitioned.v1.schema.json, test/milestone-5-subscription-contract.test.mjs
-  mensagem de commit: "T-036 milestone-5-subscription-sse: Define the subscription and event contracts"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-036 milestone-5-subscription-sse: Define the subscription and event contracts (auto-commit do plano)'
-    fi
-    marcar_concluidas T-036
-    verde "✔ T-036 concluída"
-    return 0
-  fi
-  vermelho "✘ T-036 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-5-subscription-sse/executar-tarefas.sh --seq T-036"
-  FALHAS="$FALHAS T-036"
-  return 1
-}
-
 # ── sequencial T-040 (fora da seleção do usuário) ──
 executar_seq_T_040() {
   info 'sequencial T-040 — Assemble the Milestone 5 end-to-end acceptance gate'
@@ -383,7 +351,6 @@ executar_tudo() {
   wait "$PID_FAIXA_1" || true
   wait "$PID_FAIXA_2" || true
   wait "$PID_FAIXA_3" || true
-  executar_seq_T_036 || true
   executar_seq_T_040 || true
   encerrar tudo
 }
@@ -393,7 +360,6 @@ listar() {
   echo "  faixa-1  onda 1  T-037"
   echo "  faixa-2  onda 1  T-038"
   echo "  faixa-3  onda 1  T-039"
-  echo "  seq       T-036 (sequencial)"
   echo "  seq       T-040 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
@@ -432,7 +398,6 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-036) evento --tipo inicio --escopo "seq:T-036"; iniciar_resumos; executar_seq_T_036 || true; encerrar "seq:T-036" ;;
       T-040) evento --tipo inicio --escopo "seq:T-040"; iniciar_resumos; executar_seq_T_040 || true; encerrar "seq:T-040" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;

@@ -2,8 +2,7 @@
 
 > feature: milestone-5-subscription-sse
 
-## T-036 — Define the subscription and event contracts [pendente]
-
+## T-036 — Define the subscription and event contracts [concluida]
 - Refs: US-031, US-032, AC-053, AC-054, AC-056, AC-057
 - Arquivos: libs/contracts/graphql/commerce/schema.graphql, libs/contracts/events/order-workflow-transitioned.v1.schema.json, test/milestone-5-subscription-contract.test.mjs
 - Modelo: gpt-5.6-luna

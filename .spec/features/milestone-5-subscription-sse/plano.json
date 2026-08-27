@@ -1,5 +1,5 @@
 {
-  "runId": "desafio-dev-backend-senior-milestone-5-subscription-sse-mtbs1ax8",
+  "runId": "desafio-dev-backend-senior-milestone-5-subscription-sse-mtbs59fo",
   "feature": "milestone-5-subscription-sse",
   "agent": "codex",
   "modo": "paralelo",
@@ -10,7 +10,7 @@
   ],
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-08-27 17:08",
+  "geradoEm": "2026-08-27 17:11",
   "branchTrabalho": "spec/milestone-5-subscription-sse",
   "baseDir": ".spec/features/milestone-5-subscription-sse",
   "specDir": ".spec",
@@ -111,25 +111,6 @@
   ],
   "sequenciais": [
     {
-      "id": "T-036",
-      "titulo": "Define the subscription and event contracts",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "libs/contracts/graphql/commerce/schema.graphql",
-        "libs/contracts/events/order-workflow-transitioned.v1.schema.json",
-        "test/milestone-5-subscription-contract.test.mjs"
-      ],
-      "refs": [
-        "US-031",
-        "US-032",
-        "AC-053",
-        "AC-054",
-        "AC-056",
-        "AC-057"
-      ]
-    },
-    {
       "id": "T-040",
       "titulo": "Assemble the Milestone 5 end-to-end acceptance gate",
       "modelo": "gpt-5.6-terra",
@@ -155,6 +136,8 @@
       ]
     }
   ],
-  "concluidas": [],
+  "concluidas": [
+    "T-036"
+  ],
   "avisos": []
 }

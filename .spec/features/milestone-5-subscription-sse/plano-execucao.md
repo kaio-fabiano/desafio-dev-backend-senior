@@ -1,11 +1,11 @@
 # Plano de execução — milestone-5-subscription-sse
 
-> gerado por `onp-spec plano` em 2026-08-27 17:08 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-27 17:11 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano milestone-5-subscription-sse --paralelizar T-037,T-038,T-039`
 
 ## Resumo — o que vai acontecer
 
-- **5 tarefa(s) pendente(s)**: 3 em 3 faixa(s) paralela(s) + 2 sequencial(is)
+- **4 tarefa(s) pendente(s)**: 3 em 3 faixa(s) paralela(s) + 1 sequencial(is) (1 já concluída(s): T-036)
 - **seleção do usuário**: paralelizar só T-037, T-038, T-039 — as demais rodam uma após a outra, ao final
 - **1 faixa = 1 worktree + 1 branch + 1 janela de contexto limpa** — faixas não compartilham nenhum arquivo entre si
 - prefere outra seleção ou uma após a outra? Regenere com `onp-spec plano milestone-5-subscription-sse --paralelizar T-xxx,T-yyy` ou `--sequencial`
@@ -37,7 +37,6 @@
 
 | tarefa | título | modelo | esforço | por que sequencial |
 |---|---|---|---|---|
-| T-036 | Define the subscription and event contracts | `gpt-5.6-luna` | low | fora da seleção do usuário |
 | T-040 | Assemble the Milestone 5 end-to-end acceptance gate | `gpt-5.6-terra` | medium | fora da seleção do usuário |
 
 ## Gestão de branches e commits
