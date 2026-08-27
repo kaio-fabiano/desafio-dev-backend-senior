@@ -10,12 +10,15 @@ const [packageJson, project, environment, journey, acceptance] = await Promise.a
   readFile('apps/e2e/src/milestone-7.e2e.test.ts', 'utf8'),
 ]);
 
-test('AC-067: one Vitest target owns Testcontainers startup and unconditional teardown @spec:AC-067', () => {
+test('AC-067: one Vitest target owns real Compose startup and unconditional teardown @spec:AC-067', () => {
   assert.equal(packageJson.devDependencies.testcontainers, '11.7.2');
   assert.equal(packageJson.devDependencies.vitest, '3.2.4');
   assert.equal(packageJson.scripts['acceptance:milestone-7'], 'nx run @desafio-dev-backend-senior/e2e:acceptance');
   assert.match(project.targets.acceptance.options.command, /^vitest run apps\/e2e\/src\/milestone-7\.e2e\.test\.ts/);
-  for (const component of ['postgres:17.6-bookworm', 'mariadb:11.8.3', 'rabbitmq:4.1.3-management', 'wordpress:6.8.2-php8.3-apache', 'identity-subgraph', 'catalog-subgraph', 'commerce-subgraph', 'stock-worker', 'payment-processor', 'gateway', 'apollo-mcp']) {
+  assert.match(environment, /DockerComposeEnvironment/);
+  assert.match(environment, /\.withBuild\(\)/);
+  assert.doesNotMatch(environment, /SERVICE_SOURCE|node', '-e'|createServer|ROLE/);
+  for (const component of ['rabbitmq', 'postgres', 'identity-database', 'payment-database', 'wordpress-database', 'wordpress', 'identity-subgraph', 'commerce-subgraph', 'stock-worker', 'payment-processor', 'gateway', 'apollo-mcp']) {
     assert.match(environment, new RegExp(component.replaceAll('.', '\\.'), 'i'));
   }
   assert.match(environment, /catch \(error\)[\s\S]*await stop\(\)/);

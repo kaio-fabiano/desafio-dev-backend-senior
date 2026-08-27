@@ -5,13 +5,12 @@ import { runAcceptanceJourney, type AcceptanceProof } from './journey.ts';
 
 const requiredComponents = [
   'identity-database',
-  'commerce-database',
+  'postgres',
   'payment-database',
   'wordpress-database',
   'rabbitmq',
   'wordpress',
   'identity-subgraph',
-  'catalog-subgraph',
   'commerce-subgraph',
   'stock-worker',
   'payment-processor',
