@@ -30,8 +30,7 @@
 - Esforço: alto
 - Notas: Reuse the Milestone 0 hybrid adapter and the existing gateway verifier. Authenticate before allocating the delegated `graphql-sse` client, propagate the trusted subject, and abort the downstream stream on cancellation. Keep query and mutation federation unchanged.
 
-## T-040 — Assemble the Milestone 5 end-to-end acceptance gate [pendente]
-
+## T-040 — Assemble the Milestone 5 end-to-end acceptance gate [concluida]
 - Refs: US-031, US-032, US-033, AC-053, AC-054, AC-055, AC-056, AC-057, AC-058, AC-059
 - Arquivos: apps/poc-harness/project.json, test/milestone-5-subscription-sse.test.mjs, docs/runbooks/milestone-5-subscription-sse.md, onpspec.config.json, .github/workflows/ci.yml
 - Modelo: gpt-5.6-terra
