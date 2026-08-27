@@ -1,4 +1,10 @@
-import { Entity, JsonType, PrimaryKey, Property, Unique } from '@mikro-orm/core';
+import {
+  Entity,
+  JsonType,
+  PrimaryKey,
+  Property,
+  Unique,
+} from '@mikro-orm/core';
 
 export class OutboxEvent {
   id!: string;
@@ -6,6 +12,8 @@ export class OutboxEvent {
   eventType!: string;
   payload!: Record<string, unknown>;
   occurredAt = new Date();
+  publicationAttempts = 0;
+  lastPublicationAttemptAt?: Date;
   sentAt?: Date;
 }
 
@@ -19,4 +27,6 @@ Property({ type: 'uuid' })(OutboxEvent.prototype, 'workflowId');
 Property({ length: 100 })(OutboxEvent.prototype, 'eventType');
 Property({ type: JsonType })(OutboxEvent.prototype, 'payload');
 Property()(OutboxEvent.prototype, 'occurredAt');
+Property({ default: 0 })(OutboxEvent.prototype, 'publicationAttempts');
+Property({ nullable: true })(OutboxEvent.prototype, 'lastPublicationAttemptAt');
 Property({ nullable: true })(OutboxEvent.prototype, 'sentAt');
