@@ -21,7 +21,11 @@ test('AC-023: One command proves the foundation gate @spec:AC-023', async () => 
     readFile('onpspec.config.json', 'utf8'),
   ]);
   const command = JSON.parse(config).testCommand;
-  assert.match(runbook, new RegExp(command.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  const foundationCommand = command.split(' && node --experimental-transform-types')[0];
+  assert.match(
+    runbook,
+    new RegExp(foundationCommand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')),
+  );
 
   const nx = fileURLToPath(import.meta.resolve('nx/bin/nx.js'));
   const { stdout: projects } = await run(node, [nx, 'show', 'projects']);
