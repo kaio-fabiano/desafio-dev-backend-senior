@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desafio.dev/contracts/events/order-workflow-transitioned.v1.schema.json",
+  "title": "Order workflow transitioned event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "eventType", "eventVersion", "occurredAt", "traceContext", "operationKey", "subject", "payload"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "const": "order.workflow-transitioned" },
+    "eventVersion": { "const": "v1" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "traceContext": { "type": "object", "additionalProperties": false, "required": ["traceId"], "properties": { "traceId": { "type": "string", "pattern": "^[0-9a-f]{32}$" }, "spanId": { "type": "string", "pattern": "^[0-9a-f]{16}$" } } },
+    "operationKey": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string", "minLength": 1 },
+    "payload": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["operationKey", "orderId", "state", "eventTime"],
+        "properties": {
+            "operationKey": { "type": "string", "minLength": 1 },
+            "orderId": { "type": "string", "minLength": 1 },
+            "state": { "enum": ["CREATED", "PAYMENT_PENDING", "PAYMENT_AUTHORIZED", "STOCK_PENDING", "COMPLETED", "STOCK_FAILED", "REFUND_PENDING", "REFUNDED", "CANCELLED", "PIX_PENDING", "PIX_GENERATED"] },
+            "pixCode": { "type": "string", "minLength": 1 },
+            "eventTime": { "type": "string", "format": "date-time" }
+        }
+    }
+  }
+}

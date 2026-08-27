@@ -60,3 +60,15 @@ type Mutation {
   removeFromCart(productId: ID!, quantity: Int!): Cart!
   checkout(input: CheckoutInput!): Order!
 }
+
+type Subscription {
+  orderEvents(operationKey: ID!): OrderEvent!
+}
+
+type OrderEvent {
+  operationKey: ID!
+  orderId: ID!
+  state: WorkflowState!
+  pixCode: String
+  eventTime: String!
+}
