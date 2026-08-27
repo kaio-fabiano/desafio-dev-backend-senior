@@ -11,7 +11,7 @@ const [config, infraTsconfig, ci, deploy, runbook] = await Promise.all([
 ]);
 
 test('AC-088: infrastructure validation is offline @spec:AC-088', () => {
-  const infraValidate = ci.slice(ci.indexOf('infra-validate:'), ci.indexOf('\n  ', ci.indexOf('infra-validate:') + 1));
+  const infraValidate = ci.slice(ci.indexOf('infra-validate:'));
   assert.match(infraValidate, /pnpm exec tsc --noEmit --project tsconfig\.json/);
   assert.doesNotMatch(infraValidate, /sst (install|diff|deploy)/);
   assert.doesNotMatch(ci, /configure-aws-credentials|id-token:\s*write|pnpm run diff/);
