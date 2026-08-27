@@ -74,45 +74,6 @@ jobs:
         run: pnpm install --lockfile=false --ignore-scripts
 
       - name: Validate the SST configuration
-        run: pnpm run validate
-
-  infra-diff:
-    name: Review SST infrastructure diff
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-    needs: infra-validate
-    runs-on: ubuntu-latest
-    environment:
-      name: infrastructure-review
-    permissions:
-      contents: read
-      id-token: write
-    defaults:
-      run:
-        working-directory: infra
-    env:
-      SST_STAGE: pr-${{ github.event.pull_request.number }}
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: pnpm/action-setup@v6
-        with:
-          version: 11.13.0
-          run_install: false
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-
-      - name: Install pinned infrastructure dependencies
-        run: pnpm install --lockfile=false --ignore-scripts
-
-      - name: Acquire short-lived AWS credentials
-        uses: aws-actions/configure-aws-credentials@v6
-        with:
-          aws-region: us-east-1
-          role-to-assume: ${{ vars.AWS_INFRASTRUCTURE_DIFF_ROLE_ARN }}
-          mask-aws-account-id: true
-          output-credentials: false
-
-      - name: Produce the reviewable SST plan
-        run: pnpm run diff -- --stage "$SST_STAGE"
+        # Type-check only: SST install/diff can contact AWS and is deliberately
+        # kept out of pull-request CI. Resource changes are reviewed separately.
+        run: pnpm exec tsc --noEmit --project tsconfig.json
