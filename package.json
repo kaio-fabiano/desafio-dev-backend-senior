@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "acceptance:milestone-7": "nx run @desafio-dev-backend-senior/e2e:acceptance",
     "test:spec": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js",
     "quality:nx": "nx run-many --target=build,test --all",
     "quality:affected": "nx affected --target=build,test",
@@ -37,7 +38,9 @@
     "eslint": "9.39.1",
     "nx": "23.1.1",
     "prettier": "~3.6.2",
+    "testcontainers": "11.7.2",
     "tslib": "^2.3.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vitest": "3.2.4"
   }
 }

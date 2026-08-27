@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/e2e",
+  "projectType": "application",
+  "sourceRoot": "apps/e2e/src",
+  "tags": ["type:e2e", "scope:delivery"],
+  "targets": {
+    "acceptance": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "command": "vitest run apps/e2e/src/milestone-7.e2e.test.ts --hookTimeout=600000 --testTimeout=600000"
+      }
+    }
+  }
+}
