@@ -16,8 +16,7 @@
 - Esforço: baixo
 - Notas: Execute before T-010 through T-013. Prefer Nx-native tags and constraints; install all Milestone 1 dependencies here so later tasks remain disjoint.
 
-## T-010 — Create operational service skeletons [pendente]
-
+## T-010 — Create operational service skeletons [concluida]
 - Refs: US-011, AC-019
 - Arquivos: apps/gateway/project.json, apps/gateway/src/main.ts, apps/gateway/src/app.module.ts, apps/gateway/src/health.controller.ts, apps/identity-subgraph/project.json, apps/identity-subgraph/src/main.ts, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/health.controller.ts, apps/commerce-subgraph/project.json, apps/commerce-subgraph/src/main.ts, apps/commerce-subgraph/src/app.module.ts, apps/commerce-subgraph/src/health.controller.ts, test/milestone-1-health.test.mjs
 - Modelo: gpt-5.6-terra
