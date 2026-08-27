@@ -25,7 +25,7 @@
 
 ## T-049 — Implement the complete Testcontainers acceptance journey [concluida]
 - Refs: US-037, AC-067, AC-068, AC-069, AC-070, AC-071
-- Arquivos: package.json, pnpm-lock.yaml, apps/e2e/project.json, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, test/milestone-7-e2e-contract.test.mjs
+- Arquivos: package.json, pnpm-lock.yaml, onpspec.config.json, apps/e2e/project.json, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, test/milestone-7-e2e-contract.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: This is distributed authentication/payment/concurrency work. Use Vitest and Testcontainers, public Gateway/MCP interfaces only for cross-domain acceptance, and unconditional teardown.
