@@ -152,7 +152,7 @@ services:
       identity-subgraph:
         condition: service_healthy
     ports:
-      - "8000:8000"
+      - "${MCP_PORT:-8000}:8000"
     healthcheck:
       test: ["CMD", "/bin/wget", "--quiet", "--spider", "http://127.0.0.1:8000/health"]
       interval: 2s
@@ -240,6 +240,8 @@ services:
       RABBITMQ_URL: amqp://rabbitmq:5672
       STOCK_DB_HOST: postgres
       WOO_URL: http://wordpress
+      WOO_CONSUMER_KEY: local-e2e-consumer
+      WOO_CONSUMER_SECRET: local-e2e-secret
     depends_on:
       postgres:
         condition: service_healthy

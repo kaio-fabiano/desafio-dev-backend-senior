@@ -44,6 +44,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
   try {
     environment = await new DockerComposeEnvironment(resolve('.'), 'compose.yaml')
       .withBuild()
+      .withEnvironment({ MCP_PORT: '0' })
       .withStartupTimeout(STARTUP_TIMEOUT)
       .up([...COMPOSE_SERVICES]);
     const gateway = environment.getContainer('gateway-1');
