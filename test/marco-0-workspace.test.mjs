@@ -5,7 +5,8 @@ import assert from 'node:assert/strict';
 
 test('AC-008: Workspace installs and recognizes the proofs @spec:AC-008', () => {
   const workspace = readFileSync('pnpm-workspace.yaml', 'utf8');
-  assert.match(workspace, /allowBuilds:\s*\n\s+nx: true/);
+  assert.match(workspace, /allowBuilds:/);
+  assert.match(workspace, /^\s+nx: true$/m);
 
   const projects = execFileSync('pnpm', ['exec', 'nx', 'show', 'projects'], {
     encoding: 'utf8',

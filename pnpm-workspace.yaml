@@ -3,7 +3,9 @@ packages:
   - "libs/*"
 
 allowBuilds:
+  '@apollo/protobufjs': false
   nx: true
+  protobufjs: false
 
 autoInstallPeers: true
 onlyBuiltDependencies:
