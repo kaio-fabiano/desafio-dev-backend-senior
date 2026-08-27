@@ -100,7 +100,7 @@ services:
     ports:
       - "8000:8000"
     healthcheck:
-      test: ["CMD-SHELL", "wget --quiet --spider http://127.0.0.1:8000/mcp"]
+      test: ["CMD-SHELL", "wget --quiet --spider http://127.0.0.1:8000/health"]
       interval: 2s
       timeout: 2s
       retries: 30

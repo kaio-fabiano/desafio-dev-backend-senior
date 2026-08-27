@@ -28,4 +28,6 @@ test('@spec:AC-075 Compose builds application images and waits for healthchecks'
   assert.doesNotMatch(compose, /image: node:/);
   assert.doesNotMatch(compose, /- \.:\/workspace/);
   assert.match(compose, /condition: service_healthy/);
+  assert.match(compose, /apollo-mcp:[\s\S]*?127\.0\.0\.1:8000\/health/);
+  assert.doesNotMatch(compose, /127\.0\.0\.1:8000\/mcp/);
 });
