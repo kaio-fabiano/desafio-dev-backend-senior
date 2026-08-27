@@ -46,6 +46,9 @@ Module({
               issuer:
                 process.env.OAUTH_ISSUER ??
                 'http://identity-subgraph:3001/api/auth',
+              jwksUrl:
+                process.env.IDENTITY_JWKS_URL ??
+                'http://identity-subgraph:3001/api/auth/jwks',
               audience:
                 process.env.GATEWAY_AUDIENCE ??
                 'https://gateway.marketplace.local',

@@ -102,6 +102,7 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
   assert.match(gatewayModule, /ApolloGatewayDriver/);
   assert.match(gatewayModule, /LocalCompose/);
   assert.match(gatewayModule, /contract\('catalog'\)/);
+  assert.match(gatewayModule, /IDENTITY_JWKS_URL/);
   assert.match(
     await readFile('apps/gateway/Dockerfile', 'utf8'),
     /COPY --chown=app:app libs\/contracts\/graphql \.\/libs\/contracts\/graphql/,

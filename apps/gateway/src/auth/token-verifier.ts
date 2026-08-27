@@ -17,6 +17,7 @@ type TokenClaims = {
 
 type VerifyOptions = {
   issuer: string;
+  jwksUrl?: string;
   audience: string;
   requiredScopes: readonly string[];
   now?: () => number;
@@ -30,6 +31,7 @@ export async function verifyGatewayRequest(
   const claims = (await (options.verify
     ? options.verify(request)
     : verifyAccessTokenRequest(requestToResourceInput(request), {
+        jwksUrl: options.jwksUrl,
         verifyOptions: {
           issuer: options.issuer,
           audience: options.audience,
