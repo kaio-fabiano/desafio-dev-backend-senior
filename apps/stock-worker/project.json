@@ -5,6 +5,18 @@
   "sourceRoot": "apps/stock-worker/src",
   "tags": ["type:app", "scope:inventory"],
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --check apps/stock-worker/src/main.ts"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs"
+      }
+    },
     "serve": {
       "executor": "nx:run-commands",
       "options": {

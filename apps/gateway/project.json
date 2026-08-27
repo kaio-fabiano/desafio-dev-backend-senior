@@ -5,6 +5,18 @@
   "sourceRoot": "apps/gateway/src",
   "tags": ["type:app", "scope:gateway"],
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --check apps/gateway/src/main.ts"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-2-*.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-5-gateway-sse.test.mjs"
+      }
+    },
     "serve": {
       "executor": "nx:run-commands",
       "options": {

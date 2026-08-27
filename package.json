@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "test:spec": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js"
+    "test:spec": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js",
+    "quality:nx": "nx run-many --target=build,test --all",
+    "quality:affected": "nx affected --target=build,test"
   },
   "private": true,
   "dependencies": {
