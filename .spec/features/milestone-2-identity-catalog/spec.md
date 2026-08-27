@@ -1,7 +1,7 @@
 # Spec: Milestone 2 — Identity and federated catalog
 
 > feature: milestone-2-identity-catalog
-> status: pronta
+> status: implementada
 
 ## Context
 
