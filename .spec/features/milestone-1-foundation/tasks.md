@@ -9,8 +9,7 @@
 - Esforço: baixo
 - Notas: Mechanical correction only; do not change the meaning of either principle.
 
-## T-009 — Establish Nx project boundaries and shared dependencies [pendente]
-
+## T-009 — Establish Nx project boundaries and shared dependencies [concluida]
 - Refs: US-010, AC-018
 - Arquivos: package.json, pnpm-lock.yaml, nx.json, eslint.config.mjs, tools/generators/project/index.mjs, tools/generators/project/schema.json, test/milestone-1-boundaries.test.mjs
 - Modelo: gpt-5.6-luna
