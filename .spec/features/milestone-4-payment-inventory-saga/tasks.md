@@ -23,7 +23,7 @@
 - Esforço: medio
 - Notas: Pin compatible Spring Boot and Gradle versions, register `@nx/gradle`, and expose build/test/health through Nx. Keep the initial project minimal.
 
-## T-031 — Implement idempotent Card, Pix, and refund processing [pendente]
+## T-031 — Implement idempotent Card, Pix, and refund processing [concluida]
 - Refs: US-027, US-029, US-030, AC-043, AC-044, AC-049, AC-051
 - Arquivos: apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/PaymentHandler.java, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java, apps/payment-processor/src/main/resources/db/migration/V1__payment_inbox_outbox.sql, apps/payment-processor/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java, apps/payment-processor/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java
 - Modelo: gpt-5.6-sol
@@ -37,7 +37,7 @@
 - Esforço: medio
 - Notas: Reuse the existing TypeScript, Nx, WooCommerce, and PostgreSQL patterns. Reserve the full order atomically from the worker perspective; release partial remote changes before publishing failure.
 
-## T-033 — Implement monotonic Commerce saga transitions [pendente]
+## T-033 — Implement monotonic Commerce saga transitions [concluida]
 - Refs: US-029, US-030, AC-048, AC-049, AC-050, AC-051
 - Arquivos: apps/commerce-subgraph/src/saga/order-saga.ts, apps/commerce-subgraph/src/saga/order-event.consumer.ts, apps/commerce-subgraph/src/inbox/inbox.repository.ts, apps/commerce-subgraph/src/persistence/entities/order-workflow.entity.ts, apps/commerce-subgraph/src/persistence/entities/inbox-record.entity.ts, apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts, libs/contracts/graphql/commerce/schema.graphql, test/milestone-4-order-saga.test.mjs, test/milestone-4-order-saga-redelivery.test.mjs
 - Modelo: gpt-5.6-sol
