@@ -100,7 +100,12 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
     'utf8',
   );
   assert.match(gatewayModule, /ApolloGatewayDriver/);
-  assert.match(gatewayModule, /IntrospectAndCompose/);
+  assert.match(gatewayModule, /LocalCompose/);
+  assert.match(gatewayModule, /contract\('catalog'\)/);
+  assert.match(
+    await readFile('apps/gateway/Dockerfile', 'utf8'),
+    /COPY --chown=app:app libs\/contracts\/graphql \.\/libs\/contracts\/graphql/,
+  );
 });
 
 test('AC-081: Identity serves real sign-up, discovery and a PKCE client without test-only auth plugins @spec:AC-081', async () => {

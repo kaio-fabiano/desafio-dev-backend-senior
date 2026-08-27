@@ -3,14 +3,24 @@ import {
   ApolloGatewayDriver,
   type ApolloGatewayDriverConfig,
 } from '@nestjs/apollo';
-import { IntrospectAndCompose } from '@apollo/gateway';
+import { LocalCompose } from '@apollo/gateway';
 import { GraphQLModule } from '@nestjs/graphql';
+import { parse } from 'graphql';
 
 import { verifyGatewayRequest } from './auth/token-verifier.ts';
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
 import { HealthController } from './health.controller.ts';
 
 export class AppModule {}
+
+function contract(name: 'identity' | 'catalog' | 'commerce') {
+  return parse(
+    readFileSync(
+      resolve(`libs/contracts/graphql/${name}/schema.graphql`),
+      'utf8',
+    ),
+  );
+}
 
 Module({
   imports: [
@@ -44,25 +54,28 @@ Module({
           ),
       },
       gateway: {
-        supergraphSdl: new IntrospectAndCompose({
-          subgraphs: [
+        supergraphSdl: new LocalCompose({
+          localServiceList: [
             {
               name: 'identity',
               url:
                 process.env.IDENTITY_GRAPHQL_URL ??
                 'http://identity-subgraph:3001/graphql',
+              typeDefs: contract('identity'),
             },
             {
               name: 'catalog',
               url:
                 process.env.CATALOG_GRAPHQL_URL ??
                 'http://wordpress-integration/graphql',
+              typeDefs: contract('catalog'),
             },
             {
               name: 'commerce',
               url:
                 process.env.COMMERCE_GRAPHQL_URL ??
                 'http://commerce-subgraph:3003/graphql',
+              typeDefs: contract('commerce'),
             },
           ],
         }),
@@ -72,3 +85,5 @@ Module({
   ],
   controllers: [HealthController],
 })(AppModule);
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
