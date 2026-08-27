@@ -6,11 +6,11 @@ transport:
   port: 8000
   auth:
     servers:
-      - http://identity-subgraph:3001/api/auth
+      - http://identity.localhost:3001/api/auth
     audiences:
       - https://mcp.marketplace.local
     issuers:
-      - http://identity-subgraph:3001/api/auth
+      - http://identity.localhost:3001/api/auth
     allow_any_audience: false
     resource: http://apollo-mcp:8000/mcp
     scopes:

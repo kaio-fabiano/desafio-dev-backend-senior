@@ -43,13 +43,21 @@ async function graphql(
   variables: JsonObject = {},
   accessToken?: string,
 ) {
+  const documents: Record<string, string> = {
+    me: 'query me { me { id email } }',
+    addToCart: 'mutation addToCart($productId: ID!, $quantity: Int!) { addToCart(productId: $productId, quantity: $quantity) { id } }',
+    checkout: 'mutation checkout($input: CheckoutInput!) { checkout(input: $input) { id wooOrderId status paymentMethod workflow { state } pixCode } }',
+    checkoutOperation: 'query checkoutOperation($id: ID!) { checkout(id: $id) { id operationKey status } }',
+  };
+  const query = documents[operationName];
+  if (!query) throw new Error(`Unknown E2E GraphQL operation: ${operationName}`);
   const response = await fetch(`${environment.gatewayUrl}/graphql`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
       ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {}),
     },
-    body: JSON.stringify({ operationName, variables }),
+    body: JSON.stringify({ query, operationName, variables }),
   });
   const payload = await response.json();
   if (!response.ok || payload.errors) throw new Error(`Gateway ${operationName} failed: ${JSON.stringify(payload)}`);
@@ -89,7 +97,7 @@ async function issueToken(
     headers: {
       'content-type': 'application/json',
       cookie,
-      origin: 'http://identity-subgraph:3001',
+      origin: 'http://identity.localhost:3001',
     },
     body: JSON.stringify({ accept: true, oauth_query: consentUrl.search.slice(1) }),
   });
@@ -117,7 +125,7 @@ async function issueToken(
 async function registerBuyer(environment: Milestone7Environment) {
   const response = await fetch(`${environment.identityUrl}/api/auth/sign-up/email`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', origin: 'http://identity-subgraph:3001' },
+    headers: { 'content-type': 'application/json', origin: 'http://identity.localhost:3001' },
     body: JSON.stringify({ email: BUYER_EMAIL, password: 'milestone-7-buyer-password', name: 'Milestone 7 buyer' }),
   });
   const payload = await response.json() as { user: JsonObject };
@@ -128,13 +136,19 @@ async function registerBuyer(environment: Milestone7Environment) {
   };
 }
 
-async function mcpRequest(environment: Milestone7Environment, accessToken: string | undefined, body: JsonObject) {
+async function mcpRequest(
+  environment: Milestone7Environment,
+  accessToken: string | undefined,
+  body: JsonObject,
+  sessionId?: string,
+) {
   return fetch(environment.mcpUrl, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
       accept: 'application/json, text/event-stream',
       ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {}),
+      ...(sessionId ? { 'mcp-session-id': sessionId } : {}),
     },
     body: JSON.stringify(body),
   });
@@ -147,15 +161,26 @@ async function invokeMe(environment: Milestone7Environment, accessToken: string)
     method: 'initialize',
     params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'milestone-7-e2e', version: '1.0.0' } },
   });
-  if (!initialize.ok) throw new Error(`MCP initialize failed with ${initialize.status}`);
+  if (!initialize.ok) {
+    throw new Error(
+      `MCP initialize failed with ${initialize.status}: ${initialize.headers.get('www-authenticate') ?? ''} ${await initialize.text()}`,
+    );
+  }
+  const sessionId = initialize.headers.get('mcp-session-id');
+  if (!sessionId) throw new Error('MCP initialize did not return a session identifier');
   const call = await mcpRequest(environment, accessToken, {
     jsonrpc: '2.0',
     id: 2,
     method: 'tools/call',
     params: { name: 'me', arguments: {} },
-  });
-  if (!call.ok) throw new Error(`MCP me failed with ${call.status}`);
-  const payload = await call.json();
+  }, sessionId);
+  if (!call.ok) throw new Error(`MCP me failed with ${call.status}: ${await call.text()}`);
+  const responseText = await call.text();
+  const jsonText = call.headers.get('content-type')?.includes('text/event-stream')
+    ? responseText.split(/\r?\n/).find((line) => line.startsWith('data:') && line.slice(5).trim())?.slice(5).trim()
+    : responseText;
+  if (!jsonText) throw new Error(`MCP me returned no JSON-RPC message: ${responseText}`);
+  const payload = JSON.parse(jsonText);
   return JSON.parse(payload.result.content[0].text).data.me;
 }
 
@@ -186,7 +211,7 @@ async function checkout(
 ) {
   const nextEvent = await subscribe(environment, operationKey, accessToken);
   const subscriptionOpenedBeforeCheckout = true;
-  const result = await graphql(environment, 'checkout', { operationKey, paymentMethod }, accessToken);
+  const result = await graphql(environment, 'checkout', { input: { operationKey, paymentMethod } }, accessToken);
   return { result, event: await nextEvent(), subscriptionOpenedBeforeCheckout };
 }
 
@@ -196,11 +221,11 @@ export async function runAcceptanceJourney(environment: Milestone7Environment): 
   const gatewayIdentity = await graphql(environment, 'me', {}, accessToken);
   const mcpIdentity = await invokeMe(environment, accessToken);
 
-  await graphql(environment, 'addToCart', { productId: 'product-1', quantity: 1 }, accessToken);
+  await graphql(environment, 'addToCart', { productId: '1001', quantity: 1 }, accessToken);
   const cardOperationKey = 'milestone-7-card';
   const card = await checkout(environment, accessToken, cardOperationKey, 'CARD');
-  const cardRetry = await graphql(environment, 'checkout', { operationKey: cardOperationKey, paymentMethod: 'CARD' }, accessToken);
-  const cardPersisted = await graphql(environment, 'order', { operationKey: cardOperationKey }, accessToken);
+  const cardRetry = await graphql(environment, 'checkout', { input: { operationKey: cardOperationKey, paymentMethod: 'CARD' } }, accessToken);
+  const cardPersisted = await graphql(environment, 'checkoutOperation', { id: card.result.id }, accessToken);
   const meAfterCard = await graphql(environment, 'me', {}, accessToken);
 
   const pixOperationKey = 'milestone-7-pix';

@@ -31,11 +31,11 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
       await environment.stop();
       throw error;
     }
-  });
+  }, 600_000);
 
   afterAll(async () => {
     await environment?.stop();
-  });
+  }, 120_000);
 
   it('starts the complete isolated topology from one target @spec:AC-067', async () => {
     expect(environment?.startedComponents).toEqual(requiredComponents);
