@@ -1,0 +1,11 @@
+{
+  "feature": "milestone-2-identity-catalog",
+  "timestamp": "2026-08-27T05:27:05.996Z",
+  "gitRev": "f2950a7",
+  "command": "node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 24,
+  "results": {},
+  "principles": {}
+}
