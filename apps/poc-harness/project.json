@@ -21,6 +21,12 @@
       "options": {
         "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs"
       }
+    },
+    "milestone-7-quality": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --experimental-test-coverage --test-coverage-lines=70 --test --test-reporter=tap test/milestone-3-*.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs && docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
+      }
     }
   }
 }
