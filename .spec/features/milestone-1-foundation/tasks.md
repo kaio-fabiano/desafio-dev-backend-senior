@@ -2,8 +2,7 @@
 
 > feature: milestone-1-foundation
 
-## T-008 — Close the audited baseline [pendente]
-
+## T-008 — Close the audited baseline [concluida]
 - Refs: US-009, AC-017
 - Arquivos: .spec/features/marco-0-pocs/spec.md, .spec/constituicao.md, test/milestone-1-baseline.test.mjs
 - Modelo: gpt-5.6-luna
