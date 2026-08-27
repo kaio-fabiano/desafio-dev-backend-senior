@@ -29,7 +29,7 @@
 - Esforço: alto
 - Notas: Forward the unchanged Authorization header to the gateway and keep gateway verification active. Add readiness without logging bearer values.
 
-## T-045 — Assemble MCP protocol and parity acceptance [pendente]
+## T-045 — Assemble MCP protocol and parity acceptance [concluida]
 - Refs: US-034, US-035, US-036, AC-060, AC-061, AC-062, AC-063, AC-064, AC-065, AC-066
 - Arquivos: package.json, pnpm-lock.yaml, apps/poc-harness/project.json, test/milestone-6-apollo-mcp.test.mjs, docs/runbooks/milestone-6-apollo-mcp.md, docs/evidence/mcp/README.md, onpspec.config.json, .github/workflows/ci.yml
 - Modelo: gpt-5.6-terra
