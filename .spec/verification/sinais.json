@@ -1719,6 +1719,384 @@
       "primeiraVez": "2026-08-27T18:04:02.724Z",
       "ultimaVez": "2026-08-27T18:04:02.724Z",
       "gitRev": "8939d79"
+    },
+    "STATUS_INVALIDO::milestone-7-e2e-deployment::.spec/features/milestone-7-e2e-deployment/spec.md": {
+      "codigo": "STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": ".spec/features/milestone-7-e2e-deployment/spec.md",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "SECAO_AUSENTE::milestone-7-e2e-deployment::.spec/features/milestone-7-e2e-deployment/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": ".spec/features/milestone-7-e2e-deployment/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-067": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-067",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-068": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-068",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-069": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-069",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-070": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-070",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-071": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-071",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-072": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-072",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-073": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-073",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-074": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-074",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-075": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-075",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-076": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-076",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_INCOMPLETO::milestone-7-e2e-deployment::AC-077": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-077",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "TASK_STATUS_INVALIDO::milestone-7-e2e-deployment::T-046": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-046",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "TASK_STATUS_INVALIDO::milestone-7-e2e-deployment::T-047": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-047",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "TASK_STATUS_INVALIDO::milestone-7-e2e-deployment::T-048": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-048",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "TASK_STATUS_INVALIDO::milestone-7-e2e-deployment::T-049": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-049",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "TASK_STATUS_INVALIDO::milestone-7-e2e-deployment::T-050": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-050",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "TASK_STATUS_INVALIDO::milestone-7-e2e-deployment::T-051": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-051",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "TASK_STATUS_INVALIDO::milestone-7-e2e-deployment::T-052": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-052",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:05:47.962Z",
+      "gitRev": "06b23d1"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-046": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-046",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-047": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-047",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-048": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-048",
+      "ocorrencias": 12,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-049": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-049",
+      "ocorrencias": 15,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-050": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-050",
+      "ocorrencias": 9,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-051": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-051",
+      "ocorrencias": 15,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-052": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-052",
+      "ocorrencias": 18,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-067": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-067",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-068": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-068",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-069": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-069",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-070": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-070",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-071": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-071",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-072": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-072",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-073": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-073",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-074": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-074",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-075": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-075",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-076": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-076",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "AC_SEM_TESTE::milestone-7-e2e-deployment::AC-077": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-077",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T19:05:47.962Z",
+      "ultimaVez": "2026-08-27T19:07:06.963Z",
+      "gitRev": "06b23d1"
+    },
+    "ASM_STATUS_INVALIDO::milestone-7-e2e-deployment::ASM-026": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "ASM-026",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:06:37.752Z",
+      "ultimaVez": "2026-08-27T19:06:37.752Z",
+      "gitRev": "06b23d1"
+    },
+    "ASM_STATUS_INVALIDO::milestone-7-e2e-deployment::ASM-027": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "ASM-027",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:06:37.752Z",
+      "ultimaVez": "2026-08-27T19:06:37.752Z",
+      "gitRev": "06b23d1"
+    },
+    "ASM_STATUS_INVALIDO::milestone-7-e2e-deployment::ASM-028": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "ASM-028",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:06:37.752Z",
+      "ultimaVez": "2026-08-27T19:06:37.752Z",
+      "gitRev": "06b23d1"
+    },
+    "Q_STATUS_INVALIDO::milestone-7-e2e-deployment::Q-001": {
+      "codigo": "Q_STATUS_INVALIDO",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "Q-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T19:06:37.752Z",
+      "ultimaVez": "2026-08-27T19:06:37.752Z",
+      "gitRev": "06b23d1"
     }
   }
 }

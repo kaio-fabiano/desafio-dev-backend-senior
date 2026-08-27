@@ -1,6 +1,22 @@
 {
-  "generated_at": "2026-08-27T18:02:10.012459+00:00",
+  "generated_at": "2026-08-27T19:02:30.511051+00:00",
   "nodes": {
+    "docs_knowledge_apollo_mcp_apollo_mcp": {
+      "code_fingerprint": "a36bdc9468b05c8f768ad3cf2e82497fa3a0acab44701aa755958e616b943639",
+      "label": "Apollo MCP",
+      "last": "2026-08-27T18:04:09.300819+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T18:04:09.300819+00:00",
+          "outcome": "useful",
+          "q": "What is the next development milestone?"
+        }
+      ],
+      "score": 0.999064152,
+      "source_file": "docs/knowledge/Apollo MCP.md",
+      "status": "tentative",
+      "uses": 1
+    },
     "docs_prds_01_arquitetura_e_dominio_outbox_inbox_consistency": {
       "code_fingerprint": "d84b53fb90098f9652a076e119e26e2c961b7e2ab0eb795c60fb27cffc9a0b06",
       "label": "Consistência por Outbox e Inbox",
@@ -12,7 +28,7 @@
           "q": "Define the smallest Milestone 4 payment inventory saga slice and its integration points"
         }
       ],
-      "score": 0.997787934,
+      "score": 0.996822357,
       "source_file": "docs/prds/01-arquitetura-e-dominio.md",
       "status": "tentative",
       "uses": 1
@@ -33,10 +49,42 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 1.959887684,
+      "score": 1.957991067,
       "source_file": "docs/prds/02-graphql-federation.md",
       "status": "preferred",
       "uses": 2
+    },
+    "docs_prds_05_apollo_mcp_mcp_prd": {
+      "code_fingerprint": "930faf882d811e2b2a76fdf31c29bc5cf16d0834332a4e4e8d35e999dcf2ebfc",
+      "label": "PRD 05 — Apollo MCP autenticado",
+      "last": "2026-08-27T18:04:09.300819+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T18:04:09.300819+00:00",
+          "outcome": "useful",
+          "q": "What is the next development milestone?"
+        }
+      ],
+      "score": 0.999064152,
+      "source_file": "docs/prds/05-apollo-mcp.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "docs_prds_07_roadmap_implementation_roadmap": {
+      "code_fingerprint": "7915ccdd7e0802018e085ee8d47ab0c66b6e7feb2c892d71ace7d0dcf51d6dcf",
+      "label": "PRD 07 — Roadmap de implementação",
+      "last": "2026-08-27T18:04:09.300819+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T18:04:09.300819+00:00",
+          "outcome": "useful",
+          "q": "What is the next development milestone?"
+        }
+      ],
+      "score": 0.999064152,
+      "source_file": "docs/prds/07-roadmap.md",
+      "status": "tentative",
+      "uses": 1
     },
     "readme_docker_compose": {
       "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
@@ -49,7 +97,7 @@
           "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
         }
       ],
-      "score": 0.986438008,
+      "score": 0.985483415,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -65,7 +113,7 @@
           "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
         }
       ],
-      "score": 0.986438008,
+      "score": 0.985483415,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -86,7 +134,7 @@
           "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
         }
       ],
-      "score": 1.983300706,
+      "score": 1.981381431,
       "source_file": "README.md",
       "status": "preferred",
       "uses": 2
@@ -107,7 +155,7 @@
           "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
         }
       ],
-      "score": 1.994650633,
+      "score": 1.992720374,
       "source_file": "README.md",
       "status": "preferred",
       "uses": 2
@@ -123,7 +171,7 @@
           "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
         }
       ],
-      "score": 0.996862698,
+      "score": 0.995898017,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -139,7 +187,7 @@
           "q": "Define the smallest Milestone 4 payment inventory saga slice and its integration points"
         }
       ],
-      "score": 0.997787934,
+      "score": 0.996822357,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -155,7 +203,7 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.963024986,
+      "score": 0.96209305,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -171,7 +219,7 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.963024986,
+      "score": 0.96209305,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
