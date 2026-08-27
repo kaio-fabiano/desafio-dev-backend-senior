@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 14,
+      "ocorrencias": 15,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-27T18:44:28.970Z",
-      "gitRev": "5fb9939"
+      "ultimaVez": "2026-08-27T20:23:18.731Z",
+      "gitRev": "a77a1fb"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 10,
+      "ocorrencias": 11,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-27T18:44:28.969Z",
-      "gitRev": "5fb9939"
+      "ultimaVez": "2026-08-27T20:23:18.730Z",
+      "gitRev": "a77a1fb"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -887,10 +887,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-1-foundation",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 9,
       "primeiraVez": "2026-08-27T05:27:06.132Z",
-      "ultimaVez": "2026-08-27T18:44:28.970Z",
-      "gitRev": "5fb9939"
+      "ultimaVez": "2026-08-27T20:23:18.731Z",
+      "gitRev": "a77a1fb"
     },
     "AC_SEM_PROVA::milestone-2-identity-catalog::AC-024": {
       "codigo": "AC_SEM_PROVA",
@@ -1283,19 +1283,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-2-identity-catalog",
       "ref": "—",
-      "ocorrencias": 7,
+      "ocorrencias": 8,
       "primeiraVez": "2026-08-27T15:22:41.051Z",
-      "ultimaVez": "2026-08-27T18:44:28.970Z",
-      "gitRev": "5fb9939"
+      "ultimaVez": "2026-08-27T20:23:18.731Z",
+      "gitRev": "a77a1fb"
     },
     "VERIFY_OBSOLETO::milestone-3-cart-order::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-3-cart-order",
       "ref": "—",
-      "ocorrencias": 6,
+      "ocorrencias": 7,
       "primeiraVez": "2026-08-27T15:43:50.282Z",
-      "ultimaVez": "2026-08-27T18:44:28.970Z",
-      "gitRev": "5fb9939"
+      "ultimaVez": "2026-08-27T20:23:18.731Z",
+      "gitRev": "a77a1fb"
     },
     "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-028": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1481,10 +1481,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-4-payment-inventory-saga",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-27T17:06:38.293Z",
-      "ultimaVez": "2026-08-27T18:44:28.970Z",
-      "gitRev": "5fb9939"
+      "ultimaVez": "2026-08-27T20:23:18.731Z",
+      "gitRev": "a77a1fb"
     },
     "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-036": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1607,10 +1607,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-5-subscription-sse",
       "ref": "—",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T18:04:02.724Z",
-      "ultimaVez": "2026-08-27T18:44:28.970Z",
-      "gitRev": "5fb9939"
+      "ultimaVez": "2026-08-27T20:23:18.731Z",
+      "gitRev": "a77a1fb"
     },
     "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-041": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -2160,6 +2160,15 @@
       "primeiraVez": "2026-08-27T19:36:27.637Z",
       "ultimaVez": "2026-08-27T19:36:27.637Z",
       "gitRev": "889ec28"
+    },
+    "VERIFY_OBSOLETO::milestone-6-apollo-mcp::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T20:23:18.731Z",
+      "ultimaVez": "2026-08-27T20:23:18.731Z",
+      "gitRev": "a77a1fb"
     }
   }
 }
