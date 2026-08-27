@@ -22,7 +22,7 @@
 - Esforço: alto
 - Notas: Authentication is critical. Reuse ADR 002 and existing Better Auth resource patterns; prove MCP-only, gateway-only, multi-audience, expiry, issuer, and per-tool scopes.
 
-## T-044 — Wire Apollo MCP to the gateway and Compose [pendente]
+## T-044 — Wire Apollo MCP to the gateway and Compose [concluida]
 - Refs: US-036, AC-064, AC-065
 - Arquivos: compose.yaml, apps/gateway/src/main.ts, apps/apollo-mcp/mcp.yaml, test/milestone-6-mcp-propagation.test.mjs
 - Modelo: gpt-5.6-sol
