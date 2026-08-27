@@ -1,0 +1,9 @@
+query GetMyCart {
+  cart {
+    id
+    items {
+      edges { node { quantity product { id name price } } }
+      pageInfo { hasNextPage endCursor }
+    }
+  }
+}
