@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/gateway",
+  "projectType": "application",
+  "sourceRoot": "apps/gateway/src",
+  "tags": ["type:app", "scope:gateway"],
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types apps/gateway/src/main.ts"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/identity-subgraph",
+  "projectType": "application",
+  "sourceRoot": "apps/identity-subgraph/src",
+  "tags": ["type:app", "scope:identity"],
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types apps/identity-subgraph/src/main.ts"
+      }
+    }
+  }
+}
