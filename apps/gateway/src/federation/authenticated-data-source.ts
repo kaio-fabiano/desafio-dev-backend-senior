@@ -10,7 +10,7 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
     request: { http?: { headers: Headers } };
     context?: AuthContext;
   }) {
-    if (!context) return;
+    if (!context?.subject || !context.scopes) return;
 
     request.http?.headers.set('x-authenticated-subject', context.subject);
     request.http?.headers.set('x-authenticated-scopes', context.scopes.join(' '));

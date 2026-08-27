@@ -23,6 +23,7 @@ const COMPOSE_SERVICES = [
 ] as const;
 
 export type Milestone7Environment = {
+  identityUrl: string;
   gatewayUrl: string;
   mcpUrl: string;
   startedComponents: readonly string[];
@@ -46,8 +47,10 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       .withStartupTimeout(STARTUP_TIMEOUT)
       .up([...COMPOSE_SERVICES]);
     const gateway = environment.getContainer('gateway-1');
+    const identity = environment.getContainer('identity-subgraph-1');
     const mcp = environment.getContainer('apollo-mcp-1');
     return {
+      identityUrl: `http://${identity.getHost()}:${identity.getMappedPort(3001)}`,
       gatewayUrl: `http://${gateway.getHost()}:${gateway.getMappedPort(3000)}`,
       mcpUrl: `http://${mcp.getHost()}:${mcp.getMappedPort(8000)}/mcp`,
       startedComponents: COMPOSE_SERVICES,

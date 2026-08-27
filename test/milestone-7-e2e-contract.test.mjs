@@ -29,8 +29,10 @@ test('AC-068..AC-071: the journey crosses only public Gateway and MCP boundaries
   assert.doesNotMatch(journey, /\.\.\/\.\.\/(?:gateway|identity-subgraph|commerce-subgraph|payment-processor|stock-worker)/);
   assert.match(journey, /environment\.gatewayUrl/);
   assert.match(journey, /environment\.mcpUrl/);
-  assert.match(journey, /registerBuyer/);
-  assert.match(journey, /issueToken/);
+  assert.match(journey, /api\/auth\/sign-up\/email/);
+  assert.match(journey, /api\/auth\/oauth2\/authorize/);
+  assert.match(journey, /api\/auth\/oauth2\/consent/);
+  assert.match(journey, /api\/auth\/oauth2\/token/);
   assert.match(journey, /await subscribe\([\s\S]*await graphql\(environment, 'checkout'/);
   assert.match(journey, /cardRetry/);
   assert.match(journey, /rejectionStatuses/);
