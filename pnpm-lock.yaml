@@ -57,6 +57,9 @@ importers:
       '@nx/eslint-plugin':
         specifier: 23.1.1
         version: 23.1.1(@babel/traverse@7.29.8(supports-color@7.2.0))(eslint@9.39.1(supports-color@7.2.0))(nx@23.1.1)(supports-color@7.2.0)(typescript@6.0.3)
+      '@nx/gradle':
+        specifier: 23.1.1
+        version: 23.1.1(nx@23.1.1)
       '@nx/js':
         specifier: 23.1.1
         version: 23.1.1(@babel/traverse@7.29.8(supports-color@7.2.0))(nx@23.1.1)(supports-color@7.2.0)
@@ -1032,6 +1035,10 @@ packages:
         optional: true
       '@zkochan/js-yaml':
         optional: true
+
+  '@nx/gradle@23.1.1':
+    peerDependencies:
+      nx: '>= 21.0.0'
 
   '@nx/js@23.1.1':
     resolution: {integrity: sha512-8YnhKAnSE7lTiiUEoUyO5LBmZiRIqsc/v2qFMAUfbJKr2bAKAB4h+6Lz9ZfbMvRzJH3fcDZVVWVcvU5GXmQhzg==}
@@ -4255,6 +4262,8 @@ snapshots:
       - nx
       - supports-color
       - verdaccio
+
+  '@nx/gradle@23.1.1(nx@23.1.1)': {}
 
   '@nx/js@23.1.1(@babel/traverse@7.29.8(supports-color@7.2.0))(nx@23.1.1)(supports-color@7.2.0)':
     dependencies:
