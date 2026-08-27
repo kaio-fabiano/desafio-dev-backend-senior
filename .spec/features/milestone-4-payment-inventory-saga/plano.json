@@ -1,0 +1,266 @@
+{
+  "runId": "desafio-dev-backend-senior-milestone-4-payment-inventory-saga-mtbp8j6g",
+  "feature": "milestone-4-payment-inventory-saga",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-030",
+    "T-032",
+    "T-031",
+    "T-033"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-27 15:50",
+  "branchTrabalho": "spec/milestone-4-payment-inventory-saga",
+  "baseDir": ".spec/features/milestone-4-payment-inventory-saga",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ],
+    [
+      "faixa-4"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/milestone-4-payment-inventory-saga-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-030",
+          "titulo": "Scaffold the Spring Boot payment processor and Nx Gradle targets",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "package.json",
+            "pnpm-lock.yaml",
+            "nx.json",
+            "apps/payment-processor/settings.gradle.kts",
+            "apps/payment-processor/build.gradle.kts",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java",
+            "apps/payment-processor/src/main/resources/application.yaml",
+            "apps/payment-processor/src/test/java/dev/desafio/payment/PaymentProcessorApplicationTest.java",
+            "test/milestone-4-nx-gradle.test.mjs"
+          ],
+          "refs": [
+            "US-027",
+            "AC-045"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/milestone-4-payment-inventory-saga-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-031",
+          "titulo": "Implement idempotent Card, Pix, and refund processing",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/application/PaymentHandler.java",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java",
+            "apps/payment-processor/src/main/resources/db/migration/V1__payment_inbox_outbox.sql",
+            "apps/payment-processor/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java",
+            "apps/payment-processor/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java"
+          ],
+          "refs": [
+            "US-027",
+            "US-029",
+            "US-030",
+            "AC-043",
+            "AC-044",
+            "AC-049",
+            "AC-051"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/milestone-4-payment-inventory-saga-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-032",
+          "titulo": "Implement the idempotent WooCommerce inventory worker",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "apps/stock-worker/project.json",
+            "apps/stock-worker/src/inventory/inventory.service.ts",
+            "apps/stock-worker/src/inventory/woo-inventory.adapter.ts",
+            "apps/stock-worker/src/inventory/inbox.repository.ts",
+            "apps/stock-worker/src/main.ts",
+            "test/milestone-4-inventory-worker.test.mjs",
+            "test/milestone-4-inventory-redelivery.test.mjs"
+          ],
+          "refs": [
+            "US-028",
+            "US-030",
+            "AC-046",
+            "AC-047",
+            "AC-051"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-4",
+      "branch": "spec/milestone-4-payment-inventory-saga-faixa-4",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-4",
+      "tarefas": [
+        {
+          "id": "T-033",
+          "titulo": "Implement monotonic Commerce saga transitions",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/commerce-subgraph/src/saga/order-saga.ts",
+            "apps/commerce-subgraph/src/saga/order-event.consumer.ts",
+            "apps/commerce-subgraph/src/inbox/inbox.repository.ts",
+            "apps/commerce-subgraph/src/persistence/entities/order-workflow.entity.ts",
+            "apps/commerce-subgraph/src/persistence/entities/inbox-record.entity.ts",
+            "apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts",
+            "libs/contracts/graphql/commerce/schema.graphql",
+            "test/milestone-4-order-saga.test.mjs",
+            "test/milestone-4-order-saga-redelivery.test.mjs"
+          ],
+          "refs": [
+            "US-029",
+            "US-030",
+            "AC-048",
+            "AC-049",
+            "AC-050",
+            "AC-051"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-028",
+      "titulo": "Complete the versioned event contracts",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "libs/contracts/events/envelope.schema.json",
+        "libs/contracts/events/payment-requested.v1.schema.json",
+        "libs/contracts/events/payment-authorized.v1.schema.json",
+        "libs/contracts/events/payment-pix-generated.v1.schema.json",
+        "libs/contracts/events/stock-reservation-requested.v1.schema.json",
+        "libs/contracts/events/stock-reserved.v1.schema.json",
+        "libs/contracts/events/stock-reservation-failed.v1.schema.json",
+        "libs/contracts/events/payment-refund-requested.v1.schema.json",
+        "libs/contracts/events/payment-refunded.v1.schema.json",
+        "test/milestone-4-event-contracts.test.mjs"
+      ],
+      "refs": [
+        "US-026",
+        "US-027",
+        "US-028",
+        "US-029",
+        "AC-041",
+        "AC-042",
+        "AC-043",
+        "AC-044",
+        "AC-046",
+        "AC-047",
+        "AC-048",
+        "AC-049",
+        "AC-050"
+      ]
+    },
+    {
+      "id": "T-029",
+      "titulo": "Add RabbitMQ topology and confirmed Commerce outbox publishing",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "apps/commerce-subgraph/src/messaging/rabbitmq.ts",
+        "apps/commerce-subgraph/src/outbox/outbox.publisher.ts",
+        "apps/commerce-subgraph/src/outbox/outbox.repository.ts",
+        "apps/commerce-subgraph/src/persistence/entities/outbox-event.entity.ts",
+        "apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts",
+        "test/milestone-4-outbox-publisher.test.mjs",
+        "test/milestone-4-rabbitmq-topology.test.mjs"
+      ],
+      "refs": [
+        "US-026",
+        "US-030",
+        "AC-041",
+        "AC-042",
+        "AC-051"
+      ]
+    },
+    {
+      "id": "T-034",
+      "titulo": "Wire services, databases, and graceful lifecycle in Compose",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "compose.yaml",
+        "apps/commerce-subgraph/src/app.module.ts",
+        "apps/payment-processor/Dockerfile",
+        "apps/stock-worker/Dockerfile",
+        "apps/stock-worker/src/app.module.ts",
+        "test/milestone-4-compose.test.mjs"
+      ],
+      "refs": [
+        "US-026",
+        "US-027",
+        "US-028",
+        "AC-042",
+        "AC-045"
+      ]
+    },
+    {
+      "id": "T-035",
+      "titulo": "Assemble the Milestone 4 acceptance and operational gate",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/poc-harness/project.json",
+        "test/milestone-4-payment-inventory-saga.test.mjs",
+        "docs/runbooks/milestone-4-payment-inventory-saga.md",
+        "onpspec.config.json",
+        ".github/workflows/ci.yml"
+      ],
+      "refs": [
+        "US-026",
+        "US-027",
+        "US-028",
+        "US-029",
+        "US-030",
+        "AC-041",
+        "AC-042",
+        "AC-043",
+        "AC-044",
+        "AC-045",
+        "AC-046",
+        "AC-047",
+        "AC-048",
+        "AC-049",
+        "AC-050",
+        "AC-051",
+        "AC-052"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
