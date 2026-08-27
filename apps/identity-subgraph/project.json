@@ -14,7 +14,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-2-identity-catalog.test.mjs"
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-2-identity-catalog.test.mjs test/milestone-8-identity-gateway.test.mjs"
       }
     },
     "seed": {

@@ -14,7 +14,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-2-*.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-5-gateway-sse.test.mjs"
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-2-*.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-8-identity-gateway.test.mjs"
       }
     },
     "serve": {

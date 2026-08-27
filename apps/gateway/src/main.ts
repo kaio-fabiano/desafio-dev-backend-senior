@@ -62,7 +62,6 @@ async function bootstrap() {
     token,
   });
   const http = app.getHttpAdapter().getInstance();
-  http.all('/graphql', createGatewayAuthMiddleware(token));
   http.all('/graphql/stream', sseHandler);
   await app.listen(Number(process.env.PORT ?? 3000));
 }

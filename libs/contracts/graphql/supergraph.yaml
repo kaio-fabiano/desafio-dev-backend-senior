@@ -6,7 +6,7 @@ subgraphs:
     schema:
       file: ./identity/schema.graphql
   catalog:
-    routing_url: http://catalog:3002/graphql
+    routing_url: http://wordpress-integration/graphql
     schema:
       file: ./catalog/schema.graphql
   commerce:

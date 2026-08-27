@@ -19,11 +19,28 @@ type SupplierMembership {
   validUntil: String
 }
 
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
 enum SupplierRole {
   OWNER
   MANAGER
 }
 
 type Query {
+  users(first: Int = 20, after: String): UserConnection!
+  user(id: ID!): User
   me: User
 }
