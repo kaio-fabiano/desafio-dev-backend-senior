@@ -23,6 +23,16 @@ Vistas em uma feature só. Registradas, não confiadas.
 - features: marco-0-pocs
 - última evidência: AC-009 (marco-0-pocs, 2026-08-27T03:46:20.599Z)
 
+### L-003 — Keep the parser keywords Dado, Quando, Então, Suposições, and Perguntas em aberto unchanged even when project prose is English.
+- sinal: `AC_INCOMPLETO` · recorrência: 1 feature(s) · escopo: `spec` · penalidades: 0
+- features: milestone-3-cart-order
+- última evidência: AC-033 (milestone-3-cart-order, 2026-08-27T15:30:58.517Z)
+
+### L-004 — Mark a task concluded only after its expected files and commit exist and onp-spec verify records PASS; an agent exit code alone is not completion.
+- sinal: `TASK_CONCLUIDA_SEM_PROVA` · recorrência: 1 feature(s) · escopo: `execution` · penalidades: 0
+- features: milestone-3-cart-order
+- última evidência: T-021 (milestone-3-cart-order, 2026-08-27T15:31:07.802Z)
+
 ## Quarentena — aplicadas e falharam, ignorar
 
 A falha recorreu mesmo com a lição aplicada. Revisão é do usuário.

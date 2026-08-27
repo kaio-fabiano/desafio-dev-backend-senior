@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "proximoId": 3,
+  "proximoId": 5,
   "licoes": [
     {
       "id": "L-001",
@@ -47,6 +47,52 @@
       "penalidades": 0,
       "criadaEm": "2026-08-27T03:46:20.599Z",
       "ultimaVez": "2026-08-27T03:46:20.599Z"
+    },
+    {
+      "id": "L-003",
+      "texto": "Keep the parser keywords Dado, Quando, Então, Suposições, and Perguntas em aberto unchanged even when project prose is English.",
+      "chave": "AC_INCOMPLETO::keep the parser keywords dado quando entao suposicoes and perguntas em aberto unchanged even when project prose is english",
+      "sinal": "AC_INCOMPLETO",
+      "escopo": "spec",
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-3-cart-order"
+      ],
+      "evidencias": [
+        {
+          "fonte": "AC-033",
+          "feature": "milestone-3-cart-order",
+          "quando": "2026-08-27T15:30:58.517Z",
+          "gitRev": "4e564f2"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T15:30:58.517Z",
+      "ultimaVez": "2026-08-27T15:30:58.517Z"
+    },
+    {
+      "id": "L-004",
+      "texto": "Mark a task concluded only after its expected files and commit exist and onp-spec verify records PASS; an agent exit code alone is not completion.",
+      "chave": "TASK_CONCLUIDA_SEM_PROVA::mark a task concluded only after its expected files and commit exist and onp spec verify records pass an agent exit code alone is not completion",
+      "sinal": "TASK_CONCLUIDA_SEM_PROVA",
+      "escopo": "execution",
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-3-cart-order"
+      ],
+      "evidencias": [
+        {
+          "fonte": "T-021",
+          "feature": "milestone-3-cart-order",
+          "quando": "2026-08-27T15:31:07.802Z",
+          "gitRev": "7e8acfb"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T15:31:07.802Z",
+      "ultimaVez": "2026-08-27T15:31:07.802Z"
     }
   ]
 }

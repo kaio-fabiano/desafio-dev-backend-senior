@@ -1,7 +1,7 @@
 # Spec: Milestone 3 — Cart and idempotent order
 
 > feature: milestone-3-cart-order
-> status: pronta
+> status: auditada
 
 ## Context
 
