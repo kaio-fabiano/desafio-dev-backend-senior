@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-4-payment-inventory-saga` em 2026-08-27 15:53
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-4-payment-inventory-saga` em 2026-08-27 16:13
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-4-payment-inventory-saga-mtbpdc29'
+RUN_ID='desafio-dev-backend-senior-milestone-4-payment-inventory-saga-mtbq2d21'
 FEATURE='milestone-4-payment-inventory-saga'
 BASE_BRANCH='spec/milestone-4-payment-inventory-saga'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,7 +168,7 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-030 ──
+# ── faixa-1: T-031 ──
 executar_faixa_1() {
   local WT="$WT_BASE-faixa-1"
   preparar_worktree 'faixa-1' 'spec/milestone-4-payment-inventory-saga-faixa-1' "$WT" || return 1
@@ -176,94 +176,7 @@ executar_faixa_1() {
   : > "$LOG_DIR/faixa-1.log"
   (
     cd "$WT" || exit 9
-    rodar_tarefa 'faixa-1' 'T-030' 'Você executa UMA tarefa da feature "milestone-4-payment-inventory-saga" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-4-payment-inventory-saga/spec.md, .spec/features/milestone-4-payment-inventory-saga/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-030 — "Scaffold the Spring Boot payment processor and Nx Gradle targets"
-  critérios/refs: AC-045 (Payment processor is operable through Nx)
-  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, nx.json, apps/payment-processor/settings.gradle.kts, apps/payment-processor/build.gradle.kts, apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java, apps/payment-processor/src/main/resources/application.yaml, apps/payment-processor/src/test/java/dev/desafio/payment/PaymentProcessorApplicationTest.java, test/milestone-4-nx-gradle.test.mjs
-  mensagem de commit: "T-030 milestone-4-payment-inventory-saga: Scaffold the Spring Boot payment processor and Nx Gradle targets"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium
-  ) >> "$LOG_DIR/faixa-1.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-1' 'spec/milestone-4-payment-inventory-saga-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-030
-  return 0
-}
-
-# ── faixa-2: T-032 ──
-executar_faixa_2() {
-  local WT="$WT_BASE-faixa-2"
-  preparar_worktree 'faixa-2' 'spec/milestone-4-payment-inventory-saga-faixa-2' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
-  : > "$LOG_DIR/faixa-2.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-2' 'T-032' 'Você executa UMA tarefa da feature "milestone-4-payment-inventory-saga" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-4-payment-inventory-saga/spec.md, .spec/features/milestone-4-payment-inventory-saga/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-032 — "Implement the idempotent WooCommerce inventory worker"
-  critérios/refs: AC-046 (Stock reservation changes WooCommerce once), AC-047 (Insufficient stock requests compensation), AC-051 (Crash after effect before acknowledgement is harmless)
-  arquivos permitidos (e seus testes): apps/stock-worker/project.json, apps/stock-worker/src/inventory/inventory.service.ts, apps/stock-worker/src/inventory/woo-inventory.adapter.ts, apps/stock-worker/src/inventory/inbox.repository.ts, apps/stock-worker/src/main.ts, test/milestone-4-inventory-worker.test.mjs, test/milestone-4-inventory-redelivery.test.mjs
-  mensagem de commit: "T-032 milestone-4-payment-inventory-saga: Implement the idempotent WooCommerce inventory worker"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium
-  ) >> "$LOG_DIR/faixa-2.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-2' 'spec/milestone-4-payment-inventory-saga-faixa-2' "$WT" "$st" || return 1
-  marcar_concluidas T-032
-  return 0
-}
-
-# ── sequencial T-029 (fora da seleção do usuário) ──
-executar_seq_T_029() {
-  info 'sequencial T-029 — Add RabbitMQ topology and confirmed Commerce outbox publishing'
-  if rodar_tarefa seq 'T-029' 'Você executa UMA tarefa da feature "milestone-4-payment-inventory-saga" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-4-payment-inventory-saga/spec.md, .spec/features/milestone-4-payment-inventory-saga/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-029 — "Add RabbitMQ topology and confirmed Commerce outbox publishing"
-  critérios/refs: AC-041 (Outbox publication waits for broker confirmation), AC-042 (Consumer failures have bounded retry and DLQ), AC-051 (Crash after effect before acknowledgement is harmless)
-  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, apps/commerce-subgraph/src/messaging/rabbitmq.ts, apps/commerce-subgraph/src/outbox/outbox.publisher.ts, apps/commerce-subgraph/src/outbox/outbox.repository.ts, apps/commerce-subgraph/src/persistence/entities/outbox-event.entity.ts, apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts, test/milestone-4-outbox-publisher.test.mjs, test/milestone-4-rabbitmq-topology.test.mjs
-  mensagem de commit: "T-029 milestone-4-payment-inventory-saga: Add RabbitMQ topology and confirmed Commerce outbox publishing"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-029 milestone-4-payment-inventory-saga: Add RabbitMQ topology and confirmed Commerce outbox publishing (auto-commit do plano)'
-    fi
-    marcar_concluidas T-029
-    verde "✔ T-029 concluída"
-    return 0
-  fi
-  vermelho "✘ T-029 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-4-payment-inventory-saga/executar-tarefas.sh --seq T-029"
-  FALHAS="$FALHAS T-029"
-  return 1
-}
-
-# ── sequencial T-031 (fora da seleção do usuário) ──
-executar_seq_T_031() {
-  info 'sequencial T-031 — Implement idempotent Card, Pix, and refund processing'
-  if rodar_tarefa seq 'T-031' 'Você executa UMA tarefa da feature "milestone-4-payment-inventory-saga" (fluxo onp-spec, spec-anchored).
+    rodar_tarefa 'faixa-1' 'T-031' 'Você executa UMA tarefa da feature "milestone-4-payment-inventory-saga" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/milestone-4-payment-inventory-saga/spec.md, .spec/features/milestone-4-payment-inventory-saga/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
@@ -277,25 +190,23 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-031 milestone-4-payment-inventory-saga: Implement idempotent Card, Pix, and refund processing (auto-commit do plano)'
-    fi
-    marcar_concluidas T-031
-    verde "✔ T-031 concluída"
-    return 0
-  fi
-  vermelho "✘ T-031 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-4-payment-inventory-saga/executar-tarefas.sh --seq T-031"
-  FALHAS="$FALHAS T-031"
-  return 1
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
+  ) >> "$LOG_DIR/faixa-1.log" 2>&1
+  local st=$?
+  mesclar_faixa 'faixa-1' 'spec/milestone-4-payment-inventory-saga-faixa-1' "$WT" "$st" || return 1
+  marcar_concluidas T-031
+  return 0
 }
 
-# ── sequencial T-033 (fora da seleção do usuário) ──
-executar_seq_T_033() {
-  info 'sequencial T-033 — Implement monotonic Commerce saga transitions'
-  if rodar_tarefa seq 'T-033' 'Você executa UMA tarefa da feature "milestone-4-payment-inventory-saga" (fluxo onp-spec, spec-anchored).
+# ── faixa-2: T-033 ──
+executar_faixa_2() {
+  local WT="$WT_BASE-faixa-2"
+  preparar_worktree 'faixa-2' 'spec/milestone-4-payment-inventory-saga-faixa-2' "$WT" || return 1
+  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
+  : > "$LOG_DIR/faixa-2.log"
+  (
+    cd "$WT" || exit 9
+    rodar_tarefa 'faixa-2' 'T-033' 'Você executa UMA tarefa da feature "milestone-4-payment-inventory-saga" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/milestone-4-payment-inventory-saga/spec.md, .spec/features/milestone-4-payment-inventory-saga/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
@@ -309,19 +220,12 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-033 milestone-4-payment-inventory-saga: Implement monotonic Commerce saga transitions (auto-commit do plano)'
-    fi
-    marcar_concluidas T-033
-    verde "✔ T-033 concluída"
-    return 0
-  fi
-  vermelho "✘ T-033 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-4-payment-inventory-saga/executar-tarefas.sh --seq T-033"
-  FALHAS="$FALHAS T-033"
-  return 1
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
+  ) >> "$LOG_DIR/faixa-2.log" 2>&1
+  local st=$?
+  mesclar_faixa 'faixa-2' 'spec/milestone-4-payment-inventory-saga-faixa-2' "$WT" "$st" || return 1
+  marcar_concluidas T-033
+  return 0
 }
 
 # ── sequencial T-034 (fora da seleção do usuário) ──
@@ -447,9 +351,6 @@ executar_tudo() {
   executar_faixa_2 & PID_FAIXA_2=$!
   wait "$PID_FAIXA_1" || true
   wait "$PID_FAIXA_2" || true
-  executar_seq_T_029 || true
-  executar_seq_T_031 || true
-  executar_seq_T_033 || true
   executar_seq_T_034 || true
   executar_seq_T_035 || true
   encerrar tudo
@@ -457,11 +358,8 @@ executar_tudo() {
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-030"
-  echo "  faixa-2  onda 1  T-032"
-  echo "  seq       T-029 (sequencial)"
-  echo "  seq       T-031 (sequencial)"
-  echo "  seq       T-033 (sequencial)"
+  echo "  faixa-1  onda 1  T-031"
+  echo "  faixa-2  onda 1  T-033"
   echo "  seq       T-034 (sequencial)"
   echo "  seq       T-035 (sequencial)"
   echo
@@ -500,9 +398,6 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-029) evento --tipo inicio --escopo "seq:T-029"; iniciar_resumos; executar_seq_T_029 || true; encerrar "seq:T-029" ;;
-      T-031) evento --tipo inicio --escopo "seq:T-031"; iniciar_resumos; executar_seq_T_031 || true; encerrar "seq:T-031" ;;
-      T-033) evento --tipo inicio --escopo "seq:T-033"; iniciar_resumos; executar_seq_T_033 || true; encerrar "seq:T-033" ;;
       T-034) evento --tipo inicio --escopo "seq:T-034"; iniciar_resumos; executar_seq_T_034 || true; encerrar "seq:T-034" ;;
       T-035) evento --tipo inicio --escopo "seq:T-035"; iniciar_resumos; executar_seq_T_035 || true; encerrar "seq:T-035" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;

@@ -38,12 +38,12 @@
 </style>
 <main>
   <h1>Plano de execução — milestone-4-payment-inventory-saga</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-27 15:53 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-27 16:13 · regenere após mudar tasks.md</p>
   <div class="resumo">
     <div><b>2</b> tarefa(s) em paralelo</div>
     <div><b>2</b> faixa(s) · <b>1</b> onda(s)</div>
-    <div><b>5</b> sequencial(is)</div>
-    <div>seleção do usuário: <b>T-030, T-032</b></div>
+    <div><b>2</b> sequencial(is)</div>
+    <div>seleção do usuário: <b>T-031, T-033</b></div>
     <div>branch <code>spec/milestone-4-payment-inventory-saga</code></div>
   </div>
   
@@ -65,20 +65,20 @@
         <h4>faixa-1 <small>branch <code>spec/milestone-4-payment-inventory-saga-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-1</code></small></h4>
         
         <div class="tarefa">
-          <span class="tid">T-030</span>
-          <span class="ttitulo">Scaffold the Spring Boot payment processor and Nx Gradle targets</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>package.json</code> <code>pnpm-lock.yaml</code> <code>nx.json</code> <code>apps/payment-processor/settings.gradle.kts</code> <code>apps/payment-processor/build.gradle.kts</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java</code> <code>apps/payment-processor/src/main/resources/application.yaml</code> <code>apps/payment-processor/src/test/java/dev/desafio/payment/PaymentProcessorApplicationTest.java</code> <code>test/milestone-4-nx-gradle.test.mjs</code></span>
+          <span class="tid">T-031</span>
+          <span class="ttitulo">Implement idempotent Card, Pix, and refund processing</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/application/PaymentHandler.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java</code> <code>apps/payment-processor/src/main/resources/db/migration/V1__payment_inbox_outbox.sql</code> <code>apps/payment-processor/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java</code> <code>apps/payment-processor/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java</code></span>
         </div>
       </div>
       <div class="faixa">
         <h4>faixa-2 <small>branch <code>spec/milestone-4-payment-inventory-saga-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-2</code></small></h4>
         
         <div class="tarefa">
-          <span class="tid">T-032</span>
-          <span class="ttitulo">Implement the idempotent WooCommerce inventory worker</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>apps/stock-worker/project.json</code> <code>apps/stock-worker/src/inventory/inventory.service.ts</code> <code>apps/stock-worker/src/inventory/woo-inventory.adapter.ts</code> <code>apps/stock-worker/src/inventory/inbox.repository.ts</code> <code>apps/stock-worker/src/main.ts</code> <code>test/milestone-4-inventory-worker.test.mjs</code> <code>test/milestone-4-inventory-redelivery.test.mjs</code></span>
+          <span class="tid">T-033</span>
+          <span class="ttitulo">Implement monotonic Commerce saga transitions</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/commerce-subgraph/src/saga/order-saga.ts</code> <code>apps/commerce-subgraph/src/saga/order-event.consumer.ts</code> <code>apps/commerce-subgraph/src/inbox/inbox.repository.ts</code> <code>apps/commerce-subgraph/src/persistence/entities/order-workflow.entity.ts</code> <code>apps/commerce-subgraph/src/persistence/entities/inbox-record.entity.ts</code> <code>apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts</code> <code>libs/contracts/graphql/commerce/schema.graphql</code> <code>test/milestone-4-order-saga.test.mjs</code> <code>test/milestone-4-order-saga-redelivery.test.mjs</code></span>
         </div>
       </div></div>
     </section>
@@ -86,24 +86,6 @@
     <section class="onda">
       <h3>Sequenciais <small>após as ondas, na árvore principal</small></h3>
       <div class="grade"><div class="faixa">
-        <div class="tarefa">
-          <span class="tid">T-029</span>
-          <span class="ttitulo">Add RabbitMQ topology and confirmed Commerce outbox publishing</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>package.json</code> <code>pnpm-lock.yaml</code> <code>apps/commerce-subgraph/src/messaging/rabbitmq.ts</code> <code>apps/commerce-subgraph/src/outbox/outbox.publisher.ts</code> <code>apps/commerce-subgraph/src/outbox/outbox.repository.ts</code> <code>apps/commerce-subgraph/src/persistence/entities/outbox-event.entity.ts</code> <code>apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts</code> <code>test/milestone-4-outbox-publisher.test.mjs</code> <code>test/milestone-4-rabbitmq-topology.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-031</span>
-          <span class="ttitulo">Implement idempotent Card, Pix, and refund processing</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/application/PaymentHandler.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java</code> <code>apps/payment-processor/src/main/resources/db/migration/V1__payment_inbox_outbox.sql</code> <code>apps/payment-processor/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java</code> <code>apps/payment-processor/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-033</span>
-          <span class="ttitulo">Implement monotonic Commerce saga transitions</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/commerce-subgraph/src/saga/order-saga.ts</code> <code>apps/commerce-subgraph/src/saga/order-event.consumer.ts</code> <code>apps/commerce-subgraph/src/inbox/inbox.repository.ts</code> <code>apps/commerce-subgraph/src/persistence/entities/order-workflow.entity.ts</code> <code>apps/commerce-subgraph/src/persistence/entities/inbox-record.entity.ts</code> <code>apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts</code> <code>libs/contracts/graphql/commerce/schema.graphql</code> <code>test/milestone-4-order-saga.test.mjs</code> <code>test/milestone-4-order-saga-redelivery.test.mjs</code></span>
-        </div>
         <div class="tarefa">
           <span class="tid">T-034</span>
           <span class="ttitulo">Wire services, databases, and graceful lifecycle in Compose</span>

@@ -1,15 +1,15 @@
 {
-  "runId": "desafio-dev-backend-senior-milestone-4-payment-inventory-saga-mtbpdc29",
+  "runId": "desafio-dev-backend-senior-milestone-4-payment-inventory-saga-mtbq2d21",
   "feature": "milestone-4-payment-inventory-saga",
   "agent": "codex",
   "modo": "paralelo",
   "paralelizar": [
-    "T-030",
-    "T-032"
+    "T-031",
+    "T-033"
   ],
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-08-27 15:53",
+  "geradoEm": "2026-08-27 16:13",
   "branchTrabalho": "spec/milestone-4-payment-inventory-saga",
   "baseDir": ".spec/features/milestone-4-payment-inventory-saga",
   "specDir": ".spec",
@@ -28,24 +28,27 @@
       "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-1",
       "tarefas": [
         {
-          "id": "T-030",
-          "titulo": "Scaffold the Spring Boot payment processor and Nx Gradle targets",
-          "modelo": "gpt-5.6-terra",
-          "esforco": "medium",
+          "id": "T-031",
+          "titulo": "Implement idempotent Card, Pix, and refund processing",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
           "arquivos": [
-            "package.json",
-            "pnpm-lock.yaml",
-            "nx.json",
-            "apps/payment-processor/settings.gradle.kts",
-            "apps/payment-processor/build.gradle.kts",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java",
-            "apps/payment-processor/src/main/resources/application.yaml",
-            "apps/payment-processor/src/test/java/dev/desafio/payment/PaymentProcessorApplicationTest.java",
-            "test/milestone-4-nx-gradle.test.mjs"
+            "apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/application/PaymentHandler.java",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java",
+            "apps/payment-processor/src/main/resources/db/migration/V1__payment_inbox_outbox.sql",
+            "apps/payment-processor/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java",
+            "apps/payment-processor/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java"
           ],
           "refs": [
             "US-027",
-            "AC-045"
+            "US-029",
+            "US-030",
+            "AC-043",
+            "AC-044",
+            "AC-049",
+            "AC-051"
           ]
         }
       ]
@@ -56,24 +59,27 @@
       "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-4-payment-inventory-saga-faixa-2",
       "tarefas": [
         {
-          "id": "T-032",
-          "titulo": "Implement the idempotent WooCommerce inventory worker",
-          "modelo": "gpt-5.6-terra",
-          "esforco": "medium",
+          "id": "T-033",
+          "titulo": "Implement monotonic Commerce saga transitions",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
           "arquivos": [
-            "apps/stock-worker/project.json",
-            "apps/stock-worker/src/inventory/inventory.service.ts",
-            "apps/stock-worker/src/inventory/woo-inventory.adapter.ts",
-            "apps/stock-worker/src/inventory/inbox.repository.ts",
-            "apps/stock-worker/src/main.ts",
-            "test/milestone-4-inventory-worker.test.mjs",
-            "test/milestone-4-inventory-redelivery.test.mjs"
+            "apps/commerce-subgraph/src/saga/order-saga.ts",
+            "apps/commerce-subgraph/src/saga/order-event.consumer.ts",
+            "apps/commerce-subgraph/src/inbox/inbox.repository.ts",
+            "apps/commerce-subgraph/src/persistence/entities/order-workflow.entity.ts",
+            "apps/commerce-subgraph/src/persistence/entities/inbox-record.entity.ts",
+            "apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts",
+            "libs/contracts/graphql/commerce/schema.graphql",
+            "test/milestone-4-order-saga.test.mjs",
+            "test/milestone-4-order-saga-redelivery.test.mjs"
           ],
           "refs": [
-            "US-028",
+            "US-029",
             "US-030",
-            "AC-046",
-            "AC-047",
+            "AC-048",
+            "AC-049",
+            "AC-050",
             "AC-051"
           ]
         }
@@ -81,79 +87,6 @@
     }
   ],
   "sequenciais": [
-    {
-      "id": "T-029",
-      "titulo": "Add RabbitMQ topology and confirmed Commerce outbox publishing",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "package.json",
-        "pnpm-lock.yaml",
-        "apps/commerce-subgraph/src/messaging/rabbitmq.ts",
-        "apps/commerce-subgraph/src/outbox/outbox.publisher.ts",
-        "apps/commerce-subgraph/src/outbox/outbox.repository.ts",
-        "apps/commerce-subgraph/src/persistence/entities/outbox-event.entity.ts",
-        "apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts",
-        "test/milestone-4-outbox-publisher.test.mjs",
-        "test/milestone-4-rabbitmq-topology.test.mjs"
-      ],
-      "refs": [
-        "US-026",
-        "US-030",
-        "AC-041",
-        "AC-042",
-        "AC-051"
-      ]
-    },
-    {
-      "id": "T-031",
-      "titulo": "Implement idempotent Card, Pix, and refund processing",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java",
-        "apps/payment-processor/src/main/java/dev/desafio/payment/application/PaymentHandler.java",
-        "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java",
-        "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java",
-        "apps/payment-processor/src/main/resources/db/migration/V1__payment_inbox_outbox.sql",
-        "apps/payment-processor/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java",
-        "apps/payment-processor/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java"
-      ],
-      "refs": [
-        "US-027",
-        "US-029",
-        "US-030",
-        "AC-043",
-        "AC-044",
-        "AC-049",
-        "AC-051"
-      ]
-    },
-    {
-      "id": "T-033",
-      "titulo": "Implement monotonic Commerce saga transitions",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/commerce-subgraph/src/saga/order-saga.ts",
-        "apps/commerce-subgraph/src/saga/order-event.consumer.ts",
-        "apps/commerce-subgraph/src/inbox/inbox.repository.ts",
-        "apps/commerce-subgraph/src/persistence/entities/order-workflow.entity.ts",
-        "apps/commerce-subgraph/src/persistence/entities/inbox-record.entity.ts",
-        "apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts",
-        "libs/contracts/graphql/commerce/schema.graphql",
-        "test/milestone-4-order-saga.test.mjs",
-        "test/milestone-4-order-saga-redelivery.test.mjs"
-      ],
-      "refs": [
-        "US-029",
-        "US-030",
-        "AC-048",
-        "AC-049",
-        "AC-050",
-        "AC-051"
-      ]
-    },
     {
       "id": "T-034",
       "titulo": "Wire services, databases, and graceful lifecycle in Compose",
@@ -209,7 +142,10 @@
     }
   ],
   "concluidas": [
-    "T-028"
+    "T-028",
+    "T-029",
+    "T-030",
+    "T-032"
   ],
   "avisos": []
 }
