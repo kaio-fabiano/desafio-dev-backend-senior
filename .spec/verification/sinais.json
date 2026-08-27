@@ -2169,6 +2169,186 @@
       "primeiraVez": "2026-08-27T20:23:18.731Z",
       "ultimaVez": "2026-08-27T20:23:18.731Z",
       "gitRev": "a77a1fb"
+    },
+    "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "Q-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:30.303Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-053": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-053",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-054": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-054",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-055": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-055",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-056": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-056",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-057": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-057",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-058": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-058",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-059": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-059",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-060": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "T-060",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-078": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-078",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-079": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-079",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-080": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-080",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-081": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-081",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-082": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-082",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-083": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-083",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-084": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-084",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-085": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-085",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-086": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-086",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-087": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-087",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
+    },
+    "AC_SEM_TESTE::milestone-8-compliance-hardening::AC-088": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-088",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T22:13:30.303Z",
+      "ultimaVez": "2026-08-27T22:13:54.831Z",
+      "gitRev": "111e0e7"
     }
   }
 }
