@@ -5,6 +5,12 @@
   "sourceRoot": "apps/identity-subgraph/src",
   "tags": ["type:app", "scope:identity"],
   "targets": {
+    "seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types apps/identity-subgraph/src/auth/seed.ts"
+      }
+    },
     "serve": {
       "executor": "nx:run-commands",
       "options": {
