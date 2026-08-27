@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "proximoId": 5,
+  "proximoId": 6,
   "licoes": [
     {
       "id": "L-001",
@@ -93,6 +93,29 @@
       "penalidades": 0,
       "criadaEm": "2026-08-27T15:31:07.802Z",
       "ultimaVez": "2026-08-27T15:31:07.802Z"
+    },
+    {
+      "id": "L-005",
+      "texto": "When a shared verification gate changes, refresh every affected feature proof before the final CI audit.",
+      "chave": "VERIFY_OBSOLETO::when a shared verification gate changes refresh every affected feature proof before the final ci audit",
+      "sinal": "VERIFY_OBSOLETO",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-6-apollo-mcp"
+      ],
+      "evidencias": [
+        {
+          "fonte": "—",
+          "feature": "milestone-6-apollo-mcp",
+          "quando": "2026-08-27T20:42:49.915Z",
+          "gitRev": "a77a1fb"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T20:42:49.915Z",
+      "ultimaVez": "2026-08-27T20:42:49.915Z"
     }
   ]
 }

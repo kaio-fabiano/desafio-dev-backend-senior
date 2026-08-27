@@ -33,6 +33,11 @@ Vistas em uma feature só. Registradas, não confiadas.
 - features: milestone-3-cart-order
 - última evidência: T-021 (milestone-3-cart-order, 2026-08-27T15:31:07.802Z)
 
+### L-005 — When a shared verification gate changes, refresh every affected feature proof before the final CI audit.
+- sinal: `VERIFY_OBSOLETO` · recorrência: 1 feature(s) · penalidades: 0
+- features: milestone-6-apollo-mcp
+- última evidência: — (milestone-6-apollo-mcp, 2026-08-27T20:42:49.915Z)
+
 ## Quarentena — aplicadas e falharam, ignorar
 
 A falha recorreu mesmo com a lição aplicada. Revisão é do usuário.
