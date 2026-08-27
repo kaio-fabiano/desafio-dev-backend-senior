@@ -1,7 +1,7 @@
 # Spec: Milestone 0 — Compatibility proofs
 
 > feature: marco-0-pocs
-> status: em-implementacao
+> status: auditada
 
 ## Context
 

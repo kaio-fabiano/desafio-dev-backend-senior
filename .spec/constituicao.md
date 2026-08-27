@@ -24,4 +24,4 @@ AC_SEM_PROVA, TASK_CONCLUIDA_SEM_PROVA) — it requires no additional test.
 
 Keys and passwords come from environment variables, never hard-coded.
 
-- verificação(proibido): `(api[_-]?key|senha|password)\s*[:=]\s*['"][^'"]{8,}` em `src/**/*.js`
+- verificação(proibido): `(api[_-]?key|senha|password)\s*[:=]\s*['"][^'"]{8,}` em `apps/**/src/**/*.ts`
