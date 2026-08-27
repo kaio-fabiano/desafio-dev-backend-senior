@@ -1,0 +1,11 @@
+{
+  "feature": "milestone-1-foundation",
+  "timestamp": "2026-08-27T04:00:29.001Z",
+  "gitRev": "ac00c0d",
+  "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 17,
+  "results": {},
+  "principles": {}
+}

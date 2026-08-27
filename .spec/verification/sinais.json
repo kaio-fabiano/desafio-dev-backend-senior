@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-27T03:41:34.304Z",
-      "gitRev": "694c6e6"
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-26T14:18:56.620Z",
-      "gitRev": "386b5f5"
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -428,28 +428,28 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-1-foundation",
       "ref": "T-009",
-      "ocorrencias": 4,
+      "ocorrencias": 8,
       "primeiraVez": "2026-08-27T03:50:51.348Z",
-      "ultimaVez": "2026-08-27T03:50:51.348Z",
-      "gitRev": "7c97ce8"
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
     },
     "ARQUIVO_INEXISTENTE::milestone-1-foundation::T-010": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-1-foundation",
       "ref": "T-010",
-      "ocorrencias": 13,
+      "ocorrencias": 26,
       "primeiraVez": "2026-08-27T03:50:51.348Z",
-      "ultimaVez": "2026-08-27T03:50:51.348Z",
-      "gitRev": "7c97ce8"
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
     },
     "ARQUIVO_INEXISTENTE::milestone-1-foundation::T-011": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-1-foundation",
       "ref": "T-011",
-      "ocorrencias": 5,
+      "ocorrencias": 10,
       "primeiraVez": "2026-08-27T03:50:51.348Z",
-      "ultimaVez": "2026-08-27T03:50:51.348Z",
-      "gitRev": "7c97ce8"
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
     },
     "ARQUIVO_INEXISTENTE::milestone-1-foundation::T-012": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -464,10 +464,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-1-foundation",
       "ref": "T-013",
-      "ocorrencias": 4,
+      "ocorrencias": 8,
       "primeiraVez": "2026-08-27T03:50:51.348Z",
-      "ultimaVez": "2026-08-27T03:50:51.348Z",
-      "gitRev": "7c97ce8"
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
     },
     "AC_SEM_TESTE::milestone-1-foundation::AC-017": {
       "codigo": "AC_SEM_TESTE",
@@ -531,6 +531,123 @@
       "primeiraVez": "2026-08-27T03:50:51.348Z",
       "ultimaVez": "2026-08-27T03:50:51.348Z",
       "gitRev": "7c97ce8"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-1-foundation::T-008": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "T-008",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-1-foundation::T-009": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "T-009",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-1-foundation::T-010": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "T-010",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-1-foundation::T-011": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "T-011",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-1-foundation::T-012": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "T-012",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::milestone-1-foundation::T-013": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "T-013",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "AC_SEM_PROVA::milestone-1-foundation::AC-017": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "AC-017",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "AC_SEM_PROVA::milestone-1-foundation::AC-018": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "AC-018",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "AC_SEM_PROVA::milestone-1-foundation::AC-019": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "AC-019",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "AC_SEM_PROVA::milestone-1-foundation::AC-020": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "AC-020",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "AC_SEM_PROVA::milestone-1-foundation::AC-021": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "AC-021",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "AC_SEM_PROVA::milestone-1-foundation::AC-022": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "AC-022",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
+    },
+    "AC_SEM_PROVA::milestone-1-foundation::AC-023": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-1-foundation",
+      "ref": "AC-023",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T04:00:29.128Z",
+      "ultimaVez": "2026-08-27T04:00:29.128Z",
+      "gitRev": "ac00c0d"
     }
   }
 }

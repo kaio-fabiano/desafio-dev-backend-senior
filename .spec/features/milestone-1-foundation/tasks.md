@@ -37,8 +37,7 @@
 - Esforço: baixo
 - Notas: Execute after T-009. Use JSON Schema and the already-installed validator selected in T-009; no custom validation framework.
 
-## T-013 — Assemble the reproducible foundation gate [pendente]
-
+## T-013 — Assemble the reproducible foundation gate [concluida]
 - Refs: US-014, AC-022, AC-023
 - Arquivos: compose.yaml, test/milestone-1-foundation.test.mjs, test/milestone-1-infrastructure.test.mjs, docs/runbooks/milestone-1-foundation.md, onpspec.config.json
 - Modelo: gpt-5.6-terra
