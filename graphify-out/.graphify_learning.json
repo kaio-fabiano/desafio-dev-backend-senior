@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-27T03:48:28.268681+00:00",
+  "generated_at": "2026-08-27T03:59:10.888468+00:00",
   "nodes": {
     "docs_prds_02_graphql_federation_federation_prd": {
       "code_fingerprint": "d494274921e78448ab206aa655e340ef8012cecdff6b822b82a952799aeb5507",
@@ -12,8 +12,56 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.976306885,
+      "score": 0.976139123,
       "source_file": "docs/prds/02-graphql-federation.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_docker_compose": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Ambiente completo em Docker Compose",
+      "last": "2026-08-27T03:51:08.373519+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T03:51:08.373519+00:00",
+          "outcome": "useful",
+          "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
+        }
+      ],
+      "score": 0.999870975,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_e2e_testcontainers": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Teste E2E com Vitest e Testcontainers",
+      "last": "2026-08-27T03:51:08.373519+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T03:51:08.373519+00:00",
+          "outcome": "useful",
+          "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
+        }
+      ],
+      "score": 0.999870975,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_graphql_gateway": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Gateway GraphQL federado",
+      "last": "2026-08-27T03:51:08.373519+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T03:51:08.373519+00:00",
+          "outcome": "useful",
+          "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
+        }
+      ],
+      "score": 0.999870975,
+      "source_file": "README.md",
       "status": "tentative",
       "uses": 1
     },
@@ -28,7 +76,7 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.976306885,
+      "score": 0.976139123,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1
@@ -44,7 +92,7 @@
           "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
         }
       ],
-      "score": 0.976306885,
+      "score": 0.976139123,
       "source_file": "README.md",
       "status": "tentative",
       "uses": 1

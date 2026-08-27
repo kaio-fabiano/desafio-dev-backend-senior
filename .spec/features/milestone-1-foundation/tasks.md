@@ -30,8 +30,7 @@
 - Esforço: baixo
 - Notas: Execute after T-009. Use the entity ownership already documented in the federation PRD and ADR 003.
 
-## T-012 — Define the common event envelope [pendente]
-
+## T-012 — Define the common event envelope [concluida]
 - Refs: US-013, AC-021
 - Arquivos: libs/contracts/events/envelope.schema.json, libs/contracts/events/checkout-requested.v1.schema.json, libs/contracts/events/payment-authorized.v1.schema.json, libs/contracts/events/payment-failed.v1.schema.json, test/milestone-1-events.test.mjs
 - Modelo: gpt-5.6-luna
