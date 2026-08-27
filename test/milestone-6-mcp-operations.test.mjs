@@ -5,8 +5,8 @@ import { join } from 'node:path';
 
 const operationsDir = join(process.cwd(), 'apps/apollo-mcp/operations');
 const expectedTools = new Set([
-  'MeJourney', 'SearchProducts', 'GetProduct', 'GetMyCart',
-  'GetMyOrders', 'AddToCart', 'RemoveFromCart',
+  'me', 'searchProducts', 'getProduct', 'getMyCart',
+  'getMyOrders', 'addToCart', 'removeFromCart',
 ]);
 
 async function manifest() {

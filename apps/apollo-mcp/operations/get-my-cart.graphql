@@ -1,4 +1,4 @@
-query GetMyCart {
+query getMyCart {
   cart {
     id
     items {

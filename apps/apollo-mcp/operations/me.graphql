@@ -1,4 +1,4 @@
-query MeJourney {
+query me {
   me {
     id
     email

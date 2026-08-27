@@ -10,10 +10,10 @@
 
 ## T-042 — Configure the official self-hosted Apollo MCP Server [pendente]
 - Refs: US-034, US-035, AC-060, AC-061, AC-062, AC-063
-- Arquivos: apps/apollo-mcp/mcp.yaml, apps/apollo-mcp/Dockerfile, apps/apollo-mcp/project.json, docs/prds/08-riscos-e-decisoes-pendentes.md, test/milestone-6-mcp-config.test.mjs
+- Arquivos: apps/apollo-mcp/mcp.yaml, apps/apollo-mcp/schema.graphql, apps/apollo-mcp/Dockerfile, apps/apollo-mcp/project.json, docs/prds/08-riscos-e-decisoes-pendentes.md, test/milestone-6-mcp-config.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Notas: Pin 1.17.0, streamable HTTP, local schema/operations, explicit issuer/audience/scopes, `allow_any_audience: false`, no GraphOS key, and close D-012 with MIT/container evidence.
+- Notas: Pin 1.17.0, streamable HTTP, a versioned composed client schema with local operations, explicit issuer/audience/scopes, `allow_any_audience: false`, no GraphOS key, and close D-012 with MIT/container evidence. The artifact must be validated against the subgraph contracts in CI.
 
 ## T-043 — Seed MCP OAuth resources and scoped client grants [pendente]
 - Refs: US-035, AC-062, AC-063, AC-064

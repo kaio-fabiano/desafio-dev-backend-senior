@@ -1,4 +1,4 @@
-mutation AddToCart($productId: ID!, $quantity: Int!) {
+mutation addToCart($productId: ID!, $quantity: Int!) {
   addToCart(productId: $productId, quantity: $quantity) {
     id
     items { edges { node { quantity product { id name price } } } }

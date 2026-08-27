@@ -1,4 +1,4 @@
-mutation RemoveFromCart($productId: ID!, $quantity: Int!) {
+mutation removeFromCart($productId: ID!, $quantity: Int!) {
   removeFromCart(productId: $productId, quantity: $quantity) {
     id
     items { edges { node { quantity product { id name price } } } }

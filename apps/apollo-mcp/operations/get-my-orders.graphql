@@ -1,4 +1,4 @@
-query GetMyOrders($first: Int, $after: String) {
+query getMyOrders($first: Int, $after: String) {
   me {
     orders(first: $first, after: $after) {
       edges {
