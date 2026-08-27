@@ -1,0 +1,19 @@
+{
+  "name": "@desafio-dev-backend-senior/poc-sse",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "probe": "node src/probe.ts",
+    "test:spec": "node --test --test-reporter=tap ../../test/marco-0-sse.test.mjs"
+  },
+  "dependencies": {
+    "@apollo/gateway": "2.14.4",
+    "@apollo/subgraph": "2.14.4",
+    "graphql": "16.11.0",
+    "graphql-sse": "2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.3"
+  }
+}
