@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 9,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-27T15:22:41.051Z",
-      "gitRev": "93675e9"
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-27T15:22:41.050Z",
-      "gitRev": "93675e9"
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -887,10 +887,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-1-foundation",
       "ref": "—",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T05:27:06.132Z",
-      "ultimaVez": "2026-08-27T15:22:41.051Z",
-      "gitRev": "93675e9"
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
     },
     "AC_SEM_PROVA::milestone-2-identity-catalog::AC-024": {
       "codigo": "AC_SEM_PROVA",
@@ -1283,10 +1283,199 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-2-identity-catalog",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-27T15:22:41.051Z",
-      "ultimaVez": "2026-08-27T15:22:41.051Z",
-      "gitRev": "93675e9"
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "VERIFY_OBSOLETO::milestone-3-cart-order::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "milestone-3-cart-order",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-028": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-028",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-029": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-029",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-030": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-030",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-031": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-031",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-032": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-032",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-033": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-033",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-034": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-034",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-035": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "T-035",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-041": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-041",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-042": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-042",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-043": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-043",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-044": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-044",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-045": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-045",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-046": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-046",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-047": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-047",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-048": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-048",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-049": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-049",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-050": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-050",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-051": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-051",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
+    },
+    "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-052": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "AC-052",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T15:43:50.282Z",
+      "ultimaVez": "2026-08-27T15:43:50.282Z",
+      "gitRev": "2b599ba"
     }
   }
 }
