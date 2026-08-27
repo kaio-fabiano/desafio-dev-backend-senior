@@ -9,7 +9,7 @@
 - Esforço: baixo
 - Notas: Reuse the existing envelope and JSON Schema validation. Define only events exercised by Card, compensation, and Pix journeys.
 
-## T-029 — Add RabbitMQ topology and confirmed Commerce outbox publishing [pendente]
+## T-029 — Add RabbitMQ topology and confirmed Commerce outbox publishing [concluida]
 - Refs: US-026, US-030, AC-041, AC-042, AC-051
 - Arquivos: package.json, pnpm-lock.yaml, apps/commerce-subgraph/src/messaging/rabbitmq.ts, apps/commerce-subgraph/src/outbox/outbox.publisher.ts, apps/commerce-subgraph/src/outbox/outbox.repository.ts, apps/commerce-subgraph/src/persistence/entities/outbox-event.entity.ts, apps/commerce-subgraph/src/persistence/migrations/Migration202608270002.ts, test/milestone-4-outbox-publisher.test.mjs, test/milestone-4-rabbitmq-topology.test.mjs
 - Modelo: gpt-5.6-sol
