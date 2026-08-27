@@ -20,6 +20,16 @@
           "watchDepsName": "watch-deps"
         }
       }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": { "targetName": "lint" }
     }
-  ]
+  ],
+  "targetDefaults": {
+    "build": { "dependsOn": ["^build"], "cache": true },
+    "lint": { "cache": true },
+    "test": { "cache": true },
+    "typecheck": { "cache": true }
+  }
 }

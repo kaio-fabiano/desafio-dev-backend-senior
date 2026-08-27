@@ -6,10 +6,21 @@
     "test:spec": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js"
   },
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@nestjs/common": "11.1.6",
+    "@nestjs/core": "11.1.6",
+    "@nestjs/platform-express": "11.1.6",
+    "ajv": "8.17.1",
+    "graphql": "16.11.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
   "devDependencies": {
+    "@nx/eslint": "23.1.1",
+    "@nx/eslint-plugin": "23.1.1",
     "@nx/js": "23.1.1",
     "@swc/helpers": "~0.5.18",
+    "eslint": "9.39.1",
     "nx": "23.1.1",
     "prettier": "~3.6.2",
     "tslib": "^2.3.0",
