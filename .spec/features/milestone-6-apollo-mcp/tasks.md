@@ -24,10 +24,10 @@
 
 ## T-044 — Wire Apollo MCP to the gateway and Compose [concluida]
 - Refs: US-036, AC-064, AC-065
-- Arquivos: compose.yaml, apps/gateway/src/main.ts, apps/apollo-mcp/mcp.yaml, test/milestone-6-mcp-propagation.test.mjs
+- Arquivos: compose.yaml, apps/gateway/src/main.ts, apps/apollo-mcp/mcp.yaml, test/milestone-6-mcp-propagation.test.mjs, test/milestone-4-compose.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Notas: Forward the unchanged Authorization header to the gateway and keep gateway verification active. Add readiness without logging bearer values.
+- Notas: Forward the unchanged Authorization header to the gateway and keep gateway verification active. Add readiness without logging bearer values. Keep the Milestone 4 broker-port assertion scoped to the RabbitMQ service so the MCP transport can be published.
 
 ## T-045 — Assemble MCP protocol and parity acceptance [concluida]
 - Refs: US-034, US-035, US-036, AC-060, AC-061, AC-062, AC-063, AC-064, AC-065, AC-066
