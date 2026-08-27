@@ -4,12 +4,23 @@ packages:
 
 allowBuilds:
   '@apollo/protobufjs': false
+  '@nestjs/core': true
+  cpu-features: false
+  esbuild: true
   nx: true
   protobufjs: false
+  ssh2: false
 
 autoInstallPeers: true
 onlyBuiltDependencies:
+  - '@nestjs/core'
+  - esbuild
   - nx
+ignoredBuiltDependencies:
+  - '@apollo/protobufjs'
+  - cpu-features
+  - protobufjs
+  - ssh2
 
 # These exact versions were already pinned in the audited lockfile before the
 # global pnpm release-age policy was enabled. Keep the exception narrow so new

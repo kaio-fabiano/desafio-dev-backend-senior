@@ -1,6 +1,7 @@
 {
   "name": "@desafio-dev-backend-senior/source",
   "version": "0.0.0",
+  "packageManager": "pnpm@10.17.1",
   "license": "MIT",
   "scripts": {
     "acceptance:milestone-7": "nx run @desafio-dev-backend-senior/e2e:acceptance",
