@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-27T17:47:29.473Z",
-      "gitRev": "39e7886"
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 9,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-27T17:47:29.473Z",
-      "gitRev": "39e7886"
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -887,10 +887,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-1-foundation",
       "ref": "—",
-      "ocorrencias": 6,
+      "ocorrencias": 7,
       "primeiraVez": "2026-08-27T05:27:06.132Z",
-      "ultimaVez": "2026-08-27T17:47:29.473Z",
-      "gitRev": "39e7886"
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
     },
     "AC_SEM_PROVA::milestone-2-identity-catalog::AC-024": {
       "codigo": "AC_SEM_PROVA",
@@ -1283,19 +1283,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-2-identity-catalog",
       "ref": "—",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-27T15:22:41.051Z",
-      "ultimaVez": "2026-08-27T17:47:29.473Z",
-      "gitRev": "39e7886"
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
     },
     "VERIFY_OBSOLETO::milestone-3-cart-order::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-3-cart-order",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-27T15:43:50.282Z",
-      "ultimaVez": "2026-08-27T17:47:29.473Z",
-      "gitRev": "39e7886"
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
     },
     "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-028": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1481,10 +1481,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-4-payment-inventory-saga",
       "ref": "—",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T17:06:38.293Z",
-      "ultimaVez": "2026-08-27T17:47:29.473Z",
-      "gitRev": "39e7886"
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
     },
     "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-036": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1602,6 +1602,123 @@
       "primeiraVez": "2026-08-27T17:47:29.473Z",
       "ultimaVez": "2026-08-27T17:47:29.473Z",
       "gitRev": "39e7886"
+    },
+    "VERIFY_OBSOLETO::milestone-5-subscription-sse::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-041": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "T-041",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-042": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "T-042",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-043": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "T-043",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-044": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "T-044",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-045": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "T-045",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-060": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "AC-060",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-061": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "AC-061",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-062": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "AC-062",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-063": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "AC-063",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-064": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "AC-064",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-065": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "AC-065",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
+    },
+    "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-066": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-6-apollo-mcp",
+      "ref": "AC-066",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T18:04:02.724Z",
+      "ultimaVez": "2026-08-27T18:04:02.724Z",
+      "gitRev": "8939d79"
     }
   }
 }
