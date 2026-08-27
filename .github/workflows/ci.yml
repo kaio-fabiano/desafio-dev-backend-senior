@@ -43,6 +43,7 @@ jobs:
       # - run: pnpm exec nx record -- echo Hello World
       - run: pnpm exec nx run-many -t lint test build typecheck
       - run: pnpm exec nx run @desafio-dev-backend-senior/poc-harness:milestone-4-acceptance
+      - run: pnpm exec nx run @desafio-dev-backend-senior/poc-harness:milestone-5-acceptance
       - run: docker compose --file compose.yaml config --quiet
       - run: docker build --file apps/payment-processor/Dockerfile .
       - run: docker build --file apps/stock-worker/Dockerfile .
