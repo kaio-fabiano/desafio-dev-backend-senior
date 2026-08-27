@@ -5,6 +5,8 @@ export default [
     ignores: ['node_modules/**', 'dist/**', 'coverage/**'],
   },
   ...nxPlugin.configs['flat/base'],
+  ...nxPlugin.configs['flat/typescript'],
+  ...nxPlugin.configs['flat/javascript'],
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
     rules: {

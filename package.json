@@ -5,18 +5,23 @@
   "scripts": {
     "acceptance:milestone-7": "nx run @desafio-dev-backend-senior/e2e:acceptance",
     "test:spec": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js",
-    "quality:nx": "nx run-many --target=build,test --all",
-    "quality:affected": "nx affected --target=build,test",
+    "quality:nx": "nx run-many --target=build,typecheck,lint,test --all",
+    "quality:affected": "nx affected --target=build,typecheck,lint,test",
     "quality:coverage": "nx run @desafio-dev-backend-senior/poc-harness:milestone-7-quality"
   },
   "private": true,
   "dependencies": {
+    "@apollo/gateway": "2.14.4",
+    "@apollo/server": "5.4.0",
+    "@apollo/subgraph": "2.14.4",
     "@better-auth/oauth-provider": "1.7.1",
     "@mikro-orm/core": "6.6.16",
     "@mikro-orm/migrations": "6.6.16",
     "@mikro-orm/postgresql": "6.6.16",
+    "@nestjs/apollo": "13.4.5",
     "@nestjs/common": "11.1.6",
     "@nestjs/core": "11.1.6",
+    "@nestjs/graphql": "13.4.5",
     "@nestjs/platform-express": "11.1.6",
     "@thallesp/nestjs-better-auth": "2.7.0",
     "ajv": "8.17.1",
@@ -41,6 +46,7 @@
     "testcontainers": "11.7.2",
     "tslib": "^2.3.0",
     "typescript": "~6.0.3",
+    "typescript-eslint": "8.68.0",
     "vitest": "3.2.4"
   }
 }

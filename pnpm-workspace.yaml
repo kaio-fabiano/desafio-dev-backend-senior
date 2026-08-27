@@ -10,3 +10,12 @@ allowBuilds:
 autoInstallPeers: true
 onlyBuiltDependencies:
   - nx
+
+# These exact versions were already pinned in the audited lockfile before the
+# global pnpm release-age policy was enabled. Keep the exception narrow so new
+# versions remain subject to the normal quarantine window.
+minimumReleaseAgeExclude:
+  - '@noble/ciphers@2.4.0'
+  - '@noble/hashes@2.4.0'
+  - 'node-releases@2.0.54'
+  - 'protobufjs@7.6.6'

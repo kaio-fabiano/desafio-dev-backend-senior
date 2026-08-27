@@ -8,15 +8,13 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "gradle --no-daemon bootJar",
-        "cwd": "apps/payment-processor"
+        "command": "docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon bootJar"
       }
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "gradle --no-daemon test",
-        "cwd": "apps/payment-processor"
+        "command": "docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
       }
     }
   }
