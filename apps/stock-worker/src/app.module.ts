@@ -27,7 +27,9 @@ export class StockWorkerLifecycle {
       publisher: { publish: (event) => publishInventory(this.broker!.channel, event) },
     });
     await consumeStock(this.broker.channel, async (event) => {
-      await worker.consume(event, async () => {});
+      await worker.consume(event, async () => {
+        // The RabbitMQ adapter owns acknowledgement after successful handling.
+      });
     });
   }
 

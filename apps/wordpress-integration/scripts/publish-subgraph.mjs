@@ -1,6 +1,6 @@
 export function normalizeWordPressSdl(sdl) {
   return sdl.replace(
-    /interface Product\b(?![^\{]*@key)([^\{]*)\{/,
+    /interface Product\b(?![^{]*@key)([^{]*){/,
     'interface Product$1@key(fields: "id") {',
   );
 }

@@ -3,6 +3,8 @@ import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
+// The executable probe deliberately exercises the delivered Commerce adapter.
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { createWooOrderAdapter } from '../../commerce-subgraph/src/checkout/woo-order.adapter.ts';
 
 const endpoint = process.env.WORDPRESS_URL ?? 'http://localhost:18080';

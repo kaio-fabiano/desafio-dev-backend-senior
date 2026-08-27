@@ -135,7 +135,9 @@ export class OrderEventConsumer {
     private readonly loadOrderItems: OrderItemsLoader,
     private readonly saga = new OrderSaga(),
     private readonly transitions: CommittedTransitionPublisher = {
-      async publish() {},
+      async publish() {
+        // Publishing is optional for isolated domain tests.
+      },
     },
   ) {}
 

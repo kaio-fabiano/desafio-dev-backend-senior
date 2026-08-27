@@ -9,10 +9,11 @@ import {
   Subscription,
 } from '@nestjs/graphql';
 
-import type { AuthContext } from '../../../gateway/src/auth/auth-context.ts';
 import type { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
 import type { CartService } from '../cart/cart.service.ts';
 import type { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
+
+type AuthContext = { subject: string };
 
 export type CheckoutInput = {
   operationKey: string;

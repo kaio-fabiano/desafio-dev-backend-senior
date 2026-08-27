@@ -63,7 +63,9 @@ export function createGatewaySseHandler({
     const closeSubscription = () => {
       const subscription = active.get(request);
       if (!subscription || closing) return;
-      closing = Promise.resolve(subscription.return(undefined)).catch(() => {});
+      closing = Promise.resolve(subscription.return(undefined)).catch(() => {
+        // Connection shutdown is best-effort after the client disconnects.
+      });
     };
     request.once('aborted', closeSubscription);
     response.once('close', closeSubscription);

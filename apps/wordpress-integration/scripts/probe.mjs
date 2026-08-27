@@ -25,7 +25,7 @@ async function graphql(query, variables = {}, cookie = '') {
 
 function addAbstractProductKey(sdl) {
   return sdl.replace(
-    /interface Product\b(?![^\{]*@key)([^\{]*)\{/,
+    /interface Product\b(?![^{]*@key)([^{]*){/,
     'interface Product$1 @key(fields: "id") {',
   );
 }
