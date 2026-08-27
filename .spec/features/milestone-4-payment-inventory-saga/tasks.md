@@ -2,7 +2,7 @@
 
 > feature: milestone-4-payment-inventory-saga
 
-## T-028 — Complete the versioned event contracts [pendente]
+## T-028 — Complete the versioned event contracts [concluida]
 - Refs: US-026, US-027, US-028, US-029, AC-041, AC-042, AC-043, AC-044, AC-046, AC-047, AC-048, AC-049, AC-050
 - Arquivos: libs/contracts/events/envelope.schema.json, libs/contracts/events/payment-requested.v1.schema.json, libs/contracts/events/payment-authorized.v1.schema.json, libs/contracts/events/payment-pix-generated.v1.schema.json, libs/contracts/events/stock-reservation-requested.v1.schema.json, libs/contracts/events/stock-reserved.v1.schema.json, libs/contracts/events/stock-reservation-failed.v1.schema.json, libs/contracts/events/payment-refund-requested.v1.schema.json, libs/contracts/events/payment-refunded.v1.schema.json, test/milestone-4-event-contracts.test.mjs
 - Modelo: gpt-5.6-luna
