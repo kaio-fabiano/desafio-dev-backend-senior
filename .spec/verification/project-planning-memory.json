@@ -1,7 +1,7 @@
 {
   "feature": "project-planning-memory",
-  "timestamp": "2026-08-27T03:42:47.117Z",
-  "gitRev": "694c6e6",
+  "timestamp": "2026-08-27T03:46:10.471Z",
+  "gitRev": "7c97ce8",
   "command": "node test/project-planning-memory.test.mjs; node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js",
   "reporter": "tap",
   "exitCode": 0,

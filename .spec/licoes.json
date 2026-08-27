@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "proximoId": 3,
+  "licoes": [
+    {
+      "id": "L-001",
+      "texto": "Create every task-mapped file before running the feature audit.",
+      "chave": "ARQUIVO_INEXISTENTE::create every task mapped file before running the feature audit",
+      "sinal": "ARQUIVO_INEXISTENTE",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "marco-0-pocs"
+      ],
+      "evidencias": [
+        {
+          "fonte": "T-004",
+          "feature": "marco-0-pocs",
+          "quando": "2026-08-27T03:46:20.550Z",
+          "gitRev": "bf6c285"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T03:46:20.550Z",
+      "ultimaVez": "2026-08-27T03:46:20.550Z"
+    },
+    {
+      "id": "L-002",
+      "texto": "Run verify after replacing acceptance-test scaffolds with executable proofs.",
+      "chave": "AC_SEM_PROVA::run verify after replacing acceptance test scaffolds with executable proofs",
+      "sinal": "AC_SEM_PROVA",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "marco-0-pocs"
+      ],
+      "evidencias": [
+        {
+          "fonte": "AC-009",
+          "feature": "marco-0-pocs",
+          "quando": "2026-08-27T03:46:20.599Z",
+          "gitRev": "bf6c285"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T03:46:20.599Z",
+      "ultimaVez": "2026-08-27T03:46:20.599Z"
+    }
+  ]
+}
