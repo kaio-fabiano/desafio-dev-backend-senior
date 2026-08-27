@@ -13,8 +13,8 @@ export class InboxRecord {
 
 Entity({ tableName: 'commerce_inbox_record' })(InboxRecord);
 PrimaryKey({ type: 'uuid' })(InboxRecord.prototype, 'eventId');
-Property({ length: 100 })(InboxRecord.prototype, 'eventType');
+Property({ type: 'string', length: 100 })(InboxRecord.prototype, 'eventType');
 Property({ type: 'uuid', nullable: true })(InboxRecord.prototype, 'workflowId');
-Property({ length: 16, nullable: true })(InboxRecord.prototype, 'disposition');
-Property()(InboxRecord.prototype, 'receivedAt');
-Property({ nullable: true })(InboxRecord.prototype, 'processedAt');
+Property({ type: 'string', length: 16, nullable: true })(InboxRecord.prototype, 'disposition');
+Property({ type: Date })(InboxRecord.prototype, 'receivedAt');
+Property({ type: Date, nullable: true })(InboxRecord.prototype, 'processedAt');

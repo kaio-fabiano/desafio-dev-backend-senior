@@ -29,23 +29,23 @@ Unique({
   properties: ['subject', 'operationKey'],
 })(CheckoutOperation);
 PrimaryKey({ type: 'uuid' })(CheckoutOperation.prototype, 'id');
-Property({ length: 255 })(CheckoutOperation.prototype, 'subject');
-Property({ length: 255 })(CheckoutOperation.prototype, 'operationKey');
-Property({ length: 64 })(CheckoutOperation.prototype, 'commandHash');
+Property({ type: 'string', length: 255 })(CheckoutOperation.prototype, 'subject');
+Property({ type: 'string', length: 255 })(CheckoutOperation.prototype, 'operationKey');
+Property({ type: 'string', length: 64 })(CheckoutOperation.prototype, 'commandHash');
 Enum({ items: () => CheckoutOperationStatus })(
   CheckoutOperation.prototype,
   'status',
 );
-Property({ length: 255, unique: true })(
+Property({ type: 'string', length: 255, unique: true })(
   CheckoutOperation.prototype,
   'wooReference',
 );
-Property({ length: 32, nullable: true })(
+Property({ type: 'string', length: 32, nullable: true })(
   CheckoutOperation.prototype,
   'wooOrderId',
 );
-Property()(CheckoutOperation.prototype, 'createdAt');
-Property({ onUpdate: () => new Date() })(
+Property({ type: Date })(CheckoutOperation.prototype, 'createdAt');
+Property({ type: Date, onUpdate: () => new Date() })(
   CheckoutOperation.prototype,
   'updatedAt',
 );

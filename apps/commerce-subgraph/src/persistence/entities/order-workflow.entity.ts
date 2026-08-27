@@ -21,9 +21,9 @@ Property({ type: 'uuid', unique: true })(
   OrderWorkflow.prototype,
   'checkoutOperationId',
 );
-Property({ length: 32, unique: true })(OrderWorkflow.prototype, 'wooOrderId');
-Property({ length: 32 })(OrderWorkflow.prototype, 'state');
-Property({ length: 255, nullable: true })(OrderWorkflow.prototype, 'paymentId');
+Property({ type: 'string', length: 32, unique: true })(OrderWorkflow.prototype, 'wooOrderId');
+Property({ type: 'string', length: 32 })(OrderWorkflow.prototype, 'state');
+Property({ type: 'string', length: 255, nullable: true })(OrderWorkflow.prototype, 'paymentId');
 Property({ type: 'text', nullable: true })(OrderWorkflow.prototype, 'pixCode');
-Property()(OrderWorkflow.prototype, 'createdAt');
-Property({ onUpdate: () => new Date() })(OrderWorkflow.prototype, 'updatedAt');
+Property({ type: Date })(OrderWorkflow.prototype, 'createdAt');
+Property({ type: Date, onUpdate: () => new Date() })(OrderWorkflow.prototype, 'updatedAt');

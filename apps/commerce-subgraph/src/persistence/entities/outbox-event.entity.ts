@@ -24,9 +24,9 @@ Unique({
 })(OutboxEvent);
 PrimaryKey({ type: 'uuid' })(OutboxEvent.prototype, 'id');
 Property({ type: 'uuid' })(OutboxEvent.prototype, 'workflowId');
-Property({ length: 100 })(OutboxEvent.prototype, 'eventType');
+Property({ type: 'string', length: 100 })(OutboxEvent.prototype, 'eventType');
 Property({ type: JsonType })(OutboxEvent.prototype, 'payload');
-Property()(OutboxEvent.prototype, 'occurredAt');
-Property({ default: 0 })(OutboxEvent.prototype, 'publicationAttempts');
-Property({ nullable: true })(OutboxEvent.prototype, 'lastPublicationAttemptAt');
-Property({ nullable: true })(OutboxEvent.prototype, 'sentAt');
+Property({ type: Date })(OutboxEvent.prototype, 'occurredAt');
+Property({ type: 'integer', default: 0 })(OutboxEvent.prototype, 'publicationAttempts');
+Property({ type: Date, nullable: true })(OutboxEvent.prototype, 'lastPublicationAttemptAt');
+Property({ type: Date, nullable: true })(OutboxEvent.prototype, 'sentAt');
