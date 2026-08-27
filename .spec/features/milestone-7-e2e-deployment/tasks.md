@@ -18,7 +18,7 @@
 
 ## T-048 — Harden final application images and Compose readiness [concluida]
 - Refs: US-037, US-038, AC-067, AC-075
-- Arquivos: compose.yaml, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/commerce-subgraph/Dockerfile, apps/stock-worker/Dockerfile, apps/payment-processor/Dockerfile, apps/apollo-mcp/Dockerfile, test/milestone-7-containers.test.mjs
+- Arquivos: compose.yaml, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/commerce-subgraph/Dockerfile, apps/stock-worker/Dockerfile, apps/payment-processor/Dockerfile, apps/apollo-mcp/Dockerfile, test/milestone-6-mcp-config.test.mjs, test/milestone-7-containers.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Pin images, use multi-stage builds, non-root runtime users, and readiness rather than open-port checks.

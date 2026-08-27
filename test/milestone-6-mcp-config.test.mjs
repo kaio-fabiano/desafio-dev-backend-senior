@@ -37,8 +37,8 @@ test('AC-060: Only approved operations become tools @spec:AC-060', () => {
   for (const { file, document } of operations) {
     assert.deepEqual(validate(schema, document), [], `${file} must match the pinned client schema`);
   }
-  assert.match(dockerfile, /^FROM ghcr\.io\/apollographql\/apollo-mcp-server:v1\.17\.0$/m);
-  assert.match(dockerfile, /COPY .* apps\/apollo-mcp\/operations\/ \/data\/operations\//);
+  assert.match(dockerfile, /^FROM ghcr\.io\/apollographql\/apollo-mcp-server:v1\.17\.0(?: AS [\w-]+)?$/m);
+  assert.match(dockerfile, /COPY(?: --chown=\S+)? apps\/apollo-mcp\/operations\/ \/data\/operations\//);
 });
 
 test('AC-061: Forbidden mutations and arbitrary GraphQL tools stay disabled @spec:AC-061', () => {
