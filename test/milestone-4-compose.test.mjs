@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { test } from 'node:test';
+
+const [compose, commerceModule, paymentDockerfile, stockDockerfile, stockModule] = await Promise.all([
+  readFile('compose.yaml', 'utf8'),
+  readFile('apps/commerce-subgraph/src/app.module.ts', 'utf8'),
+  readFile('apps/payment-processor/Dockerfile', 'utf8'),
+  readFile('apps/stock-worker/Dockerfile', 'utf8'),
+  readFile('apps/stock-worker/src/app.module.ts', 'utf8'),
+]);
+
+test('AC-042: Compose starts durable broker dependencies and retry consumers only after readiness @spec:AC-042', () => {
+  assert.match(compose, /rabbitmq:\n    image: rabbitmq:4\.1\.3-management/);
+  assert.match(compose, /rabbitmq-diagnostics", "-q", "ping/);
+  assert.match(compose, /RABBITMQ_URL: amqp:\/\/rabbitmq:5672/);
+  assert.match(compose, /rabbitmq:\n        condition: service_healthy/);
+  assert.doesNotMatch(compose, /^\s+ports:/m);
+});
+
+test('AC-045: Compose gives payment its own ready database and consumers close gracefully @spec:AC-045', () => {
+  assert.match(compose, /payment-database:\n    image: postgres:17\.6-bookworm/);
+  assert.match(compose, /POSTGRES_DB: payment/);
+  assert.match(compose, /SPRING_DATASOURCE_URL: jdbc:postgresql:\/\/payment-database:5432\/payment/);
+  assert.match(compose, /payment-database:\n        condition: service_healthy/);
+  assert.match(compose, /stop_grace_period: 35s/);
+  assert.match(commerceModule, /onApplicationShutdown[\s\S]*runtime\?\.close/);
+  assert.match(stockModule, /async stop[\s\S]*runtime\?\.close/);
+  assert.match(stockModule, /process\.once\('SIGTERM'/);
+  assert.match(paymentDockerfile, /ENTRYPOINT \["java", "-jar", "\/app\/app\.jar"\]/);
+  assert.match(stockDockerfile, /CMD \["node", "--experimental-transform-types", "apps\/stock-worker\/src\/app\.module\.ts"\]/);
+});
