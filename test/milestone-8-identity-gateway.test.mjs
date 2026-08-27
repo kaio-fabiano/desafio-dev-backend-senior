@@ -89,6 +89,12 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
   });
   assert.equal(headers.get('x-authenticated-subject'), 'u-1');
   assert.equal(headers.get('x-authenticated-scopes'), 'marketplace:read');
+  assert.doesNotThrow(() =>
+    source.willSendRequest({
+      request: { http: { headers: new Headers() } },
+      context: undefined,
+    }),
+  );
   const gatewayModule = await readFile(
     'apps/gateway/src/app.module.ts',
     'utf8',
