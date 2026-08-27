@@ -17,6 +17,21 @@ export interface MarketplaceEvent {
   payload: Record<string, unknown>;
 }
 
+export interface OrderWorkflowTransitionedEvent extends MarketplaceEvent {
+  eventType: 'order.workflow-transitioned';
+  eventVersion: 'v1';
+  operationKey: string;
+  subject: string;
+  traceContext: { traceId: string; spanId?: string };
+  payload: {
+    eventTime: string;
+    operationKey: string;
+    orderId: string;
+    pixCode?: string;
+    state: string;
+  };
+}
+
 export interface RabbitMqRuntime {
   channel: RabbitMqConfirmChannel;
   close(): Promise<void>;

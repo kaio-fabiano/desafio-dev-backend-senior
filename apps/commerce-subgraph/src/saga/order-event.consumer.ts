@@ -15,6 +15,10 @@ import {
   type SagaCommand,
   type StockItem,
 } from './order-saga.ts';
+import type {
+  CommittedTransitionPublisher,
+  OwnedOrderWorkflow,
+} from '../subscriptions/order-transition.publisher.ts';
 
 export type OrderItemsLoader = (
   wooOrderId: string,
@@ -24,7 +28,7 @@ export interface OrderSagaRepository {
   findForUpdate(
     transaction: EntityManager,
     wooOrderId: string,
-  ): Promise<OrderWorkflowSnapshot>;
+  ): Promise<OwnedOrderWorkflow>;
   apply(
     transaction: EntityManager,
     workflow: OrderWorkflowSnapshot,
@@ -36,17 +40,23 @@ export class MikroOrmOrderSagaRepository implements OrderSagaRepository {
   async findForUpdate(
     transaction: EntityManager,
     wooOrderId: string,
-  ): Promise<OrderWorkflowSnapshot> {
+  ): Promise<OwnedOrderWorkflow> {
     const rows = (await transaction.getConnection().execute(
-      `select "id", "woo_order_id", "state", "payment_id", "pix_code"
-         from "commerce_order_workflow"
-        where "woo_order_id" = ?
+      `select workflow."id", workflow."woo_order_id", workflow."state",
+              workflow."payment_id", workflow."pix_code",
+              operation."subject", operation."operation_key"
+         from "commerce_order_workflow" workflow
+         join "commerce_checkout_operation" operation
+           on operation."id" = workflow."checkout_operation_id"
+        where workflow."woo_order_id" = ?
         for update`,
       [wooOrderId],
     )) as Array<{
       id: string;
       payment_id?: string;
       pix_code?: string;
+      operation_key: string;
+      subject: string;
       state: OrderWorkflowSnapshot['state'];
       woo_order_id: string;
     }>;
@@ -58,6 +68,8 @@ export class MikroOrmOrderSagaRepository implements OrderSagaRepository {
       state: row.state,
       paymentId: row.payment_id,
       pixCode: row.pix_code,
+      operationKey: row.operation_key,
+      subject: row.subject,
     };
   }
 
@@ -107,6 +119,14 @@ export type ConsumeResult =
   | { outcome: 'duplicate' }
   | { outcome: 'ignored'; transition: IgnoredSagaTransition };
 
+interface CommittedConsumeResult {
+  result: ConsumeResult;
+  publication?: {
+    transition: AppliedSagaTransition;
+    workflow: OwnedOrderWorkflow;
+  };
+}
+
 export class OrderEventConsumer {
   constructor(
     private readonly entityManager: EntityManager,
@@ -114,43 +134,63 @@ export class OrderEventConsumer {
     private readonly workflows: OrderSagaRepository,
     private readonly loadOrderItems: OrderItemsLoader,
     private readonly saga = new OrderSaga(),
+    private readonly transitions: CommittedTransitionPublisher = {
+      async publish() {},
+    },
   ) {}
 
   async consume(event: OrderSagaEvent): Promise<ConsumeResult> {
-    return this.entityManager.transactional(async (transaction) => {
-      const claimed = await this.inbox.claim(
-        transaction,
-        event.eventId,
-        event.eventType,
-      );
-      if (!claimed) return { outcome: 'duplicate' };
+    const committed = await this.entityManager.transactional(
+      async (transaction): Promise<CommittedConsumeResult> => {
+        const claimed = await this.inbox.claim(
+          transaction,
+          event.eventId,
+          event.eventType,
+        );
+        if (!claimed) return { result: { outcome: 'duplicate' } };
 
-      const orderId = requiredOrderId(event);
-      const workflow = await this.workflows.findForUpdate(transaction, orderId);
-      const stockItems =
-        event.eventType === 'payment.authorized'
-          ? await this.loadOrderItems(orderId)
-          : undefined;
-      const transition = this.saga.transition(workflow, event, { stockItems });
-      if (transition.kind === 'ignored') {
+        const orderId = requiredOrderId(event);
+        const workflow = await this.workflows.findForUpdate(
+          transaction,
+          orderId,
+        );
+        const stockItems =
+          event.eventType === 'payment.authorized'
+            ? await this.loadOrderItems(orderId)
+            : undefined;
+        const transition = this.saga.transition(workflow, event, {
+          stockItems,
+        });
+        if (transition.kind === 'ignored') {
+          await this.inbox.complete(
+            transaction,
+            event.eventId,
+            workflow.id,
+            InboxDisposition.Ignored,
+          );
+          return { result: { outcome: 'ignored', transition } };
+        }
+
+        await this.workflows.apply(transaction, workflow, transition);
         await this.inbox.complete(
           transaction,
           event.eventId,
           workflow.id,
-          InboxDisposition.Ignored,
+          InboxDisposition.Applied,
         );
-        return { outcome: 'ignored', transition };
-      }
-
-      await this.workflows.apply(transaction, workflow, transition);
-      await this.inbox.complete(
-        transaction,
-        event.eventId,
-        workflow.id,
-        InboxDisposition.Applied,
+        return {
+          result: { outcome: 'applied', transition },
+          publication: { transition, workflow },
+        };
+      },
+    );
+    if (committed.publication) {
+      await this.transitions.publish(
+        committed.publication.workflow,
+        committed.publication.transition,
       );
-      return { outcome: 'applied', transition };
-    });
+    }
+    return committed.result;
   }
 
   async handle(
