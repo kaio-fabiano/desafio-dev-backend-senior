@@ -2,15 +2,6 @@ packages:
   - "apps/*"
   - "libs/*"
 
-allowBuilds:
-  '@apollo/protobufjs': false
-  '@nestjs/core': true
-  cpu-features: false
-  esbuild: true
-  nx: true
-  protobufjs: false
-  ssh2: false
-
 autoInstallPeers: true
 onlyBuiltDependencies:
   - '@nestjs/core'
