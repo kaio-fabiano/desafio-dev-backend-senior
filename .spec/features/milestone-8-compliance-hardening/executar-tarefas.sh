@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-8-compliance-hardening` em 2026-08-27 22:13
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-8-compliance-hardening` em 2026-08-27 22:18
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-8-compliance-hardening-mtc2xxzl'
+RUN_ID='desafio-dev-backend-senior-milestone-8-compliance-hardening-mtc33wz4'
 FEATURE='milestone-8-compliance-hardening'
 BASE_BRANCH='spec/milestone-8-compliance-hardening'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -182,7 +182,7 @@ Leia primeiro: .spec/features/milestone-8-compliance-hardening/spec.md, .spec/fe
 Sua tarefa (somente ela):
 T-053 — "Establish the honest compliance gate"
   critérios/refs: AC-078 (Acceptance uses the production applications), AC-079 (Public behavior is proven through real protocols), AC-085 (Build, typecheck, lint, and test are reproducible), AC-086 (Dependency direction remains clean), AC-087 (Obsolete PoC applications leave the production graph), AC-088 (AWS validation is offline and deployment is guarded)
-  arquivos permitidos (e seus testes): docs/evidence/milestone-8/review.md, docs/evidence/milestone-8/requirements.md, test/milestone-8-compliance-contract.test.mjs, onpspec.config.json
+  arquivos permitidos (e seus testes): docs/evidence/milestone-8/review.md, docs/evidence/milestone-8/requirements.md, test/milestone-8-compliance-contract.test.mjs, test/milestone-8-compliance-hardening.spec.test.js, onpspec.config.json
   mensagem de commit: "T-053 milestone-8-compliance-hardening: Establish the honest compliance gate"
 
 Regras inegociáveis:

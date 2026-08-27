@@ -1,6 +1,6 @@
 # Plano de execução — milestone-8-compliance-hardening
 
-> gerado por `onp-spec plano` em 2026-08-27 22:13 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-27 22:18 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano milestone-8-compliance-hardening`
 
 ## Resumo — o que vai acontecer
@@ -18,7 +18,7 @@
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
-| T-053 | Establish the honest compliance gate | `gpt-5.6-luna` | low | `docs/evidence/milestone-8/review.md`, `docs/evidence/milestone-8/requirements.md`, `test/milestone-8-compliance-contract.test.mjs`, `onpspec.config.json` |
+| T-053 | Establish the honest compliance gate | `gpt-5.6-luna` | low | `docs/evidence/milestone-8/review.md`, `docs/evidence/milestone-8/requirements.md`, `test/milestone-8-compliance-contract.test.mjs`, `test/milestone-8-compliance-hardening.spec.test.js`, `onpspec.config.json` |
 
 #### faixa-2 — branch `spec/milestone-8-compliance-hardening-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-milestone-8-compliance-hardening-faixa-2`
 

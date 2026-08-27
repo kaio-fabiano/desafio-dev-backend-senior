@@ -4,7 +4,7 @@
 
 ## T-053 — Establish the honest compliance gate [pendente]
 - Refs: US-040, US-043, US-044, AC-078, AC-079, AC-085, AC-086, AC-087, AC-088
-- Arquivos: docs/evidence/milestone-8/review.md, docs/evidence/milestone-8/requirements.md, test/milestone-8-compliance-contract.test.mjs, onpspec.config.json
+- Arquivos: docs/evidence/milestone-8/review.md, docs/evidence/milestone-8/requirements.md, test/milestone-8-compliance-contract.test.mjs, test/milestone-8-compliance-hardening.spec.test.js, onpspec.config.json
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notes: Encode the review gaps before implementation. Source-shape assertions cannot replace runtime proofs.

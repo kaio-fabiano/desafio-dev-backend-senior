@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-milestone-8-compliance-hardening-mtc2xxzl",
+  "runId": "desafio-dev-backend-senior-milestone-8-compliance-hardening-mtc33wz4",
   "feature": "milestone-8-compliance-hardening",
   "agent": "codex",
   "modo": "paralelo",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-08-27 22:13",
+  "geradoEm": "2026-08-27 22:18",
   "branchTrabalho": "spec/milestone-8-compliance-hardening",
   "baseDir": ".spec/features/milestone-8-compliance-hardening",
   "specDir": ".spec",
@@ -34,6 +34,7 @@
             "docs/evidence/milestone-8/review.md",
             "docs/evidence/milestone-8/requirements.md",
             "test/milestone-8-compliance-contract.test.mjs",
+            "test/milestone-8-compliance-hardening.spec.test.js",
             "onpspec.config.json"
           ],
           "refs": [
