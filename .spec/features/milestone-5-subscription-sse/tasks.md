@@ -10,7 +10,6 @@
 - Notas: Extend the existing Commerce schema with `Subscription.orderEvents(operationKey: ID!): OrderEvent!`. Keep the payload limited to operation key, order reference, state, optional Pix code, and event time.
 
 ## T-037 — Publish committed workflow transitions through RabbitMQ [pendente]
-
 - Refs: US-031, AC-053, AC-054
 - Arquivos: apps/commerce-subgraph/src/saga/order-event.consumer.ts, apps/commerce-subgraph/src/subscriptions/order-transition.publisher.ts, apps/commerce-subgraph/src/messaging/rabbitmq.ts, libs/contracts/events/order-workflow-transitioned.v1.schema.json, test/milestone-5-transition-publication.test.mjs
 - Modelo: gpt-5.6-sol
@@ -26,7 +25,6 @@
 - Notas: Consume the live transition route into bounded per-stream async iterators filtered by `(subject, operationKey)`. Configure heartbeat, idle timeout, finite buffering, terminal completion, and deterministic cleanup. No replay store.
 
 ## T-039 — Add the hybrid GraphQL SSE endpoint to the gateway [pendente]
-
 - Refs: US-032, US-033, AC-055, AC-057, AC-058
 - Arquivos: package.json, pnpm-lock.yaml, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/commerce-subscription.client.ts, test/milestone-5-gateway-sse.test.mjs
 - Modelo: gpt-5.6-sol
