@@ -16,7 +16,7 @@
 - Esforço: alto
 - Notas: This is distributed consistency work. Use durable native topology, mandatory publishing, confirms, manual acknowledgements, finite TTL retry queues, and an inspectable DLQ. Do not add a delayed-message plugin.
 
-## T-030 — Scaffold the Spring Boot payment processor and Nx Gradle targets [pendente]
+## T-030 — Scaffold the Spring Boot payment processor and Nx Gradle targets [concluida]
 - Refs: US-027, AC-045
 - Arquivos: package.json, pnpm-lock.yaml, nx.json, apps/payment-processor/settings.gradle.kts, apps/payment-processor/build.gradle.kts, apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java, apps/payment-processor/src/main/resources/application.yaml, apps/payment-processor/src/test/java/dev/desafio/payment/PaymentProcessorApplicationTest.java, test/milestone-4-nx-gradle.test.mjs
 - Modelo: gpt-5.6-terra
@@ -30,7 +30,7 @@
 - Esforço: alto
 - Notas: Payment and concurrency are critical. Record payment effect, inbox, and outgoing result atomically. Use operation/payment keys for effect idempotency and eventId for delivery deduplication.
 
-## T-032 — Implement the idempotent WooCommerce inventory worker [pendente]
+## T-032 — Implement the idempotent WooCommerce inventory worker [concluida]
 - Refs: US-028, US-030, AC-046, AC-047, AC-051
 - Arquivos: apps/stock-worker/project.json, apps/stock-worker/src/inventory/inventory.service.ts, apps/stock-worker/src/inventory/woo-inventory.adapter.ts, apps/stock-worker/src/inventory/inbox.repository.ts, apps/stock-worker/src/main.ts, test/milestone-4-inventory-worker.test.mjs, test/milestone-4-inventory-redelivery.test.mjs
 - Modelo: gpt-5.6-terra
