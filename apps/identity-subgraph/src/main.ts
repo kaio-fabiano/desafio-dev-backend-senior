@@ -5,42 +5,49 @@ import { Pool } from 'pg';
 
 import { AppModule } from './app.module.ts';
 import { createIdentityAuth } from './auth/config.ts';
+import { toBetterAuthRequest } from './auth/http-bridge.ts';
+import { bootstrapIdentityAuth } from './auth/seed.ts';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const database = new Pool({ connectionString: process.env.DATABASE_URL });
   const auth = createIdentityAuth(database, {
     baseURL: process.env.IDENTITY_BASE_URL ?? 'http://localhost:3001',
+    issuer:
+      process.env.OAUTH_ISSUER ?? 'https://identity-subgraph:3001/api/auth',
     secret: process.env.BETTER_AUTH_SECRET ?? 'development-secret-change-me',
     seedAdminEmail: process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
   });
+  const seedPassword = process.env.SEED_ADMIN_PASSWORD;
+  if (process.env.NODE_ENV === 'production' && !seedPassword) {
+    throw new Error('SEED_ADMIN_PASSWORD is required in production');
+  }
+  const clients = await bootstrapIdentityAuth(auth, {
+    email: process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
+    password: seedPassword ?? 'local-admin-password-change-before-production',
+  });
   const http = app.getHttpAdapter().getInstance();
-  http.all(
-    '/api/auth/*',
+  http.get(
+    '/oauth/clients',
+    (_request: IncomingMessage, response: ServerResponse) => {
+      response.writeHead(200, { 'content-type': 'application/json' });
+      response.end(
+        JSON.stringify({
+          gateway: clients.gateway.clientId,
+          mcp: clients.mcp.clientId,
+        }),
+      );
+    },
+  );
+  http.use(
+    '/api/auth',
     async (
-      request: IncomingMessage & { body?: unknown },
+      request: IncomingMessage & { body?: unknown; originalUrl?: string },
       response: ServerResponse,
     ) => {
-      const headers = new Headers();
-      for (const [name, value] of Object.entries(request.headers)) {
-        if (Array.isArray(value))
-          value.forEach((item) => headers.append(name, item));
-        else if (value !== undefined) headers.set(name, value);
-      }
-      const hasBody =
-        request.method !== 'GET' &&
-        request.method !== 'HEAD' &&
-        request.body !== undefined;
-      const protocolRequest = new Request(
-        new URL(
-          request.url ?? '/',
-          process.env.IDENTITY_BASE_URL ?? 'http://localhost:3001',
-        ),
-        {
-          method: request.method,
-          headers,
-          body: hasBody ? JSON.stringify(request.body) : undefined,
-        },
+      const protocolRequest = await toBetterAuthRequest(
+        request,
+        process.env.IDENTITY_BASE_URL ?? 'http://localhost:3001',
       );
       const result = await auth.handler(protocolRequest);
       response.writeHead(

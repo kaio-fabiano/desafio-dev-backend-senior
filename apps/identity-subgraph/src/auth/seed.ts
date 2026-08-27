@@ -25,22 +25,40 @@ async function seedClient(
   });
   if (existing) return { clientId: existing.clientId, created: false };
 
-  let administrator = await context.adapter.findOne({
+  const administrator = await context.adapter.findOne({
     model: 'user',
     where: [{ field: 'email', value: credentials.email }],
   });
+  let sessionCookie: string;
   if (!administrator) {
-    administrator = context.test.createUser({
-      id: 'identity-client-seed',
-      email: credentials.email,
-      name: 'Identity client seed',
+    const response = await auth.api.signUpEmail({
+      body: {
+        email: credentials.email,
+        password: credentials.password,
+        name: 'Identity client seed',
+      },
+      asResponse: true,
     });
-    await context.test.saveUser(administrator);
+    if (!response.ok) {
+      throw new Error(
+        `Identity client seed sign-up failed: ${response.status}`,
+      );
+    }
+    sessionCookie = response.headers.get('set-cookie') ?? '';
+  } else {
+    const response = await auth.api.signInEmail({
+      body: { email: credentials.email, password: credentials.password },
+      asResponse: true,
+    });
+    if (!response.ok) {
+      throw new Error(
+        `Identity client seed sign-in failed: ${response.status}`,
+      );
+    }
+    sessionCookie = response.headers.get('set-cookie') ?? '';
   }
-
-  const login = await context.test.login({ userId: administrator.id });
   const client = await auth.api.adminCreateOAuthClient({
-    headers: login.headers,
+    headers: new Headers({ cookie: sessionCookie }),
     body: {
       client_name: seed.name,
       software_id: seed.softwareId,
@@ -54,6 +72,16 @@ async function seedClient(
     },
   });
   return { clientId: client.client_id, created: true };
+}
+
+export async function bootstrapIdentityAuth(
+  auth: ReturnType<typeof import('./config.ts').createIdentityAuth>,
+  credentials: SeedCredentials,
+) {
+  await (await auth.$context).runMigrations();
+  const gateway = await seedGatewayClient(auth, credentials);
+  const mcp = await seedMcpClient(auth, credentials);
+  return { gateway, mcp };
 }
 
 export function seedGatewayClient(

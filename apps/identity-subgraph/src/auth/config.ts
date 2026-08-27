@@ -1,6 +1,6 @@
 import { oauthProvider } from '@better-auth/oauth-provider';
 import { betterAuth } from 'better-auth';
-import { jwt, testUtils } from 'better-auth/plugins';
+import { jwt } from 'better-auth/plugins';
 
 export const GATEWAY_AUDIENCE = 'https://gateway.marketplace.local';
 export const MCP_AUDIENCE = 'https://mcp.marketplace.local';
@@ -17,6 +17,7 @@ export const MCP_TOOL_SCOPES = [
 
 type IdentityAuthOptions = {
   baseURL: string;
+  issuer?: string;
   secret: string;
   seedAdminEmail: string;
 };
@@ -30,9 +31,13 @@ export function createIdentityAuth(
     basePath: '/api/auth',
     database,
     secret: options.secret,
+    emailAndPassword: { enabled: true },
     disabledPaths: ['/token'],
     plugins: [
-      jwt({ disableSettingJwtHeader: true }),
+      jwt({
+        disableSettingJwtHeader: true,
+        jwt: options.issuer ? { issuer: options.issuer } : undefined,
+      }),
       oauthProvider({
         loginPage: '/sign-in',
         consentPage: '/consent',
@@ -51,7 +56,6 @@ export function createIdentityAuth(
         clientPrivileges: async ({ user }) =>
           user?.email === options.seedAdminEmail,
       }),
-      testUtils(),
     ],
   });
 }

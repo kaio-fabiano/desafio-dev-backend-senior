@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { Readable } from 'node:stream';
 import test from 'node:test';
 
 import { IdentityResolver } from '../apps/identity-subgraph/src/graphql/identity.resolver.ts';
@@ -9,6 +10,9 @@ import {
 } from '../apps/identity-subgraph/src/graphql/identity-schema.ts';
 import { OwnedProductMutations } from '../apps/identity-subgraph/src/supplier/owned-product-mutations.ts';
 import { AuthenticatedDataSource } from '../apps/gateway/src/federation/authenticated-data-source.ts';
+import { createIdentityAuth } from '../apps/identity-subgraph/src/auth/config.ts';
+import { seedGatewayClient } from '../apps/identity-subgraph/src/auth/seed.ts';
+import { toBetterAuthRequest } from '../apps/identity-subgraph/src/auth/http-bridge.ts';
 
 test('AC-080: Identity resolves authorized users, user, me and federated references from one repository @spec:AC-080', async () => {
   const records = [
@@ -91,6 +95,103 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
   );
   assert.match(gatewayModule, /ApolloGatewayDriver/);
   assert.match(gatewayModule, /IntrospectAndCompose/);
+});
+
+test('AC-081: Identity serves real sign-up, discovery and a PKCE client without test-only auth plugins @spec:AC-081', async () => {
+  const { memoryAdapter } = await import('better-auth/adapters/memory');
+  const database = {
+    user: [],
+    session: [],
+    account: [],
+    verification: [],
+    jwks: [],
+    oauthClient: [],
+    oauthAccessToken: [],
+    oauthRefreshToken: [],
+    oauthAuthorizationCode: [],
+    oauthConsent: [],
+    oauthResource: [],
+    oauthClientResource: [],
+  };
+  const auth = createIdentityAuth(memoryAdapter(database), {
+    baseURL: 'http://identity.test',
+    issuer: 'https://identity.test/api/auth',
+    secret: 'identity-integration-secret-at-least-32-characters',
+    seedAdminEmail: 'admin@identity.test',
+  });
+  const signUp = await auth.handler(
+    new Request('http://identity.test/api/auth/sign-up/email', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: 'buyer@identity.test',
+        password: 'buyer-password-at-least-32-characters',
+        name: 'Buyer',
+      }),
+    }),
+  );
+  assert.equal(signUp.status, 200);
+  assert.equal((await signUp.json()).user.email, 'buyer@identity.test');
+
+  const discovery = await auth.handler(
+    new Request(
+      'http://identity.test/api/auth/.well-known/openid-configuration',
+    ),
+  );
+  assert.equal(discovery.status, 200);
+  assert.equal(
+    (await discovery.clone().json()).issuer,
+    'https://identity.test/api/auth',
+  );
+  assert.match(
+    (await discovery.json()).authorization_endpoint,
+    /\/oauth2\/authorize$/,
+  );
+
+  const client = await seedGatewayClient(auth, {
+    email: 'admin@identity.test',
+    password: 'admin-password-at-least-32-characters',
+  });
+  const stored = await (
+    await auth.$context
+  ).adapter.findOne({
+    model: 'oauthClient',
+    where: [{ field: 'clientId', value: client.clientId }],
+  });
+  assert.equal(stored.requirePKCE, true);
+  assert.deepEqual(stored.grantTypes, ['authorization_code']);
+
+  const config = await readFile(
+    'apps/identity-subgraph/src/auth/config.ts',
+    'utf8',
+  );
+  assert.doesNotMatch(config, /testUtils/);
+  const [main, dockerfile] = await Promise.all([
+    readFile('apps/identity-subgraph/src/main.ts', 'utf8'),
+    readFile('apps/identity-subgraph/Dockerfile', 'utf8'),
+  ]);
+  assert.match(main, /bootstrapIdentityAuth/);
+  assert.match(main, /\/oauth\/clients/);
+  assert.match(
+    dockerfile,
+    /libs\/contracts\/graphql\/identity\/schema\.graphql/,
+  );
+
+  const incoming = Readable.from([
+    JSON.stringify({ email: 'stream@identity.test', password: 'secret' }),
+  ]);
+  Object.assign(incoming, {
+    method: 'POST',
+    url: '/sign-up/email',
+    originalUrl: '/api/auth/sign-up/email',
+    headers: { 'content-type': 'application/json' },
+  });
+  const bridged = await toBetterAuthRequest(incoming, 'http://identity.test');
+  assert.equal(bridged.url, 'http://identity.test/api/auth/sign-up/email');
+  assert.deepEqual(await bridged.json(), {
+    email: 'stream@identity.test',
+    password: 'secret',
+  });
 });
 
 test('AC-082: Supplier ownership rejects update and removal before external mutation @spec:AC-082', async () => {
