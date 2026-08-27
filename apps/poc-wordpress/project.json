@@ -1,0 +1,20 @@
+{
+  "name": "poc-wordpress",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "root": "apps/poc-wordpress",
+  "targets": {
+    "probe": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash apps/poc-wordpress/scripts/install-plugins.sh && node apps/poc-wordpress/scripts/probe.mjs"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --test --test-reporter=tap test/marco-0-wordpress.test.mjs"
+      }
+    }
+  }
+}

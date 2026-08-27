@@ -1,0 +1,53 @@
+name: poc-wordpress
+
+services:
+  database:
+    image: mariadb:11.8.3
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: wordpress-root
+      MARIADB_USER: wordpress
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - database-data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6.8.2-php8.3-apache
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DEBUG: '1'
+    ports:
+      - '127.0.0.1:18080:80'
+    volumes:
+      - wordpress-data:/var/www/html
+
+  cli:
+    image: wordpress:cli-2.12.0-php8.3
+    depends_on:
+      database:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_USER: wordpress
+    user: '33:33'
+    volumes:
+      - wordpress-data:/var/www/html
+
+volumes:
+  database-data:
+  wordpress-data:
