@@ -8,15 +8,15 @@ test('AC-008: Workspace installs and recognizes the proofs @spec:AC-008', () => 
   assert.match(workspace, /allowBuilds:/);
   assert.match(workspace, /^\s+nx: true$/m);
 
-  const projects = execFileSync('pnpm', ['exec', 'nx', 'show', 'projects'], {
+  const projects = execFileSync('./node_modules/.bin/nx', ['show', 'projects'], {
     encoding: 'utf8',
   });
   assert.match(projects, /@desafio-dev-backend-senior\/poc-harness/);
 
   const project = JSON.parse(
     execFileSync(
-      'pnpm',
-      ['exec', 'nx', 'show', 'project', '@desafio-dev-backend-senior/poc-harness', '--json'],
+      './node_modules/.bin/nx',
+      ['show', 'project', '@desafio-dev-backend-senior/poc-harness', '--json'],
       { encoding: 'utf8' },
     ),
   );
