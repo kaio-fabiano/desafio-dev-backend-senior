@@ -1,0 +1,160 @@
+{
+  "runId": "desafio-dev-backend-senior-milestone-5-subscription-sse-mtbs1ax8",
+  "feature": "milestone-5-subscription-sse",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-037",
+    "T-038",
+    "T-039"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-27 17:08",
+  "branchTrabalho": "spec/milestone-5-subscription-sse",
+  "baseDir": ".spec/features/milestone-5-subscription-sse",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-milestone-5-subscription-sse-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/milestone-5-subscription-sse-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-5-subscription-sse-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-037",
+          "titulo": "Publish committed workflow transitions through RabbitMQ",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/commerce-subgraph/src/saga/order-event.consumer.ts",
+            "apps/commerce-subgraph/src/subscriptions/order-transition.publisher.ts",
+            "apps/commerce-subgraph/src/messaging/rabbitmq.ts",
+            "libs/contracts/events/order-workflow-transitioned.v1.schema.json",
+            "test/milestone-5-transition-publication.test.mjs"
+          ],
+          "refs": [
+            "US-031",
+            "AC-053",
+            "AC-054"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/milestone-5-subscription-sse-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-5-subscription-sse-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-038",
+          "titulo": "Implement the authenticated Commerce SSE subscription source",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/commerce-subgraph/src/subscriptions/order-events.subscription.ts",
+            "apps/commerce-subgraph/src/subscriptions/order-event-broker.ts",
+            "apps/commerce-subgraph/src/graphql/commerce.module.ts",
+            "apps/commerce-subgraph/src/graphql/commerce.resolver.ts",
+            "test/milestone-5-commerce-subscription.test.mjs",
+            "test/milestone-5-subscription-lifecycle.test.mjs"
+          ],
+          "refs": [
+            "US-031",
+            "US-032",
+            "US-033",
+            "AC-053",
+            "AC-054",
+            "AC-056",
+            "AC-058"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/milestone-5-subscription-sse-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-5-subscription-sse-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-039",
+          "titulo": "Add the hybrid GraphQL SSE endpoint to the gateway",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "package.json",
+            "pnpm-lock.yaml",
+            "apps/gateway/src/app.module.ts",
+            "apps/gateway/src/main.ts",
+            "apps/gateway/src/subscriptions/sse-handler.ts",
+            "apps/gateway/src/subscriptions/commerce-subscription.client.ts",
+            "test/milestone-5-gateway-sse.test.mjs"
+          ],
+          "refs": [
+            "US-032",
+            "US-033",
+            "AC-055",
+            "AC-057",
+            "AC-058"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-036",
+      "titulo": "Define the subscription and event contracts",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "libs/contracts/graphql/commerce/schema.graphql",
+        "libs/contracts/events/order-workflow-transitioned.v1.schema.json",
+        "test/milestone-5-subscription-contract.test.mjs"
+      ],
+      "refs": [
+        "US-031",
+        "US-032",
+        "AC-053",
+        "AC-054",
+        "AC-056",
+        "AC-057"
+      ]
+    },
+    {
+      "id": "T-040",
+      "titulo": "Assemble the Milestone 5 end-to-end acceptance gate",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "apps/poc-harness/project.json",
+        "test/milestone-5-subscription-sse.test.mjs",
+        "docs/runbooks/milestone-5-subscription-sse.md",
+        "onpspec.config.json",
+        ".github/workflows/ci.yml"
+      ],
+      "refs": [
+        "US-031",
+        "US-032",
+        "US-033",
+        "AC-053",
+        "AC-054",
+        "AC-055",
+        "AC-056",
+        "AC-057",
+        "AC-058",
+        "AC-059"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

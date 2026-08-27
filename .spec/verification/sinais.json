@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 10,
+      "ocorrencias": 11,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-27T16:51:48.969Z",
-      "gitRev": "555d3b1"
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 6,
+      "ocorrencias": 7,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-27T16:51:48.969Z",
-      "gitRev": "555d3b1"
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -887,10 +887,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-1-foundation",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-27T05:27:06.132Z",
-      "ultimaVez": "2026-08-27T16:51:48.969Z",
-      "gitRev": "555d3b1"
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
     },
     "AC_SEM_PROVA::milestone-2-identity-catalog::AC-024": {
       "codigo": "AC_SEM_PROVA",
@@ -1283,19 +1283,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-2-identity-catalog",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-27T15:22:41.051Z",
-      "ultimaVez": "2026-08-27T16:51:48.969Z",
-      "gitRev": "555d3b1"
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
     },
     "VERIFY_OBSOLETO::milestone-3-cart-order::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-3-cart-order",
       "ref": "—",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T15:43:50.282Z",
-      "ultimaVez": "2026-08-27T16:51:48.969Z",
-      "gitRev": "555d3b1"
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
     },
     "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-028": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1476,6 +1476,123 @@
       "primeiraVez": "2026-08-27T15:43:50.282Z",
       "ultimaVez": "2026-08-27T15:43:50.282Z",
       "gitRev": "2b599ba"
+    },
+    "VERIFY_OBSOLETO::milestone-4-payment-inventory-saga::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "milestone-4-payment-inventory-saga",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-036": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "T-036",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-037": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "T-037",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-038": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "T-038",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-039": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "T-039",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-040": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "T-040",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "AC_SEM_PROVA::milestone-5-subscription-sse::AC-053": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "AC-053",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "AC_SEM_PROVA::milestone-5-subscription-sse::AC-054": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "AC-054",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "AC_SEM_PROVA::milestone-5-subscription-sse::AC-055": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "AC-055",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "AC_SEM_PROVA::milestone-5-subscription-sse::AC-056": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "AC-056",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "AC_SEM_PROVA::milestone-5-subscription-sse::AC-057": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "AC-057",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "AC_SEM_PROVA::milestone-5-subscription-sse::AC-058": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "AC-058",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
+    },
+    "AC_SEM_PROVA::milestone-5-subscription-sse::AC-059": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "milestone-5-subscription-sse",
+      "ref": "AC-059",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-27T17:06:38.293Z",
+      "ultimaVez": "2026-08-27T17:06:38.293Z",
+      "gitRev": "4dc54a5"
     }
   }
 }
