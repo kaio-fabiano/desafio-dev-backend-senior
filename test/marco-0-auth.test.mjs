@@ -5,8 +5,8 @@ import {
   GATEWAY_AUDIENCE,
   MCP_AUDIENCE,
   REQUIRED_SCOPE,
-} from '../apps/poc-auth/src/auth-server.ts';
-import { runMultiResourceProbe } from '../apps/poc-auth/src/probe.ts';
+} from './fixtures/auth-server.ts';
+import { runMultiResourceProbe } from './fixtures/auth-probe.ts';
 
 let proof;
 

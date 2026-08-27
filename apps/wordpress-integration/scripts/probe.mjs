@@ -31,7 +31,7 @@ function addAbstractProductKey(sdl) {
 }
 
 function compose(sdl, label) {
-  const directory = mkdtempSync(join(tmpdir(), 'poc-wordpress-'));
+  const directory = mkdtempSync(join(tmpdir(), 'wordpress-integration-'));
   try {
     chmodSync(directory, 0o755);
     writeFileSync(join(directory, 'wordpress.graphql'), sdl);

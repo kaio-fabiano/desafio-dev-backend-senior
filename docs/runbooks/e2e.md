@@ -3,7 +3,7 @@
 The E2E acceptance target owns the lifecycle: it starts the isolated Compose environment, obtains short-lived test credentials, runs the buyer checkout journey, and tears the environment down.
 
 ```sh
-corepack pnpm exec nx run @desafio-dev-backend-senior/poc-harness:milestone-7-e2e
+corepack pnpm exec nx run @desafio-dev-backend-senior/e2e:acceptance
 ```
 
 If the target is unavailable, validate the contract and run the focused suite from the repository root:

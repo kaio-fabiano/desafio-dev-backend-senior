@@ -3,7 +3,7 @@
 Run the end-to-end acceptance gate from the workspace root:
 
 ```sh
-pnpm exec nx run @desafio-dev-backend-senior/poc-harness:milestone-5-acceptance
+pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-5-acceptance
 ```
 
 The target opens authenticated GraphQL SSE subscriptions before Card and Pix

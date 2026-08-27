@@ -7,7 +7,7 @@
     "test:spec": "node --test --test-reporter=tap test/*.test.mjs test/*.test.js",
     "quality:nx": "nx run-many --target=build,typecheck,lint,test --all",
     "quality:affected": "nx affected --target=build,typecheck,lint,test",
-    "quality:coverage": "nx run @desafio-dev-backend-senior/poc-harness:milestone-7-quality"
+    "quality:coverage": "nx run @desafio-dev-backend-senior/e2e:milestone-7-quality"
   },
   "private": true,
   "dependencies": {

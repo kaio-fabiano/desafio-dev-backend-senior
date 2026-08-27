@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import {
   fetchProductPage,
   publishWordPressSubgraph,
-} from '../apps/poc-wordpress/scripts/publish-subgraph.mjs';
+} from '../apps/wordpress-integration/scripts/publish-subgraph.mjs';
 
 test('AC-031: Native catalog Connections paginate with opaque cursors @spec:AC-031', async (t) => {
   const products = ['A', 'B', 'C'].map((name, index) => ({ id: String(index + 1), name }));

@@ -26,8 +26,8 @@ Connections, request loaders, and WordPress authorization checks.
 Reproduce from the repository root:
 
 ```bash
-bash apps/poc-wordpress/scripts/install-plugins.sh
-node apps/poc-wordpress/scripts/probe.mjs
+bash apps/wordpress-integration/scripts/install-plugins.sh
+node apps/wordpress-integration/scripts/probe.mjs
 node --test --test-reporter=tap test/marco-0-wordpress.test.mjs
 ```
 

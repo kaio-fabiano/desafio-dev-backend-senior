@@ -5,7 +5,7 @@
 Install workspace dependencies, ensure Docker is running, then execute:
 
 ```bash
-pnpm exec nx run @desafio-dev-backend-senior/poc-harness:milestone-4-acceptance
+pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-4-acceptance
 docker compose --file compose.yaml config --quiet
 docker build --file apps/payment-processor/Dockerfile .
 docker build --file apps/stock-worker/Dockerfile .

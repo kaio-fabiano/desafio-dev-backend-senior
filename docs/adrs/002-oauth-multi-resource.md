@@ -2,7 +2,7 @@
 
 - Status: accepted
 - Date: 2026-08-26
-- Proof: `apps/poc-auth`
+- Proof fixture: `test/fixtures/auth-server.ts`
 - Versions: `better-auth@1.7.1`, `@better-auth/oauth-provider@1.7.1`
 
 ## Context
@@ -43,8 +43,7 @@ PKCE and the same repeated-resource and resource-server validation rules.
 
 ```bash
 pnpm install
-pnpm exec nx run @desafio-dev-backend-senior/poc-auth:test
-pnpm exec nx run @desafio-dev-backend-senior/poc-auth:probe
+node --experimental-transform-types --test --test-reporter=tap test/marco-0-auth.test.mjs
 ```
 
 The test target proves criteria AC-011 and AC-012. The probe prints the verified

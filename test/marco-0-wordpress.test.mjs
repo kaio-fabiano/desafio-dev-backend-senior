@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 
-const app = 'apps/poc-wordpress';
+const app = 'apps/wordpress-integration';
 let report;
 
 function run(command, args) {

@@ -149,7 +149,7 @@ test('AC-058: Cancellation, timeout, heartbeat, and backpressure are bounded @sp
 
 test('AC-059: Milestone acceptance covers both terminal journeys @spec:AC-059', async () => {
   const project = await import('node:fs/promises').then(({ readFile }) =>
-    readFile('apps/poc-harness/project.json', 'utf8'),
+    readFile('apps/e2e/project.json', 'utf8'),
   );
   const command = JSON.parse(project).targets['milestone-5-acceptance'].options.command;
   assert.match(command, /milestone-5-subscription-sse\.test\.mjs/);

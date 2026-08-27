@@ -15,7 +15,7 @@ test('AC-015: Each proof closes a decision with evidence @spec:AC-015', () => {
   for (const [adr, evidence] of [
     [sse, ['@apollo/gateway` 2.14.4', 'graphql-sse` 2.6.1', 'pnpm nx run', 'hybrid-graphql-sse-edge']],
     [auth, ['better-auth@1.7.1', 'pnpm exec nx run', 'RFC 8707', 'Adopt one JWT']],
-    [wordpress, ['6.8.2-php8.3-apache', 'ac480974ceb6a1680410f955005e060056f150da', 'node apps/poc-wordpress/scripts/probe.mjs', 'Adopt the indicated plugins']],
+    [wordpress, ['6.8.2-php8.3-apache', 'ac480974ceb6a1680410f955005e060056f150da', 'node apps/wordpress-integration/scripts/probe.mjs', 'Adopt the indicated plugins']],
   ]) {
     for (const item of evidence) assert.ok(adr.includes(item), `ADR is missing evidence: ${item}`);
   }

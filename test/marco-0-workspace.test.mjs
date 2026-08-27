@@ -11,14 +11,14 @@ test('AC-008: Workspace installs and recognizes the proofs @spec:AC-008', () => 
   const projects = execFileSync('./node_modules/.bin/nx', ['show', 'projects'], {
     encoding: 'utf8',
   });
-  assert.match(projects, /@desafio-dev-backend-senior\/poc-harness/);
+  assert.match(projects, /@desafio-dev-backend-senior\/e2e/);
 
   const project = JSON.parse(
     execFileSync(
       './node_modules/.bin/nx',
-      ['show', 'project', '@desafio-dev-backend-senior/poc-harness', '--json'],
+      ['show', 'project', '@desafio-dev-backend-senior/e2e', '--json'],
       { encoding: 'utf8' },
     ),
   );
-  assert.ok(project.targets['test:spec']);
+  assert.ok(project.targets.acceptance);
 });

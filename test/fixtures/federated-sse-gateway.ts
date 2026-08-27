@@ -4,7 +4,7 @@ import { ApolloGateway } from '@apollo/gateway';
 import { print, type ExecutionArgs, type ExecutionResult } from 'graphql';
 import { createClient, type Client } from 'graphql-sse';
 import { createHandler } from 'graphql-sse/lib/use/http';
-import { federationTypeDefs } from './subgraph.ts';
+import { federationTypeDefs } from './federated-sse-subgraph.ts';
 
 type QueueEntry = IteratorResult<ExecutionResult>;
 

@@ -1,4 +1,4 @@
-name: poc-wordpress
+name: wordpress-integration
 
 services:
   database:

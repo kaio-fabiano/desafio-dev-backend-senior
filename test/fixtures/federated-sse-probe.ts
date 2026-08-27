@@ -1,6 +1,6 @@
 import { createClient } from 'graphql-sse';
-import { startGateway } from './gateway.ts';
-import { startSubgraph } from './subgraph.ts';
+import { startGateway } from './federated-sse-gateway.ts';
+import { startSubgraph } from './federated-sse-subgraph.ts';
 
 async function receiveOneEvent(
   url: string,

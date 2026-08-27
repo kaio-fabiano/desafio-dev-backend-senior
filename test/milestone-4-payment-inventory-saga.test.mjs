@@ -39,7 +39,7 @@ for (const [criterion, path] of Object.entries(evidence)) {
 }
 
 test('AC-052: Milestone acceptance runs from one workspace command @spec:AC-052', async () => {
-  const project = JSON.parse(await readFile('apps/poc-harness/project.json', 'utf8'));
+  const project = JSON.parse(await readFile('apps/e2e/project.json', 'utf8'));
   const command = project.targets['milestone-4-acceptance'].options.command;
   assert.match(command, /milestone-4-payment-inventory-saga\.spec\.test\.js/);
 

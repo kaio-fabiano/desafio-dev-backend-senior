@@ -40,8 +40,8 @@ node --experimental-transform-types --test --test-reporter=tap test/milestone-3-
 Run the live proof after bootstrapping the pinned WordPress stack:
 
 ```bash
-bash apps/poc-wordpress/scripts/install-plugins.sh
-node --experimental-transform-types apps/poc-wordpress/scripts/probe-checkout.mjs
+bash apps/wordpress-integration/scripts/install-plugins.sh
+node --experimental-transform-types apps/wordpress-integration/scripts/probe-checkout.mjs
 ```
 
 The probe creates one order, retries with the same reference, reconciles it by

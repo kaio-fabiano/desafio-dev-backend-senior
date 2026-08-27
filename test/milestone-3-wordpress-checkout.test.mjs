@@ -75,7 +75,7 @@ test('AC-038: Pending WooCommerce checkout is found by its stable reference @spe
 
 test('the live checkout probe exercises the pinned WooCommerce REST API', async () => {
   const probe = await readFile(
-    'apps/poc-wordpress/scripts/probe-checkout.mjs',
+    'apps/wordpress-integration/scripts/probe-checkout.mjs',
     'utf8',
   );
   assert.match(probe, /createWooOrderAdapter/);

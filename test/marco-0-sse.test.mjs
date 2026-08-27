@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
 const execute = promisify(execFile);
-const probe = execute(process.execPath, ['apps/poc-sse/src/probe.ts'], {
+const probe = execute(process.execPath, ['test/fixtures/federated-sse-probe.ts'], {
   cwd: process.cwd(),
   timeout: 10_000,
 }).then(({ stdout }) => JSON.parse(stdout.trim().split('\n').at(-1)));
@@ -32,7 +32,7 @@ test('AC-010: Compatibility failure produces a reproducible decision @spec:AC-01
   for (const evidence of [
     '@apollo/gateway` 2.14.4',
     'graphql-sse` 2.6.1',
-    'pnpm nx run @desafio-dev-backend-senior/poc-sse:probe',
+    'node test/fixtures/federated-sse-probe.ts',
     'hybrid-graphql-sse-edge',
     'text/event-stream',
   ]) {

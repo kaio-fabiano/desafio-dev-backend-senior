@@ -12,7 +12,7 @@ import {
   MCP_AUDIENCE,
   REQUIRED_SCOPE,
   startAuthServer,
-} from '../apps/poc-auth/src/auth-server.ts';
+} from './fixtures/auth-server.ts';
 import {
   CART_READ_SCOPE,
   CART_WRITE_SCOPE as IDENTITY_CART_WRITE_SCOPE,

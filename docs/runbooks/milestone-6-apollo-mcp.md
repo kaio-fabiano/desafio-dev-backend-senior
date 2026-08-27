@@ -6,7 +6,7 @@ Use the repository-managed Node runtime and invoke the Nx target:
 
 ```bash
 TASK_NODE=/home/kaiosilva/.local/share/fnm/node-versions/v24.19.0/installation/bin/node
-PATH="$(dirname "$TASK_NODE"):$PATH" corepack pnpm exec nx run @desafio-dev-backend-senior/poc-harness:milestone-6-acceptance
+PATH="$(dirname "$TASK_NODE"):$PATH" corepack pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-6-acceptance
 ```
 
 The probe uses the MCP TypeScript SDK over Streamable HTTP. It verifies the allowlist, unavailable tools, OAuth resource rejection, scopes, unchanged authorization forwarding, direct GraphQL `me` parity, and bearer redaction.

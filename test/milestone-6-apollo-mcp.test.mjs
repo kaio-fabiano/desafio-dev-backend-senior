@@ -17,7 +17,7 @@ import {
   MCP_AUDIENCE,
   REQUIRED_SCOPE,
   startAuthServer,
-} from '../apps/poc-auth/src/auth-server.ts';
+} from './fixtures/auth-server.ts';
 
 const expectedTools = [
   'addToCart',

@@ -28,8 +28,8 @@ verified alternative and keeps authentication at the same edge boundary.
 Run:
 
 ```sh
-pnpm nx run @desafio-dev-backend-senior/poc-sse:probe
-pnpm nx run @desafio-dev-backend-senior/poc-sse:test:spec
+node test/fixtures/federated-sse-probe.ts
+node --test --test-reporter=tap test/marco-0-sse.test.mjs
 ```
 
 The probe starts both servers on ephemeral loopback ports, subscribes through
