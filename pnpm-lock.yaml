@@ -43,6 +43,9 @@ importers:
       graphql:
         specifier: 16.11.0
         version: 16.11.0
+      graphql-sse:
+        specifier: 2.6.1
+        version: 2.6.1(graphql@16.11.0)
       pg:
         specifier: 8.23.0
         version: 8.23.0
