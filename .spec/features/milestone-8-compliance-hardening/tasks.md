@@ -64,3 +64,10 @@
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notes: Mark the specification audited only after verification and the CI audit pass.
+
+## T-063 — Use one pinned pnpm version in automation [concluida]
+- Refs: US-043, US-044, AC-085, AC-088
+- Arquivos: .github/workflows/ci.yml, .github/workflows/deploy.yml, test/milestone-8-offline-infra.test.mjs, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/verification/milestone-8-compliance-hardening.json
+- Modelo: gpt-5.6-luna
+- Esforço: baixo
+- Notes: Let pnpm/action-setup read the root packageManager field instead of declaring a conflicting workflow version.

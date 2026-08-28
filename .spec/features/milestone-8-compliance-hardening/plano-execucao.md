@@ -1,11 +1,11 @@
 # Plano de execução — milestone-8-compliance-hardening
 
-> gerado por `onp-spec plano` em 2026-08-28 11:38 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-28 17:56 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano milestone-8-compliance-hardening --sequencial --modelo gpt-5.6-luna --esforco low`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (8 já concluída(s): T-053, T-054, T-055, T-056, T-057, T-058, T-059, T-060)
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (9 já concluída(s): T-053, T-054, T-055, T-056, T-057, T-058, T-059, T-060, T-062)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - **custo travado pelo usuário**: modelo `gpt-5.6-luna` · esforço `low` em TODAS as tarefas (vence tasks.md e config)
 - tudo acontece na branch de trabalho `spec/milestone-8-compliance-hardening`; levar para a main é decisão sua
@@ -14,7 +14,7 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-062 | Close the audited milestone status | `gpt-5.6-luna` | low |
+| T-063 | Use one pinned pnpm version in automation | `gpt-5.6-luna` | low |
 
 ## Gestão de branches e commits
 

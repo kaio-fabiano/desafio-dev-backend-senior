@@ -2,12 +2,13 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [config, infraTsconfig, ci, deploy, runbook] = await Promise.all([
+const [config, infraTsconfig, ci, deploy, runbook, rootPackage] = await Promise.all([
   readFile('infra/sst.config.ts', 'utf8'),
   readFile('infra/tsconfig.json', 'utf8'),
   readFile('.github/workflows/ci.yml', 'utf8'),
   readFile('.github/workflows/deploy.yml', 'utf8'),
   readFile('docs/runbooks/deployment.md', 'utf8'),
+  readFile('package.json', 'utf8'),
 ]);
 
 test('AC-088: infrastructure validation is offline @spec:AC-088', () => {
@@ -17,6 +18,8 @@ test('AC-088: infrastructure validation is offline @spec:AC-088', () => {
   assert.doesNotMatch(ci, /configure-aws-credentials|id-token:\s*write|pnpm run diff/);
   assert.match(infraTsconfig, /"noEmit"\s*:\s*true/);
   assert.match(config, /new sst\.Secret\(/);
+  assert.match(rootPackage, /"packageManager"\s*:\s*"pnpm@10\.17\.1"/);
+  assert.doesNotMatch(`${ci}\n${deploy}`, /pnpm\/action-setup@v6[\s\S]{0,120}\n\s+version:/);
   assert.doesNotMatch(`${config}\n${ci}\n${deploy}`, /AKIA[0-9A-Z]{16}|AWS_SECRET_ACCESS_KEY/);
 });
 

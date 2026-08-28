@@ -22,7 +22,6 @@ jobs:
       - uses: pnpm/action-setup@v6
         name: Install pnpm
         with:
-          version: 11.13.0
           run_install: false
 
       # This enables task distribution via Nx Cloud
@@ -63,7 +62,6 @@ jobs:
 
       - uses: pnpm/action-setup@v6
         with:
-          version: 11.13.0
           run_install: false
 
       - uses: actions/setup-node@v6

@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-milestone-8-compliance-hardening-mtcvp41n",
+  "runId": "desafio-dev-backend-senior-milestone-8-compliance-hardening-mtd972ys",
   "feature": "milestone-8-compliance-hardening",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-08-28 11:38",
+  "geradoEm": "2026-08-28 17:56",
   "branchTrabalho": "spec/milestone-8-compliance-hardening",
   "baseDir": ".spec/features/milestone-8-compliance-hardening",
   "specDir": ".spec",
@@ -16,31 +16,21 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-062",
-      "titulo": "Close the audited milestone status",
+      "id": "T-063",
+      "titulo": "Use one pinned pnpm version in automation",
       "modelo": "gpt-5.6-luna",
       "esforco": "low",
       "arquivos": [
-        ".spec/features/milestone-8-compliance-hardening/spec.md",
+        ".github/workflows/ci.yml",
+        ".github/workflows/deploy.yml",
+        "test/milestone-8-offline-infra.test.mjs",
         ".spec/features/milestone-8-compliance-hardening/tasks.md",
         ".spec/verification/milestone-8-compliance-hardening.json"
       ],
       "refs": [
-        "US-040",
-        "US-041",
-        "US-042",
         "US-043",
         "US-044",
-        "AC-078",
-        "AC-079",
-        "AC-080",
-        "AC-081",
-        "AC-082",
-        "AC-083",
-        "AC-084",
         "AC-085",
-        "AC-086",
-        "AC-087",
         "AC-088"
       ]
     }
@@ -53,7 +43,8 @@
     "T-057",
     "T-058",
     "T-059",
-    "T-060"
+    "T-060",
+    "T-062"
   ],
   "avisos": []
 }

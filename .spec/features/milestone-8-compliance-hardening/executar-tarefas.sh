@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-8-compliance-hardening` em 2026-08-28 11:38
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-8-compliance-hardening` em 2026-08-28 17:56
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-8-compliance-hardening-mtcvp41n'
+RUN_ID='desafio-dev-backend-senior-milestone-8-compliance-hardening-mtd972ys'
 FEATURE='milestone-8-compliance-hardening'
 BASE_BRANCH='spec/milestone-8-compliance-hardening'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,17 +168,17 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-062 (ordem do tasks.md) ──
-executar_seq_T_062() {
-  info 'sequencial T-062 — Close the audited milestone status'
-  if rodar_tarefa seq 'T-062' 'Você executa UMA tarefa da feature "milestone-8-compliance-hardening" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-063 (ordem do tasks.md) ──
+executar_seq_T_063() {
+  info 'sequencial T-063 — Use one pinned pnpm version in automation'
+  if rodar_tarefa seq 'T-063' 'Você executa UMA tarefa da feature "milestone-8-compliance-hardening" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/milestone-8-compliance-hardening/spec.md, .spec/features/milestone-8-compliance-hardening/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-062 — "Close the audited milestone status"
-  critérios/refs: AC-078 (Acceptance uses the production applications), AC-079 (Public behavior is proven through real protocols), AC-080 (Identity exposes the mandatory schema-first API), AC-081 (Gateway composes and executes the supergraph), AC-082 (Supplier ownership protects product mutations), AC-083 (Commerce is wired through explicit boundaries), AC-084 (Workers execute the real choreography), AC-085 (Build, typecheck, lint, and test are reproducible), AC-086 (Dependency direction remains clean), AC-087 (Obsolete PoC applications leave the production graph), AC-088 (AWS validation is offline and deployment is guarded)
-  arquivos permitidos (e seus testes): .spec/features/milestone-8-compliance-hardening/spec.md, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/verification/milestone-8-compliance-hardening.json
-  mensagem de commit: "T-062 milestone-8-compliance-hardening: Close the audited milestone status"
+T-063 — "Use one pinned pnpm version in automation"
+  critérios/refs: AC-085 (Build, typecheck, lint, and test are reproducible), AC-088 (AWS validation is offline and deployment is guarded)
+  arquivos permitidos (e seus testes): .github/workflows/ci.yml, .github/workflows/deploy.yml, test/milestone-8-offline-infra.test.mjs, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/verification/milestone-8-compliance-hardening.json
+  mensagem de commit: "T-063 milestone-8-compliance-hardening: Use one pinned pnpm version in automation"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -188,15 +188,15 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-062 milestone-8-compliance-hardening: Close the audited milestone status (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-063 milestone-8-compliance-hardening: Use one pinned pnpm version in automation (auto-commit do plano)'
     fi
-    marcar_concluidas T-062
-    verde "✔ T-062 concluída"
+    marcar_concluidas T-063
+    verde "✔ T-063 concluída"
     return 0
   fi
-  vermelho "✘ T-062 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-8-compliance-hardening/executar-tarefas.sh --seq T-062"
-  FALHAS="$FALHAS T-062"
+  vermelho "✘ T-063 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/milestone-8-compliance-hardening/executar-tarefas.sh --seq T-063"
+  FALHAS="$FALHAS T-063"
   return 1
 }
 
@@ -253,13 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_062 || true
+  executar_seq_T_063 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-062 (sequencial)"
+  echo "  seq       T-063 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -294,7 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-062) evento --tipo inicio --escopo "seq:T-062"; iniciar_resumos; executar_seq_T_062 || true; encerrar "seq:T-062" ;;
+      T-063) evento --tipo inicio --escopo "seq:T-063"; iniciar_resumos; executar_seq_T_063 || true; encerrar "seq:T-063" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac
