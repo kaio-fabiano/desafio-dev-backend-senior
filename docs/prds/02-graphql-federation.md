@@ -2,94 +2,72 @@
 
 ## Expected outcome
 
-A schema-first Apollo Federation v2 supergraph in which clients query identity,
-orders, and products as a single graph, while each subgraph preserves data
-ownership, authorization, and performance.
+Clients use one authenticated Gateway for federated queries and mutations.
+Identity Federation, Payment Federation, and WordPress Federation own their
+schemas, authorization, data access, and batching. The executable boundaries
+are fixed by [ADR 007](../adrs/007-federated-platform-boundaries.md).
 
-## WordPress integration guideline
+## Graph boundaries
 
-The implementation order is **plugin-first**:
+| Component            | Owns                                                                                         | Does not own                                                                              |
+| -------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Gateway              | JWT verification, safe context propagation, supergraph composition, query/mutation execution | Business resolvers, repositories, DataLoaders, commerce clients, or subscription proxying |
+| Identity Federation  | Identity fields, registration, OAuth, sessions, and identity authorization                   | WooCommerce or payment state                                                              |
+| Payment Federation   | Payment commands, views, entity references, and payment authorization                        | Commercial order, catalog, cart, or stock state                                           |
+| WordPress Federation | Product, cart, order, customer, inventory, native Connections, and order subscriptions       | Reimplemented WooCommerce repositories, models, or loaders                                |
 
-1. install WPGraphQL, WPGraphQL for WooCommerce, and the
-   `wp-graphql-federations` indicated in the interview;
-2. introspect and reuse existing types, Connections, queries, and mutations;
-3. add only missing directives, reference resolvers, and ownership rules;
-4. create a NestJS adapter or subgraph only for a gap reproduced by a test and
-   recorded in an ADR.
+Apollo MCP calls registered operations through Gateway and does not bypass an
+owning federation.
 
-Products, orders, cart, checkout, pagination, or loaders that plugins already
-handle correctly will not be recreated. The federation plugin is a candidate,
-not a guarantee: its compatibility with Federation v2 and WooCommerce types
-must pass Rover composition and gateway E2E testing.
+## WordPress federation boundary
 
-### Federation plugin administration
+The integration remains plugin-first and schema-first, with one loader instance
+per request when the native data source requires first-party batching.
 
-The federation plugin's administration screen is the first option for adding
-supported directives such as `@key`, `@external`, and `@requires` to WordPress
-types and fields. Configuration made in the screen cannot remain click-only:
-bootstrap or export it into a versioned repository artifact, document how to
-reapply it, and prove the resulting `_service.sdl` with Rover. A deterministic
-publication-boundary normalization remains allowed only for a schema shape the
-screen cannot represent, such as the interface gap recorded in ADR 003.
+The WordPress runtime is a thin NestJS boundary around native capabilities:
+
+1. install and configure WPGraphQL, GraphQL for eCommerce, and the pinned
+   federation integration;
+2. publish a reproducible Federation v2 SDL from the native schema;
+3. delegate product, cart, order, customer, inventory, pagination, batching,
+   and capability checks to WPGraphQL/WooGraphQL;
+4. add custom plugin or adapter code only for a capability gap reproduced by a
+   failing compatibility test.
+
+Publication-boundary normalization remains allowed for the interface shape
+proved in ADR 003. It changes the published SDL, not native resolvers or models.
+The NestJS application is not a second commercial GraphQL implementation.
 
 ## Schema-first contract
 
-- Every subgraph keeps versioned SDL in `libs/contracts/graphql/<subgraph>/`.
-- The SDL, not TypeScript decorators, is the source of truth.
-- Resolvers implement the contract generated from the SDL.
-- Each SDL imports only the Federation directives it uses, through versioned `@link`.
-- CI runs lint, local composition with Rover, and breaking-change checks.
-- `supergraph.graphql` is reproducible build output and is never edited by hand.
+- Each subgraph keeps versioned SDL in `libs/contracts/graphql/<subgraph>/`.
+- SDL, not decorators, is the composition source of truth.
+- Each SDL imports only the Federation directives it uses through a pinned
+  `@link` version.
+- Resolvers and controllers implement the versioned contract.
+- CI runs lint, local Rover composition, breaking-change checks, and reference
+  tests. Generated `supergraph.graphql` is never edited by hand.
 
-Proposed local composition:
+Local composition remains reproducible:
 
-```bash
+```sh
 rover supergraph compose --config libs/contracts/graphql/supergraph.yaml \
   > dist/supergraph.graphql
 ```
 
 ## Type and field ownership
 
-| Type/field | Owning subgraph | How it crosses the graph |
-|---|---|---|
-| `User` e `SupplierCompany` | identity | `User @key(fields: "id")` |
-| `User.orders` | WordPress/WooCommerce | WordPress extends/references `User` and returns the native Connection |
-| `Cart`, `Order`, `OrderItem` | WordPress/WooCommerce | `Order @key(fields: "id")` and native Woo types |
-| `Order.workflow`, `Order.pixCode` | commerce | commerce extends `Order` using `wooOrderId` as the federated key |
-| `OrderItem.product` | WordPress/WooCommerce | `Product { id }` representation |
-| `Product`, `Category` | WordPress/WooCommerce | native entities and Connections, federated by stable key |
-| `Product.supplier` | identity/WordPress | stable reference to the owning company |
+| Type or field                                       | Owner                       | Federation path                                                     |
+| --------------------------------------------------- | --------------------------- | ------------------------------------------------------------------- |
+| `User`, identity fields, and registration           | Identity Federation         | `User @key(fields: "id")`                                           |
+| `User.orders`                                       | WordPress Federation        | WordPress references `User` and returns the native order Connection |
+| `Product`, `Category`, `Cart`, `Order`, `OrderItem` | WordPress Federation        | Native Woo types with stable keys where composition needs them      |
+| `Payment` and payment operations                    | Payment Federation          | `Payment @key` and an order reference, without owning the order     |
+| `Order.payment` or equivalent payment view          | Payment Federation          | Payment extends or references the WordPress-owned `Order`           |
+| `Product.supplier`                                  | Identity/WordPress contract | Stable supplier-company reference, authorized by the owner          |
 
-Every `@key` needs a real reference resolver. The resolver must accept a batch of
-representations through DataLoader and preserve order, including returning `null`
-or a typed error for missing keys according to the contract.
-
-## Minimum SDL sketch
-
-```graphql
-extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key"])
-
-type User @key(fields: "id") {
-  id: ID!
-  email: String!
-}
-
-type Order @key(fields: "id") {
-  id: ID!
-  status: OrderStatus!
-  paymentMethod: PaymentMethod!
-  pixCode: String
-  items(first: Int, after: String): OrderItemConnection!
-}
-
-type Product @key(fields: "id") {
-  id: ID!
-}
-```
-
-The exact spec version must be pinned after library compatibility is confirmed.
-Do not use the moving `v2.x` alias in reproducible artifacts without a conscious decision.
+Every `@key` has a reference test. A reference resolver preserves input order
+and returns the contract's null/error result for missing keys.
 
 ## Critical federated query
 
@@ -103,112 +81,117 @@ query MeJourney($first: Int!) {
         node {
           id
           status
-          paymentMethod
-          pixCode
+          payment {
+            id
+            status
+            pixCode
+          }
           items(first: 50) {
             edges {
               node {
                 quantity
-                product { id name price }
+                product {
+                  id
+                  name
+                  price
+                }
               }
             }
           }
         }
       }
-      pageInfo { hasNextPage endCursor }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
     }
   }
 }
 ```
 
-This operation is simultaneously a functional contract, composition scenario,
-and N+1 benchmark.
+This operation is a composition contract, authorization scenario, and N+1
+benchmark. It runs through Gateway; isolated subgraph success is insufficient.
 
-## Relay Cursor Connections
+## Connections and batching
 
-The Relay link indicated in the interview is a normative specification for this
-project, not merely supplementary material. All pageable lists return
-`XConnection`, `XEdge`, and `PageInfo`. The initial implementation provides
-`first`/`after`; `last`/`before` is included only where the data source supports
-correct reverse pagination.
+Native WordPress Connections remain authoritative for commercial lists. New
+first-party pageable fields follow the Relay Connection shape with opaque,
+versioned cursors, stable keyset ordering, centralized limits, and explicit
+invalid-cursor errors.
 
-Proposed cursor: base64url of a versioned structure, for example
-`{"v":1,"createdAt":"...","id":"..."}`. It is opaque to the client but
-decodable by the service. The query uses keyset pagination with total, stable
-ordering `(created_at DESC, id DESC)` and fetches `first + 1` to calculate
-`hasNextPage`. Never load all items to paginate in memory.
+DataLoader belongs beside the data source that benefits from batching:
 
-Rules:
+- WordPress Federation reuses native WPGraphQL deferred loaders rather than
+  duplicating them in NestJS.
+- Any first-party loader is request-scoped and includes tenant/company in its
+  cache key when authorization depends on it.
+- Reference batches preserve representation order.
+- Mutation code clears or updates affected request-local entries.
+- Gateway never loads domain data and therefore has no catalog/order loader.
 
-- centralized default and maximum limits;
-- an invalid cursor produces an input error, not a fallback to the first page;
-- a changed filter/sort explicitly makes a prior cursor incompatible;
-- `startCursor`/`endCursor` are null when there are no edges;
-- the same logical ordering for forward and reverse pagination.
-
-## DataLoader per request
-
-- Instantiate loaders when creating the context for each GraphQL request.
-- An instance is never shared between users or subscriptions.
-- The cache key includes tenant/company when authorization depends on it.
-- The batch function returns results in the same order as the received keys.
-- `__resolveReference` reference resolvers use loaders, not direct access.
-- WooCommerce loaders group IDs in a single operation supported by the adapter.
-- After a mutation in the same request, clear/update affected entries.
-
-DataLoader reduces calls and memoizes only within the request; it does not
-replace distributed cache.
-
-## Evidence against N+1
-
-The E2E enables data-source counters per `requestId`:
-
-- number of SQL queries per loader;
-- number of HTTP/GraphQL calls to WordPress;
-- size of each batch;
-- federated query plan in test mode.
-
-For N orders with M items, the critical query must keep the number of calls per
-layer approximately constant, and never proportional to `N × M`.
+E2E counters record database or upstream calls by `requestId`. The critical
+query must keep calls approximately constant rather than proportional to the
+number of orders multiplied by items.
 
 ## Distributed authorization
 
-The gateway validates the signature, `iss`, `aud`, expiration, and scopes, then
-propagates a signed context or bearer token. Subgraphs do not trust a `userId`
-provided as an argument. The context contains `subject`, `scopes`, `audience`,
-`supplierCompanyId`, and `requestId`; ownership rules live in the application/domain
-of the owning subgraph.
+Gateway validates signature, issuer, audience, expiration, and edge scopes,
+then propagates a signed context or bearer token. The propagated identity
+contains `subject`, `scopes`, `audience`, `supplierCompanyId`, and `requestId`.
+It never accepts a client-provided identity argument as authority.
+
+Identity, Payment, and WordPress independently reject missing scopes and enforce
+ownership for sensitive fields and mutations. Passing Gateway authentication is
+not proof of subgraph authorization.
+
+## Subscription endpoint
+
+GraphQL-over-SSE is preserved, but it is not proxied by Gateway. WordPress
+Federation exposes the documented subscription endpoint. After NestJS Apollo
+initializes, the adapter obtains the existing executable schema from
+`GraphQLSchemaHost` and passes that exact instance to the official
+`graphql-sse` handler.
+
+NestJS providers own authentication, filtering, transition publication,
+heartbeat, cancellation, backpressure, and cleanup. The adapter does not fetch,
+rebuild, or maintain a second schema.
 
 ## Composition gate
 
-- passing local Rover composition;
-- WordPress composes as a subgraph using the indicated plugin, without a custom
-  wrapper, or the failure requiring a fallback is recorded by a test;
-- no ownership conflicts or improper `@shareable` usage;
-- every `@key` covered by a reference test;
-- introspection verifies the Connections/PageInfo shape;
-- the `me` query passes through the supergraph, not only isolated subgraphs;
-- functional and acceptance tests exercise these operations through the gateway;
-- a reviewable supergraph snapshot in the PR.
+- Rover composes Identity, Payment, and WordPress with no ownership conflict or
+  unjustified `@shareable` field.
+- Native WordPress Connections, reference resolution, batching, and capability
+  authorization retain their compatibility evidence.
+- Every sensitive subgraph operation rejects invalid propagated identity.
+- The critical `me` operation succeeds through Gateway.
+- The subscription lifecycle succeeds through the WordPress Federation SSE
+  endpoint while Gateway contains no subscription transport.
+- The review includes a reproducible supergraph snapshot.
 
-## Decisive risk: subscriptions
+## Deliberate omissions
 
-Apollo Router documents federated subscriptions with multipart HTTP from the router
-to the client and WebSocket or HTTP callback between the router and subgraph. The
-challenge requires `graphql-sse` for both segments. These protocols are not equivalent.
-Before committing to the gateway, run the proof described in
-[risks and decisions](08-riscos-e-decisoes-pendentes.md).
+There is no Gateway DataLoader, commerce repository, WordPress REST aggregation,
+custom WooCommerce GraphQL model, or subscription proxy. Schema delegation and
+native plugin behavior are preferred to handwritten remote execution. Add an
+abstraction only when a focused failing test proves the native path insufficient.
+
+## Executable evidence
+
+- `test/federated-platform-refactor.test.mjs` verifies that this PRD remains
+  linked to ADR 007 and its executable runtime contract.
+- `test/architecture-boundaries.test.mjs` prevents GraphQL/framework imports in
+  domain and application code.
+- Gateway, Identity, WordPress, Payment, subscription, composition, batching,
+  and authorization tests provide focused evidence during their refactor tasks.
+- Rover composition and the Gateway end-to-end journey are required final gates.
 
 ## Sources
 
 - [GraphQL.org — Federation](https://graphql.org/learn/federation/)
-- [Apollo Federation — page indicated in the interview](https://www.apollographql.com/federation)
 - [Apollo Federation](https://www.apollographql.com/docs/graphos/schema-design/federated-schemas/federation)
-- [Schema composition](https://www.apollographql.com/docs/graphos/schema-design/federated-schemas/composition)
-- [Subgraph implementation](https://www.apollographql.com/docs/apollo-server/using-federation/apollo-subgraph-setup)
+- [Apollo subgraph setup](https://www.apollographql.com/docs/apollo-server/using-federation/apollo-subgraph-setup)
 - [Relay Cursor Connections](https://relay.dev/graphql/connections.htm)
-- [wp-graphql-federations](https://github.com/Manuel-Antunes/wp-graphql-federations)
 - [WPGraphQL for WooCommerce](https://github.com/wp-graphql/wp-graphql-woocommerce)
+- [wp-graphql-federations](https://github.com/Manuel-Antunes/wp-graphql-federations)
 - [DataLoader](https://github.com/graphql/dataloader)
-
-Navigable note: [[GraphQL Federation]].
+- [GraphQL over SSE](https://github.com/enisdenjo/graphql-sse)

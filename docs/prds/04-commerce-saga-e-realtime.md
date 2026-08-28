@@ -1,124 +1,90 @@
-# PRD 04 — Cart, orders, saga, and real time
+# PRD 04 — Cart, payment transitions, and real time
 
 ## Expected outcome
 
-The user creates an idempotent order from their own cart, follows its progress
-through a subscription opened before the mutation, and observes the same final
-state in the subscription, the `me` query, and Apollo MCP.
+An authenticated buyer uses native WooCommerce cart and order capabilities,
+executes an idempotent payment command, and observes order transitions through
+GraphQL over SSE. The final query and stream agree without a Commerce subgraph,
+Stock worker, or Gateway subscription proxy. The process boundaries follow
+[ADR 007](../adrs/007-federated-platform-boundaries.md).
 
-## Aggregates and invariants
+## Ownership and invariants
 
-### Cart
+### Cart, order, and inventory
 
-- belongs to the authenticated `subject`;
-- does not accept `userId` from the client;
-- an item references `Product` by federated ID and stores a valid quantity;
-- the final price is revalidated when the order is created.
+- WordPress/WooCommerce is the authoritative source for cart, item price,
+  customer, order, status, and stock.
+- WordPress Federation delegates those operations to native
+  WPGraphQL/WooGraphQL capabilities and WordPress authorization.
+- A cart and order are resolved from the authenticated subject; a client-sent
+  `userId` is never authority.
+- Product price and availability are revalidated by the native checkout path.
+- Stock reservation, release, and commercial status changes use WooCommerce
+  semantics rather than a second inventory aggregate.
 
-### Commercial order and OrderWorkflow
+### Payment
 
-- the commercial order, its items, prices, customer, and authoritative status
-  live in WooCommerce and are exposed through existing WooGraphQL capabilities;
-- the custom service stores unique `(userId, operationKey)`, `wooOrderId`, saga
-  state, and correlation metadata, without maintaining a second complete copy;
-- the workflow advances only through allowed transitions and reconciles its
-  state with the WooCommerce order;
-- `pixCode` is required only in the `PIX_GENERATED` state;
-- a replay response is equivalent to the original.
+- Payment Federation owns the Payment aggregate and its allowed transitions.
+- Commands use an operation key and canonical payload hash.
+- One transaction enforces the aggregate invariant and persists one effect for
+  duplicate or concurrent execution.
+- A retry with the same key and payload returns an equivalent payment view; the
+  same key with a different payload returns a deterministic conflict.
+- Queries return a dedicated payment view without loading an aggregate merely
+  to display state.
+- Payment refers to a WordPress-owned order by stable federated identifier and
+  never writes WordPress storage directly.
 
-## End-to-end idempotency
+## Checkout and payment flow
 
-On the first mutation:
+The composed graph exposes owner operations rather than hiding orchestration in
+Gateway:
 
-1. insert `operation` with a unique `(user_id, operation_key)` constraint;
-2. store a canonical command hash;
-3. create/reuse the WooCommerce order with an idempotency reference;
-4. persist `wooOrderId`, workflow state, and local outbox;
-5. return the `Order` entity composed by the supergraph.
+1. the buyer opens the WordPress Federation subscription endpoint;
+2. through Gateway, the buyer uses the native cart/checkout mutation and obtains
+   the WordPress-owned order identifier;
+3. through Gateway, the buyer executes the Payment Federation command with that
+   order reference and an operation key;
+4. the owning federation applies each commercial or payment transition through
+   its explicit API and authorization rules;
+5. WordPress Federation publishes authorized order transitions to the open SSE
+   subscription, and the final federated query returns the same state.
 
-The exact checkout API and the failure-recovery mechanism between steps 3 and 4
-will be established in the PoC. A `PENDING_WOO` operation must be reconcilable;
-there is no atomic transaction between PostgreSQL and WordPress.
+The acceptance client may coordinate these explicit operations. Gateway does
+not become a workflow engine, and one subgraph does not access another
+subgraph's database. If a server-side coordinator later becomes necessary, a
+failing acceptance test must identify the owner and recovery requirement before
+a specific application use case is introduced.
 
-On retry:
+## Failure and compensation
 
-- the same hash returns the previous order;
-- a different hash with the same key returns a conflict;
-- concurrency is resolved by the constraint, not by “check then insert”;
-- the processor uses the payment ID/operation key as its idempotency key;
-- consumers use an inbox keyed by `eventId`.
+- A rejected payment leaves the WooCommerce order in an allowed unpaid/failed
+  state and does not consume stock twice.
+- A refund is an idempotent Payment command; the related commercial cancellation
+  is an authorized WordPress operation.
+- Retrying either owner operation with the same key is safe.
+- An interrupted client can query both owner states and resume the missing
+  explicit operation without guessing from a local Commerce workflow copy.
+- State transitions are monotonic within each owner; stale retries do not
+  regress terminal state.
 
-## Proposed events
+This design does not claim an atomic transaction across PostgreSQL and
+WordPress. It makes the boundary visible and testable without installing a
+generic distributed saga.
 
-Common envelope:
+## Deliberately retired event design
 
-```json
-{
-  "eventId": "uuid",
-  "eventType": "order.created.v1",
-  "occurredAt": "RFC3339",
-  "correlationId": "operation-key",
-  "causationId": "uuid-or-null",
-  "traceparent": "optional",
-  "payload": {}
-}
-```
+The previous RabbitMQ choreography, Commerce outbox/inbox, and Stock consumer
+were implementation scaffolding for runtimes that no longer own the behavior.
+They are not target components. Payment idempotency applies equally to repeated
+GraphQL or future message delivery, but it does not require a broker.
 
-Card flow:
+Add asynchronous delivery only when a measured requirement cannot be satisfied
+by owner APIs and native WooCommerce transitions. Such a change must define one
+versioned event, its owner, retry semantics, and executable recovery evidence;
+it is not permission to restore a generic event framework.
 
-```text
-order.created.v1
-  -> payment.requested.v1
-  -> payment.approved.v1
-  -> stock.reservation-requested.v1
-  -> stock.reserved.v1
-  -> order.completed.v1
-
-stock.reservation-failed.v1
-  -> payment.refund-requested.v1
-  -> payment.refunded.v1
-  -> order.cancelled.v1
-```
-
-Minimum Pix flow:
-
-```text
-order.created.v1
-  -> payment.pix-requested.v1
-  -> payment.pix-generated.v1 (with pixCode)
-  -> order.pix-generated.v1
-```
-
-The relationship between Pix and stock reservation is unresolved: reserving when
-the code is generated can hold stock without payment; waiting for confirmation
-goes beyond the final state required in the E2E. Record the decision before
-coding the Pix saga.
-
-## RabbitMQ
-
-Initial proposal:
-
-- durable topic exchange `marketplace.events.v1`;
-- durable queues per consumer and quorum queues where data safety matters;
-- publisher confirms and `mandatory` publishing;
-- manual acknowledgements only after the local transaction;
-- retry with queue/TTL backoff or delayed-message only if the dependency is
-  accepted; a finite limit and inspectable DLQ;
-- calibrated prefetch and idempotency-protected concurrent processing;
-- broker policies for DLX, avoiding divergent arguments in code.
-
-RabbitMQ delivers at least once when confirms/acks are used; duplicates are
-expected and are part of the consumer contract.
-
-## Reliable publishing
-
-- The outbox publisher reads batches with a cooperative lock (`SKIP LOCKED` or equivalent).
-- An event is marked as sent only after publisher confirmation.
-- Resending after a timeout is allowed and deduplicated at the destination.
-- The consumer effect and inbox are written in the same transaction.
-- A terminal failure includes a safe reason and goes to the DLQ without secrets/PII.
-
-## `graphql-sse` subscription
+## GraphQL-over-SSE subscription
 
 Logical contract:
 
@@ -128,34 +94,57 @@ type Subscription {
 }
 ```
 
-- authentication occurs before reserving/opening the stream;
-- a subscription created before the order remains open;
-- events are filtered by `(subject, operationKey)`;
-- another user's key does not reveal whether an order exists;
-- client cancellation releases resources;
-- heartbeat, timeout, and backpressure are configured and tested;
-- the final event contains sufficient state for comparison with `me`;
-- late replay is a differentiator; an initial snapshot can be added later.
+- WordPress Federation, not Gateway, hosts the endpoint.
+- The official `graphql-sse` handler receives the executable schema already
+  created by NestJS Apollo through `GraphQLSchemaHost`.
+- Authentication succeeds before stream resources are reserved.
+- Events are filtered by authenticated subject and operation key; another
+  buyer's key does not reveal whether an order exists.
+- The subscription can open before checkout and remain active through terminal
+  state.
+- Cancellation, heartbeat, timeout, backpressure, and cleanup are managed by
+  NestJS providers and covered by lifecycle tests.
+- The terminal event contains enough state to compare with the federated query.
 
-Do not confuse GraphQL SSE `text/event-stream` with Apollo Router multipart HTTP.
-The gateway proof of concept is the gate for the first milestone.
+GraphQL SSE `text/event-stream` remains distinct from Apollo Router multipart
+HTTP. No runtime relabels one protocol as the other.
 
-## Tests
+## Acceptance scenarios
 
-- the same key, sequentially and concurrently, creates one order/one charge;
-- the same key with a different payload fails;
-- a duplicate message does not repeat its effect;
-- a crash after the effect and before the ack is recovered;
-- stock failure triggers a refund and cancellation;
-- a subscription opened before the mutation receives events through the terminal state;
-- a user cannot subscribe to another user's key;
-- the final status is the same in the stream and query;
-- card ends approved/completed; Pix ends with a code.
+- sequential and concurrent repeats of one payment key persist one effect;
+- reuse of a key with a different payload fails deterministically;
+- native checkout does not create duplicate commercial effects on supported
+  retries, or a focused compatibility test documents the exact missing gap;
+- invalid scope or ownership is rejected independently by WordPress and Payment;
+- payment failure/refund and commercial cancellation remain idempotent;
+- a subscription opened before checkout receives authorized transitions through
+  terminal state and releases resources on cancellation;
+- the stream, federated query, and Apollo MCP operation observe equivalent final
+  state.
+
+## Deliberate omissions
+
+There is no Commerce database, workflow mirror, Stock worker, RabbitMQ topology,
+generic outbox/inbox framework, distributed command bus, or event-sourcing
+layer. There is also no custom real-time proxy in Gateway. These abstractions
+return only when a failing requirement demonstrates a capability and recovery
+need that the owning products cannot provide.
+
+## Executable evidence
+
+- `test/federated-platform-refactor.test.mjs` locks this PRD to ADR 007 and
+  verifies that deliberately omitted abstractions are documented.
+- `test/architecture-boundaries.test.mjs` keeps framework, persistence,
+  WordPress, and messaging implementations outside domain/application code.
+- Payment command/query tests prove invariants, transaction scope, read views,
+  and duplicate/concurrent idempotency.
+- WordPress federation tests prove delegation to native commercial behavior;
+  subscription tests prove schema reuse, auth, filtering, cancellation, and
+  cleanup outside Gateway.
+- The final end-to-end gate compares stream, federated query, and MCP results.
 
 ## Sources
 
-- [RabbitMQ Reliability](https://www.rabbitmq.com/docs/reliability)
-- [RabbitMQ Quorum Queues](https://www.rabbitmq.com/docs/quorum-queues)
-- [RabbitMQ Dead Letter Exchanges](https://www.rabbitmq.com/docs/dlx)
-- [graphql-sse](https://github.com/enisdenjo/graphql-sse)
-- [GraphQL over SSE Protocol](https://github.com/enisdenjo/graphql-sse/blob/master/PROTOCOL.md)
+- [WooCommerce REST API](https://woocommerce.github.io/woocommerce-rest-api-docs/)
+- [WPGraphQL for WooCommerce](https://github.com/wp-graphql/wp-graphql-woocommerce)
+- [GraphQL over SSE](https://github.com/enisdenjo/graphql-sse)
