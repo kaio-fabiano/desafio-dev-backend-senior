@@ -2565,6 +2565,294 @@
       "primeiraVez": "2026-08-28T18:01:53.411Z",
       "ultimaVez": "2026-08-28T19:04:32.679Z",
       "gitRev": "2c3b15f"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-065": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-065",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-065": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-065",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-066": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-066",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-066": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-066",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-067": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-067",
+      "ocorrencias": 12,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-067": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-067",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-068": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-068",
+      "ocorrencias": 9,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-068": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-068",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-069": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-069",
+      "ocorrencias": 12,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-069": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-069",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-070": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-070",
+      "ocorrencias": 10,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-070": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-070",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-071": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-071",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-071": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-071",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-072": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-072",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-072": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-072",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-073": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-073",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-073": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-073",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-090": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-090",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-091": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-091",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-092": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-092",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-093": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-093",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-094": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-094",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-095": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-095",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-096": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-096",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-097": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-097",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-098": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-098",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-099": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-099",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-100": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-100",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-101": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-101",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-102": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-102",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
+    },
+    "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-103": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-103",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "gitRev": "6b829c5"
     }
   }
 }
