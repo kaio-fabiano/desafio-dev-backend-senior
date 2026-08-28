@@ -38,96 +38,40 @@
 </style>
 <main>
   <h1>Plano de execução — milestone-8-compliance-hardening</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-27 22:18 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-28 11:38 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>8</b> tarefa(s) em paralelo</div>
-    <div><b>3</b> faixa(s) · <b>1</b> onda(s)</div>
-    <div><b>0</b> sequencial(is)</div>
+    <div><b>1</b> tarefa(s), uma após a outra</div>
+    <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/milestone-8-compliance-hardening</code></div>
   </div>
-  
+
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
     <div><code id="cmd">bash .spec/features/milestone-8-compliance-hardening/executar-tarefas.sh</code></div>
-    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
+    <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
     (<code>onp-spec resumo milestone-8-compliance-hardening --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo milestone-8-compliance-hardening</code>).</p>
   </div>
-  
+
+
     <section class="onda">
-      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 ∥ faixa-3 — em paralelo, janelas limpas</small></h3>
-      <div class="grade">
-      <div class="faixa">
-        <h4>faixa-1 <small>branch <code>spec/milestone-8-compliance-hardening-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-8-compliance-hardening-faixa-1</code></small></h4>
-        
+      <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
         <div class="tarefa">
-          <span class="tid">T-053</span>
-          <span class="ttitulo">Establish the honest compliance gate</span>
+          <span class="tid">T-062</span>
+          <span class="ttitulo">Close the audited milestone status</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>docs/evidence/milestone-8/review.md</code> <code>docs/evidence/milestone-8/requirements.md</code> <code>test/milestone-8-compliance-contract.test.mjs</code> <code>test/milestone-8-compliance-hardening.spec.test.js</code> <code>onpspec.config.json</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-2 <small>branch <code>spec/milestone-8-compliance-hardening-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-8-compliance-hardening-faixa-2</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-054</span>
-          <span class="ttitulo">Repair the reproducible Nx quality toolchain</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>eslint.config.mjs</code> <code>package.json</code> <code>pnpm-lock.yaml</code> <code>nx.json</code> <code>apps/payment-processor/project.json</code> <code>test/milestone-8-quality-gate.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-055</span>
-          <span class="ttitulo">Complete Identity and Gateway federation runtime</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/contracts/graphql/identity/schema.graphql</code> <code>libs/contracts/graphql/supergraph.yaml</code> <code>apps/identity-subgraph/src</code> <code>apps/gateway/src</code> <code>apps/identity-subgraph/project.json</code> <code>apps/gateway/project.json</code> <code>test/milestone-8-identity-gateway.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-056</span>
-          <span class="ttitulo">Complete Commerce runtime composition</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/contracts/graphql/commerce/schema.graphql</code> <code>apps/commerce-subgraph/src</code> <code>apps/commerce-subgraph/project.json</code> <code>test/milestone-8-commerce-runtime.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-057</span>
-          <span class="ttitulo">Complete payment and inventory worker runtime</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-processor/src</code> <code>apps/payment-processor/build.gradle.kts</code> <code>apps/stock-worker/src</code> <code>apps/stock-worker/project.json</code> <code>test/milestone-8-worker-runtime.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-058</span>
-          <span class="ttitulo">Replace the simulated E2E with the delivered system</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/e2e/src/environment.ts</code> <code>apps/e2e/src/journey.ts</code> <code>apps/e2e/src/milestone-7.e2e.test.ts</code> <code>apps/e2e/project.json</code> <code>apps/identity-subgraph/project.json</code> <code>apps/gateway/project.json</code> <code>apps/commerce-subgraph/project.json</code> <code>apps/stock-worker/project.json</code> <code>apps/payment-processor/build.gradle.kts</code> <code>compose.yaml</code> <code>test/milestone-7-e2e-contract.test.mjs</code> <code>test/milestone-8-real-e2e.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-059</span>
-          <span class="ttitulo">Retire obsolete PoC project structure</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>apps/poc-auth</code> <code>apps/poc-sse</code> <code>apps/poc-harness</code> <code>apps/poc-wordpress</code> <code>apps/wordpress-integration</code> <code>apps/e2e/project.json</code> <code>docs/adrs</code> <code>docs/runbooks</code> <code>test/marco-0-auth.test.mjs</code> <code>test/marco-0-sse.test.mjs</code> <code>test/marco-0-wordpress.test.mjs</code> <code>pnpm-workspace.yaml</code> <code>pnpm-lock.yaml</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-3 <small>branch <code>spec/milestone-8-compliance-hardening-faixa-3</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-8-compliance-hardening-faixa-3</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-060</span>
-          <span class="ttitulo">Harden offline SST and delivery documentation</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>infra/sst.config.ts</code> <code>infra/tsconfig.json</code> <code>.github/workflows/ci.yml</code> <code>.github/workflows/deploy.yml</code> <code>docs/runbooks/deployment.md</code> <code>test/milestone-8-offline-infra.test.mjs</code></span>
-        </div>
-      </div></div>
+          <span class="arquivos"><code>.spec/features/milestone-8-compliance-hardening/spec.md</code> <code>.spec/features/milestone-8-compliance-hardening/tasks.md</code> <code>.spec/verification/milestone-8-compliance-hardening.json</code></span>
+        </div></div></div>
     </section>
-  
   <section class="onda">
     <h3>Branches e commits</h3>
     <ol>
       <li>tudo parte da branch de trabalho <code>spec/milestone-8-compliance-hardening</code></li>
-      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx milestone-8-compliance-hardening: título</code></li>
-      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
+      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx milestone-8-compliance-hardening: título</code></li>
       <li>gate final: <code>onp-spec verify milestone-8-compliance-hardening</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>

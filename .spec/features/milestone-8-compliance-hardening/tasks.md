@@ -57,3 +57,10 @@
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notes: Make no AWS mutations. Validate configuration and policy offline; keep deployment protected and credentialed.
+
+## T-062 — Close the audited milestone status [concluida]
+- Refs: US-040, US-041, US-042, US-043, US-044, AC-078, AC-079, AC-080, AC-081, AC-082, AC-083, AC-084, AC-085, AC-086, AC-087, AC-088
+- Arquivos: .spec/features/milestone-8-compliance-hardening/spec.md, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/verification/milestone-8-compliance-hardening.json
+- Modelo: gpt-5.6-luna
+- Esforço: baixo
+- Notes: Mark the specification audited only after verification and the CI audit pass.

@@ -1,7 +1,7 @@
 # Spec: Milestone 8 — Challenge compliance and production hardening
 
 > feature: milestone-8-compliance-hardening
-> status: rascunho
+> status: auditada
 
 ## Context
 
