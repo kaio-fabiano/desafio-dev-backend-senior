@@ -1,6 +1,6 @@
 # Plano de execução — federated-platform-architecture-refactor
 
-> gerado por `onp-spec plano` em 2026-08-28 21:56 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-28 22:14 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano federated-platform-architecture-refactor`
 
 ## Resumo — o que vai acontecer

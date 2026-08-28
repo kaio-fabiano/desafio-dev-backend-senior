@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-28 21:56
+# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-28 22:14
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtdhr0kv'
+RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtdif0j1'
 FEATURE='federated-platform-architecture-refactor'
 BASE_BRANCH='spec/federated-platform-architecture-refactor'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
