@@ -125,6 +125,7 @@ services:
         wp eval 'global $$wpdb; $$key = "ck_0123456789abcdef0123456789abcdef01234567"; $$table = $$wpdb->prefix . "woocommerce_api_keys"; if (!$$wpdb->get_var($$wpdb->prepare("SELECT key_id FROM {$$table} WHERE consumer_key = %s", wc_api_hash($$key)))) { $$wpdb->insert($$table, ["user_id" => 1, "description" => "Marketplace local runtime", "permissions" => "read_write", "consumer_key" => wc_api_hash($$key), "consumer_secret" => "cs_89abcdef0123456789abcdef0123456789abcdef", "truncated_key" => substr($$key, -7), "last_access" => null]); }'
         wp rewrite structure '/%postname%/' --hard
         wp cache flush
+        until wp eval '$$response = wp_remote_get("http://wordpress/wp-json/wc/v3/products/1001", ["headers" => ["Authorization" => "Basic Y2tfMDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWYwMTIzNDU2Nzpjc184OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWYwMTIzNDU2Nzg5YWJjZGVm", "X-Forwarded-Proto" => "https"]]); if (wp_remote_retrieve_response_code($$response) !== 200) { exit(1); }'; do sleep 1; done
         touch /tmp/wordpress-setup-ready
         tail -f /dev/null
     healthcheck:

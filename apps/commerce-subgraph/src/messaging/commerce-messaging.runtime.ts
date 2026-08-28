@@ -45,19 +45,23 @@ export async function startCommerceMessaging({
 }) {
   const consumerRabbit = await connectRabbitMq(rabbitMqUrl);
   const streamRabbit = await connectRabbitMq(rabbitMqUrl);
-  const publisherRabbit = await connectRabbitMq(rabbitMqUrl);
+  const outboxRabbit = await connectRabbitMq(rabbitMqUrl);
+  const transitionRabbit = await connectRabbitMq(rabbitMqUrl);
   await declareConsumerQueue(consumerRabbit.channel, QUEUE, TRANSITIONS);
   await declareConsumerQueue(streamRabbit.channel, STREAM_QUEUE, [
     'order.workflow-transitioned',
   ]);
-  const publisher = new ConfirmedRabbitMqPublisher(publisherRabbit.channel);
+  const outboxPublisher = new ConfirmedRabbitMqPublisher(outboxRabbit.channel);
+  const transitionPublisher = new ConfirmedRabbitMqPublisher(
+    transitionRabbit.channel,
+  );
   const outbox = new OutboxPublisher(
     orm.em.fork(),
     new MikroOrmOutboxRepository(),
-    publisher,
+    outboxPublisher,
   );
   const transitions = new OrderTransitionPublisher({
-    publish: (event) => publisher.publish(event),
+    publish: (event) => transitionPublisher.publish(event),
   });
   const consumer = new OrderEventConsumer(
     orm.em.fork(),
@@ -116,7 +120,8 @@ export async function startCommerceMessaging({
       await Promise.all([
         consumerRabbit.close(),
         streamRabbit.close(),
-        publisherRabbit.close(),
+        outboxRabbit.close(),
+        transitionRabbit.close(),
       ]);
     },
   };

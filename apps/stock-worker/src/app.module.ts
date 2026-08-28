@@ -3,20 +3,29 @@ import { Pool } from 'pg';
 import { PostgresInboxRepository } from './inventory/inbox.repository.ts';
 import { createWooInventoryAdapter } from './inventory/woo-inventory.adapter.ts';
 import { createInventoryWorker } from './main.ts';
-import { connectStockBroker, consumeStock, publishInventory } from './messaging/rabbitmq.runtime.ts';
+import {
+  connectStockBroker,
+  consumeStock,
+  publishInventory,
+} from './messaging/rabbitmq.runtime.ts';
 
 export class StockWorkerLifecycle {
-  private broker?: Awaited<ReturnType<typeof connectStockBroker>>;
+  private consumerBroker?: Awaited<ReturnType<typeof connectStockBroker>>;
+  private publisherBroker?: Awaited<ReturnType<typeof connectStockBroker>>;
   private database?: Pool;
 
   async start(): Promise<void> {
-    this.database = new Pool({ connectionString: process.env.STOCK_DATABASE_URL ?? postgresUrl() });
+    this.database = new Pool({
+      connectionString: process.env.STOCK_DATABASE_URL ?? postgresUrl(),
+    });
     await this.database.query(`create table if not exists stock_worker_inbox (
       event_id text primary key,
       result jsonb not null,
       received_at timestamptz not null default current_timestamp
     )`);
-    this.broker = await connectStockBroker(process.env.RABBITMQ_URL ?? 'amqp://localhost:5672');
+    const rabbitMqUrl = process.env.RABBITMQ_URL ?? 'amqp://localhost:5672';
+    this.consumerBroker = await connectStockBroker(rabbitMqUrl);
+    this.publisherBroker = await connectStockBroker(rabbitMqUrl);
     const worker = createInventoryWorker({
       inbox: new PostgresInboxRepository(this.database),
       inventory: createWooInventoryAdapter({
@@ -24,9 +33,12 @@ export class StockWorkerLifecycle {
         consumerKey: requiredEnvironment('WOO_CONSUMER_KEY'),
         consumerSecret: requiredEnvironment('WOO_CONSUMER_SECRET'),
       }),
-      publisher: { publish: (event) => publishInventory(this.broker!.channel, event) },
+      publisher: {
+        publish: (event) =>
+          publishInventory(this.publisherBroker!.channel, event),
+      },
     });
-    await consumeStock(this.broker.channel, async (event) => {
+    await consumeStock(this.consumerBroker.channel, async (event) => {
       await worker.consume(event, async () => {
         // The RabbitMQ adapter owns acknowledgement after successful handling.
       });
@@ -34,7 +46,10 @@ export class StockWorkerLifecycle {
   }
 
   async stop(): Promise<void> {
-    await this.broker?.close();
+    await Promise.all([
+      this.consumerBroker?.close(),
+      this.publisherBroker?.close(),
+    ]);
     await this.database?.end();
   }
 }
