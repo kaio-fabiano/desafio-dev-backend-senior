@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
+import { IdentityModule } from '../../../libs/identity/nest/src/index.ts';
 import { HealthController } from './health.controller.ts';
-import { IdentityModule } from './graphql/identity.module.ts';
 
 export class AppModule {}
 
