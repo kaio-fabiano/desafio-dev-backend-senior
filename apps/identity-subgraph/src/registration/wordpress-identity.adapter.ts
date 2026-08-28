@@ -1,21 +1,71 @@
 import type { WordPressIdentityPort } from './wordpress-identity.port.ts';
 
-export function createWordPressIdentityAdapter(
-  endpoint: string,
-  authorization: string,
-): WordPressIdentityPort {
+export function createWordPressIdentityAdapter({
+  endpoint,
+  consumerKey,
+  consumerSecret,
+  request = fetch,
+}: {
+  endpoint: string;
+  consumerKey: string;
+  consumerSecret: string;
+  request?: typeof fetch;
+}): WordPressIdentityPort {
+  const headers = {
+    'content-type': 'application/json',
+  };
+
+  function authenticatedUrl(path: string) {
+    const url = new URL(path, endpoint);
+    if (url.protocol !== 'https:') {
+      url.searchParams.set('consumer_key', consumerKey);
+      url.searchParams.set('consumer_secret', consumerSecret);
+    }
+    return url;
+  }
+
+  const authenticatedHeaders =
+    new URL(endpoint).protocol === 'https:'
+      ? {
+          ...headers,
+          authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
+        }
+      : headers;
+
+  async function findByEmail(email: string) {
+    const url = authenticatedUrl('/wp-json/wc/v3/customers');
+    url.searchParams.set('email', email);
+    const response = await request(url, { headers: authenticatedHeaders });
+    if (!response.ok)
+      throw new Error(`WordPress identity lookup failed: ${response.status}`);
+    const [user] = (await response.json()) as Array<{
+      id: string | number;
+    }>;
+    return user ? { id: String(user.id) } : null;
+  }
+
   return {
     async createOrLink(input) {
-      const response = await fetch(new URL('/wp-json/wp/v2/users', endpoint), {
-        method: 'POST',
-        headers: { authorization, 'content-type': 'application/json' },
-        body: JSON.stringify({
-          email: input.email,
-          name: input.name,
-          username: input.email.split('@')[0],
-        }),
-      });
-      if (!response.ok) throw new Error(`WordPress identity failed: ${response.status}`);
+      const existing = await findByEmail(input.email);
+      if (existing) return existing;
+
+      const response = await request(
+        authenticatedUrl('/wp-json/wc/v3/customers'),
+        {
+          method: 'POST',
+          headers: authenticatedHeaders,
+          body: JSON.stringify({
+            email: input.email,
+            first_name: input.name,
+            password: input.password,
+          }),
+        },
+      );
+      if (!response.ok) {
+        const raced = await findByEmail(input.email);
+        if (raced) return raced;
+        throw new Error(`WordPress identity failed: ${response.status}`);
+      }
       const user = (await response.json()) as { id: string | number };
       return { id: String(user.id) };
     },

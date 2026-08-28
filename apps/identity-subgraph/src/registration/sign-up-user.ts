@@ -1,10 +1,17 @@
 import type { WordPressIdentityPort } from './wordpress-identity.port.ts';
 
 type IdentityStore = {
-  createEmailIdentity(input: { email: string; password: string; name: string }): Promise<{ id: string }>;
-  linkAccount(userId: string, account: { providerId: string; accountId: string }): Promise<void>;
+  createEmailIdentity(input: {
+    email: string;
+    password: string;
+    name: string;
+  }): Promise<{ id: string }>;
+  linkAccount(
+    userId: string,
+    account: { providerId: string; accountId: string },
+  ): Promise<void>;
   deleteIdentity(userId: string): Promise<boolean>;
-  markPendingWordPressLink(userId: string): Promise<void>;
+  disableIdentity(userId: string): Promise<void>;
 };
 
 export class RegistrationIncompleteError extends Error {}
@@ -24,8 +31,10 @@ export async function signUpUser(
     return { id: user.id, accounts: ['email', 'wordpress'] as const };
   } catch (cause) {
     if (!(await identity.deleteIdentity(user.id))) {
-      await identity.markPendingWordPressLink(user.id);
+      await identity.disableIdentity(user.id);
     }
-    throw new RegistrationIncompleteError('WordPress identity link failed', { cause });
+    throw new RegistrationIncompleteError('WordPress identity link failed', {
+      cause,
+    });
   }
 }

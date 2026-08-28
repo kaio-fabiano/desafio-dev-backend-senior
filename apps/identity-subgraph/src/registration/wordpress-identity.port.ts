@@ -1,3 +1,7 @@
 export type WordPressIdentityPort = {
-  createOrLink(input: { email: string; name: string }): Promise<{ id: string }>;
+  createOrLink(input: {
+    email: string;
+    name: string;
+    password: string;
+  }): Promise<{ id: string }>;
 };

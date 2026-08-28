@@ -7,6 +7,8 @@ import { AppModule } from './app.module.ts';
 import { createIdentityAuth } from './auth/config.ts';
 import { toBetterAuthRequest } from './auth/http-bridge.ts';
 import { bootstrapIdentityAuth } from './auth/seed.ts';
+import { createRegistrationHandler } from './registration/registration-handler.ts';
+import { createWordPressIdentityAdapter } from './registration/wordpress-identity.adapter.ts';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,6 +28,25 @@ async function bootstrap() {
     email: process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
     password: seedPassword ?? 'local-admin-password-change-before-production',
   });
+  const wordpressEndpoint = process.env.WORDPRESS_URL ?? 'http://wordpress';
+  const wooConsumerKey = process.env.WOO_CONSUMER_KEY;
+  const wooConsumerSecret = process.env.WOO_CONSUMER_SECRET;
+  if (
+    process.env.NODE_ENV === 'production' &&
+    (!wooConsumerKey || !wooConsumerSecret)
+  ) {
+    throw new Error(
+      'WOO_CONSUMER_KEY and WOO_CONSUMER_SECRET are required in production',
+    );
+  }
+  const register = createRegistrationHandler(
+    auth,
+    createWordPressIdentityAdapter({
+      endpoint: wordpressEndpoint,
+      consumerKey: wooConsumerKey ?? '',
+      consumerSecret: wooConsumerSecret ?? '',
+    }),
+  );
   const http = app.getHttpAdapter().getInstance();
   http.get(
     '/oauth/clients',
@@ -49,7 +70,11 @@ async function bootstrap() {
         request,
         process.env.IDENTITY_BASE_URL ?? 'http://localhost:3001',
       );
-      const result = await auth.handler(protocolRequest);
+      const result =
+        protocolRequest.method === 'POST' &&
+        new URL(protocolRequest.url).pathname === '/api/auth/sign-up/email'
+          ? await register(protocolRequest)
+          : await auth.handler(protocolRequest);
       response.writeHead(
         result.status,
         Object.fromEntries(result.headers.entries()),
