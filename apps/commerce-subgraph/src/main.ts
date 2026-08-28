@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import type { MikroORM } from '@mikro-orm/core';
 import { GraphQLSchemaHost } from '@nestjs/graphql';
+import { json } from 'express';
 
 import { AppModule } from './app.module.ts';
 import { COMMERCE_ORM } from './graphql/commerce.module.ts';
@@ -10,7 +11,10 @@ import { startCommerceMessaging } from './messaging/commerce-messaging.runtime.t
 import { createCommerceSseHandler } from './subscriptions/sse-handler.ts';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bodyParser: false });
+  const parseJson = json();
+  app.use('/graphql', (request, response, next) =>
+    request.path === '/stream' ? next() : parseJson(request, response, next));
   const orm = app.get<MikroORM>(COMMERCE_ORM);
   await orm.getMigrator().up();
   const messaging = await startCommerceMessaging({

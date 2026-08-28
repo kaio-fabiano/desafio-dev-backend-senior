@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { NestFactory } from '@nestjs/core';
+import { json } from 'express';
 
 import { AppModule } from './app.module.ts';
 import type { AuthContext } from './auth/auth-context.ts';
@@ -45,7 +46,10 @@ export function createGatewayAuthMiddleware(
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bodyParser: false });
+  const parseJson = json();
+  app.use('/graphql', (request, response, next) =>
+    request.path === '/stream' ? next() : parseJson(request, response, next));
   const token = {
     issuer: process.env.OAUTH_ISSUER ?? 'http://localhost:3001/api/auth',
     jwksUrl:
