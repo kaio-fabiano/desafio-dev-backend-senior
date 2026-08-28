@@ -245,3 +245,10 @@ test('AC-086: Identity domain and policy code remain framework-free @spec:AC-086
     /@nestjs|@mikro-orm|\bamqplib\b|node:fs|\bfetch\s*\(/,
   );
 });
+
+test('AC-079: Compose seeds one real Woo credential for delivered adapters @spec:AC-079', async () => {
+  const compose = await readFile('compose.yaml', 'utf8');
+  assert.match(compose, /woocommerce_api_keys/);
+  assert.doesNotMatch(compose, /local-e2e-consumer|local-e2e-secret/);
+  assert.match(compose, /identity-subgraph:[\s\S]*WORDPRESS_URL: http:\/\/wordpress/);
+});

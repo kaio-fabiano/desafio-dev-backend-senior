@@ -119,6 +119,7 @@ services:
         wp post term set 1001 product_type simple --by=slug
         wp post list --post_type=product --meta_key=_sku --meta_value=POC-BETA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Beta product' --type=simple --regular_price=29.90 --sku=POC-BETA --status=publish
         wp post list --post_type=product --meta_key=_sku --meta_value=POC-GAMMA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Gamma product' --type=simple --regular_price=39.90 --sku=POC-GAMMA --status=publish
+        wp eval 'global $$wpdb; $$key = "ck_0123456789abcdef0123456789abcdef01234567"; $$table = $$wpdb->prefix . "woocommerce_api_keys"; if (!$$wpdb->get_var($$wpdb->prepare("SELECT key_id FROM {$$table} WHERE consumer_key = %s", wc_api_hash($$key)))) { $$wpdb->insert($$table, ["user_id" => 1, "description" => "Marketplace local runtime", "permissions" => "read_write", "consumer_key" => wc_api_hash($$key), "consumer_secret" => "cs_89abcdef0123456789abcdef0123456789abcdef", "truncated_key" => substr($$key, -7), "last_access" => null]); }'
         wp rewrite structure '/%postname%/' --hard
         wp cache flush
         touch /tmp/wordpress-setup-ready
@@ -184,8 +185,13 @@ services:
       PORT: 3001
       SEED_ADMIN_EMAIL: admin@marketplace.local
       SEED_ADMIN_PASSWORD: local-e2e-admin-password-change-me
+      WORDPRESS_URL: http://wordpress
+      WOO_CONSUMER_KEY: ck_0123456789abcdef0123456789abcdef01234567
+      WOO_CONSUMER_SECRET: cs_89abcdef0123456789abcdef0123456789abcdef
     depends_on:
       identity-database:
+        condition: service_healthy
+      wordpress-setup:
         condition: service_healthy
     ports:
       - "3001"
@@ -211,8 +217,8 @@ services:
       PORT: 3003
       RABBITMQ_URL: amqp://rabbitmq:5672
       WORDPRESS_URL: http://wordpress
-      WOO_CONSUMER_KEY: local-e2e-consumer
-      WOO_CONSUMER_SECRET: local-e2e-secret
+      WOO_CONSUMER_KEY: ck_0123456789abcdef0123456789abcdef01234567
+      WOO_CONSUMER_SECRET: cs_89abcdef0123456789abcdef0123456789abcdef
     depends_on:
       postgres:
         condition: service_healthy
@@ -257,8 +263,8 @@ services:
       RABBITMQ_URL: amqp://rabbitmq:5672
       STOCK_DB_HOST: postgres
       WOO_URL: http://wordpress
-      WOO_CONSUMER_KEY: local-e2e-consumer
-      WOO_CONSUMER_SECRET: local-e2e-secret
+      WOO_CONSUMER_KEY: ck_0123456789abcdef0123456789abcdef01234567
+      WOO_CONSUMER_SECRET: cs_89abcdef0123456789abcdef0123456789abcdef
     depends_on:
       postgres:
         condition: service_healthy
