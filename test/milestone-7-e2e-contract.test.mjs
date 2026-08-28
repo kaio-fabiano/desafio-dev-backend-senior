@@ -33,7 +33,7 @@ test('AC-068..AC-071: the journey crosses only public Gateway and MCP boundaries
   assert.match(journey, /api\/auth\/oauth2\/authorize/);
   assert.match(journey, /api\/auth\/oauth2\/consent/);
   assert.match(journey, /api\/auth\/oauth2\/token/);
-  assert.match(journey, /await subscribe\([\s\S]*await graphql\(environment, 'checkout'/);
+  assert.match(journey, /const nextEvent = subscribe\([\s\S]*await graphql\(environment, 'checkout'/);
   assert.match(journey, /cardRetry/);
   assert.match(journey, /rejectionStatuses/);
   for (const criterion of ['AC-068', 'AC-069', 'AC-070', 'AC-071']) {

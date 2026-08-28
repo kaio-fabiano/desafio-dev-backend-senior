@@ -19,7 +19,11 @@ import { OrderWorkflow } from '../persistence/entities/order-workflow.entity.ts'
 import mikroOrmConfig from '../persistence/mikro-orm.config.ts';
 import { OrderEventBroker } from '../subscriptions/order-event-broker.ts';
 import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
-import { CommerceResolver, type CheckoutInput } from './commerce.resolver.ts';
+import {
+  COMMERCE_OPERATIONS,
+  CommerceRuntimeResolver,
+  type CheckoutInput,
+} from './commerce.resolver.ts';
 
 export const COMMERCE_ORM = Symbol('COMMERCE_ORM');
 export const COMMERCE_ENTITY_MANAGER = Symbol('COMMERCE_ENTITY_MANAGER');
@@ -91,13 +95,12 @@ Module({
         new OrderEventsSubscription(broker),
     },
     {
-      provide: CommerceResolver,
+      provide: COMMERCE_OPERATIONS,
       scope: Scope.REQUEST,
-      inject: [CartService, COMMERCE_ENTITY_MANAGER, OrderEventsSubscription],
+      inject: [CartService, COMMERCE_ENTITY_MANAGER],
       useFactory: (
         cart: CartService,
         entityManager: EntityManager,
-        subscriptions: OrderEventsSubscription,
       ) => {
         const checkout = new CheckoutService(
           new MikroOrmCheckoutRepository(entityManager),
@@ -108,18 +111,16 @@ Module({
             consumerSecret: requiredEnvironment('WOO_CONSUMER_SECRET'),
           }),
         );
-        return new CommerceResolver(
-          cart,
-          async (subject: string, input: CheckoutInput) =>
+        return {
+          checkout: async (subject: string, input: CheckoutInput) =>
             checkout.checkout({
               subject,
               ...input,
               cartSnapshot: await cart.get(subject),
             }),
-          (wooOrderId: string) =>
+          findWorkflow: (wooOrderId: string) =>
             entityManager.findOne(OrderWorkflow, { wooOrderId }),
-          subscriptions,
-          async (id: string) => {
+          findCheckout: async (id: string) => {
             const operation = await entityManager.findOne(CheckoutOperation, {
               id,
             });
@@ -133,8 +134,13 @@ Module({
               }
             );
           },
-        );
+        };
       },
+    },
+    {
+      provide: CommerceRuntimeResolver,
+      useClass: CommerceRuntimeResolver,
+      scope: Scope.REQUEST,
     },
     {
       provide: CommercePersistenceLifecycle,

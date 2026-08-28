@@ -28,6 +28,7 @@ export function createWooCartAdapter(
   function cart(response: Response, subject: string): Promise<WooCart> {
     return response.json().then((body) => ({
       ...(body as Record<string, unknown>),
+      id: subject,
       subject,
     }));
   }

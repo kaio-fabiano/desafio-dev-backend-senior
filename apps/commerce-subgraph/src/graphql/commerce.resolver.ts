@@ -8,10 +8,11 @@ import {
   Resolver,
   Subscription,
 } from '@nestjs/graphql';
+import { Inject } from '@nestjs/common';
 
 import type { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
-import type { CartService } from '../cart/cart.service.ts';
-import type { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
+import { CartService } from '../cart/cart.service.ts';
+import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
 
 type AuthContext = { subject: string };
 
@@ -134,3 +135,37 @@ Subscription('orderEvents', { resolve: (event: unknown) => event })(
   'orderEvents',
   Object.getOwnPropertyDescriptor(CommerceResolver.prototype, 'orderEvents')!,
 );
+
+export const COMMERCE_OPERATIONS = Symbol('COMMERCE_OPERATIONS');
+
+export type CommerceOperations<Order, Workflow> = {
+  checkout(subject: string, input: CheckoutInput): Promise<Order>;
+  findWorkflow(wooOrderId: string): Promise<Workflow | null>;
+  findCheckout(id: string): Promise<CheckoutOperationView | null>;
+};
+
+/** Discoverable Nest metatype backed by request-scoped runtime operations. */
+export class CommerceRuntimeResolver<Cart, Order, Workflow> extends CommerceResolver<
+  Cart,
+  Order,
+  Workflow
+> {
+  constructor(
+    cart: CartService,
+    operations: CommerceOperations<Order, Workflow>,
+    subscriptions: OrderEventsSubscription,
+  ) {
+    super(
+      cart,
+      operations.checkout,
+      operations.findWorkflow,
+      subscriptions,
+      operations.findCheckout,
+    );
+  }
+}
+
+Resolver('Order')(CommerceRuntimeResolver);
+Inject(CartService)(CommerceRuntimeResolver, undefined, 0);
+Inject(COMMERCE_OPERATIONS)(CommerceRuntimeResolver, undefined, 1);
+Inject(OrderEventsSubscription)(CommerceRuntimeResolver, undefined, 2);

@@ -144,11 +144,13 @@ test('WordPress identity uses authenticated public REST and links an existing cu
   const requestUrl = new URL(requests[0].url);
   assert.equal(requestUrl.pathname, '/wp-json/wc/v3/customers');
   assert.equal(requestUrl.searchParams.get('email'), input.email);
-  assert.equal(requestUrl.searchParams.get('consumer_key'), 'consumer-key');
+  assert.equal(requestUrl.searchParams.has('consumer_key'), false);
+  assert.equal(requestUrl.searchParams.has('consumer_secret'), false);
   assert.equal(
-    requestUrl.searchParams.get('consumer_secret'),
-    'consumer-secret',
+    requests[0].init.headers.authorization,
+    `Basic ${Buffer.from('consumer-key:consumer-secret').toString('base64')}`,
   );
+  assert.equal(requests[0].init.headers['x-forwarded-proto'], 'https');
 });
 
 test('WordPress identity creates a customer only when the email is absent', async () => {

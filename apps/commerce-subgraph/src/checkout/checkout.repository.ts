@@ -92,6 +92,7 @@ export class MikroOrmCheckoutRepository implements CheckoutRepository {
         updatedAt: new Date(),
       });
       transaction.persist(workflow);
+      await transaction.flush();
       await onConfirmed(transaction, workflow);
       operation.status = CheckoutOperationStatus.Completed;
       operation.wooOrderId = wooOrderId;

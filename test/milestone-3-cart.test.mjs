@@ -84,6 +84,7 @@ test('AC-033: Cart mutations use the authenticated buyer @spec:AC-033', async ()
   const current = await service.get('buyer-from-token');
 
   assert.equal(added.subject, 'buyer-from-token');
+  assert.equal(added.id, 'buyer-from-token');
   assert.deepEqual(updated.items, [{ id: 42, key: 'line-42', quantity: 1 }]);
   assert.equal(removed.subject, 'buyer-from-token');
   assert.deepEqual(current.items, []);

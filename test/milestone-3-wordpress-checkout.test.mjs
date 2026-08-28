@@ -43,7 +43,7 @@ test('AC-035: Sequential retries return the original WooCommerce order @spec:AC-
   const first = await adapter.createOrFind(command);
   const retry = await adapter.createOrFind(command);
 
-  assert.equal(first.id, 73);
+  assert.equal(first.id, '73');
   assert.equal(retry.id, first.id);
   assert.equal(requests.filter(({ method }) => method === 'POST').length, 1);
   assert.deepEqual(first.meta_data, [
@@ -69,7 +69,7 @@ test('AC-038: Pending WooCommerce checkout is found by its stable reference @spe
     order: { payment_method: 'cod' },
   });
 
-  assert.equal(reconciled.id, remoteOrder.id);
+  assert.equal(reconciled.id, String(remoteOrder.id));
   assert.equal(creates, 0);
 });
 
@@ -100,6 +100,29 @@ test('Woo Store API cart items map to the WooCommerce order payload', async () =
     { product_id: 1001, quantity: 2 },
   ]);
   assert.equal(createdOrder.payment_method, 'CARD');
+});
+
+test('internal HTTP Woo requests keep Basic credentials out of the URL', async () => {
+  let observed;
+  const adapter = createWooOrderAdapter({
+    endpoint: 'http://wordpress',
+    consumerKey: 'consumer-key',
+    consumerSecret: 'consumer-secret',
+    request: async (url, init) => {
+      observed = { url: new URL(url), headers: init.headers };
+      return Response.json([]);
+    },
+  });
+
+  await adapter.createOrFind({ reference: 'secure-transport', order: {} });
+
+  assert.equal(observed.url.searchParams.has('consumer_key'), false);
+  assert.equal(observed.url.searchParams.has('consumer_secret'), false);
+  assert.equal(observed.headers['x-forwarded-proto'], 'https');
+  assert.equal(
+    observed.headers.authorization,
+    `Basic ${Buffer.from('consumer-key:consumer-secret').toString('base64')}`,
+  );
 });
 
 test('the live checkout probe exercises the pinned WooCommerce REST API', async () => {

@@ -3,7 +3,7 @@ type Fetch = typeof fetch;
 export const WOO_OPERATION_REFERENCE_META_KEY = '_commerce_operation_reference';
 
 export type WooOrder = Record<string, unknown> & {
-  id: number;
+  id: string;
   meta_data?: Array<{ key: string; value: unknown }>;
 };
 
@@ -42,6 +42,9 @@ export function createWooOrderAdapter({
   const headers = {
     authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
     'content-type': 'application/json',
+    ...(new URL(endpoint).protocol === 'http:'
+      ? { 'x-forwarded-proto': 'https' }
+      : {}),
   };
 
   async function findByReference(reference: string): Promise<WooOrder | null> {
@@ -56,14 +59,14 @@ export function createWooOrderAdapter({
       const response = await request(url, { headers });
       if (!response.ok) throw new WooOrderRequestError(response.status);
       pages = Number(response.headers.get('x-wp-totalpages')) || 1;
-      const orders = (await response.json()) as WooOrder[];
+      const orders = (await response.json()) as Array<Omit<WooOrder, 'id'> & { id: string | number }>;
       const order = orders.find(({ meta_data = [] }) =>
         meta_data.some(
           ({ key, value }) =>
             key === WOO_OPERATION_REFERENCE_META_KEY && value === reference,
         ),
       );
-      if (order) return order;
+      if (order) return { ...order, id: String(order.id) };
     }
     return null;
   }
@@ -95,7 +98,10 @@ export function createWooOrderAdapter({
       }),
     });
     if (!response.ok) throw new WooOrderRequestError(response.status);
-    return (await response.json()) as WooOrder;
+    const created = (await response.json()) as Omit<WooOrder, 'id'> & {
+      id: string | number;
+    };
+    return { ...created, id: String(created.id) };
   }
 
   return {

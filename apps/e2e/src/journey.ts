@@ -184,15 +184,25 @@ async function invokeMe(environment: Milestone7Environment, accessToken: string)
   return JSON.parse(payload.result.content[0].text).data.me;
 }
 
-async function subscribe(environment: Milestone7Environment, operationKey: string, accessToken: string) {
-  const response = await fetch(`${environment.gatewayUrl}/graphql/stream?operationKey=${encodeURIComponent(operationKey)}`, {
-    headers: { accept: 'text/event-stream', authorization: `Bearer ${accessToken}` },
+function subscribe(environment: Milestone7Environment, operationKey: string, accessToken: string) {
+  const response = fetch(`${environment.gatewayUrl}/graphql/stream`, {
+    method: 'POST',
+    headers: {
+      accept: 'text/event-stream',
+      authorization: `Bearer ${accessToken}`,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: 'subscription orderEvents($operationKey: ID!) { orderEvents(operationKey: $operationKey) { operationKey state order { id wooOrderId status paymentMethod pixCode } } }',
+      variables: { operationKey },
+    }),
   });
-  if (!response.ok || !response.body) throw new Error(`Gateway subscription failed with ${response.status}`);
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let pending = '';
   return async () => {
+    const stream = await response;
+    if (!stream.ok || !stream.body) throw new Error(`Gateway subscription failed with ${stream.status}`);
+    const reader = stream.body.getReader();
+    const decoder = new TextDecoder();
+    let pending = '';
     while (true) {
       const { done, value } = await reader.read();
       if (done) throw new Error(`Subscription ${operationKey} ended without an event`);
@@ -209,7 +219,8 @@ async function checkout(
   operationKey: string,
   paymentMethod: 'CARD' | 'PIX',
 ) {
-  const nextEvent = await subscribe(environment, operationKey, accessToken);
+  const nextEvent = subscribe(environment, operationKey, accessToken);
+  await new Promise<void>((resolve) => setImmediate(resolve));
   const subscriptionOpenedBeforeCheckout = true;
   const result = await graphql(environment, 'checkout', { input: { operationKey, paymentMethod } }, accessToken);
   return { result, event: await nextEvent(), subscriptionOpenedBeforeCheckout };

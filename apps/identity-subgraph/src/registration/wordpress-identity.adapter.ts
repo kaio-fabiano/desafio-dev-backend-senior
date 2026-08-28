@@ -12,30 +12,21 @@ export function createWordPressIdentityAdapter({
   request?: typeof fetch;
 }): WordPressIdentityPort {
   const headers = {
+    authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
     'content-type': 'application/json',
+    ...(new URL(endpoint).protocol === 'http:'
+      ? { 'x-forwarded-proto': 'https' }
+      : {}),
   };
 
   function authenticatedUrl(path: string) {
-    const url = new URL(path, endpoint);
-    if (url.protocol !== 'https:') {
-      url.searchParams.set('consumer_key', consumerKey);
-      url.searchParams.set('consumer_secret', consumerSecret);
-    }
-    return url;
+    return new URL(path, endpoint);
   }
-
-  const authenticatedHeaders =
-    new URL(endpoint).protocol === 'https:'
-      ? {
-          ...headers,
-          authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
-        }
-      : headers;
 
   async function findByEmail(email: string) {
     const url = authenticatedUrl('/wp-json/wc/v3/customers');
     url.searchParams.set('email', email);
-    const response = await request(url, { headers: authenticatedHeaders });
+    const response = await request(url, { headers });
     if (!response.ok)
       throw new Error(`WordPress identity lookup failed: ${response.status}`);
     const [user] = (await response.json()) as Array<{
@@ -53,7 +44,7 @@ export function createWordPressIdentityAdapter({
         authenticatedUrl('/wp-json/wc/v3/customers'),
         {
           method: 'POST',
-          headers: authenticatedHeaders,
+          headers,
           body: JSON.stringify({
             email: input.email,
             first_name: input.name,
