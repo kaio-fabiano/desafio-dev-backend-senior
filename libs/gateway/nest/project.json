@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/gateway-nest",
+  "projectType": "library",
+  "sourceRoot": "libs/gateway/nest/src",
+  "tags": ["type:lib", "scope:gateway"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/gateway/nest/tsconfig.lib.json"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/gateway/nest/tsconfig.lib.json --noEmit"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint libs/gateway/nest/src"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/gateway-federation-refactor.test.mjs"
+      }
+    }
+  }
+}
