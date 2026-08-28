@@ -5,6 +5,7 @@ type Fetch = (
 
 export type StockItem = { productId: string; quantity: number };
 type WooProduct = { id: number | string; stock_quantity: number | null };
+const resolvedHosts = new Map<string, { address: string; family: 4 | 6 }>();
 
 export class InsufficientStockError extends Error {
   readonly code = 'INSUFFICIENT_STOCK';
@@ -22,7 +23,7 @@ export function createWooInventoryAdapter({
   endpoint,
   consumerKey,
   consumerSecret,
-  request = fetch,
+  request = requestWooCommerce,
 }: {
   endpoint: string;
   consumerKey: string;
@@ -104,6 +105,79 @@ export function createWooInventoryAdapter({
   };
 }
 
+async function requestWooCommerce(input: URL, init: RequestInit = {}) {
+  return new Promise<Pick<Response, 'json' | 'ok' | 'status'>>(
+    (resolve, reject) => {
+      const body = typeof init.body === 'string' ? init.body : undefined;
+      const transport = input.protocol === 'https:' ? https : http;
+      const resolved = resolvedHosts.get(input.hostname);
+      let activeResponse: import('node:http').IncomingMessage | undefined;
+      const request = transport.request(
+        input,
+        {
+          agent: false,
+          ...(resolved
+            ? {
+                lookup: (
+                  _hostname: string,
+                  _options: unknown,
+                  callback: (error: null, address: string, family: number) => void,
+                ) =>
+                  callback(null, resolved.address, resolved.family),
+              }
+            : {}),
+          method: init.method ?? 'GET',
+          headers: {
+            ...(init.headers as Record<string, string>),
+            connection: 'close',
+            ...(body ? { 'content-length': Buffer.byteLength(body) } : {}),
+          },
+        },
+        (response) => {
+          activeResponse = response;
+          const address = response.socket.remoteAddress;
+          const family = response.socket.remoteFamily;
+          if (address && (family === 'IPv4' || family === 'IPv6')) {
+            resolvedHosts.set(input.hostname, {
+              address,
+              family: family === 'IPv4' ? 4 : 6,
+            });
+          }
+          const chunks: Buffer[] = [];
+          response.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+          response.once('end', () => {
+            finish();
+            const text = Buffer.concat(chunks).toString('utf8');
+            const status = response.statusCode ?? 500;
+            resolve({
+              ok: status >= 200 && status < 300,
+              status,
+              json: async () => JSON.parse(text),
+            });
+          });
+          response.once('error', fail);
+        },
+      );
+      const deadline = setTimeout(
+        () => {
+          const error = new Error('WooCommerce inventory request timed out');
+          activeResponse?.destroy(error);
+          request.destroy(error);
+        },
+        10_000,
+      );
+      const finish = () => clearTimeout(deadline);
+      const fail = (error: Error) => {
+        finish();
+        reject(error);
+      };
+      request.once('error', fail);
+      if (body) request.write(body);
+      request.end();
+    },
+  );
+}
+
 function logRequest(productId: string, stage: string): void {
   console.info(JSON.stringify({ component: 'stock-worker', productId, stage }));
 }
@@ -121,3 +195,5 @@ function withDeadline<T>(operation: Promise<T>): Promise<T> {
   ]);
   return result.finally(() => clearTimeout(timer));
 }
+import http from 'node:http';
+import https from 'node:https';
