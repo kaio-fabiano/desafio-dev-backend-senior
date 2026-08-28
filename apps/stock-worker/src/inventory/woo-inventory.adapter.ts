@@ -36,8 +36,11 @@ export function createWooInventoryAdapter({
       ? { 'x-forwarded-proto': 'https' }
       : {}),
   };
-  const product = (id: string) =>
-    new URL(`/wp-json/wc/v3/products/${id}`, endpoint);
+  const product = (id: string) => {
+    const url = new URL(`/wp-json/wc/v3/products/${id}`, endpoint);
+    url.searchParams.set('_fields', 'id,stock_quantity');
+    return url;
+  };
 
   async function get(id: string): Promise<WooProduct> {
     const response = await request(product(id), {

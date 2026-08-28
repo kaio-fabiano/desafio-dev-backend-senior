@@ -21,7 +21,8 @@ import type {
 } from '../subscriptions/order-transition.publisher.ts';
 
 export type OrderItemsLoader = (
-  wooOrderId: string,
+  transaction: EntityManager,
+  workflowId: string,
 ) => Promise<readonly StockItem[]>;
 
 export interface OrderSagaRepository {
@@ -149,10 +150,6 @@ export class OrderEventConsumer {
 
   async consume(event: OrderSagaEvent): Promise<ConsumeResult> {
     const orderId = requiredOrderId(event);
-    const stockItems =
-      event.eventType === 'payment.authorized'
-        ? await this.loadOrderItems(orderId)
-        : undefined;
     const committed = await this.entityManager.transactional(
       async (transaction): Promise<CommittedConsumeResult> => {
         const claimed = await this.inbox.claim(
@@ -166,6 +163,10 @@ export class OrderEventConsumer {
           transaction,
           orderId,
         );
+        const stockItems =
+          event.eventType === 'payment.authorized'
+            ? await this.loadOrderItems(transaction, workflow.id)
+            : undefined;
         const transition = this.saga.transition(workflow, event, {
           stockItems,
         });

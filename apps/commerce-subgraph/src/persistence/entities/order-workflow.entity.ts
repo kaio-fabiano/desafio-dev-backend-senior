@@ -8,6 +8,7 @@ export class OrderWorkflow {
   id!: string;
   checkoutOperationId!: string;
   wooOrderId!: string;
+  stockItems!: Array<{ productId: string; quantity: number }>;
   state = OrderWorkflowState.Created;
   paymentId?: string;
   pixCode?: string;
@@ -22,6 +23,7 @@ Property({ type: 'uuid', unique: true })(
   'checkoutOperationId',
 );
 Property({ type: 'string', length: 32, unique: true })(OrderWorkflow.prototype, 'wooOrderId');
+Property({ type: 'json' })(OrderWorkflow.prototype, 'stockItems');
 Property({ type: 'string', length: 32 })(OrderWorkflow.prototype, 'state');
 Property({ type: 'string', length: 255, nullable: true })(OrderWorkflow.prototype, 'paymentId');
 Property({ type: 'text', nullable: true })(OrderWorkflow.prototype, 'pixCode');

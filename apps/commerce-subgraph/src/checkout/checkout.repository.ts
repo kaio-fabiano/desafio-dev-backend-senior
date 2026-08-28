@@ -33,6 +33,7 @@ export interface CheckoutRepository {
   confirm(
     operationId: string,
     wooOrderId: string,
+    stockItems: readonly { productId: string; quantity: number }[],
     onConfirmed: ConfirmCheckout,
   ): Promise<OrderWorkflow>;
 }
@@ -70,6 +71,7 @@ export class MikroOrmCheckoutRepository implements CheckoutRepository {
   async confirm(
     operationId: string,
     wooOrderId: string,
+    stockItems: readonly { productId: string; quantity: number }[],
     onConfirmed: ConfirmCheckout,
   ): Promise<OrderWorkflow> {
     return this.entityManager.transactional(async (transaction) => {
@@ -87,6 +89,7 @@ export class MikroOrmCheckoutRepository implements CheckoutRepository {
         id: randomUUID(),
         checkoutOperationId: operation.id,
         wooOrderId,
+        stockItems,
         state: OrderWorkflowState.Created,
         createdAt: new Date(),
         updatedAt: new Date(),

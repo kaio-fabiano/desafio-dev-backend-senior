@@ -67,6 +67,7 @@ export class CheckoutService {
     await this.checkouts.confirm(
       operation.id,
       order.id,
+      cartItems(command.cartSnapshot),
       async (transaction, workflow) =>
         this.enqueueCheckoutRequested(
           transaction,
@@ -113,6 +114,22 @@ export class CheckoutService {
         throw new CheckoutInputError('Checkout fields are required');
     }
   }
+}
+
+function cartItems(snapshot: unknown): Array<{ productId: string; quantity: number }> {
+  const items = snapshot && typeof snapshot === 'object'
+    ? Reflect.get(snapshot, 'items')
+    : undefined;
+  if (!Array.isArray(items)) return [];
+  return items.map((item: unknown) => {
+    if (!item || typeof item !== 'object') throw new CheckoutInputError('Cart item is invalid');
+    const productId = Number(Reflect.get(item, 'id') ?? Reflect.get(item, 'productId'));
+    const quantity = Number(Reflect.get(item, 'quantity'));
+    if (!Number.isSafeInteger(productId) || productId < 1 || !Number.isSafeInteger(quantity) || quantity < 1) {
+      throw new CheckoutInputError('Cart item is invalid');
+    }
+    return { productId: String(productId), quantity };
+  });
 }
 
 function cartAmount(snapshot: unknown): number {

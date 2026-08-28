@@ -24,12 +24,13 @@ function recoveryHarness() {
         created: operation.commandHash === input.commandHash,
       };
     },
-    async confirm(operationId, wooOrderId, onConfirmed) {
+    async confirm(operationId, wooOrderId, stockItems, onConfirmed) {
       confirmationAttempts += 1;
       const workflow = {
         id: 'workflow-1',
         checkoutOperationId: operationId,
         wooOrderId,
+        stockItems,
       };
       const pending = { workflow, event: undefined };
       await onConfirmed(pending, workflow);
@@ -84,6 +85,9 @@ test('AC-038: Pending WooCommerce checkout is reconciled @spec:AC-038', async ()
   assert.equal(operation.wooOrderId, 'woo-9001');
   assert.equal(remoteCreations(), 1);
   assert.equal(visible.workflow.wooOrderId, 'woo-9001');
+  assert.deepEqual(visible.workflow.stockItems, [
+    { productId: '42', quantity: 1 },
+  ]);
   assert.equal(visible.event.event.checkoutId, 'operation-1');
 });
 

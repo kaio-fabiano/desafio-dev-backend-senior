@@ -28,7 +28,7 @@ function harness() {
       }
       return { operation, created: false };
     },
-    async confirm(operationId, wooOrderId, onConfirmed) {
+    async confirm(operationId, wooOrderId, _stockItems, onConfirmed) {
       const precedingConfirmation = confirmation;
       let release;
       confirmation = new Promise((resolve) => {

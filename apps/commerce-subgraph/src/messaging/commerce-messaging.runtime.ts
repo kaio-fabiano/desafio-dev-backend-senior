@@ -1,4 +1,4 @@
-import type { MikroORM } from '@mikro-orm/core';
+import type { EntityManager, MikroORM } from '@mikro-orm/core';
 
 import { MikroOrmInboxRepository } from '../inbox/inbox.repository.ts';
 import { MikroOrmOutboxRepository } from '../outbox/outbox.repository.ts';
@@ -31,9 +31,6 @@ export async function startCommerceMessaging({
   orm,
   broker,
   rabbitMqUrl,
-  wordpressUrl,
-  consumerKey,
-  consumerSecret,
 }: {
   orm: MikroORM;
   broker: OrderEventBroker;
@@ -66,7 +63,7 @@ export async function startCommerceMessaging({
     orm.em.fork(),
     new MikroOrmInboxRepository(),
     new MikroOrmOrderSagaRepository(),
-    createOrderItemsLoader(wordpressUrl, consumerKey, consumerSecret),
+    createOrderItemsLoader(),
     undefined,
     transitions,
   );
@@ -136,33 +133,12 @@ export async function startCommerceMessaging({
   };
 }
 
-function createOrderItemsLoader(
-  endpoint: string,
-  consumerKey: string,
-  consumerSecret: string,
-) {
-  const authorization = `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`;
-  return async (orderId: string) => {
-    const response = await fetch(
-      new URL(`/wp-json/wc/v3/orders/${encodeURIComponent(orderId)}`, endpoint),
-      {
-        signal: AbortSignal.timeout(10_000),
-        headers: {
-          authorization,
-          ...(new URL(endpoint).protocol === 'http:'
-            ? { 'x-forwarded-proto': 'https' }
-            : {}),
-        },
-      },
-    );
-    if (!response.ok)
-      throw new Error(`WooCommerce order items failed: ${response.status}`);
-    const order = (await response.json()) as {
-      line_items?: Array<{ product_id: number; quantity: number }>;
-    };
-    return (order.line_items ?? []).map(({ product_id, quantity }) => ({
-      productId: String(product_id),
-      quantity,
-    }));
+function createOrderItemsLoader() {
+  return async (transaction: EntityManager, workflowId: string) => {
+    const rows = await transaction.getConnection().execute(
+      'select "stock_items" from "commerce_order_workflow" where "id" = ?',
+      [workflowId],
+    ) as Array<{ stock_items: Array<{ productId: string; quantity: number }> }>;
+    return rows[0]?.stock_items ?? [];
   };
 }

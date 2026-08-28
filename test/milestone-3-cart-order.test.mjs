@@ -53,7 +53,7 @@ function acceptanceHarness() {
       }
       return { operation, created: false };
     },
-    async confirm(operationId, wooOrderId, onConfirmed) {
+    async confirm(operationId, wooOrderId, _stockItems, onConfirmed) {
       const preceding = confirmation;
       let release;
       confirmation = new Promise((resolve) => { release = resolve; });
