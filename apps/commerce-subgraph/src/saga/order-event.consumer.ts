@@ -148,6 +148,11 @@ export class OrderEventConsumer {
   ) {}
 
   async consume(event: OrderSagaEvent): Promise<ConsumeResult> {
+    const orderId = requiredOrderId(event);
+    const stockItems =
+      event.eventType === 'payment.authorized'
+        ? await this.loadOrderItems(orderId)
+        : undefined;
     const committed = await this.entityManager.transactional(
       async (transaction): Promise<CommittedConsumeResult> => {
         const claimed = await this.inbox.claim(
@@ -157,15 +162,10 @@ export class OrderEventConsumer {
         );
         if (!claimed) return { result: { outcome: 'duplicate' } };
 
-        const orderId = requiredOrderId(event);
         const workflow = await this.workflows.findForUpdate(
           transaction,
           orderId,
         );
-        const stockItems =
-          event.eventType === 'payment.authorized'
-            ? await this.loadOrderItems(orderId)
-            : undefined;
         const transition = this.saga.transition(workflow, event, {
           stockItems,
         });

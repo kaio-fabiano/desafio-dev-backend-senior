@@ -30,8 +30,8 @@ test('AC-084: real workers persist deduplication and use bounded retry, DLQ, and
   assert.match(paymentRuntime, /marketplace\.dead-letter\.v1/);
   assert.match(stockComposition, /PostgresInboxRepository/);
   assert.match(stockRuntime, /RETRY_DELAYS = \[1_000, 10_000, 60_000\]/);
-  assert.match(stockRuntime, /channel\.ack\(message\)/);
-  assert.match(stockRuntime, /channel\.nack\(message, false, true\)/);
+  assert.match(stockRuntime, /consumerChannel\.ack\(message\)/);
+  assert.match(stockRuntime, /consumerChannel\.nack\(message, false, true\)/);
 
   const stored = new Map();
   let effects = 0;

@@ -148,7 +148,11 @@ test('Migration202608270002 preserves T-029 and adds saga persistence', () => {
   assert.match(migration, /commerce_order_workflow_state_check/);
 });
 
-export function harness(initialState, paymentId) {
+export function harness(
+  initialState,
+  paymentId,
+  loadOrderItems = async () => [{ productId: 'product-1', quantity: 2 }],
+) {
   let database = {
     history: [],
     inbox: new Map(),
@@ -208,7 +212,7 @@ export function harness(initialState, paymentId) {
       entityManager,
       inbox,
       workflows,
-      async () => [{ productId: 'product-1', quantity: 2 }],
+      loadOrderItems,
     ),
     failNextOutbox() {
       failNextOutbox = true;

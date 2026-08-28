@@ -174,17 +174,18 @@ export class ConfirmedRabbitMqPublisher {
 }
 
 export async function handleDelivery(
-  channel: RabbitMqConfirmChannel,
+  consumerChannel: RabbitMqConfirmChannel,
   queue: string,
   message: RabbitMqMessage,
   handler: (message: RabbitMqMessage) => Promise<void>,
+  failureChannel: RabbitMqConfirmChannel = consumerChannel,
 ): Promise<void> {
   try {
     await handler(message);
   } catch {
-    await routeFailedDelivery(channel, queue, message);
+    await routeFailedDelivery(failureChannel, queue, message);
   }
-  channel.ack(message);
+  consumerChannel.ack(message);
 }
 
 export async function consumeWithRetry(
@@ -192,13 +193,14 @@ export async function consumeWithRetry(
   queue: string,
   handler: (message: RabbitMqMessage) => Promise<void>,
   prefetch = 10,
+  failureChannel: RabbitMqConfirmChannel = channel,
 ): Promise<unknown> {
   await channel.prefetch(prefetch);
   return channel.consume(
     queue,
     (message) => {
       if (!message) return;
-      void handleDelivery(channel, queue, message, handler).catch(() => {
+      void handleDelivery(channel, queue, message, handler, failureChannel).catch(() => {
         channel.nack(message, false, true);
       });
     },

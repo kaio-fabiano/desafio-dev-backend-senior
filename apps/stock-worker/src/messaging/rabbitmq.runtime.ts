@@ -60,16 +60,17 @@ async function declareTopology(channel: ConfirmChannel): Promise<void> {
 }
 
 export async function consumeStock(
-  channel: ConfirmChannel,
+  consumerChannel: ConfirmChannel,
   handler: (event: StockDelivery) => Promise<void>,
+  failureChannel: ConfirmChannel = consumerChannel,
 ): Promise<void> {
-  await channel.prefetch(10);
-  await channel.consume(
+  await consumerChannel.prefetch(10);
+  await consumerChannel.consume(
     QUEUE,
     (message) => {
       if (!message) return;
-      void handle(channel, message, handler).catch(() =>
-        channel.nack(message, false, true),
+      void handle(consumerChannel, failureChannel, message, handler).catch(() =>
+        consumerChannel.nack(message, false, true),
       );
     },
     { noAck: false },
@@ -77,19 +78,34 @@ export async function consumeStock(
 }
 
 async function handle(
-  channel: ConfirmChannel,
+  consumerChannel: ConfirmChannel,
+  failureChannel: ConfirmChannel,
   message: ConsumeMessage,
   handler: (event: StockDelivery) => Promise<void>,
 ): Promise<void> {
+  const eventId = message.properties.messageId ?? 'unknown';
+  console.info(
+    JSON.stringify({ component: 'stock-worker', eventId, status: 'received' }),
+  );
   try {
     await handler(
       JSON.parse(message.content.toString('utf8')) as StockDelivery,
     );
   } catch (error) {
-    console.error('Stock delivery failed', error);
-    await routeFailure(channel, message);
+    console.error(
+      JSON.stringify({
+        component: 'stock-worker',
+        eventId,
+        status: 'failed',
+        error: error instanceof Error ? error.message : 'unknown error',
+      }),
+    );
+    await routeFailure(failureChannel, message);
   }
-  channel.ack(message);
+  consumerChannel.ack(message);
+  console.info(
+    JSON.stringify({ component: 'stock-worker', eventId, status: 'completed' }),
+  );
 }
 
 async function routeFailure(

@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import { rm, writeFile } from 'node:fs/promises';
 
 import { PostgresInboxRepository } from './inventory/inbox.repository.ts';
 import { createWooInventoryAdapter } from './inventory/woo-inventory.adapter.ts';
@@ -38,11 +39,15 @@ export class StockWorkerLifecycle {
           publishInventory(this.publisherBroker!.channel, event),
       },
     });
-    await consumeStock(this.consumerBroker.channel, async (event) => {
-      await worker.consume(event, async () => {
-        // The RabbitMQ adapter owns acknowledgement after successful handling.
-      });
-    });
+    await consumeStock(
+      this.consumerBroker.channel,
+      async (event) => {
+        await worker.consume(event, async () => {
+          // The RabbitMQ adapter owns acknowledgement after successful handling.
+        });
+      },
+      this.publisherBroker.channel,
+    );
   }
 
   async stop(): Promise<void> {
@@ -71,7 +76,11 @@ function requiredEnvironment(name: string): string {
 async function bootstrap(): Promise<void> {
   const lifecycle = new StockWorkerLifecycle();
   await lifecycle.start();
-  const stop = () => void lifecycle.stop().finally(() => process.exit(0));
+  await writeFile('/tmp/stock-worker-ready', 'ready\n');
+  const stop = () =>
+    void rm('/tmp/stock-worker-ready', { force: true })
+      .then(() => lifecycle.stop())
+      .finally(() => process.exit(0));
   process.once('SIGTERM', stop);
   process.once('SIGINT', stop);
 }

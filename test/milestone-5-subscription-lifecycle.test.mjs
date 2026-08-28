@@ -53,3 +53,13 @@ test('AC-058: Cancellation, timeout, heartbeat, and backpressure are bounded @sp
   await delay(30);
   assert.equal(broker.listenerCount(), 0);
 });
+
+test('AC-057: a transition committed during subscription setup is replayed @spec:AC-057', async () => {
+  const broker = new OrderEventBroker();
+  broker.publish(transition('COMPLETED'));
+  const subscriptions = new OrderEventsSubscription(broker);
+
+  const events = subscriptions.subscribe('buyer-a', 'operation-1');
+  assert.deepEqual((await events.next()).value, transition('COMPLETED').payload);
+  await events.return();
+});

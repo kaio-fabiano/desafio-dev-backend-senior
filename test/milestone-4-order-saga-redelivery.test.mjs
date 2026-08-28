@@ -64,3 +64,34 @@ test('AC-051: Transition, inbox, and next outbox commit atomically @spec:AC-051'
   assert.equal(retried.outbox.length, 1);
   assert.equal(acknowledgements, 1);
 });
+
+test('AC-051: transient order loading failure leaves no poison inbox claim @spec:AC-051', async () => {
+  let attempts = 0;
+  const testHarness = harness(
+    OrderWorkflowState.PaymentPending,
+    undefined,
+    async () => {
+      attempts += 1;
+      if (attempts === 1) throw new Error('temporary WooCommerce failure');
+      return [{ productId: 'product-1', quantity: 2 }];
+    },
+  );
+  const authorized = event('loader-retry-1', 'payment.authorized', {
+    orderId: 'order-1',
+    paymentId: 'payment-1',
+  });
+
+  await assert.rejects(
+    testHarness.consumer.consume(authorized),
+    /temporary WooCommerce failure/,
+  );
+  assert.equal(testHarness.snapshot().inbox.size, 0);
+
+  const retried = await testHarness.consumer.consume(authorized);
+  assert.equal(retried.outcome, 'applied');
+  assert.equal(testHarness.snapshot().inbox.size, 1);
+  assert.equal(
+    testHarness.snapshot().workflow.state,
+    OrderWorkflowState.StockPending,
+  );
+});

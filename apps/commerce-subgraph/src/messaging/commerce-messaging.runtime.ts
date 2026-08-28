@@ -19,7 +19,6 @@ import {
 import type { OrderWorkflowTransitionedEvent } from './rabbitmq.ts';
 
 const QUEUE = 'commerce-subgraph.v1';
-const STREAM_QUEUE = 'commerce-order-events.v1';
 const TRANSITIONS = [
   'payment.authorized',
   'payment.pix-generated',
@@ -44,24 +43,24 @@ export async function startCommerceMessaging({
   consumerSecret: string;
 }) {
   const consumerRabbit = await connectRabbitMq(rabbitMqUrl);
-  const streamRabbit = await connectRabbitMq(rabbitMqUrl);
   const outboxRabbit = await connectRabbitMq(rabbitMqUrl);
-  const transitionRabbit = await connectRabbitMq(rabbitMqUrl);
+  const failureRabbit = await connectRabbitMq(rabbitMqUrl);
   await declareConsumerQueue(consumerRabbit.channel, QUEUE, TRANSITIONS);
-  await declareConsumerQueue(streamRabbit.channel, STREAM_QUEUE, [
-    'order.workflow-transitioned',
-  ]);
   const outboxPublisher = new ConfirmedRabbitMqPublisher(outboxRabbit.channel);
-  const transitionPublisher = new ConfirmedRabbitMqPublisher(
-    transitionRabbit.channel,
-  );
   const outbox = new OutboxPublisher(
     orm.em.fork(),
     new MikroOrmOutboxRepository(),
     outboxPublisher,
   );
   const transitions = new OrderTransitionPublisher({
-    publish: (event) => transitionPublisher.publish(event),
+    async publish(event) {
+      const transition = event as OrderWorkflowTransitionedEvent;
+      broker.publish({
+        subject: transition.subject,
+        operationKey: transition.operationKey,
+        payload: transition.payload,
+      });
+    },
   });
   const consumer = new OrderEventConsumer(
     orm.em.fork(),
@@ -90,26 +89,37 @@ export async function startCommerceMessaging({
     consumerRabbit.channel,
     QUEUE,
     async (message) => {
-      await consumer.consume(
-        JSON.parse(message.content.toString('utf8')) as OrderSagaEvent,
-      );
-    },
-    1,
-  );
-  await consumeWithRetry(
-    streamRabbit.channel,
-    STREAM_QUEUE,
-    async (message) => {
       const event = JSON.parse(
         message.content.toString('utf8'),
-      ) as OrderWorkflowTransitionedEvent;
-      broker.publish({
-        subject: event.subject,
-        operationKey: event.operationKey,
-        payload: event.payload,
-      });
+      ) as OrderSagaEvent;
+      console.info(JSON.stringify({
+        component: 'commerce-subgraph',
+        eventId: event.eventId,
+        eventType: event.eventType,
+        status: 'received',
+      }));
+      try {
+        const result = await consumer.consume(event);
+        console.info(JSON.stringify({
+          component: 'commerce-subgraph',
+          eventId: event.eventId,
+          eventType: event.eventType,
+          outcome: result.outcome,
+          status: 'completed',
+        }));
+      } catch (error) {
+        console.error(JSON.stringify({
+          component: 'commerce-subgraph',
+          eventId: event.eventId,
+          eventType: event.eventType,
+          error: error instanceof Error ? error.message : 'unknown error',
+          status: 'failed',
+        }));
+        throw error;
+      }
     },
-    32,
+    1,
+    failureRabbit.channel,
   );
   void publish();
 
@@ -119,9 +129,8 @@ export async function startCommerceMessaging({
       if (timer) clearTimeout(timer);
       await Promise.all([
         consumerRabbit.close(),
-        streamRabbit.close(),
         outboxRabbit.close(),
-        transitionRabbit.close(),
+        failureRabbit.close(),
       ]);
     },
   };
@@ -137,6 +146,7 @@ function createOrderItemsLoader(
     const response = await fetch(
       new URL(`/wp-json/wc/v3/orders/${encodeURIComponent(orderId)}`, endpoint),
       {
+        signal: AbortSignal.timeout(10_000),
         headers: {
           authorization,
           ...(new URL(endpoint).protocol === 'http:'

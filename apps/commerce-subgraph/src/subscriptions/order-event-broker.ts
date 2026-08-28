@@ -16,6 +16,7 @@ export type OrderEventListener = (event: OrderEventPayload) => void;
 
 export class OrderEventBroker {
   private readonly listeners = new Map<string, Set<OrderEventListener>>();
+  private readonly latest = new Map<string, OrderEventPayload>();
 
   subscribe(
     subject: string,
@@ -26,6 +27,8 @@ export class OrderEventBroker {
     const listeners = this.listeners.get(key) ?? new Set<OrderEventListener>();
     listeners.add(listener);
     this.listeners.set(key, listeners);
+    const latest = this.latest.get(key);
+    if (latest) queueMicrotask(() => listener(latest));
 
     return () => {
       listeners.delete(listener);
@@ -34,9 +37,12 @@ export class OrderEventBroker {
   }
 
   publish(event: RoutedOrderEvent): void {
-    for (const listener of this.listeners.get(
-      streamKey(event.subject, event.operationKey),
-    ) ?? []) {
+    const key = streamKey(event.subject, event.operationKey);
+    this.latest.set(key, event.payload);
+    if (this.latest.size > 1_000) {
+      this.latest.delete(this.latest.keys().next().value!);
+    }
+    for (const listener of this.listeners.get(key) ?? []) {
       listener(event.payload);
     }
   }
