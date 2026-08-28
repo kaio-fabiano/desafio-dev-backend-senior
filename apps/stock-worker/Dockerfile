@@ -7,10 +7,7 @@ RUN pnpm install --config.minimumReleaseAge=0 --frozen-lockfile --prod
 FROM node:24.19.0-bookworm-slim AS runtime
 WORKDIR /workspace
 ENV NODE_ENV=production
-RUN apt-get update \
-    && apt-get install --yes --no-install-recommends curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && groupadd --gid 10001 app \
+RUN groupadd --gid 10001 app \
     && useradd --uid 10001 --gid app --create-home app
 COPY --from=dependencies --chown=app:app /workspace/node_modules ./node_modules
 COPY --chown=app:app apps/stock-worker ./apps/stock-worker

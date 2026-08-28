@@ -1,4 +1,7 @@
-import { execFileSync } from 'node:child_process';
+import { resolve4 } from 'node:dns/promises';
+import http from 'node:http';
+import https from 'node:https';
+import { isIP } from 'node:net';
 
 type Fetch = (
   input: URL,
@@ -52,39 +55,45 @@ export function createWooInventoryAdapter({
 }
 
 async function requestWooCommerceInChild(input: URL, init: RequestInit = {}) {
-  const headers = Object.entries(init.headers as Record<string, string>)
-    .map(([name, value]) => `header = ${JSON.stringify(`${name}: ${value}`)}`);
-  const config = [
-    'max-time = 8',
-    `request = ${JSON.stringify(init.method ?? 'GET')}`,
-    `url = ${JSON.stringify(input.toString())}`,
-    ...headers,
-    'header = "connection: close"',
-    ...(typeof init.body === 'string'
-      ? [`data = ${JSON.stringify(init.body)}`]
-      : []),
-    'write-out = "\\n%{http_code}"',
-  ].join('\n');
-  // ponytail: replace the synchronous curl boundary when the container Node
-  // runtime no longer freezes its event loop while collecting child output.
-  let result: string;
-  try {
-    result = execFileSync('curl', [
-      '--silent', '--show-error', '--fail-with-body', '--config', '-',
-    ], { input: config, timeout: 10_000, maxBuffer: 1_048_576, encoding: 'utf8' });
-  } catch (error) {
-    const output = Reflect.get(error as object, 'stdout');
-    if (typeof output !== 'string' || !output.includes('\n')) throw error;
-    result = output;
+  const target = new URL(input);
+  const originalHost = target.host;
+  if (!isIP(target.hostname)) {
+    const [address] = await resolve4(target.hostname);
+    if (!address) throw new Error(`WooCommerce host did not resolve: ${target.hostname}`);
+    target.hostname = address;
   }
-  const boundary = result.lastIndexOf('\n');
-  const body = result.slice(0, boundary);
-  const status = Number(result.slice(boundary + 1));
-  return {
-    ok: status >= 200 && status < 300,
-    status,
-    json: async () => JSON.parse(body),
-  };
+  const body = typeof init.body === 'string' ? init.body : undefined;
+  const transport = target.protocol === 'https:' ? https : http;
+  return new Promise((resolve, reject) => {
+    const request = transport.request(target, {
+      agent: false,
+      method: init.method ?? 'GET',
+      headers: {
+        ...(init.headers as Record<string, string>),
+        host: originalHost,
+        connection: 'close',
+        ...(body ? { 'content-length': Buffer.byteLength(body) } : {}),
+      },
+    }, (response) => {
+      const chunks: Buffer[] = [];
+      response.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+      response.once('end', () => {
+        const responseBody = Buffer.concat(chunks).toString('utf8');
+        const status = response.statusCode ?? 500;
+        resolve({
+          ok: status >= 200 && status < 300,
+          status,
+          json: async () => JSON.parse(responseBody),
+        });
+      });
+      response.once('error', reject);
+    });
+    request.setTimeout(8_000, () =>
+      request.destroy(new Error('WooCommerce inventory request timed out')));
+    request.once('error', reject);
+    if (body) request.write(body);
+    request.end();
+  });
 }
 
 

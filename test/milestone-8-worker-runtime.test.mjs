@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import { InventoryService } from '../apps/stock-worker/src/inventory/inventory.service.ts';
-import { consumeStock } from '../apps/stock-worker/src/messaging/rabbitmq.runtime.ts';
+import { consumeStock, publishInventory } from '../apps/stock-worker/src/messaging/rabbitmq.runtime.ts';
 
 const paymentFiles = await Promise.all(
   [
@@ -98,6 +98,27 @@ test('AC-084: Stock publishes on an independent channel before the consumer ackn
   assert.deepEqual(sequence, ['effect', 'publisher-confirm', 'ack']);
   assert.match(stockComposition, /consumerBroker/);
   assert.match(stockComposition, /publisherBroker/);
+});
+
+test('AC-084: Stock waits for broker confirms after publishing @spec:AC-084', async () => {
+  const sequence = [];
+  await publishInventory({
+    publish() {
+      sequence.push('publish');
+      return true;
+    },
+    async waitForConfirms() {
+      sequence.push('confirm');
+    },
+  }, {
+    eventId: 'result-1',
+    eventType: 'stock.reserved',
+    eventVersion: 'v1',
+    operationKey: 'checkout-1',
+    occurredAt: new Date().toISOString(),
+    payload: { orderId: 'order-1', reservationId: 'checkout-1' },
+  });
+  assert.deepEqual(sequence, ['publish', 'confirm']);
 });
 
 test('AC-085: worker builds use pinned workspace or containerized tools and graceful shutdown @spec:AC-085', async () => {

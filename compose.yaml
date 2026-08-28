@@ -74,8 +74,9 @@ services:
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_USER: wordpress
+      WORDPRESS_CONFIG_EXTRA: "define('DISABLE_WP_CRON', true);"
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1/wp-login.php"]
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1/readme.html"]
       interval: 2s
       timeout: 2s
       retries: 60

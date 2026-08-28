@@ -29,4 +29,7 @@ test('AC-084: each backend uses an isolated WooCommerce credential @spec:AC-084'
     assert.equal(compose.match(new RegExp(secret, 'g'))?.length, 2);
   }
   assert.doesNotMatch(compose, /Marketplace local runtime/);
+  assert.match(compose, /DISABLE_WP_CRON/);
+  assert.match(compose, /127\.0\.0\.1\/readme\.html/);
+  assert.doesNotMatch(compose, /127\.0\.0\.1\/wp-login\.php/);
 });

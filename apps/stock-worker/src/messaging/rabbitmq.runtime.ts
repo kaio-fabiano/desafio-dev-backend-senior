@@ -172,7 +172,7 @@ export function publishInventory(
   );
 }
 
-function publish(
+async function publish(
   channel: ConfirmChannel,
   exchange: string,
   routingKey: string,
@@ -181,23 +181,19 @@ function publish(
   messageId: string,
   type?: string,
 ): Promise<void> {
-  return new Promise((resolve, reject) => {
-    channel.publish(
-      exchange,
-      routingKey,
-      content,
-      {
-        contentType: 'application/json',
-        persistent: true,
-        mandatory: true,
-        headers,
-        messageId,
-        correlationId: messageId,
-        type,
-      },
-      (error) => (error ? reject(error) : resolve()),
-    );
+  console.info(JSON.stringify({ component: 'stock-worker', messageId, stage: 'before-publish' }));
+  channel.publish(exchange, routingKey, content, {
+    contentType: 'application/json',
+    persistent: true,
+    mandatory: true,
+    headers,
+    messageId,
+    correlationId: messageId,
+    type,
   });
+  console.info(JSON.stringify({ component: 'stock-worker', messageId, stage: 'published' }));
+  await channel.waitForConfirms();
+  console.info(JSON.stringify({ component: 'stock-worker', messageId, stage: 'confirm-complete' }));
 }
 
 function required(value: string | undefined, field: string): string {
