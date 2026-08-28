@@ -4,12 +4,19 @@ import { createServer } from 'node:http';
 import { test } from 'node:test';
 import { setTimeout as delay } from 'node:timers/promises';
 
+import { ApolloDriver } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
+import { json } from 'express';
+
 import { OrderEventBroker } from '../apps/commerce-subgraph/src/subscriptions/order-event-broker.ts';
 import {
   OrderEventBackpressureError,
   OrderEventsSubscription,
 } from '../apps/commerce-subgraph/src/subscriptions/order-events.subscription.ts';
 import { createGatewaySseHandler } from '../apps/gateway/src/subscriptions/sse-handler.ts';
+import { registerDeferredSseRoute } from '../apps/commerce-subgraph/src/subscriptions/sse-handler.ts';
 
 const token = {
   issuer: 'https://identity.marketplace.test/api/auth',
@@ -116,6 +123,63 @@ test('AC-057: The edge uses GraphQL SSE through both segments @spec:AC-057', asy
     assert.match(await response.text(), /PIX_GENERATED/);
   } finally {
     await harness.close();
+  }
+});
+
+test('AC-057: Commerce reserves the SSE route before Nest Apollo initializes @spec:AC-057', async () => {
+  class RuntimeModule {}
+  Module({
+    imports: [
+      GraphQLModule.forRoot({
+        driver: ApolloDriver,
+        typeDefs: 'type Query { ping: String! }',
+        resolvers: { Query: { ping: () => 'pong' } },
+      }),
+    ],
+  })(RuntimeModule);
+
+  const app = await NestFactory.create(RuntimeModule, { bodyParser: false, logger: false });
+  const parseJson = json();
+  app.use('/graphql', (request, response, next) =>
+    request.path === '/stream' ? next() : parseJson(request, response, next));
+  const activate = registerDeferredSseRoute(
+    app.getHttpAdapter().getInstance(),
+    '/graphql/stream',
+  );
+  await app.init();
+  await app.listen(0, '127.0.0.1');
+  const address = app.getHttpServer().address();
+  assert.ok(address && typeof address !== 'string');
+  const url = `http://127.0.0.1:${address.port}`;
+
+  try {
+    const starting = await fetch(`${url}/graphql/stream`, {
+      method: 'POST',
+      headers: sseHeaders(),
+      body: JSON.stringify({ query, variables: { operationKey: 'starting' } }),
+    });
+    assert.equal(starting.status, 503);
+
+    activate((_request, response) => {
+      response.writeHead(202, { 'content-type': 'text/event-stream' });
+      response.end('event: next\ndata: {}\n\n');
+    });
+    const active = await fetch(`${url}/graphql/stream`, {
+      method: 'POST',
+      headers: sseHeaders(),
+      body: JSON.stringify({ query, variables: { operationKey: 'active' } }),
+    });
+    assert.equal(active.status, 202);
+    assert.match(await active.text(), /event: next/);
+
+    const graph = await fetch(`${url}/graphql`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ query: '{ ping }' }),
+    });
+    assert.deepEqual(await graph.json(), { data: { ping: 'pong' } });
+  } finally {
+    await app.close();
   }
 });
 

@@ -8,13 +8,20 @@ import { AppModule } from './app.module.ts';
 import { COMMERCE_ORM } from './graphql/commerce.module.ts';
 import { OrderEventBroker } from './subscriptions/order-event-broker.ts';
 import { startCommerceMessaging } from './messaging/commerce-messaging.runtime.ts';
-import { createCommerceSseHandler } from './subscriptions/sse-handler.ts';
+import {
+  createCommerceSseHandler,
+  registerDeferredSseRoute,
+} from './subscriptions/sse-handler.ts';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bodyParser: false });
   const parseJson = json();
   app.use('/graphql', (request, response, next) =>
     request.path === '/stream' ? next() : parseJson(request, response, next));
+  const activateSse = registerDeferredSseRoute(
+    app.getHttpAdapter().getInstance(),
+    '/graphql/stream',
+  );
   const orm = app.get<MikroORM>(COMMERCE_ORM);
   await orm.getMigrator().up();
   const messaging = await startCommerceMessaging({
@@ -27,10 +34,7 @@ async function bootstrap() {
   });
   app.enableShutdownHooks();
   await app.init();
-  const sseHandler = createCommerceSseHandler(
-    app.get(GraphQLSchemaHost).schema,
-  );
-  app.getHttpAdapter().getInstance().all('/graphql/stream', sseHandler);
+  activateSse(createCommerceSseHandler(app.get(GraphQLSchemaHost).schema));
   await app.listen(Number(process.env.PORT ?? 3000));
   app.getHttpServer().once('close', () => void messaging.close());
 }
