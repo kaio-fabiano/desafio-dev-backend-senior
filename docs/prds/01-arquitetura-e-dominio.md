@@ -1,108 +1,139 @@
 # PRD 01 — Architecture and domain
 
+## Expected outcome
+
+The platform converges on the five deployable applications fixed by
+[ADR 007](../adrs/007-federated-platform-boundaries.md). Each process has one
+business responsibility, native products keep authority over their data, and
+framework code stays outside domain and application code.
+
 ## Principles
 
-- The domain does not depend on NestJS, GraphQL, an ORM, or RabbitMQ.
-- Each context owns its data; integration crosses ports or events.
-- Federated IDs are stable and do not expose fragile internal keys.
-- Reuse WordPress, WooCommerce, WPGraphQL, and existing plugin capabilities
-  first; custom code covers only a gap demonstrated by a PoC.
-- Local writes and event publication use a transactional outbox.
-- Consumers are idempotent by `eventId` and business key.
-- The gateway authenticates; each subgraph also authorizes sensitive operations.
+- Domain and application code do not depend on NestJS, Spring configuration,
+  GraphQL, persistence adapters, WordPress clients, or messaging clients.
+- Each bounded context owns its data and exposes it through an explicit port,
+  versioned contract, or federated entity reference.
+- Better Auth owns users, accounts, sessions, and OAuth persistence.
+- WordPress/WooCommerce owns products, carts, orders, customers, and inventory.
+- Payment owns payment invariants, idempotent commands, and payment read views.
+- The gateway authenticates and propagates identity; every owning federation
+  independently enforces scope and ownership for sensitive operations.
+- Existing framework and product capabilities are selected before custom code.
 
-## Proposed bounded contexts
+## Bounded contexts
 
-| Context | Responsibility | Entities/aggregates | Proposed persistence |
-|---|---|---|---|
-| Identity | user, session, OAuth, WordPress link | User, Account, OAuthClient, SupplierCompany | PostgreSQL; Better Auth owns its tables, while MikroORM owns first-party tables |
-| Federated WordPress | commercial catalog and orders, with native WPGraphQL/WooGraphQL capabilities | Product, Category, Order, OrderItem | WordPress/MySQL is the authoritative source |
-| Commerce | idempotency, journey orchestration, saga, and stream | Cart or reference to the Woo cart, CheckoutOperation, OrderWorkflow | PostgreSQL through MikroORM, without duplicating the full commercial order |
-| Payment | idempotent charging and compensation | Payment, PaymentAttempt, InboxRecord | dedicated PostgreSQL, separate runtime |
-| Inventory | reservation and release in WooCommerce | StockReservation | local inbox + WooCommerce |
-| Edge/MCP | composition, auth, transports, and tools | no persistent domain | stateless |
+| Context    | Responsibility                                                              | Authoritative state                                      | Runtime                |
+| ---------- | --------------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------- |
+| Identity   | Authentication, OAuth, registration, sessions, and identity graph fields    | Better Auth schema in PostgreSQL                         | Identity Federation    |
+| Commercial | Catalog, cart, checkout, orders, customers, stock, and order transitions    | WordPress/WooCommerce in MySQL                           | WordPress Federation   |
+| Payment    | Authorization, Pix generation, compensation, idempotency, and payment views | Payment aggregate and dedicated projection in PostgreSQL | Payment Federation     |
+| Edge       | Authenticated graph composition and MCP operations                          | No domain persistence                                    | Gateway and Apollo MCP |
 
-## Proposed Nx apps
+The end-to-end project is part of the Nx graph but not deployed. WordPress
+bootstrap, plugins, and fixtures are support assets rather than another runtime.
+
+## Target Nx applications
 
 ```text
 apps/
-├── gateway/                 NestJS, auth, and supergraph entry point
-├── identity-subgraph/       Better Auth + User/Supplier
-├── commerce-subgraph/       checkout, saga workflow + subscription
-├── catalog-subgraph/        minimum fallback, only if the WP plugin fails in the PoC
-├── stock-worker/            reservation/compensation
-├── apollo-mcp/              configuration and allowed operations
-├── payment-processor/       Java 21 + Spring Boot + Gradle
-└── e2e/                     Vitest + Testcontainers
+├── apollo-mcp/              authenticated MCP operations through Gateway
+├── gateway/                 authenticated query/mutation federation edge
+├── identity-subgraph/       Identity Federation with Better Auth
+├── payment-processor/       Payment Federation with Java 21 and Spring Boot
+├── wordpress-federation/    thin WPGraphQL/WooGraphQL and SSE boundary
+└── e2e/                     non-deployable Vitest/Testcontainers project
 ```
 
-WordPress, RabbitMQ, and databases are infrastructure services; they do not need
-to be represented as TypeScript apps. The Java processor is registered in the
-same Nx project graph through `@nx/gradle`, with cacheable `build`, `test`, and
-`docker` targets.
+`apps/commerce-subgraph` and `apps/stock-worker` are retired after replacement
+acceptance tests pass. `apps/wordpress-integration` retains only reproducible
+WordPress infrastructure assets and is not a deployable Nx application.
 
-## Proposed Nx libs
+## Target libraries
 
 ```text
 libs/
-├── contracts/graphql/       SDL, registered operations, and composition
-├── contracts/events/        versioned event envelopes and schemas
-├── auth/nest/               guards/context without containing the AS
-├── observability/           logging, metrics, and trace propagation
-├── testing/                 fixtures, clients, and call counters
-├── identity/{domain,application,infrastructure}
-├── commerce/{domain,application,infrastructure}
-└── catalog/{domain,application,infrastructure}
+├── contracts/graphql/       versioned SDL, operations, and composition input
+├── platform/nest/           providers proven reusable by two or more runtimes
+├── gateway/nest/            Gateway edge providers and authenticated data source
+├── identity/nest/           Better Auth factories, registration, and resolvers
+└── wordpress/nest/          WPGraphQL delegation and subscription providers
 ```
 
-Nx tags must prevent `domain -> infrastructure` dependencies, direct access from
-one context to another's persistence, and imports of apps by libs.
+Payment keeps its domain, application command/query handlers, GraphQL adapter,
+and Spring configuration in its Gradle project. A library is not created solely
+to mirror the directory structure used by another language or context.
 
-## Synchronous and asynchronous flow
+## Dependency direction
+
+```text
+composition -> adapters -> application -> domain
+                         -> versioned contracts
+```
+
+- Domain imports no framework or adapter.
+- Application imports domain and declared ports, not concrete infrastructure.
+- Adapters implement ports and may use GraphQL, persistence, WordPress, or a
+  framework API.
+- Composition modules bind adapters and lifecycle resources through dependency
+  injection.
+- Cross-context code uses contracts or federated references, never another
+  context's adapter, internal service, or database.
+
+Nx tags and source-level architecture tests both enforce these rules. Tags
+protect project-to-project edges; source tests catch forbidden dependencies
+inside mixed-language projects.
+
+## Runtime flow
 
 ```mermaid
 flowchart LR
   Client --> Gateway
-  MCP --> Gateway
-  Gateway --> Identity
-  Gateway --> Commerce
-  Gateway --> Woo[Federated WordPress]
-  Commerce --> CommerceDB[(Commerce DB)]
-  CommerceDB --> Outbox[Outbox publisher]
-  Outbox --> Rabbit[(RabbitMQ)]
-  Rabbit --> Payment[Payment processor]
-  Rabbit --> Stock[Stock worker]
-  Payment --> Rabbit
-  Stock --> Woo[WooCommerce]
-  Stock --> Rabbit
-  Rabbit --> Commerce
-  Commerce --> SSE[graphql-sse stream]
-  SSE --> Client
+  MCP[Apollo MCP] --> Gateway
+  Gateway --> Identity[Identity Federation]
+  Gateway --> Payment[Payment Federation]
+  Gateway --> WordPress[WordPress Federation]
+  Identity --> BetterAuth[(Better Auth PostgreSQL)]
+  Payment --> PaymentDB[(Payment PostgreSQL)]
+  WordPress --> Woo[(WordPress / WooCommerce)]
+  Client --> SSE[WordPress Federation graphql-sse]
+  SSE --> WordPress
 ```
+
+The Gateway does not proxy the SSE stream and owns no catalog, order, or
+commerce client. WordPress Federation delegates commercial graph operations to
+native WPGraphQL/WooGraphQL behavior. Payment Federation exposes its own graph
+fields and commands; it never writes WooCommerce storage directly.
 
 ## Data and consistency
 
-- A local transaction reserves `(userId, operationKey)`, creates the workflow,
-  and writes the outbox; the commercial order remains in WooCommerce.
-- Because the remote Woo write does not participate in the PostgreSQL transaction,
-  the adapter uses an idempotent reference and a reconciler resumes pending operations.
-- The publisher marks the outbox as sent only after broker confirmation.
-- Each consumer writes the `eventId` to the inbox in the same transaction as the effect.
-- Order state is monotonic: old/duplicate events do not regress status.
-- The initial result is reused on retries with the same key; an incompatible payload
-  with an already-used key must fail with a deterministic conflict.
+- Better Auth APIs and models are the only access path to Better Auth records.
+- WooCommerce identifiers are stable commercial references in the graph.
+- A payment command uses an operation key and canonical request hash. Duplicate
+  or concurrent execution persists one effect and returns an equivalent view.
+- Payment state changes and their dedicated read representation commit in the
+  transaction defined by the Payment application handler.
+- Native WooCommerce behavior owns cart, checkout, inventory, and commercial
+  order transitions. A missing capability requires a failing compatibility
+  test before custom plugin or adapter code is added.
+- No cross-database transaction is implied by federation. Reconciliation, if a
+  demonstrated scenario needs it, belongs to a specific owner use case rather
+  than a generic platform saga.
 
-## Proposed, still reversible decisions
+## Deliberate omissions
 
-- PostgreSQL for identity, commerce, and payment, with separate databases.
-- MikroORM for first-party NestJS persistence, repositories, transactions, and
-  migrations. Better Auth remains the sole owner of its internal schema and adapter.
-- Java 21 and Spring Boot for the payment processor, built with Gradle and integrated
-  into the Nx task graph through `@nx/gradle`.
-- Direct participation by WordPress in the supergraph with
-  `wp-graphql-federations`; a minimal NestJS adapter/wrapper is only a fallback
-  for proven composition, authorization, or batching gaps.
-- Versioned topic exchange (`marketplace.events.v1`) with semantic routing keys.
+There is no generic DDD framework, base repository, application-wide base
+service, distributed command bus, event sourcing platform, Commerce database,
+Stock worker, or Identity MikroORM model. RabbitMQ and a transactional outbox
+are not retained without a proven asynchronous requirement. These omissions
+reduce competing sources of truth and keep framework composition reviewable.
 
-See [risks and decisions](08-riscos-e-decisoes-pendentes.md) before committing
-these proposals to code.
+## Executable evidence
+
+- `test/federated-platform-refactor.test.mjs` locks the runtime inventory from
+  ADR 007; the integration task later compares it with the Nx project graph.
+- `test/architecture-boundaries.test.mjs` scans domain and application imports
+  and validates the documented inward dependency matrix.
+- Focused Identity, Gateway, Payment, WordPress, and subscription tests prove
+  provider composition and context ownership as those runtimes are refactored.
+- `quality:nx`, Rover composition, and the end-to-end project remain final gates;
+  documentation tests do not substitute for build or behavior evidence.
