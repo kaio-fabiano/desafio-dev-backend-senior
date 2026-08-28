@@ -43,21 +43,21 @@ export function createWooInventoryAdapter({
   };
 
   async function get(id: string): Promise<WooProduct> {
-    const response = await request(product(id), {
+    const response = await withDeadline(request(product(id), {
       headers,
       signal: AbortSignal.timeout(10_000),
-    });
+    }));
     if (!response.ok) throw new WooInventoryRequestError(response.status);
     return (await response.json()) as WooProduct;
   }
 
   async function set(id: string, quantity: number): Promise<void> {
-    const response = await request(product(id), {
+    const response = await withDeadline(request(product(id), {
       method: 'PUT',
       headers,
       body: JSON.stringify({ stock_quantity: quantity }),
       signal: AbortSignal.timeout(10_000),
-    });
+    }));
     if (!response.ok) throw new WooInventoryRequestError(response.status);
   }
 
@@ -92,4 +92,18 @@ export function createWooInventoryAdapter({
       }
     },
   };
+}
+
+function withDeadline<T>(operation: Promise<T>): Promise<T> {
+  let timer: ReturnType<typeof setTimeout>;
+  const result = Promise.race([
+    operation,
+    new Promise<never>((_, reject) =>
+      timer = setTimeout(
+        () => reject(new Error('WooCommerce inventory request timed out')),
+        10_000,
+      ),
+    ),
+  ]);
+  return result.finally(() => clearTimeout(timer));
 }
