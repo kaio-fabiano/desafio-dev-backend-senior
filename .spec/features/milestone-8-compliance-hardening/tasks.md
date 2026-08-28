@@ -71,3 +71,10 @@
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notes: Let pnpm/action-setup read the root packageManager field instead of declaring a conflicting workflow version.
+
+## T-064 — Generate SST globals before offline validation [concluida]
+- Refs: US-044, AC-088
+- Arquivos: .github/workflows/ci.yml, test/milestone-7-sst.test.mjs, test/milestone-8-offline-infra.test.mjs, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/verification/milestone-8-compliance-hardening.json
+- Modelo: gpt-5.6-terra
+- Esforço: medio
+- Notes: Run the existing non-deploying SST validation script so provider globals exist before TypeScript checks; keep diff and deploy outside pull-request CI.

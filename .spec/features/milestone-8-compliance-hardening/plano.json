@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-milestone-8-compliance-hardening-mtd972ys",
+  "runId": "desafio-dev-backend-senior-milestone-8-compliance-hardening-mtdbg59a",
   "feature": "milestone-8-compliance-hardening",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
-  "modeloForcado": "gpt-5.6-luna",
-  "esforcoForcado": "low",
-  "geradoEm": "2026-08-28 17:56",
+  "modeloForcado": "gpt-5.6-terra",
+  "esforcoForcado": "medium",
+  "geradoEm": "2026-08-28 18:59",
   "branchTrabalho": "spec/milestone-8-compliance-hardening",
   "baseDir": ".spec/features/milestone-8-compliance-hardening",
   "specDir": ".spec",
@@ -16,21 +16,19 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-063",
-      "titulo": "Use one pinned pnpm version in automation",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
+      "id": "T-064",
+      "titulo": "Generate SST globals before offline validation",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
       "arquivos": [
         ".github/workflows/ci.yml",
-        ".github/workflows/deploy.yml",
+        "test/milestone-7-sst.test.mjs",
         "test/milestone-8-offline-infra.test.mjs",
         ".spec/features/milestone-8-compliance-hardening/tasks.md",
         ".spec/verification/milestone-8-compliance-hardening.json"
       ],
       "refs": [
-        "US-043",
         "US-044",
-        "AC-085",
         "AC-088"
       ]
     }
@@ -44,7 +42,10 @@
     "T-058",
     "T-059",
     "T-060",
-    "T-062"
+    "T-062",
+    "T-063"
   ],
-  "avisos": []
+  "avisos": [
+    "T-064 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
 }

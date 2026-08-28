@@ -1,20 +1,24 @@
 # Plano de execução — milestone-8-compliance-hardening
 
-> gerado por `onp-spec plano` em 2026-08-28 17:56 — NÃO edite à mão;
-> mudou tasks.md ou a config? Regenere: `onp-spec plano milestone-8-compliance-hardening --sequencial --modelo gpt-5.6-luna --esforco low`
+> gerado por `onp-spec plano` em 2026-08-28 18:59 — NÃO edite à mão;
+> mudou tasks.md ou a config? Regenere: `onp-spec plano milestone-8-compliance-hardening --sequencial --modelo gpt-5.6-terra --esforco medium`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (9 já concluída(s): T-053, T-054, T-055, T-056, T-057, T-058, T-059, T-060, T-062)
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (10 já concluída(s): T-053, T-054, T-055, T-056, T-057, T-058, T-059, T-060, T-062, T-063)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
-- **custo travado pelo usuário**: modelo `gpt-5.6-luna` · esforço `low` em TODAS as tarefas (vence tasks.md e config)
+- **custo travado pelo usuário**: modelo `gpt-5.6-terra` · esforço `medium` em TODAS as tarefas (vence tasks.md e config)
 - tudo acontece na branch de trabalho `spec/milestone-8-compliance-hardening`; levar para a main é decisão sua
+
+### Avisos
+
+- ⚠ T-064 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar
 
 ## Ordem de execução (uma tarefa após a outra)
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-063 | Use one pinned pnpm version in automation | `gpt-5.6-luna` | low |
+| T-064 | Generate SST globals before offline validation | `gpt-5.6-terra` | medium |
 
 ## Gestão de branches e commits
 

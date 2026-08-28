@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-8-compliance-hardening` em 2026-08-28 17:56
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-8-compliance-hardening` em 2026-08-28 18:59
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-8-compliance-hardening-mtd972ys'
+RUN_ID='desafio-dev-backend-senior-milestone-8-compliance-hardening-mtdbg59a'
 FEATURE='milestone-8-compliance-hardening'
 BASE_BRANCH='spec/milestone-8-compliance-hardening'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,35 +168,35 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-063 (ordem do tasks.md) ──
-executar_seq_T_063() {
-  info 'sequencial T-063 — Use one pinned pnpm version in automation'
-  if rodar_tarefa seq 'T-063' 'Você executa UMA tarefa da feature "milestone-8-compliance-hardening" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-064 (ordem do tasks.md) ──
+executar_seq_T_064() {
+  info 'sequencial T-064 — Generate SST globals before offline validation'
+  if rodar_tarefa seq 'T-064' 'Você executa UMA tarefa da feature "milestone-8-compliance-hardening" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/milestone-8-compliance-hardening/spec.md, .spec/features/milestone-8-compliance-hardening/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-063 — "Use one pinned pnpm version in automation"
-  critérios/refs: AC-085 (Build, typecheck, lint, and test are reproducible), AC-088 (AWS validation is offline and deployment is guarded)
-  arquivos permitidos (e seus testes): .github/workflows/ci.yml, .github/workflows/deploy.yml, test/milestone-8-offline-infra.test.mjs, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/verification/milestone-8-compliance-hardening.json
-  mensagem de commit: "T-063 milestone-8-compliance-hardening: Use one pinned pnpm version in automation"
+T-064 — "Generate SST globals before offline validation"
+  critérios/refs: AC-088 (AWS validation is offline and deployment is guarded)
+  arquivos permitidos (e seus testes): .github/workflows/ci.yml, test/milestone-7-sst.test.mjs, test/milestone-8-offline-infra.test.mjs, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/verification/milestone-8-compliance-hardening.json
+  mensagem de commit: "T-064 milestone-8-compliance-hardening: Generate SST globals before offline validation"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-7-delivery-contract.test.mjs test/milestone-7-nx-quality.test.mjs test/milestone-7-containers.test.mjs test/milestone-7-e2e-contract.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs test/milestone-7-sst.test.mjs test/milestone-7-documentation.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-8-*.test.mjs && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-063 milestone-8-compliance-hardening: Use one pinned pnpm version in automation (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-064 milestone-8-compliance-hardening: Generate SST globals before offline validation (auto-commit do plano)'
     fi
-    marcar_concluidas T-063
-    verde "✔ T-063 concluída"
+    marcar_concluidas T-064
+    verde "✔ T-064 concluída"
     return 0
   fi
-  vermelho "✘ T-063 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-8-compliance-hardening/executar-tarefas.sh --seq T-063"
-  FALHAS="$FALHAS T-063"
+  vermelho "✘ T-064 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/milestone-8-compliance-hardening/executar-tarefas.sh --seq T-064"
+  FALHAS="$FALHAS T-064"
   return 1
 }
 
@@ -253,13 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_063 || true
+  executar_seq_T_064 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-063 (sequencial)"
+  echo "  seq       T-064 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -294,7 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-063) evento --tipo inicio --escopo "seq:T-063"; iniciar_resumos; executar_seq_T_063 || true; encerrar "seq:T-063" ;;
+      T-064) evento --tipo inicio --escopo "seq:T-064"; iniciar_resumos; executar_seq_T_064 || true; encerrar "seq:T-064" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

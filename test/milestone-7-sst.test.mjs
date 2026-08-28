@@ -34,10 +34,10 @@ test('AC-076: the stack models protected application resources without inline se
   assert.doesNotMatch(deliveryFiles, /secrets\.(?:AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY)/);
 });
 
-test('AC-076: CI reviews a diff and deploy remains manual, OIDC credentialed, and environment gated @spec:AC-076', () => {
+test('AC-076: CI validates offline and deploy remains manual, OIDC credentialed, and environment gated @spec:AC-076', () => {
   assert.match(ci, /infra-validate:/);
-  assert.match(ci, /pnpm exec tsc --noEmit --project tsconfig\.json/);
-  assert.match(ci, /pnpm install --lockfile=false --ignore-scripts/);
+  assert.match(ci, /pnpm install --ignore-workspace --lockfile=false --ignore-scripts/);
+  assert.match(ci, /pnpm run validate/);
   assert.doesNotMatch(ci, /dangerouslyAllowAllBuilds/);
   assert.doesNotMatch(ci, /infra-diff:|configure-aws-credentials|sst (?:diff|deploy)|pnpm run (?:diff|deploy)/);
 

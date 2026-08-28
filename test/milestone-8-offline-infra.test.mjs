@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [config, infraTsconfig, ci, deploy, runbook, rootPackage] = await Promise.all([
+const [config, infraTsconfig, infraPackage, ci, deploy, runbook, rootPackage] = await Promise.all([
   readFile('infra/sst.config.ts', 'utf8'),
   readFile('infra/tsconfig.json', 'utf8'),
+  readFile('infra/package.json', 'utf8'),
   readFile('.github/workflows/ci.yml', 'utf8'),
   readFile('.github/workflows/deploy.yml', 'utf8'),
   readFile('docs/runbooks/deployment.md', 'utf8'),
@@ -13,8 +14,10 @@ const [config, infraTsconfig, ci, deploy, runbook, rootPackage] = await Promise.
 
 test('AC-088: infrastructure validation is offline @spec:AC-088', () => {
   const infraValidate = ci.slice(ci.indexOf('infra-validate:'));
-  assert.match(infraValidate, /pnpm exec tsc --noEmit --project tsconfig\.json/);
-  assert.doesNotMatch(infraValidate, /sst (install|diff|deploy)/);
+  assert.match(infraValidate, /pnpm install --ignore-workspace --lockfile=false --ignore-scripts/);
+  assert.match(infraValidate, /pnpm run validate/);
+  assert.match(infraPackage, /"validate"\s*:\s*"sst install --stage validation && tsc --noEmit"/);
+  assert.doesNotMatch(infraValidate, /sst (diff|deploy)|pnpm run (diff|deploy)/);
   assert.doesNotMatch(ci, /configure-aws-credentials|id-token:\s*write|pnpm run diff/);
   assert.match(infraTsconfig, /"noEmit"\s*:\s*true/);
   assert.match(config, /new sst\.Secret\(/);

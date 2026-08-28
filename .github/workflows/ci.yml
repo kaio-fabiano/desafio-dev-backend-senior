@@ -69,9 +69,8 @@ jobs:
           node-version: 24
 
       - name: Install pinned infrastructure dependencies
-        run: pnpm install --lockfile=false --ignore-scripts
+        run: pnpm install --ignore-workspace --lockfile=false --ignore-scripts
 
       - name: Validate the SST configuration
-        # Type-check only: SST install/diff can contact AWS and is deliberately
-        # kept out of pull-request CI. Resource changes are reviewed separately.
-        run: pnpm exec tsc --noEmit --project tsconfig.json
+        # Install provider typings before type-checking; this does not diff or deploy resources.
+        run: pnpm run validate
