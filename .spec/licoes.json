@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "proximoId": 6,
+  "proximoId": 7,
   "licoes": [
     {
       "id": "L-001",
@@ -116,6 +116,29 @@
       "penalidades": 0,
       "criadaEm": "2026-08-27T20:42:49.915Z",
       "ultimaVez": "2026-08-27T20:42:49.915Z"
+    },
+    {
+      "id": "L-006",
+      "texto": "When retiring a PoC, update every historical task mapping to the maintained production replacement in the same change.",
+      "chave": "ARQUIVO_INEXISTENTE::when retiring a poc update every historical task mapping to the maintained production replacement in the same change",
+      "sinal": "ARQUIVO_INEXISTENTE",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-8-compliance-hardening"
+      ],
+      "evidencias": [
+        {
+          "fonte": "T-059",
+          "feature": "milestone-8-compliance-hardening",
+          "quando": "2026-08-28T05:09:49.050Z",
+          "gitRev": "cbf6847"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-28T05:09:49.050Z",
+      "ultimaVez": "2026-08-28T05:09:49.050Z"
     }
   ]
 }

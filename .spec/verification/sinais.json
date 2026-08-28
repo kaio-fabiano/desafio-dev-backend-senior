@@ -86,37 +86,37 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "marco-0-pocs",
       "ref": "T-003",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-26T13:32:06.144Z",
-      "ultimaVez": "2026-08-26T13:32:06.248Z",
-      "gitRev": "386b5f5"
+      "ultimaVez": "2026-08-28T04:30:54.993Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::marco-0-pocs::T-004": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "marco-0-pocs",
       "ref": "T-004",
-      "ocorrencias": 64,
+      "ocorrencias": 70,
       "primeiraVez": "2026-08-26T13:32:06.144Z",
-      "ultimaVez": "2026-08-26T14:22:55.440Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-08-28T04:30:54.993Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::marco-0-pocs::T-005": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "marco-0-pocs",
       "ref": "T-005",
-      "ocorrencias": 64,
+      "ocorrencias": 70,
       "primeiraVez": "2026-08-26T13:32:06.144Z",
-      "ultimaVez": "2026-08-26T14:22:55.440Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-08-28T04:30:54.993Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::marco-0-pocs::T-006": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "marco-0-pocs",
       "ref": "T-006",
-      "ocorrencias": 64,
+      "ocorrencias": 70,
       "primeiraVez": "2026-08-26T13:32:06.144Z",
-      "ultimaVez": "2026-08-26T14:22:55.440Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-08-28T04:30:54.993Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::marco-0-pocs::T-007": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 16,
+      "ocorrencias": 18,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 12,
+      "ocorrencias": 14,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-27T22:40:19.925Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -779,10 +779,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-2-identity-catalog",
       "ref": "T-018",
-      "ocorrencias": 6,
+      "ocorrencias": 7,
       "primeiraVez": "2026-08-27T05:16:15.048Z",
-      "ultimaVez": "2026-08-27T05:27:06.132Z",
-      "gitRev": "f2950a7"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::milestone-2-identity-catalog::T-019": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -887,10 +887,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-1-foundation",
       "ref": "—",
-      "ocorrencias": 10,
+      "ocorrencias": 12,
       "primeiraVez": "2026-08-27T05:27:06.132Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "AC_SEM_PROVA::milestone-2-identity-catalog::AC-024": {
       "codigo": "AC_SEM_PROVA",
@@ -1094,10 +1094,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-3-cart-order",
       "ref": "T-025",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-08-27T14:45:36.383Z",
-      "ultimaVez": "2026-08-27T14:51:10.460Z",
-      "gitRev": "7e8acfb"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::milestone-3-cart-order::T-026": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1283,19 +1283,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-2-identity-catalog",
       "ref": "—",
-      "ocorrencias": 9,
+      "ocorrencias": 11,
       "primeiraVez": "2026-08-27T15:22:41.051Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "VERIFY_OBSOLETO::milestone-3-cart-order::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-3-cart-order",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 10,
       "primeiraVez": "2026-08-27T15:43:50.282Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-028": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1364,10 +1364,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-4-payment-inventory-saga",
       "ref": "T-035",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-27T15:43:50.282Z",
-      "ultimaVez": "2026-08-27T15:43:50.282Z",
-      "gitRev": "2b599ba"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "AC_SEM_PROVA::milestone-4-payment-inventory-saga::AC-041": {
       "codigo": "AC_SEM_PROVA",
@@ -1481,10 +1481,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-4-payment-inventory-saga",
       "ref": "—",
-      "ocorrencias": 6,
+      "ocorrencias": 8,
       "primeiraVez": "2026-08-27T17:06:38.293Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-036": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1526,10 +1526,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-5-subscription-sse",
       "ref": "T-040",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T17:06:38.293Z",
-      "ultimaVez": "2026-08-27T17:06:38.293Z",
-      "gitRev": "4dc54a5"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "AC_SEM_PROVA::milestone-5-subscription-sse::AC-053": {
       "codigo": "AC_SEM_PROVA",
@@ -1598,19 +1598,19 @@
       "codigo": "PRINCIPIO_VIOLADO",
       "feature": "—",
       "ref": "P-002",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-27T17:47:29.473Z",
-      "ultimaVez": "2026-08-27T17:47:29.473Z",
-      "gitRev": "39e7886"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "VERIFY_OBSOLETO::milestone-5-subscription-sse::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-5-subscription-sse",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-27T18:04:02.724Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-041": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1634,10 +1634,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-6-apollo-mcp",
       "ref": "T-043",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-27T18:04:02.724Z",
-      "ultimaVez": "2026-08-27T18:04:02.724Z",
-      "gitRev": "8939d79"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-044": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -1652,10 +1652,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-6-apollo-mcp",
       "ref": "T-045",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-27T18:04:02.724Z",
-      "ultimaVez": "2026-08-27T18:04:02.724Z",
-      "gitRev": "8939d79"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "AC_SEM_PROVA::milestone-6-apollo-mcp::AC-060": {
       "codigo": "AC_SEM_PROVA",
@@ -1940,10 +1940,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-7-e2e-deployment",
       "ref": "T-050",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-08-27T19:05:47.962Z",
-      "ultimaVez": "2026-08-27T19:36:27.637Z",
-      "gitRev": "889ec28"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-051": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 2,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2183,10 +2183,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-8-compliance-hardening",
       "ref": "T-053",
-      "ocorrencias": 9,
+      "ocorrencias": 10,
       "primeiraVez": "2026-08-27T22:13:30.303Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-054": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -2237,10 +2237,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-8-compliance-hardening",
       "ref": "T-059",
-      "ocorrencias": 3,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-27T22:13:30.303Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:30:54.994Z",
+      "gitRev": "cbf6847"
     },
     "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-060": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-08-27T22:40:19.926Z",
-      "gitRev": "9921f7d"
+      "ultimaVez": "2026-08-28T04:33:31.131Z",
+      "gitRev": "2bd5912"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",

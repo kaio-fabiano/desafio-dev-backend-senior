@@ -38,6 +38,11 @@ Vistas em uma feature só. Registradas, não confiadas.
 - features: milestone-6-apollo-mcp
 - última evidência: — (milestone-6-apollo-mcp, 2026-08-27T20:42:49.915Z)
 
+### L-006 — When retiring a PoC, update every historical task mapping to the maintained production replacement in the same change.
+- sinal: `ARQUIVO_INEXISTENTE` · recorrência: 1 feature(s) · penalidades: 0
+- features: milestone-8-compliance-hardening
+- última evidência: T-059 (milestone-8-compliance-hardening, 2026-08-28T05:09:49.050Z)
+
 ## Quarentena — aplicadas e falharam, ignorar
 
 A falha recorreu mesmo com a lição aplicada. Revisão é do usuário.
