@@ -103,6 +103,36 @@ test('AC-035: Sequential retries return the original order @spec:AC-035', async 
   assert.equal(events.length, 1);
 });
 
+test('AC-035: Retries ignore volatile catalog fields and cart item order @spec:AC-035', async () => {
+  const { service, remoteCreations } = harness();
+  const priced = {
+    ...command,
+    cartSnapshot: {
+      items: [
+        { id: 42, quantity: 2, name: 'Before', stock_quantity: 7, prices: { price: '995' } },
+        { id: 7, quantity: 1, name: 'Second', stock_quantity: 3, prices: { price: '500' } },
+      ],
+      totals: { total_price: '2490', currency_code: 'USD', currency_minor_unit: 2 },
+      item_count: 3,
+    },
+  };
+  const first = await service.checkout(priced);
+  const retry = await service.checkout({
+    ...priced,
+    cartSnapshot: {
+      items: [
+        { id: 7, quantity: 1, name: 'Renamed', stock_quantity: 2, prices: { price: '500' } },
+        { id: 42, quantity: 2, name: 'After', stock_quantity: 5, prices: { price: '995' } },
+      ],
+      totals: { currency_minor_unit: 2, currency_code: 'USD', total_price: '2490' },
+      item_count: 99,
+    },
+  });
+
+  assert.deepEqual(retry, first);
+  assert.equal(remoteCreations(), 1);
+});
+
 test('AC-036: Concurrent retries create one order @spec:AC-036', async () => {
   const { service, remoteCreations, operations, workflows, events } = harness();
   const results = await Promise.all(
@@ -139,4 +169,23 @@ test('AC-037: Reusing a key for a different command conflicts @spec:AC-037', asy
   );
   assert.equal(remoteCreations(), 1);
   assert.equal(operations.size, 1);
+});
+
+test('AC-037: Product, quantity, price, and payment changes conflict @spec:AC-037', async () => {
+  for (const changed of [
+    { items: [{ id: 43, quantity: 2, prices: { price: '1000' } }] },
+    { items: [{ id: 42, quantity: 3, prices: { price: '1000' } }] },
+    { items: [{ id: 42, quantity: 2, prices: { price: '1200' } }] },
+  ]) {
+    const { service } = harness();
+    const priced = {
+      ...command,
+      cartSnapshot: { items: [{ id: 42, quantity: 2, prices: { price: '1000' } }] },
+    };
+    await service.checkout(priced);
+    await assert.rejects(
+      service.checkout({ ...priced, cartSnapshot: changed }),
+      CheckoutIdempotencyConflictError,
+    );
+  }
 });

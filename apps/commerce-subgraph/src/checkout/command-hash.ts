@@ -33,7 +33,33 @@ function sha256(value: unknown): string {
 }
 
 export function checkoutCommandHash(command: CheckoutCommandData): string {
-  return sha256(command);
+  return sha256({
+    paymentMethod: command.paymentMethod,
+    cartSnapshot: checkoutCart(command.cartSnapshot),
+  });
+}
+
+function checkoutCart(snapshot: unknown): unknown {
+  if (!snapshot || typeof snapshot !== 'object') return snapshot;
+  const items = Reflect.get(snapshot, 'items');
+  return {
+    items: Array.isArray(items)
+      ? items
+          .map((item: unknown) => checkoutItem(item))
+          .sort((left, right) => JSON.stringify(canonicalize(left)).localeCompare(JSON.stringify(canonicalize(right))))
+      : items,
+    totals: Reflect.get(snapshot, 'totals'),
+  };
+}
+
+function checkoutItem(item: unknown): unknown {
+  if (!item || typeof item !== 'object') return item;
+  return {
+    productId: Reflect.get(item, 'id') ?? Reflect.get(item, 'productId'),
+    quantity: Reflect.get(item, 'quantity'),
+    prices: Reflect.get(item, 'prices'),
+    totals: Reflect.get(item, 'totals'),
+  };
 }
 
 export function checkoutWooReference(
