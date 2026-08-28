@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/platform-nest",
+  "projectType": "library",
+  "sourceRoot": "libs/platform/nest/src",
+  "tags": ["type:lib", "scope:platform"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/platform/nest/tsconfig.lib.json"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/platform/nest/tsconfig.lib.json --noEmit"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint libs/platform/nest/src"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --test --test-reporter=tap test/nest-provider-composition.test.mjs"
+      }
+    }
+  }
+}
