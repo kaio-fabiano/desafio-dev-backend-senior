@@ -32,7 +32,6 @@ export class StockWorkerLifecycle {
       consumerKey: requiredEnvironment('WOO_CONSUMER_KEY'),
       consumerSecret: requiredEnvironment('WOO_CONSUMER_SECRET'),
     });
-    await inventory.check(process.env.STOCK_PROBE_PRODUCT_ID ?? '1001');
     const worker = createInventoryWorker({
       inbox: new PostgresInboxRepository(this.database),
       inventory,

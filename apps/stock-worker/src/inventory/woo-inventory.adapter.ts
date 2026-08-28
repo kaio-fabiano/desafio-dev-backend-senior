@@ -5,7 +5,6 @@ type Fetch = (
 
 export type StockItem = { productId: string; quantity: number };
 type WooProduct = { id: number | string; stock_quantity: number | null };
-const resolvedHosts = new Map<string, { address: string; family: 4 | 6 }>();
 
 export class InsufficientStockError extends Error {
   readonly code = 'INSUFFICIENT_STOCK';
@@ -30,10 +29,13 @@ export function createWooInventoryAdapter({
   consumerSecret: string;
   request?: Fetch;
 }) {
+  const agents = {
+    http: new http.Agent({ keepAlive: true, maxSockets: 1 }),
+    https: new https.Agent({ keepAlive: true, maxSockets: 1 }),
+  };
   const headers = {
     authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
     accept: 'application/json',
-    connection: 'close',
     'content-type': 'application/json',
     ...(new URL(endpoint).protocol === 'http:'
       ? { 'x-forwarded-proto': 'https' }
@@ -48,6 +50,7 @@ export function createWooInventoryAdapter({
   async function get(id: string): Promise<WooProduct> {
     logRequest(id, 'get-started');
     const response = await withDeadline(request(product(id), {
+      dispatcher: (product(id).protocol === 'https:' ? agents.https : agents.http) as never,
       headers,
       signal: AbortSignal.timeout(10_000),
     }));
@@ -60,6 +63,7 @@ export function createWooInventoryAdapter({
   async function set(id: string, quantity: number): Promise<void> {
     logRequest(id, 'set-started');
     const response = await withDeadline(request(product(id), {
+      dispatcher: (product(id).protocol === 'https:' ? agents.https : agents.http) as never,
       method: 'PUT',
       headers,
       body: JSON.stringify({ stock_quantity: quantity }),
@@ -110,39 +114,19 @@ async function requestWooCommerce(input: URL, init: RequestInit = {}) {
     (resolve, reject) => {
       const body = typeof init.body === 'string' ? init.body : undefined;
       const transport = input.protocol === 'https:' ? https : http;
-      const resolved = resolvedHosts.get(input.hostname);
       let activeResponse: import('node:http').IncomingMessage | undefined;
       const request = transport.request(
         input,
         {
-          agent: false,
-          ...(resolved
-            ? {
-                lookup: (
-                  _hostname: string,
-                  _options: unknown,
-                  callback: (error: null, address: string, family: number) => void,
-                ) =>
-                  callback(null, resolved.address, resolved.family),
-              }
-            : {}),
+          agent: Reflect.get(init, 'dispatcher') ?? false,
           method: init.method ?? 'GET',
           headers: {
             ...(init.headers as Record<string, string>),
-            connection: 'close',
             ...(body ? { 'content-length': Buffer.byteLength(body) } : {}),
           },
         },
         (response) => {
           activeResponse = response;
-          const address = response.socket.remoteAddress;
-          const family = response.socket.remoteFamily;
-          if (address && (family === 'IPv4' || family === 'IPv6')) {
-            resolvedHosts.set(input.hostname, {
-              address,
-              family: family === 'IPv4' ? 4 : 6,
-            });
-          }
           const chunks: Buffer[] = [];
           response.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
           response.once('end', () => {

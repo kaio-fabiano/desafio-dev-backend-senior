@@ -257,7 +257,7 @@ async function subscribe(
   terminalState: 'COMPLETED' | 'PIX_GENERATED',
   accessToken: string,
 ) {
-  const stream = await fetch(`${environment.gatewayUrl}/graphql/stream`, {
+  const streamPromise = fetch(`${environment.gatewayUrl}/graphql/stream`, {
     method: 'POST',
     headers: {
       accept: 'text/event-stream',
@@ -271,6 +271,7 @@ async function subscribe(
     }),
   });
   return async () => {
+    const stream = await streamPromise;
     if (!stream.ok || !stream.body)
       throw new Error(`Gateway subscription failed with ${stream.status}`);
     const reader = stream.body.getReader();
