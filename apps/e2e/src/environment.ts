@@ -63,17 +63,13 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,
       diagnostics: async () => {
-        const services = [
-          'stock-worker',
-          'commerce-subgraph',
-          'payment-processor',
-        ];
+        const services = ['stock-worker'];
         const serviceLogs = (
           await Promise.all(
             services.map(async (service) => {
               const stream = await environment!
                 .getContainer(`${service}-1`)
-                .logs({ tail: service === 'stock-worker' ? 200 : 40 });
+                .logs({ tail: 200 });
               let logs = '';
               stream.on('data', (chunk) => {
                 logs += chunk.toString();
