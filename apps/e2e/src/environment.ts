@@ -64,16 +64,16 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       isStopped: () => stopped,
       diagnostics: async () => {
         const services = [
+          'stock-worker',
           'commerce-subgraph',
           'payment-processor',
-          'stock-worker',
         ];
         const serviceLogs = (
           await Promise.all(
             services.map(async (service) => {
               const stream = await environment!
                 .getContainer(`${service}-1`)
-                .logs({ tail: 200 });
+                .logs({ tail: service === 'stock-worker' ? 200 : 40 });
               let logs = '';
               stream.on('data', (chunk) => {
                 logs += chunk.toString();
@@ -97,14 +97,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
           ]);
         const rabbit = await environment!
           .getContainer('rabbitmq-1')
-          .exec([
-            'rabbitmqctl',
-            'list_queues',
-            'name',
-            'messages_ready',
-            'messages_unacknowledged',
-            'consumers',
-          ]);
+          .exec(['sh', '-c', 'timeout 5 rabbitmqctl list_queues name messages_ready messages_unacknowledged consumers']);
         return `${serviceLogs}\n--- commerce database ---\n${database.output}\n--- rabbitmq ---\n${rabbit.output}`;
       },
       stop,
