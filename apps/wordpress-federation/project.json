@@ -1,0 +1,27 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/wordpress-federation",
+  "projectType": "application",
+  "sourceRoot": "apps/wordpress-federation/src",
+  "tags": ["type:app", "scope:wordpress"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --check apps/wordpress-federation/src/main.ts"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/wordpress-federation-refactor.test.mjs"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types apps/wordpress-federation/src/main.ts"
+      }
+    }
+  }
+}

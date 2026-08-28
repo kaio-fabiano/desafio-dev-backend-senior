@@ -39,6 +39,10 @@ federation_commit=ac480974ceb6a1680410f955005e060056f150da
 wp plugin install "https://github.com/Manuel-Antunes/wp-graphql-federations/archive/$federation_commit.zip" --force
 wp plugin activate wp-graphql-federations
 
+for plugin in woocommerce wp-graphql wp-graphql-woocommerce wp-graphql-federations; do
+  wp plugin is-active "$plugin"
+done
+
 federation_settings='{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}'
 wp option update wpgraphql_federation_settings "$federation_settings" --format=json
 
@@ -66,4 +70,4 @@ done < <(jq -r '.products[] | [.sku, .name, .price, .owner] | @tsv' "$app_dir/fi
 wp rewrite structure '/%postname%/' --hard >/dev/null
 wp cache flush >/dev/null
 
-echo "Pinned WordPress plugins and fixtures are ready at http://localhost:18080/graphql"
+echo "Pinned WordPress commercial graph and fixtures are ready at http://localhost:18080/graphql"

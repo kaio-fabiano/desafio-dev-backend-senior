@@ -1,11 +1,68 @@
 <?php
 /**
  * Plugin Name: Marketplace Inventory Integration
- * Description: Authenticated atomic-like WooCommerce inventory reservations.
+ * Description: Trusted federation identity and WooCommerce inventory reservations.
  * Version: 1.0.0
  */
 
 defined('ABSPATH') || exit;
+
+add_action('before_woocommerce_init', function () {
+    if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+            'custom_order_tables',
+            __FILE__,
+            true
+        );
+    }
+});
+
+add_filter('determine_current_user', 'marketplace_federation_current_user', 20);
+
+function marketplace_federation_current_user($user_id) {
+    if ($user_id) {
+        return $user_id;
+    }
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+    if ($path !== '/graphql') {
+        return 0;
+    }
+
+    $secret = defined('MARKETPLACE_FEDERATION_SECRET')
+        ? MARKETPLACE_FEDERATION_SECRET
+        : '';
+    $subject = $_SERVER['HTTP_X_MARKETPLACE_SUBJECT'] ?? '';
+    $scopes = $_SERVER['HTTP_X_MARKETPLACE_SCOPES'] ?? '';
+    $timestamp = $_SERVER['HTTP_X_MARKETPLACE_TIMESTAMP'] ?? '';
+    $signature = $_SERVER['HTTP_X_MARKETPLACE_SIGNATURE'] ?? '';
+    if (
+        !$secret
+        || !preg_match('/^[\w.@:-]{1,128}$/', $subject)
+        || !ctype_digit($timestamp)
+        || abs(time() - (int) $timestamp) > 300
+    ) {
+        return 0;
+    }
+
+    $payload = $subject . "\n" . $scopes . "\n" . $timestamp;
+    $expected = hash_hmac('sha256', $payload, $secret);
+    if (!hash_equals($expected, $signature)) {
+        return 0;
+    }
+    $user = ctype_digit($subject)
+        ? get_user_by('id', (int) $subject)
+        : get_user_by('login', $subject);
+    if (!$user) {
+        $users = get_users([
+            'meta_key' => 'better_auth_user_id',
+            'meta_value' => $subject,
+            'number' => 1,
+            'count_total' => false,
+        ]);
+        $user = $users[0] ?? false;
+    }
+    return $user ? $user->ID : 0;
+}
 
 add_filter('option_active_plugins', function ($plugins) {
     $path = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
