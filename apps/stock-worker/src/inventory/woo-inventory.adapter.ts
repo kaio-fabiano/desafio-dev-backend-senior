@@ -26,7 +26,7 @@ export function createWooInventoryAdapter({
   endpoint,
   consumerKey,
   consumerSecret,
-  request = requestWooCommerceInChild,
+  request = requestWooCommerce,
 }: {
   endpoint: string;
   consumerKey: string;
@@ -54,7 +54,7 @@ export function createWooInventoryAdapter({
   };
 }
 
-async function requestWooCommerceInChild(input: URL, init: RequestInit = {}) {
+async function requestWooCommerce(input: URL, init: RequestInit = {}) {
   const target = new URL(input);
   const originalHost = target.host;
   if (!isIP(target.hostname)) {

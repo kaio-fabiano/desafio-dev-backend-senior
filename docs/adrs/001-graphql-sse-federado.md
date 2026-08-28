@@ -30,6 +30,7 @@ Run:
 ```sh
 node test/fixtures/federated-sse-probe.ts
 node --test --test-reporter=tap test/marco-0-sse.test.mjs
+corepack pnpm@10.17.1 exec nx run @desafio-dev-backend-senior/gateway:test
 ```
 
 The probe starts both servers on ephemeral loopback ports, subscribes through

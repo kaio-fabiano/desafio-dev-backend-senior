@@ -22,8 +22,8 @@ test('AC-074: Nx caches cross-language build and test targets @spec:AC-074', asy
   assert.equal(nx.plugins.some(({ plugin }) => plugin === '@nx/gradle'), true);
   assert.deepEqual(nx.targetDefaults.build, { dependsOn: ['^build'], cache: true });
   assert.equal(nx.targetDefaults.test.cache, true);
-  assert.equal(pkg.scripts['quality:nx'], 'nx run-many --target=build,test --all');
-  assert.equal(pkg.scripts['quality:affected'], 'nx affected --target=build,test');
+  assert.equal(pkg.scripts['quality:nx'], 'nx run-many --target=build,typecheck,lint,test --all');
+  assert.equal(pkg.scripts['quality:affected'], 'nx affected --target=build,typecheck,lint,test');
 
   for (const project of definitions) {
     for (const target of ['build', 'test']) {

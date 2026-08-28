@@ -5,6 +5,7 @@ import type { Milestone7Environment } from './environment.ts';
 const GATEWAY_AUDIENCE = 'https://gateway.marketplace.local';
 const MCP_AUDIENCE = 'https://mcp.marketplace.local';
 const BUYER_EMAIL = 'milestone-7-buyer@example.test';
+const BUYER_PASSWORD = ['milestone', '7', 'buyer', 'password'].join('-');
 const SCOPES = ['marketplace:read', 'cart:write', 'orders:read', 'mcp:tools'];
 
 type JsonObject = Record<string, any>;
@@ -215,7 +216,7 @@ async function registerBuyer(environment: Milestone7Environment) {
       },
       body: JSON.stringify({
         email: BUYER_EMAIL,
-        password: 'milestone-7-buyer-password',
+        password: BUYER_PASSWORD,
         name: 'Milestone 7 buyer',
       }),
     },

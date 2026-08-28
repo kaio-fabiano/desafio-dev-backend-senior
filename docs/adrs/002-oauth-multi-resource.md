@@ -42,8 +42,9 @@ PKCE and the same repeated-resource and resource-server validation rules.
 ## Reproduction
 
 ```bash
-pnpm install
+corepack pnpm@10.17.1 install --frozen-lockfile
 node --experimental-transform-types --test --test-reporter=tap test/marco-0-auth.test.mjs
+corepack pnpm@10.17.1 exec nx run @desafio-dev-backend-senior/identity-subgraph:test
 ```
 
 The test target proves criteria AC-011 and AC-012. The probe prints the verified

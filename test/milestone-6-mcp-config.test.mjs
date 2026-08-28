@@ -56,9 +56,9 @@ test('AC-061: Forbidden mutations and arbitrary GraphQL tools stay disabled @spe
 
 test('AC-062: Streamable HTTP rejects invalid MCP authentication at its resource boundary @spec:AC-062', () => {
   assert.match(config, /transport:\n  type: streamable_http/);
-  assert.match(config, /servers:\n      - http:\/\/identity-subgraph:3001\/api\/auth/);
+  assert.match(config, /servers:\n      - http:\/\/identity\.localhost:3001\/api\/auth/);
   assert.match(config, /audiences:\n      - https:\/\/mcp\.marketplace\.local/);
-  assert.match(config, /issuers:\n      - http:\/\/identity-subgraph:3001\/api\/auth/);
+  assert.match(config, /issuers:\n      - http:\/\/identity\.localhost:3001\/api\/auth/);
   assert.match(config, /allow_any_audience: false/);
   assert.match(config, /resource: http:\/\/apollo-mcp:8000\/mcp/);
   assert.match(config, /allow_anonymous_mcp_discovery: false/);

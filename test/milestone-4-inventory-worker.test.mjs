@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { once } from 'node:events';
+import { createServer } from 'node:http';
 import { test } from 'node:test';
 
 import { InventoryService } from '../apps/stock-worker/src/inventory/inventory.service.ts';
@@ -107,22 +108,20 @@ test('AC-047: inventory reservation uses one authenticated batch boundary @spec:
   assert.equal(headers[0]['x-forwarded-proto'], 'https');
 });
 
-test('AC-047: the delivered adapter isolates and completes its HTTP request @spec:AC-047', async (context) => {
-  const server = spawn(process.execPath, ['-e', `
-    require('node:http').createServer((request, response) => {
-      request.resume();
-      request.on('end', () => response.end('{"reserved":true}'));
-    }).listen(0, '127.0.0.1', function () { console.log(this.address().port); });
-  `], { stdio: ['ignore', 'pipe', 'inherit'] });
-  context.after(() => server.kill('SIGTERM'));
-  const port = await new Promise((resolve) =>
-    server.stdout.once('data', (chunk) => resolve(Number(String(chunk).trim()))));
+test('AC-047: the delivered adapter completes its HTTP request @spec:AC-047', async (context) => {
+  const server = createServer((request, response) => {
+    request.resume();
+    request.on('end', () => response.end('{"reserved":true}'));
+  }).listen(0, '127.0.0.1');
+  context.after(() => server.close());
+  await once(server, 'listening');
+  const address = server.address();
+  assert(address && typeof address !== 'string');
   const inventory = createWooInventoryAdapter({
-    endpoint: `http://127.0.0.1:${port}`,
+    endpoint: `http://127.0.0.1:${address.port}`,
     consumerKey: 'key',
     consumerSecret: 'secret',
   });
 
   await inventory.reserve([{ productId: '1001', quantity: 1 }]);
-
 });

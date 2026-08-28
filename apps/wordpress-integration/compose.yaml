@@ -29,6 +29,11 @@ services:
       WORDPRESS_DEBUG: '1'
     ports:
       - '127.0.0.1:18080:80'
+    healthcheck:
+      test: ['CMD', 'curl', '--fail', '--silent', 'http://127.0.0.1/wp-login.php']
+      interval: 2s
+      timeout: 2s
+      retries: 30
     volumes:
       - wordpress-data:/var/www/html
 
@@ -38,7 +43,7 @@ services:
       database:
         condition: service_healthy
       wordpress:
-        condition: service_started
+        condition: service_healthy
     environment:
       WORDPRESS_DB_HOST: database
       WORDPRESS_DB_NAME: wordpress

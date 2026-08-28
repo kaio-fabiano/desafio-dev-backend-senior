@@ -27,7 +27,9 @@ test('AC-045: Compose gives payment its own ready database and consumers close g
   assert.match(compose, /payment-database:\n        condition: service_healthy/);
   assert.match(compose, /stop_grace_period: 35s/);
   assert.match(commerceModule, /onApplicationShutdown[\s\S]*runtime\?\.close/);
-  assert.match(stockModule, /async stop[\s\S]*runtime\?\.close/);
+  assert.match(stockModule, /async stop[\s\S]*consumerBroker\?\.close/);
+  assert.match(stockModule, /async stop[\s\S]*publisherBroker\?\.close/);
+  assert.match(stockModule, /async stop[\s\S]*database\?\.end/);
   assert.match(stockModule, /process\.once\('SIGTERM'/);
   assert.match(paymentDockerfile, /ENTRYPOINT \["java", "-jar", "\/app\/app\.jar"\]/);
   assert.match(stockDockerfile, /CMD \["node", "--experimental-transform-types", "apps\/stock-worker\/src\/app\.module\.ts"\]/);
