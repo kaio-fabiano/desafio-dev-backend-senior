@@ -1,5 +1,4 @@
-import http from 'node:http';
-import https from 'node:https';
+import { spawn } from 'node:child_process';
 
 type Fetch = (
   input: URL,
@@ -24,7 +23,7 @@ export function createWooInventoryAdapter({
   endpoint,
   consumerKey,
   consumerSecret,
-  request = requestWooCommerce,
+  request = requestWooCommerceInChild,
 }: {
   endpoint: string;
   consumerKey: string;
@@ -52,55 +51,50 @@ export function createWooInventoryAdapter({
   };
 }
 
-async function requestWooCommerce(input: URL, init: RequestInit = {}) {
+async function requestWooCommerceInChild(input: URL, init: RequestInit = {}) {
   return new Promise<Pick<Response, 'json' | 'ok' | 'status'>>(
     (resolve, reject) => {
-      const body = typeof init.body === 'string' ? init.body : undefined;
-      const transport = input.protocol === 'https:' ? https : http;
-      let activeResponse: import('node:http').IncomingMessage | undefined;
-      const request = transport.request(
-        input,
-        {
-          agent: Reflect.get(init, 'dispatcher') ?? false,
-          method: init.method ?? 'GET',
-          headers: {
-            ...(init.headers as Record<string, string>),
-            ...(body ? { 'content-length': Buffer.byteLength(body) } : {}),
-          },
-        },
-        (response) => {
-          activeResponse = response;
-          const chunks: Buffer[] = [];
-          response.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
-          response.once('end', () => {
-            finish();
-            const text = Buffer.concat(chunks).toString('utf8');
-            const status = response.statusCode ?? 500;
-            resolve({
-              ok: status >= 200 && status < 300,
-              status,
-              json: async () => JSON.parse(text),
-            });
-          });
-          response.once('error', fail);
-        },
-      );
+      const child = spawn(process.execPath, [
+        '--experimental-transform-types',
+        new URL('./woo-inventory.request.ts', import.meta.url).pathname,
+      ], { stdio: ['pipe', 'pipe', 'pipe'] });
+      const output: Buffer[] = [];
+      const errors: Buffer[] = [];
+      child.stdout.on('data', (chunk) => output.push(Buffer.from(chunk)));
+      child.stderr.on('data', (chunk) => errors.push(Buffer.from(chunk)));
       const deadline = setTimeout(
         () => {
-          const error = new Error('WooCommerce inventory request timed out');
-          activeResponse?.destroy(error);
-          request.destroy(error);
+          child.kill('SIGKILL');
+          reject(new Error('WooCommerce inventory request timed out'));
         },
         10_000,
       );
       const finish = () => clearTimeout(deadline);
-      const fail = (error: Error) => {
+      child.once('error', (error) => {
         finish();
         reject(error);
-      };
-      request.once('error', fail);
-      if (body) request.write(body);
-      request.end();
+      });
+      child.once('close', (code) => {
+        finish();
+        if (code !== 0) {
+          reject(new Error(Buffer.concat(errors).toString('utf8') || `WooCommerce request process exited ${code}`));
+          return;
+        }
+        const { status, body } = JSON.parse(Buffer.concat(output).toString('utf8')) as {
+          status: number; body: string;
+        };
+        resolve({
+          ok: status >= 200 && status < 300,
+          status,
+          json: async () => JSON.parse(body),
+        });
+      });
+      child.stdin.end(JSON.stringify({
+        url: input.toString(),
+        method: init.method ?? 'GET',
+        headers: init.headers,
+        body: typeof init.body === 'string' ? init.body : undefined,
+      }));
     },
   );
 }

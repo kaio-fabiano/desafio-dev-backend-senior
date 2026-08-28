@@ -8,6 +8,9 @@ test('AC-084: WordPress inventory route authenticates, validates, and compensate
     'utf8',
   );
   assert.match(source, /current_user_can\('manage_woocommerce'\)/);
+  assert.match(source, /option_active_plugins/);
+  assert.match(source, /wp-graphql-federations\//);
+  assert.match(source, /\/wp-json\/marketplace\/v1\/inventory\/reserve/);
   assert.match(source, /wc_api_hash\(\$consumer_key\)/);
   assert.match(source, /hash_equals\(\$api_key->consumer_secret, \$consumer_secret\)/);
   assert.match(source, /\['write', 'read_write'\]/);

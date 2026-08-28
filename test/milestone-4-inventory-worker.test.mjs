@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createServer } from 'node:http';
 import { test } from 'node:test';
 
 import { InventoryService } from '../apps/stock-worker/src/inventory/inventory.service.ts';
@@ -104,4 +105,30 @@ test('AC-047: inventory reservation uses one authenticated batch boundary @spec:
   ]);
   assert.equal(headers[0].authorization, 'Basic a2V5OnNlY3JldA==');
   assert.equal(headers[0]['x-forwarded-proto'], 'https');
+});
+
+test('AC-047: the delivered adapter isolates and completes its HTTP request @spec:AC-047', async (context) => {
+  let received;
+  const server = createServer((request, response) => {
+    const chunks = [];
+    request.on('data', (chunk) => chunks.push(chunk));
+    request.on('end', () => {
+      received = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+      response.writeHead(200, { 'content-type': 'application/json' });
+      response.end('{"reserved":true}');
+    });
+  });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  context.after(() => new Promise((resolve) => server.close(resolve)));
+  const address = server.address();
+  assert.equal(typeof address, 'object');
+  const inventory = createWooInventoryAdapter({
+    endpoint: `http://127.0.0.1:${address.port}`,
+    consumerKey: 'key',
+    consumerSecret: 'secret',
+  });
+
+  await inventory.reserve([{ productId: '1001', quantity: 1 }]);
+
+  assert.deepEqual(received, { items: [{ productId: '1001', quantity: 1 }] });
 });

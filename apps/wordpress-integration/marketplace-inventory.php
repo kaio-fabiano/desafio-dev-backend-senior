@@ -7,6 +7,18 @@
 
 defined('ABSPATH') || exit;
 
+add_filter('option_active_plugins', function ($plugins) {
+    $path = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+    if ($path !== '/wp-json/marketplace/v1/inventory/reserve') {
+        return $plugins;
+    }
+    return array_values(array_filter($plugins, function ($plugin) {
+        return !str_starts_with($plugin, 'wp-graphql/')
+            && !str_starts_with($plugin, 'wp-graphql-woocommerce/')
+            && !str_starts_with($plugin, 'wp-graphql-federations/');
+    }));
+}, 1);
+
 add_action('rest_api_init', function () {
     register_rest_route('marketplace/v1', '/inventory/reserve', [
         'methods' => 'POST',
