@@ -7,10 +7,31 @@ type CheckoutOperation @key(fields: "id") {
   status: CheckoutStatus!
 }
 
-extend type Order @key(fields: "wooOrderId") {
-  wooOrderId: ID! @external @shareable
+extend type Order @key(fields: "id") {
+  id: ID! @external
+  wooOrderId: ID! @shareable
+  paymentMethod: PaymentMethod!
   workflow: OrderWorkflow!
   pixCode: String
+}
+
+extend type User @key(fields: "id") {
+  id: ID! @external
+  orders(first: Int, after: String): OrderConnection!
+}
+
+type OrderConnection {
+  edges: [OrderEdge!]!
+  pageInfo: PageInfo!
+}
+
+type OrderEdge {
+  node: Order!
+}
+
+type PageInfo @shareable {
+  hasNextPage: Boolean!
+  endCursor: String
 }
 
 extend type Cart @key(fields: "id") {

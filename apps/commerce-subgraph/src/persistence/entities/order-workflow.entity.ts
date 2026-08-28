@@ -9,6 +9,7 @@ export class OrderWorkflow {
   checkoutOperationId!: string;
   wooOrderId!: string;
   stockItems!: Array<{ productId: string; quantity: number }>;
+  paymentMethod?: 'PIX' | 'CARD';
   state = OrderWorkflowState.Created;
   paymentId?: string;
   pixCode?: string;
@@ -24,6 +25,7 @@ Property({ type: 'uuid', unique: true })(
 );
 Property({ type: 'string', length: 32, unique: true })(OrderWorkflow.prototype, 'wooOrderId');
 Property({ type: 'json' })(OrderWorkflow.prototype, 'stockItems');
+Property({ type: 'string', length: 8, nullable: true })(OrderWorkflow.prototype, 'paymentMethod');
 Property({ type: 'string', length: 32 })(OrderWorkflow.prototype, 'state');
 Property({ type: 'string', length: 255, nullable: true })(OrderWorkflow.prototype, 'paymentId');
 Property({ type: 'text', nullable: true })(OrderWorkflow.prototype, 'pixCode');

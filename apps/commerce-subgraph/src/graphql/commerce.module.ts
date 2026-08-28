@@ -23,12 +23,20 @@ import {
   COMMERCE_OPERATIONS,
   CommerceRuntimeResolver,
   CommerceSubscriptionResolver,
+  CommerceUserResolver,
   type CheckoutInput,
 } from './commerce.resolver.ts';
 
 export const COMMERCE_ORM = Symbol('COMMERCE_ORM');
 export const COMMERCE_ENTITY_MANAGER = Symbol('COMMERCE_ENTITY_MANAGER');
 export const WOO_CART = Symbol('WOO_CART');
+
+export function wooOrderGraphqlId(wooOrderId: string): string {
+  if (!/^[1-9]\d*$/.test(wooOrderId)) {
+    throw new Error('Woo order id must be a positive decimal integer');
+  }
+  return Buffer.from(`post:${wooOrderId}`).toString('base64');
+}
 
 export class CommercePersistenceLifecycle implements OnApplicationShutdown {
   constructor(private readonly orm: MikroORM) {}
@@ -134,12 +142,53 @@ Module({
               }
             );
           },
+          findOrders: async (subject: string, first: number, offset: number) => {
+            const operations = await entityManager.find(
+              CheckoutOperation,
+              { subject, wooOrderId: { $ne: null } },
+              { orderBy: { createdAt: 'desc', id: 'desc' }, limit: first + 1, offset },
+            );
+            const page = operations.slice(0, first);
+            const workflows = page.length
+              ? await entityManager.find(OrderWorkflow, {
+                  checkoutOperationId: { $in: page.map(({ id }) => id) },
+                })
+              : [];
+            const byCheckout = new Map(
+              workflows.map((workflow) => [workflow.checkoutOperationId, workflow]),
+            );
+            return {
+              orders: page.map((operation) => {
+                const workflow = byCheckout.get(operation.id);
+                if (!workflow || !operation.wooOrderId) {
+                  throw new Error('Completed checkout is missing its workflow');
+                }
+                if (!workflow.paymentMethod) {
+                  throw new Error('Completed checkout is missing its payment method');
+                }
+                return {
+                  __typename: 'Order',
+                  id: wooOrderGraphqlId(operation.wooOrderId),
+                  wooOrderId: operation.wooOrderId,
+                  paymentMethod: workflow.paymentMethod,
+                  workflow: { state: workflow.state },
+                  pixCode: workflow.pixCode,
+                };
+              }),
+              hasNextPage: operations.length > first,
+            };
+          },
         };
       },
     },
     {
       provide: CommerceRuntimeResolver,
       useClass: CommerceRuntimeResolver,
+      scope: Scope.REQUEST,
+    },
+    {
+      provide: CommerceUserResolver,
+      useClass: CommerceUserResolver,
       scope: Scope.REQUEST,
     },
     {

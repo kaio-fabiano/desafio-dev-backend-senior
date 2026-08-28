@@ -8,8 +8,12 @@ import {
   COMMERCE_ENTITY_MANAGER,
   CommerceModule,
   commerceRequestContext,
+  wooOrderGraphqlId,
 } from '../apps/commerce-subgraph/src/graphql/commerce.module.ts';
-import { CommerceResolver } from '../apps/commerce-subgraph/src/graphql/commerce.resolver.ts';
+import {
+  CommerceResolver,
+  CommerceUserResolver,
+} from '../apps/commerce-subgraph/src/graphql/commerce.resolver.ts';
 
 test('AC-083: Commerce presentation delegates checkout through configured runtime boundaries @spec:AC-083', async () => {
   const calls = [];
@@ -79,6 +83,51 @@ test('AC-083: Commerce presentation delegates checkout through configured runtim
   assert.match(
     dockerfile,
     /COPY --chown=app:app libs\/contracts\/graphql\/commerce\/schema\.graphql \.\/libs\/contracts\/graphql\/commerce\/schema\.graphql/,
+  );
+});
+
+test('AC-083: User orders are private and loaded in one bounded page @spec:AC-083', async () => {
+  assert.equal(wooOrderGraphqlId('701'), Buffer.from('post:701').toString('base64'));
+  for (const invalid of ['', '0', '-1', '7x']) {
+    assert.throws(() => wooOrderGraphqlId(invalid), /positive decimal integer/);
+  }
+  const calls = [];
+  const resolver = new CommerceUserResolver({
+    async findOrders(subject, first, offset) {
+      calls.push({ subject, first, offset });
+      return {
+        orders: subject === 'buyer-1'
+          ? [{ __typename: 'Order', id: '701', wooOrderId: '701', workflow: { state: 'COMPLETED' } }]
+          : [],
+        hasNextPage: false,
+      };
+    },
+  });
+  const context = { subject: 'buyer-1' };
+
+  assert.deepEqual(await resolver.orders({ id: 'buyer-1' }, context, 20), {
+    edges: [{ node: { __typename: 'Order', id: '701', wooOrderId: '701', workflow: { state: 'COMPLETED' } } }],
+    pageInfo: { hasNextPage: false, endCursor: Buffer.from('1').toString('base64url') },
+  });
+  assert.deepEqual(calls, [{ subject: 'buyer-1', first: 20, offset: 0 }]);
+
+  await assert.rejects(
+    resolver.orders({ id: 'buyer-2' }, context, 20),
+    /User orders are private/,
+  );
+  await assert.rejects(
+    resolver.orders({ id: 'buyer-1' }, { subject: '' }, 20),
+    /Authenticated subject is required/,
+  );
+
+  const empty = new CommerceUserResolver({
+    async findOrders() {
+      return { orders: [], hasNextPage: false };
+    },
+  });
+  assert.deepEqual(
+    await empty.orders({ id: 'buyer-empty' }, { subject: 'buyer-empty' }, 20),
+    { edges: [], pageInfo: { hasNextPage: false, endCursor: null } },
   );
 });
 

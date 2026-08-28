@@ -60,6 +60,8 @@ test('AC-040: Federated me returns orders, workflow, and products @spec:AC-040',
 
   assert.equal(getNamedType(user.orders.type).name, 'OrderConnection');
   assert.equal(getNamedType(order.workflow.type).name, 'OrderWorkflow');
+  assert.match(schemas.commerce, /paymentMethod: PaymentMethod!/);
+  assert.doesNotMatch(schemas.catalog, /paymentMethod:/);
   assert.equal(getNamedType(order.items.type).name, 'OrderItemConnection');
   assert.equal(getNamedType(orderItem.product.type).name, 'Product');
 });

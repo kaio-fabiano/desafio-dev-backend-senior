@@ -28,7 +28,7 @@ function harness() {
       }
       return { operation, created: false };
     },
-    async confirm(operationId, wooOrderId, _stockItems, onConfirmed) {
+    async confirm(operationId, wooOrderId, _stockItems, onConfirmed, paymentMethod) {
       const precedingConfirmation = confirmation;
       let release;
       confirmation = new Promise((resolve) => {
@@ -45,6 +45,7 @@ function harness() {
           id: `workflow-${operationId}`,
           checkoutOperationId: operationId,
           wooOrderId,
+          paymentMethod,
         };
         await onConfirmed({}, workflow);
         workflows.set(operationId, workflow);
@@ -101,6 +102,7 @@ test('AC-035: Sequential retries return the original order @spec:AC-035', async 
   assert.equal(remoteCreations(), 1);
   assert.equal(workflows.size, 1);
   assert.equal(events.length, 1);
+  assert.equal([...workflows.values()][0].paymentMethod, 'card');
 });
 
 test('AC-035: Retries ignore volatile catalog fields and cart item order @spec:AC-035', async () => {

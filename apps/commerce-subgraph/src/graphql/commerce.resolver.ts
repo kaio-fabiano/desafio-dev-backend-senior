@@ -21,6 +21,7 @@ export type CheckoutInput = {
   paymentMethod: 'PIX' | 'CARD';
 };
 type OrderReference = { wooOrderId: string };
+type UserReference = { id: string };
 type CheckoutOperationView = Omit<CheckoutOperation, 'status'> & {
   status: 'PENDING' | 'COMPLETED' | 'FAILED';
 };
@@ -65,8 +66,8 @@ export class CommerceResolver<Cart, Order, Workflow> {
     return this.runCheckout(authenticatedSubject(context), input);
   }
 
-  workflow(order: OrderReference) {
-    return this.findWorkflow(order.wooOrderId);
+  workflow(order: OrderReference & { workflow?: Workflow }) {
+    return order.workflow ?? this.findWorkflow(order.wooOrderId);
   }
 
   checkoutOperation(id: string) {
@@ -141,6 +142,10 @@ export type CommerceOperations<Order, Workflow> = {
   checkout(subject: string, input: CheckoutInput): Promise<Order>;
   findWorkflow(wooOrderId: string): Promise<Workflow | null>;
   findCheckout(id: string): Promise<CheckoutOperationView | null>;
+  findOrders(subject: string, first: number, offset: number): Promise<{
+    orders: Order[];
+    hasNextPage: boolean;
+  }>;
 };
 
 /** Discoverable Nest metatype backed by request-scoped runtime operations. */
@@ -166,6 +171,57 @@ export class CommerceRuntimeResolver<
 Resolver('Order')(CommerceRuntimeResolver);
 Inject(CartService)(CommerceRuntimeResolver, undefined, 0);
 Inject(COMMERCE_OPERATIONS)(CommerceRuntimeResolver, undefined, 1);
+
+export class CommerceUserResolver<Order> {
+  constructor(
+    private readonly operations: Pick<CommerceOperations<Order, unknown>, 'findOrders'>,
+  ) {}
+
+  async orders(
+    user: UserReference,
+    context: AuthContext,
+    first = 20,
+    after?: string,
+  ) {
+    const subject = authenticatedSubject(context);
+    if (user.id !== subject) throw new Error('User orders are private');
+    if (!Number.isSafeInteger(first) || first < 1 || first > 100) {
+      throw new Error('Order page size must be between 1 and 100');
+    }
+    const offset = decodeOffset(after);
+    const page = await this.operations.findOrders(subject, first, offset);
+    return {
+      edges: page.orders.map((node) => ({ node })),
+      pageInfo: {
+        hasNextPage: page.hasNextPage,
+        endCursor: page.orders.length
+          ? Buffer.from(String(offset + page.orders.length)).toString('base64url')
+          : null,
+      },
+    };
+  }
+}
+
+function decodeOffset(cursor?: string): number {
+  if (!cursor) return 0;
+  const offset = Number(Buffer.from(cursor, 'base64url').toString());
+  if (!Number.isSafeInteger(offset) || offset < 0) {
+    throw new Error('Order cursor is invalid');
+  }
+  return offset;
+}
+
+Resolver('User')(CommerceUserResolver);
+Inject(COMMERCE_OPERATIONS)(CommerceUserResolver, undefined, 0);
+Parent()(CommerceUserResolver.prototype, 'orders', 0);
+Context()(CommerceUserResolver.prototype, 'orders', 1);
+Args('first')(CommerceUserResolver.prototype, 'orders', 2);
+Args('after')(CommerceUserResolver.prototype, 'orders', 3);
+ResolveField('orders')(
+  CommerceUserResolver.prototype,
+  'orders',
+  Object.getOwnPropertyDescriptor(CommerceUserResolver.prototype, 'orders')!,
+);
 
 /** Singleton resolver so a subscription outlives the request that opens it. */
 export class CommerceSubscriptionResolver {

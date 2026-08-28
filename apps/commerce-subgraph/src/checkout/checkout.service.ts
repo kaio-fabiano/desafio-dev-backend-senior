@@ -77,6 +77,7 @@ export class CheckoutService {
           order.id,
           command,
         ),
+      command.paymentMethod,
     );
     return { operationId: operation.id, wooOrderId: order.id };
   }

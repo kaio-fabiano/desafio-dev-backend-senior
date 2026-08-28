@@ -35,6 +35,7 @@ export interface CheckoutRepository {
     wooOrderId: string,
     stockItems: readonly { productId: string; quantity: number }[],
     onConfirmed: ConfirmCheckout,
+    paymentMethod?: 'PIX' | 'CARD',
   ): Promise<OrderWorkflow>;
 }
 
@@ -73,6 +74,7 @@ export class MikroOrmCheckoutRepository implements CheckoutRepository {
     wooOrderId: string,
     stockItems: readonly { productId: string; quantity: number }[],
     onConfirmed: ConfirmCheckout,
+    paymentMethod?: 'PIX' | 'CARD',
   ): Promise<OrderWorkflow> {
     return this.entityManager.transactional(async (transaction) => {
       const operation = await transaction.findOneOrFail(
@@ -90,6 +92,7 @@ export class MikroOrmCheckoutRepository implements CheckoutRepository {
         checkoutOperationId: operation.id,
         wooOrderId,
         stockItems,
+        paymentMethod,
         state: OrderWorkflowState.Created,
         createdAt: new Date(),
         updatedAt: new Date(),
