@@ -63,7 +63,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,
       diagnostics: async () => {
-        const services = ['stock-worker'];
+        const services = ['stock-worker', 'wordpress'];
         const serviceLogs = (
           await Promise.all(
             services.map(async (service) => {

@@ -18,6 +18,7 @@ add_action('rest_api_init', function () {
 });
 
 function marketplace_reserve_inventory(WP_REST_Request $request) {
+    error_log('marketplace_inventory received');
     $items = $request->get_json_params()['items'] ?? null;
     if (!is_array($items) || count($items) === 0) {
         return new WP_Error('invalid_items', 'Items must be a non-empty array.', ['status' => 400]);
@@ -39,9 +40,11 @@ function marketplace_reserve_inventory(WP_REST_Request $request) {
     }
 
     $changed = [];
+    error_log('marketplace_inventory validated');
     try {
         foreach ($validated as $entry) {
             wc_update_product_stock($entry['product'], $entry['quantity'], 'decrease');
+            error_log('marketplace_inventory decremented');
             $changed[] = $entry;
         }
     } catch (Throwable $error) {
@@ -51,5 +54,6 @@ function marketplace_reserve_inventory(WP_REST_Request $request) {
         return new WP_Error('reservation_failed', 'Inventory reservation failed and was compensated.', ['status' => 500]);
     }
 
+    error_log('marketplace_inventory completed');
     return new WP_REST_Response(['reserved' => true], 200);
 }
