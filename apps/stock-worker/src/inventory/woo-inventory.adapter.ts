@@ -31,6 +31,8 @@ export function createWooInventoryAdapter({
 }) {
   const headers = {
     authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
+    accept: 'application/json',
+    connection: 'close',
     'content-type': 'application/json',
     ...(new URL(endpoint).protocol === 'http:'
       ? { 'x-forwarded-proto': 'https' }
@@ -43,15 +45,19 @@ export function createWooInventoryAdapter({
   };
 
   async function get(id: string): Promise<WooProduct> {
+    logRequest(id, 'get-started');
     const response = await withDeadline(request(product(id), {
       headers,
       signal: AbortSignal.timeout(10_000),
     }));
     if (!response.ok) throw new WooInventoryRequestError(response.status);
-    return (await response.json()) as WooProduct;
+    const result = (await withDeadline(response.json())) as WooProduct;
+    logRequest(id, 'get-completed');
+    return result;
   }
 
   async function set(id: string, quantity: number): Promise<void> {
+    logRequest(id, 'set-started');
     const response = await withDeadline(request(product(id), {
       method: 'PUT',
       headers,
@@ -59,9 +65,13 @@ export function createWooInventoryAdapter({
       signal: AbortSignal.timeout(10_000),
     }));
     if (!response.ok) throw new WooInventoryRequestError(response.status);
+    logRequest(id, 'set-completed');
   }
 
   return {
+    async check(productId: string): Promise<void> {
+      await get(productId);
+    },
     async reserve(items: StockItem[]): Promise<void> {
       const products = await Promise.all(
         items.map(async (item) => ({
@@ -92,6 +102,10 @@ export function createWooInventoryAdapter({
       }
     },
   };
+}
+
+function logRequest(productId: string, stage: string): void {
+  console.info(JSON.stringify({ component: 'stock-worker', productId, stage }));
 }
 
 function withDeadline<T>(operation: Promise<T>): Promise<T> {

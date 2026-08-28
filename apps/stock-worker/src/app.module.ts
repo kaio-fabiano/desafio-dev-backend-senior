@@ -27,13 +27,15 @@ export class StockWorkerLifecycle {
     const rabbitMqUrl = process.env.RABBITMQ_URL ?? 'amqp://localhost:5672';
     this.consumerBroker = await connectStockBroker(rabbitMqUrl);
     this.publisherBroker = await connectStockBroker(rabbitMqUrl);
+    const inventory = createWooInventoryAdapter({
+      endpoint: process.env.WOO_URL ?? 'http://localhost:8080',
+      consumerKey: requiredEnvironment('WOO_CONSUMER_KEY'),
+      consumerSecret: requiredEnvironment('WOO_CONSUMER_SECRET'),
+    });
+    await inventory.check(process.env.STOCK_PROBE_PRODUCT_ID ?? '1001');
     const worker = createInventoryWorker({
       inbox: new PostgresInboxRepository(this.database),
-      inventory: createWooInventoryAdapter({
-        endpoint: process.env.WOO_URL ?? 'http://localhost:8080',
-        consumerKey: requiredEnvironment('WOO_CONSUMER_KEY'),
-        consumerSecret: requiredEnvironment('WOO_CONSUMER_SECRET'),
-      }),
+      inventory,
       publisher: {
         publish: (event) =>
           publishInventory(this.publisherBroker!.channel, event),
