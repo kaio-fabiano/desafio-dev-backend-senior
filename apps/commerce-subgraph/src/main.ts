@@ -1,11 +1,13 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import type { MikroORM } from '@mikro-orm/core';
+import { GraphQLSchemaHost } from '@nestjs/graphql';
 
 import { AppModule } from './app.module.ts';
 import { COMMERCE_ORM } from './graphql/commerce.module.ts';
 import { OrderEventBroker } from './subscriptions/order-event-broker.ts';
 import { startCommerceMessaging } from './messaging/commerce-messaging.runtime.ts';
+import { createCommerceSseHandler } from './subscriptions/sse-handler.ts';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +22,11 @@ async function bootstrap() {
     consumerSecret: process.env.WOO_CONSUMER_SECRET ?? '',
   });
   app.enableShutdownHooks();
+  await app.init();
+  const sseHandler = createCommerceSseHandler(
+    app.get(GraphQLSchemaHost).schema,
+  );
+  app.getHttpAdapter().getInstance().all('/graphql/stream', sseHandler);
   await app.listen(Number(process.env.PORT ?? 3000));
   app.getHttpServer().once('close', () => void messaging.close());
 }

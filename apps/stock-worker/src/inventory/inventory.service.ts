@@ -38,13 +38,17 @@ export class InventoryService {
     const previous = await this.inbox.find(command.eventId);
     if (previous) return { result: previous, duplicate: true };
 
+    logStage(command.eventId, 'reserving');
     const result = await this.reserve(command);
+    logStage(command.eventId, 'reserved');
     if (!(await this.inbox.record(command.eventId, result))) {
       const stored = await this.inbox.find(command.eventId);
       if (stored) return { result: stored, duplicate: true };
       throw new Error('Inventory inbox record was not persisted');
     }
+    logStage(command.eventId, 'persisted');
     await this.publisher.publish(result);
+    logStage(command.eventId, 'published');
     return { result, duplicate: false };
   }
 
@@ -65,4 +69,8 @@ export class InventoryService {
       };
     }
   }
+}
+
+function logStage(eventId: string, stage: string): void {
+  console.info(JSON.stringify({ component: 'stock-worker', eventId, stage }));
 }

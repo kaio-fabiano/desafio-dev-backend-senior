@@ -1,6 +1,3 @@
-import http from 'node:http';
-import https from 'node:https';
-
 type Fetch = (
   input: URL,
   init?: RequestInit,
@@ -25,7 +22,7 @@ export function createWooInventoryAdapter({
   endpoint,
   consumerKey,
   consumerSecret,
-  request = requestWooCommerce,
+  request = fetch,
 }: {
   endpoint: string;
   consumerKey: string;
@@ -43,7 +40,10 @@ export function createWooInventoryAdapter({
     new URL(`/wp-json/wc/v3/products/${id}`, endpoint);
 
   async function get(id: string): Promise<WooProduct> {
-    const response = await request(product(id), { headers });
+    const response = await request(product(id), {
+      headers,
+      signal: AbortSignal.timeout(10_000),
+    });
     if (!response.ok) throw new WooInventoryRequestError(response.status);
     return (await response.json()) as WooProduct;
   }
@@ -53,6 +53,7 @@ export function createWooInventoryAdapter({
       method: 'PUT',
       headers,
       body: JSON.stringify({ stock_quantity: quantity }),
+      signal: AbortSignal.timeout(10_000),
     });
     if (!response.ok) throw new WooInventoryRequestError(response.status);
   }
@@ -88,47 +89,4 @@ export function createWooInventoryAdapter({
       }
     },
   };
-}
-
-async function requestWooCommerce(input: URL, init: RequestInit = {}) {
-  return new Promise<Pick<Response, 'json' | 'ok' | 'status'>>(
-    (resolve, reject) => {
-      const transport = input.protocol === 'https:' ? https : http;
-      const body = typeof init.body === 'string' ? init.body : undefined;
-      const request = transport.request(
-        input,
-        {
-          method: init.method ?? 'GET',
-          headers: {
-            ...(init.headers as Record<string, string>),
-            ...(body ? { 'content-length': Buffer.byteLength(body) } : {}),
-          },
-        },
-        (response) => {
-          const chunks: Buffer[] = [];
-          response.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
-          response.once('end', () => {
-            clearTimeout(deadline);
-            const body = Buffer.concat(chunks).toString('utf8');
-            const status = response.statusCode ?? 500;
-            resolve({
-              ok: status >= 200 && status < 300,
-              status,
-              json: async () => JSON.parse(body),
-            });
-          });
-        },
-      );
-      const deadline = setTimeout(
-        () => request.destroy(new Error('WooCommerce inventory request timed out')),
-        10_000,
-      );
-      request.once('error', (error) => {
-        clearTimeout(deadline);
-        reject(error);
-      });
-      if (body) request.write(body);
-      request.end();
-    },
-  );
 }

@@ -10,7 +10,7 @@ spring:
         acknowledge-mode: manual
         prefetch: 10
         default-requeue-rejected: false
-    publisher-confirm-type: correlated
+    publisher-confirm-type: simple
     publisher-returns: true
 server:
   shutdown: graceful
