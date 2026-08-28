@@ -73,8 +73,8 @@ test('AC-047: Insufficient stock requests compensation @spec:AC-047', async () =
   assert.equal(published.length, 1);
 });
 
-test('AC-047: Insufficient stock leaves every WooCommerce quantity untouched @spec:AC-047', async () => {
-  const writes = [];
+test('AC-047: inventory reservation uses one authenticated batch boundary @spec:AC-047', async () => {
+  const requests = [];
   const headers = [];
   const inventory = createWooInventoryAdapter({
     endpoint: 'http://woo.test',
@@ -82,12 +82,10 @@ test('AC-047: Insufficient stock leaves every WooCommerce quantity untouched @sp
     consumerSecret: 'secret',
     async request(url, options = {}) {
       headers.push(options.headers);
-      if (options.method === 'PUT') writes.push([String(url), options.body]);
-      const id = String(url).split('/').at(-1);
-      return new Response(
-        JSON.stringify({ id, stock_quantity: id === 'first' ? 3 : 1 }),
-        { status: 200 },
-      );
+      requests.push([String(url), options]);
+      return new Response(JSON.stringify({ code: 'insufficient_stock' }), {
+        status: 409,
+      });
     },
   });
 
@@ -98,7 +96,12 @@ test('AC-047: Insufficient stock leaves every WooCommerce quantity untouched @sp
     ]),
     InsufficientStockError,
   );
-  assert.deepEqual(writes, []);
+  assert.equal(requests.length, 1);
+  assert.match(requests[0][0], /marketplace\/v1\/inventory\/reserve$/);
+  assert.deepEqual(JSON.parse(requests[0][1].body).items, [
+    { productId: 'first', quantity: 2 },
+    { productId: 'second', quantity: 2 },
+  ]);
   assert.equal(headers[0].authorization, 'Basic a2V5OnNlY3JldA==');
   assert.equal(headers[0]['x-forwarded-proto'], 'https');
 });
