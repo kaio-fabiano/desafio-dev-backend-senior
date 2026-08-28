@@ -1,0 +1,41 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key"])
+
+type Payment @key(fields: "id") {
+  id: ID!
+  operationKey: ID!
+  orderId: ID!
+  method: PaymentMethod!
+  amount: Float!
+  currency: String!
+  status: PaymentStatus!
+  pixCode: String
+}
+
+input AuthorizePaymentInput {
+  operationKey: ID!
+  paymentId: ID!
+  orderId: ID!
+  method: PaymentMethod!
+  amount: Float!
+  currency: String!
+}
+
+enum PaymentMethod {
+  CARD
+  PIX
+}
+
+enum PaymentStatus {
+  AUTHORIZED
+  PIX_GENERATED
+  REFUNDED
+}
+
+type Query {
+  payment(id: ID!): Payment
+}
+
+type Mutation {
+  authorizePayment(input: AuthorizePaymentInput!): Payment!
+}
