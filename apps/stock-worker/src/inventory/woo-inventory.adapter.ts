@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 
 type Fetch = (
   input: URL,
@@ -52,51 +52,39 @@ export function createWooInventoryAdapter({
 }
 
 async function requestWooCommerceInChild(input: URL, init: RequestInit = {}) {
-  return new Promise<Pick<Response, 'json' | 'ok' | 'status'>>(
-    (resolve, reject) => {
-      const child = spawn(process.execPath, [
-        '--experimental-transform-types',
-        new URL('./woo-inventory.request.ts', import.meta.url).pathname,
-      ], { stdio: ['pipe', 'pipe', 'pipe'] });
-      const output: Buffer[] = [];
-      const errors: Buffer[] = [];
-      child.stdout.on('data', (chunk) => output.push(Buffer.from(chunk)));
-      child.stderr.on('data', (chunk) => errors.push(Buffer.from(chunk)));
-      const deadline = setTimeout(
-        () => {
-          child.kill('SIGKILL');
-          reject(new Error('WooCommerce inventory request timed out'));
-        },
-        10_000,
-      );
-      const finish = () => clearTimeout(deadline);
-      child.once('error', (error) => {
-        finish();
-        reject(error);
-      });
-      child.once('close', (code) => {
-        finish();
-        if (code !== 0) {
-          reject(new Error(Buffer.concat(errors).toString('utf8') || `WooCommerce request process exited ${code}`));
-          return;
-        }
-        const { status, body } = JSON.parse(Buffer.concat(output).toString('utf8')) as {
-          status: number; body: string;
-        };
-        resolve({
-          ok: status >= 200 && status < 300,
-          status,
-          json: async () => JSON.parse(body),
-        });
-      });
-      child.stdin.end(JSON.stringify({
-        url: input.toString(),
-        method: init.method ?? 'GET',
-        headers: init.headers,
-        body: typeof init.body === 'string' ? init.body : undefined,
-      }));
-    },
-  );
+  const headers = Object.entries(init.headers as Record<string, string>)
+    .map(([name, value]) => `header = ${JSON.stringify(`${name}: ${value}`)}`);
+  const config = [
+    'max-time = 8',
+    `request = ${JSON.stringify(init.method ?? 'GET')}`,
+    `url = ${JSON.stringify(input.toString())}`,
+    ...headers,
+    'header = "connection: close"',
+    ...(typeof init.body === 'string'
+      ? [`data = ${JSON.stringify(init.body)}`]
+      : []),
+    'write-out = "\\n%{http_code}"',
+  ].join('\n');
+  // ponytail: replace the synchronous curl boundary when the container Node
+  // runtime no longer freezes its event loop while collecting child output.
+  let result: string;
+  try {
+    result = execFileSync('curl', [
+      '--silent', '--show-error', '--fail-with-body', '--config', '-',
+    ], { input: config, timeout: 10_000, maxBuffer: 1_048_576, encoding: 'utf8' });
+  } catch (error) {
+    const output = Reflect.get(error as object, 'stdout');
+    if (typeof output !== 'string' || !output.includes('\n')) throw error;
+    result = output;
+  }
+  const boundary = result.lastIndexOf('\n');
+  const body = result.slice(0, boundary);
+  const status = Number(result.slice(boundary + 1));
+  return {
+    ok: status >= 200 && status < 300,
+    status,
+    json: async () => JSON.parse(body),
+  };
 }
 
 

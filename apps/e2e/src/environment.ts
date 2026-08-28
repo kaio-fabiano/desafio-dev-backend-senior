@@ -94,7 +94,10 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
         const rabbit = await environment!
           .getContainer('rabbitmq-1')
           .exec(['sh', '-c', 'timeout 5 rabbitmqctl list_queues name messages_ready messages_unacknowledged consumers']);
-        return `${serviceLogs}\n--- commerce database ---\n${database.output}\n--- rabbitmq ---\n${rabbit.output}`;
+        const stockProcesses = await environment!
+          .getContainer('stock-worker-1')
+          .exec(['sh', '-c', "sha256sum apps/stock-worker/src/inventory/woo-inventory.adapter.ts; for process in /proc/[0-9]*; do printf '%s ' \"$process\"; tr '\\0' ' ' < \"$process/cmdline\" 2>/dev/null || true; echo; done"]);
+        return `${serviceLogs}\n--- stock image and processes ---\n${stockProcesses.output}\n--- commerce database ---\n${database.output}\n--- rabbitmq ---\n${rabbit.output}`;
       },
       stop,
     };

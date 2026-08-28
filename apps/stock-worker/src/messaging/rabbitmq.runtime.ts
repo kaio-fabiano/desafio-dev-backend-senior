@@ -64,7 +64,7 @@ export async function consumeStock(
   handler: (event: StockDelivery) => Promise<void>,
   failureChannel: ConfirmChannel = consumerChannel,
 ): Promise<void> {
-  await consumerChannel.prefetch(10);
+  await consumerChannel.prefetch(1);
   await consumerChannel.consume(
     QUEUE,
     (message) => {
