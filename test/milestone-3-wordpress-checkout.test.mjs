@@ -73,6 +73,35 @@ test('AC-038: Pending WooCommerce checkout is found by its stable reference @spe
   assert.equal(creates, 0);
 });
 
+test('Woo Store API cart items map to the WooCommerce order payload', async () => {
+  let createdOrder;
+  const adapter = createWooOrderAdapter({
+    endpoint: 'https://wordpress.example.test',
+    consumerKey: 'consumer-key',
+    consumerSecret: 'consumer-secret',
+    request: async (_url, init) => {
+      if (init?.method === 'POST') {
+        createdOrder = JSON.parse(init.body);
+        return Response.json({ id: 101, ...createdOrder }, { status: 201 });
+      }
+      return Response.json([]);
+    },
+  });
+
+  await adapter.createOrFind({
+    reference: 'store-api-cart-operation',
+    cartSnapshot: {
+      items: [{ id: 1001, key: 'store-api-line-key', quantity: 2 }],
+    },
+    paymentMethod: 'CARD',
+  });
+
+  assert.deepEqual(createdOrder.line_items, [
+    { product_id: 1001, quantity: 2 },
+  ]);
+  assert.equal(createdOrder.payment_method, 'CARD');
+});
+
 test('the live checkout probe exercises the pinned WooCommerce REST API', async () => {
   const probe = await readFile(
     'apps/wordpress-integration/scripts/probe-checkout.mjs',
