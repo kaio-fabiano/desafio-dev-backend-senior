@@ -17,7 +17,7 @@
 
 ## T-043 — Seed MCP OAuth resources and scoped client grants [concluida]
 - Refs: US-035, AC-062, AC-063, AC-064
-- Arquivos: apps/identity-subgraph/src/auth/config.ts, apps/identity-subgraph/src/auth/seed.ts, apps/poc-auth/src/auth-server.ts, test/milestone-6-mcp-oauth.test.mjs
+- Arquivos: apps/identity-subgraph/src/auth/config.ts, apps/identity-subgraph/src/auth/seed.ts, test/fixtures/auth-server.ts, test/milestone-6-mcp-oauth.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Authentication is critical. Reuse ADR 002 and existing Better Auth resource patterns; prove MCP-only, gateway-only, multi-audience, expiry, issuer, and per-tool scopes.
@@ -31,7 +31,7 @@
 
 ## T-045 — Assemble MCP protocol and parity acceptance [concluida]
 - Refs: US-034, US-035, US-036, AC-060, AC-061, AC-062, AC-063, AC-064, AC-065, AC-066
-- Arquivos: package.json, pnpm-lock.yaml, apps/poc-harness/project.json, test/milestone-6-apollo-mcp.test.mjs, docs/runbooks/milestone-6-apollo-mcp.md, docs/evidence/mcp/README.md, onpspec.config.json, .github/workflows/ci.yml
+- Arquivos: package.json, pnpm-lock.yaml, apps/e2e/project.json, test/milestone-6-apollo-mcp.test.mjs, docs/runbooks/milestone-6-apollo-mcp.md, docs/evidence/mcp/README.md, onpspec.config.json, .github/workflows/ci.yml
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notas: Use an MCP protocol client for the automated gate and document Inspector steps. Compare the same token/fixtures through GraphQL and MCP; never store bearer tokens in evidence or logs.

@@ -53,7 +53,7 @@
 
 ## T-035 — Assemble the Milestone 4 acceptance and operational gate [concluida]
 - Refs: US-026, US-027, US-028, US-029, US-030, AC-041, AC-042, AC-043, AC-044, AC-045, AC-046, AC-047, AC-048, AC-049, AC-050, AC-051, AC-052
-- Arquivos: apps/poc-harness/project.json, test/milestone-4-payment-inventory-saga.test.mjs, docs/runbooks/milestone-4-payment-inventory-saga.md, onpspec.config.json, .github/workflows/ci.yml
+- Arquivos: apps/e2e/project.json, test/milestone-4-payment-inventory-saga.test.mjs, docs/runbooks/milestone-4-payment-inventory-saga.md, onpspec.config.json, .github/workflows/ci.yml
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Prove Card success, stock-failure refund, Pix generation, duplicate delivery, crash after commit before ack, bounded retry, and DLQ through one Nx target. Use real infrastructure where behavior depends on broker or database guarantees.

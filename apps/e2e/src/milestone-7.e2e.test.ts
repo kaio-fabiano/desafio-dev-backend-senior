@@ -41,7 +41,7 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     if (!process.env.KEEP_E2E_ON_FAILURE) await environment?.stop();
   }, 120_000);
 
-  it('starts the complete isolated topology from one target @spec:AC-067', async () => {
+  it('starts the complete isolated topology from one target @spec:AC-067 @spec:AC-078', async () => {
     expect(new Set(environment?.startedComponents)).toEqual(
       new Set(requiredComponents),
     );
@@ -55,7 +55,7 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     ).resolves.toBe(200);
   });
 
-  it('links registration identities and accepts one multi-resource OAuth token @spec:AC-068', () => {
+  it('links registration identities and accepts one multi-resource OAuth token @spec:AC-068 @spec:AC-079 @spec:AC-080 @spec:AC-081', () => {
     expect(proof.identity.buyer).toMatchObject({
       email: 'milestone-7-buyer@example.test',
     });
@@ -72,7 +72,7 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     });
   });
 
-  it('converges Card checkout across subscription, federation, and persistence exactly once @spec:AC-069', () => {
+  it('converges Card checkout across subscription, federation, and persistence exactly once @spec:AC-069 @spec:AC-083 @spec:AC-084', () => {
     expect(proof.card.subscriptionOpenedBeforeCheckout).toBe(true);
     expect(proof.card.retry.wooOrderId).toBe(proof.card.checkout.wooOrderId);
     expect(proof.card.event).toMatchObject({

@@ -32,7 +32,7 @@
 
 ## T-025 — Integrate the idempotent WooCommerce order adapter [concluida]
 - Refs: US-023, US-024, AC-035, AC-038
-- Arquivos: apps/commerce-subgraph/src/checkout/woo-order.adapter.ts, apps/poc-wordpress/scripts/probe-checkout.mjs, test/milestone-3-wordpress-checkout.test.mjs, docs/adrs/006-woocommerce-idempotent-checkout.md
+- Arquivos: apps/commerce-subgraph/src/checkout/woo-order.adapter.ts, apps/wordpress-integration/scripts/probe-checkout.mjs, test/milestone-3-wordpress-checkout.test.mjs, docs/adrs/006-woocommerce-idempotent-checkout.md
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notas: Prove create-or-find by a stable operation reference against the pinned plugin stack. Add only the smallest adapter required by an observed API gap.

@@ -4,7 +4,7 @@
 
 ## T-053 — Establish the honest compliance gate [concluida]
 - Refs: US-040, US-043, US-044, AC-078, AC-079, AC-085, AC-086, AC-087, AC-088
-- Arquivos: docs/evidence/milestone-8/review.md, docs/evidence/milestone-8/requirements.md, test/milestone-8-compliance-contract.test.mjs, test/milestone-8-compliance-hardening.spec.test.js, onpspec.config.json
+- Arquivos: docs/evidence/milestone-8/review.md, docs/evidence/milestone-8/requirements.md, test/milestone-8-compliance-contract.test.mjs, test/milestone-8-real-e2e.test.mjs, onpspec.config.json
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notes: Encode the review gaps before implementation. Source-shape assertions cannot replace runtime proofs.
@@ -46,7 +46,7 @@
 
 ## T-059 — Retire obsolete PoC project structure [concluida]
 - Refs: US-043, AC-087
-- Arquivos: apps/poc-auth, apps/poc-sse, apps/poc-harness, apps/poc-wordpress, apps/wordpress-integration, apps/e2e/project.json, docs/adrs, docs/runbooks, test/marco-0-auth.test.mjs, test/marco-0-sse.test.mjs, test/marco-0-wordpress.test.mjs, pnpm-workspace.yaml, pnpm-lock.yaml
+- Arquivos: apps/wordpress-integration, apps/e2e/project.json, docs/adrs, docs/runbooks, test/marco-0-auth.test.mjs, test/marco-0-sse.test.mjs, test/marco-0-wordpress.test.mjs, test/milestone-8-poc-retirement.test.mjs, pnpm-workspace.yaml, pnpm-lock.yaml
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Preserve useful fixtures, rename the active WordPress integration, and delete only duplicated applications after replacement proofs pass.

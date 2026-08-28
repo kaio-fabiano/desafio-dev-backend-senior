@@ -32,7 +32,7 @@
 
 ## T-050 — Enforce coverage, P95, and N+1 budgets [concluida]
 - Refs: US-038, AC-072, AC-073
-- Arquivos: package.json, apps/poc-harness/project.json, test/milestone-7-coverage.test.mjs, test/milestone-7-load.test.mjs, docs/evidence/milestone-7/quality.md
+- Arquivos: package.json, apps/e2e/project.json, test/milestone-7-coverage.test.mjs, test/milestone-7-load.test.mjs, docs/evidence/milestone-7/quality.md
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Use existing Node test coverage, Gradle/Jacoco, and request counters before adding dependencies. Keep the local load probe deterministic.

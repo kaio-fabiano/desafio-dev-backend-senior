@@ -32,7 +32,7 @@
 
 ## T-018 — Publish the native Woo catalog through federation [concluida]
 - Refs: US-020, AC-031
-- Arquivos: apps/poc-wordpress/scripts/publish-subgraph.mjs, libs/contracts/graphql/catalog/schema.graphql, libs/contracts/graphql/supergraph.yaml, test/milestone-2-catalog-connection.test.mjs
+- Arquivos: apps/wordpress-integration/scripts/probe.mjs, libs/contracts/graphql/catalog/schema.graphql, libs/contracts/graphql/supergraph.yaml, test/milestone-2-catalog-connection.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notas: Plugin-first. Reuse native Woo Connections and only the deterministic SDL normalization proved in ADR 003.
