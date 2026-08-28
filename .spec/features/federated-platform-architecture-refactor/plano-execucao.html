@@ -1,0 +1,168 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de execução — federated-platform-architecture-refactor</title>
+<style>
+  :root { --bg:#fafafa; --fg:#1a1a1a; --card:#fff; --borda:#e2e2e2; --sub:#666;
+          --acc:#0a7c42; --acc-fg:#fff; --aviso:#8a6d00; --aviso-bg:#fff8e1; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#141414; --fg:#eaeaea; --card:#1e1e1e; --borda:#333; --sub:#9a9a9a;
+            --acc:#17a35c; --aviso:#e0c36a; --aviso-bg:#2a2410; }
+  }
+  * { box-sizing:border-box }
+  body { margin:0; padding:2rem 1rem; background:var(--bg); color:var(--fg);
+         font:15px/1.55 system-ui,-apple-system,sans-serif }
+  main { max-width:64rem; margin:0 auto }
+  h1 { font-size:1.5rem; margin:0 0 .25rem } h3 { margin:1.5rem 0 .5rem }
+  h4 { margin:0 0 .5rem } small { color:var(--sub); font-weight:400 }
+  .sub { color:var(--sub); margin:0 0 1.25rem }
+  code { font:.85em ui-monospace,monospace; background:var(--card);
+         border:1px solid var(--borda); border-radius:4px; padding:.05em .35em; overflow-wrap:anywhere }
+  .resumo { display:flex; gap:.75rem; flex-wrap:wrap; margin:0 0 1rem }
+  .resumo div { background:var(--card); border:1px solid var(--borda); border-radius:8px;
+                padding:.5rem .9rem } .resumo b { font-size:1.2rem }
+  .executor { background:var(--card); border:1px solid var(--borda); border-radius:10px;
+              padding:1rem; margin:0 0 .5rem }
+  .executor h2 { margin:0 0 .5rem; font-size:1.05rem }
+  .nota { color:var(--sub); font-size:.85rem; margin:.5rem 0 0 }
+  #cmd { display:inline-block; margin-top:.6rem }
+  .grade { display:grid; grid-template-columns:repeat(auto-fit,minmax(17rem,1fr)); gap:.75rem }
+  .faixa { background:var(--card); border:1px solid var(--borda); border-radius:10px; padding: .9rem }
+  .tarefa { display:flex; flex-direction:column; gap:.15rem; padding:.6rem 0;
+            border-top:1px dashed var(--borda) }
+  .tarefa:first-of-type { border-top:0 }
+  .tid { font:700 .85rem ui-monospace,monospace; color:var(--acc) }
+  .meta,.arquivos { font-size:.85rem; color:var(--sub) }
+  .avisos { background:var(--aviso-bg); color:var(--aviso); border-radius:8px;
+            padding:.6rem .9rem; margin:0 0 1rem; font-size:.9rem }
+  ol li { margin:.25rem 0 }
+</style>
+<main>
+  <h1>Plano de execução — federated-platform-architecture-refactor</h1>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-28 21:56 · regenere após mudar tasks.md</p>
+  <div class="resumo">
+    <div><b>9</b> tarefa(s) em paralelo</div>
+    <div><b>8</b> faixa(s) · <b>3</b> onda(s)</div>
+    <div><b>0</b> sequencial(is)</div>
+    <div>branch <code>spec/federated-platform-architecture-refactor</code></div>
+  </div>
+  
+  <div class="executor">
+    <h2>Como executar — via agente</h2>
+    <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
+    <div><code id="cmd">bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh</code></div>
+    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
+    O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
+    1 minuto, o agente posta no chat a <b>tabela de andamento</b>
+    (<code>onp-spec resumo federated-platform-architecture-refactor --tabela</code>) e o
+    <b>resumo geral de andamento</b> (<code>onp-spec resumo federated-platform-architecture-refactor</code>).</p>
+  </div>
+  
+    <section class="onda">
+      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 ∥ faixa-3 — em paralelo, janelas limpas</small></h3>
+      <div class="grade">
+      <div class="faixa">
+        <h4>faixa-1 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-1</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-065</span>
+          <span class="ttitulo">Lock the target architecture and executable boundaries</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>docs/adrs/007-federated-platform-boundaries.md</code> <code>docs/prds/01-arquitetura-e-dominio.md</code> <code>docs/prds/02-graphql-federation.md</code> <code>docs/prds/04-commerce-saga-e-realtime.md</code> <code>test/architecture-boundaries.test.mjs</code> <code>test/federated-platform-refactor.test.mjs</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-2 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-2</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-066</span>
+          <span class="ttitulo">Extract NestJS composition libraries and provider contracts</span>
+          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
+          <span class="arquivos"><code>libs/platform/nest/src/config/config.module.ts</code> <code>libs/platform/nest/src/config/environment.factory.ts</code> <code>libs/platform/nest/src/lifecycle/resource.provider.ts</code> <code>libs/platform/nest/src/index.ts</code> <code>libs/platform/nest/project.json</code> <code>libs/platform/nest/tsconfig.json</code> <code>libs/platform/nest/tsconfig.lib.json</code> <code>test/nest-provider-composition.test.mjs</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-3 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-3</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-3</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-067</span>
+          <span class="ttitulo">Refactor Identity Federation around NestJSBetterAuth providers</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/identity-subgraph/src/main.ts</code> <code>apps/identity-subgraph/src/app.module.ts</code> <code>libs/identity/nest/src/identity.module.ts</code> <code>libs/identity/nest/src/auth/better-auth.factory.ts</code> <code>libs/identity/nest/src/auth/better-auth.module.ts</code> <code>libs/identity/nest/src/auth/plugins/jwt-plugin.factory.ts</code> <code>libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts</code> <code>libs/identity/nest/src/auth/registration.service.ts</code> <code>libs/identity/nest/src/graphql/identity.resolver.ts</code> <code>libs/identity/nest/src/index.ts</code> <code>libs/identity/nest/project.json</code> <code>libs/identity/nest/tsconfig.json</code> <code>libs/identity/nest/tsconfig.lib.json</code> <code>test/identity-federation-refactor.test.mjs</code></span>
+        </div>
+      </div></div>
+    </section>
+    <section class="onda">
+      <h3>Onda 2 <small>faixa-4 ∥ faixa-5 ∥ faixa-6 — em paralelo, janelas limpas</small></h3>
+      <div class="grade">
+      <div class="faixa">
+        <h4>faixa-4 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-4</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-4</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-068</span>
+          <span class="ttitulo">Reduce Gateway to authenticated federation composition</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/gateway/src/main.ts</code> <code>apps/gateway/src/app.module.ts</code> <code>libs/gateway/nest/src/auth/auth-context.factory.ts</code> <code>libs/gateway/nest/src/auth/token-verifier.service.ts</code> <code>libs/gateway/nest/src/federation/authenticated-data-source.ts</code> <code>libs/gateway/nest/src/gateway.module.ts</code> <code>libs/gateway/nest/src/index.ts</code> <code>libs/gateway/nest/project.json</code> <code>libs/gateway/nest/tsconfig.json</code> <code>libs/gateway/nest/tsconfig.lib.json</code> <code>test/gateway-federation-refactor.test.mjs</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-5 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-5</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-5</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-069</span>
+          <span class="ttitulo">Build the thin WordPress Federation adapter</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/wordpress-federation/src/main.ts</code> <code>apps/wordpress-federation/src/app.module.ts</code> <code>apps/wordpress-federation/project.json</code> <code>apps/wordpress-integration/compose.yaml</code> <code>apps/wordpress-integration/marketplace-inventory.php</code> <code>apps/wordpress-integration/scripts/install-plugins.sh</code> <code>apps/wordpress-integration/scripts/publish-subgraph.mjs</code> <code>libs/wordpress/nest/src/federation/wordpress-federation.module.ts</code> <code>libs/wordpress/nest/src/federation/wpgraphql-client.service.ts</code> <code>libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts</code> <code>libs/wordpress/nest/src/index.ts</code> <code>libs/wordpress/nest/project.json</code> <code>libs/wordpress/nest/tsconfig.json</code> <code>libs/wordpress/nest/tsconfig.lib.json</code> <code>libs/contracts/graphql/wordpress/schema.graphql</code> <code>test/wordpress-federation-refactor.test.mjs</code></span>
+        </div>
+        <div class="tarefa">
+          <span class="tid">T-071</span>
+          <span class="ttitulo">Move order subscriptions outside the federation gateway</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>libs/wordpress/nest/src/subscriptions/order-event.resolver.ts</code> <code>libs/wordpress/nest/src/subscriptions/order-event.service.ts</code> <code>libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts</code> <code>libs/wordpress/nest/src/subscriptions/graphql-sse.adapter.ts</code> <code>libs/wordpress/nest/src/subscriptions/subscriptions.module.ts</code> <code>libs/wordpress/nest/src/index.ts</code> <code>test/order-subscription-refactor.test.mjs</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-6 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-6</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-6</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-070</span>
+          <span class="ttitulo">Refactor Payment as a Spring GraphQL Federation bounded context</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/payment-processor/build.gradle.kts</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePayment.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePaymentHandler.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPayment.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/application/query/PaymentView.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPaymentHandler.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/graphql/PaymentController.java</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java</code> <code>apps/payment-processor/src/main/resources/graphql/payment.graphqls</code> <code>apps/payment-processor/src/test/java/dev/desafio/payment/PaymentFederationTest.java</code> <code>libs/contracts/graphql/payment/schema.graphql</code></span>
+        </div>
+      </div></div>
+    </section>
+    <section class="onda">
+      <h3>Onda 3 <small>faixa-7 ∥ faixa-8 — em paralelo, janelas limpas</small></h3>
+      <div class="grade">
+      <div class="faixa">
+        <h4>faixa-7 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-7</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-7</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-072</span>
+          <span class="ttitulo">Integrate the five-app topology and retire obsolete runtimes</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>package.json</code> <code>nx.json</code> <code>tsconfig.base.json</code> <code>compose.yaml</code> <code>libs/contracts/graphql/supergraph.yaml</code> <code>apps/identity-subgraph/project.json</code> <code>apps/payment-processor/project.json</code> <code>apps/gateway/project.json</code> <code>apps/apollo-mcp/project.json</code> <code>apps/e2e/src/environment.ts</code> <code>test/five-app-topology.test.mjs</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-8 <small>branch <code>spec/federated-platform-architecture-refactor-faixa-8</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-8</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-073</span>
+          <span class="ttitulo">Prove quality and document the architecture walkthrough</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>README.md</code> <code>docs/knowledge/Mapa do Projeto.md</code> <code>docs/runbooks/local-development.md</code> <code>docs/runbooks/e2e.md</code> <code>docs/evidence/federated-platform-refactor/review.md</code> <code>test/federated-platform-quality.test.mjs</code></span>
+        </div>
+      </div></div>
+    </section>
+  
+  <section class="onda">
+    <h3>Branches e commits</h3>
+    <ol>
+      <li>tudo parte da branch de trabalho <code>spec/federated-platform-architecture-refactor</code></li>
+      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx federated-platform-architecture-refactor: título</code></li>
+      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
+      <li>gate final: <code>onp-spec verify federated-platform-architecture-refactor</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
+    </ol>
+  </section>
+</main>
