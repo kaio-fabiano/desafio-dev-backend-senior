@@ -15,6 +15,7 @@ export interface MarketplaceEvent {
   eventType: string;
   occurredAt: string;
   payload: Record<string, unknown>;
+  operationKey?: string;
 }
 
 export interface OrderWorkflowTransitionedEvent extends MarketplaceEvent {

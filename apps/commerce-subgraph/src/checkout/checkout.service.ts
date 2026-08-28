@@ -68,7 +68,14 @@ export class CheckoutService {
       operation.id,
       order.id,
       async (transaction, workflow) =>
-        this.enqueueCheckoutRequested(transaction, workflow.id, operation.id),
+        this.enqueueCheckoutRequested(
+          transaction,
+          workflow.id,
+          operation.id,
+          operation.operationKey,
+          order.id,
+          command,
+        ),
     );
     return { operationId: operation.id, wooOrderId: order.id };
   }
@@ -81,9 +88,18 @@ export class CheckoutService {
     transaction: unknown,
     workflowId: string,
     checkoutId: string,
+    operationKey: string,
+    orderId: string,
+    command: CheckoutCommand,
   ): Promise<void> {
     return this.outbox.enqueueCheckoutRequested(transaction, workflowId, {
       checkoutId,
+      operationKey,
+      paymentId: `payment-${checkoutId}`,
+      orderId,
+      method: command.paymentMethod,
+      amount: cartAmount(command.cartSnapshot),
+      currency: cartCurrency(command.cartSnapshot),
     });
   }
 
@@ -97,4 +113,32 @@ export class CheckoutService {
         throw new CheckoutInputError('Checkout fields are required');
     }
   }
+}
+
+function cartAmount(snapshot: unknown): number {
+  const totals =
+    snapshot && typeof snapshot === 'object'
+      ? Reflect.get(snapshot, 'totals')
+      : undefined;
+  const total =
+    totals && typeof totals === 'object'
+      ? Number(Reflect.get(totals, 'total_price'))
+      : Number.NaN;
+  const minorUnit =
+    totals && typeof totals === 'object'
+      ? Number(Reflect.get(totals, 'currency_minor_unit'))
+      : 2;
+  return Number.isFinite(total) ? total / 10 ** minorUnit : 0;
+}
+
+function cartCurrency(snapshot: unknown): string {
+  const totals =
+    snapshot && typeof snapshot === 'object'
+      ? Reflect.get(snapshot, 'totals')
+      : undefined;
+  const currency =
+    totals && typeof totals === 'object'
+      ? Reflect.get(totals, 'currency_code')
+      : undefined;
+  return typeof currency === 'string' && currency ? currency : 'BRL';
 }

@@ -37,7 +37,10 @@ async function declareTopology(channel: ConfirmChannel): Promise<void> {
   await channel.assertExchange(EVENTS, 'topic', { durable: true });
   await channel.assertExchange(RETRY, 'direct', { durable: true });
   await channel.assertExchange(DEAD_LETTER, 'topic', { durable: true });
-  await channel.assertQueue(QUEUE, { durable: true, arguments: { 'x-queue-type': 'quorum' } });
+  await channel.assertQueue(QUEUE, {
+    durable: true,
+    arguments: { 'x-queue-type': 'quorum' },
+  });
   await channel.bindQueue(QUEUE, EVENTS, 'stock.reservation-requested');
   await channel.bindQueue(QUEUE, EVENTS, `retry-return.${QUEUE}`);
   for (const [index, delay] of RETRY_DELAYS.entries()) {
@@ -61,10 +64,16 @@ export async function consumeStock(
   handler: (event: StockDelivery) => Promise<void>,
 ): Promise<void> {
   await channel.prefetch(10);
-  await channel.consume(QUEUE, (message) => {
-    if (!message) return;
-    void handle(channel, message, handler).catch(() => channel.nack(message, false, true));
-  }, { noAck: false });
+  await channel.consume(
+    QUEUE,
+    (message) => {
+      if (!message) return;
+      void handle(channel, message, handler).catch(() =>
+        channel.nack(message, false, true),
+      );
+    },
+    { noAck: false },
+  );
 }
 
 async function handle(
@@ -73,39 +82,78 @@ async function handle(
   handler: (event: StockDelivery) => Promise<void>,
 ): Promise<void> {
   try {
-    await handler(JSON.parse(message.content.toString('utf8')) as StockDelivery);
-  } catch {
+    await handler(
+      JSON.parse(message.content.toString('utf8')) as StockDelivery,
+    );
+  } catch (error) {
+    console.error('Stock delivery failed', error);
     await routeFailure(channel, message);
   }
   channel.ack(message);
 }
 
-async function routeFailure(channel: ConfirmChannel, message: ConsumeMessage): Promise<void> {
-  const attempt = Number(message.properties.headers?.['x-retry-attempt'] ?? 0) + 1;
+async function routeFailure(
+  channel: ConfirmChannel,
+  message: ConsumeMessage,
+): Promise<void> {
+  const attempt =
+    Number(message.properties.headers?.['x-retry-attempt'] ?? 0) + 1;
   if (attempt <= RETRY_DELAYS.length) {
-    await publish(channel, RETRY, `${QUEUE}.${attempt}`, message.content, {
-      ...message.properties.headers,
-      'x-retry-attempt': attempt,
-    }, required(message.properties.messageId, 'eventId'), message.properties.type);
+    await publish(
+      channel,
+      RETRY,
+      `${QUEUE}.${attempt}`,
+      message.content,
+      {
+        ...message.properties.headers,
+        'x-retry-attempt': attempt,
+      },
+      required(message.properties.messageId, 'eventId'),
+      message.properties.type,
+    );
     return;
   }
-  const failure = Buffer.from(JSON.stringify({
-    eventId: required(message.properties.messageId, 'eventId'),
-    eventType: message.properties.type ?? message.fields.routingKey,
-    correlationId: required(message.properties.correlationId, 'correlationId'),
-    failedAt: new Date().toISOString(),
-    reason: 'CONSUMER_FAILED',
-  }));
-  await publish(channel, DEAD_LETTER, message.properties.type ?? message.fields.routingKey,
-    failure, { 'x-retry-attempt': attempt }, required(message.properties.messageId, 'eventId'),
-    message.properties.type);
+  const failure = Buffer.from(
+    JSON.stringify({
+      eventId: required(message.properties.messageId, 'eventId'),
+      eventType: message.properties.type ?? message.fields.routingKey,
+      correlationId: required(
+        message.properties.correlationId,
+        'correlationId',
+      ),
+      failedAt: new Date().toISOString(),
+      reason: 'CONSUMER_FAILED',
+    }),
+  );
+  await publish(
+    channel,
+    DEAD_LETTER,
+    message.properties.type ?? message.fields.routingKey,
+    failure,
+    { 'x-retry-attempt': attempt },
+    required(message.properties.messageId, 'eventId'),
+    message.properties.type,
+  );
 }
 
-export function publishInventory(channel: ConfirmChannel, result: InventoryResult): Promise<void> {
-  return publish(channel, EVENTS, result.eventType, Buffer.from(JSON.stringify({
-    ...result,
-    correlationId: result.operationKey,
-  })), {}, result.eventId, result.eventType);
+export function publishInventory(
+  channel: ConfirmChannel,
+  result: InventoryResult,
+): Promise<void> {
+  return publish(
+    channel,
+    EVENTS,
+    result.eventType,
+    Buffer.from(
+      JSON.stringify({
+        ...result,
+        correlationId: result.operationKey,
+      }),
+    ),
+    {},
+    result.eventId,
+    result.eventType,
+  );
 }
 
 function publish(
@@ -118,10 +166,21 @@ function publish(
   type?: string,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
-    channel.publish(exchange, routingKey, content, {
-      contentType: 'application/json', persistent: true, mandatory: true,
-      headers, messageId, correlationId: messageId, type,
-    }, (error) => error ? reject(error) : resolve());
+    channel.publish(
+      exchange,
+      routingKey,
+      content,
+      {
+        contentType: 'application/json',
+        persistent: true,
+        mandatory: true,
+        headers,
+        messageId,
+        correlationId: messageId,
+        type,
+      },
+      (error) => (error ? reject(error) : resolve()),
+    );
   });
 }
 

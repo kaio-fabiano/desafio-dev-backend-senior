@@ -7,6 +7,7 @@ import type { CommerceSubscriptionClient } from './commerce-subscription.client.
 
 type GatewayTokenOptions = {
   issuer: string;
+  jwksUrl?: string;
   audience: string;
   requiredScopes: readonly string[];
 };

@@ -22,7 +22,6 @@ export type AcceptanceProof = {
     retry: JsonObject;
     event: JsonObject;
     meOrder: JsonObject;
-    persistedOrder: JsonObject;
   };
   pix: {
     subscriptionOpenedBeforeCheckout: boolean;
@@ -45,12 +44,16 @@ async function graphql(
 ) {
   const documents: Record<string, string> = {
     me: 'query me { me { id email } }',
-    addToCart: 'mutation addToCart($productId: ID!, $quantity: Int!) { addToCart(productId: $productId, quantity: $quantity) { id } }',
-    checkout: 'mutation checkout($input: CheckoutInput!) { checkout(input: $input) { id wooOrderId status paymentMethod workflow { state } pixCode } }',
-    checkoutOperation: 'query checkoutOperation($id: ID!) { checkout(id: $id) { id operationKey status } }',
+    addToCart:
+      'mutation addToCart($productId: ID!, $quantity: Int!) { addToCart(productId: $productId, quantity: $quantity) { id } }',
+    checkout:
+      'mutation checkout($input: CheckoutInput!) { checkout(input: $input) { wooOrderId workflow { state } pixCode } }',
+    meOrders:
+      'query meOrders { me { id email orders(first: 20) { edges { node { id wooOrderId status paymentMethod workflow { state } pixCode } } } } }',
   };
   const query = documents[operationName];
-  if (!query) throw new Error(`Unknown E2E GraphQL operation: ${operationName}`);
+  if (!query)
+    throw new Error(`Unknown E2E GraphQL operation: ${operationName}`);
   const response = await fetch(`${environment.gatewayUrl}/graphql`, {
     method: 'POST',
     headers: {
@@ -60,7 +63,16 @@ async function graphql(
     body: JSON.stringify({ query, operationName, variables }),
   });
   const payload = await response.json();
-  if (!response.ok || payload.errors) throw new Error(`Gateway ${operationName} failed: ${JSON.stringify(payload)}`);
+  if (
+    !response.ok ||
+    payload.errors ||
+    !payload.data ||
+    payload.data[operationName] == null
+  ) {
+    throw new Error(
+      `Gateway ${operationName} failed: ${JSON.stringify(payload)}`,
+    );
+  }
   return payload.data[operationName];
 }
 
@@ -74,7 +86,9 @@ async function issueToken(
     (response) => response.json() as Promise<{ gateway: string }>,
   );
   const verifier = randomBytes(32).toString('base64url');
-  const authorization = new URL(`${environment.identityUrl}/api/auth/oauth2/authorize`);
+  const authorization = new URL(
+    `${environment.identityUrl}/api/auth/oauth2/authorize`,
+  );
   const parameters = {
     client_id: clients.gateway,
     response_type: 'code',
@@ -84,55 +98,87 @@ async function issueToken(
     code_challenge_method: 'S256',
     state: randomBytes(16).toString('base64url'),
   };
-  for (const [name, value] of Object.entries(parameters)) authorization.searchParams.set(name, value);
-  for (const audience of audiences) authorization.searchParams.append('resource', audience);
+  for (const [name, value] of Object.entries(parameters))
+    authorization.searchParams.set(name, value);
+  for (const audience of audiences)
+    authorization.searchParams.append('resource', audience);
   const authorizeResponse = await fetch(authorization, { headers: { cookie } });
-  const authorize = await authorizeResponse.json() as { url?: string };
+  const authorize = (await authorizeResponse.json()) as { url?: string };
   if (!authorizeResponse.ok || !authorize.url) {
     throw new Error(`OAuth authorization failed: ${JSON.stringify(authorize)}`);
   }
   const consentUrl = new URL(authorize.url, environment.identityUrl);
-  const consentResponse = await fetch(`${environment.identityUrl}/api/auth/oauth2/consent`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      cookie,
-      origin: 'http://identity.localhost:3001',
+  const consentResponse = await fetch(
+    `${environment.identityUrl}/api/auth/oauth2/consent`,
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        cookie,
+        origin: 'http://identity.localhost:3001',
+      },
+      body: JSON.stringify({
+        accept: true,
+        oauth_query: consentUrl.search.slice(1),
+      }),
     },
-    body: JSON.stringify({ accept: true, oauth_query: consentUrl.search.slice(1) }),
-  });
-  const consent = await consentResponse.json() as { url?: string };
+  );
+  const consent = (await consentResponse.json()) as { url?: string };
   if (!consentResponse.ok || !consent.url) {
     throw new Error(`OAuth consent failed: ${JSON.stringify(consent)}`);
   }
   const code = new URL(consent.url).searchParams.get('code');
-  if (!code) throw new Error(`OAuth consent did not return a code: ${JSON.stringify(consent)}`);
-  const token = await fetch(`${environment.identityUrl}/api/auth/oauth2/token`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'authorization_code',
-      client_id: clients.gateway,
-      redirect_uri: parameters.redirect_uri,
-      code,
-      code_verifier: verifier,
-    }),
-  }).then((response) => response.json() as Promise<{ access_token: string }>);
-  const claims = JSON.parse(Buffer.from(token.access_token.split('.')[1]!, 'base64url').toString('utf8'));
+  if (!code)
+    throw new Error(
+      `OAuth consent did not return a code: ${JSON.stringify(consent)}`,
+    );
+  const token = await fetch(
+    `${environment.identityUrl}/api/auth/oauth2/token`,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        client_id: clients.gateway,
+        redirect_uri: parameters.redirect_uri,
+        code,
+        code_verifier: verifier,
+      }),
+    },
+  ).then((response) => response.json() as Promise<{ access_token: string }>);
+  const claims = JSON.parse(
+    Buffer.from(token.access_token.split('.')[1]!, 'base64url').toString(
+      'utf8',
+    ),
+  );
   return { accessToken: token.access_token, claims };
 }
 
 async function registerBuyer(environment: Milestone7Environment) {
-  const response = await fetch(`${environment.identityUrl}/api/auth/sign-up/email`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', origin: 'http://identity.localhost:3001' },
-    body: JSON.stringify({ email: BUYER_EMAIL, password: 'milestone-7-buyer-password', name: 'Milestone 7 buyer' }),
-  });
-  const payload = await response.json() as { user: JsonObject };
-  if (!response.ok) throw new Error(`Better Auth sign-up failed: ${JSON.stringify(payload)}`);
+  const response = await fetch(
+    `${environment.identityUrl}/api/auth/sign-up/email`,
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        origin: 'http://identity.localhost:3001',
+      },
+      body: JSON.stringify({
+        email: BUYER_EMAIL,
+        password: 'milestone-7-buyer-password',
+        name: 'Milestone 7 buyer',
+      }),
+    },
+  );
+  const payload = (await response.json()) as { user: JsonObject };
+  if (!response.ok)
+    throw new Error(`Better Auth sign-up failed: ${JSON.stringify(payload)}`);
   return {
     buyer: payload.user,
-    cookie: response.headers.getSetCookie().map((value) => value.split(';', 1)[0]).join('; '),
+    cookie: response.headers
+      .getSetCookie()
+      .map((value) => value.split(';', 1)[0])
+      .join('; '),
   };
 }
 
@@ -154,12 +200,19 @@ async function mcpRequest(
   });
 }
 
-async function invokeMe(environment: Milestone7Environment, accessToken: string) {
+async function invokeMe(
+  environment: Milestone7Environment,
+  accessToken: string,
+) {
   const initialize = await mcpRequest(environment, accessToken, {
     jsonrpc: '2.0',
     id: 1,
     method: 'initialize',
-    params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'milestone-7-e2e', version: '1.0.0' } },
+    params: {
+      protocolVersion: '2025-06-18',
+      capabilities: {},
+      clientInfo: { name: 'milestone-7-e2e', version: '1.0.0' },
+    },
   });
   if (!initialize.ok) {
     throw new Error(
@@ -167,25 +220,44 @@ async function invokeMe(environment: Milestone7Environment, accessToken: string)
     );
   }
   const sessionId = initialize.headers.get('mcp-session-id');
-  if (!sessionId) throw new Error('MCP initialize did not return a session identifier');
-  const call = await mcpRequest(environment, accessToken, {
-    jsonrpc: '2.0',
-    id: 2,
-    method: 'tools/call',
-    params: { name: 'me', arguments: {} },
-  }, sessionId);
-  if (!call.ok) throw new Error(`MCP me failed with ${call.status}: ${await call.text()}`);
+  if (!sessionId)
+    throw new Error('MCP initialize did not return a session identifier');
+  const call = await mcpRequest(
+    environment,
+    accessToken,
+    {
+      jsonrpc: '2.0',
+      id: 2,
+      method: 'tools/call',
+      params: { name: 'me', arguments: {} },
+    },
+    sessionId,
+  );
+  if (!call.ok)
+    throw new Error(`MCP me failed with ${call.status}: ${await call.text()}`);
   const responseText = await call.text();
-  const jsonText = call.headers.get('content-type')?.includes('text/event-stream')
-    ? responseText.split(/\r?\n/).find((line) => line.startsWith('data:') && line.slice(5).trim())?.slice(5).trim()
+  const jsonText = call.headers
+    .get('content-type')
+    ?.includes('text/event-stream')
+    ? responseText
+        .split(/\r?\n/)
+        .find((line) => line.startsWith('data:') && line.slice(5).trim())
+        ?.slice(5)
+        .trim()
     : responseText;
-  if (!jsonText) throw new Error(`MCP me returned no JSON-RPC message: ${responseText}`);
+  if (!jsonText)
+    throw new Error(`MCP me returned no JSON-RPC message: ${responseText}`);
   const payload = JSON.parse(jsonText);
   return JSON.parse(payload.result.content[0].text).data.me;
 }
 
-function subscribe(environment: Milestone7Environment, operationKey: string, accessToken: string) {
-  const response = fetch(`${environment.gatewayUrl}/graphql/stream`, {
+async function subscribe(
+  environment: Milestone7Environment,
+  operationKey: string,
+  terminalState: 'COMPLETED' | 'PIX_GENERATED',
+  accessToken: string,
+) {
+  const stream = await fetch(`${environment.gatewayUrl}/graphql/stream`, {
     method: 'POST',
     headers: {
       accept: 'text/event-stream',
@@ -193,22 +265,37 @@ function subscribe(environment: Milestone7Environment, operationKey: string, acc
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      query: 'subscription orderEvents($operationKey: ID!) { orderEvents(operationKey: $operationKey) { operationKey state order { id wooOrderId status paymentMethod pixCode } } }',
+      query:
+        'subscription orderEvents($operationKey: ID!) { orderEvents(operationKey: $operationKey) { operationKey orderId state pixCode eventTime } }',
       variables: { operationKey },
     }),
   });
   return async () => {
-    const stream = await response;
-    if (!stream.ok || !stream.body) throw new Error(`Gateway subscription failed with ${stream.status}`);
+    if (!stream.ok || !stream.body)
+      throw new Error(`Gateway subscription failed with ${stream.status}`);
     const reader = stream.body.getReader();
     const decoder = new TextDecoder();
     let pending = '';
     while (true) {
       const { done, value } = await reader.read();
-      if (done) throw new Error(`Subscription ${operationKey} ended without an event`);
+      if (done)
+        throw new Error(`Subscription ${operationKey} ended without an event`);
       pending += decoder.decode(value, { stream: true });
-      const match = pending.match(/data: (.+)\n\n/);
-      if (match) return JSON.parse(match[1]).data.orderEvents;
+      const delimiter = pending.match(/\r?\n\r?\n/);
+      if (!delimiter || delimiter.index === undefined) continue;
+      const frame = pending.slice(0, delimiter.index);
+      pending = pending.slice(delimiter.index + delimiter[0].length);
+      const data = frame
+        .split(/\r?\n/)
+        .find((line) => line.startsWith('data:'))
+        ?.slice(5)
+        .trim();
+      if (!data) continue;
+      const payload = JSON.parse(data);
+      if (payload.errors)
+        throw new Error(`Subscription ${operationKey} failed: ${data}`);
+      const event = payload.data?.orderEvents;
+      if (event?.state === terminalState) return event;
     }
   };
 }
@@ -219,36 +306,93 @@ async function checkout(
   operationKey: string,
   paymentMethod: 'CARD' | 'PIX',
 ) {
-  const nextEvent = subscribe(environment, operationKey, accessToken);
-  await new Promise<void>((resolve) => setImmediate(resolve));
+  const terminalState =
+    paymentMethod === 'CARD' ? 'COMPLETED' : 'PIX_GENERATED';
+  const nextEvent = await subscribe(
+    environment,
+    operationKey,
+    terminalState,
+    accessToken,
+  );
   const subscriptionOpenedBeforeCheckout = true;
-  const result = await graphql(environment, 'checkout', { input: { operationKey, paymentMethod } }, accessToken);
+  const result = await graphql(
+    environment,
+    'checkout',
+    { input: { operationKey, paymentMethod } },
+    accessToken,
+  );
   return { result, event: await nextEvent(), subscriptionOpenedBeforeCheckout };
 }
 
-export async function runAcceptanceJourney(environment: Milestone7Environment): Promise<AcceptanceProof> {
+export async function runAcceptanceJourney(
+  environment: Milestone7Environment,
+): Promise<AcceptanceProof> {
   const { buyer, cookie } = await registerBuyer(environment);
-  const { accessToken, claims } = await issueToken(environment, [GATEWAY_AUDIENCE, MCP_AUDIENCE], SCOPES, cookie);
+  const { accessToken, claims } = await issueToken(
+    environment,
+    [GATEWAY_AUDIENCE, MCP_AUDIENCE],
+    SCOPES,
+    cookie,
+  );
   const gatewayIdentity = await graphql(environment, 'me', {}, accessToken);
   const mcpIdentity = await invokeMe(environment, accessToken);
 
-  await graphql(environment, 'addToCart', { productId: '1001', quantity: 1 }, accessToken);
+  await graphql(
+    environment,
+    'addToCart',
+    { productId: '1001', quantity: 1 },
+    accessToken,
+  );
   const cardOperationKey = 'milestone-7-card';
-  const card = await checkout(environment, accessToken, cardOperationKey, 'CARD');
-  const cardRetry = await graphql(environment, 'checkout', { input: { operationKey: cardOperationKey, paymentMethod: 'CARD' } }, accessToken);
-  const cardPersisted = await graphql(environment, 'checkoutOperation', { id: card.result.id }, accessToken);
-  const meAfterCard = await graphql(environment, 'me', {}, accessToken);
+  const card = await checkout(
+    environment,
+    accessToken,
+    cardOperationKey,
+    'CARD',
+  );
+  const cardRetry = await graphql(
+    environment,
+    'checkout',
+    { input: { operationKey: cardOperationKey, paymentMethod: 'CARD' } },
+    accessToken,
+  );
+  const meAfterCard = await graphql(environment, 'meOrders', {}, accessToken);
 
   const pixOperationKey = 'milestone-7-pix';
   const pix = await checkout(environment, accessToken, pixOperationKey, 'PIX');
-  const meAfterPix = await graphql(environment, 'me', {}, accessToken);
+  const meAfterPix = await graphql(environment, 'meOrders', {}, accessToken);
 
-  const gatewayOnly = await issueToken(environment, [GATEWAY_AUDIENCE], SCOPES, cookie);
-  const underScoped = await issueToken(environment, [GATEWAY_AUDIENCE, MCP_AUDIENCE], ['marketplace:read'], cookie);
+  const gatewayOnly = await issueToken(
+    environment,
+    [GATEWAY_AUDIENCE],
+    SCOPES,
+    cookie,
+  );
+  const underScoped = await issueToken(
+    environment,
+    [GATEWAY_AUDIENCE, MCP_AUDIENCE],
+    ['marketplace:read'],
+    cookie,
+  );
   const invalidRequests = [
-    mcpRequest(environment, undefined, { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'me', arguments: {} } }),
-    mcpRequest(environment, gatewayOnly.accessToken, { jsonrpc: '2.0', id: 4, method: 'tools/call', params: { name: 'me', arguments: {} } }),
-    mcpRequest(environment, underScoped.accessToken, { jsonrpc: '2.0', id: 5, method: 'tools/call', params: { name: 'me', arguments: {} } }),
+    mcpRequest(environment, undefined, {
+      jsonrpc: '2.0',
+      id: 3,
+      method: 'tools/call',
+      params: { name: 'me', arguments: {} },
+    }),
+    mcpRequest(environment, gatewayOnly.accessToken, {
+      jsonrpc: '2.0',
+      id: 4,
+      method: 'tools/call',
+      params: { name: 'me', arguments: {} },
+    }),
+    mcpRequest(environment, underScoped.accessToken, {
+      jsonrpc: '2.0',
+      id: 5,
+      method: 'tools/call',
+      params: { name: 'me', arguments: {} },
+    }),
   ];
 
   return {
@@ -263,19 +407,24 @@ export async function runAcceptanceJourney(environment: Milestone7Environment): 
       checkout: card.result,
       retry: cardRetry,
       event: card.event,
-      meOrder: meAfterCard.orders.find((order: JsonObject) => order.operationKey === cardOperationKey),
-      persistedOrder: cardPersisted,
+      meOrder: meAfterCard.orders.edges.find(
+        ({ node }: JsonObject) => node.wooOrderId === card.result.wooOrderId,
+      )?.node,
     },
     pix: {
       subscriptionOpenedBeforeCheckout: pix.subscriptionOpenedBeforeCheckout,
       checkout: pix.result,
       event: pix.event,
-      meOrder: meAfterPix.orders.find((order: JsonObject) => order.operationKey === pixOperationKey),
+      meOrder: meAfterPix.orders.edges.find(
+        ({ node }: JsonObject) => node.wooOrderId === pix.result.wooOrderId,
+      )?.node,
     },
     mcp: {
       directMe: gatewayIdentity,
       toolMe: mcpIdentity,
-      rejectionStatuses: await Promise.all(invalidRequests).then((responses) => responses.map(({ status }) => status)),
+      rejectionStatuses: await Promise.all(invalidRequests).then((responses) =>
+        responses.map(({ status }) => status),
+      ),
     },
   };
 }

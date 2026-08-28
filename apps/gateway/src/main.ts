@@ -48,6 +48,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const token = {
     issuer: process.env.OAUTH_ISSUER ?? 'http://localhost:3001/api/auth',
+    jwksUrl:
+      process.env.IDENTITY_JWKS_URL ?? 'http://localhost:3001/api/auth/jwks',
     audience:
       process.env.GATEWAY_AUDIENCE ?? 'https://gateway.marketplace.local',
     requiredScopes: ['marketplace:read'],

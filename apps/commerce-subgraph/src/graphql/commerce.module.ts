@@ -22,6 +22,7 @@ import { OrderEventsSubscription } from '../subscriptions/order-events.subscript
 import {
   COMMERCE_OPERATIONS,
   CommerceRuntimeResolver,
+  CommerceSubscriptionResolver,
   type CheckoutInput,
 } from './commerce.resolver.ts';
 
@@ -49,7 +50,8 @@ export function commerceRequestContext({
   req: { headers: Record<string, string | string[] | undefined> };
 }) {
   const rawSubject = req.headers['x-authenticated-subject'];
-  const subject = (Array.isArray(rawSubject) ? rawSubject[0] : rawSubject) ?? '';
+  const subject =
+    (Array.isArray(rawSubject) ? rawSubject[0] : rawSubject) ?? '';
   return {
     subject,
     scopes: [],
@@ -76,6 +78,7 @@ Module({
       inject: [COMMERCE_ORM],
       useFactory: (orm: MikroORM) => orm.em.fork(),
     },
+    CommerceSubscriptionResolver,
     {
       provide: WOO_CART,
       useFactory: () =>
@@ -98,10 +101,7 @@ Module({
       provide: COMMERCE_OPERATIONS,
       scope: Scope.REQUEST,
       inject: [CartService, COMMERCE_ENTITY_MANAGER],
-      useFactory: (
-        cart: CartService,
-        entityManager: EntityManager,
-      ) => {
+      useFactory: (cart: CartService, entityManager: EntityManager) => {
         const checkout = new CheckoutService(
           new MikroOrmCheckoutRepository(entityManager),
           new MikroOrmOutboxRepository(),

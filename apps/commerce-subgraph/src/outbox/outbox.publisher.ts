@@ -61,12 +61,14 @@ export class OutboxPublisher {
   }
 
   private toMarketplaceEvent(event: OutboxEvent): MarketplaceEvent {
+    const operationKey = event.payload.operationKey;
     return {
       correlationId: event.workflowId,
       eventId: event.id,
       eventType: event.eventType,
       occurredAt: event.occurredAt.toISOString(),
       payload: event.payload,
+      ...(typeof operationKey === 'string' ? { operationKey } : {}),
     };
   }
 }

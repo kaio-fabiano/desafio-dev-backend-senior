@@ -31,7 +31,7 @@ export interface OrderSagaRepository {
   ): Promise<OwnedOrderWorkflow>;
   apply(
     transaction: EntityManager,
-    workflow: OrderWorkflowSnapshot,
+    workflow: OwnedOrderWorkflow,
     transition: AppliedSagaTransition,
   ): Promise<void>;
 }
@@ -91,13 +91,19 @@ export class MikroOrmOrderSagaRepository implements OrderSagaRepository {
       ],
     );
     if (transition.command) {
-      await this.enqueue(transaction, workflow.id, transition.command);
+      await this.enqueue(
+        transaction,
+        workflow.id,
+        workflow.operationKey,
+        transition.command,
+      );
     }
   }
 
   private async enqueue(
     transaction: EntityManager,
     workflowId: string,
+    operationKey: string,
     command: SagaCommand,
   ): Promise<void> {
     await transaction.getConnection().execute(
@@ -108,7 +114,7 @@ export class MikroOrmOrderSagaRepository implements OrderSagaRepository {
         randomUUID(),
         workflowId,
         command.eventType,
-        JSON.stringify(command.payload),
+        JSON.stringify({ ...command.payload, operationKey }),
       ],
     );
   }

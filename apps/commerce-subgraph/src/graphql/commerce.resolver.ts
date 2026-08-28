@@ -26,7 +26,8 @@ type CheckoutOperationView = Omit<CheckoutOperation, 'status'> & {
 };
 
 function authenticatedSubject(context: AuthContext): string {
-  if (!context.subject.trim()) throw new Error('Authenticated subject is required');
+  if (!context.subject.trim())
+    throw new Error('Authenticated subject is required');
   return context.subject;
 }
 
@@ -80,9 +81,13 @@ export class CommerceResolver<Cart, Order, Workflow> {
     if (!this.subscriptions) {
       throw new Error('Order event subscriptions are not configured');
     }
-    return this.subscriptions.subscribe(authenticatedSubject(context), operationKey, {
-      signal,
-    });
+    return this.subscriptions.subscribe(
+      authenticatedSubject(context),
+      operationKey,
+      {
+        signal,
+      },
+    );
   }
 }
 
@@ -130,12 +135,6 @@ Query('checkout')(
 );
 Context()(CommerceResolver.prototype, 'orderEvents', 0);
 Args('operationKey')(CommerceResolver.prototype, 'orderEvents', 1);
-Subscription('orderEvents', { resolve: (event: unknown) => event })(
-  CommerceResolver.prototype,
-  'orderEvents',
-  Object.getOwnPropertyDescriptor(CommerceResolver.prototype, 'orderEvents')!,
-);
-
 export const COMMERCE_OPERATIONS = Symbol('COMMERCE_OPERATIONS');
 
 export type CommerceOperations<Order, Workflow> = {
@@ -145,21 +144,20 @@ export type CommerceOperations<Order, Workflow> = {
 };
 
 /** Discoverable Nest metatype backed by request-scoped runtime operations. */
-export class CommerceRuntimeResolver<Cart, Order, Workflow> extends CommerceResolver<
+export class CommerceRuntimeResolver<
   Cart,
   Order,
-  Workflow
-> {
+  Workflow,
+> extends CommerceResolver<Cart, Order, Workflow> {
   constructor(
     cart: CartService,
     operations: CommerceOperations<Order, Workflow>,
-    subscriptions: OrderEventsSubscription,
   ) {
     super(
       cart,
       operations.checkout,
       operations.findWorkflow,
-      subscriptions,
+      undefined,
       operations.findCheckout,
     );
   }
@@ -168,4 +166,28 @@ export class CommerceRuntimeResolver<Cart, Order, Workflow> extends CommerceReso
 Resolver('Order')(CommerceRuntimeResolver);
 Inject(CartService)(CommerceRuntimeResolver, undefined, 0);
 Inject(COMMERCE_OPERATIONS)(CommerceRuntimeResolver, undefined, 1);
-Inject(OrderEventsSubscription)(CommerceRuntimeResolver, undefined, 2);
+
+/** Singleton resolver so a subscription outlives the request that opens it. */
+export class CommerceSubscriptionResolver {
+  constructor(private readonly subscriptions: OrderEventsSubscription) {}
+
+  orderEvents(context: AuthContext, operationKey: string) {
+    return this.subscriptions.subscribe(
+      authenticatedSubject(context),
+      operationKey,
+    );
+  }
+}
+
+Resolver()(CommerceSubscriptionResolver);
+Inject(OrderEventsSubscription)(CommerceSubscriptionResolver, undefined, 0);
+Context()(CommerceSubscriptionResolver.prototype, 'orderEvents', 0);
+Args('operationKey')(CommerceSubscriptionResolver.prototype, 'orderEvents', 1);
+Subscription('orderEvents', { resolve: (event: unknown) => event })(
+  CommerceSubscriptionResolver.prototype,
+  'orderEvents',
+  Object.getOwnPropertyDescriptor(
+    CommerceSubscriptionResolver.prototype,
+    'orderEvents',
+  )!,
+);

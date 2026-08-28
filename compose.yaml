@@ -116,6 +116,9 @@ services:
         wp post meta update 1001 _sku POC-ALPHA
         wp post meta update 1001 _regular_price 19.90
         wp post meta update 1001 _price 19.90
+        wp post meta update 1001 _manage_stock yes
+        wp post meta update 1001 _stock 100
+        wp post meta update 1001 _stock_status instock
         wp post term set 1001 product_type simple --by=slug
         wp post list --post_type=product --meta_key=_sku --meta_value=POC-BETA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Beta product' --type=simple --regular_price=29.90 --sku=POC-BETA --status=publish
         wp post list --post_type=product --meta_key=_sku --meta_value=POC-GAMMA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Gamma product' --type=simple --regular_price=39.90 --sku=POC-GAMMA --status=publish

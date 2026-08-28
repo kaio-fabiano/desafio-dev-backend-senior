@@ -29,6 +29,7 @@ export type Milestone7Environment = {
   mcpUrl: string;
   startedComponents: readonly string[];
   isStopped(): boolean;
+  diagnostics(): Promise<string>;
   stop(): Promise<void>;
 };
 
@@ -43,7 +44,10 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
   };
 
   try {
-    environment = await new DockerComposeEnvironment(resolve('.'), 'compose.yaml')
+    environment = await new DockerComposeEnvironment(
+      resolve('.'),
+      'compose.yaml',
+    )
       .withBuild()
       .withEnvironment({ MCP_PORT: '0' })
       .withDefaultWaitStrategy(Wait.forHealthCheck())
@@ -58,13 +62,61 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       mcpUrl: `http://${mcp.getHost()}:${mcp.getMappedPort(8000)}/mcp`,
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,
+      diagnostics: async () => {
+        const services = [
+          'commerce-subgraph',
+          'payment-processor',
+          'stock-worker',
+        ];
+        const serviceLogs = (
+          await Promise.all(
+            services.map(async (service) => {
+              const stream = await environment!
+                .getContainer(`${service}-1`)
+                .logs({ tail: 200 });
+              let logs = '';
+              stream.on('data', (chunk) => {
+                logs += chunk.toString();
+              });
+              await new Promise((resolve) => setTimeout(resolve, 250));
+              stream.destroy();
+              return `--- ${service} ---\n${logs}`;
+            }),
+          )
+        ).join('\n');
+        const database = await environment!
+          .getContainer('postgres-1')
+          .exec([
+            'psql',
+            '-U',
+            'postgres',
+            '-d',
+            'commerce',
+            '-c',
+            'select event_type, payload, publication_attempts, last_publication_attempt_at, sent_at from commerce_outbox_event; select state, woo_order_id from commerce_order_workflow; select event_id from commerce_inbox_record; select event_id, result from stock_worker_inbox;',
+          ]);
+        const rabbit = await environment!
+          .getContainer('rabbitmq-1')
+          .exec([
+            'rabbitmqctl',
+            'list_queues',
+            'name',
+            'messages_ready',
+            'messages_unacknowledged',
+            'consumers',
+          ]);
+        return `${serviceLogs}\n--- commerce database ---\n${database.output}\n--- rabbitmq ---\n${rabbit.output}`;
+      },
       stop,
     };
   } catch (error) {
     try {
       await stop();
     } catch (teardownError) {
-      throw new AggregateError([error, teardownError], 'Real marketplace startup failed and rollback was incomplete');
+      throw new AggregateError(
+        [error, teardownError],
+        'Real marketplace startup failed and rollback was incomplete',
+      );
     }
     throw error;
   }

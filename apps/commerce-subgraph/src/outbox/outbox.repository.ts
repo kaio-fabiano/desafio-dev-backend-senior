@@ -6,6 +6,12 @@ import { OutboxEvent } from '../persistence/entities/outbox-event.entity.ts';
 
 export interface CheckoutRequestedEvent {
   checkoutId: string;
+  operationKey: string;
+  paymentId: string;
+  orderId: string;
+  method: string;
+  amount: number;
+  currency: string;
 }
 
 export interface OutboxRepository {
@@ -26,7 +32,7 @@ export class MikroOrmOutboxRepository implements OutboxRepository {
     const outboxEvent = transaction.create(OutboxEvent, {
       id: randomUUID(),
       workflowId,
-      eventType: 'checkout.requested',
+      eventType: 'payment.requested',
       payload: event,
       occurredAt: new Date(),
     });
