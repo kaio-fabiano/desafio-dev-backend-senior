@@ -1,6 +1,6 @@
 # Plano de execução — federated-platform-architecture-refactor
 
-> gerado por `onp-spec plano` em 2026-08-28 22:14 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-28 22:43 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano federated-platform-architecture-refactor`
 
 ## Resumo — o que vai acontecer
@@ -84,7 +84,7 @@ bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh
 ```
 
 Cada faixa roda `codex exec` com **janela de contexto limpa**, no seu worktree, com
-`--model` e `model_reasoning_effort` já definidos por tarefa e sandbox `workspace-write`. Os prompts exatos estão
+`--model` e `model_reasoning_effort` já definidos por tarefa e sandbox `danger-full-access`. Os prompts exatos estão
 embutidos no script — quer rodar uma faixa na mão, é só copiá-los de lá.
 Logs: `../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-logs/`.
 
