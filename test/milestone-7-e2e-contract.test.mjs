@@ -2,6 +2,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 
+import {
+  classifyAuthorizationResult,
+  mergeResponseCookies,
+  readTerminalEvent,
+} from '../apps/e2e/src/journey.ts';
+
 const [packageJson, project, environment, journey, acceptance] = await Promise.all([
   readFile('package.json', 'utf8').then(JSON.parse),
   readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
@@ -25,6 +31,17 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
   assert.match(acceptance, /afterAll\(async \(\) => \{[\s\S]*environment\?\.stop\(\)/);
 });
 
+test('AC-071: OAuth distinguishes direct redirects from consent challenges @spec:AC-071', () => {
+  assert.deepEqual(
+    classifyAuthorizationResult('http://127.0.0.1/callback?code=approved&state=x', 'http://identity'),
+    { kind: 'code', code: 'approved' },
+  );
+  assert.deepEqual(
+    classifyAuthorizationResult('/consent?client_id=gateway&sig=signed', 'http://identity'),
+    { kind: 'consent', oauthQuery: 'client_id=gateway&sig=signed' },
+  );
+});
+
 test('AC-068..AC-071: the journey crosses only public Gateway and MCP boundaries @spec:AC-068 @spec:AC-069 @spec:AC-070 @spec:AC-071', () => {
   assert.doesNotMatch(journey, /\.\.\/\.\.\/(?:gateway|identity-subgraph|commerce-subgraph|payment-processor|stock-worker)/);
   assert.match(journey, /environment\.gatewayUrl/);
@@ -33,10 +50,38 @@ test('AC-068..AC-071: the journey crosses only public Gateway and MCP boundaries
   assert.match(journey, /api\/auth\/oauth2\/authorize/);
   assert.match(journey, /api\/auth\/oauth2\/consent/);
   assert.match(journey, /api\/auth\/oauth2\/token/);
-  assert.match(journey, /const nextEvent = subscribe\([\s\S]*await graphql\(environment, 'checkout'/);
+  assert.match(journey, /const nextEvent = await subscribe\([\s\S]*const result = await graphql\([\s\S]*'checkout'/);
   assert.match(journey, /cardRetry/);
+  assert.match(journey, /meOrders:[\s\S]*responseField: 'me'/);
   assert.match(journey, /rejectionStatuses/);
   for (const criterion of ['AC-068', 'AC-069', 'AC-070', 'AC-071']) {
     assert.match(acceptance, new RegExp(`@spec:${criterion}`));
   }
+});
+
+test('AC-069: batched GraphQL SSE frames still expose the terminal event @spec:AC-069', async () => {
+  const frame = (state) =>
+    `event: next\ndata: ${JSON.stringify({ data: { orderEvents: { operationKey: 'card', state } } })}\n\n`;
+  const response = new Response(frame('PAYMENT_PENDING') + frame('COMPLETED'), {
+    headers: { 'content-type': 'text/event-stream' },
+  });
+
+  assert.deepEqual(await readTerminalEvent(response, 'card', 'COMPLETED'), {
+    operationKey: 'card',
+    state: 'COMPLETED',
+  });
+});
+
+test('AC-071: OAuth grants carry forward rotated signed cookies @spec:AC-071', () => {
+  const response = new Response(null, {
+    headers: [
+      ['set-cookie', 'session=new; Path=/; HttpOnly'],
+      ['set-cookie', 'oauth_signature=signed; Path=/; HttpOnly'],
+      ['set-cookie', 'preference=; Max-Age=0; Path=/'],
+    ],
+  });
+  assert.equal(
+    mergeResponseCookies('session=old; preference=kept', response),
+    'session=new; oauth_signature=signed',
+  );
 });

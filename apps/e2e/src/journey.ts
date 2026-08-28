@@ -42,17 +42,23 @@ async function graphql(
   variables: JsonObject = {},
   accessToken?: string,
 ) {
-  const documents: Record<string, string> = {
-    me: 'query me { me { id email } }',
-    addToCart:
-      'mutation addToCart($productId: ID!, $quantity: Int!) { addToCart(productId: $productId, quantity: $quantity) { id } }',
-    checkout:
-      'mutation checkout($input: CheckoutInput!) { checkout(input: $input) { wooOrderId workflow { state } pixCode } }',
-    meOrders:
-      'query meOrders { me { id email orders(first: 20) { edges { node { id wooOrderId status paymentMethod workflow { state } pixCode } } } } }',
+  const documents: Record<string, { query: string; responseField: string }> = {
+    me: { query: 'query me { me { id email } }', responseField: 'me' },
+    addToCart: {
+      query: 'mutation addToCart($productId: ID!, $quantity: Int!) { addToCart(productId: $productId, quantity: $quantity) { id } }',
+      responseField: 'addToCart',
+    },
+    checkout: {
+      query: 'mutation checkout($input: CheckoutInput!) { checkout(input: $input) { wooOrderId workflow { state } pixCode } }',
+      responseField: 'checkout',
+    },
+    meOrders: {
+      query: 'query meOrders { me { id email orders(first: 20) { edges { node { id wooOrderId status paymentMethod workflow { state } pixCode } } } } }',
+      responseField: 'me',
+    },
   };
-  const query = documents[operationName];
-  if (!query)
+  const document = documents[operationName];
+  if (!document)
     throw new Error(`Unknown E2E GraphQL operation: ${operationName}`);
   const response = await fetch(`${environment.gatewayUrl}/graphql`, {
     method: 'POST',
@@ -60,20 +66,20 @@ async function graphql(
       'content-type': 'application/json',
       ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {}),
     },
-    body: JSON.stringify({ query, operationName, variables }),
+    body: JSON.stringify({ query: document.query, operationName, variables }),
   });
   const payload = await response.json();
   if (
     !response.ok ||
     payload.errors ||
     !payload.data ||
-    payload.data[operationName] == null
+    payload.data[document.responseField] == null
   ) {
     throw new Error(
       `Gateway ${operationName} failed: ${JSON.stringify(payload)}`,
     );
   }
-  return payload.data[operationName];
+  return payload.data[document.responseField];
 }
 
 async function issueToken(
@@ -82,6 +88,7 @@ async function issueToken(
   scopes: string[],
   cookie: string,
 ) {
+  let sessionCookie = cookie;
   const clients = await fetch(`${environment.identityUrl}/oauth/clients`).then(
     (response) => response.json() as Promise<{ gateway: string }>,
   );
@@ -102,37 +109,43 @@ async function issueToken(
     authorization.searchParams.set(name, value);
   for (const audience of audiences)
     authorization.searchParams.append('resource', audience);
-  const authorizeResponse = await fetch(authorization, { headers: { cookie } });
+  const authorizeResponse = await fetch(authorization, { headers: { cookie: sessionCookie } });
+  sessionCookie = mergeResponseCookies(sessionCookie, authorizeResponse);
   const authorize = (await authorizeResponse.json()) as { url?: string };
   if (!authorizeResponse.ok || !authorize.url) {
     throw new Error(`OAuth authorization failed: ${JSON.stringify(authorize)}`);
   }
-  const consentUrl = new URL(authorize.url, environment.identityUrl);
-  const consentResponse = await fetch(
-    `${environment.identityUrl}/api/auth/oauth2/consent`,
-    {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        cookie,
-        origin: 'http://identity.localhost:3001',
+  const next = classifyAuthorizationResult(authorize.url, environment.identityUrl);
+  let code: string;
+  if (next.kind === 'code') {
+    code = next.code;
+  } else {
+    const consentResponse = await fetch(
+      `${environment.identityUrl}/api/auth/oauth2/consent`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          cookie: sessionCookie,
+          origin: 'http://identity.localhost:3001',
+        },
+        body: JSON.stringify({ accept: true, oauth_query: next.oauthQuery }),
       },
-      body: JSON.stringify({
-        accept: true,
-        oauth_query: consentUrl.search.slice(1),
-      }),
-    },
-  );
-  const consent = (await consentResponse.json()) as { url?: string };
-  if (!consentResponse.ok || !consent.url) {
-    throw new Error(`OAuth consent failed: ${JSON.stringify(consent)}`);
-  }
-  const code = new URL(consent.url).searchParams.get('code');
-  if (!code)
-    throw new Error(
-      `OAuth consent did not return a code: ${JSON.stringify(consent)}`,
     );
-  const token = await fetch(
+    sessionCookie = mergeResponseCookies(sessionCookie, consentResponse);
+    const consent = (await consentResponse.json()) as { url?: string };
+    if (!consentResponse.ok || !consent.url) {
+      throw new Error(`OAuth consent failed: ${JSON.stringify(consent)}`);
+    }
+    const consentCode = new URL(consent.url).searchParams.get('code');
+    if (!consentCode) {
+      throw new Error(
+        `OAuth consent did not return a code: ${JSON.stringify(consent)}`,
+      );
+    }
+    code = consentCode;
+  }
+  const tokenResponse = await fetch(
     `${environment.identityUrl}/api/auth/oauth2/token`,
     {
       method: 'POST',
@@ -145,13 +158,50 @@ async function issueToken(
         code_verifier: verifier,
       }),
     },
-  ).then((response) => response.json() as Promise<{ access_token: string }>);
+  );
+  sessionCookie = mergeResponseCookies(sessionCookie, tokenResponse);
+  const token = await tokenResponse.json() as { access_token: string };
   const claims = JSON.parse(
     Buffer.from(token.access_token.split('.')[1]!, 'base64url').toString(
       'utf8',
     ),
   );
-  return { accessToken: token.access_token, claims };
+  return { accessToken: token.access_token, claims, cookie: sessionCookie };
+}
+
+export function classifyAuthorizationResult(url: string, baseUrl: string):
+  | { kind: 'code'; code: string }
+  | { kind: 'consent'; oauthQuery: string } {
+  const result = new URL(url, baseUrl);
+  const code = result.searchParams.get('code');
+  if (code) return { kind: 'code', code };
+  const oauthQuery = result.search.slice(1);
+  if (!oauthQuery) throw new Error('OAuth authorization returned neither code nor consent query');
+  return { kind: 'consent', oauthQuery };
+}
+
+export function mergeResponseCookies(cookie: string, response: Response): string {
+  const values = new Map<string, string>();
+  for (const part of cookie.split(';').map((item) => item.trim()).filter(Boolean)) {
+    const separator = part.indexOf('=');
+    if (separator > 0) values.set(part.slice(0, separator), part.slice(separator + 1));
+  }
+  for (const setCookie of response.headers.getSetCookie()) {
+    const [pair] = setCookie.split(';', 1);
+    const separator = pair.indexOf('=');
+    if (separator < 1) continue;
+    const name = pair.slice(0, separator);
+    const expires = /(?:^|;)\s*expires=([^;]+)/i.exec(setCookie)?.[1];
+    if (
+      /(?:^|;)\s*max-age=0(?:;|$)/i.test(setCookie) ||
+      (expires && Date.parse(expires) <= Date.now())
+    ) {
+      values.delete(name);
+    } else {
+      values.set(name, pair.slice(separator + 1));
+    }
+  }
+  return [...values].map(([name, value]) => `${name}=${value}`).join('; ');
 }
 
 async function registerBuyer(environment: Milestone7Environment) {
@@ -257,7 +307,7 @@ async function subscribe(
   terminalState: 'COMPLETED' | 'PIX_GENERATED',
   accessToken: string,
 ) {
-  const streamPromise = fetch(`${environment.gatewayUrl}/graphql/stream`, {
+  const stream = await fetch(`${environment.gatewayUrl}/graphql/stream`, {
     method: 'POST',
     headers: {
       accept: 'text/event-stream',
@@ -270,20 +320,26 @@ async function subscribe(
       variables: { operationKey },
     }),
   });
-  return async () => {
-    const stream = await streamPromise;
-    if (!stream.ok || !stream.body)
-      throw new Error(`Gateway subscription failed with ${stream.status}`);
-    const reader = stream.body.getReader();
-    const decoder = new TextDecoder();
-    let pending = '';
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done)
-        throw new Error(`Subscription ${operationKey} ended without an event`);
-      pending += decoder.decode(value, { stream: true });
-      const delimiter = pending.match(/\r?\n\r?\n/);
-      if (!delimiter || delimiter.index === undefined) continue;
+  if (!stream.ok || !stream.body)
+    throw new Error(`Gateway subscription failed with ${stream.status}`);
+  return () => readTerminalEvent(stream, operationKey, terminalState);
+}
+
+export async function readTerminalEvent(
+  stream: Response,
+  operationKey: string,
+  terminalState: string,
+) {
+  if (!stream.body) throw new Error('Subscription response has no body');
+  const reader = stream.body.getReader();
+  const decoder = new TextDecoder();
+  let pending = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    pending += decoder.decode(value, { stream: !done });
+    for (let delimiter = pending.match(/\r?\n\r?\n/);
+      delimiter?.index !== undefined;
+      delimiter = pending.match(/\r?\n\r?\n/)) {
       const frame = pending.slice(0, delimiter.index);
       pending = pending.slice(delimiter.index + delimiter[0].length);
       const data = frame
@@ -298,7 +354,9 @@ async function subscribe(
       const event = payload.data?.orderEvents;
       if (event?.state === terminalState) return event;
     }
-  };
+    if (done)
+      throw new Error(`Subscription ${operationKey} ended without an event`);
+  }
 }
 
 async function checkout(
@@ -328,13 +386,17 @@ async function checkout(
 export async function runAcceptanceJourney(
   environment: Milestone7Environment,
 ): Promise<AcceptanceProof> {
-  const { buyer, cookie } = await registerBuyer(environment);
-  const { accessToken, claims } = await issueToken(
+  const registration = await registerBuyer(environment);
+  const { buyer } = registration;
+  let cookie = registration.cookie;
+  const primaryGrant = await issueToken(
     environment,
     [GATEWAY_AUDIENCE, MCP_AUDIENCE],
     SCOPES,
     cookie,
   );
+  const { accessToken, claims } = primaryGrant;
+  cookie = primaryGrant.cookie;
   const gatewayIdentity = await graphql(environment, 'me', {}, accessToken);
   const mcpIdentity = await invokeMe(environment, accessToken);
 
@@ -369,6 +431,7 @@ export async function runAcceptanceJourney(
     SCOPES,
     cookie,
   );
+  cookie = gatewayOnly.cookie;
   const underScoped = await issueToken(
     environment,
     [GATEWAY_AUDIENCE, MCP_AUDIENCE],

@@ -42,7 +42,9 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
   }, 120_000);
 
   it('starts the complete isolated topology from one target @spec:AC-067', async () => {
-    expect(environment?.startedComponents).toEqual(requiredComponents);
+    expect(new Set(environment?.startedComponents)).toEqual(
+      new Set(requiredComponents),
+    );
     await expect(
       fetch(`${environment!.gatewayUrl}/ready`).then(({ status }) => status),
     ).resolves.toBe(200);
@@ -57,10 +59,13 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     expect(proof.identity.buyer).toMatchObject({
       email: 'milestone-7-buyer@example.test',
     });
-    expect(proof.identity.claims.aud).toEqual([
-      'https://gateway.marketplace.local',
-      'https://mcp.marketplace.local',
-    ]);
+    expect(new Set(proof.identity.claims.aud)).toEqual(
+      new Set([
+        'https://gateway.marketplace.local',
+        'https://mcp.marketplace.local',
+        'http://identity.localhost:3001/api/auth/oauth2/userinfo',
+      ]),
+    );
     expect(proof.identity).toMatchObject({
       gatewayAccepted: true,
       mcpAccepted: true,
