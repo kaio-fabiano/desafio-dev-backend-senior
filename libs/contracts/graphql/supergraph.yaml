@@ -5,11 +5,11 @@ subgraphs:
     routing_url: http://identity-subgraph:3001/graphql
     schema:
       file: ./identity/schema.graphql
-  catalog:
-    routing_url: http://wordpress-integration/graphql
+  wordpress:
+    routing_url: http://wordpress-federation:3004/graphql
     schema:
-      file: ./catalog/schema.graphql
-  commerce:
-    routing_url: http://commerce-subgraph:3003/graphql
+      file: ./wordpress/schema.graphql
+  payment:
+    routing_url: http://payment-processor:8080/graphql
     schema:
-      file: ./commerce/schema.graphql
+      file: ./payment/schema.graphql

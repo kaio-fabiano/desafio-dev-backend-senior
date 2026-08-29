@@ -7,18 +7,17 @@ import {
 } from 'testcontainers';
 
 const STARTUP_TIMEOUT = 600_000;
+const RETIRED_COMPONENTS = ['postgres', 'commerce-subgraph', 'stock-worker'];
 const COMPOSE_SERVICES = [
   'rabbitmq',
-  'postgres',
   'identity-database',
   'payment-database',
   'wordpress-database',
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'commerce-subgraph',
-  'stock-worker',
   'payment-processor',
+  'wordpress-federation',
   'gateway',
   'apollo-mcp',
 ] as const;
@@ -63,7 +62,11 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,
       diagnostics: async () => {
-        const services = ['stock-worker', 'wordpress'];
+        const services = [
+          'wordpress-federation',
+          'payment-processor',
+          'wordpress',
+        ];
         const serviceLogs = (
           await Promise.all(
             services.map(async (service) => {
@@ -80,24 +83,10 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
             }),
           )
         ).join('\n');
-        const database = await environment!
-          .getContainer('postgres-1')
-          .exec([
-            'psql',
-            '-U',
-            'postgres',
-            '-d',
-            'commerce',
-            '-c',
-            'select event_type, payload, publication_attempts, last_publication_attempt_at, sent_at from commerce_outbox_event; select state, woo_order_id from commerce_order_workflow; select event_id from commerce_inbox_record; select event_id, result from stock_worker_inbox;',
-          ]);
         const rabbit = await environment!
           .getContainer('rabbitmq-1')
           .exec(['sh', '-c', 'timeout 5 rabbitmqctl list_queues name messages_ready messages_unacknowledged consumers']);
-        const stockProcesses = await environment!
-          .getContainer('stock-worker-1')
-          .exec(['sh', '-c', "sha256sum apps/stock-worker/src/inventory/woo-inventory.adapter.ts; for process in /proc/[0-9]*; do printf '%s ' \"$process\"; tr '\\0' ' ' < \"$process/cmdline\" 2>/dev/null || true; echo; done"]);
-        return `${serviceLogs}\n--- stock image and processes ---\n${stockProcesses.output}\n--- commerce database ---\n${database.output}\n--- rabbitmq ---\n${rabbit.output}`;
+        return `${serviceLogs}\n--- retired components ---\n${RETIRED_COMPONENTS.join(', ')}\n--- rabbitmq ---\n${rabbit.output}`;
       },
       stop,
     };

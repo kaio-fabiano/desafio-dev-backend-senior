@@ -1,3 +1,26 @@
+x-federated-node-build: &federated-node-build
+  context: .
+  dockerfile_inline: |
+    FROM node:24.19.0-bookworm-slim AS dependencies
+    WORKDIR /workspace
+    RUN corepack enable
+    COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+    RUN pnpm install --config.minimumReleaseAge=0 --frozen-lockfile --prod
+
+    FROM node:24.19.0-bookworm-slim AS runtime
+    WORKDIR /workspace
+    ENV NODE_ENV=production
+    RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home app
+    COPY --from=dependencies --chown=app:app /workspace/node_modules ./node_modules
+    COPY --chown=app:app apps/gateway ./apps/gateway
+    COPY --chown=app:app apps/identity-subgraph ./apps/identity-subgraph
+    COPY --chown=app:app apps/wordpress-federation ./apps/wordpress-federation
+    COPY --chown=app:app libs/contracts/graphql ./libs/contracts/graphql
+    COPY --chown=app:app libs/gateway/nest ./libs/gateway/nest
+    COPY --chown=app:app libs/identity/nest ./libs/identity/nest
+    COPY --chown=app:app libs/wordpress/nest ./libs/wordpress/nest
+    USER app
+
 services:
   rabbitmq:
     image: rabbitmq:4.1.3-management
@@ -6,20 +29,6 @@ services:
       interval: 2s
       timeout: 2s
       retries: 30
-
-  postgres:
-    image: postgres:17.6-bookworm
-    environment:
-      POSTGRES_DB: commerce
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d commerce"]
-      interval: 2s
-      timeout: 2s
-      retries: 30
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
 
   identity-database:
     image: postgres:17.6-bookworm
@@ -74,7 +83,10 @@ services:
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_USER: wordpress
-      WORDPRESS_CONFIG_EXTRA: "define('DISABLE_WP_CRON', true);"
+      MARKETPLACE_FEDERATION_SECRET: ${WPGRAPHQL_FEDERATION_SECRET:-local-development-federation-secret}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('DISABLE_WP_CRON', true);
+        define('MARKETPLACE_FEDERATION_SECRET', getenv('MARKETPLACE_FEDERATION_SECRET'));
     healthcheck:
       test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1/readme.html"]
       interval: 2s
@@ -142,17 +154,17 @@ services:
       - wordpress-data:/var/www/html
 
   gateway:
-    build:
-      context: .
-      dockerfile: apps/gateway/Dockerfile
+    build: *federated-node-build
+    command: ["node", "--experimental-transform-types", "apps/gateway/src/main.ts"]
     environment:
-      COMMERCE_SUBSCRIPTION_URL: http://commerce-subgraph:3003/graphql/stream
       GATEWAY_AUDIENCE: https://gateway.marketplace.local
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PORT: 3000
     depends_on:
-      commerce-subgraph:
+      wordpress-federation:
+        condition: service_healthy
+      payment-processor:
         condition: service_healthy
       identity-subgraph:
         condition: service_healthy
@@ -182,9 +194,8 @@ services:
       retries: 30
 
   identity-subgraph:
-    build:
-      context: .
-      dockerfile: apps/identity-subgraph/Dockerfile
+    build: *federated-node-build
+    command: ["node", "--experimental-transform-types", "apps/identity-subgraph/src/main.ts"]
     environment:
       BETTER_AUTH_SECRET: local-development-secret-change-me
       DATABASE_URL: postgresql://postgres:postgres@identity-database:5432/identity
@@ -213,41 +224,13 @@ services:
       timeout: 2s
       retries: 30
 
-  commerce-subgraph:
-    build:
-      context: .
-      dockerfile: apps/commerce-subgraph/Dockerfile
-    environment:
-      COMMERCE_DB_HOST: postgres
-      COMMERCE_DB_NAME: commerce
-      COMMERCE_DB_PASSWORD: postgres
-      COMMERCE_DB_USER: postgres
-      PORT: 3003
-      RABBITMQ_URL: amqp://rabbitmq:5672
-      WORDPRESS_URL: http://wordpress
-      WOO_CONSUMER_KEY: ck_2222222222222222222222222222222222222222
-      WOO_CONSUMER_SECRET: cs_2222222222222222222222222222222222222222
-    depends_on:
-      postgres:
-        condition: service_healthy
-      wordpress:
-        condition: service_healthy
-      wordpress-setup:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3003/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"]
-      interval: 2s
-      timeout: 2s
-      retries: 30
-
   payment-processor:
     build:
       context: .
       dockerfile: apps/payment-processor/Dockerfile
     environment:
       RABBITMQ_URL: amqp://rabbitmq:5672
+      SERVER_PORT: 8080
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
       SPRING_DATASOURCE_USERNAME: postgres
@@ -256,6 +239,8 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    ports:
+      - "8080"
     healthcheck:
       test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:8080/actuator/health"]
       interval: 2s
@@ -263,33 +248,36 @@ services:
       retries: 30
     stop_grace_period: 35s
 
-  stock-worker:
-    build:
-      context: .
-      dockerfile: apps/stock-worker/Dockerfile
+  wordpress-federation:
+    build: *federated-node-build
+    command: ["node", "--experimental-transform-types", "apps/wordpress-federation/src/main.ts"]
     environment:
-      RABBITMQ_URL: amqp://rabbitmq:5672
-      STOCK_DB_HOST: postgres
-      WOO_URL: http://wordpress
-      WOO_CONSUMER_KEY: ck_3333333333333333333333333333333333333333
-      WOO_CONSUMER_SECRET: cs_3333333333333333333333333333333333333333
+      PORT: 3004
+      WPGRAPHQL_ENDPOINT: http://wordpress/graphql
+      WPGRAPHQL_FEDERATION_SECRET: ${WPGRAPHQL_FEDERATION_SECRET:-local-development-federation-secret}
     depends_on:
-      postgres:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
       wordpress-setup:
         condition: service_healthy
+    ports:
+      - "3004"
     healthcheck:
-      test: ["CMD", "test", "-f", "/tmp/stock-worker-ready"]
+      test: ["CMD", "node", "-e", "require('node:net').connect(3004, '127.0.0.1').once('connect', () => process.exit(0)).once('error', () => process.exit(1))"]
       interval: 2s
       timeout: 2s
       retries: 30
-    stop_grace_period: 35s
 
 volumes:
-  postgres-data:
   identity-database-data:
   payment-database-data:
   wordpress-database-data:
   wordpress-data:
+
+x-retired-runtimes:
+    commerce-subgraph:
+      healthcheck: removed
+      former_woo_consumer_key: ck_2222222222222222222222222222222222222222
+      former_woo_consumer_secret: cs_2222222222222222222222222222222222222222
+    stock-worker:
+      healthcheck: removed
+      former_woo_consumer_key: ck_3333333333333333333333333333333333333333
+      former_woo_consumer_secret: cs_3333333333333333333333333333333333333333
