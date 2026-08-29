@@ -5,6 +5,46 @@
 > ORM/banco e estrutura de pastas são **parte do desafio** — onde não houver exigência explícita, a
 > decisão é sua, e esperamos que ela esteja **justificada no README da sua entrega**.
 
+## Delivered architecture walkthrough
+
+The implementation converges on five deployable applications and one
+non-deployable end-to-end project:
+
+```mermaid
+flowchart LR
+  Client --> Gateway
+  Agent[AI agent] --> MCP[Apollo MCP] --> Gateway
+  Gateway --> Identity[Identity Federation]
+  Gateway --> Payment[Payment Federation]
+  Gateway --> WordPress[WordPress Federation]
+  Identity --> BetterAuth[(Better Auth PostgreSQL)]
+  Payment --> PaymentDB[(Payment PostgreSQL)]
+  WordPress --> Woo[(WordPress / WooCommerce)]
+  Client -->|GraphQL over SSE| WordPress
+```
+
+| Runtime              | Single responsibility                                                                         | Composition boundary                                                                       |
+| -------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Apollo MCP           | Expose curated authenticated graph operations to agents                                       | Apollo MCP configuration and its Gateway endpoint                                          |
+| Gateway              | Authenticate, propagate safe context, and compose queries and mutations                       | NestJS authentication providers and Apollo Gateway                                         |
+| Identity Federation  | Own identity, sessions, OAuth, registration, and identity graph fields                        | `NestJSBetterAuth`, plugin factories, and Identity providers                               |
+| Payment Federation   | Own payment invariants, idempotent commands, read views, and payment graph fields             | Spring configuration, focused command/query handlers, and Spring GraphQL Federation        |
+| WordPress Federation | Expose authoritative product, cart, order, customer, inventory, and order-stream capabilities | Thin NestJS delegation to WPGraphQL/WooGraphQL and a provider-owned `graphql-sse` endpoint |
+
+The domain rule is ownership, not uniformity: Better Auth owns its records,
+WooCommerce owns commercial state, and Payment owns its aggregate and read
+view. CQRS is used only in Payment, where an invariant-bearing write path and a
+direct read view are materially different. Gateway and Apollo MCP remain
+stateless edges. There is deliberately no Identity MikroORM mirror, generic DDD
+framework, base repository hierarchy, distributed command bus, gateway
+subscription proxy, Commerce subgraph, or Stock worker.
+
+Start with the [project map](docs/knowledge/Mapa%20do%20Projeto.md), then use the
+[local development runbook](docs/runbooks/local-development.md) and the
+[end-to-end runbook](docs/runbooks/e2e.md). The executable decision-to-evidence
+matrix and recommended review order are in the
+[federated platform review](docs/evidence/federated-platform-refactor/review.md).
+
 ---
 
 ## Sumário

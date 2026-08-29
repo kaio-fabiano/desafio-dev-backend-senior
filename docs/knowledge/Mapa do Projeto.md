@@ -1,11 +1,17 @@
 ---
 tags: [marketplace, arquitetura, prd, obsidian]
-updated: 2026-08-25
+updated: 2026-08-28
 ---
 
 # Project Map
 
 This is the Obsidian memory entry point.
+
+The delivered topology has five deployable applications: Apollo MCP, Gateway,
+Identity Federation, Payment Federation, and WordPress Federation. The E2E
+project is an executable proof project, not a sixth runtime. The canonical
+decision-to-test matrix is the [federated platform architecture
+review](../evidence/federated-platform-refactor/review.md).
 
 ## Core
 
@@ -26,14 +32,29 @@ This is the Obsidian memory entry point.
 ## Main relationship
 
 ```mermaid
-flowchart TD
-  Interview[Interview Notes] --> Federation[GraphQL Federation]
-  Interview --> WordPress[WordPress plugin-first]
-  WordPress --> Federation
-  OAuth[OAuth2 Identity] --> Federation
-  Federation --> MCP[Apollo MCP]
-  Federation --> Commerce[Commerce]
-  Commerce --> Saga[Saga and Idempotency]
-  Saga --> SSE[Subscriptions SSE]
-  SSE --> Federation
+flowchart LR
+  Client --> Gateway
+  MCP[Apollo MCP] --> Gateway
+  Gateway --> Identity[Identity Federation]
+  Gateway --> Payment[Payment Federation]
+  Gateway --> WordPress[WordPress Federation]
+  Identity --> BetterAuth[Better Auth]
+  Payment --> PaymentData[Payment aggregate and view]
+  WordPress --> Woo[WPGraphQL and WooGraphQL]
+  Client --> SSE[WordPress graphql-sse]
+  SSE --> WordPress
 ```
+
+## Review path
+
+1. Read [ADR 007](../adrs/007-federated-platform-boundaries.md) for the runtime
+   inventory and inward dependency rule.
+2. Follow the provider boundaries in `libs/platform/nest`, `libs/gateway/nest`,
+   `libs/identity/nest`, `libs/wordpress/nest`, and Payment's Spring
+   configuration.
+3. Inspect the versioned SDL under `libs/contracts/graphql`, then run the
+   composition gate from the [local development runbook](../runbooks/local-development.md).
+4. Run the isolated buyer journey from the [E2E runbook](../runbooks/e2e.md).
+5. Use the [architecture review](../evidence/federated-platform-refactor/review.md)
+   to trace each responsibility, provider boundary, domain decision, and
+   deliberately omitted abstraction to executable evidence.
