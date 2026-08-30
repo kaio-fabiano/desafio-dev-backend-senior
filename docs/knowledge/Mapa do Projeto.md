@@ -1,6 +1,6 @@
 ---
 tags: [marketplace, arquitetura, prd, obsidian]
-updated: 2026-08-28
+updated: 2026-08-30
 ---
 
 # Project Map

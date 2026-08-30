@@ -169,36 +169,37 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
 
 ## Local verification ledger
 
-Update this table only from a clean local execution. A non-zero command remains
-failed; focused tests never substitute for the complete gate.
+This ledger records the final execution on 2026-08-30. Focused tests do not
+substitute for the complete verification command.
 
-| Gate                                          | Result               | Evidence                                                                                                   |
-| --------------------------------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------- |
-| T-073 focused architecture documentation test | PASS (1/1)           | `node --test --test-reporter=tap test/federated-platform-quality.test.mjs` on 2026-08-28                   |
-| Focused federated-platform architecture suite | PASS (18/18)         | Architecture boundaries, federation refactors, provider composition, and T-073 quality proof on 2026-08-28 |
-| Project quality                               | FAIL (34/39 targets) | `quality:nx` failures listed below                                                                         |
-| Complete repository regression command        | FAIL                 | Its first segment fails AC-007; independently executed later segments found the additional failures below  |
-| Isolated Vitest/Testcontainers E2E            | FAIL                 | Topology setup fails and all five scenarios are skipped, so this is not acceptance evidence                |
+| Gate                               | Result       | Evidence                                                                                                              |
+| ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Federated-platform focused suite   | PASS (25/25) | Architecture, provider composition, Identity, Gateway, WordPress, Payment, subscriptions, topology, and quality tests |
+| Payment Spring integration suite   | PASS (9/9)   | `PaymentFederationTest` and the Payment application tests                                                             |
+| Isolated Vitest/Testcontainers E2E | PASS (5/5)   | Card, Pix, authenticated SSE, persistent reads, and Apollo MCP parity                                                  |
+| Feature spec verification          | PASS (14/14) | `onp-spec verify federated-platform-architecture-refactor`; 238 tests parsed                                           |
+| Historical spec verification       | PASS         | All eleven stale feature proofs were rerun against the same 238-test repository command                               |
+| Repository spec audit              | PASS         | `onp-spec audit --ci`; 103/103 criteria tested, 103/103 proved, zero warnings                                         |
 
-## Blocking gate findings
+## Completed work previously recorded as blocked
 
-These findings are recorded rather than hidden by a narrower green test. Their
-fixes are outside the T-073 documentation and quality-test file boundary.
+- The complete regression now includes the feature-specific AC-090 through
+  AC-103 tests, and the spec parser recognizes all fourteen criteria.
+- The WordPress integration probe uses a workspace-mounted temporary directory,
+  allowing its nested Docker daemon to mount generated plugin assets.
+- Identity registration persists the Better Auth subject in WooCommerce user
+  metadata, and WordPress uses the verified subject for order ownership.
+- Gateway propagates the WooCommerce session headers and response cookies needed
+  by native cart and checkout operations without taking ownership of commerce.
+- The WordPress capability-gap plugin exposes versioned Card, Pix, and order
+  snapshot operations while WooCommerce remains the commercial system of record.
+- Payment persistence and read/write providers are owned by Spring
+  `PaymentConfiguration` and are enabled only when a datasource is configured.
+- The order stream is authenticated and served directly by WordPress Federation
+  through the executable NestJS GraphQL schema and the official `graphql-sse`
+  handler; Gateway does not proxy it.
+- Compose enables the reproducible checkout path and declares the required
+  identity, WordPress, Payment, Gateway, and MCP dependencies.
 
-- AC-007 expects `onpspec.config.json` parallelism without the configured
-  `sandbox` field. The complete chained regression therefore stops in
-  `test/project-planning-memory.test.mjs`.
-- Milestone 1 local infrastructure fails because the Identity container cannot
-  resolve `/workspace/libs/identity/nest/src/index.ts`; its Docker build does
-  not make that project available to the runtime image.
-- `quality:nx` reports 34 of 39 targets successful. Gateway, Identity, and
-  WordPress Federation lint reject relative cross-project imports in their
-  composition roots. Platform NestJS typecheck/build cannot resolve the Node
-  type definitions.
-- The final Vitest/Testcontainers acceptance suite cannot establish its
-  topology. Its five scenarios are skipped after setup failure, which counts as
-  a failed gate under this review contract.
-
-The independently executed Marco 0 and Milestone 2 through Milestone 8 Node
-test segments passed. Those results narrow the blockers but do not turn the
-complete regression command green.
+No acceptance blocker remains in this review. Generated Gradle directories and
+pre-existing local containers are workspace housekeeping, not delivery evidence.

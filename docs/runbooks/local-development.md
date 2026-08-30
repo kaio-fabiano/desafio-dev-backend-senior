@@ -6,6 +6,14 @@ Install Node.js 24, Corepack, Docker Engine with Compose, and Java 21. The
 workspace pins pnpm 10.17.1; use Corepack so local and CI resolution agree. Do
 not place credentials in files or shell history.
 
+When Node is managed by `fnm`, initialize it in the current shell or execute the
+pinned local version explicitly:
+
+```sh
+fnm exec --using v24.19.0 -- node --version
+fnm exec --using v24.19.0 -- npm --version
+```
+
 ## Start the five-application topology
 
 ```sh
@@ -34,7 +42,9 @@ node --experimental-transform-types --test --test-reporter=tap \
   test/identity-federation-refactor.test.mjs \
   test/gateway-federation-refactor.test.mjs \
   test/wordpress-federation-refactor.test.mjs \
+  test/payment-federation-refactor.test.mjs \
   test/order-subscription-refactor.test.mjs \
+  test/five-app-topology.test.mjs \
   test/federated-platform-quality.test.mjs
 
 # Schema composition
@@ -52,3 +62,18 @@ review](../evidence/federated-platform-refactor/review.md).
 
 The canonical isolated journey is documented in the [E2E runbook](e2e.md).
 Keep test credentials ephemeral and supplied through the environment.
+
+## Spec-anchored completion gate
+
+After the implementation and E2E gates pass, refresh the feature proof and run
+the repository audit:
+
+```sh
+node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs \
+  verify federated-platform-architecture-refactor
+node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci
+```
+
+The delivery is complete only when both commands exit zero. The final
+2026-08-30 execution proved 14/14 feature criteria and 103/103 repository
+criteria with no audit warnings.

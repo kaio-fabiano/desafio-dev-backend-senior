@@ -30,6 +30,11 @@ Gateway serves federated queries and mutations but does not proxy the SSE
 stream. Compare the terminal stream event with the federated order/payment view
 and the corresponding MCP operation before accepting the run.
 
+The final architecture-refactor execution on 2026-08-30 passed all five
+scenarios. It proved both Card and Pix journeys, direct authenticated SSE,
+persistent order/payment reads after the write, and MCP parity. A skipped
+scenario is not a pass and must keep the gate red.
+
 Never paste bearer tokens, client secrets, authorization headers, or token
 payloads into logs or evidence. Record only the command, timestamp, exit status,
 and sanitized assertions in the [architecture
