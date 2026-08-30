@@ -74,6 +74,10 @@ test('AC-096: WordPress Federation independently authorizes sensitive operations
   assert.match(plugin, /get_user_by\('id'/);
   assert.match(plugin, /better_auth_user_id/);
   assert.match(plugin, /current_user_can\('manage_woocommerce'\)/);
+  assert.match(plugin, /register_graphql_mutation\('recordPixPaymentV1'/);
+  assert.match(plugin, /register_graphql_mutation\('recordCardPaymentV1'/);
+  assert.match(plugin, /\(int\) \$order->get_customer_id\(\) !== \$user_id/);
+  assert.match(plugin, /_marketplace_payment_state/);
 });
 
 test('AC-097: native WordPress plugins provide the delegated commercial graph @spec:AC-097', async () => {

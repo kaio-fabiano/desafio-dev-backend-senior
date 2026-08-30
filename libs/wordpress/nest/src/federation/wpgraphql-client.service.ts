@@ -1,5 +1,6 @@
 import type { IncomingHttpHeaders } from 'node:http';
 
+import { WordPressCheckoutEventSource } from '../subscriptions/wordpress-checkout-event.source.ts';
 import {
   WpGraphqlAuthorizationError,
   type WpGraphqlAuth,
@@ -64,19 +65,23 @@ export class WpGraphqlClientService {
   private readonly endpoint: string;
   private readonly auth: WpGraphqlAuth;
   private readonly request: typeof fetch;
+  private readonly checkoutEvents?: WordPressCheckoutEventSource;
 
   constructor({
     endpoint,
     auth,
     request = fetch,
+    checkoutEvents,
   }: {
     endpoint: string;
     auth: WpGraphqlAuth;
     request?: typeof fetch;
+    checkoutEvents?: WordPressCheckoutEventSource;
   }) {
     this.endpoint = endpoint;
     this.auth = auth;
     this.request = request;
+    this.checkoutEvents = checkoutEvents;
   }
 
   async execute(
@@ -94,6 +99,11 @@ export class WpGraphqlClientService {
       headers,
       body: JSON.stringify(operation),
     });
+    await this.checkoutEvents?.observe(
+      operation,
+      Object.fromEntries(incoming),
+      response,
+    );
 
     if (
       !/\b_service\b/.test(operation.query) ||

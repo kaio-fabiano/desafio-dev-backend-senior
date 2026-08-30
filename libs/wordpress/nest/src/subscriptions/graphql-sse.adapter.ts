@@ -4,6 +4,7 @@ import {
   Inject,
   Injectable,
   type OnApplicationBootstrap,
+  type OnModuleInit,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { GraphQLSchemaHost } from '@nestjs/graphql';
@@ -15,9 +16,13 @@ import {
   type SubscriptionContext,
 } from './subscription-auth.guard.ts';
 
-export class GraphqlSseAdapter implements OnApplicationBootstrap {
+export class GraphqlSseAdapter implements OnModuleInit, OnApplicationBootstrap {
   readonly path = '/graphql/stream';
   private schema?: GraphQLSchema;
+  private handler?: (
+    request: IncomingMessage,
+    response: ServerResponse,
+  ) => Promise<void>;
 
   constructor(
     private readonly schemaHost: GraphQLSchemaHost,
@@ -30,14 +35,28 @@ export class GraphqlSseAdapter implements OnApplicationBootstrap {
     return this.schema;
   }
 
+  onModuleInit(): void {
+    this.httpAdapterHost.httpAdapter.all(
+      this.path,
+      async (request: IncomingMessage, response: ServerResponse) => {
+        if (!this.handler) {
+          response.writeHead(503);
+          response.end();
+          return;
+        }
+        await this.handler(request, response);
+      },
+    );
+  }
+
   onApplicationBootstrap(): void {
-    const schema = this.schemaHost.schema;
+    this.schema = this.schemaHost.schema;
     const contexts = new WeakMap<IncomingMessage, SubscriptionContext>();
     const handler = createHandler<SubscriptionContext>({
-      schema,
-      authenticate: ({ raw }) => {
+      schema: this.schema,
+      authenticate: async ({ raw }) => {
         try {
-          contexts.set(raw, this.auth.authenticate(raw));
+          contexts.set(raw, await this.auth.authenticate(raw));
           return null;
         } catch (error) {
           const status =
@@ -63,10 +82,7 @@ export class GraphqlSseAdapter implements OnApplicationBootstrap {
       },
     });
 
-    this.schema = schema;
-    this.httpAdapterHost.httpAdapter.all(
-      this.path,
-      async (request: IncomingMessage, response: ServerResponse) => {
+    this.handler = async (request, response) => {
         try {
           await handler(request, response);
         } catch {
@@ -75,8 +91,7 @@ export class GraphqlSseAdapter implements OnApplicationBootstrap {
         } finally {
           contexts.delete(request);
         }
-      },
-    );
+      };
   }
 }
 

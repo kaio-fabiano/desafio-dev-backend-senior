@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import { NestFactory } from '@nestjs/core';
+import { json } from 'express';
 
 import {
   WORDPRESS_FEDERATION_CONFIG,
@@ -9,7 +10,13 @@ import {
 import { AppModule } from './app.module.ts';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bodyParser: false });
+  const parseJson = json();
+  app.use('/graphql', (request, response, next) =>
+    request.path === '/stream'
+      ? next()
+      : parseJson(request, response, next),
+  );
   const { port } = app.get<WordPressFederationConfig>(
     WORDPRESS_FEDERATION_CONFIG,
   );

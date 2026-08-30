@@ -5,7 +5,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { GraphqlSseAdapter } from './graphql-sse.adapter.ts';
 import { OrderEventResolver } from './order-event.resolver.ts';
 import { OrderEventService } from './order-event.service.ts';
-import { SubscriptionAuthGuard } from './subscription-auth.guard.ts';
+import {
+  SUBSCRIPTION_TOKEN_OPTIONS,
+  SubscriptionAuthGuard,
+  subscriptionTokenOptions,
+} from './subscription-auth.guard.ts';
+import { WordPressCheckoutEventSource } from './wordpress-checkout-event.source.ts';
 
 export class SubscriptionsModule {}
 
@@ -19,9 +24,19 @@ Module({
   ],
   providers: [
     OrderEventService,
+    {
+      provide: SUBSCRIPTION_TOKEN_OPTIONS,
+      useFactory: subscriptionTokenOptions,
+    },
     SubscriptionAuthGuard,
+    WordPressCheckoutEventSource,
     OrderEventResolver,
     GraphqlSseAdapter,
   ],
-  exports: [OrderEventService, SubscriptionAuthGuard, GraphqlSseAdapter],
+  exports: [
+    OrderEventService,
+    SubscriptionAuthGuard,
+    WordPressCheckoutEventSource,
+    GraphqlSseAdapter,
+  ],
 })(SubscriptionsModule);

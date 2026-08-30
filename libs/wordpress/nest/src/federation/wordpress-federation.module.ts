@@ -15,6 +15,8 @@ import {
   createWpGraphqlAuth,
   type WpGraphqlAuth,
 } from './wpgraphql-auth.factory.ts';
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module.ts';
+import { WordPressCheckoutEventSource } from '../subscriptions/wordpress-checkout-event.source.ts';
 
 export const WORDPRESS_FEDERATION_CONFIG = Symbol(
   'WORDPRESS_FEDERATION_CONFIG',
@@ -59,6 +61,7 @@ export class WordPressFederationModule implements NestModule {
 
 Inject(WpGraphqlClientService)(WordPressFederationModule, undefined, 0);
 Module({
+  imports: [SubscriptionsModule],
   providers: [
     {
       provide: WORDPRESS_FEDERATION_CONFIG,
@@ -72,9 +75,21 @@ Module({
     },
     {
       provide: WpGraphqlClientService,
-      inject: [WORDPRESS_FEDERATION_CONFIG, WPGRAPHQL_AUTH],
-      useFactory: (config: WordPressFederationConfig, auth: WpGraphqlAuth) =>
-        new WpGraphqlClientService({ endpoint: config.endpoint, auth }),
+      inject: [
+        WORDPRESS_FEDERATION_CONFIG,
+        WPGRAPHQL_AUTH,
+        WordPressCheckoutEventSource,
+      ],
+      useFactory: (
+        config: WordPressFederationConfig,
+        auth: WpGraphqlAuth,
+        checkoutEvents: WordPressCheckoutEventSource,
+      ) =>
+        new WpGraphqlClientService({
+          endpoint: config.endpoint,
+          auth,
+          checkoutEvents,
+        }),
     },
   ],
   exports: [WpGraphqlClientService, WORDPRESS_FEDERATION_CONFIG],

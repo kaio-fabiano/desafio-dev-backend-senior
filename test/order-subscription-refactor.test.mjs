@@ -11,7 +11,9 @@ import {
   OrderEventService,
   SubscriptionAuthGuard,
   SubscriptionsModule,
+  WordPressCheckoutEventSource,
   WordPressFederationModule,
+  WpGraphqlClientService,
 } from '../libs/wordpress/nest/src/index.ts';
 
 const event = (subject, operationKey, state = 'PROCESSING') => ({
@@ -26,23 +28,42 @@ const event = (subject, operationKey, state = 'PROCESSING') => ({
 });
 
 test('AC-102: NestJS providers own authenticated order subscription filtering and cleanup @spec:AC-102', async () => {
-  const auth = new SubscriptionAuthGuard();
-  assert.throws(
-    () => auth.authenticate({ headers: {} }),
+  const request = (authorization = 'Bearer valid-token') => ({
+    headers: { authorization, host: 'wordpress-federation' },
+    method: 'POST',
+    rawHeaders: ['authorization', authorization],
+    url: '/graphql/stream',
+  });
+  const auth = (claims) =>
+    new SubscriptionAuthGuard({
+      audience: 'gateway',
+      issuer: 'identity',
+      jwksUrl: 'http://identity/jwks',
+      verify: async (incoming) => {
+        assert.equal(
+          incoming.headers.get('authorization'),
+          'Bearer valid-token',
+        );
+        return claims;
+      },
+    });
+  await assert.rejects(
+    () => auth({ scope: 'orders:read' }).authenticate(request()),
     /authenticated subject/i,
   );
-  assert.throws(
-    () =>
-      auth.authenticate({
-        headers: { 'x-authenticated-subject': 'buyer-a' },
-      }),
+  await assert.rejects(
+    () => auth({ sub: 'buyer-a' }).authenticate(request()),
     /orders:read/,
   );
   assert.deepEqual(
-    auth.authenticate({
+    await auth({
+      sub: 'buyer-a',
+      scope: 'marketplace:read orders:read',
+    }).authenticate({
+      ...request(),
       headers: {
-        'x-authenticated-subject': 'buyer-a',
-        'x-authenticated-scopes': 'marketplace:read orders:read',
+        authorization: 'Bearer valid-token',
+        host: 'wordpress-federation',
         'x-request-id': 'request-1',
       },
     }),
@@ -51,6 +72,31 @@ test('AC-102: NestJS providers own authenticated order subscription filtering an
       scopes: ['marketplace:read', 'orders:read'],
       requestId: 'request-1',
     },
+  );
+  await assert.rejects(
+    () =>
+      new SubscriptionAuthGuard({
+        audience: 'gateway',
+        issuer: 'identity',
+        jwksUrl: 'http://identity/jwks',
+        verify: async () => {
+          throw new Error('bad signature');
+        },
+      }).authenticate({
+        ...request(''),
+        headers: {
+          host: 'wordpress-federation',
+          'x-authenticated-subject': 'forged-buyer',
+          'x-authenticated-scopes': 'orders:read',
+        },
+        rawHeaders: [
+          'x-authenticated-subject',
+          'forged-buyer',
+          'x-authenticated-scopes',
+          'orders:read',
+        ],
+      }),
+    /valid access token/i,
   );
 
   const service = new OrderEventService();
@@ -74,6 +120,79 @@ test('AC-102: NestJS providers own authenticated order subscription filtering an
 
   await anotherBuyer.return();
   assert.equal(service.listenerCount(), 0);
+
+  const checkoutEvents = new WordPressCheckoutEventSource(service);
+  const checkoutStream = service.subscribe('buyer-a', 'operation-checkout');
+  const client = new WpGraphqlClientService({
+    endpoint: 'http://wordpress/graphql',
+    auth: { headersFor: (_operation, incoming) => new Headers(incoming) },
+    checkoutEvents,
+    request: async () =>
+      Response.json({
+        data: {
+          checkout: {
+            clientMutationId: 'operation-checkout',
+            order: { id: 'order-2', status: 'COMPLETED' },
+          },
+        },
+      }),
+  });
+  await client.execute(
+    {
+      query:
+        'mutation Checkout($input: CheckoutInput!) { checkout(input: $input) { clientMutationId order { id status } } }',
+      variables: { input: { clientMutationId: 'operation-checkout' } },
+    },
+    new Headers({ 'x-authenticated-subject': 'buyer-a' }),
+  );
+  const checkoutEvent = await checkoutStream.next();
+  assert.deepEqual(checkoutEvent, {
+    done: false,
+    value: {
+      operationKey: 'operation-checkout',
+      orderId: 'order-2',
+      state: 'COMPLETED',
+      eventTime: checkoutEvent.value.eventTime,
+    },
+  });
+  assert.match(checkoutEvent.value.eventTime, /^\d{4}-\d{2}-\d{2}T/);
+
+  const pixStream = service.subscribe('buyer-a', 'operation-pix');
+  const pixClient = new WpGraphqlClientService({
+    endpoint: 'http://wordpress/graphql',
+    auth: { headersFor: (_operation, incoming) => new Headers(incoming) },
+    checkoutEvents,
+    request: async () =>
+      Response.json({
+        data: {
+          recordPixPaymentV1: {
+            clientMutationId: 'operation-pix',
+            order: { id: 'order-3' },
+            paymentState: 'PIX_GENERATED',
+            pixCode: 'PIX-stable',
+          },
+        },
+      }),
+  });
+  await pixClient.execute(
+    {
+      query:
+        'mutation RecordPix($input: RecordPixPaymentV1Input!) { recordPixPaymentV1(input: $input) { clientMutationId paymentState pixCode order { id } } }',
+      variables: { input: { orderId: 3, pixCode: 'PIX-stable' } },
+    },
+    new Headers({ 'x-authenticated-subject': 'buyer-a' }),
+  );
+  const pixEvent = await pixStream.next();
+  assert.deepEqual(pixEvent, {
+    done: false,
+    value: {
+      operationKey: 'operation-pix',
+      orderId: 'order-3',
+      state: 'PIX_GENERATED',
+      pixCode: 'PIX-stable',
+      eventTime: pixEvent.value.eventTime,
+    },
+  });
 
   process.env.WPGRAPHQL_FEDERATION_SECRET = 'test-only-federation-secret';
   const app = await NestFactory.create(AppModule, { logger: false });
@@ -110,4 +229,21 @@ test('AC-095: order subscriptions are composed in WordPress without a gateway pr
     sources.join('\n'),
     /apps\/gateway|@apollo\/gateway|createClient|CommerceSubscriptionClient|subscription proxy/i,
   );
+});
+
+test('AC-096: the WordPress subscription verifies the production issuer independently @spec:AC-096', async () => {
+  const compose = await readFile('compose.yaml', 'utf8');
+  const wordpress = compose.match(
+    /^  wordpress-federation:\n([\s\S]*?)(?=^  [\w-]+:\n|^volumes:)/m,
+  )?.[0] ?? '';
+  assert.match(wordpress, /GATEWAY_AUDIENCE: https:\/\/gateway\.marketplace\.local/);
+  assert.match(wordpress, /IDENTITY_JWKS_URL: http:\/\/identity\.localhost:3001\/api\/auth\/jwks/);
+  assert.match(wordpress, /OAUTH_ISSUER: http:\/\/identity\.localhost:3001\/api\/auth/);
+  assert.match(wordpress, /identity-subgraph:\n        condition: service_healthy/);
+});
+
+test('AC-102: the SSE route receives its protocol body before JSON middleware @spec:AC-102', async () => {
+  const main = await readFile('apps/wordpress-federation/src/main.ts', 'utf8');
+  assert.match(main, /NestFactory\.create\(AppModule, \{ bodyParser: false \}\)/);
+  assert.match(main, /request\.path === '\/stream'/);
 });

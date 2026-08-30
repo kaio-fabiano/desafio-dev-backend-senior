@@ -19,6 +19,140 @@ add_action('before_woocommerce_init', function () {
 
 add_filter('determine_current_user', 'marketplace_federation_current_user', 20);
 
+add_action('graphql_register_types', function () {
+    register_graphql_object_type('MarketplaceOrderSnapshot', [
+        'fields' => [
+            'databaseId' => ['type' => ['non_null' => 'Int']],
+            'status' => ['type' => 'String'],
+            'paymentState' => ['type' => 'String'],
+            'pixCode' => ['type' => 'String'],
+        ],
+    ]);
+    register_graphql_field('RootQuery', 'marketplaceOrderV1', [
+        'type' => 'MarketplaceOrderSnapshot',
+        'args' => ['orderId' => ['type' => ['non_null' => 'Int']]],
+        'resolve' => function ($root, $args) {
+            $order = marketplace_owned_order($args['orderId']);
+            return [
+                'databaseId' => $order->get_id(),
+                'status' => strtoupper($order->get_status()),
+                'paymentState' => $order->get_meta('_marketplace_payment_state') ?: null,
+                'pixCode' => $order->get_meta('_marketplace_pix_code') ?: null,
+            ];
+        },
+    ]);
+
+    register_graphql_field('CheckoutPayload', 'marketplaceOrderDatabaseId', [
+        'type' => 'Int',
+        'resolve' => fn($payload) => isset($payload['id']) ? (int) $payload['id'] : null,
+    ]);
+
+    register_graphql_fields('Order', [
+        'marketplacePaymentState' => [
+            'type' => 'String',
+            'resolve' => function ($model) {
+                $order = wc_get_order($model->databaseId);
+                return $order ? ($order->get_meta('_marketplace_payment_state') ?: null) : null;
+            },
+        ],
+        'marketplacePixCode' => [
+            'type' => 'String',
+            'resolve' => function ($model) {
+                $order = wc_get_order($model->databaseId);
+                return $order ? ($order->get_meta('_marketplace_pix_code') ?: null) : null;
+            },
+        ],
+    ]);
+
+    register_graphql_mutation('recordCardPaymentV1', [
+        'inputFields' => [
+            'orderId' => ['type' => ['non_null' => 'Int']],
+            'transactionId' => ['type' => ['non_null' => 'String']],
+        ],
+        'outputFields' => [
+            'marketplaceOrderDatabaseId' => [
+                'type' => 'Int',
+                'resolve' => fn($payload) => (int) $payload['orderId'],
+            ],
+            'order' => [
+                'type' => 'Order',
+                'resolve' => fn($payload) => new \WPGraphQL\WooCommerce\Model\Order($payload['orderId']),
+            ],
+            'paymentState' => ['type' => 'String'],
+        ],
+        'mutateAndGetPayload' => function ($input) {
+            $order = marketplace_owned_order($input['orderId']);
+            $transaction_id = sanitize_text_field($input['transactionId']);
+            if ($transaction_id === '') {
+                throw new \GraphQL\Error\UserError('A transaction ID is required.');
+            }
+            $order->set_transaction_id($transaction_id);
+            $order->set_status('completed');
+            $order->save();
+            return ['orderId' => $order->get_id(), 'paymentState' => 'COMPLETED'];
+        },
+    ]);
+
+    register_graphql_mutation('recordPixPaymentV1', [
+        'inputFields' => [
+            'orderId' => ['type' => ['non_null' => 'Int']],
+            'pixCode' => ['type' => ['non_null' => 'String']],
+        ],
+        'outputFields' => [
+            'marketplaceOrderDatabaseId' => [
+                'type' => 'Int',
+                'resolve' => fn($payload) => (int) $payload['orderId'],
+            ],
+            'order' => [
+                'type' => 'Order',
+                'resolve' => fn($payload) => new \WPGraphQL\WooCommerce\Model\Order($payload['orderId']),
+            ],
+            'paymentState' => ['type' => 'String'],
+            'pixCode' => ['type' => 'String'],
+        ],
+        'mutateAndGetPayload' => function ($input) {
+            $order = marketplace_owned_order($input['orderId']);
+            $pix_code = sanitize_text_field($input['pixCode']);
+            if ($pix_code === '') {
+                throw new \GraphQL\Error\UserError('A Pix code is required.');
+            }
+            $order->update_meta_data('_marketplace_payment_state', 'PIX_GENERATED');
+            $order->update_meta_data('_marketplace_pix_code', $pix_code);
+            $order->set_status('on-hold');
+            $order->save();
+            return [
+                'orderId' => $order->get_id(),
+                'paymentState' => 'PIX_GENERATED',
+                'pixCode' => $pix_code,
+            ];
+        },
+    ]);
+});
+
+function marketplace_owned_order($order_id) {
+    $order = wc_get_order(absint($order_id));
+    $user_id = get_current_user_id();
+    $subject = marketplace_federation_subject();
+    $subject_owns_order = $order
+        && $subject
+        && hash_equals((string) $order->get_meta('_marketplace_subject'), $subject);
+    if (!$order || (!$subject_owns_order && (
+        !$user_id
+        || ((int) $order->get_customer_id() !== $user_id
+            && !current_user_can('manage_woocommerce'))
+    ))) {
+        throw new \GraphQL\Error\UserError('The order cannot be updated by this user.');
+    }
+    return $order;
+}
+
+add_action('woocommerce_checkout_create_order', function ($order) {
+    $subject = marketplace_federation_subject();
+    if ($subject) {
+        $order->update_meta_data('_marketplace_subject', $subject);
+    }
+});
+
 function marketplace_federation_current_user($user_id) {
     if ($user_id) {
         return $user_id;
@@ -28,25 +162,8 @@ function marketplace_federation_current_user($user_id) {
         return 0;
     }
 
-    $secret = defined('MARKETPLACE_FEDERATION_SECRET')
-        ? MARKETPLACE_FEDERATION_SECRET
-        : '';
-    $subject = $_SERVER['HTTP_X_MARKETPLACE_SUBJECT'] ?? '';
-    $scopes = $_SERVER['HTTP_X_MARKETPLACE_SCOPES'] ?? '';
-    $timestamp = $_SERVER['HTTP_X_MARKETPLACE_TIMESTAMP'] ?? '';
-    $signature = $_SERVER['HTTP_X_MARKETPLACE_SIGNATURE'] ?? '';
-    if (
-        !$secret
-        || !preg_match('/^[\w.@:-]{1,128}$/', $subject)
-        || !ctype_digit($timestamp)
-        || abs(time() - (int) $timestamp) > 300
-    ) {
-        return 0;
-    }
-
-    $payload = $subject . "\n" . $scopes . "\n" . $timestamp;
-    $expected = hash_hmac('sha256', $payload, $secret);
-    if (!hash_equals($expected, $signature)) {
+    $subject = marketplace_federation_subject();
+    if (!$subject) {
         return 0;
     }
     $user = ctype_digit($subject)
@@ -62,6 +179,29 @@ function marketplace_federation_current_user($user_id) {
         $user = $users[0] ?? false;
     }
     return $user ? $user->ID : 0;
+}
+
+function marketplace_federation_subject() {
+    $secret = defined('MARKETPLACE_FEDERATION_SECRET') ? MARKETPLACE_FEDERATION_SECRET : '';
+    $subject = $_SERVER['HTTP_X_MARKETPLACE_SUBJECT'] ?? '';
+    $scopes = $_SERVER['HTTP_X_MARKETPLACE_SCOPES'] ?? '';
+    $timestamp = $_SERVER['HTTP_X_MARKETPLACE_TIMESTAMP'] ?? '';
+    $signature = $_SERVER['HTTP_X_MARKETPLACE_SIGNATURE'] ?? '';
+    if (
+        !$secret
+        || !preg_match('/^[\w.@:-]{1,128}$/', $subject)
+        || !ctype_digit($timestamp)
+        || abs(time() - (int) $timestamp) > 300
+    ) {
+        return '';
+    }
+
+    $payload = $subject . "\n" . $scopes . "\n" . $timestamp;
+    $expected = hash_hmac('sha256', $payload, $secret);
+    if (!hash_equals($expected, $signature)) {
+        return '';
+    }
+    return $subject;
 }
 
 add_filter('option_active_plugins', function ($plugins) {

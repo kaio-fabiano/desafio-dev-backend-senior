@@ -35,7 +35,11 @@ export {
   type RoutedOrderEvent,
 } from './subscriptions/order-event.service.ts';
 export { SubscriptionsModule } from './subscriptions/subscriptions.module.ts';
+export { WordPressCheckoutEventSource } from './subscriptions/wordpress-checkout-event.source.ts';
 export {
+  SUBSCRIPTION_TOKEN_OPTIONS,
   SubscriptionAuthGuard,
+  subscriptionTokenOptions,
   type SubscriptionContext,
+  type SubscriptionTokenOptions,
 } from './subscriptions/subscription-auth.guard.ts';
