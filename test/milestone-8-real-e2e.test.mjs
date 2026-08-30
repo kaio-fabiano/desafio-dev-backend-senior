@@ -12,14 +12,18 @@ test('AC-078: acceptance executes the production topology @spec:AC-078', async (
   for (const component of [
     'gateway',
     'identity-subgraph',
-    'commerce-subgraph',
-    'stock-worker',
+    'wordpress-federation',
     'payment-processor',
     'wordpress',
-    'rabbitmq',
     'apollo-mcp',
   ]) {
     assert.match(environment, new RegExp(`['"]${component}['"]`));
+  }
+  const activeServices = environment.match(
+    /const COMPOSE_SERVICES = \[([\s\S]*?)\] as const/,
+  )?.[1] ?? '';
+  for (const retired of ['commerce-subgraph', 'stock-worker', 'rabbitmq']) {
+    assert.doesNotMatch(activeServices, new RegExp(`['"]${retired}['"]`));
   }
   assert.match(project, /milestone-7\.e2e\.test\.ts/);
   assert.match(configuration, /vitest run apps\/e2e\/src\/milestone-7\.e2e\.test\.ts/);

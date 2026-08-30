@@ -1,8 +1,9 @@
 {
   "name": "@desafio-dev-backend-senior/wordpress-integration",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
+  "projectType": "library",
   "root": "apps/wordpress-integration",
+  "tags": ["type:tooling", "scope:wordpress"],
   "targets": {
     "probe": {
       "executor": "nx:run-commands",

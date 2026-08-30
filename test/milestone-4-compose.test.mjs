@@ -10,14 +10,11 @@ const [compose, commerceModule, paymentDockerfile, stockDockerfile, stockModule]
   readFile('apps/stock-worker/src/app.module.ts', 'utf8'),
 ]);
 
-test('AC-042: Compose starts durable broker dependencies and retry consumers only after readiness @spec:AC-042', () => {
-  const rabbitMqService = compose.match(/  rabbitmq:\n([\s\S]*?)(?=\n  \S|$)/)?.[0] ?? '';
-
-  assert.match(compose, /rabbitmq:\n    image: rabbitmq:4\.1\.3-management/);
-  assert.match(compose, /rabbitmq-diagnostics", "-q", "ping/);
-  assert.match(compose, /RABBITMQ_URL: amqp:\/\/rabbitmq:5672/);
-  assert.match(compose, /rabbitmq:\n        condition: service_healthy/);
-  assert.doesNotMatch(rabbitMqService, /^\s+ports:/m);
+test('AC-042: the superseded RabbitMQ topology is archived rather than deployed @spec:AC-042', () => {
+  assert.doesNotMatch(compose, /^  rabbitmq:/m);
+  assert.doesNotMatch(compose, /RABBITMQ_URL|amqp:\/\//);
+  const activeServices = compose.split('\nx-retired-runtimes:')[0];
+  assert.doesNotMatch(activeServices, /^  (?:commerce-subgraph|stock-worker):/m);
 });
 
 test('AC-045: Compose gives payment its own ready database and consumers close gracefully @spec:AC-045', () => {

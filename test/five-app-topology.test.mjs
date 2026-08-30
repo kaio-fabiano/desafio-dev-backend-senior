@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { glob, readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { composeServices } from '../node_modules/.pnpm/@apollo+composition@2.14.4_graphql@16.11.0/node_modules/@apollo/composition/dist/index.js';
 
@@ -29,17 +29,35 @@ function supergraphNames(source) {
 }
 
 test('AC-090: only five deployable applications and the E2E project remain active @spec:AC-090', async () => {
-  const [compose, projects, e2e] = await Promise.all([
+  const [compose, projects, e2e, allProjects] = await Promise.all([
     readFile('compose.yaml', 'utf8'),
     Promise.all(
       deployableProjects.map((path) => readFile(path, 'utf8').then(JSON.parse)),
     ),
     readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
+    (async () => {
+      const paths = await Array.fromAsync(glob('apps/*/project.json'));
+      return Promise.all(
+        [...paths, 'infra/project.json'].map((path) =>
+          readFile(path, 'utf8').then(JSON.parse),
+        ),
+      );
+    })(),
   ]);
 
-  assert.deepEqual(projects.map(({ name }) => name), deployableProjectNames);
+  assert.deepEqual(
+    projects.map(({ name }) => name),
+    deployableProjectNames,
+  );
   assert.ok(projects.every(({ projectType }) => projectType === 'application'));
   assert.deepEqual(e2e.tags, ['type:e2e', 'scope:delivery']);
+  assert.deepEqual(
+    allProjects
+      .filter(({ projectType }) => projectType === 'application')
+      .map(({ name }) => name)
+      .sort(),
+    [...deployableProjectNames, '@desafio-dev-backend-senior/e2e'].sort(),
+  );
 
   const services = composeServiceNames(compose);
   assert.deepEqual(
@@ -65,11 +83,17 @@ test('AC-090: only five deployable applications and the E2E project remain activ
 });
 
 test('AC-098: Commerce and Stock are absent from the active runtime topology @spec:AC-098', async () => {
-  const [compose, supergraph, environment] = await Promise.all([
-    readFile('compose.yaml', 'utf8'),
-    readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
-    readFile('apps/e2e/src/environment.ts', 'utf8'),
-  ]);
+  const [compose, supergraph, environment, paymentBuild, paymentConfig] =
+    await Promise.all([
+      readFile('compose.yaml', 'utf8'),
+      readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
+      readFile('apps/e2e/src/environment.ts', 'utf8'),
+      readFile('apps/payment-processor/build.gradle.kts', 'utf8'),
+      readFile(
+        'apps/payment-processor/src/main/resources/application.yaml',
+        'utf8',
+      ),
+    ]);
 
   const services = composeServiceNames(compose);
   assert.ok(services.includes('wordpress-federation'));
@@ -86,31 +110,39 @@ test('AC-098: Commerce and Stock are absent from the active runtime topology @sp
   const activeComponents = environment.match(
     /const COMPOSE_SERVICES = \[([\s\S]*?)\] as const;/,
   )?.[1];
-  assert.ok(activeComponents, 'the E2E environment must declare active services');
+  assert.ok(
+    activeComponents,
+    'the E2E environment must declare active services',
+  );
   assert.match(activeComponents, /'wordpress-federation'/);
   assert.doesNotMatch(activeComponents, /'commerce-subgraph'|'stock-worker'/);
+  assert.doesNotMatch(activeComponents, /'rabbitmq'/);
+  assert.doesNotMatch(compose, /^  rabbitmq:|RABBITMQ_URL|amqp:\/\//m);
+  assert.doesNotMatch(paymentBuild, /spring-boot-starter-amqp/);
+  assert.doesNotMatch(paymentConfig, /rabbitmq|amqp:/i);
 });
 
 test('AC-099: Payment is composed as the Spring GraphQL Federation subgraph @spec:AC-099', async () => {
-  const [compose, supergraph, project, springConfiguration, services] = await Promise.all([
-    readFile('compose.yaml', 'utf8'),
-    readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
-    readFile('apps/payment-processor/project.json', 'utf8').then(JSON.parse),
-    readFile(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
-      'utf8',
-    ),
-    Promise.all(
-      ['identity', 'wordpress', 'payment'].map(async (name) => ({
-        name,
-        url: `http://${name}/graphql`,
-        typeDefs: await readFile(
-          `libs/contracts/graphql/${name}/schema.graphql`,
-          'utf8',
-        ),
-      })),
-    ),
-  ]);
+  const [compose, supergraph, project, springConfiguration, services] =
+    await Promise.all([
+      readFile('compose.yaml', 'utf8'),
+      readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
+      readFile('apps/payment-processor/project.json', 'utf8').then(JSON.parse),
+      readFile(
+        'apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
+        'utf8',
+      ),
+      Promise.all(
+        ['identity', 'wordpress', 'payment'].map(async (name) => ({
+          name,
+          url: `http://${name}/graphql`,
+          typeDefs: await readFile(
+            `libs/contracts/graphql/${name}/schema.graphql`,
+            'utf8',
+          ),
+        })),
+      ),
+    ]);
 
   assert.match(
     supergraph,

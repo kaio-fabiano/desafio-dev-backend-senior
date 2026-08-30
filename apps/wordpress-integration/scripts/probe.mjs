@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -31,7 +30,9 @@ function addAbstractProductKey(sdl) {
 }
 
 function compose(sdl, label) {
-  const directory = mkdtempSync(join(tmpdir(), 'wordpress-integration-'));
+  const directory = mkdtempSync(
+    join(process.cwd(), '.wordpress-integration-'),
+  );
   try {
     chmodSync(directory, 0o755);
     writeFileSync(join(directory, 'wordpress.graphql'), sdl);

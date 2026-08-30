@@ -12,10 +12,19 @@ test('AC-022: Local infrastructure becomes ready @spec:AC-022', async () => {
   try {
     await run('docker', [...compose, 'up', '--detach', '--wait'], { timeout: 90_000 });
 
-    for (const [service, port] of [
-      ['gateway', 3000],
-      ['identity-subgraph', 3001],
-      ['commerce-subgraph', 3003],
+    for (const [service, probe] of [
+      [
+        'gateway',
+        `fetch('http://127.0.0.1:3000/ready').then(async response => { const body = await response.json(); if (!response.ok || body.status !== 'ready') process.exit(1); })`,
+      ],
+      [
+        'identity-subgraph',
+        `fetch('http://127.0.0.1:3001/ready').then(async response => { const body = await response.json(); if (!response.ok || body.status !== 'ready') process.exit(1); })`,
+      ],
+      [
+        'wordpress-federation',
+        `require('node:net').connect(3004, '127.0.0.1').once('connect', () => process.exit(0)).once('error', () => process.exit(1))`,
+      ],
     ]) {
       const { stdout } = await run('docker', [
         ...compose,
@@ -24,7 +33,7 @@ test('AC-022: Local infrastructure becomes ready @spec:AC-022', async () => {
         service,
         'node',
         '-e',
-        `fetch('http://127.0.0.1:${port}/ready').then(async response => { const body = await response.json(); if (!response.ok || body.status !== 'ready') process.exit(1); })`,
+        probe,
       ]);
       assert.equal(stdout, '');
     }
