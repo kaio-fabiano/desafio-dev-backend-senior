@@ -17,7 +17,7 @@ import {
 } from './auth/token-verifier.service.ts';
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
 
-function contract(name: 'identity' | 'catalog' | 'commerce') {
+function contract(name: 'identity' | 'wordpress' | 'payment') {
   return parse(
     readFileSync(
       resolve(`libs/contracts/graphql/${name}/schema.graphql`),
@@ -50,11 +50,10 @@ Module({
         driver: ApolloGatewayDriver,
         path: '/graphql',
         server: {
-          context: ({
-            req,
-          }: {
+          context: ({ req, res }: {
             req: Parameters<AuthContextFactory['create']>[0];
-          }) => authContextFactory.create(req),
+            res: Parameters<AuthContextFactory['create']>[1];
+          }) => authContextFactory.create(req, res),
         },
         gateway: {
           supergraphSdl: new LocalCompose({
@@ -67,18 +66,18 @@ Module({
                 typeDefs: contract('identity'),
               },
               {
-                name: 'catalog',
+                name: 'wordpress',
                 url:
-                  process.env.CATALOG_GRAPHQL_URL ??
-                  'http://wordpress-integration/graphql',
-                typeDefs: contract('catalog'),
+                  process.env.WORDPRESS_GRAPHQL_URL ??
+                  'http://wordpress-federation:3004/graphql',
+                typeDefs: contract('wordpress'),
               },
               {
-                name: 'commerce',
+                name: 'payment',
                 url:
-                  process.env.COMMERCE_GRAPHQL_URL ??
-                  'http://commerce-subgraph:3003/graphql',
-                typeDefs: contract('commerce'),
+                  process.env.PAYMENT_GRAPHQL_URL ??
+                  'http://payment-processor:8080/graphql',
+                typeDefs: contract('payment'),
               },
             ],
           }),

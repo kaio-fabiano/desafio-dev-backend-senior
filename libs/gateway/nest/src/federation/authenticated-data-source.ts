@@ -18,11 +18,30 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
       context.scopes.join(' '),
     );
     request.http?.headers.set('x-request-id', context.requestId);
+    for (const [name, value] of Object.entries(context.sessionHeaders ?? {})) {
+      if (typeof value === 'string') request.http?.headers.set(name, value);
+    }
     if (context.supplierCompanyId) {
       request.http?.headers.set(
         'x-supplier-company-id',
         context.supplierCompanyId,
       );
     }
+  }
+
+  override didReceiveResponse({ response, context }: Parameters<
+    NonNullable<RemoteGraphQLDataSource<AuthContext>['didReceiveResponse']>
+  >[0]): any {
+    for (const name of ['woocommerce-session', 'cart-token']) {
+      const value = response.http?.headers.get(name);
+      if (typeof value === 'string' && value) {
+        context.setResponseHeader?.(name, value);
+      }
+    }
+    const cookie = response.http?.headers.get('set-cookie');
+    if (typeof cookie === 'string' && cookie) {
+      context.setResponseHeader?.('set-cookie', cookie);
+    }
+    return response;
   }
 }

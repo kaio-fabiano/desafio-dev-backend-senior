@@ -36,6 +36,9 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(gatewayModule, /LocalCompose/);
   assert.match(gatewayModule, /AuthenticatedDataSource/);
   assert.match(gatewayModule, /AuthContextFactory/);
+  assert.match(gatewayModule, /wordpress-federation:3004\/graphql/);
+  assert.match(gatewayModule, /payment-processor:8080\/graphql/);
+  assert.doesNotMatch(gatewayModule, /commerce-subgraph|stock-worker/);
   assert.doesNotMatch(
     `${main}\n${appModule}\n${gatewayModule}`,
     /ProductLoader|OrderLoader|BusinessRepository|CommerceSubscription|GatewaySse|graphql\/stream/,
@@ -66,13 +69,28 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     }),
   });
   const context = await new AuthContextFactory(tokens).create({
-    headers: { host: 'gateway.test' },
+    headers: {
+      host: 'gateway.test',
+      'woocommerce-session': 'session-token',
+      'cart-token': 'cart-token',
+    },
     method: 'POST',
-    rawHeaders: ['authorization', 'Bearer signed-token'],
+    rawHeaders: [
+      'authorization',
+      'Bearer signed-token',
+      'woocommerce-session',
+      'session-token',
+      'cart-token',
+      'cart-token',
+    ],
     url: '/graphql',
   });
   assert.equal(context.subject, 'buyer-1');
   assert.deepEqual(context.scopes, ['marketplace:read']);
+  assert.deepEqual(context.sessionHeaders, {
+    'woocommerce-session': 'session-token',
+    'cart-token': 'cart-token',
+  });
   await assert.rejects(
     () =>
       new AuthContextFactory({
@@ -110,6 +128,10 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
       audience: ['https://gateway.marketplace.local'],
       supplierCompanyId: 'supplier-company',
       requestId: 'request-1',
+      sessionHeaders: {
+        'woocommerce-session': 'session-token',
+        'cart-token': 'cart-token',
+      },
     },
   });
 
@@ -120,6 +142,33 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   );
   assert.equal(headers.get('x-supplier-company-id'), 'supplier-company');
   assert.equal(headers.get('x-request-id'), 'request-1');
+  assert.equal(headers.get('woocommerce-session'), 'session-token');
+  assert.equal(headers.get('cart-token'), 'cart-token');
+
+  const returnedHeaders = [];
+  source.didReceiveResponse({
+    response: {
+      http: {
+        headers: new Headers({
+          'woocommerce-session': 'next-session-token',
+          'cart-token': 'next-cart-token',
+          'set-cookie': 'wp_woocommerce_session=value; Path=/; HttpOnly',
+        }),
+      },
+    },
+    context: {
+      subject: 'supplier-user',
+      scopes: ['marketplace:read'],
+      audience: ['https://gateway.marketplace.local'],
+      requestId: 'request-1',
+      setResponseHeader: (name, value) => returnedHeaders.push([name, value]),
+    },
+  });
+  assert.deepEqual(returnedHeaders, [
+    ['woocommerce-session', 'next-session-token'],
+    ['cart-token', 'next-cart-token'],
+    ['set-cookie', 'wp_woocommerce_session=value; Path=/; HttpOnly'],
+  ]);
   assert.doesNotMatch(gatewayModule, /ForbiddenException|assertOwnership/);
 
   const unauthenticatedHeaders = new Headers();

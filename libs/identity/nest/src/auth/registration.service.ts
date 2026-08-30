@@ -12,6 +12,7 @@ export type WordPressIdentity = {
     name: string;
     password: string;
   }): Promise<{ id: string }>;
+  linkSubject?(wordpressUserId: string, subject: string): Promise<void>;
 };
 
 export const WORDPRESS_IDENTITY = Symbol('WORDPRESS_IDENTITY');
@@ -75,6 +76,30 @@ export const wordpressIdentityProvider: Provider = {
       const created = (await response.json()) as { id: string | number };
       return { id: String(created.id) };
     },
+    async linkSubject(wordpressUserId, subject) {
+      const endpoint = process.env.WORDPRESS_URL ?? 'http://wordpress';
+      const consumerKey = process.env.WOO_CONSUMER_KEY ?? '';
+      const consumerSecret = process.env.WOO_CONSUMER_SECRET ?? '';
+      const response = await fetch(
+        new URL(`/wp-json/wc/v3/customers/${wordpressUserId}`, endpoint),
+        {
+          method: 'PUT',
+          headers: {
+            authorization: `Basic ${Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64')}`,
+            'content-type': 'application/json',
+            ...(new URL(endpoint).protocol === 'http:'
+              ? { 'x-forwarded-proto': 'https' }
+              : {}),
+          },
+          body: JSON.stringify({
+            meta_data: [{ key: 'better_auth_user_id', value: subject }],
+          }),
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`WordPress identity link failed: ${response.status}`);
+      }
+    },
   }),
 };
 
@@ -103,6 +128,7 @@ export class RegistrationService {
         providerId: 'wordpress',
         userId: result.user.id,
       });
+      await this.wordpress.linkSubject?.(account.id, result.user.id);
     } catch (cause) {
       await identity.deleteUserSessions(result.user.id);
       await identity.deleteAccounts(result.user.id);

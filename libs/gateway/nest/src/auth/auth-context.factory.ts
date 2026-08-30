@@ -1,6 +1,6 @@
-import type { IncomingMessage, ServerResponse } from 'node:http';
 import { Inject, Injectable } from '@nestjs/common';
 import { GraphQLError } from 'graphql';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import {
   TokenVerifierService,
@@ -15,6 +15,8 @@ export type AuthContext = {
   audience: readonly string[];
   supplierCompanyId?: string;
   requestId: string;
+  sessionHeaders?: Readonly<Record<string, string>>;
+  setResponseHeader?: (name: string, value: string | string[]) => void;
 };
 
 type GatewayRequest = Pick<
@@ -43,9 +45,27 @@ function toFetchRequest(request: GatewayRequest) {
 export class AuthContextFactory {
   constructor(private readonly tokens: TokenVerifierService) {}
 
-  async create(request: GatewayRequest): Promise<AuthContext> {
+  async create(
+    request: GatewayRequest,
+    response?: Pick<ServerResponse, 'setHeader'>,
+  ): Promise<AuthContext> {
     try {
-      return await this.tokens.verify(toFetchRequest(request));
+      const context = await this.tokens.verify(toFetchRequest(request));
+      const sessionHeaders = Object.fromEntries(
+        ['cookie', 'woocommerce-session', 'cart-token']
+          .map((name) => [name, request.headers[name]?.toString().trim()] as const)
+          .filter((entry): entry is readonly [string, string] => !!entry[1]),
+      );
+      return {
+        ...context,
+        sessionHeaders,
+        ...(response
+          ? {
+              setResponseHeader: (name: string, value: string | string[]) =>
+                response.setHeader(name, value),
+            }
+          : {}),
+      };
     } catch {
       throw new GraphQLError('Unauthorized', {
         extensions: { code: 'UNAUTHENTICATED', http: { status: 401 } },
