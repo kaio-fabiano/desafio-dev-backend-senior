@@ -22,13 +22,15 @@ export type AcceptanceProof = {
     checkout: JsonObject;
     retry: JsonObject;
     event: JsonObject;
-    meOrder: JsonObject;
+    payment: JsonObject;
+    order: JsonObject;
   };
   pix: {
     subscriptionOpenedBeforeCheckout: boolean;
     checkout: JsonObject;
     event: JsonObject;
-    meOrder: JsonObject;
+    payment: JsonObject;
+    order: JsonObject;
   };
   mcp: {
     directMe: JsonObject;
@@ -42,20 +44,44 @@ async function graphql(
   operationName: string,
   variables: JsonObject = {},
   accessToken?: string,
+  sessionHeaders: Record<string, string> = {},
 ) {
   const documents: Record<string, { query: string; responseField: string }> = {
     me: { query: 'query me { me { id email } }', responseField: 'me' },
     addToCart: {
-      query: 'mutation addToCart($productId: ID!, $quantity: Int!) { addToCart(productId: $productId, quantity: $quantity) { id } }',
+      query:
+        'mutation addToCart($input: AddToCartInput!) { addToCart(input: $input) { cart { contents { nodes { key quantity } } } } }',
       responseField: 'addToCart',
     },
-    checkout: {
-      query: 'mutation checkout($input: CheckoutInput!) { checkout(input: $input) { wooOrderId workflow { state } pixCode } }',
+    wordpressCheckout: {
+      query:
+        'mutation wordpressCheckout($input: CheckoutInput!) { checkout(input: $input) { marketplaceOrderDatabaseId clientMutationId } }',
       responseField: 'checkout',
     },
-    meOrders: {
-      query: 'query meOrders { me { id email orders(first: 20) { edges { node { id wooOrderId status paymentMethod workflow { state } pixCode } } } } }',
-      responseField: 'me',
+    authorizePayment: {
+      query:
+        'mutation authorizePayment($input: AuthorizePaymentInput!) { authorizePayment(input: $input) { id operationKey orderId method amount currency status pixCode } }',
+      responseField: 'authorizePayment',
+    },
+    recordCardPaymentV1: {
+      query:
+        'mutation recordCardPaymentV1($input: RecordCardPaymentV1Input!) { recordCardPaymentV1(input: $input) { marketplaceOrderDatabaseId paymentState clientMutationId } }',
+      responseField: 'recordCardPaymentV1',
+    },
+    recordPixPaymentV1: {
+      query:
+        'mutation recordPixPaymentV1($input: RecordPixPaymentV1Input!) { recordPixPaymentV1(input: $input) { marketplaceOrderDatabaseId paymentState pixCode clientMutationId } }',
+      responseField: 'recordPixPaymentV1',
+    },
+    payment: {
+      query:
+        'query payment($id: ID!) { payment(id: $id) { id operationKey orderId method amount currency status pixCode } }',
+      responseField: 'payment',
+    },
+    order: {
+      query:
+        'query order($id: Int!) { marketplaceOrderV1(orderId: $id) { databaseId status paymentState pixCode } }',
+      responseField: 'marketplaceOrderV1',
     },
   };
   const document = documents[operationName];
@@ -66,6 +92,7 @@ async function graphql(
     headers: {
       'content-type': 'application/json',
       ...(accessToken ? { authorization: `Bearer ${accessToken}` } : {}),
+      ...sessionHeaders,
     },
     body: JSON.stringify({ query: document.query, operationName, variables }),
   });
@@ -80,6 +107,20 @@ async function graphql(
       `Gateway ${operationName} failed: ${JSON.stringify(payload)}`,
     );
   }
+  for (const name of ['woocommerce-session', 'cart-token']) {
+    const value = response.headers.get(name);
+    if (value) {
+      sessionHeaders[name] =
+        name === 'woocommerce-session' && !value.startsWith('Session ')
+          ? `Session ${value}`
+          : value;
+    }
+  }
+  const cookies = response.headers
+    .getSetCookie()
+    .map((value) => value.split(';', 1)[0])
+    .filter(Boolean);
+  if (cookies.length > 0) sessionHeaders.cookie = cookies.join('; ');
   return payload.data[document.responseField];
 }
 
@@ -110,13 +151,18 @@ async function issueToken(
     authorization.searchParams.set(name, value);
   for (const audience of audiences)
     authorization.searchParams.append('resource', audience);
-  const authorizeResponse = await fetch(authorization, { headers: { cookie: sessionCookie } });
+  const authorizeResponse = await fetch(authorization, {
+    headers: { cookie: sessionCookie },
+  });
   sessionCookie = mergeResponseCookies(sessionCookie, authorizeResponse);
   const authorize = (await authorizeResponse.json()) as { url?: string };
   if (!authorizeResponse.ok || !authorize.url) {
     throw new Error(`OAuth authorization failed: ${JSON.stringify(authorize)}`);
   }
-  const next = classifyAuthorizationResult(authorize.url, environment.identityUrl);
+  const next = classifyAuthorizationResult(
+    authorize.url,
+    environment.identityUrl,
+  );
   let code: string;
   if (next.kind === 'code') {
     code = next.code;
@@ -161,7 +207,7 @@ async function issueToken(
     },
   );
   sessionCookie = mergeResponseCookies(sessionCookie, tokenResponse);
-  const token = await tokenResponse.json() as { access_token: string };
+  const token = (await tokenResponse.json()) as { access_token: string };
   const claims = JSON.parse(
     Buffer.from(token.access_token.split('.')[1]!, 'base64url').toString(
       'utf8',
@@ -170,22 +216,33 @@ async function issueToken(
   return { accessToken: token.access_token, claims, cookie: sessionCookie };
 }
 
-export function classifyAuthorizationResult(url: string, baseUrl: string):
-  | { kind: 'code'; code: string }
-  | { kind: 'consent'; oauthQuery: string } {
+export function classifyAuthorizationResult(
+  url: string,
+  baseUrl: string,
+): { kind: 'code'; code: string } | { kind: 'consent'; oauthQuery: string } {
   const result = new URL(url, baseUrl);
   const code = result.searchParams.get('code');
   if (code) return { kind: 'code', code };
   const oauthQuery = result.search.slice(1);
-  if (!oauthQuery) throw new Error('OAuth authorization returned neither code nor consent query');
+  if (!oauthQuery)
+    throw new Error(
+      'OAuth authorization returned neither code nor consent query',
+    );
   return { kind: 'consent', oauthQuery };
 }
 
-export function mergeResponseCookies(cookie: string, response: Response): string {
+export function mergeResponseCookies(
+  cookie: string,
+  response: Response,
+): string {
   const values = new Map<string, string>();
-  for (const part of cookie.split(';').map((item) => item.trim()).filter(Boolean)) {
+  for (const part of cookie
+    .split(';')
+    .map((item) => item.trim())
+    .filter(Boolean)) {
     const separator = part.indexOf('=');
-    if (separator > 0) values.set(part.slice(0, separator), part.slice(separator + 1));
+    if (separator > 0)
+      values.set(part.slice(0, separator), part.slice(separator + 1));
   }
   for (const setCookie of response.headers.getSetCookie()) {
     const [pair] = setCookie.split(';', 1);
@@ -308,21 +365,24 @@ async function subscribe(
   terminalState: 'COMPLETED' | 'PIX_GENERATED',
   accessToken: string,
 ) {
-  const stream = await fetch(`${environment.gatewayUrl}/graphql/stream`, {
-    method: 'POST',
-    headers: {
-      accept: 'text/event-stream',
-      authorization: `Bearer ${accessToken}`,
-      'content-type': 'application/json',
+  const stream = await fetch(
+    `${environment.wordpressFederationUrl}/graphql/stream`,
+    {
+      method: 'POST',
+      headers: {
+        accept: 'text/event-stream',
+        authorization: `Bearer ${accessToken}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        query:
+          'subscription orderEvents($operationKey: ID!) { orderEvents(operationKey: $operationKey) { operationKey orderId state pixCode eventTime } }',
+        variables: { operationKey },
+      }),
     },
-    body: JSON.stringify({
-      query:
-        'subscription orderEvents($operationKey: ID!) { orderEvents(operationKey: $operationKey) { operationKey orderId state pixCode eventTime } }',
-      variables: { operationKey },
-    }),
-  });
+  );
   if (!stream.ok || !stream.body)
-    throw new Error(`Gateway subscription failed with ${stream.status}`);
+    throw new Error(`WordPress subscription failed with ${stream.status}`);
   return () => readTerminalEvent(stream, operationKey, terminalState);
 }
 
@@ -338,9 +398,11 @@ export async function readTerminalEvent(
   while (true) {
     const { done, value } = await reader.read();
     pending += decoder.decode(value, { stream: !done });
-    for (let delimiter = pending.match(/\r?\n\r?\n/);
+    for (
+      let delimiter = pending.match(/\r?\n\r?\n/);
       delimiter?.index !== undefined;
-      delimiter = pending.match(/\r?\n\r?\n/)) {
+      delimiter = pending.match(/\r?\n\r?\n/)
+    ) {
       const frame = pending.slice(0, delimiter.index);
       pending = pending.slice(delimiter.index + delimiter[0].length);
       const data = frame
@@ -365,6 +427,7 @@ async function checkout(
   accessToken: string,
   operationKey: string,
   paymentMethod: 'CARD' | 'PIX',
+  sessionHeaders: Record<string, string>,
 ) {
   const terminalState =
     paymentMethod === 'CARD' ? 'COMPLETED' : 'PIX_GENERATED';
@@ -375,13 +438,69 @@ async function checkout(
     accessToken,
   );
   const subscriptionOpenedBeforeCheckout = true;
-  const result = await graphql(
+  const checkoutResult = await graphql(
     environment,
-    'checkout',
-    { input: { operationKey, paymentMethod } },
+    'wordpressCheckout',
+    { input: { clientMutationId: operationKey, paymentMethod: 'cod' } },
+    accessToken,
+    sessionHeaders,
+  );
+  const databaseId = checkoutResult.marketplaceOrderDatabaseId;
+  if (!databaseId) throw new Error('WordPress checkout returned no order');
+  const order = { id: String(databaseId), databaseId };
+  const paymentId = `payment-${operationKey}`;
+  const payment = await graphql(
+    environment,
+    'authorizePayment',
+    {
+      input: {
+        operationKey,
+        paymentId,
+        orderId: order.id,
+        method: paymentMethod,
+        amount: 19.9,
+        currency: 'USD',
+      },
+    },
     accessToken,
   );
-  return { result, event: await nextEvent(), subscriptionOpenedBeforeCheckout };
+  if (paymentMethod === 'CARD') {
+    await graphql(
+      environment,
+      'recordCardPaymentV1',
+      {
+        input: {
+          clientMutationId: operationKey,
+          orderId: order.databaseId,
+          transactionId: payment.id,
+        },
+      },
+      accessToken,
+      sessionHeaders,
+    );
+  } else {
+    await graphql(
+      environment,
+      'recordPixPaymentV1',
+      {
+        input: {
+          clientMutationId: operationKey,
+          orderId: order.databaseId,
+          pixCode: payment.pixCode,
+        },
+      },
+      accessToken,
+      sessionHeaders,
+    );
+  }
+  return {
+    checkout: checkoutResult,
+    order,
+    payment,
+    paymentId,
+    event: await nextEvent(),
+    subscriptionOpenedBeforeCheckout,
+  };
 }
 
 export async function runAcceptanceJourney(
@@ -401,11 +520,13 @@ export async function runAcceptanceJourney(
   const gatewayIdentity = await graphql(environment, 'me', {}, accessToken);
   const mcpIdentity = await invokeMe(environment, accessToken);
 
+  const commerceSession: Record<string, string> = {};
   await graphql(
     environment,
     'addToCart',
-    { productId: '1001', quantity: 1 },
+    { input: { productId: 1001, quantity: 1 } },
     accessToken,
+    commerceSession,
   );
   const cardOperationKey = 'milestone-7-card';
   const card = await checkout(
@@ -413,18 +534,65 @@ export async function runAcceptanceJourney(
     accessToken,
     cardOperationKey,
     'CARD',
+    commerceSession,
   );
   const cardRetry = await graphql(
     environment,
-    'checkout',
-    { input: { operationKey: cardOperationKey, paymentMethod: 'CARD' } },
+    'authorizePayment',
+    {
+      input: {
+        operationKey: cardOperationKey,
+        paymentId: card.paymentId,
+        orderId: card.order.id,
+        method: 'CARD',
+        amount: 19.9,
+        currency: 'USD',
+      },
+    },
     accessToken,
   );
-  const meAfterCard = await graphql(environment, 'meOrders', {}, accessToken);
+  const cardPayment = await graphql(
+    environment,
+    'payment',
+    { id: card.paymentId },
+    accessToken,
+  );
+  const cardOrder = await graphql(
+    environment,
+    'order',
+    { id: card.order.databaseId },
+    accessToken,
+  );
+  cardOrder.id = String(cardOrder.databaseId);
 
   const pixOperationKey = 'milestone-7-pix';
-  const pix = await checkout(environment, accessToken, pixOperationKey, 'PIX');
-  const meAfterPix = await graphql(environment, 'meOrders', {}, accessToken);
+  await graphql(
+    environment,
+    'addToCart',
+    { input: { productId: 1001, quantity: 1 } },
+    accessToken,
+    commerceSession,
+  );
+  const pix = await checkout(
+    environment,
+    accessToken,
+    pixOperationKey,
+    'PIX',
+    commerceSession,
+  );
+  const pixPayment = await graphql(
+    environment,
+    'payment',
+    { id: pix.paymentId },
+    accessToken,
+  );
+  const pixOrder = await graphql(
+    environment,
+    'order',
+    { id: pix.order.databaseId },
+    accessToken,
+  );
+  pixOrder.id = String(pixOrder.databaseId);
 
   const gatewayOnly = await issueToken(
     environment,
@@ -469,20 +637,18 @@ export async function runAcceptanceJourney(
     },
     card: {
       subscriptionOpenedBeforeCheckout: card.subscriptionOpenedBeforeCheckout,
-      checkout: card.result,
+      checkout: card.checkout,
       retry: cardRetry,
       event: card.event,
-      meOrder: meAfterCard.orders.edges.find(
-        ({ node }: JsonObject) => node.wooOrderId === card.result.wooOrderId,
-      )?.node,
+      payment: cardPayment,
+      order: cardOrder,
     },
     pix: {
       subscriptionOpenedBeforeCheckout: pix.subscriptionOpenedBeforeCheckout,
-      checkout: pix.result,
+      checkout: pix.checkout,
       event: pix.event,
-      meOrder: meAfterPix.orders.edges.find(
-        ({ node }: JsonObject) => node.wooOrderId === pix.result.wooOrderId,
-      )?.node,
+      payment: pixPayment,
+      order: pixOrder,
     },
     mcp: {
       directMe: gatewayIdentity,

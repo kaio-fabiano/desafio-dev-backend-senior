@@ -223,16 +223,20 @@ test('AC-040: Federated acceptance me returns orders, workflow, and products @sp
   assert.deepEqual(productMetrics, { calls: 1, batches: [2] });
 });
 
-test('Milestone 3 exposes one reproducible acceptance gate', async () => {
-  const [compose, config, project, runbook] = await Promise.all([
+test('Milestone 3 acceptance is archived behind the current E2E gate', async () => {
+  const [compose, config, project, e2eProject, runbook] = await Promise.all([
     readFile('compose.yaml', 'utf8'),
     readFile('onpspec.config.json', 'utf8').then(JSON.parse),
     readFile('apps/commerce-subgraph/project.json', 'utf8').then(JSON.parse),
+    readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
     readFile('docs/runbooks/milestone-3-cart-order.md', 'utf8'),
   ]);
   assert.match(compose, /postgres:17\.6-bookworm/);
   assert.match(compose, /wordpress:6\.8\.2-php8\.3-apache/);
   assert.match(config.testCommand, /test\/milestone-3-cart-order\.test\.mjs/);
-  assert.match(project.targets.acceptance.options.command, /test\/milestone-3-\*\.test\.mjs/);
+  assert.equal(project.projectType, 'library');
+  assert.ok(project.tags.includes('type:retired'));
+  assert.equal(project.targets.acceptance, undefined);
+  assert.match(e2eProject.targets.acceptance.options.command, /milestone-7\.e2e\.test\.ts/);
   assert.match(runbook, /docker compose --project-name milestone-3-cart-order up --detach --wait/);
 });

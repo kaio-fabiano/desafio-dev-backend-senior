@@ -1,11 +1,13 @@
 package dev.desafio.payment.configuration;
 
+import dev.desafio.payment.adapter.persistence.PaymentRepository;
 import dev.desafio.payment.application.PaymentHandler;
 import dev.desafio.payment.application.command.AuthorizePaymentHandler;
 import dev.desafio.payment.application.query.FindPaymentHandler;
 import dev.desafio.payment.application.query.PaymentView;
 import dev.desafio.payment.domain.Payment;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
 public class PaymentConfiguration {
@@ -27,13 +30,25 @@ public class PaymentConfiguration {
         """;
 
     @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url")
+    PaymentRepository paymentRepository(DataSource dataSource) {
+        return new PaymentRepository.Jdbc(dataSource);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url")
+    PaymentHandler paymentHandler(PaymentRepository repository) {
+        return new PaymentHandler(repository);
+    }
+
+    @Bean
     @ConditionalOnBean(PaymentHandler.class)
     AuthorizePaymentHandler authorizePaymentHandler(PaymentHandler paymentHandler) {
         return new AuthorizePaymentHandler(paymentHandler);
     }
 
     @Bean
-    @ConditionalOnBean(JdbcTemplate.class)
+    @ConditionalOnProperty(name = "spring.datasource.url")
     public FindPaymentHandler findPaymentHandler(JdbcTemplate jdbcTemplate) {
         return new FindPaymentHandler(paymentId -> jdbcTemplate.query(
             FIND_PAYMENT_SQL,

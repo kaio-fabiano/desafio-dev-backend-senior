@@ -8,15 +8,12 @@ import { runAcceptanceJourney, type AcceptanceProof } from './journey.ts';
 
 const requiredComponents = [
   'identity-database',
-  'postgres',
   'payment-database',
   'wordpress-database',
-  'rabbitmq',
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'commerce-subgraph',
-  'stock-worker',
+  'wordpress-federation',
   'payment-processor',
   'gateway',
   'apollo-mcp',
@@ -74,30 +71,37 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
 
   it('converges Card checkout across subscription, federation, and persistence exactly once @spec:AC-069 @spec:AC-083 @spec:AC-084', () => {
     expect(proof.card.subscriptionOpenedBeforeCheckout).toBe(true);
-    expect(proof.card.retry.wooOrderId).toBe(proof.card.checkout.wooOrderId);
+    expect(proof.card.retry.id).toBe(proof.card.payment.id);
     expect(proof.card.event).toMatchObject({
       operationKey: 'milestone-7-card',
-      orderId: proof.card.checkout.wooOrderId,
+      orderId: proof.card.order.id,
       state: 'COMPLETED',
     });
-    expect(proof.card.retry.workflow.state).toBe('COMPLETED');
-    expect(proof.card.meOrder).toMatchObject({
-      wooOrderId: proof.card.checkout.wooOrderId,
-      paymentMethod: 'CARD',
+    expect(proof.card.payment).toMatchObject({
+      orderId: proof.card.order.id,
+      method: 'CARD',
+      status: 'AUTHORIZED',
     });
+    expect(proof.card.order).toMatchObject({ status: 'COMPLETED' });
   });
 
   it('converges Pix checkout on one stable generated code @spec:AC-070', () => {
     expect(proof.pix.subscriptionOpenedBeforeCheckout).toBe(true);
     expect(proof.pix.event).toMatchObject({
       operationKey: 'milestone-7-pix',
-      orderId: proof.pix.checkout.wooOrderId,
+      orderId: proof.pix.order.id,
       state: 'PIX_GENERATED',
       pixCode: expect.stringMatching(/^PIX-/),
     });
-    expect(proof.pix.meOrder).toMatchObject({
-      wooOrderId: proof.pix.checkout.wooOrderId,
-      paymentMethod: 'PIX',
+    expect(proof.pix.payment).toMatchObject({
+      orderId: proof.pix.order.id,
+      method: 'PIX',
+      status: 'PIX_GENERATED',
+      pixCode: proof.pix.event.pixCode,
+    });
+    expect(proof.pix.order).toMatchObject({
+      paymentState: 'PIX_GENERATED',
+      pixCode: proof.pix.event.pixCode,
     });
   });
 
