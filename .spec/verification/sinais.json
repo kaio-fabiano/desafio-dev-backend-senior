@@ -293,9 +293,9 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 22,
+      "ocorrencias": 24,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
@@ -383,9 +383,9 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 18,
+      "ocorrencias": 20,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
@@ -887,9 +887,9 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-1-foundation",
       "ref": "—",
-      "ocorrencias": 16,
+      "ocorrencias": 18,
       "primeiraVez": "2026-08-27T05:27:06.132Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::milestone-2-identity-catalog::AC-024": {
@@ -1283,18 +1283,18 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-2-identity-catalog",
       "ref": "—",
-      "ocorrencias": 15,
+      "ocorrencias": 17,
       "primeiraVez": "2026-08-27T15:22:41.051Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "VERIFY_OBSOLETO::milestone-3-cart-order::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-3-cart-order",
       "ref": "—",
-      "ocorrencias": 14,
+      "ocorrencias": 16,
       "primeiraVez": "2026-08-27T15:43:50.282Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::milestone-4-payment-inventory-saga::T-028": {
@@ -1481,9 +1481,9 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-4-payment-inventory-saga",
       "ref": "—",
-      "ocorrencias": 12,
+      "ocorrencias": 14,
       "primeiraVez": "2026-08-27T17:06:38.293Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::milestone-5-subscription-sse::T-036": {
@@ -1607,9 +1607,9 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-5-subscription-sse",
       "ref": "—",
-      "ocorrencias": 10,
+      "ocorrencias": 12,
       "primeiraVez": "2026-08-27T18:04:02.724Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::milestone-6-apollo-mcp::T-041": {
@@ -2165,9 +2165,9 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 10,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
@@ -2354,9 +2354,9 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 7,
+      "ocorrencias": 9,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
@@ -2552,18 +2552,18 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 2,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.683Z",
       "gitRev": "3dbd5ed"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "import-order-stability",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 5,
       "primeiraVez": "2026-08-28T18:01:53.411Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T21:06:27.682Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-065": {
@@ -2579,9 +2579,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-065",
-      "ocorrencias": 6,
+      "ocorrencias": 9,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-066": {
@@ -2597,9 +2597,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-066",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-067": {
@@ -2615,9 +2615,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-067",
-      "ocorrencias": 4,
+      "ocorrencias": 8,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-28T22:13:39.740Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "6b829c5"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-068": {
@@ -2633,9 +2633,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-068",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-069": {
@@ -2651,9 +2651,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-069",
-      "ocorrencias": 6,
+      "ocorrencias": 9,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-070": {
@@ -2669,9 +2669,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-070",
-      "ocorrencias": 8,
+      "ocorrencias": 12,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-071": {
@@ -2687,9 +2687,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-071",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-072": {
@@ -2705,9 +2705,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-072",
-      "ocorrencias": 6,
+      "ocorrencias": 9,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-073": {
@@ -2723,9 +2723,9 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-073",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-090": {
@@ -2858,109 +2858,127 @@
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-090",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-091": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-091",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-092": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-092",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-093": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-093",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-094": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-094",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-095": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-095",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-096": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-096",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-097": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-097",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-098": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-098",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-099": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-099",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-102": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-102",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
     },
     "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-103": {
       "codigo": "AC_SEM_PROVA",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-103",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-29T00:20:33.154Z",
-      "ultimaVez": "2026-08-29T00:20:33.154Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
       "gitRev": "3dbd5ed"
+    },
+    "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-100": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-100",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-30T20:54:59.100Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
+      "gitRev": null
+    },
+    "AC_SEM_PROVA::federated-platform-architecture-refactor::AC-101": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-101",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-30T20:54:59.100Z",
+      "ultimaVez": "2026-08-30T20:54:59.100Z",
+      "gitRev": null
     }
   }
 }

@@ -66,6 +66,7 @@ const cases = [
       model: 'gpt-5.6-terra',
       esforco: 'medium',
       resumoModel: 'gpt-5.6-luna',
+      sandbox: 'danger-full-access',
     });
 
     const instructions = await read('AGENTS.md');

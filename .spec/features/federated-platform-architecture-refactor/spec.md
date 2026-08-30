@@ -17,7 +17,7 @@ applications: Apollo MCP, Gateway, Identity Federation, Payment Federation, and
 WordPress Federation. Domain logic belongs to the context that owns it; NestJS
 and Spring dependency injection compose providers at the application boundary.
 
-## Histórias
+## User stories
 
 ### US-046 — Explainable bounded contexts
 
