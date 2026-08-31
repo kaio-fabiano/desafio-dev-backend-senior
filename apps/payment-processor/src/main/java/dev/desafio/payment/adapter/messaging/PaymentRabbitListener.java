@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import dev.desafio.payment.application.PaymentRepository;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -19,18 +20,15 @@ import java.util.UUID;
 @ConditionalOnProperty(name = "spring.datasource.url")
 public final class PaymentRabbitListener {
     private final PaymentConsumer consumer;
-    private final PaymentRepository repository;
     private final RabbitTemplate rabbit;
     private final ObjectMapper json;
 
     public PaymentRabbitListener(
         PaymentConsumer consumer,
-        PaymentRepository repository,
         RabbitTemplate rabbit,
         ObjectMapper json
     ) {
         this.consumer = consumer;
-        this.repository = repository;
         this.rabbit = rabbit;
         this.json = json;
         rabbit.setMandatory(true);
@@ -38,14 +36,20 @@ public final class PaymentRabbitListener {
 
     @RabbitListener(queues = PaymentRuntimeConfiguration.QUEUE)
     public void receive(Message message, Channel channel) throws Exception {
+        var deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             var result = consumer.consume(delivery(message), () -> {});
             publish(result);
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception error) {
-            routeFailure(message);
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            try {
+                routeFailure(message);
+            } catch (Exception routingError) {
+                routingError.addSuppressed(error);
+                channel.basicNack(deliveryTag, false, true);
+                return;
+            }
         }
+        channel.basicAck(deliveryTag, false);
     }
 
     private PaymentConsumer.Delivery delivery(Message message) throws Exception {
@@ -80,6 +84,7 @@ public final class PaymentRabbitListener {
             operations.convertAndSend(PaymentRuntimeConfiguration.EVENTS, event.eventType(), body, sent -> {
                 sent.getMessageProperties().setMessageId(event.eventId().toString());
                 sent.getMessageProperties().setCorrelationId(event.operationKey());
+                sent.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                 sent.getMessageProperties().setType(event.eventType());
                 sent.getMessageProperties().setTimestamp(java.util.Date.from(event.occurredAt()));
                 return sent;
@@ -93,10 +98,11 @@ public final class PaymentRabbitListener {
         var properties = message.getMessageProperties();
         var attemptValue = properties.getHeaders().getOrDefault("x-retry-attempt", 0);
         int attempt = attemptValue instanceof Number number ? number.intValue() : Integer.parseInt(attemptValue.toString());
-        properties.setHeader("x-retry-attempt", attempt + 1);
-        if (attempt < PaymentRuntimeConfiguration.RETRY_DELAYS.length) {
+        var nextAttempt = attempt + 1;
+        properties.setHeader("x-retry-attempt", nextAttempt);
+        if (nextAttempt <= PaymentRuntimeConfiguration.RETRY_DELAYS.length) {
             rabbit.invoke(operations -> {
-                operations.send(PaymentRuntimeConfiguration.RETRY, PaymentRuntimeConfiguration.QUEUE + "." + (attempt + 1), message);
+                operations.send(PaymentRuntimeConfiguration.RETRY, PaymentRuntimeConfiguration.QUEUE + "." + nextAttempt, message);
                 operations.waitForConfirmsOrDie(10_000);
                 return null;
             });
@@ -111,7 +117,13 @@ public final class PaymentRabbitListener {
         var body = json.writeValueAsBytes(failure);
         rabbit.invoke(operations -> {
             operations.convertAndSend(PaymentRuntimeConfiguration.DEAD_LETTER,
-                properties.getType() == null ? "payment.failed" : properties.getType(), body);
+                properties.getType() == null ? "payment.failed" : properties.getType(), body, sent -> {
+                    sent.getMessageProperties().setMessageId(properties.getMessageId());
+                    sent.getMessageProperties().setCorrelationId(properties.getCorrelationId());
+                    sent.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
+                    sent.getMessageProperties().setType(properties.getType());
+                    return sent;
+                });
             operations.waitForConfirmsOrDie(10_000);
             return null;
         });
