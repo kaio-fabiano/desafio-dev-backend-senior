@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-31 08:06
+# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-31 08:09
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtgyfcsm'
+RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtgyjqs2'
 FEATURE='federated-platform-architecture-refactor'
 BASE_BRANCH='spec/federated-platform-architecture-refactor'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,38 +168,6 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-079 (ordem do tasks.md) ──
-executar_seq_T_079() {
-  info 'sequencial T-079 — Restore clean-install TypeScript and Nx boundary compliance'
-  if rodar_tarefa seq 'T-079' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/federated-platform-architecture-refactor/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-079 — "Restore clean-install TypeScript and Nx boundary compliance"
-  critérios/refs: AC-103 (Quality gates explain and enforce the design)
-  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, tsconfig.base.json, tsconfig.json, eslint.config.mjs, compose.yaml, apps/gateway/Dockerfile, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/Dockerfile, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/payment-processor/project.json, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/src/main.ts, libs/platform/nest/tsconfig.lib.json, libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts, test/gateway-federation-refactor.test.mjs, test/identity-federation-refactor.test.mjs
-  mensagem de commit: "T-079 federated-platform-architecture-refactor: Restore clean-install TypeScript and Nx boundary compliance"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-7-delivery-contract.test.mjs test/milestone-7-nx-quality.test.mjs test/milestone-7-containers.test.mjs test/milestone-7-e2e-contract.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs test/milestone-7-sst.test.mjs test/milestone-7-documentation.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-8-*.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/federated-platform-refactor.test.mjs test/architecture-boundaries.test.mjs test/nest-provider-composition.test.mjs test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/wordpress-federation-refactor.test.mjs test/payment-federation-refactor.test.mjs test/order-subscription-refactor.test.mjs test/five-app-topology.test.mjs test/federated-platform-quality.test.mjs && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-079 federated-platform-architecture-refactor: Restore clean-install TypeScript and Nx boundary compliance (auto-commit do plano)'
-    fi
-    marcar_concluidas T-079
-    verde "✔ T-079 concluída"
-    return 0
-  fi
-  vermelho "✘ T-079 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-079"
-  FALHAS="$FALHAS T-079"
-  return 1
-}
-
 # ── sequencial T-080 (ordem do tasks.md) ──
 executar_seq_T_080() {
   info 'sequencial T-080 — Re-run the pull-request gates and merge into main'
@@ -285,14 +253,12 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_079 || true
   executar_seq_T_080 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-079 (sequencial)"
   echo "  seq       T-080 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
@@ -328,7 +294,6 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-079) evento --tipo inicio --escopo "seq:T-079"; iniciar_resumos; executar_seq_T_079 || true; encerrar "seq:T-079" ;;
       T-080) evento --tipo inicio --escopo "seq:T-080"; iniciar_resumos; executar_seq_T_080 || true; encerrar "seq:T-080" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;

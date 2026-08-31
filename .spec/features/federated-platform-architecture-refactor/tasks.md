@@ -104,14 +104,14 @@
 - Arquivos: README.md, docs/knowledge/Mapa do Projeto.md, docs/runbooks/local-development.md, docs/runbooks/e2e.md, docs/evidence/federated-platform-refactor/review.md, .spec/verification/federated-platform-architecture-refactor.json
 - Notas: Run after T-074 through T-077. Document the OIDC login exchange, native WooGraphQL and REST ownership, webhook-to-SSE path, removed custom PHP, and final executable evidence.
 
-## T-079 — Restore clean-install TypeScript and Nx boundary compliance [em-andamento]
+## T-079 — Restore clean-install TypeScript and Nx boundary compliance [concluida]
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Arquivos: package.json, pnpm-lock.yaml, tsconfig.base.json, tsconfig.json, eslint.config.mjs, compose.yaml, apps/gateway/Dockerfile, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/Dockerfile, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/payment-processor/project.json, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/src/main.ts, libs/platform/nest/tsconfig.lib.json, libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts, test/gateway-federation-refactor.test.mjs, test/identity-federation-refactor.test.mjs
 - Notas: Add only the missing installed type declaration and replace cross-project relative imports with the existing workspace-scoped package entry points. Do not weaken Nx boundary rules or TypeScript strictness.
 
-## T-080 — Re-run the pull-request gates and merge into main [pendente]
+## T-080 — Re-run the pull-request gates and merge into main [em-andamento]
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
