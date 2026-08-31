@@ -166,6 +166,9 @@ export class ConfirmedRabbitMqPublisher {
       {
         contentType: 'application/json',
         correlationId: event.operationKey,
+        headers: {
+          traceparent: `00-${event.traceContext.traceId}-${event.traceContext.spanId ?? event.traceContext.traceId.slice(0, 16)}-01`,
+        },
         messageId: event.eventId,
         timestamp: Date.parse(event.occurredAt),
         type: event.eventType,

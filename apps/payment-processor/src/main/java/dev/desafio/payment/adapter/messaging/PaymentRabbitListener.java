@@ -42,7 +42,10 @@ public final class PaymentRabbitListener {
         var deliveryTag = message.getMessageProperties().getDeliveryTag();
         try {
             var result = consumer.consume(delivery(message), () -> {});
-            publish(result);
+            publish(result, message);
+            LOG.info("Payment event completed eventId={} operationKey={}",
+                message.getMessageProperties().getMessageId(),
+                message.getMessageProperties().getCorrelationId());
         } catch (Exception error) {
             LOG.warn("Payment event processing failed; routing to retry", error);
             try {
@@ -73,7 +76,7 @@ public final class PaymentRabbitListener {
             null, null, null, required(payload, "reason"));
     }
 
-    private void publish(PaymentRepository.ProcessingResult result) throws Exception {
+    private void publish(PaymentRepository.ProcessingResult result, Message source) throws Exception {
         var event = result.outgoingEvent();
         var envelope = new HashMap<String, Object>();
         envelope.put("eventId", event.eventId());
@@ -91,6 +94,8 @@ public final class PaymentRabbitListener {
                 sent.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                 sent.getMessageProperties().setType(event.eventType());
                 sent.getMessageProperties().setTimestamp(java.util.Date.from(event.occurredAt()));
+                var traceparent = source.getMessageProperties().getHeader("traceparent");
+                if (traceparent != null) sent.getMessageProperties().setHeader("traceparent", traceparent);
                 return sent;
             });
             operations.waitForConfirmsOrDie(10_000);

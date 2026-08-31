@@ -42,7 +42,7 @@
 - Esforço: alto
 - Notes: Start RabbitMQ and the Payment Federation consumers, remove direct payment orchestration from the client, query full federated `me`, prove checkout replay and compensation, and retain MCP parity/negative cases.
 
-## T-090 — Add optional end-to-end observability [pendente]
+## T-090 — Add optional end-to-end observability [concluida]
 
 - Refs: US-058, AC-115
 - Arquivos: package.json, pnpm-lock.yaml, libs/platform/nest/src, apps/gateway/src/main.ts, apps/identity-subgraph/src/main.ts, apps/commerce-subgraph/src, apps/wordpress-federation/src/main.ts, apps/payment-processor, compose.yaml, infra/observability/otel-collector.yaml, docs/runbooks/observability.md, test/delivery-closure-observability.test.mjs

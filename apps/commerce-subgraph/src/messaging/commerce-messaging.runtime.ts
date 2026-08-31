@@ -95,6 +95,7 @@ export async function startCommerceMessaging({
           component: 'commerce-subgraph',
           eventId: event.eventId,
           eventType: event.eventType,
+          operationKey: event.operationKey,
           status: 'received',
         }),
       );
@@ -105,6 +106,7 @@ export async function startCommerceMessaging({
             component: 'commerce-subgraph',
             eventId: event.eventId,
             eventType: event.eventType,
+            operationKey: event.operationKey,
             outcome: result.outcome,
             status: 'completed',
           }),
@@ -115,6 +117,7 @@ export async function startCommerceMessaging({
             component: 'commerce-subgraph',
             eventId: event.eventId,
             eventType: event.eventType,
+            operationKey: event.operationKey,
             error: error instanceof Error ? error.message : 'unknown error',
             status: 'failed',
           }),

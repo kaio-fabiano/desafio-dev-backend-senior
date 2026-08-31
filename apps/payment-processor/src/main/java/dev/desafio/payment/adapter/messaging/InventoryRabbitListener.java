@@ -10,6 +10,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @Component
 @ConditionalOnProperty(name = {"spring.datasource.url", "wordpress.graphql-url"})
 public final class InventoryRabbitListener {
+    private static final Logger LOG = LoggerFactory.getLogger(InventoryRabbitListener.class);
     private final InventoryService inventory;
     private final RabbitTemplate rabbit;
     private final ObjectMapper json;
@@ -38,6 +41,9 @@ public final class InventoryRabbitListener {
             var delivery = delivery(message);
             var result = inventory.handle(delivery.request());
             publish(result.event(), delivery.traceContext());
+            LOG.info("Inventory event completed eventId={} operationKey={}",
+                message.getMessageProperties().getMessageId(),
+                message.getMessageProperties().getCorrelationId());
         } catch (Exception error) {
             try {
                 routeFailure(message);
@@ -97,6 +103,9 @@ public final class InventoryRabbitListener {
                 sent.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
                 sent.getMessageProperties().setType(event.eventType());
                 sent.getMessageProperties().setTimestamp(java.util.Date.from(event.occurredAt()));
+                var traceId = traceContext.get("traceId");
+                var spanId = traceContext.getOrDefault("spanId", traceId.substring(0, 16));
+                sent.getMessageProperties().setHeader("traceparent", "00-" + traceId + "-" + spanId + "-01");
                 return sent;
             });
             operations.waitForConfirmsOrDie(10_000);
