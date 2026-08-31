@@ -2,8 +2,7 @@
 
 > feature: delivery-closure
 
-## T-085 — Encode the immutable challenge compliance gate [pendente]
-
+## T-085 — Encode the immutable challenge compliance gate [concluida]
 - Refs: US-055, AC-109
 - Arquivos: docs/evidence/challenge-compliance.md, test/challenge-compliance-contract.test.mjs, test/five-app-topology.test.mjs, test/milestone-8-real-e2e.test.mjs
 - Modelo: gpt-5.6-luna
