@@ -2,5 +2,28 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://desafio.dev/contracts/events/payment-requested.v1.schema.json",
   "title": "Payment requested event v1",
-  "allOf": [{ "$ref": "envelope.schema.json" }, { "type": "object", "properties": { "eventType": { "const": "payment.requested" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["paymentId", "orderId", "method", "amount", "currency"], "properties": { "paymentId": { "type": "string", "minLength": 1 }, "orderId": { "type": "string", "minLength": 1 }, "method": { "enum": ["CARD", "PIX"] }, "amount": { "type": "number", "exclusiveMinimum": 0 }, "currency": { "type": "string", "pattern": "^[A-Z]{3}$" } } } }, "required": ["payload"] }]
+  "allOf": [
+    { "$ref": "envelope.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": { "const": "payment.requested" },
+        "eventVersion": { "const": "v1" },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["paymentId", "orderId", "method", "amount", "currency"],
+          "properties": {
+            "checkoutId": { "type": "string", "minLength": 1 },
+            "paymentId": { "type": "string", "minLength": 1 },
+            "orderId": { "type": "string", "minLength": 1 },
+            "method": { "enum": ["CARD", "PIX"] },
+            "amount": { "type": "number", "exclusiveMinimum": 0 },
+            "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+          }
+        }
+      },
+      "required": ["payload"]
+    }
+  ]
 }

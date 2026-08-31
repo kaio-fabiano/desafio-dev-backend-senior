@@ -23,6 +23,28 @@ x-federated-node-build: &federated-node-build
     USER app
 
 services:
+  rabbitmq:
+    image: rabbitmq:4.1.3-management
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  commerce-database:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: commerce
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d commerce']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - commerce-database-data:/var/lib/postgresql/data
+
   identity-database:
     image: postgres:17.6-bookworm
     environment:
@@ -244,6 +266,42 @@ services:
       timeout: 2s
       retries: 30
 
+  commerce-subgraph:
+    build:
+      context: .
+      dockerfile: apps/commerce-subgraph/Dockerfile
+    environment:
+      COMMERCE_DB_HOST: commerce-database
+      COMMERCE_DB_NAME: commerce
+      COMMERCE_DB_PASSWORD: postgres
+      COMMERCE_DB_USER: postgres
+      PORT: 3003
+      RABBITMQ_URL: amqp://rabbitmq:5672
+      WORDPRESS_URL: http://wordpress
+      WOO_CONSUMER_KEY: ck_2222222222222222222222222222222222222222
+      WOO_CONSUMER_SECRET: cs_2222222222222222222222222222222222222222
+    depends_on:
+      commerce-database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      wordpress-setup:
+        condition: service_healthy
+    ports:
+      - '3003'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3003/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    stop_grace_period: 35s
+
   payment-processor:
     build:
       context: .
@@ -314,6 +372,7 @@ services:
       retries: 30
 
 volumes:
+  commerce-database-data:
   identity-database-data:
   payment-database-data:
   wordpress-database-data:
