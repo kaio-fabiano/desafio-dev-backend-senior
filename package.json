@@ -49,6 +49,7 @@
     "@nx/js": "23.1.1",
     "@swc/helpers": "~0.5.18",
     "@types/express": "5.0.3",
+    "@types/pg": "8.15.6",
     "eslint": "9.39.1",
     "nx": "23.1.1",
     "prettier": "~3.6.2",

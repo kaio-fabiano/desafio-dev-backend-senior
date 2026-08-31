@@ -17,14 +17,15 @@ export class HealthController {
   }
 }
 
+function descriptorFor(method: 'health' | 'ready') {
+  const descriptor = Object.getOwnPropertyDescriptor(
+    HealthController.prototype,
+    method,
+  );
+  if (!descriptor) throw new Error(`Missing ${method} health handler`);
+  return descriptor;
+}
+
 Controller()(HealthController);
-Get('health')(
-  HealthController.prototype,
-  'health',
-  Object.getOwnPropertyDescriptor(HealthController.prototype, 'health'),
-);
-Get('ready')(
-  HealthController.prototype,
-  'ready',
-  Object.getOwnPropertyDescriptor(HealthController.prototype, 'ready'),
-);
+Get('health')(HealthController.prototype, 'health', descriptorFor('health'));
+Get('ready')(HealthController.prototype, 'ready', descriptorFor('ready'));

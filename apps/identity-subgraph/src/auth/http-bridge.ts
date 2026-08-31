@@ -16,7 +16,7 @@ async function requestBody(request: ParsedRequest) {
 export async function toBetterAuthRequest(
   request: ParsedRequest,
   baseURL: string,
-) {
+): Promise<Request> {
   const headers = new Headers();
   for (const [name, value] of Object.entries(request.headers)) {
     if (Array.isArray(value)) {

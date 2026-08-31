@@ -16,17 +16,15 @@ export async function createIdentitySchema(resolver: IdentityResolver) {
     typeDefs: parse(contract),
     resolvers: {
       Query: {
-        users: (_root, args, context: IdentityContext) =>
-          resolver.usersConnection(args, context),
-        user: (_root, { id }, context: IdentityContext) =>
-          resolver.user(id, context),
-        me: (_root, _args, context: IdentityContext) => resolver.me(context),
+        users: (_root, args, context) =>
+          resolver.usersConnection(args, context as IdentityContext),
+        user: (_root, { id }, context) =>
+          resolver.user(id, context as IdentityContext),
+        me: (_root, _args, context) => resolver.me(context as IdentityContext),
       },
       User: {
-        __resolveReference: (
-          reference: { id: string },
-          context: IdentityContext,
-        ) => resolver.resolveReference(reference, context),
+        __resolveReference: (reference: { id: string }, context) =>
+          resolver.resolveReference(reference, context as IdentityContext),
       },
     },
   });

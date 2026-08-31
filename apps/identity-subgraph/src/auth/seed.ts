@@ -19,7 +19,7 @@ async function seedClient(
   seed: ClientSeed,
 ) {
   const context = await auth.$context;
-  const existing = await context.adapter.findOne({
+  const existing = await context.adapter.findOne<{ clientId: string }>({
     model: 'oauthClient',
     where: [{ field: 'softwareId', value: seed.softwareId }],
   });

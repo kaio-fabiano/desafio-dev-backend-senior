@@ -24,6 +24,13 @@ type IdentityAuthOptions = {
   seedAdminEmail: string;
 };
 
+type BaseIdentityAuth = ReturnType<typeof betterAuth>;
+type IdentityAuth = BaseIdentityAuth & {
+  api: BaseIdentityAuth['api'] & {
+    adminCreateOAuthClient(input: unknown): Promise<{ client_id: string }>;
+  };
+};
+
 export function createIdentityAuth(
   database: Parameters<typeof betterAuth>[0]['database'],
   options: IdentityAuthOptions,
@@ -57,7 +64,7 @@ export function createIdentityAuth(
         clientRegistrationDefaultResources: [GATEWAY_AUDIENCE, MCP_AUDIENCE],
         clientPrivileges: async ({ user }) =>
           user?.email === options.seedAdminEmail,
-      }),
+      }) as never,
     ],
-  });
+  }) as unknown as IdentityAuth;
 }
