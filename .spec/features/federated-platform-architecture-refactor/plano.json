@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-federated-platform-architecture-refactor-mtguz1r8",
+  "runId": "desafio-dev-backend-senior-federated-platform-architecture-refactor-mtgw3ylt",
   "feature": "federated-platform-architecture-refactor",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-08-31 06:29",
+  "geradoEm": "2026-08-31 07:01",
   "branchTrabalho": "spec/federated-platform-architecture-refactor",
   "baseDir": ".spec/features/federated-platform-architecture-refactor",
   "specDir": ".spec",
@@ -24,13 +24,21 @@
         "package.json",
         "pnpm-lock.yaml",
         "tsconfig.base.json",
+        "tsconfig.json",
+        "eslint.config.mjs",
+        "compose.yaml",
+        "apps/gateway/Dockerfile",
         "apps/gateway/src/app.module.ts",
         "apps/gateway/src/main.ts",
+        "apps/identity-subgraph/Dockerfile",
         "apps/identity-subgraph/src/app.module.ts",
         "apps/identity-subgraph/src/main.ts",
         "apps/wordpress-federation/src/app.module.ts",
         "apps/wordpress-federation/src/main.ts",
-        "libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts"
+        "libs/platform/nest/tsconfig.lib.json",
+        "libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts",
+        "test/gateway-federation-refactor.test.mjs",
+        "test/identity-federation-refactor.test.mjs"
       ],
       "refs": [
         "US-052",
@@ -68,5 +76,7 @@
     "T-077",
     "T-078"
   ],
-  "avisos": []
+  "avisos": [
+    "T-079 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
 }

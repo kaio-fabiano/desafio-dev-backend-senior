@@ -1,6 +1,6 @@
 # Plano de execução — federated-platform-architecture-refactor
 
-> gerado por `onp-spec plano` em 2026-08-31 06:29 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-31 07:01 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano federated-platform-architecture-refactor --sequencial`
 
 ## Resumo — o que vai acontecer
@@ -8,6 +8,10 @@
 - **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (14 já concluída(s): T-065, T-066, T-067, T-068, T-069, T-070, T-071, T-072, T-073, T-074, T-075, T-076, T-077, T-078)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/federated-platform-architecture-refactor`; levar para a main é decisão sua
+
+### Avisos
+
+- ⚠ T-079 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar
 
 ## Ordem de execução (uma tarefa após a outra)
 

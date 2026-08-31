@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-31 06:29
+# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-31 07:01
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtguz1r8'
+RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtgw3ylt'
 FEATURE='federated-platform-architecture-refactor'
 BASE_BRANCH='spec/federated-platform-architecture-refactor'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -177,7 +177,7 @@ Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, 
 Sua tarefa (somente ela):
 T-079 — "Restore clean-install TypeScript and Nx boundary compliance"
   critérios/refs: AC-103 (Quality gates explain and enforce the design)
-  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, tsconfig.base.json, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/src/main.ts, libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts
+  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, tsconfig.base.json, tsconfig.json, eslint.config.mjs, compose.yaml, apps/gateway/Dockerfile, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/Dockerfile, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/src/main.ts, libs/platform/nest/tsconfig.lib.json, libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts, test/gateway-federation-refactor.test.mjs, test/identity-federation-refactor.test.mjs
   mensagem de commit: "T-079 federated-platform-architecture-refactor: Restore clean-install TypeScript and Nx boundary compliance"
 
 Regras inegociáveis:
