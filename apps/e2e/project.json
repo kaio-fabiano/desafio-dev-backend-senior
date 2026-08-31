@@ -12,18 +12,6 @@
         "command": "vitest run apps/e2e/src/milestone-7.e2e.test.ts --hookTimeout=600000 --testTimeout=600000"
       }
     },
-    "milestone-4-acceptance": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && docker compose --file compose.yaml config --quiet && docker build --file apps/payment-processor/Dockerfile --tag milestone-4-payment-processor:acceptance . && docker build --file apps/stock-worker/Dockerfile --tag milestone-4-stock-worker:acceptance . && docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
-      }
-    },
-    "milestone-5-acceptance": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs"
-      }
-    },
     "milestone-6-acceptance": {
       "executor": "nx:run-commands",
       "options": {
@@ -33,7 +21,7 @@
     "milestone-7-quality": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --experimental-test-coverage --test-coverage-lines=70 --test --test-reporter=tap test/milestone-3-*.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs && docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
+        "command": "node --experimental-transform-types --experimental-test-coverage --test-coverage-lines=70 --test --test-reporter=tap test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs && docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
       }
     }
   }

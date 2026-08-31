@@ -1,0 +1,27 @@
+{
+  "feature": "remove-retired-applications",
+  "timestamp": "2026-08-31T13:50:29.717Z",
+  "gitRev": "699f6c1",
+  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 102,
+  "results": {
+    "AC-104": {
+      "status": "pass",
+      "testName": "AC-104: retired application roots no longer exist @spec:AC-104",
+      "method": "tap"
+    },
+    "AC-105": {
+      "status": "pass",
+      "testName": "AC-105: active automation has no retired source dependency @spec:AC-105",
+      "method": "tap"
+    },
+    "AC-106": {
+      "status": "pass",
+      "testName": "AC-106: supported project gates remain executable @spec:AC-106",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

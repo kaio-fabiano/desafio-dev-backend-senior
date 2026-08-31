@@ -22,11 +22,6 @@ export default $config({
   async run() {
     const vpc = new sst.aws.Vpc("MarketplaceVpc", { nat: "ec2" });
     const cluster = new sst.aws.Cluster("MarketplaceCluster", { vpc });
-    const commerceDatabase = new sst.aws.Postgres("CommerceDatabase", {
-      database: "commerce",
-      version: "17.6",
-      vpc,
-    });
     const paymentDatabase = new sst.aws.Postgres("PaymentDatabase", {
       database: "payment",
       version: "17.6",
@@ -59,25 +54,6 @@ export default $config({
       },
       link: [oauthSigningSecret, wordpressApplicationPassword],
       serviceRegistry: { port: 3001 },
-    });
-
-    const commerce = new sst.aws.Service("CommerceSubgraph", {
-      cluster,
-      image: {
-        context: "..",
-        dockerfile: "apps/commerce-subgraph/Dockerfile",
-      },
-      link: [commerceDatabase, wordpressApplicationPassword],
-      serviceRegistry: { port: 3003 },
-    });
-
-    const stockWorker = new sst.aws.Service("StockWorker", {
-      cluster,
-      image: {
-        context: "..",
-        dockerfile: "apps/stock-worker/Dockerfile",
-      },
-      link: [commerceDatabase, wordpressApplicationPassword],
     });
 
     const paymentProcessor = new sst.aws.Service("PaymentProcessor", {
@@ -116,8 +92,6 @@ export default $config({
       gatewayUrl: gateway.url,
       resourceNames: [
         "IdentitySubgraph",
-        "CommerceSubgraph",
-        "StockWorker",
         "PaymentProcessor",
         "RabbitMq",
         "WordPress",

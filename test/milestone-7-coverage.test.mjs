@@ -12,7 +12,7 @@ test('AC-072: Critical order and payment coverage has a failing 70 percent floor
 
   assert.match(command, /--experimental-test-coverage/);
   assert.match(command, /--test-coverage-lines=70/);
-  assert.match(command, /test\/milestone-3-\*\.test\.mjs/);
+  assert.match(command, /test\/milestone-7-coverage\.test\.mjs/);
   assert.match(command, /gradle:8\.14\.3-jdk21 gradle --no-daemon test/);
   assert.match(paymentBuild, /tasks\.withType<Test>/);
   assert.match(paymentTests, /PaymentHandler/);

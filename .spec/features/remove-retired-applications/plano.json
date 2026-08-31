@@ -1,0 +1,61 @@
+{
+  "runId": "desafio-dev-backend-senior-remove-retired-applications-mth8g5hc",
+  "feature": "remove-retired-applications",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-31 12:46",
+  "branchTrabalho": "spec/remove-retired-applications",
+  "baseDir": ".spec/features/remove-retired-applications",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-remove-retired-applications-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-081",
+      "titulo": "Remove retired runtimes and executable dependencies",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/commerce-subgraph",
+        "apps/stock-worker",
+        "apps/e2e/project.json",
+        "apps/wordpress-integration/scripts/probe-checkout.mjs",
+        "compose.yaml",
+        "infra/sst.config.ts",
+        "test"
+      ],
+      "refs": [
+        "US-053",
+        "AC-104",
+        "AC-105"
+      ]
+    },
+    {
+      "id": "T-082",
+      "titulo": "Verify and document the reduced project graph",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "README.md",
+        "docs/knowledge/Mapa do Projeto.md",
+        "docs/runbooks",
+        "docs/prds",
+        "test/retired-applications-removal.test.mjs",
+        ".spec/verification/remove-retired-applications.json"
+      ],
+      "refs": [
+        "US-053",
+        "AC-104",
+        "AC-105",
+        "AC-106"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

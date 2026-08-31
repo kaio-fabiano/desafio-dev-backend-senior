@@ -24,8 +24,8 @@ test('AC-076: the stack models protected application resources without inline se
   assert.match(config, /production \? ["']retain-all["'] : ["']remove["']/);
   assert.match(config, /new sst\.aws\.Vpc\(/);
   assert.match(config, /new sst\.aws\.Cluster\(/);
-  assert.equal((config.match(/new sst\.aws\.Postgres\(/g) ?? []).length, 2);
-  assert.ok((config.match(/new sst\.aws\.Service\(/g) ?? []).length >= 8);
+  assert.equal((config.match(/new sst\.aws\.Postgres\(/g) ?? []).length, 1);
+  assert.ok((config.match(/new sst\.aws\.Service\(/g) ?? []).length >= 6);
   assert.ok((config.match(/new sst\.Secret\(/g) ?? []).length >= 2);
   assert.match(config, /wordpress:6\.8\.2-php8\.3-apache/);
 

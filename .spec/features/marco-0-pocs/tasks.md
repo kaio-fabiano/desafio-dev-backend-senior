@@ -11,7 +11,7 @@
 
 ## T-004 — Validate graphql-sse in the federated gateway [concluida]
 - Refs: US-005, AC-009, AC-010
-- Arquivos: test/fixtures/federated-sse-probe.ts, apps/gateway/src/subscriptions/sse-handler.ts, apps/commerce-subgraph/src/subscriptions/sse-handler.ts, test/marco-0-sse.test.mjs, docs/adrs/001-graphql-sse-federado.md
+- Arquivos: test/fixtures/federated-sse-probe.ts, apps/gateway/src/subscriptions/sse-handler.ts, test/marco-0-sse.test.mjs, docs/adrs/001-graphql-sse-federado.md
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Execute after T-003. The proof must decide between direct support and the smallest verifiable alternative pipeline.

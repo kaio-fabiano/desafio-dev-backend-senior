@@ -53,7 +53,7 @@ node --experimental-transform-types --test --test-reporter=tap \
   test/federated-platform-quality.test.mjs
 
 # Schema composition
-node --test --test-reporter=tap test/milestone-1-graphql-contracts.test.mjs
+node --test --test-reporter=tap test/five-app-topology.test.mjs
 
 # Coverage and language-specific integration tests
 corepack pnpm@10.17.1 run quality:coverage

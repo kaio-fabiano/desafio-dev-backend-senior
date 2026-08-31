@@ -51,12 +51,6 @@ As a marketplace client, I want the versioned SDL mounted by runnable subgraphs 
 
 As a buyer, I want the delivered services to process checkout through durable adapters, so that retries, crashes, and concurrent delivery preserve business invariants.
 
-#### AC-083 — Commerce is wired through explicit boundaries
-
-- **Dado** configured PostgreSQL, WooCommerce, RabbitMQ, and request-scoped dependencies
-- **Quando** cart, checkout, order, or subscription operations execute
-- **Então** presentation delegates to application use cases, domain rules remain framework-free, and infrastructure adapters perform external I/O
-
 #### AC-084 — Workers execute the real choreography
 
 - **Dado** duplicate and concurrent RabbitMQ deliveries

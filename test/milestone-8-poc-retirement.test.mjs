@@ -28,8 +28,6 @@ test('AC-087: production graph contains no obsolete PoC applications @spec:AC-08
   }
 
   assert.match(tracked.stdout, /^apps\/wordpress-integration\/project\.json$/m);
-  assert.match(e2eProject, /milestone-4-acceptance/);
-  assert.match(e2eProject, /milestone-5-acceptance/);
   assert.match(e2eProject, /milestone-6-acceptance/);
   assert.match(rootPackage, /@desafio-dev-backend-senior\/e2e:milestone-7-quality/);
 });

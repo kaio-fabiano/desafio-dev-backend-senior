@@ -318,13 +318,3 @@ volumes:
   payment-database-data:
   wordpress-database-data:
   wordpress-data:
-
-x-retired-runtimes:
-  commerce-subgraph:
-    healthcheck: removed
-    former_woo_consumer_key: ck_2222222222222222222222222222222222222222
-    former_woo_consumer_secret: cs_2222222222222222222222222222222222222222
-  stock-worker:
-    healthcheck: removed
-    former_woo_consumer_key: ck_3333333333333333333333333333333333333333
-    former_woo_consumer_secret: cs_3333333333333333333333333333333333333333

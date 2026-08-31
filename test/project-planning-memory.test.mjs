@@ -1,5 +1,6 @@
 import { readFile, stat } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { test } from 'node:test';
 
 const read = (path) => readFile(path, 'utf8');
 
@@ -82,21 +83,6 @@ const cases = [
   }],
 ];
 
-console.log('TAP version 13');
-let failed = 0;
-
-for (const [index, [name, check]] of cases.entries()) {
-  try {
-    await check();
-    console.log(`ok ${index + 1} - ${name}`);
-  } catch (error) {
-    failed += 1;
-    console.log(`not ok ${index + 1} - ${name}`);
-    console.log('  ---');
-    console.log(`  message: ${JSON.stringify(error.message)}`);
-    console.log('  ...');
-  }
+for (const [name, check] of cases) {
+  test(name, check);
 }
-
-console.log(`1..${cases.length}`);
-process.exitCode = failed === 0 ? 0 : 1;

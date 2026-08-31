@@ -11,14 +11,14 @@
 
 ## T-047 — Complete the cross-language Nx quality graph [concluida]
 - Refs: US-038, AC-074
-- Arquivos: nx.json, package.json, apps/gateway/project.json, apps/identity-subgraph/project.json, apps/commerce-subgraph/project.json, apps/stock-worker/project.json, apps/payment-processor/project.json, test/milestone-7-nx-quality.test.mjs
+- Arquivos: nx.json, package.json, apps/gateway/project.json, apps/identity-subgraph/project.json, apps/wordpress-federation/project.json, apps/payment-processor/project.json, test/milestone-7-nx-quality.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Reuse Nx targets and native dynamic output; add no custom TUI and no duplicate task runner.
 
 ## T-048 — Harden final application images and Compose readiness [concluida]
 - Refs: US-037, US-038, AC-067, AC-075
-- Arquivos: compose.yaml, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/commerce-subgraph/Dockerfile, apps/stock-worker/Dockerfile, apps/payment-processor/Dockerfile, apps/apollo-mcp/Dockerfile, test/milestone-6-mcp-config.test.mjs, test/milestone-7-containers.test.mjs
+- Arquivos: compose.yaml, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/payment-processor/Dockerfile, apps/apollo-mcp/Dockerfile, test/milestone-6-mcp-config.test.mjs, test/milestone-7-containers.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Pin images, use multi-stage builds, non-root runtime users, and readiness rather than open-port checks.

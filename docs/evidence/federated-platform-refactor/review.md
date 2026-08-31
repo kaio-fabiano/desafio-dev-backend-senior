@@ -33,10 +33,10 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
     },
     {
       "name": "Composition",
-      "command": "node --test --test-reporter=tap test/milestone-1-graphql-contracts.test.mjs",
+      "command": "node --test --test-reporter=tap test/five-app-topology.test.mjs",
       "evidence": [
         "libs/contracts/graphql/supergraph.yaml",
-        "test/milestone-1-graphql-contracts.test.mjs"
+        "test/five-app-topology.test.mjs"
       ]
     },
     {

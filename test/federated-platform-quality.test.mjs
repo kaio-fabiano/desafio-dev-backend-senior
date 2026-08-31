@@ -86,7 +86,7 @@ test('AC-103: quality gates explain and enforce the architecture walkthrough @sp
   );
   assert.match(
     documents['docs/runbooks/local-development.md'],
-    /quality:nx[\s\S]*architecture-boundaries[\s\S]*milestone-1-graphql-contracts[\s\S]*quality:coverage/,
+    /quality:nx[\s\S]*architecture-boundaries[\s\S]*quality:coverage/,
   );
   assert.match(
     documents['docs/runbooks/e2e.md'],
