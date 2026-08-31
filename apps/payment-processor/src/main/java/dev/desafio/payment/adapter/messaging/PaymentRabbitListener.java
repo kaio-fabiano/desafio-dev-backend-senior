@@ -10,6 +10,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @Component
 @ConditionalOnProperty(name = "spring.datasource.url")
 public final class PaymentRabbitListener {
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentRabbitListener.class);
     private final PaymentConsumer consumer;
     private final RabbitTemplate rabbit;
     private final ObjectMapper json;
@@ -41,6 +44,7 @@ public final class PaymentRabbitListener {
             var result = consumer.consume(delivery(message), () -> {});
             publish(result);
         } catch (Exception error) {
+            LOG.warn("Payment event processing failed; routing to retry", error);
             try {
                 routeFailure(message);
             } catch (Exception routingError) {

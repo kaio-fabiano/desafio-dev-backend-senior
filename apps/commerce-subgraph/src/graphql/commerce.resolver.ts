@@ -11,9 +11,15 @@ import {
 import { Inject } from '@nestjs/common';
 
 import type { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
+import { CartService } from '../cart/cart.service.ts';
 import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
 
-type AuthContext = { subject: string };
+type AuthContext = {
+  subject: string;
+  cartToken?: string;
+  wooSession?: string;
+  cookie?: string;
+};
 
 export type CheckoutInput = {
   operationKey: string;
@@ -36,6 +42,7 @@ export class CommerceResolver<Order, Workflow> {
     private readonly runCheckout: (
       subject: string,
       input: CheckoutInput,
+      session?: Omit<AuthContext, 'subject'>,
     ) => Promise<Order>,
     private readonly findWorkflow: (
       wooOrderId: string,
@@ -47,7 +54,7 @@ export class CommerceResolver<Order, Workflow> {
   ) {}
 
   checkout(context: AuthContext, input: CheckoutInput) {
-    return this.runCheckout(authenticatedSubject(context), input);
+    return this.runCheckout(authenticatedSubject(context), input, context);
   }
 
   workflow(order: OrderReference & { workflow?: Workflow }) {
@@ -103,8 +110,35 @@ Context()(CommerceResolver.prototype, 'orderEvents', 0);
 Args('operationKey')(CommerceResolver.prototype, 'orderEvents', 1);
 export const COMMERCE_OPERATIONS = Symbol('COMMERCE_OPERATIONS');
 
+export class CommerceCartResolver {
+  constructor(private readonly cart: CartService) {}
+
+  async addToCart(context: AuthContext, productId: string, quantity: number) {
+    await this.cart.addItem(authenticatedSubject(context), {
+      productId: Number(productId),
+      quantity,
+    });
+    return true;
+  }
+}
+
+Resolver()(CommerceCartResolver);
+Inject(CartService)(CommerceCartResolver, undefined, 0);
+Context()(CommerceCartResolver.prototype, 'addToCart', 0);
+Args('productId')(CommerceCartResolver.prototype, 'addToCart', 1);
+Args('quantity')(CommerceCartResolver.prototype, 'addToCart', 2);
+Mutation('commerceAddToCart')(
+  CommerceCartResolver.prototype,
+  'addToCart',
+  Object.getOwnPropertyDescriptor(CommerceCartResolver.prototype, 'addToCart')!,
+);
+
 export type CommerceOperations<Order, Workflow> = {
-  checkout(subject: string, input: CheckoutInput): Promise<Order>;
+  checkout(
+    subject: string,
+    input: CheckoutInput,
+    session?: Omit<AuthContext, 'subject'>,
+  ): Promise<Order>;
   findWorkflow(wooOrderId: string): Promise<Workflow | null>;
   findCheckout(id: string): Promise<CheckoutOperationView | null>;
   findOrders(

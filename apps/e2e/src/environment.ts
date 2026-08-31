@@ -7,14 +7,17 @@ import {
 } from 'testcontainers';
 
 const STARTUP_TIMEOUT = 600_000;
-const RETIRED_COMPONENTS = ['postgres', 'commerce-subgraph', 'stock-worker'];
+const RETIRED_COMPONENTS = ['stock-worker'];
 const COMPOSE_SERVICES = [
+  'rabbitmq',
+  'commerce-database',
   'identity-database',
   'payment-database',
   'wordpress-database',
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
+  'commerce-subgraph',
   'payment-processor',
   'wordpress-federation',
   'gateway',
@@ -26,6 +29,8 @@ export type Milestone7Environment = {
   gatewayUrl: string;
   mcpUrl: string;
   wordpressFederationUrl: string;
+  wordpressUrl: string;
+  commerceUrl: string;
   startedComponents: readonly string[];
   isStopped(): boolean;
   diagnostics(): Promise<string>;
@@ -58,16 +63,21 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
     const wordpressFederation = environment.getContainer(
       'wordpress-federation-1',
     );
+    const wordpress = environment.getContainer('wordpress-1');
+    const commerce = environment.getContainer('commerce-subgraph-1');
     return {
       identityUrl: `http://${identity.getHost()}:${identity.getMappedPort(3001)}`,
       gatewayUrl: `http://${gateway.getHost()}:${gateway.getMappedPort(3000)}`,
       mcpUrl: `http://${mcp.getHost()}:${mcp.getMappedPort(8000)}/mcp`,
       wordpressFederationUrl: `http://${wordpressFederation.getHost()}:${wordpressFederation.getMappedPort(3004)}`,
+      wordpressUrl: `http://${wordpress.getHost()}:${wordpress.getMappedPort(80)}`,
+      commerceUrl: `http://${commerce.getHost()}:${commerce.getMappedPort(3003)}`,
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,
       diagnostics: async () => {
         const services = [
           'wordpress-federation',
+          'commerce-subgraph',
           'payment-processor',
           'wordpress',
         ];
@@ -87,7 +97,17 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
             }),
           )
         ).join('\n');
-        return `${serviceLogs}\n--- retired components ---\n${RETIRED_COMPONENTS.join(', ')}`;
+        const rabbit = await environment!
+          .getContainer('rabbitmq-1')
+          .exec([
+            'rabbitmqctl',
+            'list_queues',
+            'name',
+            'messages_ready',
+            'messages_unacknowledged',
+            'consumers',
+          ]);
+        return `${serviceLogs}\n--- rabbitmq ---\n${rabbit.output}\n--- retired components ---\n${RETIRED_COMPONENTS.join(', ')}`;
       },
       stop,
     };

@@ -17,7 +17,7 @@ import {
 } from './auth/token-verifier.service.ts';
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
 
-function contract(name: 'identity' | 'wordpress' | 'payment') {
+function contract(name: 'identity' | 'wordpress' | 'payment' | 'commerce') {
   return parse(
     readFileSync(
       resolve(`libs/contracts/graphql/${name}/schema.graphql`),
@@ -50,7 +50,10 @@ Module({
         driver: ApolloGatewayDriver,
         path: '/graphql',
         server: {
-          context: ({ req, res }: {
+          context: ({
+            req,
+            res,
+          }: {
             req: Parameters<AuthContextFactory['create']>[0];
             res: Parameters<AuthContextFactory['create']>[1];
           }) => authContextFactory.create(req, res),
@@ -78,6 +81,13 @@ Module({
                   process.env.PAYMENT_GRAPHQL_URL ??
                   'http://payment-processor:8080/graphql',
                 typeDefs: contract('payment'),
+              },
+              {
+                name: 'commerce',
+                url:
+                  process.env.COMMERCE_GRAPHQL_URL ??
+                  'http://commerce-subgraph:3003/graphql',
+                typeDefs: contract('commerce'),
               },
             ],
           }),

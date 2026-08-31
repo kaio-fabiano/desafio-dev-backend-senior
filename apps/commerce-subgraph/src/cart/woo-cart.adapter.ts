@@ -1,4 +1,4 @@
-import type { WooCart, WooCartPort } from './woo-cart.port.ts';
+import type { WooCart, WooCartPort, WooCartSession } from './woo-cart.port.ts';
 
 type Fetch = typeof fetch;
 
@@ -108,21 +108,27 @@ export function createWooCartAdapter(
     return cart(response, subject);
   }
 
-  async function get(subject: string) {
+  async function get(subject: string, session: WooCartSession = {}) {
+    if (session.cartToken?.trim()) tokens.set(subject, session.cartToken);
     const token = tokens.get(subject);
-    if (!token) return bootstrap(subject);
+    if (!token && !session.wooSession && !session.cookie)
+      return bootstrap(subject);
 
     const response = await request(
       new URL('/wp-json/wc/store/v1/cart', endpoint),
       {
         headers: {
-          'cart-token': token,
+          ...(token ? { 'cart-token': token } : {}),
+          ...(session.wooSession
+            ? { 'woocommerce-session': session.wooSession }
+            : {}),
+          ...(session.cookie ? { cookie: session.cookie } : {}),
           'x-authenticated-subject': subject,
         },
       },
     );
     if (response.status === 401 || response.status === 403) {
-      forgetToken(subject, token);
+      if (token) forgetToken(subject, token);
       return bootstrap(subject);
     }
     if (!response.ok) throw new WooCartMutationError(response.status);

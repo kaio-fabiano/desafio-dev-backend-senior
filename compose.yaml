@@ -106,6 +106,8 @@ services:
       interval: 2s
       timeout: 2s
       retries: 60
+    ports:
+      - '80'
     volumes:
       - wordpress-data:/var/www/html
     networks:
@@ -182,6 +184,8 @@ services:
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PORT: 3000
     depends_on:
+      commerce-subgraph:
+        condition: service_healthy
       wordpress-federation:
         condition: service_healthy
       payment-processor:

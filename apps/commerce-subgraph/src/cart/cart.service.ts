@@ -1,6 +1,7 @@
 import type {
   AddCartItem,
   RemoveCartItem,
+  WooCartSession,
   WooCartPort,
 } from './woo-cart.port.ts';
 
@@ -19,13 +20,13 @@ export class CartAuthorizationError extends Error {
 export class CartService {
   constructor(private readonly cart: WooCartPort) {}
 
-  get(subject: string) {
+  get(subject: string, session?: WooCartSession) {
     if (!subject.trim()) {
       throw new CartAuthorizationError(
         'Cart identity must come from authentication',
       );
     }
-    return this.cart.get(subject);
+    return this.cart.get(subject, session);
   }
 
   addItem(subject: string, input: AddCartItem & UntrustedIdentity) {

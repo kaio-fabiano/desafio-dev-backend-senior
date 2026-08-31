@@ -21,6 +21,7 @@ import { OrderEventBroker } from '../subscriptions/order-event-broker.ts';
 import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
 import {
   COMMERCE_OPERATIONS,
+  CommerceCartResolver,
   CommerceRuntimeResolver,
   CommerceSubscriptionResolver,
   CommerceUserResolver,
@@ -62,6 +63,9 @@ export function commerceRequestContext({
     (Array.isArray(rawSubject) ? rawSubject[0] : rawSubject) ?? '';
   return {
     subject,
+    cartToken: String(req.headers['cart-token'] ?? ''),
+    wooSession: String(req.headers['woocommerce-session'] ?? ''),
+    cookie: String(req.headers.cookie ?? ''),
     scopes: [],
     audience: [],
     requestId: String(req.headers['x-request-id'] ?? ''),
@@ -87,6 +91,7 @@ Module({
       useFactory: (orm: MikroORM) => orm.em.fork(),
     },
     CommerceSubscriptionResolver,
+    CommerceCartResolver,
     {
       provide: WOO_CART,
       useFactory: () =>
@@ -120,11 +125,19 @@ Module({
           }),
         );
         return {
-          checkout: async (subject: string, input: CheckoutInput) => {
+          checkout: async (
+            subject: string,
+            input: CheckoutInput,
+            session?: {
+              cartToken?: string;
+              wooSession?: string;
+              cookie?: string;
+            },
+          ) => {
             const result = await checkout.checkout({
               subject,
               ...input,
-              cartSnapshot: await cart.get(subject),
+              cartSnapshot: await cart.get(subject, session),
             });
             const workflow = await entityManager.findOneOrFail(OrderWorkflow, {
               wooOrderId: result.wooOrderId,

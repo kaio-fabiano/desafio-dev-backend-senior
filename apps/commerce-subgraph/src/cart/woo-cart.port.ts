@@ -10,8 +10,14 @@ export type RemoveCartItem = {
   quantity: number;
 };
 
+export type WooCartSession = {
+  cartToken?: string;
+  wooSession?: string;
+  cookie?: string;
+};
+
 export type WooCartPort = {
-  get(subject: string): Promise<WooCart>;
+  get(subject: string, session?: WooCartSession): Promise<WooCart>;
   addItem(subject: string, input: AddCartItem): Promise<WooCart>;
   removeItem(subject: string, input: RemoveCartItem): Promise<WooCart>;
 };
