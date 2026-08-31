@@ -30,8 +30,7 @@
 - Esforço: alto
 - Notes: Port the proven stock-worker behavior from pre-`a2a37a3` behind an internal Java application boundary; retain WooCommerce as stock authority without creating another deployable service.
 
-## T-089 — Repair the complete Testcontainers acceptance journey [pendente]
-
+## T-089 — Repair the complete Testcontainers acceptance journey [concluida]
 - Refs: US-057, AC-113, AC-114
 - Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, libs/contracts/graphql/supergraph.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
 - Modelo: gpt-5.6-sol
