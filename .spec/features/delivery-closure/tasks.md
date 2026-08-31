@@ -16,8 +16,7 @@
 - Esforço: alto
 - Notes: Restore the smallest proven Commerce/outbox implementation from pre-`a2a37a3`, keep WooCommerce authoritative, and adapt it to current federation boundaries.
 
-## T-087 — Reactivate the Java Payment Federation event runtime [pendente]
-
+## T-087 — Reactivate the Java Payment Federation event runtime [concluida]
 - Refs: US-056, AC-111
 - Arquivos: apps/payment-processor/build.gradle.kts, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-processor/src/main/resources, apps/payment-processor/src/test, test/delivery-closure-payment-runtime.test.mjs
 - Modelo: gpt-5.6-sol
