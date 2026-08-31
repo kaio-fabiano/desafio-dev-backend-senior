@@ -3249,6 +3249,213 @@
       "primeiraVez": "2026-08-31T14:13:53.282Z",
       "ultimaVez": "2026-08-31T14:13:53.282Z",
       "gitRev": "a2a37a3"
+    },
+    "SECAO_AUSENTE::delivery-closure::.spec/features/delivery-closure/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "delivery-closure",
+      "ref": ".spec/features/delivery-closure/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.284Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-109": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-109",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.284Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-110": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-110",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.284Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-111": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-111",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.285Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-112": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-112",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:16:12.285Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-113": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-113",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:16:12.285Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-085": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-085",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-086": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-086",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-087": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-087",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-088": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-088",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-109": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-109",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-110": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-110",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-111": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-111",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-112": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-112",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-113": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-113",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ASM_STATUS_INVALIDO::delivery-closure::ASM-038": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "delivery-closure",
+      "ref": "ASM-038",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ASM_STATUS_INVALIDO::delivery-closure::ASM-039": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "delivery-closure",
+      "ref": "ASM-039",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ASM_STATUS_INVALIDO::delivery-closure::ASM-040": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "delivery-closure",
+      "ref": "ASM-040",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-090": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-090",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-091": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-091",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-114": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-114",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-115": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-115",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-116": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-116",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
     }
   }
 }
