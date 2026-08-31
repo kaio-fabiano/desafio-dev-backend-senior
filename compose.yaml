@@ -138,6 +138,8 @@ services:
         wp option update wpgraphql_federation_settings '{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}' --format=json
         wp option update wpgraphql_login_provider_siteToken '{"isEnabled":true,"clientOptions":{"headerKey":"X-WPGraphQL-Site-Token","secretKey":"wordpress-local-only"},"loginOptions":{"metaKey":"better_auth_user_id"}}' --format=json
         wp option update wpgraphql_login_access_control '{"shouldBlockUnauthorizedDomains":true,"hasSiteAddressInOrigin":true,"additionalAuthorizedDomains":["http://wordpress"],"customHeaders":[]}' --format=json
+        wp user get payment-federation || wp user create payment-federation payment-federation@example.test --role=shop_manager --user_pass=payment-federation-local-only
+        wp user meta update payment-federation better_auth_user_id payment-federation
         wp wc webhook list --user=admin --field=delivery_url --format=csv | grep -Fxq 'http://wordpress-federation.local:3004/webhooks/woocommerce/orders' || wp wc webhook create --user=admin --name='WordPress Federation order events' --topic=order.updated --delivery_url='http://wordpress-federation.local:3004/webhooks/woocommerce/orders' --secret='woocommerce-local-only' --status=active
         wp role create marketplace_vendor 'Marketplace Vendor' || true
         wp cap add marketplace_vendor read edit_products edit_published_products publish_products
@@ -308,16 +310,22 @@ services:
       dockerfile: apps/payment-processor/Dockerfile
     environment:
       SERVER_PORT: 8080
+      RABBITMQ_URL: amqp://rabbitmq:5672
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
       SPRING_DATASOURCE_USERNAME: postgres
       WORDPRESS_URL: http://wordpress
-      WOO_CONSUMER_KEY: ck_2222222222222222222222222222222222222222
-      WOO_CONSUMER_SECRET: cs_2222222222222222222222222222222222222222
+      WORDPRESS_GRAPHQL_URL: http://wordpress-federation:3004/graphql
       WOO_WEBHOOK_DELIVERY_URL: http://wordpress-federation:3004/webhooks/woocommerce/orders
       WOO_WEBHOOK_SECRET: ${WOO_WEBHOOK_SECRET:-woocommerce-local-only}
     depends_on:
       payment-database:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      wordpress-setup:
+        condition: service_healthy
+      wordpress-federation:
         condition: service_healthy
     ports:
       - '8080'

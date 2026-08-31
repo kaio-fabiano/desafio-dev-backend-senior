@@ -103,7 +103,11 @@ function requiredScopes(operation: WpGraphqlOperation): Set<string> {
   for (const field of fields) {
     if (definition.operation === 'mutation') {
       scopes.add(
-        /cart|checkout/i.test(field) ? 'cart:write' : 'marketplace:read',
+        field === 'updateOrder'
+          ? 'orders:write'
+          : /cart|checkout/i.test(field)
+            ? 'cart:write'
+            : 'marketplace:read',
       );
     } else if (definition.operation === 'query') {
       const scope = QUERY_SCOPES[field];
@@ -138,19 +142,6 @@ export function createWpGraphqlAuth({
 
   return {
     async headersFor(operation, incoming) {
-      const updateInput = operation.variables?.input;
-      if (
-        /\bupdateOrder\b/.test(operation.query) &&
-        updateInput &&
-        typeof updateInput === 'object' &&
-        ['isPaid', 'status', 'transactionId', 'metaData'].some(
-          (field) => field in updateInput,
-        )
-      ) {
-        throw new WpGraphqlAuthorizationError(
-          'Payment transitions must use the WooCommerce service API',
-        );
-      }
       const required = requiredScopes(operation);
       const subject = incoming.get('x-authenticated-subject')?.trim() ?? '';
       const wordpressSubject = subject;

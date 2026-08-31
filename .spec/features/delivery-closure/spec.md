@@ -102,6 +102,7 @@ final gate, so that the system is both reviewable and diagnosable.
 | ASM-039 | OpenTelemetry remains optional and cannot replace mandatory choreography evidence. | confirmada | README sections 13 and 18.7 classify observability as optional or bonus. |
 | ASM-040 | The deleted Commerce, Stock, and RabbitMQ implementation can be restored from repository history and adapted instead of rewritten. | confirmada | Commit `a2a37a3` deleted the previously passing runtime sources while preserving their full history. |
 | ASM-041 | Payment and inventory may share one Java Payment Federation deployment. | confirmada | The owner confirmed this boundary, and README section 3 permits merging services when all section 5 capabilities remain present and justified. |
+| ASM-042 | The Java Payment Federation may call WooCommerce REST endpoints directly. | invalidada | The owner confirmed that Java-to-WooCommerce communication must use the federated WordPress GraphQL contract exposed by the installed plugins. |
 
 ## Perguntas em aberto
 

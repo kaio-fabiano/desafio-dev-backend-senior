@@ -21,7 +21,9 @@ public class PaymentRuntimeConfiguration {
     static final String RETRY = "marketplace.retry.v1";
     static final String DEAD_LETTER = "marketplace.dead-letter.v1";
     static final String DEAD_LETTER_QUEUE = "marketplace.dead-letter.v1";
-    static final String QUEUE = "payment-processor.v1";
+    static final String PAYMENT_QUEUE = "payment-processor.v1";
+    static final String INVENTORY_QUEUE = "payment-federation.inventory.v1";
+    static final String QUEUE = PAYMENT_QUEUE;
     static final long[] RETRY_DELAYS = {1_000, 10_000, 60_000};
 
     @Bean
@@ -34,29 +36,43 @@ public class PaymentRuntimeConfiguration {
         var events = new TopicExchange(EVENTS, true, false);
         var retry = new DirectExchange(RETRY, true, false);
         var deadLetter = new TopicExchange(DEAD_LETTER, true, false);
-        var queue = QueueBuilder.durable(QUEUE).quorum().build();
+        var paymentQueue = QueueBuilder.durable(PAYMENT_QUEUE).quorum().build();
+        var inventoryQueue = QueueBuilder.durable(INVENTORY_QUEUE).quorum().build();
         var deadLetterQueue = QueueBuilder.durable(DEAD_LETTER_QUEUE).quorum().build();
         var declarations = new ArrayList<Declarable>();
         declarations.add(events);
         declarations.add(retry);
         declarations.add(deadLetter);
-        declarations.add(queue);
+        declarations.add(paymentQueue);
+        declarations.add(inventoryQueue);
         declarations.add(deadLetterQueue);
         declarations.add(BindingBuilder.bind(deadLetterQueue).to(deadLetter).with("#"));
-        declarations.add(BindingBuilder.bind(queue).to(events).with("payment.requested"));
-        declarations.add(BindingBuilder.bind(queue).to(events).with("payment.refund-requested"));
+        declarations.add(BindingBuilder.bind(paymentQueue).to(events).with("payment.requested"));
+        declarations.add(BindingBuilder.bind(paymentQueue).to(events).with("payment.refund-requested"));
+        declarations.add(BindingBuilder.bind(inventoryQueue).to(events).with("stock.reservation-requested"));
+        addRetryTopology(declarations, retry, events, paymentQueue, PAYMENT_QUEUE);
+        addRetryTopology(declarations, retry, events, inventoryQueue, INVENTORY_QUEUE);
+        return new Declarables(declarations);
+    }
+
+    private static void addRetryTopology(
+        ArrayList<Declarable> declarations,
+        DirectExchange retry,
+        TopicExchange events,
+        Queue queue,
+        String queueName
+    ) {
         for (int index = 0; index < RETRY_DELAYS.length; index++) {
             var attempt = index + 1;
-            Queue retryQueue = QueueBuilder.durable(QUEUE + ".retry." + attempt)
+            Queue retryQueue = QueueBuilder.durable(queueName + ".retry." + attempt)
                 .quorum()
                 .ttl((int) RETRY_DELAYS[index])
                 .deadLetterExchange(EVENTS)
-                .deadLetterRoutingKey("retry-return." + QUEUE)
+                .deadLetterRoutingKey("retry-return." + queueName)
                 .build();
             declarations.add(retryQueue);
-            declarations.add(BindingBuilder.bind(retryQueue).to(retry).with(QUEUE + "." + attempt));
+            declarations.add(BindingBuilder.bind(retryQueue).to(retry).with(queueName + "." + attempt));
         }
-        declarations.add(BindingBuilder.bind(queue).to(events).with("retry-return." + QUEUE));
-        return new Declarables(declarations);
+        declarations.add(BindingBuilder.bind(queue).to(events).with("retry-return." + queueName));
     }
 }

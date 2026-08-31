@@ -64,8 +64,21 @@ test('AC-096: WordPress Federation independently authorizes sensitive operations
         },
         new Headers(propagatedIdentity),
       ),
-    /WooCommerce service API/,
+    /orders:write/,
   );
+
+  const serviceHeaders = await auth.headersFor(
+    {
+      query:
+        'mutation Reserve($input: UpdateOrderInput!) { updateOrder(input: $input) { order { id } } }',
+      variables: { input: { id: 'order-1', status: 'PROCESSING' } },
+    },
+    new Headers({
+      'x-authenticated-subject': 'payment-federation',
+      'x-authenticated-scopes': 'orders:write',
+    }),
+  );
+  assert.equal(serviceHeaders.get('authorization'), 'Bearer wordpress-jwt');
 
   const headers = await auth.headersFor(
     { query: 'query MyOrders { customer { orders { nodes { id } } } }' },
@@ -77,13 +90,13 @@ test('AC-096: WordPress Federation independently authorizes sensitive operations
   assert.equal(headers.get('authorization'), 'Bearer wordpress-jwt');
   assert.equal(headers.get('woocommerce-session'), 'Session woo-jwt');
   assert.equal(headers.get('cookie'), propagatedIdentity.cookie);
-  assert.equal(exchanges.length, 1);
+  assert.equal(exchanges.length, 2);
   assert.equal(
-    exchanges[0].init.headers['x-wpgraphql-site-token'],
+    exchanges[1].init.headers['x-wpgraphql-site-token'],
     'test-only-site-token',
   );
   assert.equal(
-    JSON.parse(exchanges[0].init.body).variables.identity,
+    JSON.parse(exchanges[1].init.body).variables.identity,
     'better-auth-user-1',
   );
 });

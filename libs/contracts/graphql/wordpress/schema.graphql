@@ -119,6 +119,7 @@ type CheckoutPayload {
 
 enum OrderStatusEnum {
   COMPLETED
+  PROCESSING
 }
 
 enum OrderIdTypeEnum {

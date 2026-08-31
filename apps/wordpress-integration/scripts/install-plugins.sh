@@ -43,7 +43,6 @@ wp plugin activate wp-graphql-federations
 for plugin in woocommerce wp-graphql wp-graphql-woocommerce wp-graphql-federations wp-graphql-headless-login; do
   wp plugin is-active "$plugin"
 done
-
 federation_settings='{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}'
 wp option update wpgraphql_federation_settings "$federation_settings" --format=json
 
@@ -51,6 +50,10 @@ site_token="${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}"
 site_token_settings="$(jq -cn --arg secret "$site_token" '{isEnabled:true,clientOptions:{headerKey:"X-WPGraphQL-Site-Token",secretKey:$secret},loginOptions:{metaKey:"better_auth_user_id"}}')"
 wp option update wpgraphql_login_provider_siteToken "$site_token_settings" --format=json
 wp option update wpgraphql_login_access_control '{"shouldBlockUnauthorizedDomains":true,"hasSiteAddressInOrigin":true,"additionalAuthorizedDomains":["http://wordpress"],"customHeaders":[]}' --format=json
+if ! wp user get payment-federation --field=ID >/dev/null 2>&1; then
+  wp user create payment-federation payment-federation@example.test --role=shop_manager --user_pass=payment-federation-local-only
+fi
+wp user meta update payment-federation better_auth_user_id payment-federation
 
 webhook_url="${WOO_WEBHOOK_URL:-http://wordpress-federation.local:3004/webhooks/woocommerce/orders}"
 if ! wp wc webhook list --user=admin --field=delivery_url --format=csv | grep -Fxq "$webhook_url"; then
