@@ -74,9 +74,14 @@ type Customer {
 type Order @key(fields: "id") {
   id: ID!
   databaseId: Int!
-  status: String
-  marketplacePaymentState: String
-  marketplacePixCode: String
+  status: OrderStatusEnum
+  transactionId: String
+  metaData: [MetaData]
+}
+
+type MetaData {
+  key: String
+  value: String
 }
 
 type OrderConnection {
@@ -109,7 +114,6 @@ input CheckoutInput {
 
 type CheckoutPayload {
   clientMutationId: String
-  marketplaceOrderDatabaseId: Int
   order: Order
 }
 
@@ -127,45 +131,17 @@ input UpdateOrderInput {
   status: OrderStatusEnum
   isPaid: Boolean
   transactionId: String
+  metaData: [MetaDataInput]
+}
+
+input MetaDataInput {
+  key: String!
+  value: String!
 }
 
 type UpdateOrderPayload {
   clientMutationId: String
   order: Order
-}
-
-input RecordPixPaymentV1Input {
-  clientMutationId: String
-  orderId: Int!
-  pixCode: String!
-}
-
-type RecordPixPaymentV1Payload {
-  clientMutationId: String
-  marketplaceOrderDatabaseId: Int
-  order: Order
-  paymentState: String
-  pixCode: String
-}
-
-input RecordCardPaymentV1Input {
-  clientMutationId: String
-  orderId: Int!
-  transactionId: String!
-}
-
-type RecordCardPaymentV1Payload {
-  clientMutationId: String
-  marketplaceOrderDatabaseId: Int
-  order: Order
-  paymentState: String
-}
-
-type MarketplaceOrderSnapshot {
-  databaseId: Int!
-  status: String
-  paymentState: String
-  pixCode: String
 }
 
 type Query {
@@ -174,13 +150,10 @@ type Query {
   cart: Cart
   customer: Customer
   order(id: ID!, idType: OrderIdTypeEnum): Order
-  marketplaceOrderV1(orderId: Int!): MarketplaceOrderSnapshot
 }
 
 type Mutation {
   addToCart(input: AddToCartInput!): AddToCartPayload
   checkout(input: CheckoutInput!): CheckoutPayload
   updateOrder(input: UpdateOrderInput!): UpdateOrderPayload
-  recordCardPaymentV1(input: RecordCardPaymentV1Input!): RecordCardPaymentV1Payload
-  recordPixPaymentV1(input: RecordPixPaymentV1Input!): RecordPixPaymentV1Payload
 }

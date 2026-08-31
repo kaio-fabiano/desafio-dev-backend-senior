@@ -19,6 +19,7 @@ Connections, request loaders, and WordPress authorization checks.
 | WooCommerce              | `10.4.3`                                   |
 | WPGraphQL                | `2.20.0`                                   |
 | GraphQL for eCommerce    | `1.0.3`                                    |
+| WPGraphQL Headless Login | `0.4.4`                                    |
 | `wp-graphql-federations` | `ac480974ceb6a1680410f955005e060056f150da` |
 | Rover                    | `0.41.0`                                   |
 | Federation composition   | `2.15.2`                                   |
@@ -59,6 +60,13 @@ mutations, and WordPress capabilities. Add only the deterministic SDL
 normalization at the schema publication boundary. Do not build a NestJS proxy
 or replicate the WooCommerce schema. Revisit the normalization if a pinned
 `wp-graphql-federations` release emits a directly composable Federation v2 SDL.
+
+The runtime uses Headless Login's server-side `SITETOKEN` provider to exchange
+the verified Better Auth identity for WordPress and WooCommerce session tokens.
+Payment transitions use authenticated WooCommerce REST, and signed
+`order.updated` webhooks feed the NestJS SSE publisher. No marketplace
+MU-plugin, custom GraphQL field, custom inventory route, or custom WordPress
+authentication filter is retained.
 
 For future directive changes, first use the plugin administration screen for
 supported `@key`, `@external`, and `@requires` configuration. Capture the applied

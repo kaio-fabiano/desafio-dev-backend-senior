@@ -38,7 +38,7 @@
 - Refs: US-049, AC-097, AC-098, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/wordpress-federation/src/main.ts, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/project.json, apps/wordpress-integration/compose.yaml, apps/wordpress-integration/marketplace-inventory.php, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/publish-subgraph.mjs, libs/wordpress/nest/src/federation/wordpress-federation.module.ts, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts, libs/wordpress/nest/src/index.ts, libs/wordpress/nest/project.json, libs/wordpress/nest/tsconfig.json, libs/wordpress/nest/tsconfig.lib.json, libs/contracts/graphql/wordpress/schema.graphql, test/wordpress-federation-refactor.test.mjs
+- Arquivos: apps/wordpress-federation/src/main.ts, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/project.json, apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/publish-subgraph.mjs, libs/wordpress/nest/src/federation/wordpress-federation.module.ts, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts, libs/wordpress/nest/src/index.ts, libs/wordpress/nest/project.json, libs/wordpress/nest/tsconfig.json, libs/wordpress/nest/tsconfig.lib.json, libs/contracts/graphql/wordpress/schema.graphql, test/wordpress-federation-refactor.test.mjs
 - Notas: Start with WPGraphQL, WPGraphQL for WooCommerce, and federation plugin capabilities. Evaluate an established schema delegation library before custom remote execution. The NestJS adapter must not duplicate WPGraphQL loaders, Model Layer authorization, commercial repositories, or WooCommerce CRUD objects.
 
 ## T-070 — Refactor Payment as a Spring GraphQL Federation bounded context [concluida]
@@ -68,3 +68,38 @@
 - Esforço: alto
 - Arquivos: README.md, docs/knowledge/Mapa do Projeto.md, docs/runbooks/local-development.md, docs/runbooks/e2e.md, docs/evidence/federated-platform-refactor/review.md, test/federated-platform-quality.test.mjs
 - Notas: Run last. Explain DDD boundaries, selective CQRS, DI/provider composition, federation ownership, omitted MikroORM, and why existing libraries were selected before custom code.
+
+## T-074 — Replace the custom WordPress identity bridge with standard session exchange [concluida]
+- Refs: US-048, AC-096, US-049, AC-097
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts, libs/identity/nest/src/auth/registration.service.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts, test/identity-federation-refactor.test.mjs, test/gateway-federation-refactor.test.mjs, test/wordpress-federation-refactor.test.mjs
+- Notas: Install and pin WPGraphQL Headless Login, configure Better Auth as the sole OAuth/OIDC provider, and use the plugin-issued WordPress/WooCommerce session instead of custom HMAC identity headers. Preserve independent WordPress authorization and never expose the Site Token to clients.
+
+## T-075 — Replace custom order and payment GraphQL operations with native owner APIs [concluida]
+- Refs: US-049, AC-097, AC-098, US-050, AC-100, AC-101
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/e2e/src/journey.ts, apps/payment-processor/src/main/java/dev/desafio/payment, libs/contracts/graphql/wordpress/schema.graphql, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, test/payment-federation-refactor.test.mjs, test/wordpress-federation-refactor.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Notas: Use WooGraphQL checkout/order fields for buyer operations and the authenticated WooCommerce REST owner API for service-side payment transitions. Buyers must never be able to mark their own order paid. Keep Payment idempotency in the Payment bounded context.
+
+## T-076 — Feed order subscriptions from native WooCommerce webhooks [concluida]
+- Refs: US-051, AC-102, US-048, AC-096
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: compose.yaml, libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts, libs/wordpress/nest/src/subscriptions/subscriptions.module.ts, libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts, test/order-subscription-refactor.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Notas: Configure a signed native WooCommerce order webhook to an internal NestJS endpoint and publish authorized GraphQL-over-SSE events from it. Remove coupling to custom mutation names and preserve cleanup, isolation, and terminal-event semantics.
+
+## T-077 — Delete the marketplace MU-plugin and prove the plugin-first topology [concluida]
+- Refs: US-049, AC-097, AC-098, US-052, AC-103
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/probe.mjs, compose.yaml, libs/contracts/graphql/wordpress/schema.graphql, test/milestone-8-wordpress-inventory-plugin.test.mjs, test/wordpress-federation-refactor.test.mjs, test/five-app-topology.test.mjs, test/federated-platform-quality.test.mjs
+- Notas: Remove the custom GraphQL types, order/payment mutations, identity filter, API-key authentication, and inventory route. Prove that WPGraphQL, WooGraphQL, WPGraphQL Federations, Headless Login, WooCommerce REST, and native webhooks cover every retained capability.
+
+## T-078 — Re-run acceptance and publish the native-plugin walkthrough [concluida]
+- Refs: US-052, AC-103
+- Modelo: gpt-5.6-luna
+- Esforço: baixo
+- Arquivos: README.md, docs/knowledge/Mapa do Projeto.md, docs/runbooks/local-development.md, docs/runbooks/e2e.md, docs/evidence/federated-platform-refactor/review.md, .spec/verification/federated-platform-architecture-refactor.json
+- Notas: Run after T-074 through T-077. Document the OIDC login exchange, native WooGraphQL and REST ownership, webhook-to-SSE path, removed custom PHP, and final executable evidence.

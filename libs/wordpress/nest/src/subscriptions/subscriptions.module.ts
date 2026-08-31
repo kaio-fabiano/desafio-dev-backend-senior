@@ -11,6 +11,7 @@ import {
   subscriptionTokenOptions,
 } from './subscription-auth.guard.ts';
 import { WordPressCheckoutEventSource } from './wordpress-checkout-event.source.ts';
+import { WooCommerceWebhookController } from './woocommerce-webhook.controller.ts';
 
 export class SubscriptionsModule {}
 
@@ -33,6 +34,7 @@ Module({
     OrderEventResolver,
     GraphqlSseAdapter,
   ],
+  controllers: [WooCommerceWebhookController],
   exports: [
     OrderEventService,
     SubscriptionAuthGuard,

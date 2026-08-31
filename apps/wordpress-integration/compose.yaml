@@ -27,9 +27,6 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DEBUG: '1'
-      MARKETPLACE_FEDERATION_SECRET: ${WPGRAPHQL_FEDERATION_SECRET:-}
-      WORDPRESS_CONFIG_EXTRA: |
-        define('MARKETPLACE_FEDERATION_SECRET', getenv('MARKETPLACE_FEDERATION_SECRET'));
     ports:
       - '127.0.0.1:18080:80'
     healthcheck:
@@ -40,7 +37,6 @@ services:
       retries: 30
     volumes:
       - wordpress-data:/var/www/html
-      - ./marketplace-inventory.php:/var/www/html/wp-content/mu-plugins/marketplace-inventory.php:ro
 
   cli:
     image: wordpress:cli-2.12.0-php8.3
@@ -57,7 +53,6 @@ services:
     user: '33:33'
     volumes:
       - wordpress-data:/var/www/html
-      - ./marketplace-inventory.php:/var/www/html/wp-content/mu-plugins/marketplace-inventory.php:ro
 
   wordpress-federation:
     image: node:24.8.0-bookworm-slim
@@ -75,9 +70,14 @@ services:
     environment:
       PORT: '3004'
       WPGRAPHQL_ENDPOINT: http://wordpress/graphql
-      WPGRAPHQL_FEDERATION_SECRET: ${WPGRAPHQL_FEDERATION_SECRET:-}
+      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
+      WOO_WEBHOOK_SECRET: ${WOO_WEBHOOK_SECRET:-woocommerce-local-only}
     ports:
       - '127.0.0.1:18081:3004'
+    networks:
+      default:
+        aliases:
+          - wordpress-federation.local
     volumes:
       - ../..:/workspace
 

@@ -13,6 +13,12 @@ project is an executable proof project, not a sixth runtime. The canonical
 decision-to-test matrix is the [federated platform architecture
 review](../evidence/federated-platform-refactor/review.md).
 
+WordPress Federation contains no commercial WordPress implementation. It
+exchanges verified identities through WPGraphQL Headless Login, delegates the
+commercial graph to WooGraphQL, and converts signed WooCommerce order webhooks
+to the authenticated GraphQL-over-SSE stream. Payment alone uses WooCommerce
+REST credentials for paid-state transitions.
+
 ## Core
 
 - [[Notas da Entrevista]] — indicated links and decisions not to recreate what already exists.

@@ -34,17 +34,28 @@ fi
 wp plugin install "https://downloads.wordpress.org/plugin/woocommerce.10.4.3.zip" --activate --force
 wp plugin install "https://downloads.wordpress.org/plugin/wp-graphql.2.20.0.zip" --activate --force
 wp plugin install "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" --activate --force
+wp plugin install "https://github.com/AxeWP/wp-graphql-headless-login/releases/download/0.4.4/wp-graphql-headless-login.zip" --activate --force
 
 federation_commit=ac480974ceb6a1680410f955005e060056f150da
 wp plugin install "https://github.com/Manuel-Antunes/wp-graphql-federations/archive/$federation_commit.zip" --force
 wp plugin activate wp-graphql-federations
 
-for plugin in woocommerce wp-graphql wp-graphql-woocommerce wp-graphql-federations; do
+for plugin in woocommerce wp-graphql wp-graphql-woocommerce wp-graphql-federations wp-graphql-headless-login; do
   wp plugin is-active "$plugin"
 done
 
 federation_settings='{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}'
 wp option update wpgraphql_federation_settings "$federation_settings" --format=json
+
+site_token="${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}"
+site_token_settings="$(jq -cn --arg secret "$site_token" '{isEnabled:true,clientOptions:{headerKey:"X-WPGraphQL-Site-Token",secretKey:$secret},loginOptions:{metaKey:"better_auth_user_id"}}')"
+wp option update wpgraphql_login_provider_siteToken "$site_token_settings" --format=json
+wp option update wpgraphql_login_access_control '{"shouldBlockUnauthorizedDomains":true,"hasSiteAddressInOrigin":true,"additionalAuthorizedDomains":["http://wordpress"],"customHeaders":[]}' --format=json
+
+webhook_url="${WOO_WEBHOOK_URL:-http://wordpress-federation.local:3004/webhooks/woocommerce/orders}"
+if ! wp wc webhook list --user=admin --field=delivery_url --format=csv | grep -Fxq "$webhook_url"; then
+  wp wc webhook create --user=admin --name='WordPress Federation order events' --topic=order.updated --delivery_url="$webhook_url" --secret="${WOO_WEBHOOK_SECRET:-woocommerce-local-only}" --status=active >/dev/null
+fi
 
 wp role create marketplace_vendor "Marketplace Vendor" 2>/dev/null || true
 for capability in read edit_products edit_published_products publish_products; do

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHmac } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 
@@ -12,6 +13,7 @@ import {
   SubscriptionAuthGuard,
   SubscriptionsModule,
   WordPressCheckoutEventSource,
+  WooCommerceWebhookController,
   WordPressFederationModule,
   WpGraphqlClientService,
 } from '../libs/wordpress/nest/src/index.ts';
@@ -132,7 +134,7 @@ test('AC-102: NestJS providers own authenticated order subscription filtering an
         data: {
           checkout: {
             clientMutationId: 'operation-checkout',
-            order: { id: 'order-2', status: 'COMPLETED' },
+            order: { id: 'order-2', databaseId: 2, status: 'COMPLETED' },
           },
         },
       }),
@@ -140,17 +142,18 @@ test('AC-102: NestJS providers own authenticated order subscription filtering an
   await client.execute(
     {
       query:
-        'mutation Checkout($input: CheckoutInput!) { checkout(input: $input) { clientMutationId order { id status } } }',
+        'mutation Checkout($input: CheckoutInput!) { checkout(input: $input) { clientMutationId order { id databaseId status } } }',
       variables: { input: { clientMutationId: 'operation-checkout' } },
     },
     new Headers({ 'x-authenticated-subject': 'buyer-a' }),
   );
+  checkoutEvents.ingest({ id: 2, status: 'completed' });
   const checkoutEvent = await checkoutStream.next();
   assert.deepEqual(checkoutEvent, {
     done: false,
     value: {
       operationKey: 'operation-checkout',
-      orderId: 'order-2',
+      orderId: '2',
       state: 'COMPLETED',
       eventTime: checkoutEvent.value.eventTime,
     },
@@ -165,11 +168,16 @@ test('AC-102: NestJS providers own authenticated order subscription filtering an
     request: async () =>
       Response.json({
         data: {
-          recordPixPaymentV1: {
+          updateOrder: {
             clientMutationId: 'operation-pix',
-            order: { id: 'order-3' },
-            paymentState: 'PIX_GENERATED',
-            pixCode: 'PIX-stable',
+            order: {
+              id: 'order-3',
+              databaseId: 3,
+              metaData: [
+                { key: 'payment_state', value: 'PIX_GENERATED' },
+                { key: 'pix_code', value: 'PIX-stable' },
+              ],
+            },
           },
         },
       }),
@@ -177,24 +185,49 @@ test('AC-102: NestJS providers own authenticated order subscription filtering an
   await pixClient.execute(
     {
       query:
-        'mutation RecordPix($input: RecordPixPaymentV1Input!) { recordPixPaymentV1(input: $input) { clientMutationId paymentState pixCode order { id } } }',
-      variables: { input: { orderId: 3, pixCode: 'PIX-stable' } },
+        'mutation UpdatePix($input: UpdateOrderInput!) { updateOrder(input: $input) { clientMutationId order { id databaseId metaData { key value } } } }',
+      variables: { input: { id: 'order-3' } },
     },
     new Headers({ 'x-authenticated-subject': 'buyer-a' }),
   );
+  checkoutEvents.ingest({
+    id: 3,
+    status: 'pending',
+    meta_data: [
+      { key: 'payment_state', value: 'PIX_GENERATED' },
+      { key: 'pix_code', value: 'PIX-stable' },
+    ],
+  });
   const pixEvent = await pixStream.next();
   assert.deepEqual(pixEvent, {
     done: false,
     value: {
       operationKey: 'operation-pix',
-      orderId: 'order-3',
+      orderId: '3',
       state: 'PIX_GENERATED',
       pixCode: 'PIX-stable',
       eventTime: pixEvent.value.eventTime,
     },
   });
 
-  process.env.WPGRAPHQL_FEDERATION_SECRET = 'test-only-federation-secret';
+  process.env.WOO_WEBHOOK_SECRET = 'test-only-webhook-secret';
+  const webhook = new WooCommerceWebhookController(checkoutEvents);
+  const rawBody = Buffer.from('{"id":3,"status":"pending"}');
+  assert.throws(
+    () => webhook.receive('invalid', { id: 3 }, { rawBody }),
+    /Invalid WooCommerce webhook signature/,
+  );
+  assert.doesNotThrow(() =>
+    webhook.receive(
+      createHmac('sha256', process.env.WOO_WEBHOOK_SECRET)
+        .update(rawBody)
+        .digest('base64'),
+      { id: 3, status: 'pending' },
+      { rawBody },
+    ),
+  );
+
+  process.env.WPGRAPHQL_SITE_TOKEN = 'test-only-site-token';
   const app = await NestFactory.create(AppModule, { logger: false });
   try {
     await app.init();
@@ -233,17 +266,33 @@ test('AC-095: order subscriptions are composed in WordPress without a gateway pr
 
 test('AC-096: the WordPress subscription verifies the production issuer independently @spec:AC-096', async () => {
   const compose = await readFile('compose.yaml', 'utf8');
-  const wordpress = compose.match(
-    /^  wordpress-federation:\n([\s\S]*?)(?=^  [\w-]+:\n|^volumes:)/m,
-  )?.[0] ?? '';
-  assert.match(wordpress, /GATEWAY_AUDIENCE: https:\/\/gateway\.marketplace\.local/);
-  assert.match(wordpress, /IDENTITY_JWKS_URL: http:\/\/identity\.localhost:3001\/api\/auth\/jwks/);
-  assert.match(wordpress, /OAUTH_ISSUER: http:\/\/identity\.localhost:3001\/api\/auth/);
-  assert.match(wordpress, /identity-subgraph:\n        condition: service_healthy/);
+  const wordpress =
+    compose.match(
+      /^  wordpress-federation:\n([\s\S]*?)(?=^  [\w-]+:\n|^volumes:)/m,
+    )?.[0] ?? '';
+  assert.match(
+    wordpress,
+    /GATEWAY_AUDIENCE: https:\/\/gateway\.marketplace\.local/,
+  );
+  assert.match(
+    wordpress,
+    /IDENTITY_JWKS_URL: http:\/\/identity\.localhost:3001\/api\/auth\/jwks/,
+  );
+  assert.match(
+    wordpress,
+    /OAUTH_ISSUER: http:\/\/identity\.localhost:3001\/api\/auth/,
+  );
+  assert.match(
+    wordpress,
+    /identity-subgraph:\n        condition: service_healthy/,
+  );
 });
 
 test('AC-102: the SSE route receives its protocol body before JSON middleware @spec:AC-102', async () => {
   const main = await readFile('apps/wordpress-federation/src/main.ts', 'utf8');
-  assert.match(main, /NestFactory\.create\(AppModule, \{ bodyParser: false \}\)/);
+  assert.match(
+    main,
+    /NestFactory\.create\(AppModule, \{ bodyParser: false \}\)/,
+  );
   assert.match(main, /request\.path === '\/stream'/);
 });

@@ -55,23 +55,13 @@ async function graphql(
     },
     wordpressCheckout: {
       query:
-        'mutation wordpressCheckout($input: CheckoutInput!) { checkout(input: $input) { marketplaceOrderDatabaseId clientMutationId } }',
+        'mutation wordpressCheckout($input: CheckoutInput!) { checkout(input: $input) { order { id databaseId status } clientMutationId } }',
       responseField: 'checkout',
     },
     authorizePayment: {
       query:
         'mutation authorizePayment($input: AuthorizePaymentInput!) { authorizePayment(input: $input) { id operationKey orderId method amount currency status pixCode } }',
       responseField: 'authorizePayment',
-    },
-    recordCardPaymentV1: {
-      query:
-        'mutation recordCardPaymentV1($input: RecordCardPaymentV1Input!) { recordCardPaymentV1(input: $input) { marketplaceOrderDatabaseId paymentState clientMutationId } }',
-      responseField: 'recordCardPaymentV1',
-    },
-    recordPixPaymentV1: {
-      query:
-        'mutation recordPixPaymentV1($input: RecordPixPaymentV1Input!) { recordPixPaymentV1(input: $input) { marketplaceOrderDatabaseId paymentState pixCode clientMutationId } }',
-      responseField: 'recordPixPaymentV1',
     },
     payment: {
       query:
@@ -80,8 +70,8 @@ async function graphql(
     },
     order: {
       query:
-        'query order($id: Int!) { marketplaceOrderV1(orderId: $id) { databaseId status paymentState pixCode } }',
-      responseField: 'marketplaceOrderV1',
+        'query order($id: ID!) { order(id: $id, idType: DATABASE_ID) { databaseId status transactionId metaData { key value } } }',
+      responseField: 'order',
     },
   };
   const document = documents[operationName];
@@ -445,9 +435,9 @@ async function checkout(
     accessToken,
     sessionHeaders,
   );
-  const databaseId = checkoutResult.marketplaceOrderDatabaseId;
+  const databaseId = checkoutResult.order?.databaseId;
   if (!databaseId) throw new Error('WordPress checkout returned no order');
-  const order = { id: String(databaseId), databaseId };
+  const order = { ...checkoutResult.order, id: String(databaseId) };
   const paymentId = `payment-${operationKey}`;
   const payment = await graphql(
     environment,
@@ -456,7 +446,7 @@ async function checkout(
       input: {
         operationKey,
         paymentId,
-        orderId: order.id,
+        orderId: String(order.databaseId),
         method: paymentMethod,
         amount: 19.9,
         currency: 'USD',
@@ -464,35 +454,6 @@ async function checkout(
     },
     accessToken,
   );
-  if (paymentMethod === 'CARD') {
-    await graphql(
-      environment,
-      'recordCardPaymentV1',
-      {
-        input: {
-          clientMutationId: operationKey,
-          orderId: order.databaseId,
-          transactionId: payment.id,
-        },
-      },
-      accessToken,
-      sessionHeaders,
-    );
-  } else {
-    await graphql(
-      environment,
-      'recordPixPaymentV1',
-      {
-        input: {
-          clientMutationId: operationKey,
-          orderId: order.databaseId,
-          pixCode: payment.pixCode,
-        },
-      },
-      accessToken,
-      sessionHeaders,
-    );
-  }
   return {
     checkout: checkoutResult,
     order,
@@ -593,6 +554,10 @@ export async function runAcceptanceJourney(
     accessToken,
   );
   pixOrder.id = String(pixOrder.databaseId);
+  for (const entry of pixOrder.metaData ?? []) {
+    if (entry.key === 'payment_state') pixOrder.paymentState = entry.value;
+    if (entry.key === 'pix_code') pixOrder.pixCode = entry.value;
+  }
 
   const gatewayOnly = await issueToken(
     environment,

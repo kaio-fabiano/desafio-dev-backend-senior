@@ -36,6 +36,7 @@ export {
 } from './subscriptions/order-event.service.ts';
 export { SubscriptionsModule } from './subscriptions/subscriptions.module.ts';
 export { WordPressCheckoutEventSource } from './subscriptions/wordpress-checkout-event.source.ts';
+export { WooCommerceWebhookController } from './subscriptions/woocommerce-webhook.controller.ts';
 export {
   SUBSCRIPTION_TOKEN_OPTIONS,
   SubscriptionAuthGuard,

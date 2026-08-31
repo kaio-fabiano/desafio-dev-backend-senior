@@ -14,6 +14,7 @@ async function graphql(query, variables = {}, cookie = '') {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
+      origin: new URL(endpoint).origin,
       ...(cookie ? { cookie } : {}),
     },
     body: JSON.stringify({ query, variables }),
@@ -305,6 +306,7 @@ const report = {
     woocommerce: '10.4.3',
     wpGraphql: '2.20.0',
     wpGraphqlWooCommerce: '1.0.3',
+    wpGraphqlHeadlessLogin: '0.4.4',
     wpGraphqlFederations: 'ac480974ceb6a1680410f955005e060056f150da',
     rover: '0.41.0',
     federation: '2.15.2',

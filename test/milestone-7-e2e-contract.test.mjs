@@ -96,12 +96,15 @@ test('AC-068..AC-071: the journey uses Gateway and MCP plus the direct WordPress
   assert.match(journey, /api\/auth\/oauth2\/token/);
   assert.match(
     journey,
-    /const nextEvent = await subscribe\([\s\S]*'wordpressCheckout'[\s\S]*'authorizePayment'[\s\S]*'recordCardPaymentV1'/,
+    /const nextEvent = await subscribe\([\s\S]*'wordpressCheckout'[\s\S]*'authorizePayment'/,
   );
-  assert.match(journey, /'recordPixPaymentV1'/);
+  assert.doesNotMatch(
+    journey,
+    /updateOrder|recordPixPaymentV1|recordCardPaymentV1/,
+  );
   assert.match(journey, /cardRetry/);
   assert.match(journey, /payment:[\s\S]*responseField: 'payment'/);
-  assert.match(journey, /order:[\s\S]*responseField: 'marketplaceOrderV1'/);
+  assert.match(journey, /order:[\s\S]*responseField: 'order'/);
   assert.match(journey, /rejectionStatuses/);
   for (const criterion of ['AC-068', 'AC-069', 'AC-070', 'AC-071']) {
     assert.match(acceptance, new RegExp(`@spec:${criterion}`));

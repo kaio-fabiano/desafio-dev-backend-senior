@@ -1,315 +1,138 @@
 {
-  "runId": "desafio-dev-backend-senior-federated-platform-architecture-refactor-mtdjfjjz",
+  "runId": "desafio-dev-backend-senior-federated-platform-architecture-refactor-mtggd17t",
   "feature": "federated-platform-architecture-refactor",
   "agent": "codex",
-  "modo": "paralelo",
+  "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-08-28 22:43",
+  "geradoEm": "2026-08-30 23:40",
   "branchTrabalho": "spec/federated-platform-architecture-refactor",
   "baseDir": ".spec/features/federated-platform-architecture-refactor",
   "specDir": ".spec",
   "repoName": "desafio-dev-backend-senior",
   "logsDir": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-logs",
-  "ondas": [
-    [
-      "faixa-1",
-      "faixa-2",
-      "faixa-3"
-    ],
-    [
-      "faixa-4",
-      "faixa-5",
-      "faixa-6"
-    ],
-    [
-      "faixa-7",
-      "faixa-8"
-    ]
-  ],
-  "faixas": [
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
     {
-      "id": "faixa-1",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-1",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-1",
-      "tarefas": [
-        {
-          "id": "T-065",
-          "titulo": "Lock the target architecture and executable boundaries",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "docs/adrs/007-federated-platform-boundaries.md",
-            "docs/prds/01-arquitetura-e-dominio.md",
-            "docs/prds/02-graphql-federation.md",
-            "docs/prds/04-commerce-saga-e-realtime.md",
-            "test/architecture-boundaries.test.mjs",
-            "test/federated-platform-refactor.test.mjs"
-          ],
-          "refs": [
-            "US-046",
-            "AC-090",
-            "AC-091",
-            "US-052",
-            "AC-103"
-          ]
-        }
+      "id": "T-074",
+      "titulo": "Replace the custom WordPress identity bridge with standard OIDC",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/wordpress-integration/scripts/install-plugins.sh",
+        "compose.yaml",
+        "libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts",
+        "libs/identity/nest/src/auth/registration.service.ts",
+        "libs/gateway/nest/src/federation/authenticated-data-source.ts",
+        "libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts",
+        "test/identity-federation-refactor.test.mjs",
+        "test/gateway-federation-refactor.test.mjs",
+        "test/wordpress-federation-refactor.test.mjs"
+      ],
+      "refs": [
+        "US-048",
+        "AC-096",
+        "US-049",
+        "AC-097"
       ]
     },
     {
-      "id": "faixa-2",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-2",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-2",
-      "tarefas": [
-        {
-          "id": "T-066",
-          "titulo": "Extract NestJS composition libraries and provider contracts",
-          "modelo": "gpt-5.6-terra",
-          "esforco": "medium",
-          "arquivos": [
-            "libs/platform/nest/src/config/config.module.ts",
-            "libs/platform/nest/src/config/environment.factory.ts",
-            "libs/platform/nest/src/lifecycle/resource.provider.ts",
-            "libs/platform/nest/src/index.ts",
-            "libs/platform/nest/project.json",
-            "libs/platform/nest/tsconfig.json",
-            "libs/platform/nest/tsconfig.lib.json",
-            "test/nest-provider-composition.test.mjs"
-          ],
-          "refs": [
-            "US-047",
-            "AC-092",
-            "US-052",
-            "AC-103"
-          ]
-        }
+      "id": "T-075",
+      "titulo": "Replace custom order and payment GraphQL operations with native owner APIs",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/e2e/src/journey.ts",
+        "apps/payment-processor/src/main/java/dev/desafio/payment",
+        "libs/contracts/graphql/wordpress/schema.graphql",
+        "libs/wordpress/nest/src/federation/wpgraphql-client.service.ts",
+        "test/payment-federation-refactor.test.mjs",
+        "test/wordpress-federation-refactor.test.mjs",
+        "test/milestone-7-e2e-contract.test.mjs"
+      ],
+      "refs": [
+        "US-049",
+        "AC-097",
+        "AC-098",
+        "US-050",
+        "AC-100",
+        "AC-101"
       ]
     },
     {
-      "id": "faixa-3",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-3",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-3",
-      "tarefas": [
-        {
-          "id": "T-067",
-          "titulo": "Refactor Identity Federation around NestJSBetterAuth providers",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/identity-subgraph/src/main.ts",
-            "apps/identity-subgraph/src/app.module.ts",
-            "libs/identity/nest/src/identity.module.ts",
-            "libs/identity/nest/src/auth/better-auth.factory.ts",
-            "libs/identity/nest/src/auth/better-auth.module.ts",
-            "libs/identity/nest/src/auth/plugins/jwt-plugin.factory.ts",
-            "libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts",
-            "libs/identity/nest/src/auth/registration.service.ts",
-            "libs/identity/nest/src/graphql/identity.resolver.ts",
-            "libs/identity/nest/src/index.ts",
-            "libs/identity/nest/project.json",
-            "libs/identity/nest/tsconfig.json",
-            "libs/identity/nest/tsconfig.lib.json",
-            "test/identity-federation-refactor.test.mjs"
-          ],
-          "refs": [
-            "US-047",
-            "AC-092",
-            "AC-093",
-            "AC-094",
-            "US-048",
-            "AC-096"
-          ]
-        }
+      "id": "T-076",
+      "titulo": "Feed order subscriptions from native WooCommerce webhooks",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "compose.yaml",
+        "libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts",
+        "libs/wordpress/nest/src/subscriptions/subscriptions.module.ts",
+        "libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts",
+        "test/order-subscription-refactor.test.mjs",
+        "test/milestone-7-e2e-contract.test.mjs"
+      ],
+      "refs": [
+        "US-051",
+        "AC-102",
+        "US-048",
+        "AC-096"
       ]
     },
     {
-      "id": "faixa-4",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-4",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-4",
-      "tarefas": [
-        {
-          "id": "T-068",
-          "titulo": "Reduce Gateway to authenticated federation composition",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/gateway/src/main.ts",
-            "apps/gateway/src/app.module.ts",
-            "libs/gateway/nest/src/auth/auth-context.factory.ts",
-            "libs/gateway/nest/src/auth/token-verifier.service.ts",
-            "libs/gateway/nest/src/federation/authenticated-data-source.ts",
-            "libs/gateway/nest/src/gateway.module.ts",
-            "libs/gateway/nest/src/index.ts",
-            "libs/gateway/nest/project.json",
-            "libs/gateway/nest/tsconfig.json",
-            "libs/gateway/nest/tsconfig.lib.json",
-            "test/gateway-federation-refactor.test.mjs"
-          ],
-          "refs": [
-            "US-048",
-            "AC-095",
-            "AC-096"
-          ]
-        }
+      "id": "T-077",
+      "titulo": "Delete the marketplace MU-plugin and prove the plugin-first topology",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/wordpress-integration/marketplace-inventory.php",
+        "apps/wordpress-integration/compose.yaml",
+        "apps/wordpress-integration/scripts/probe.mjs",
+        "compose.yaml",
+        "libs/contracts/graphql/wordpress/schema.graphql",
+        "test/wordpress-federation-refactor.test.mjs",
+        "test/five-app-topology.test.mjs",
+        "test/federated-platform-quality.test.mjs"
+      ],
+      "refs": [
+        "US-049",
+        "AC-097",
+        "AC-098",
+        "US-052",
+        "AC-103"
       ]
     },
     {
-      "id": "faixa-5",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-5",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-5",
-      "tarefas": [
-        {
-          "id": "T-069",
-          "titulo": "Build the thin WordPress Federation adapter",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/wordpress-federation/src/main.ts",
-            "apps/wordpress-federation/src/app.module.ts",
-            "apps/wordpress-federation/project.json",
-            "apps/wordpress-integration/compose.yaml",
-            "apps/wordpress-integration/marketplace-inventory.php",
-            "apps/wordpress-integration/scripts/install-plugins.sh",
-            "apps/wordpress-integration/scripts/publish-subgraph.mjs",
-            "libs/wordpress/nest/src/federation/wordpress-federation.module.ts",
-            "libs/wordpress/nest/src/federation/wpgraphql-client.service.ts",
-            "libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts",
-            "libs/wordpress/nest/src/index.ts",
-            "libs/wordpress/nest/project.json",
-            "libs/wordpress/nest/tsconfig.json",
-            "libs/wordpress/nest/tsconfig.lib.json",
-            "libs/contracts/graphql/wordpress/schema.graphql",
-            "test/wordpress-federation-refactor.test.mjs"
-          ],
-          "refs": [
-            "US-049",
-            "AC-097",
-            "AC-098",
-            "US-048",
-            "AC-096"
-          ]
-        },
-        {
-          "id": "T-071",
-          "titulo": "Move order subscriptions outside the federation gateway",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "libs/wordpress/nest/src/subscriptions/order-event.resolver.ts",
-            "libs/wordpress/nest/src/subscriptions/order-event.service.ts",
-            "libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts",
-            "libs/wordpress/nest/src/subscriptions/graphql-sse.adapter.ts",
-            "libs/wordpress/nest/src/subscriptions/subscriptions.module.ts",
-            "libs/wordpress/nest/src/index.ts",
-            "test/order-subscription-refactor.test.mjs"
-          ],
-          "refs": [
-            "US-051",
-            "AC-102",
-            "US-048",
-            "AC-095"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "faixa-6",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-6",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-6",
-      "tarefas": [
-        {
-          "id": "T-070",
-          "titulo": "Refactor Payment as a Spring GraphQL Federation bounded context",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/payment-processor/build.gradle.kts",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePayment.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePaymentHandler.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPayment.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/application/query/PaymentView.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPaymentHandler.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/graphql/PaymentController.java",
-            "apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java",
-            "apps/payment-processor/src/main/resources/graphql/payment.graphqls",
-            "apps/payment-processor/src/test/java/dev/desafio/payment/PaymentFederationTest.java",
-            "libs/contracts/graphql/payment/schema.graphql"
-          ],
-          "refs": [
-            "US-050",
-            "AC-099",
-            "AC-100",
-            "AC-101",
-            "US-048",
-            "AC-096"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "faixa-7",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-7",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-7",
-      "tarefas": [
-        {
-          "id": "T-072",
-          "titulo": "Integrate the five-app topology and retire obsolete runtimes",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "package.json",
-            "nx.json",
-            "tsconfig.base.json",
-            "compose.yaml",
-            "libs/contracts/graphql/supergraph.yaml",
-            "apps/identity-subgraph/project.json",
-            "apps/payment-processor/project.json",
-            "apps/gateway/project.json",
-            "apps/apollo-mcp/project.json",
-            "apps/e2e/src/environment.ts",
-            "test/five-app-topology.test.mjs"
-          ],
-          "refs": [
-            "US-046",
-            "AC-090",
-            "US-049",
-            "AC-098",
-            "US-050",
-            "AC-099"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "faixa-8",
-      "branch": "spec/federated-platform-architecture-refactor-faixa-8",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-faixa-8",
-      "tarefas": [
-        {
-          "id": "T-073",
-          "titulo": "Prove quality and document the architecture walkthrough",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "README.md",
-            "docs/knowledge/Mapa do Projeto.md",
-            "docs/runbooks/local-development.md",
-            "docs/runbooks/e2e.md",
-            "docs/evidence/federated-platform-refactor/review.md",
-            "test/federated-platform-quality.test.mjs"
-          ],
-          "refs": [
-            "US-052",
-            "AC-103"
-          ]
-        }
+      "id": "T-078",
+      "titulo": "Re-run acceptance and publish the native-plugin walkthrough",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "README.md",
+        "docs/knowledge/Mapa do Projeto.md",
+        "docs/runbooks/local-development.md",
+        "docs/runbooks/e2e.md",
+        "docs/evidence/federated-platform-refactor/review.md",
+        ".spec/verification/federated-platform-architecture-refactor.json"
+      ],
+      "refs": [
+        "US-052",
+        "AC-103"
       ]
     }
   ],
-  "sequenciais": [],
-  "concluidas": [],
+  "concluidas": [
+    "T-065",
+    "T-066",
+    "T-067",
+    "T-068",
+    "T-069",
+    "T-070",
+    "T-071",
+    "T-072",
+    "T-073"
+  ],
   "avisos": []
 }

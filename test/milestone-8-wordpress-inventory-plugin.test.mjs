@@ -1,33 +1,27 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 
-test('AC-084: WordPress inventory route authenticates, validates, and compensates @spec:AC-084', async () => {
-  const source = await readFile(
-    new URL('../apps/wordpress-integration/marketplace-inventory.php', import.meta.url),
-    'utf8',
+test('AC-084: WooCommerce owns inventory without a marketplace MU-plugin @spec:AC-084', async () => {
+  await assert.rejects(() =>
+    access('apps/wordpress-integration/marketplace-inventory.php'),
   );
-  assert.match(source, /current_user_can\('manage_woocommerce'\)/);
-  assert.match(source, /option_active_plugins/);
-  assert.match(source, /wp-graphql-federations\//);
-  assert.match(source, /\/wp-json\/marketplace\/v1\/inventory\/reserve/);
-  assert.match(source, /wc_api_hash\(\$consumer_key\)/);
-  assert.match(source, /hash_equals\(\$api_key->consumer_secret, \$consumer_secret\)/);
-  assert.match(source, /\['write', 'read_write'\]/);
-  assert.match(source, /wc_get_product/);
-  assert.match(source, /count\(\$items\) === 0/);
-  assert.match(source, /array_reverse\(\$changed\)/);
-  assert.match(source, /wc_update_product_stock\([^;]+, 'increase'\)/s);
+  const [compose, install] = await Promise.all([
+    readFile('compose.yaml', 'utf8'),
+    readFile('apps/wordpress-integration/scripts/install-plugins.sh', 'utf8'),
+  ]);
+  assert.doesNotMatch(
+    compose,
+    /marketplace-inventory\.php|MARKETPLACE_FEDERATION_SECRET/,
+  );
+  assert.match(install, /woocommerce\.10\.4\.3\.zip/);
+  assert.match(install, /wp-graphql-headless-login/);
+  assert.match(install, /wpgraphql_login_provider_siteToken/);
 });
 
-test('AC-084: each backend uses an isolated WooCommerce credential @spec:AC-084', async () => {
-  const compose = await readFile(new URL('../compose.yaml', import.meta.url), 'utf8');
-  for (const digit of ['1', '2', '3']) {
-    const key = `ck_${digit.repeat(40)}`;
-    const secret = `cs_${digit.repeat(40)}`;
-    assert.equal(compose.match(new RegExp(key, 'g'))?.length, 2);
-    assert.equal(compose.match(new RegExp(secret, 'g'))?.length, 2);
-  }
+test('AC-084: each active backend uses an isolated WooCommerce credential @spec:AC-084', async () => {
+  const compose = await readFile('compose.yaml', 'utf8');
+  assert.match(compose, /Marketplace identity/);
   assert.doesNotMatch(compose, /Marketplace local runtime/);
   assert.match(compose, /DISABLE_WP_CRON/);
   assert.match(compose, /127\.0\.0\.1\/readme\.html/);

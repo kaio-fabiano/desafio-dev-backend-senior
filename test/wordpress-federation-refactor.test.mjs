@@ -18,13 +18,21 @@ const propagatedIdentity = {
 };
 
 test('AC-096: WordPress Federation independently authorizes sensitive operations @spec:AC-096', async () => {
-  const now = () => 1_800_000_000_000;
+  const exchanges = [];
   const auth = createWpGraphqlAuth({
-    proxySecret: 'test-only-federation-secret',
-    now,
+    endpoint: 'http://wordpress.test/graphql',
+    siteToken: 'test-only-site-token',
+    request: async (endpoint, init) => {
+      exchanges.push({ endpoint: String(endpoint), init });
+      return Response.json({
+        data: {
+          login: { authToken: 'wordpress-jwt', wooSessionToken: 'woo-jwt' },
+        },
+      });
+    },
   });
 
-  assert.throws(
+  await assert.rejects(
     () =>
       auth.headersFor(
         { query: 'query MyOrders { customer { orders { nodes { id } } } }' },
@@ -35,7 +43,7 @@ test('AC-096: WordPress Federation independently authorizes sensitive operations
       ),
     /orders:read/,
   );
-  assert.throws(
+  await assert.rejects(
     () =>
       auth.headersFor(
         {
@@ -46,45 +54,45 @@ test('AC-096: WordPress Federation independently authorizes sensitive operations
       ),
     /authenticated subject/i,
   );
+  await assert.rejects(
+    () =>
+      auth.headersFor(
+        {
+          query:
+            'mutation Pay($input: UpdateOrderInput!) { updateOrder(input: $input) { order { id } } }',
+          variables: { input: { id: 'order-1', isPaid: true } },
+        },
+        new Headers(propagatedIdentity),
+      ),
+    /WooCommerce service API/,
+  );
 
-  const headers = auth.headersFor(
+  const headers = await auth.headersFor(
     { query: 'query MyOrders { customer { orders { nodes { id } } } }' },
     new Headers({
       ...propagatedIdentity,
       'x-authenticated-subject': 'better-auth-user-1',
-      'x-wordpress-user-id': '42',
     }),
   );
-  assert.equal(headers.get('x-marketplace-subject'), '42');
-  assert.equal(
-    headers.get('x-marketplace-scopes'),
-    'marketplace:read orders:read cart:write',
-  );
-  assert.equal(headers.get('x-marketplace-timestamp'), '1800000000');
-  assert.match(headers.get('x-marketplace-signature'), /^[a-f\d]{64}$/);
+  assert.equal(headers.get('authorization'), 'Bearer wordpress-jwt');
+  assert.equal(headers.get('woocommerce-session'), 'Session woo-jwt');
   assert.equal(headers.get('cookie'), propagatedIdentity.cookie);
-
-  const plugin = await readFile(
-    'apps/wordpress-integration/marketplace-inventory.php',
-    'utf8',
+  assert.equal(exchanges.length, 1);
+  assert.equal(
+    exchanges[0].init.headers['x-wpgraphql-site-token'],
+    'test-only-site-token',
   );
-  assert.match(plugin, /add_filter\('determine_current_user'/);
-  assert.match(plugin, /hash_hmac\('sha256'/);
-  assert.match(plugin, /hash_equals\(/);
-  assert.match(plugin, /get_user_by\('id'/);
-  assert.match(plugin, /better_auth_user_id/);
-  assert.match(plugin, /current_user_can\('manage_woocommerce'\)/);
-  assert.match(plugin, /register_graphql_mutation\('recordPixPaymentV1'/);
-  assert.match(plugin, /register_graphql_mutation\('recordCardPaymentV1'/);
-  assert.match(plugin, /\(int\) \$order->get_customer_id\(\) !== \$user_id/);
-  assert.match(plugin, /_marketplace_payment_state/);
+  assert.equal(
+    JSON.parse(exchanges[0].init.body).variables.identity,
+    'better-auth-user-1',
+  );
 });
 
 test('AC-097: native WordPress plugins provide the delegated commercial graph @spec:AC-097', async () => {
   const requests = [];
   const auth = createWpGraphqlAuth({
-    proxySecret: 'test-only-federation-secret',
-    now: () => 1_800_000_000_000,
+    endpoint: 'http://wordpress.test/graphql',
+    siteToken: 'test-only-site-token',
   });
   const client = new WpGraphqlClientService({
     endpoint: 'http://wordpress.test/graphql',
@@ -111,10 +119,7 @@ test('AC-097: native WordPress plugins provide the delegated commercial graph @s
     operationName: 'Products',
   };
 
-  const response = await client.execute(
-    operation,
-    new Headers(propagatedIdentity),
-  );
+  const response = await client.execute(operation, new Headers());
   assert.deepEqual(await response.json(), {
     data: {
       products: {
@@ -129,14 +134,8 @@ test('AC-097: native WordPress plugins provide the delegated commercial graph @s
   assert.equal(requests.length, 1);
   assert.equal(requests[0].endpoint, 'http://wordpress.test/graphql');
   assert.deepEqual(JSON.parse(requests[0].init.body), operation);
-  assert.equal(
-    requests[0].init.headers.get('woocommerce-session'),
-    propagatedIdentity['woocommerce-session'],
-  );
-  assert.equal(
-    requests[0].init.headers.get('cart-token'),
-    propagatedIdentity['cart-token'],
-  );
+  assert.equal(requests[0].init.headers.get('woocommerce-session'), null);
+  assert.equal(requests[0].init.headers.get('cart-token'), null);
 
   const nativeSdl = [
     'extend schema @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key"])',
@@ -170,6 +169,7 @@ test('AC-097: native WordPress plugins provide the delegated commercial graph @s
   assert.match(install, /wp-graphql\.2\.20\.0\.zip/);
   assert.match(install, /wp-graphql-woocommerce\/releases\/download\/v1\.0\.3/);
   assert.match(install, /wp-graphql-federations/);
+  assert.match(install, /wp-graphql-headless-login/);
 });
 
 test('AC-098: WordPress Federation replaces Commerce and Stock runtime ownership @spec:AC-098', async () => {
@@ -177,8 +177,10 @@ test('AC-098: WordPress Federation replaces Commerce and Stock runtime ownership
   const client = new WpGraphqlClientService({
     endpoint: 'http://wordpress.test/graphql',
     auth: createWpGraphqlAuth({
-      proxySecret: 'test-only-federation-secret',
-      now: () => 1_800_000_000_000,
+      endpoint: 'http://wordpress.test/graphql',
+      siteToken: 'test-only-site-token',
+      request: async () =>
+        Response.json({ data: { login: { authToken: 'wordpress-jwt' } } }),
     }),
     async request(endpoint, init) {
       assert.equal(String(endpoint), 'http://wordpress.test/graphql');

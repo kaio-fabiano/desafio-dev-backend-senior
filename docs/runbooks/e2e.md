@@ -26,6 +26,10 @@ The journey covers:
 6. rejection of missing identity, wrong audience, missing scopes, or another
    buyer's operation key by the owning federation.
 
+The WordPress leg also proves that the Site Token exchange yields plugin
+tokens, payment updates use WooCommerce REST credentials, the webhook signature
+is checked, and `apps/wordpress-integration/marketplace-inventory.php` is absent.
+
 Gateway serves federated queries and mutations but does not proxy the SSE
 stream. Compare the terminal stream event with the federated order/payment view
 and the corresponding MCP operation before accepting the run.

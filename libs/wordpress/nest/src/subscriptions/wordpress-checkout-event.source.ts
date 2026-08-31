@@ -12,23 +12,28 @@ type CheckoutOperation = {
 
 type ObservedMutationResult = {
   clientMutationId?: unknown;
-  marketplaceOrderDatabaseId?: unknown;
-  order?: { id?: unknown; databaseId?: unknown; status?: unknown };
-  paymentState?: unknown;
-  pixCode?: unknown;
+  order?: {
+    id?: unknown;
+    databaseId?: unknown;
+    status?: unknown;
+    metaData?: Array<{ key?: unknown; value?: unknown }>;
+  };
 };
 
 type CheckoutResponse = {
   data?: {
     checkout?: ObservedMutationResult;
     updateOrder?: ObservedMutationResult;
-    recordCardPaymentV1?: ObservedMutationResult;
-    recordPixPaymentV1?: ObservedMutationResult;
   };
 };
 
 /** Publishes only the checkout transition owned by WordPress/WooCommerce. */
 export class WordPressCheckoutEventSource {
+  private readonly pending = new Map<
+    string,
+    { subject: string; operationKey: string }
+  >();
+
   constructor(private readonly events: OrderEventService) {}
 
   async observe(
@@ -48,30 +53,44 @@ export class WordPressCheckoutEventSource {
     const result = payload?.data?.[rootField];
     const operationKey = text(result?.clientMutationId);
     const orderId =
-      text(result?.order?.id) ||
-      integerText(result?.order?.databaseId) ||
-      integerText(result?.marketplaceOrderDatabaseId);
+      integerText(result?.order?.databaseId) || text(result?.order?.id);
     if (!operationKey || !orderId) return;
 
-    const state =
-      rootField === 'recordPixPaymentV1' || rootField === 'recordCardPaymentV1'
-        ? text(result?.paymentState)
-        : text(result?.order?.status);
-    if (!state) return;
+    this.pending.set(orderId, { subject, operationKey });
+  }
 
+  ingest(payload: unknown): void {
+    if (!payload || typeof payload !== 'object') return;
+    const order = payload as {
+      id?: unknown;
+      status?: unknown;
+      meta_data?: Array<{ key?: unknown; value?: unknown }>;
+    };
+    const orderId = integerText(order.id);
+    const route = this.pending.get(orderId);
+    if (!route) return;
+    const metadata = order.meta_data ?? [];
+    const paymentState = metadata.find(
+      (entry) => text(entry.key) === 'payment_state',
+    )?.value;
+    const state = text(paymentState) || text(order.status).toUpperCase();
+    if (!state) return;
+    const pixCode = text(
+      metadata.find((entry) => text(entry.key) === 'pix_code')?.value,
+    );
     this.events.publish({
-      subject,
-      operationKey,
+      ...route,
       payload: {
-        operationKey,
+        operationKey: route.operationKey,
         orderId,
         state,
-        ...(rootField === 'recordPixPaymentV1'
-          ? { pixCode: text(result?.pixCode) }
-          : {}),
+        ...(pixCode ? { pixCode } : {}),
         eventTime: new Date().toISOString(),
       },
     });
+    if (['COMPLETED', 'CANCELLED', 'PIX_GENERATED'].includes(state)) {
+      this.pending.delete(orderId);
+    }
   }
 }
 
@@ -80,12 +99,7 @@ Injectable()(WordPressCheckoutEventSource);
 
 function mutationRootField(
   source: string,
-):
-  | 'checkout'
-  | 'updateOrder'
-  | 'recordCardPaymentV1'
-  | 'recordPixPaymentV1'
-  | undefined {
+): 'checkout' | 'updateOrder' | undefined {
   try {
     for (const definition of parse(source).definitions) {
       if (
@@ -96,20 +110,9 @@ function mutationRootField(
       for (const selection of definition.selectionSet.selections) {
         if (
           selection.kind === Kind.FIELD &&
-          [
-            'checkout',
-            'updateOrder',
-            'recordCardPaymentV1',
-            'recordPixPaymentV1',
-          ].includes(
-            selection.name.value,
-          )
+          ['checkout', 'updateOrder'].includes(selection.name.value)
         )
-          return selection.name.value as
-            | 'checkout'
-            | 'updateOrder'
-            | 'recordCardPaymentV1'
-            | 'recordPixPaymentV1';
+          return selection.name.value as 'checkout' | 'updateOrder';
       }
     }
   } catch {

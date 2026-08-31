@@ -39,6 +39,12 @@ stateless edges. There is deliberately no Identity MikroORM mirror, generic DDD
 framework, base repository hierarchy, distributed command bus, gateway
 subscription proxy, Commerce subgraph, or Stock worker.
 
+WordPress integration is plugin-first: WPGraphQL, WooGraphQL, WPGraphQL
+Federations, and WPGraphQL Headless Login provide the graph and session model.
+Payment writes order transitions through WooCommerce REST; signed native
+WooCommerce webhooks drive the order SSE stream. There is no marketplace
+MU-plugin.
+
 Start with the [project map](docs/knowledge/Mapa%20do%20Projeto.md), then use the
 [local development runbook](docs/runbooks/local-development.md) and the
 [end-to-end runbook](docs/runbooks/e2e.md). The executable decision-to-evidence
@@ -99,40 +105,40 @@ Projetar e implementar uma **API GraphQL Federada para um marketplace B2B**, no 
 
 ## 2. Objetivos
 
-| # | Objetivo |
-|---|---|
-| O1 | Compor um supergraph **Apollo Federation v2 schema-first** entre WooCommerce e os subgraphs próprios. |
-| O2 | Garantir que **apenas o fornecedor dono** de um produto possa criá-lo, alterá-lo ou removê-lo. |
-| O3 | Subir um **Authorization Server OAuth2** com o **Better Auth OAuth Provider**, com clients seedáveis e audiences distintas. |
-| O4 | Usar o **NestJS Better Auth** tanto no **gateway** quanto no **subgraph de usuários**. |
-| O5 | Expor `users`, `user(...)` e `me` no subgraph de usuários, com `me` navegando para pedidos e produtos de forma federada. |
-| O6 | Implementar **checkout idempotente** por chave de operação enviada pelo cliente. |
-| O7 | Coordenar o pagamento por **saga coreografada** sobre RabbitMQ, com compensações. |
-| O8 | Publicar os eventos do pedido ao frontend via **Subscriptions com `graphql-sse`** (SSE, não WebSocket). |
-| O9 | Expor um **servidor Apollo MCP** autenticado via OAuth2, com `audience` corretamente configurada. |
-| O10 | Implementar o **processador de pagamento em uma linguagem/runtime separado**, com arquitetura bem definida. |
-| O11 | Aplicar corretamente **Relay Cursor Connections** e **DataLoader** (sem N+1). |
-| O12 | Entregar o **teste E2E automatizado** descrito na seção 15, verde do zero. |
+| #   | Objetivo                                                                                                                    |
+| --- | --------------------------------------------------------------------------------------------------------------------------- |
+| O1  | Compor um supergraph **Apollo Federation v2 schema-first** entre WooCommerce e os subgraphs próprios.                       |
+| O2  | Garantir que **apenas o fornecedor dono** de um produto possa criá-lo, alterá-lo ou removê-lo.                              |
+| O3  | Subir um **Authorization Server OAuth2** com o **Better Auth OAuth Provider**, com clients seedáveis e audiences distintas. |
+| O4  | Usar o **NestJS Better Auth** tanto no **gateway** quanto no **subgraph de usuários**.                                      |
+| O5  | Expor `users`, `user(...)` e `me` no subgraph de usuários, com `me` navegando para pedidos e produtos de forma federada.    |
+| O6  | Implementar **checkout idempotente** por chave de operação enviada pelo cliente.                                            |
+| O7  | Coordenar o pagamento por **saga coreografada** sobre RabbitMQ, com compensações.                                           |
+| O8  | Publicar os eventos do pedido ao frontend via **Subscriptions com `graphql-sse`** (SSE, não WebSocket).                     |
+| O9  | Expor um **servidor Apollo MCP** autenticado via OAuth2, com `audience` corretamente configurada.                           |
+| O10 | Implementar o **processador de pagamento em uma linguagem/runtime separado**, com arquitetura bem definida.                 |
+| O11 | Aplicar corretamente **Relay Cursor Connections** e **DataLoader** (sem N+1).                                               |
+| O12 | Entregar o **teste E2E automatizado** descrito na seção 15, verde do zero.                                                  |
 
 ---
 
 ## 3. Regras do Jogo: o que é obrigatório x o que é decisão sua
 
-| Obrigatório (não negociável) | Livre (queremos ver seu critério) |
-|---|---|
-| Monorepo **Nx** | Quantos apps/libs, e como dividi-los |
-| **Apollo Federation v2, schema-first** (SDL é a fonte da verdade) | Quantos subgraphs e o que vive em cada um |
-| **Better Auth** como AS OAuth2 (plugin OAuth Provider) | Estratégia de sessão, claims extras, formato de escopos |
-| **NestJS Better Auth** no gateway e no subgraph de usuários | Como você fatia guards, decorators e contexto |
-| **WordPress + WooCommerce** como origem de catálogo/pedidos | Como você federa o WP (plugin, wrapper, ACL, proxy subgraph) |
-| **RabbitMQ** + **saga coreografada** | Exchanges, routing keys, nomes de eventos, DLQ, retry/backoff |
-| **Idempotência por chave de operação enviada pelo cliente** | Onde a chave é persistida e como o replay é resolvido |
-| **Subscriptions via `graphql-sse`** | Como o gateway propaga o stream e como você evita perda de eventos |
-| **Apollo MCP** com OAuth2 + `audience` | Quais tools além das mínimas exigidas |
-| **Relay Cursor Connections** + **DataLoader** | Encoding do cursor, escopo e ciclo de vida dos loaders |
-| Pagamento em **runtime/linguagem separada** | Qual linguagem, e a arquitetura dentro dela |
-| **Teste E2E** em Vitest + Testcontainers (seção 15) | Helpers, fixtures, como o token é obtido |
-| Docker para todos os serviços | Base images, multi-stage, compose vs. Nx targets |
+| Obrigatório (não negociável)                                      | Livre (queremos ver seu critério)                                  |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Monorepo **Nx**                                                   | Quantos apps/libs, e como dividi-los                               |
+| **Apollo Federation v2, schema-first** (SDL é a fonte da verdade) | Quantos subgraphs e o que vive em cada um                          |
+| **Better Auth** como AS OAuth2 (plugin OAuth Provider)            | Estratégia de sessão, claims extras, formato de escopos            |
+| **NestJS Better Auth** no gateway e no subgraph de usuários       | Como você fatia guards, decorators e contexto                      |
+| **WordPress + WooCommerce** como origem de catálogo/pedidos       | Como você federa o WP (plugin, wrapper, ACL, proxy subgraph)       |
+| **RabbitMQ** + **saga coreografada**                              | Exchanges, routing keys, nomes de eventos, DLQ, retry/backoff      |
+| **Idempotência por chave de operação enviada pelo cliente**       | Onde a chave é persistida e como o replay é resolvido              |
+| **Subscriptions via `graphql-sse`**                               | Como o gateway propaga o stream e como você evita perda de eventos |
+| **Apollo MCP** com OAuth2 + `audience`                            | Quais tools além das mínimas exigidas                              |
+| **Relay Cursor Connections** + **DataLoader**                     | Encoding do cursor, escopo e ciclo de vida dos loaders             |
+| Pagamento em **runtime/linguagem separada**                       | Qual linguagem, e a arquitetura dentro dela                        |
+| **Teste E2E** em Vitest + Testcontainers (seção 15)               | Helpers, fixtures, como o token é obtido                           |
+| Docker para todos os serviços                                     | Base images, multi-stage, compose vs. Nx targets                   |
 
 Modelagem de domínio, agregados, bounded contexts, nomes de tabelas, ORM e banco de dados de cada
 serviço **não são prescritos** — mas são avaliados (seção 18).
@@ -182,17 +188,17 @@ flowchart TB
 
 ## 5. Capacidades Mínimas do Sistema
 
-| Capacidade | Descrição |
-|---|---|
-| **Gateway federado** | Compõe o supergraph, valida o JWT do Better Auth, propaga identidade/contexto aos subgraphs e serve **queries, mutations e subscriptions (SSE)**. |
-| **Identidade** | Authorization Server OAuth2 (Better Auth), cadastro/login, vínculo do usuário com o WordPress, e o subgraph que resolve `users`, `user` e `me`. |
-| **Catálogo** | WooCommerce federado: produtos, categorias, preço e estoque. |
-| **Fornecedores** | Vínculo usuário ↔ empresa e a regra de ownership de produto. |
-| **Carrinho e Pedidos** | Carrinho do usuário autenticado e criação do pedido a partir dele, com chave de operação. |
-| **Pagamento** | Serviço separado que consome eventos, processa de forma idempotente e responde com sucesso/falha (cartão e pix). |
-| **Estoque** | Reação ao pagamento aprovado reservando estoque, com compensação em caso de falha. |
-| **Eventos ao cliente** | Stream de eventos do pedido para o frontend, correlacionado pela chave de operação. |
-| **MCP** | Apollo MCP autenticado, consumindo o **supergraph** (nunca um subgraph isolado). |
+| Capacidade             | Descrição                                                                                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Gateway federado**   | Compõe o supergraph, valida o JWT do Better Auth, propaga identidade/contexto aos subgraphs e serve **queries, mutations e subscriptions (SSE)**. |
+| **Identidade**         | Authorization Server OAuth2 (Better Auth), cadastro/login, vínculo do usuário com o WordPress, e o subgraph que resolve `users`, `user` e `me`.   |
+| **Catálogo**           | WooCommerce federado: produtos, categorias, preço e estoque.                                                                                      |
+| **Fornecedores**       | Vínculo usuário ↔ empresa e a regra de ownership de produto.                                                                                     |
+| **Carrinho e Pedidos** | Carrinho do usuário autenticado e criação do pedido a partir dele, com chave de operação.                                                         |
+| **Pagamento**          | Serviço separado que consome eventos, processa de forma idempotente e responde com sucesso/falha (cartão e pix).                                  |
+| **Estoque**            | Reação ao pagamento aprovado reservando estoque, com compensação em caso de falha.                                                                |
+| **Eventos ao cliente** | Stream de eventos do pedido para o frontend, correlacionado pela chave de operação.                                                               |
+| **MCP**                | Apollo MCP autenticado, consumindo o **supergraph** (nunca um subgraph isolado).                                                                  |
 
 ---
 
@@ -201,8 +207,8 @@ flowchart TB
 ### 6.1 Schema-first
 
 - Federation v2 (`@link(url: "https://specs.apollo.dev/federation/v2.x")`).
-- O **SDL é a fonte da verdade**: os subgraphs NestJS devem ser escritos *schema-first*
-  (SDL versionado no repositório, resolvers implementados contra ele). Abordagens *code-first*
+- O **SDL é a fonte da verdade**: os subgraphs NestJS devem ser escritos _schema-first_
+  (SDL versionado no repositório, resolvers implementados contra ele). Abordagens _code-first_
   baseadas apenas em decorators **não atendem** este requisito.
 - Composição validada em CI (`rover compose` / `rover subgraph check`), com o supergraph gerado
   como artefato de build.
@@ -218,7 +224,7 @@ Toda listagem paginável do supergraph — usuários, produtos, pedidos, itens d
 - Tipos `XConnection`, `XEdge`, campo `cursor` por edge e `pageInfo` com
   `hasNextPage`, `hasPreviousPage`, `startCursor` e `endCursor`.
 - **Cursores opacos e estáveis** (nada de `offset` disfarçado que quebre com inserções concorrentes).
-- Paginação real no *datasource* — não paginar em memória depois de trazer tudo.
+- Paginação real no _datasource_ — não paginar em memória depois de trazer tudo.
 
 Será avaliado inclusive nas listas que atravessam a federação (ex.: pedidos de um usuário, itens de
 um pedido) e nas listas expostas pelo WooCommerce.
@@ -245,7 +251,7 @@ A aplicação **sobe seu próprio servidor OAuth2** usando o
 
 - Authorization Code + PKCE para clientes interativos e Client Credentials onde fizer sentido.
 - Emissão de **JWT** verificável pelos consumidores (gateway e MCP) — expor discovery e JWKS.
-- **Escopos** e **`audience`** por client: o gateway e o servidor MCP são *resource servers*
+- **Escopos** e **`audience`** por client: o gateway e o servidor MCP são _resource servers_
   distintos e devem validar `aud` e `scope`.
 - **Clients OAuth2 seedáveis** por script/fixture (ver seção 15): ao menos um client para o
   **Apollo MCP** e outro para o **cliente de teste**.
@@ -278,12 +284,12 @@ Criar um usuário no sistema deve, na mesma operação lógica:
 
 ### 7.4 Autorização
 
-| Claim | Descrição |
-|---|---|
-| `sub` | ID do usuário |
-| `aud` | Resource server alvo (gateway / MCP) |
-| `scope` | Escopos concedidos ao client |
-| demais | A critério da sua modelagem (papéis, fornecedor, etc.) — justifique |
+| Claim   | Descrição                                                           |
+| ------- | ------------------------------------------------------------------- |
+| `sub`   | ID do usuário                                                       |
+| `aud`   | Resource server alvo (gateway / MCP)                                |
+| `scope` | Escopos concedidos ao client                                        |
+| demais  | A critério da sua modelagem (papéis, fornecedor, etc.) — justifique |
 
 Regras mínimas:
 
@@ -299,9 +305,9 @@ O subgraph de usuários deve expor, no mínimo:
 
 ```graphql
 type Query {
-  users(first: Int, after: String): UserConnection!   # lista geral, Relay Connection
-  user(id: ID!): User                                 # busca por identificador
-  me: User                                            # usuário autenticado pelo token da requisição
+  users(first: Int, after: String): UserConnection! # lista geral, Relay Connection
+  user(id: ID!): User # busca por identificador
+  me: User # usuário autenticado pelo token da requisição
 }
 ```
 
@@ -374,10 +380,10 @@ As subscriptions devem ser implementadas com [`graphql-sse`](https://github.com/
 
 ### 10.4 Métodos de pagamento e estados finais
 
-| Método | Estado final esperado | Requisito adicional |
-|---|---|---|
-| Cartão | Pagamento **aprovado** | Pedido reflete a aprovação |
-| Pix | **Pix gerado** | O pedido carrega o **código pix** gerado |
+| Método | Estado final esperado  | Requisito adicional                      |
+| ------ | ---------------------- | ---------------------------------------- |
+| Cartão | Pagamento **aprovado** | Pedido reflete a aprovação               |
+| Pix    | **Pix gerado**         | O pedido carrega o **código pix** gerado |
 
 Os nomes exatos dos estados são seus; a semântica acima é obrigatória.
 
@@ -421,14 +427,14 @@ filas são decisão sua** — documente a topologia escolhida.
 - **Whitelist explícita** de operações registradas como tools. Sugestão de conjunto (ajuste conforme
   sua modelagem, mantendo os mínimos):
 
-| Tool | Tipo | Obrigatória |
-|---|---|---|
-| `me` | Query | **Sim** (usada no teste E2E) |
-| `searchProducts` | Query | Sim |
-| `getProduct` | Query | Sim |
-| `getMyCart` | Query | Sim |
-| `getMyOrders` | Query | Sim |
-| `addToCart` / `removeFromCart` | Mutation | Sim |
+| Tool                           | Tipo     | Obrigatória                  |
+| ------------------------------ | -------- | ---------------------------- |
+| `me`                           | Query    | **Sim** (usada no teste E2E) |
+| `searchProducts`               | Query    | Sim                          |
+| `getProduct`                   | Query    | Sim                          |
+| `getMyCart`                    | Query    | Sim                          |
+| `getMyOrders`                  | Query    | Sim                          |
+| `addToCart` / `removeFromCart` | Mutation | Sim                          |
 
 > ❌ **Não expor:** criação de pedido/captura de pagamento, mutações de catálogo e qualquer operação
 > administrativa.
@@ -540,41 +546,41 @@ O teste E2E precisa executar, de ponta a ponta:
 
 ## 16. Requisitos Funcionais
 
-| ID | Requisito |
-|---|---|
-| RF01 | Usuários se registram e autenticam via OAuth2 emitido pelo **Better Auth OAuth Provider**. |
-| RF02 | O cadastro cria o usuário no WordPress e o vincula via conta `wordpress` na tabela `accounts`. |
-| RF03 | Usuários podem se tornar fornecedores ao cadastrar uma empresa. |
-| RF04 | Apenas o fornecedor dono pode criar/editar/deletar seus produtos. |
-| RF05 | Compradores buscam produtos, veem detalhes e adicionam ao carrinho. |
-| RF06 | O subgraph de usuários expõe `users` (Connection), `user(id)` e `me`. |
-| RF07 | `me` navega para pedidos do usuário e produtos dos pedidos de forma federada. |
-| RF08 | Compradores criam pedidos a partir do carrinho, informando método de pagamento e chave de operação. |
-| RF09 | O checkout é idempotente por chave de operação, inclusive sob retry do frontend. |
+| ID   | Requisito                                                                                                                             |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| RF01 | Usuários se registram e autenticam via OAuth2 emitido pelo **Better Auth OAuth Provider**.                                            |
+| RF02 | O cadastro cria o usuário no WordPress e o vincula via conta `wordpress` na tabela `accounts`.                                        |
+| RF03 | Usuários podem se tornar fornecedores ao cadastrar uma empresa.                                                                       |
+| RF04 | Apenas o fornecedor dono pode criar/editar/deletar seus produtos.                                                                     |
+| RF05 | Compradores buscam produtos, veem detalhes e adicionam ao carrinho.                                                                   |
+| RF06 | O subgraph de usuários expõe `users` (Connection), `user(id)` e `me`.                                                                 |
+| RF07 | `me` navega para pedidos do usuário e produtos dos pedidos de forma federada.                                                         |
+| RF08 | Compradores criam pedidos a partir do carrinho, informando método de pagamento e chave de operação.                                   |
+| RF09 | O checkout é idempotente por chave de operação, inclusive sob retry do frontend.                                                      |
 | RF10 | O cliente acompanha os eventos do pedido por subscription correlacionada pela chave de operação, podendo assiná-la antes da mutation. |
-| RF11 | As subscriptions trafegam por **SSE** (`graphql-sse`). |
-| RF12 | A saga processa o pagamento e reserva estoque, compensando em caso de falha. |
-| RF13 | Pagamento por cartão termina aprovado; por pix, termina com pix gerado e código no pedido. |
-| RF14 | O servidor MCP expõe apenas tools curadas de leitura e carrinho, sobre o supergraph. |
-| RF15 | O servidor MCP exige token OAuth2 válido, com `audience` e escopos corretos. |
+| RF11 | As subscriptions trafegam por **SSE** (`graphql-sse`).                                                                                |
+| RF12 | A saga processa o pagamento e reserva estoque, compensando em caso de falha.                                                          |
+| RF13 | Pagamento por cartão termina aprovado; por pix, termina com pix gerado e código no pedido.                                            |
+| RF14 | O servidor MCP expõe apenas tools curadas de leitura e carrinho, sobre o supergraph.                                                  |
+| RF15 | O servidor MCP exige token OAuth2 válido, com `audience` e escopos corretos.                                                          |
 
 ---
 
 ## 17. Requisitos Não-Funcionais
 
-| ID | Requisito |
-|---|---|
-| RNF01 | Federation v2 **schema-first**, com composição validada em CI. |
-| RNF02 | Relay Cursor Connections em todas as listagens paginadas. |
-| RNF03 | Ausência de N+1 comprovada (DataLoader com batching por request). |
-| RNF04 | Serviços stateless; estado em banco/broker. |
-| RNF05 | Workers escaláveis horizontalmente com idempotência comprovada. |
-| RNF06 | Cobertura mínima de 70% nos domínios críticos (pedidos e pagamento). |
-| RNF07 | Teste E2E da seção 15 verde, do zero, em CI. |
-| RNF08 | Segredos nunca commitados. |
-| RNF09 | Deploy reprodutível via `sst deploy`, sem passos manuais. |
-| RNF10 | P95 < 500 ms nas queries do gateway em carga local. |
-| RNF11 | *(desejável)* Traces, métricas e logs correlacionados via OpenTelemetry. |
+| ID    | Requisito                                                                |
+| ----- | ------------------------------------------------------------------------ |
+| RNF01 | Federation v2 **schema-first**, com composição validada em CI.           |
+| RNF02 | Relay Cursor Connections em todas as listagens paginadas.                |
+| RNF03 | Ausência de N+1 comprovada (DataLoader com batching por request).        |
+| RNF04 | Serviços stateless; estado em banco/broker.                              |
+| RNF05 | Workers escaláveis horizontalmente com idempotência comprovada.          |
+| RNF06 | Cobertura mínima de 70% nos domínios críticos (pedidos e pagamento).     |
+| RNF07 | Teste E2E da seção 15 verde, do zero, em CI.                             |
+| RNF08 | Segredos nunca commitados.                                               |
+| RNF09 | Deploy reprodutível via `sst deploy`, sem passos manuais.                |
+| RNF10 | P95 < 500 ms nas queries do gateway em carga local.                      |
+| RNF11 | _(desejável)_ Traces, métricas e logs correlacionados via OpenTelemetry. |
 
 ---
 
@@ -582,7 +588,8 @@ O teste E2E precisa executar, de ponta a ponta:
 
 **Todos os eixos abaixo são obrigatórios, exceto onde marcado como bônus.**
 
-### 18.1 GraphQL e Federação — *peso maior*
+### 18.1 GraphQL e Federação — _peso maior_
+
 - Uso correto e completo da **Relay Cursor Connections Specification**, inclusive em listas federadas.
 - **DataLoader** aplicado consistentemente, sem N+1 nas queries do teste E2E — com evidência.
 - Federação **schema-first** consistente e bem arquitetada: fronteiras de entidade coerentes, `@key`
@@ -590,6 +597,7 @@ O teste E2E precisa executar, de ponta a ponta:
 - Subscriptions federadas funcionando via SSE.
 
 ### 18.2 Estrutura de Código e Domínio
+
 - **DDD aplicado de verdade**: bounded contexts explícitos, agregados com invariantes, eventos de
   domínio nomeados na linguagem ubíqua — e não apenas pastas com nomes de camadas.
 - Separação clara entre domínio, aplicação, infraestrutura e apresentação, com o domínio **livre de
@@ -598,6 +606,7 @@ O teste E2E precisa executar, de ponta a ponta:
 - Convenções uniformes (lint, format, conventional commits) e nomenclatura alinhada ao domínio.
 
 ### 18.3 Autenticação e MCP
+
 - Better Auth realmente atuando como Authorization Server OAuth2, com clients seedáveis.
 - NestJS Better Auth presente no gateway **e** no subgraph de usuários.
 - MCP consumindo o supergraph, autenticado por OAuth2 com `audience` correta, recusando tokens
@@ -607,20 +616,24 @@ O teste E2E precisa executar, de ponta a ponta:
   `me`, `searchProducts` e `addToCart`, e rejeição sem token ou com escopo inválido.
 
 ### 18.4 Pagamento, Saga e Idempotência
+
 - Idempotência comprovada (mesma chave → mesmo efeito), inclusive sob retry e consumo concorrente.
 - Compensação correta quando a reserva de estoque falha.
 - Publicação confiável de eventos (atomicidade entre commit e publicação).
 - Processador em runtime/linguagem separada, com arquitetura bem definida na linguagem escolhida.
 
 ### 18.5 Escalabilidade e Deploy
+
 - Serviços stateless, workers escaláveis, cache de JWKS no gateway.
 - Stack SST funcional, infraestrutura como código, segredos gerenciados.
 - Pipeline CI/CD com build, test, `sst diff` e `sst deploy`.
 
 ### 18.6 Testes
+
 - O teste E2E da seção 15 roda do zero e passa, cobrindo **todos** os passos e asserções listados.
 
-### 18.7 Observabilidade — *bônus*
+### 18.7 Observabilidade — _bônus_
+
 - Traces ponta a ponta (gateway → subgraphs → RabbitMQ → workers), métricas RED e logs com `trace_id`.
 
 ---

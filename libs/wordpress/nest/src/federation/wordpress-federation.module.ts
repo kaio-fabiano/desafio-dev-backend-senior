@@ -26,18 +26,18 @@ const WPGRAPHQL_AUTH = Symbol('WPGRAPHQL_AUTH');
 export type WordPressFederationConfig = {
   endpoint: string;
   port: number;
-  proxySecret: string;
+  siteToken: string;
 };
 
 function wordpressFederationConfig(): WordPressFederationConfig {
-  const proxySecret = process.env.WPGRAPHQL_FEDERATION_SECRET?.trim() ?? '';
-  if (!proxySecret) {
-    throw new Error('WPGRAPHQL_FEDERATION_SECRET is required');
+  const siteToken = process.env.WPGRAPHQL_SITE_TOKEN?.trim() ?? '';
+  if (!siteToken) {
+    throw new Error('WPGRAPHQL_SITE_TOKEN is required');
   }
   return {
     endpoint: process.env.WPGRAPHQL_ENDPOINT ?? 'http://wordpress/graphql',
     port: Number(process.env.PORT ?? 3004),
-    proxySecret,
+    siteToken,
   };
 }
 
@@ -71,7 +71,10 @@ Module({
       provide: WPGRAPHQL_AUTH,
       inject: [WORDPRESS_FEDERATION_CONFIG],
       useFactory: (config: WordPressFederationConfig): WpGraphqlAuth =>
-        createWpGraphqlAuth({ proxySecret: config.proxySecret }),
+        createWpGraphqlAuth({
+          endpoint: config.endpoint,
+          siteToken: config.siteToken,
+        }),
     },
     {
       provide: WpGraphqlClientService,

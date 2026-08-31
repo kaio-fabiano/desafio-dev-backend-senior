@@ -16,6 +16,11 @@ fnm exec --using v24.19.0 -- npm --version
 
 ## Start the five-application topology
 
+The setup pins WPGraphQL Headless Login and configures its server-only Site
+Token plus a signed WooCommerce `order.updated` webhook. Override
+`WPGRAPHQL_SITE_TOKEN` and `WOO_WEBHOOK_SECRET` outside local development; never
+expose either value to a browser client.
+
 ```sh
 corepack pnpm@10.17.1 install --frozen-lockfile
 docker compose --file compose.yaml up --build --wait

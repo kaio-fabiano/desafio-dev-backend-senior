@@ -1,5 +1,3 @@
-import { createHmac } from 'node:crypto';
-
 import {
   Kind,
   parse,
@@ -15,7 +13,10 @@ export type WpGraphqlOperation = {
 };
 
 export type WpGraphqlAuth = {
-  headersFor(operation: WpGraphqlOperation, incoming: Headers): Headers;
+  headersFor(
+    operation: WpGraphqlOperation,
+    incoming: Headers,
+  ): Promise<Headers>;
 };
 
 export class WpGraphqlAuthorizationError extends Error {}
@@ -123,22 +124,36 @@ function copySessionHeaders(incoming: Headers): Headers {
 }
 
 export function createWpGraphqlAuth({
-  proxySecret,
-  now = Date.now,
+  endpoint,
+  siteToken,
+  request = fetch,
 }: {
-  proxySecret: string;
-  now?: () => number;
+  endpoint: string;
+  siteToken: string;
+  request?: typeof fetch;
 }): WpGraphqlAuth {
-  if (!proxySecret.trim()) {
-    throw new Error('WPGRAPHQL_FEDERATION_SECRET is required');
+  if (!siteToken.trim()) {
+    throw new Error('WPGRAPHQL_SITE_TOKEN is required');
   }
 
   return {
-    headersFor(operation, incoming) {
+    async headersFor(operation, incoming) {
+      const updateInput = operation.variables?.input;
+      if (
+        /\bupdateOrder\b/.test(operation.query) &&
+        updateInput &&
+        typeof updateInput === 'object' &&
+        ['isPaid', 'status', 'transactionId', 'metaData'].some(
+          (field) => field in updateInput,
+        )
+      ) {
+        throw new WpGraphqlAuthorizationError(
+          'Payment transitions must use the WooCommerce service API',
+        );
+      }
       const required = requiredScopes(operation);
       const subject = incoming.get('x-authenticated-subject')?.trim() ?? '';
-      const wordpressSubject =
-        incoming.get('x-wordpress-user-id')?.trim() || subject;
+      const wordpressSubject = subject;
       const scopes = new Set(
         (incoming.get('x-authenticated-scopes') ?? '')
           .split(/\s+/)
@@ -157,6 +172,7 @@ export function createWpGraphqlAuth({
       }
 
       const headers = copySessionHeaders(incoming);
+      headers.set('origin', new URL(endpoint).origin);
       if (!subject) return headers;
       if (!/^[\w.@:-]{1,128}$/.test(wordpressSubject)) {
         throw new WpGraphqlAuthorizationError(
@@ -164,16 +180,49 @@ export function createWpGraphqlAuth({
         );
       }
 
-      const scopeHeader = [...scopes].join(' ');
-      const timestamp = String(Math.floor(now() / 1000));
-      const payload = `${wordpressSubject}\n${scopeHeader}\n${timestamp}`;
-      headers.set('x-marketplace-subject', wordpressSubject);
-      headers.set('x-marketplace-scopes', scopeHeader);
-      headers.set('x-marketplace-timestamp', timestamp);
-      headers.set(
-        'x-marketplace-signature',
-        createHmac('sha256', proxySecret).update(payload).digest('hex'),
-      );
+      const login = await request(endpoint, {
+        method: 'POST',
+        headers: {
+          accept: 'application/graphql-response+json, application/json',
+          'content-type': 'application/json',
+          origin: new URL(endpoint).origin,
+          'x-wpgraphql-site-token': siteToken,
+        },
+        body: JSON.stringify({
+          operationName: 'LoginWithSiteToken',
+          query: `mutation LoginWithSiteToken($identity: String!) {
+            login(input: { provider: SITETOKEN, identity: $identity }) {
+              authToken
+              wooSessionToken
+            }
+          }`,
+          variables: { identity: wordpressSubject },
+        }),
+      });
+      const payload = (await login.json().catch(() => undefined)) as
+        | {
+            data?: {
+              login?: { authToken?: unknown; wooSessionToken?: unknown };
+            };
+            errors?: Array<{ message?: unknown }>;
+          }
+        | undefined;
+      const authToken = payload?.data?.login?.authToken;
+      if (!login.ok || typeof authToken !== 'string' || !authToken) {
+        const message = payload?.errors?.find(
+          (error) => typeof error.message === 'string',
+        )?.message;
+        throw new WpGraphqlAuthorizationError(
+          typeof message === 'string'
+            ? message
+            : 'WordPress session exchange failed',
+        );
+      }
+      headers.set('authorization', `Bearer ${authToken}`);
+      const wooSessionToken = payload?.data?.login?.wooSessionToken;
+      if (typeof wooSessionToken === 'string' && wooSessionToken) {
+        headers.set('woocommerce-session', `Session ${wooSessionToken}`);
+      }
       return headers;
     },
   };

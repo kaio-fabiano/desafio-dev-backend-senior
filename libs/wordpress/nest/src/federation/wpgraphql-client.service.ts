@@ -88,7 +88,7 @@ export class WpGraphqlClientService {
     operation: WpGraphqlOperation,
     incoming = new Headers(),
   ): Promise<Response> {
-    const headers = this.auth.headersFor(operation, incoming);
+    const headers = await this.auth.headersFor(operation, incoming);
     headers.set(
       'accept',
       'application/graphql-response+json, application/json',

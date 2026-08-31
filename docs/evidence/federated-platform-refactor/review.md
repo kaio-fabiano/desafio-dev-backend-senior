@@ -122,7 +122,7 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
       "path": "apps/wordpress-federation",
       "responsibility": "Expose authoritative catalog, cart, order, customer, inventory, and order-subscription capabilities.",
       "providerBoundary": "NestJS providers delegate to WPGraphQL and WooGraphQL and attach graphql-sse to the executable NestJS schema.",
-      "domainDecision": "WordPress and WooCommerce remain the commercial system of record; custom code covers only a tested compatibility gap.",
+      "domainDecision": "WordPress and WooCommerce remain the commercial system of record; the adapter uses pinned plugins, REST, and signed webhooks without custom WordPress PHP.",
       "omittedAbstraction": "No competing commercial repository, loader, CRUD model, Commerce runtime, Stock worker, or Gateway stream proxy.",
       "evidence": [
         "test/wordpress-federation-refactor.test.mjs",
@@ -176,8 +176,8 @@ substitute for the complete verification command.
 | ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------- |
 | Federated-platform focused suite   | PASS (25/25) | Architecture, provider composition, Identity, Gateway, WordPress, Payment, subscriptions, topology, and quality tests |
 | Payment Spring integration suite   | PASS (9/9)   | `PaymentFederationTest` and the Payment application tests                                                             |
-| Isolated Vitest/Testcontainers E2E | PASS (5/5)   | Card, Pix, authenticated SSE, persistent reads, and Apollo MCP parity                                                  |
-| Feature spec verification          | PASS (14/14) | `onp-spec verify federated-platform-architecture-refactor`; 238 tests parsed                                           |
+| Isolated Vitest/Testcontainers E2E | PASS (5/5)   | Card, Pix, authenticated SSE, persistent reads, and Apollo MCP parity                                                 |
+| Feature spec verification          | PASS (14/14) | `onp-spec verify federated-platform-architecture-refactor`; 238 tests parsed                                          |
 | Historical spec verification       | PASS         | All eleven stale feature proofs were rerun against the same 238-test repository command                               |
 | Repository spec audit              | PASS         | `onp-spec audit --ci`; 103/103 criteria tested, 103/103 proved, zero warnings                                         |
 
@@ -187,15 +187,17 @@ substitute for the complete verification command.
   AC-103 tests, and the spec parser recognizes all fourteen criteria.
 - The WordPress integration probe uses a workspace-mounted temporary directory,
   allowing its nested Docker daemon to mount generated plugin assets.
-- Identity registration persists the Better Auth subject in WooCommerce user
-  metadata, and WordPress uses the verified subject for order ownership.
+- Identity registration creates or reuses the WooCommerce customer. WordPress
+  Federation exchanges its propagated WordPress user id through Headless
+  Login's server-only Site Token provider.
 - Gateway propagates the WooCommerce session headers and response cookies needed
   by native cart and checkout operations without taking ownership of commerce.
-- The WordPress capability-gap plugin exposes versioned Card, Pix, and order
-  snapshot operations while WooCommerce remains the commercial system of record.
+- Native WooGraphQL owns checkout and order reads; Payment writes transitions
+  through authenticated WooCommerce REST.
 - Payment persistence and read/write providers are owned by Spring
   `PaymentConfiguration` and are enabled only when a datasource is configured.
-- The order stream is authenticated and served directly by WordPress Federation
+- Signed WooCommerce order webhooks feed the order stream, which is
+  authenticated and served directly by WordPress Federation
   through the executable NestJS GraphQL schema and the official `graphql-sse`
   handler; Gateway does not proxy it.
 - Compose enables the reproducible checkout path and declares the required
