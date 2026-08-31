@@ -169,8 +169,9 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
 
 ## Local verification ledger
 
-This ledger records the final execution on 2026-08-30. Focused tests do not
-substitute for the complete verification command.
+This ledger records the previously completed execution on 2026-08-30 and the
+T-080 rerun on 2026-08-31. Focused tests do not substitute for the complete
+verification command.
 
 | Gate                               | Result       | Evidence                                                                                                              |
 | ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------- |
@@ -180,6 +181,16 @@ substitute for the complete verification command.
 | Feature spec verification          | PASS (14/14) | `onp-spec verify federated-platform-architecture-refactor`; 238 tests parsed                                          |
 | Historical spec verification       | PASS         | All eleven stale feature proofs were rerun against the same 238-test repository command                               |
 | Repository spec audit              | PASS         | `onp-spec audit --ci`; 103/103 criteria tested, 103/103 proved, zero warnings                                         |
+
+### T-080 rerun
+
+The requested complete regression was rerun on 2026-08-31. It stopped at the
+Milestone 1 infrastructure gate: the clean-install Compose build succeeded,
+but `identity-subgraph` exited before readiness with
+`ERR_MODULE_NOT_FOUND: @desafio-dev-backend-senior/identity-nest`. The failure
+is reproducible in an isolated Compose project and requires a change outside
+T-080's permitted files. No merge was performed because the required gates did
+not pass.
 
 ## Completed work previously recorded as blocked
 
@@ -203,5 +214,5 @@ substitute for the complete verification command.
 - Compose enables the reproducible checkout path and declares the required
   identity, WordPress, Payment, Gateway, and MCP dependencies.
 
-No acceptance blocker remains in this review. Generated Gradle directories and
-pre-existing local containers are workspace housekeeping, not delivery evidence.
+Generated Gradle directories and pre-existing local containers are workspace
+housekeeping, not delivery evidence.

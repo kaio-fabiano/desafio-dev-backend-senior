@@ -78,5 +78,12 @@
       "method": "tap"
     }
   },
-  "principles": {}
+  "principles": {},
+  "latestRerun": {
+    "date": "2026-08-31",
+    "status": "blocked",
+    "failedGate": "AC-022: Local infrastructure becomes ready @spec:AC-022",
+    "error": "identity-subgraph exited with ERR_MODULE_NOT_FOUND for @desafio-dev-backend-senior/identity-nest during clean-install Compose startup",
+    "merge": "not performed"
+  }
 }
