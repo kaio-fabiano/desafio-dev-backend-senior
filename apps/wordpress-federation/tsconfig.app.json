@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "outDir": "../../dist/out-tsc/apps/wordpress-federation",
+    "tsBuildInfoFile": "../../.nx/cache/tsbuildinfo/wordpress-federation.app.tsbuildinfo",
+    "typeRoots": ["../../node_modules/.pnpm/node_modules/@types"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"],
+  "references": [{ "path": "../../libs/wordpress/nest/tsconfig.lib.json" }]
+}

@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "outDir": "../../dist/out-tsc/apps/identity-subgraph",
+    "tsBuildInfoFile": "../../.nx/cache/tsbuildinfo/identity-subgraph.app.tsbuildinfo",
+    "typeRoots": ["../../node_modules/.pnpm/node_modules/@types"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"],
+  "references": [{ "path": "../../libs/identity/nest/tsconfig.lib.json" }]
+}

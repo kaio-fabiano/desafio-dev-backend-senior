@@ -2,6 +2,16 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "never"
   },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never"
+    }
+  },
+  "[typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never"
+    }
+  },
   "workbench.colorCustomizations": {
     "terminal.background": "#00000000",
     "minimap.background": "#00000000",
