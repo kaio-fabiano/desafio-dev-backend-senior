@@ -23,8 +23,7 @@
 - Esforço: alto
 - Notes: Remove the messaging source exclusion, restore Spring AMQP dependencies/configuration, and prove database idempotency, confirms, acknowledgements, bounded retry, and DLQ.
 
-## T-088 — Add inventory reaction and compensation to Payment Federation [pendente]
-
+## T-088 — Add inventory reaction and compensation to Payment Federation [concluida]
 - Refs: US-056, AC-112
 - Arquivos: apps/payment-processor/src/main/java/dev/desafio/payment/inventory, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-processor/src/test, apps/wordpress-integration, libs/contracts/events, compose.yaml, test/delivery-closure-inventory-saga.test.mjs
 - Modelo: gpt-5.6-sol
