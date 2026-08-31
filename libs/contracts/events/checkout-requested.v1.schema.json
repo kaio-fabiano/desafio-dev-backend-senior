@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desafio.dev/contracts/events/checkout-requested.v1.schema.json",
+  "title": "Checkout requested event v1",
+  "allOf": [
+    { "$ref": "envelope.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": { "const": "checkout.requested" },
+        "eventVersion": { "const": "v1" },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checkoutId"],
+          "properties": { "checkoutId": { "type": "string", "minLength": 1 } }
+        }
+      },
+      "required": ["payload"]
+    }
+  ]
+}

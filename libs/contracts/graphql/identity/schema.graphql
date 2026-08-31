@@ -1,0 +1,46 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key", "@shareable"])
+
+type User @key(fields: "id") {
+  id: ID!
+  email: String!
+}
+
+type SupplierCompany @key(fields: "id") {
+  id: ID!
+  name: String!
+  members: [SupplierMembership!]!
+}
+
+type SupplierMembership {
+  user: User!
+  role: SupplierRole!
+  validFrom: String!
+  validUntil: String
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+type PageInfo @shareable {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+enum SupplierRole {
+  OWNER
+  MANAGER
+}
+
+type Query {
+  users(first: Int = 20, after: String): UserConnection!
+  user(id: ID!): User
+  me: User
+}

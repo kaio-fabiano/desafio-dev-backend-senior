@@ -1,0 +1,51 @@
+{
+  "runId": "desafio-dev-backend-senior-milestone-8-compliance-hardening-mtdbg59a",
+  "feature": "milestone-8-compliance-hardening",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": "gpt-5.6-terra",
+  "esforcoForcado": "medium",
+  "geradoEm": "2026-08-28 18:59",
+  "branchTrabalho": "spec/milestone-8-compliance-hardening",
+  "baseDir": ".spec/features/milestone-8-compliance-hardening",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-milestone-8-compliance-hardening-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-064",
+      "titulo": "Generate SST globals before offline validation",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        ".github/workflows/ci.yml",
+        "test/milestone-7-sst.test.mjs",
+        "test/milestone-8-offline-infra.test.mjs",
+        ".spec/features/milestone-8-compliance-hardening/tasks.md",
+        ".spec/verification/milestone-8-compliance-hardening.json"
+      ],
+      "refs": [
+        "US-044",
+        "AC-088"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-053",
+    "T-054",
+    "T-055",
+    "T-056",
+    "T-057",
+    "T-058",
+    "T-059",
+    "T-060",
+    "T-062",
+    "T-063"
+  ],
+  "avisos": [
+    "T-064 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
+}

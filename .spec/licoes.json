@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "proximoId": 7,
+  "licoes": [
+    {
+      "id": "L-001",
+      "texto": "Create every task-mapped file before running the feature audit.",
+      "chave": "ARQUIVO_INEXISTENTE::create every task mapped file before running the feature audit",
+      "sinal": "ARQUIVO_INEXISTENTE",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "marco-0-pocs"
+      ],
+      "evidencias": [
+        {
+          "fonte": "T-004",
+          "feature": "marco-0-pocs",
+          "quando": "2026-08-27T03:46:20.550Z",
+          "gitRev": "bf6c285"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T03:46:20.550Z",
+      "ultimaVez": "2026-08-27T03:46:20.550Z"
+    },
+    {
+      "id": "L-002",
+      "texto": "Run verify after replacing acceptance-test scaffolds with executable proofs.",
+      "chave": "AC_SEM_PROVA::run verify after replacing acceptance test scaffolds with executable proofs",
+      "sinal": "AC_SEM_PROVA",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "marco-0-pocs"
+      ],
+      "evidencias": [
+        {
+          "fonte": "AC-009",
+          "feature": "marco-0-pocs",
+          "quando": "2026-08-27T03:46:20.599Z",
+          "gitRev": "bf6c285"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T03:46:20.599Z",
+      "ultimaVez": "2026-08-27T03:46:20.599Z"
+    },
+    {
+      "id": "L-003",
+      "texto": "Keep the parser keywords Dado, Quando, Então, Suposições, and Perguntas em aberto unchanged even when project prose is English.",
+      "chave": "AC_INCOMPLETO::keep the parser keywords dado quando entao suposicoes and perguntas em aberto unchanged even when project prose is english",
+      "sinal": "AC_INCOMPLETO",
+      "escopo": "spec",
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-3-cart-order"
+      ],
+      "evidencias": [
+        {
+          "fonte": "AC-033",
+          "feature": "milestone-3-cart-order",
+          "quando": "2026-08-27T15:30:58.517Z",
+          "gitRev": "4e564f2"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T15:30:58.517Z",
+      "ultimaVez": "2026-08-27T15:30:58.517Z"
+    },
+    {
+      "id": "L-004",
+      "texto": "Mark a task concluded only after its expected files and commit exist and onp-spec verify records PASS; an agent exit code alone is not completion.",
+      "chave": "TASK_CONCLUIDA_SEM_PROVA::mark a task concluded only after its expected files and commit exist and onp spec verify records pass an agent exit code alone is not completion",
+      "sinal": "TASK_CONCLUIDA_SEM_PROVA",
+      "escopo": "execution",
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-3-cart-order"
+      ],
+      "evidencias": [
+        {
+          "fonte": "T-021",
+          "feature": "milestone-3-cart-order",
+          "quando": "2026-08-27T15:31:07.802Z",
+          "gitRev": "7e8acfb"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T15:31:07.802Z",
+      "ultimaVez": "2026-08-27T15:31:07.802Z"
+    },
+    {
+      "id": "L-005",
+      "texto": "When a shared verification gate changes, refresh every affected feature proof before the final CI audit.",
+      "chave": "VERIFY_OBSOLETO::when a shared verification gate changes refresh every affected feature proof before the final ci audit",
+      "sinal": "VERIFY_OBSOLETO",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-6-apollo-mcp"
+      ],
+      "evidencias": [
+        {
+          "fonte": "—",
+          "feature": "milestone-6-apollo-mcp",
+          "quando": "2026-08-27T20:42:49.915Z",
+          "gitRev": "a77a1fb"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-27T20:42:49.915Z",
+      "ultimaVez": "2026-08-27T20:42:49.915Z"
+    },
+    {
+      "id": "L-006",
+      "texto": "When retiring a PoC, update every historical task mapping to the maintained production replacement in the same change.",
+      "chave": "ARQUIVO_INEXISTENTE::when retiring a poc update every historical task mapping to the maintained production replacement in the same change",
+      "sinal": "ARQUIVO_INEXISTENTE",
+      "escopo": null,
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "milestone-8-compliance-hardening"
+      ],
+      "evidencias": [
+        {
+          "fonte": "T-059",
+          "feature": "milestone-8-compliance-hardening",
+          "quando": "2026-08-28T05:09:49.050Z",
+          "gitRev": "cbf6847"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-08-28T05:09:49.050Z",
+      "ultimaVez": "2026-08-28T05:09:49.050Z"
+    }
+  ]
+}

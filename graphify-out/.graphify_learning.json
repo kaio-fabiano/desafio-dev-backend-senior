@@ -1,0 +1,229 @@
+{
+  "generated_at": "2026-08-27T19:02:30.511051+00:00",
+  "nodes": {
+    "docs_knowledge_apollo_mcp_apollo_mcp": {
+      "code_fingerprint": "a36bdc9468b05c8f768ad3cf2e82497fa3a0acab44701aa755958e616b943639",
+      "label": "Apollo MCP",
+      "last": "2026-08-27T18:04:09.300819+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T18:04:09.300819+00:00",
+          "outcome": "useful",
+          "q": "What is the next development milestone?"
+        }
+      ],
+      "score": 0.999064152,
+      "source_file": "docs/knowledge/Apollo MCP.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "docs_prds_01_arquitetura_e_dominio_outbox_inbox_consistency": {
+      "code_fingerprint": "d84b53fb90098f9652a076e119e26e2c961b7e2ab0eb795c60fb27cffc9a0b06",
+      "label": "Consistência por Outbox e Inbox",
+      "last": "2026-08-27T15:44:08.906086+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T15:44:08.906086+00:00",
+          "outcome": "useful",
+          "q": "Define the smallest Milestone 4 payment inventory saga slice and its integration points"
+        }
+      ],
+      "score": 0.996822357,
+      "source_file": "docs/prds/01-arquitetura-e-dominio.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "docs_prds_02_graphql_federation_federation_prd": {
+      "code_fingerprint": "e5a7030e2c7f4a42ad5bd2902ebab9b1ee651b94f01752389b5b9136e5ba418e",
+      "label": "PRD 02 — GraphQL Federation, Connections e DataLoader",
+      "last": "2026-08-27T14:46:19.739266+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        },
+        {
+          "date": "2026-08-26T02:54:02.202100+00:00",
+          "outcome": "useful",
+          "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
+        }
+      ],
+      "score": 1.957991067,
+      "source_file": "docs/prds/02-graphql-federation.md",
+      "status": "preferred",
+      "uses": 2
+    },
+    "docs_prds_05_apollo_mcp_mcp_prd": {
+      "code_fingerprint": "930faf882d811e2b2a76fdf31c29bc5cf16d0834332a4e4e8d35e999dcf2ebfc",
+      "label": "PRD 05 — Apollo MCP autenticado",
+      "last": "2026-08-27T18:04:09.300819+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T18:04:09.300819+00:00",
+          "outcome": "useful",
+          "q": "What is the next development milestone?"
+        }
+      ],
+      "score": 0.999064152,
+      "source_file": "docs/prds/05-apollo-mcp.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "docs_prds_07_roadmap_implementation_roadmap": {
+      "code_fingerprint": "7915ccdd7e0802018e085ee8d47ab0c66b6e7feb2c892d71ace7d0dcf51d6dcf",
+      "label": "PRD 07 — Roadmap de implementação",
+      "last": "2026-08-27T18:04:09.300819+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T18:04:09.300819+00:00",
+          "outcome": "useful",
+          "q": "What is the next development milestone?"
+        }
+      ],
+      "score": 0.999064152,
+      "source_file": "docs/prds/07-roadmap.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_docker_compose": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Ambiente completo em Docker Compose",
+      "last": "2026-08-27T03:51:08.373519+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T03:51:08.373519+00:00",
+          "outcome": "useful",
+          "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
+        }
+      ],
+      "score": 0.985483415,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_e2e_testcontainers": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Teste E2E com Vitest e Testcontainers",
+      "last": "2026-08-27T03:51:08.373519+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T03:51:08.373519+00:00",
+          "outcome": "useful",
+          "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
+        }
+      ],
+      "score": 0.985483415,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_graphql_gateway": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Gateway GraphQL federado",
+      "last": "2026-08-27T14:46:19.739266+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        },
+        {
+          "date": "2026-08-27T03:51:08.373519+00:00",
+          "outcome": "useful",
+          "q": "What architecture, constraints, deliverables, and dependencies define Milestone 1 monorepo foundation and contracts?"
+        }
+      ],
+      "score": 1.981381431,
+      "source_file": "README.md",
+      "status": "preferred",
+      "uses": 2
+    },
+    "readme_orders_subgraph": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Subgraph de carrinho e pedidos",
+      "last": "2026-08-27T15:44:08.906086+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T15:44:08.906086+00:00",
+          "outcome": "useful",
+          "q": "Define the smallest Milestone 4 payment inventory saga slice and its integration points"
+        },
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        }
+      ],
+      "score": 1.992720374,
+      "source_file": "README.md",
+      "status": "preferred",
+      "uses": 2
+    },
+    "readme_outbox_pattern": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Outbox Pattern",
+      "last": "2026-08-27T14:46:19.739266+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T14:46:19.739266+00:00",
+          "outcome": "useful",
+          "q": "What existing code, contracts, services, tests, and documentation are affected by implementing Milestone 3 cart, idempotent order, MikroORM persistence, and transactional outbox?"
+        }
+      ],
+      "score": 0.995898017,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_payment_processor": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Processador de pagamento em runtime separado",
+      "last": "2026-08-27T15:44:08.906086+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-27T15:44:08.906086+00:00",
+          "outcome": "useful",
+          "q": "Define the smallest Milestone 4 payment inventory saga slice and its integration points"
+        }
+      ],
+      "score": 0.996822357,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_relay_cursor_connections": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "Relay Cursor Connections",
+      "last": "2026-08-26T02:54:02.202100+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-26T02:54:02.202100+00:00",
+          "outcome": "useful",
+          "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
+        }
+      ],
+      "score": 0.96209305,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    },
+    "readme_woocommerce_catalog": {
+      "code_fingerprint": "ba4b54704bc65a0a774d79445159237792dfd674375b97fe6c56299d283f8b4c",
+      "label": "WooCommerce e WPGraphQL como catálogo",
+      "last": "2026-08-26T02:54:02.202100+00:00",
+      "provenance": [
+        {
+          "date": "2026-08-26T02:54:02.202100+00:00",
+          "outcome": "useful",
+          "q": "O link Relay ficou de fora; todos os links da entrevista são úteis e WordPress tem coisas prontas que não devemos recriar."
+        }
+      ],
+      "score": 0.96209305,
+      "source_file": "README.md",
+      "status": "tentative",
+      "uses": 1
+    }
+  },
+  "version": 1
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/payment-processor",
+  "projectType": "application",
+  "sourceRoot": "apps/payment-processor/src/main",
+  "tags": ["type:app", "scope:payment"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon bootJar"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
+      }
+    }
+  }
+}

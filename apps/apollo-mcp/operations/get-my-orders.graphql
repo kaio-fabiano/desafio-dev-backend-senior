@@ -1,0 +1,13 @@
+query getMyOrders($first: Int, $after: String) {
+  me {
+    orders(first: $first, after: $after) {
+      edges {
+        node {
+          id status paymentMethod wooOrderId
+          items { edges { node { quantity product { id name price } } } pageInfo { hasNextPage endCursor } }
+        }
+      }
+      pageInfo { hasNextPage endCursor }
+    }
+  }
+}

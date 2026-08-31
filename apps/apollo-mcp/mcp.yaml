@@ -1,0 +1,72 @@
+endpoint: http://gateway:3000/graphql
+
+transport:
+  type: streamable_http
+  address: 0.0.0.0
+  port: 8000
+  host_validation:
+    enabled: true
+    allowed_hosts:
+      - apollo-mcp
+      - 172.17.0.1
+  auth:
+    servers:
+      - http://identity.localhost:3001/api/auth
+    audiences:
+      - https://mcp.marketplace.local
+    issuers:
+      - http://identity.localhost:3001/api/auth
+    allow_any_audience: false
+    resource: http://apollo-mcp:8000/mcp
+    scopes:
+      - mcp:tools
+    scope_mode: require_all
+    allow_anonymous_mcp_discovery: false
+    disable_auth_token_passthrough: false
+
+schema:
+  source: local
+  path: /data/schema.graphql
+
+operations:
+  source: local
+  paths:
+    - /data/operations
+
+introspection:
+  execute:
+    enabled: false
+  introspect:
+    enabled: false
+  search:
+    enabled: false
+  validate:
+    enabled: false
+
+overrides:
+  enable_explorer: false
+  mutation_mode: explicit
+  required_scopes:
+    me:
+      - marketplace:read
+    searchProducts:
+      - marketplace:read
+    getProduct:
+      - marketplace:read
+    getMyCart:
+      - cart:read
+    getMyOrders:
+      - orders:read
+    addToCart:
+      - cart:write
+    removeFromCart:
+      - cart:write
+
+health_check:
+  enabled: true
+  path: /health
+  readiness:
+    allowed: 0
+    interval:
+      sampling: 5s
+      unready: 10s

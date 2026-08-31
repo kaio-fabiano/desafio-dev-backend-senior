@@ -1,0 +1,159 @@
+extend schema
+  @link(
+    url: "https://specs.apollo.dev/federation/v2.11"
+    import: ["@inaccessible", "@key", "@shareable"]
+  )
+
+# Normalized publication contract. Runtime fields and resolvers remain owned by
+# WPGraphQL, WPGraphQL for WooCommerce, and wp-graphql-federations.
+interface Product @key(fields: "id") {
+  id: ID!
+  databaseId: Int!
+  name: String
+  sku: String
+  stockQuantity: Int
+}
+
+type SimpleProduct implements Product @key(fields: "id") {
+  id: ID!
+  databaseId: Int!
+  name: String
+  sku: String
+  stockQuantity: Int
+}
+
+type VariableProduct implements Product @key(fields: "id") {
+  id: ID!
+  databaseId: Int!
+  name: String
+  sku: String
+  stockQuantity: Int
+}
+
+type ExternalProduct implements Product @key(fields: "id") {
+  id: ID!
+  databaseId: Int!
+  name: String
+  sku: String
+  stockQuantity: Int
+}
+
+type GroupProduct implements Product @key(fields: "id") {
+  id: ID!
+  databaseId: Int!
+  name: String
+  sku: String
+  stockQuantity: Int
+}
+
+type ProductConnection {
+  nodes: [Product!]!
+  pageInfo: PageInfo!
+}
+
+type Cart {
+  contents: CartItemConnection
+}
+
+type CartItemConnection {
+  nodes: [CartItem!]!
+  pageInfo: PageInfo!
+}
+
+type CartItem {
+  key: ID!
+  quantity: Int!
+  product: Product
+}
+
+type Customer {
+  id: ID!
+  orders(first: Int, after: String): OrderConnection
+}
+
+type Order @key(fields: "id") {
+  id: ID!
+  databaseId: Int!
+  status: OrderStatusEnum
+  transactionId: String
+  metaData: [MetaData]
+}
+
+type MetaData {
+  key: String
+  value: String
+}
+
+type OrderConnection {
+  nodes: [Order!]!
+  pageInfo: PageInfo!
+}
+
+type PageInfo @shareable {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean! @inaccessible
+  startCursor: String @inaccessible
+  endCursor: String
+}
+
+input AddToCartInput {
+  clientMutationId: String
+  productId: Int!
+  quantity: Int
+}
+
+type AddToCartPayload {
+  cart: Cart
+  clientMutationId: String
+}
+
+input CheckoutInput {
+  clientMutationId: String
+  paymentMethod: String
+}
+
+type CheckoutPayload {
+  clientMutationId: String
+  order: Order
+}
+
+enum OrderStatusEnum {
+  COMPLETED
+}
+
+enum OrderIdTypeEnum {
+  DATABASE_ID
+}
+
+input UpdateOrderInput {
+  clientMutationId: String
+  id: ID!
+  status: OrderStatusEnum
+  isPaid: Boolean
+  transactionId: String
+  metaData: [MetaDataInput]
+}
+
+input MetaDataInput {
+  key: String!
+  value: String!
+}
+
+type UpdateOrderPayload {
+  clientMutationId: String
+  order: Order
+}
+
+type Query {
+  products(first: Int, after: String): ProductConnection
+  product(id: ID!): Product
+  cart: Cart
+  customer: Customer
+  order(id: ID!, idType: OrderIdTypeEnum): Order
+}
+
+type Mutation {
+  addToCart(input: AddToCartInput!): AddToCartPayload
+  checkout(input: CheckoutInput!): CheckoutPayload
+  updateOrder(input: UpdateOrderInput!): UpdateOrderPayload
+}

@@ -1,0 +1,330 @@
+x-federated-node-build: &federated-node-build
+  context: .
+  dockerfile_inline: |
+    FROM node:24.19.0-bookworm-slim AS dependencies
+    WORKDIR /workspace
+    RUN corepack enable
+    COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+    RUN pnpm install --config.minimumReleaseAge=0 --frozen-lockfile --prod
+
+    FROM node:24.19.0-bookworm-slim AS runtime
+    WORKDIR /workspace
+    ENV NODE_ENV=production
+    RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home app
+    COPY --from=dependencies --chown=app:app /workspace/node_modules ./node_modules
+    COPY --chown=app:app package.json ./package.json
+    COPY --chown=app:app apps/gateway ./apps/gateway
+    COPY --chown=app:app apps/identity-subgraph ./apps/identity-subgraph
+    COPY --chown=app:app apps/wordpress-federation ./apps/wordpress-federation
+    COPY --chown=app:app libs/contracts/graphql ./libs/contracts/graphql
+    COPY --chown=app:app libs/gateway/nest ./libs/gateway/nest
+    COPY --chown=app:app libs/identity/nest ./libs/identity/nest
+    COPY --chown=app:app libs/wordpress/nest ./libs/wordpress/nest
+    USER app
+
+services:
+  identity-database:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: identity
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d identity']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - identity-database-data:/var/lib/postgresql/data
+
+  payment-database:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: payment
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d payment']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - payment-database-data:/var/lib/postgresql/data
+
+  wordpress-database:
+    image: mariadb:11.8.3
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_ROOT_PASSWORD: wordpress-root
+      MARIADB_USER: wordpress
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    volumes:
+      - wordpress-database-data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6.8.2-php8.3-apache
+    depends_on:
+      wordpress-database:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: wordpress-database
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_CONFIG_EXTRA: |
+        define('DISABLE_WP_CRON', true);
+    healthcheck:
+      test:
+        ['CMD', 'curl', '--fail', '--silent', 'http://127.0.0.1/readme.html']
+      interval: 2s
+      timeout: 2s
+      retries: 60
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      default:
+        aliases:
+          - wordpress-integration
+
+  wordpress-setup:
+    image: wordpress:cli-2.12.0-php8.3
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: wordpress-database
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_USER: wordpress
+    user: '33:33'
+    entrypoint: ['/bin/sh', '-ec']
+    command:
+      - |
+        wp core is-installed || wp core install --url=http://wordpress --title='Marketplace' --admin_user=admin --admin_password=admin-local-only --admin_email=admin@example.test --skip-email
+        wp plugin install https://downloads.wordpress.org/plugin/woocommerce.10.4.3.zip --activate --force
+        wp plugin install https://downloads.wordpress.org/plugin/wp-graphql.2.20.0.zip --activate --force
+        wp plugin install https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip --activate --force
+        wp plugin install https://github.com/AxeWP/wp-graphql-headless-login/releases/download/0.4.4/wp-graphql-headless-login.zip --activate --force
+        wp plugin install https://github.com/Manuel-Antunes/wp-graphql-federations/archive/ac480974ceb6a1680410f955005e060056f150da.zip --force
+        wp plugin activate wp-graphql-federations
+        wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Cash on delivery"}' --format=json
+        wp option update wpgraphql_federation_settings '{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}' --format=json
+        wp option update wpgraphql_login_provider_siteToken '{"isEnabled":true,"clientOptions":{"headerKey":"X-WPGraphQL-Site-Token","secretKey":"wordpress-local-only"},"loginOptions":{"metaKey":"better_auth_user_id"}}' --format=json
+        wp option update wpgraphql_login_access_control '{"shouldBlockUnauthorizedDomains":true,"hasSiteAddressInOrigin":true,"additionalAuthorizedDomains":["http://wordpress"],"customHeaders":[]}' --format=json
+        wp wc webhook list --user=admin --field=delivery_url --format=csv | grep -Fxq 'http://wordpress-federation.local:3004/webhooks/woocommerce/orders' || wp wc webhook create --user=admin --name='WordPress Federation order events' --topic=order.updated --delivery_url='http://wordpress-federation.local:3004/webhooks/woocommerce/orders' --secret='woocommerce-local-only' --status=active
+        wp role create marketplace_vendor 'Marketplace Vendor' || true
+        wp cap add marketplace_vendor read edit_products edit_published_products publish_products
+        wp cap remove marketplace_vendor edit_others_products || true
+        wp user get vendor-alpha || wp user create vendor-alpha vendor-alpha@example.test --role=marketplace_vendor --user_pass=vendor-alpha-local-only
+        wp user get vendor-beta || wp user create vendor-beta vendor-beta@example.test --role=marketplace_vendor --user_pass=vendor-beta-local-only
+        wp post get 1001 >/dev/null 2>&1 || wp post create --post_type=product --post_status=publish --post_title='Alpha product' --import_id=1001
+        wp post meta update 1001 _sku POC-ALPHA
+        wp post meta update 1001 _regular_price 19.90
+        wp post meta update 1001 _price 19.90
+        wp post meta update 1001 _manage_stock yes
+        wp post meta update 1001 _stock 100
+        wp post meta update 1001 _stock_status instock
+        wp post term set 1001 product_type simple --by=slug
+        wp post list --post_type=product --meta_key=_sku --meta_value=POC-BETA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Beta product' --type=simple --regular_price=29.90 --sku=POC-BETA --status=publish
+        wp post list --post_type=product --meta_key=_sku --meta_value=POC-GAMMA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Gamma product' --type=simple --regular_price=39.90 --sku=POC-GAMMA --status=publish
+        wp eval 'global $$wpdb; $$table = $$wpdb->prefix . "woocommerce_api_keys"; $$credentials = [["ck_1111111111111111111111111111111111111111", "cs_1111111111111111111111111111111111111111", "Marketplace identity"], ["ck_2222222222222222222222222222222222222222", "cs_2222222222222222222222222222222222222222", "Marketplace commerce"], ["ck_3333333333333333333333333333333333333333", "cs_3333333333333333333333333333333333333333", "Marketplace stock"]]; foreach ($$credentials as [$$key, $$secret, $$description]) { if (!$$wpdb->get_var($$wpdb->prepare("SELECT key_id FROM {$$table} WHERE consumer_key = %s", wc_api_hash($$key)))) { $$wpdb->insert($$table, ["user_id" => 1, "description" => $$description, "permissions" => "read_write", "consumer_key" => wc_api_hash($$key), "consumer_secret" => $$secret, "truncated_key" => substr($$key, -7), "last_access" => null]); } }'
+        wp rewrite structure '/%postname%/' --hard
+        wp cache flush
+        until wp eval '$$response = wp_remote_get("http://wordpress/wp-json/wc/v3/products/1001", ["headers" => ["Authorization" => "Basic Y2tfMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzpjc18zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMz", "X-Forwarded-Proto" => "https"]]); if (wp_remote_retrieve_response_code($$response) !== 200) { exit(1); }'; do sleep 1; done
+        touch /tmp/wordpress-setup-ready
+        while true; do wp cron event run --due-now || true; sleep 1; done
+    healthcheck:
+      test: ['CMD', 'test', '-f', '/tmp/wordpress-setup-ready']
+      interval: 1s
+      timeout: 1s
+      retries: 300
+      start_period: 30s
+    volumes:
+      - ./apps/wordpress-integration:/integration:ro
+      - wordpress-data:/var/www/html
+
+  gateway:
+    build: *federated-node-build
+    command:
+      ['node', '--experimental-transform-types', 'apps/gateway/src/main.ts']
+    environment:
+      GATEWAY_AUDIENCE: https://gateway.marketplace.local
+      IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
+      OAUTH_ISSUER: http://identity.localhost:3001/api/auth
+      PORT: 3000
+    depends_on:
+      wordpress-federation:
+        condition: service_healthy
+      payment-processor:
+        condition: service_healthy
+      identity-subgraph:
+        condition: service_healthy
+    ports:
+      - '3000'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3000/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  apollo-mcp:
+    build:
+      context: .
+      dockerfile: apps/apollo-mcp/Dockerfile
+    depends_on:
+      gateway:
+        condition: service_healthy
+      identity-subgraph:
+        condition: service_healthy
+    ports:
+      - '${MCP_PORT:-8000}:8000'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          '/bin/wget',
+          '--quiet',
+          '--spider',
+          'http://127.0.0.1:8000/health',
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  identity-subgraph:
+    build: *federated-node-build
+    command:
+      [
+        'node',
+        '--experimental-transform-types',
+        'apps/identity-subgraph/src/main.ts',
+      ]
+    environment:
+      BETTER_AUTH_SECRET: local-development-secret-change-me
+      DATABASE_URL: postgresql://postgres:postgres@identity-database:5432/identity
+      IDENTITY_BASE_URL: http://identity.localhost:3001
+      OAUTH_ISSUER: http://identity.localhost:3001/api/auth
+      PORT: 3001
+      SEED_ADMIN_EMAIL: admin@marketplace.local
+      SEED_ADMIN_PASSWORD: local-e2e-admin-password-change-me
+      WORDPRESS_URL: http://wordpress
+      WOO_CONSUMER_KEY: ck_1111111111111111111111111111111111111111
+      WOO_CONSUMER_SECRET: cs_1111111111111111111111111111111111111111
+    depends_on:
+      identity-database:
+        condition: service_healthy
+      wordpress-setup:
+        condition: service_healthy
+    ports:
+      - '3001'
+    networks:
+      default:
+        aliases:
+          - identity.localhost
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3001/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  payment-processor:
+    build:
+      context: .
+      dockerfile: apps/payment-processor/Dockerfile
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
+      SPRING_DATASOURCE_USERNAME: postgres
+      WORDPRESS_URL: http://wordpress
+      WOO_CONSUMER_KEY: ck_2222222222222222222222222222222222222222
+      WOO_CONSUMER_SECRET: cs_2222222222222222222222222222222222222222
+      WOO_WEBHOOK_DELIVERY_URL: http://wordpress-federation:3004/webhooks/woocommerce/orders
+      WOO_WEBHOOK_SECRET: ${WOO_WEBHOOK_SECRET:-woocommerce-local-only}
+    depends_on:
+      payment-database:
+        condition: service_healthy
+    ports:
+      - '8080'
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'curl --fail --silent http://127.0.0.1:8080/actuator/health',
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+    stop_grace_period: 35s
+
+  wordpress-federation:
+    build: *federated-node-build
+    command:
+      [
+        'node',
+        '--experimental-transform-types',
+        'apps/wordpress-federation/src/main.ts',
+      ]
+    environment:
+      GATEWAY_AUDIENCE: https://gateway.marketplace.local
+      IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
+      OAUTH_ISSUER: http://identity.localhost:3001/api/auth
+      PORT: 3004
+      WPGRAPHQL_ENDPOINT: http://wordpress/graphql
+      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
+      WOO_WEBHOOK_SECRET: ${WOO_WEBHOOK_SECRET:-woocommerce-local-only}
+    depends_on:
+      identity-subgraph:
+        condition: service_healthy
+      wordpress-setup:
+        condition: service_healthy
+    ports:
+      - '3004'
+    networks:
+      default:
+        aliases:
+          - wordpress-federation.local
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('node:net').connect(3004, '127.0.0.1').once('connect', () => process.exit(0)).once('error', () => process.exit(1))",
+        ]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+volumes:
+  identity-database-data:
+  payment-database-data:
+  wordpress-database-data:
+  wordpress-data:
+
+x-retired-runtimes:
+  commerce-subgraph:
+    healthcheck: removed
+    former_woo_consumer_key: ck_2222222222222222222222222222222222222222
+    former_woo_consumer_secret: cs_2222222222222222222222222222222222222222
+  stock-worker:
+    healthcheck: removed
+    former_woo_consumer_key: ck_3333333333333333333333333333333333333333
+    former_woo_consumer_secret: cs_3333333333333333333333333333333333333333

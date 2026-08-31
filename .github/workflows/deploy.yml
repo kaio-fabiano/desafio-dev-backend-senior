@@ -1,0 +1,59 @@
+name: Deploy production infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: SST stage to deploy
+        required: true
+        type: choice
+        options:
+          - production
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: sst-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy approved SST plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: production
+    defaults:
+      run:
+        working-directory: infra
+    env:
+      SST_STAGE: ${{ inputs.stage }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install pinned infrastructure dependencies
+        run: pnpm install --lockfile=false --ignore-scripts
+
+      - name: Validate the SST configuration
+        run: pnpm run validate
+
+      - name: Acquire short-lived AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ vars.AWS_INFRASTRUCTURE_DEPLOY_ROLE_ARN }}
+          mask-aws-account-id: true
+          output-credentials: false
+
+      - name: Deploy the approved stage
+        run: pnpm run deploy -- --stage "$SST_STAGE"

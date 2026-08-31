@@ -1,0 +1,7 @@
+{
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/infra",
+  "projectType": "library",
+  "root": "infra",
+  "tags": ["type:tooling", "scope:delivery"]
+}

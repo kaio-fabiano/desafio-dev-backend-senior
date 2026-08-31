@@ -1,0 +1,158 @@
+type User {
+  id: ID!
+  email: String!
+  orders(first: Int, after: String): OrderConnection!
+}
+
+type SupplierCompany {
+  id: ID!
+  name: String!
+  members: [SupplierMembership!]!
+}
+
+type SupplierMembership {
+  user: User!
+  role: SupplierRole!
+  validFrom: String!
+  validUntil: String
+}
+
+enum SupplierRole {
+  OWNER
+  MANAGER
+}
+
+type Product {
+  id: ID!
+  name: String!
+  price: Float!
+  supplier: SupplierCompany
+}
+
+type Cart {
+  id: ID!
+  items(first: Int, after: String): CartItemConnection!
+}
+
+type CartItem {
+  quantity: Int!
+  product: Product!
+}
+
+type CartItemConnection {
+  edges: [CartItemEdge!]!
+  pageInfo: PageInfo!
+}
+
+type CartItemEdge {
+  node: CartItem!
+}
+
+type Order {
+  id: ID!
+  wooOrderId: ID!
+  status: OrderStatus!
+  paymentMethod: PaymentMethod!
+  items(first: Int, after: String): OrderItemConnection!
+  workflow: OrderWorkflow!
+  pixCode: String
+}
+
+type OrderItem {
+  quantity: Int!
+  product: Product!
+}
+
+type OrderConnection {
+  edges: [OrderEdge!]!
+  pageInfo: PageInfo!
+}
+
+type OrderEdge {
+  node: Order!
+}
+
+type OrderItemConnection {
+  edges: [OrderItemEdge!]!
+  pageInfo: PageInfo!
+}
+
+type OrderItemEdge {
+  node: OrderItem!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum PaymentMethod {
+  PIX
+  CARD
+}
+
+type CheckoutOperation {
+  id: ID!
+  operationKey: ID!
+  status: CheckoutStatus!
+}
+
+type OrderWorkflow {
+  state: WorkflowState!
+}
+
+enum CheckoutStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum WorkflowState {
+  CREATED
+  PAYMENT_PENDING
+  PAYMENT_AUTHORIZED
+  STOCK_PENDING
+  COMPLETED
+  STOCK_FAILED
+  REFUND_PENDING
+  REFUNDED
+  CANCELLED
+  PIX_PENDING
+  PIX_GENERATED
+}
+
+input CheckoutInput {
+  operationKey: ID!
+  paymentMethod: PaymentMethod!
+}
+
+type Query {
+  me: User
+  cart: Cart!
+  product(id: ID!): Product
+  checkout(id: ID!): CheckoutOperation
+}
+
+type Mutation {
+  addToCart(productId: ID!, quantity: Int!): Cart!
+  removeFromCart(productId: ID!, quantity: Int!): Cart!
+  checkout(input: CheckoutInput!): Order!
+}
+
+type Subscription {
+  orderEvents(operationKey: ID!): OrderEvent!
+}
+
+type OrderEvent {
+  operationKey: ID!
+  orderId: ID!
+  state: WorkflowState!
+  pixCode: String
+  eventTime: String!
+}

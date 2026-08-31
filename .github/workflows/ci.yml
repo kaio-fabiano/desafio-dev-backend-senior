@@ -22,7 +22,6 @@ jobs:
       - uses: pnpm/action-setup@v6
         name: Install pnpm
         with:
-          version: 11.13.0
           run_install: false
 
       # This enables task distribution via Nx Cloud
@@ -42,6 +41,36 @@ jobs:
       # Prepend any command with "nx record --" to record its logs to Nx Cloud
       # - run: pnpm exec nx record -- echo Hello World
       - run: pnpm exec nx run-many -t lint test build typecheck
+      - run: pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-4-acceptance
+      - run: pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-5-acceptance
+      - run: pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-6-acceptance
+      - run: docker compose --file compose.yaml config --quiet
+      - run: docker build --file apps/payment-processor/Dockerfile .
+      - run: docker build --file apps/stock-worker/Dockerfile .
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: pnpm exec nx fix-ci
         if: always()
+
+  infra-validate:
+    name: Validate pinned SST infrastructure
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install pinned infrastructure dependencies
+        run: pnpm install --ignore-workspace --lockfile=false --ignore-scripts
+
+      - name: Validate the SST configuration
+        # Install provider typings before type-checking; this does not diff or deploy resources.
+        run: pnpm run validate

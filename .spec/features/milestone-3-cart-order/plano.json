@@ -1,0 +1,237 @@
+{
+  "runId": "desafio-dev-backend-senior-milestone-3-cart-order-mtbmxezv",
+  "feature": "milestone-3-cart-order",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-27 14:45",
+  "branchTrabalho": "spec/milestone-3-cart-order",
+  "baseDir": ".spec/features/milestone-3-cart-order",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ],
+    [
+      "faixa-4",
+      "faixa-5",
+      "faixa-6"
+    ],
+    [
+      "faixa-7"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/milestone-3-cart-order-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-021",
+          "titulo": "Extend the schema-first commerce contract",
+          "modelo": "gpt-5.6-luna",
+          "esforco": "low",
+          "arquivos": [
+            "libs/contracts/graphql/commerce/schema.graphql",
+            "libs/contracts/graphql/catalog/schema.graphql",
+            "libs/contracts/graphql/identity/schema.graphql",
+            "test/milestone-3-commerce-contract.test.mjs"
+          ],
+          "refs": [
+            "US-022",
+            "US-023",
+            "US-025",
+            "AC-033",
+            "AC-034",
+            "AC-035",
+            "AC-037",
+            "AC-040"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/milestone-3-cart-order-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-022",
+          "titulo": "Adapt authenticated WooCommerce cart operations",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "apps/commerce-subgraph/src/cart/woo-cart.port.ts",
+            "apps/commerce-subgraph/src/cart/woo-cart.adapter.ts",
+            "apps/commerce-subgraph/src/cart/cart.service.ts",
+            "test/milestone-3-cart.test.mjs"
+          ],
+          "refs": [
+            "US-022",
+            "AC-033",
+            "AC-034"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/milestone-3-cart-order-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-023",
+          "titulo": "Add MikroORM commerce persistence and migrations",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "package.json",
+            "pnpm-lock.yaml",
+            "apps/commerce-subgraph/src/persistence/mikro-orm.config.ts",
+            "apps/commerce-subgraph/src/persistence/entities/checkout-operation.entity.ts",
+            "apps/commerce-subgraph/src/persistence/entities/order-workflow.entity.ts",
+            "apps/commerce-subgraph/src/persistence/entities/outbox-event.entity.ts",
+            "apps/commerce-subgraph/src/persistence/migrations/Migration202608270001.ts",
+            "test/milestone-3-migrations.test.mjs"
+          ],
+          "refs": [
+            "US-023",
+            "US-024",
+            "AC-035",
+            "AC-036",
+            "AC-037",
+            "AC-038",
+            "AC-039"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-4",
+      "branch": "spec/milestone-3-cart-order-faixa-4",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-faixa-4",
+      "tarefas": [
+        {
+          "id": "T-024",
+          "titulo": "Implement concurrent idempotent checkout and recovery",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/commerce-subgraph/src/checkout/command-hash.ts",
+            "apps/commerce-subgraph/src/checkout/checkout.service.ts",
+            "apps/commerce-subgraph/src/checkout/woo-order.port.ts",
+            "apps/commerce-subgraph/src/checkout/checkout.repository.ts",
+            "apps/commerce-subgraph/src/outbox/outbox.repository.ts",
+            "test/milestone-3-checkout-idempotency.test.mjs",
+            "test/milestone-3-checkout-recovery.test.mjs"
+          ],
+          "refs": [
+            "US-023",
+            "US-024",
+            "AC-035",
+            "AC-036",
+            "AC-037",
+            "AC-038",
+            "AC-039"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-5",
+      "branch": "spec/milestone-3-cart-order-faixa-5",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-faixa-5",
+      "tarefas": [
+        {
+          "id": "T-025",
+          "titulo": "Integrate the idempotent WooCommerce order adapter",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "apps/commerce-subgraph/src/checkout/woo-order.adapter.ts",
+            "apps/poc-wordpress/scripts/probe-checkout.mjs",
+            "test/milestone-3-wordpress-checkout.test.mjs",
+            "docs/adrs/006-woocommerce-idempotent-checkout.md"
+          ],
+          "refs": [
+            "US-023",
+            "US-024",
+            "AC-035",
+            "AC-038"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-6",
+      "branch": "spec/milestone-3-cart-order-faixa-6",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-faixa-6",
+      "tarefas": [
+        {
+          "id": "T-026",
+          "titulo": "Resolve cart, checkout, and workflow through federation",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "apps/commerce-subgraph/src/graphql/commerce.module.ts",
+            "apps/commerce-subgraph/src/graphql/commerce.resolver.ts",
+            "apps/commerce-subgraph/src/app.module.ts",
+            "apps/gateway/src/catalog/order-loader.ts",
+            "apps/gateway/src/catalog/request-metrics.ts",
+            "test/milestone-3-federated-me.test.mjs"
+          ],
+          "refs": [
+            "US-022",
+            "US-025",
+            "AC-033",
+            "AC-040"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-7",
+      "branch": "spec/milestone-3-cart-order-faixa-7",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-3-cart-order-faixa-7",
+      "tarefas": [
+        {
+          "id": "T-027",
+          "titulo": "Assemble the Milestone 3 acceptance gate",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "compose.yaml",
+            "onpspec.config.json",
+            "apps/commerce-subgraph/project.json",
+            "docs/runbooks/milestone-3-cart-order.md",
+            "test/milestone-3-cart-order.test.mjs"
+          ],
+          "refs": [
+            "US-022",
+            "US-023",
+            "US-024",
+            "US-025",
+            "AC-033",
+            "AC-034",
+            "AC-035",
+            "AC-036",
+            "AC-037",
+            "AC-038",
+            "AC-039",
+            "AC-040"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [],
+  "concluidas": [],
+  "avisos": []
+}

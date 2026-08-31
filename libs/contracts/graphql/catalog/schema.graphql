@@ -1,0 +1,69 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key", "@external", "@shareable"])
+
+type Product @key(fields: "id") {
+  id: ID!
+  name: String!
+  price: Float!
+  supplier: SupplierCompany
+}
+
+type Cart @key(fields: "id") {
+  id: ID!
+  items(first: Int, after: String): CartItemConnection!
+}
+
+type CartItem {
+  quantity: Int!
+  product: Product!
+}
+
+type CartItemConnection {
+  edges: [CartItemEdge!]!
+  pageInfo: PageInfo!
+}
+
+type CartItemEdge {
+  node: CartItem!
+}
+
+type SupplierCompany @key(fields: "id") {
+  id: ID!
+}
+
+type Order @key(fields: "id") {
+  id: ID!
+  wooOrderId: ID! @shareable
+  status: OrderStatus!
+  items(first: Int, after: String): OrderItemConnection!
+}
+
+type OrderItem {
+  quantity: Int!
+  product: Product!
+}
+
+type OrderItemConnection {
+  edges: [OrderItemEdge!]!
+  pageInfo: PageInfo!
+}
+
+type OrderItemEdge {
+  node: OrderItem!
+}
+
+type PageInfo @shareable {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+type Query {
+  cart: Cart!
+  product(id: ID!): Product
+}

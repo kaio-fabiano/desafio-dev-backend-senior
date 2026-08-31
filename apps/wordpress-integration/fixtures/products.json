@@ -1,0 +1,34 @@
+{
+  "vendors": [
+    {
+      "username": "vendor-alpha",
+      "email": "vendor-alpha@example.test",
+      "password": "vendor-alpha-local-only"
+    },
+    {
+      "username": "vendor-beta",
+      "email": "vendor-beta@example.test",
+      "password": "vendor-beta-local-only"
+    }
+  ],
+  "products": [
+    {
+      "sku": "POC-ALPHA",
+      "name": "Alpha product",
+      "price": "19.90",
+      "owner": "vendor-alpha"
+    },
+    {
+      "sku": "POC-BETA",
+      "name": "Beta product",
+      "price": "29.90",
+      "owner": "vendor-beta"
+    },
+    {
+      "sku": "POC-GAMMA",
+      "name": "Gamma product",
+      "price": "39.90",
+      "owner": "vendor-beta"
+    }
+  ]
+}

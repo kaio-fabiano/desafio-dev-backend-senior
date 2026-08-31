@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desafio.dev/contracts/events/stock-reserved.v1.schema.json",
+  "title": "Stock reserved event v1",
+  "allOf": [{ "$ref": "envelope.schema.json" }, { "type": "object", "properties": { "eventType": { "const": "stock.reserved" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["orderId", "reservationId"], "properties": { "orderId": { "type": "string", "minLength": 1 }, "reservationId": { "type": "string", "minLength": 1 } } } }, "required": ["payload"] }]
+}

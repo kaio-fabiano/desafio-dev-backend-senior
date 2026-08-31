@@ -20,6 +20,23 @@
           "watchDepsName": "watch-deps"
         }
       }
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": { "targetName": "lint" }
+    },
+    {
+      "plugin": "@nx/gradle",
+      "options": {
+        "buildTargetName": "build",
+        "testTargetName": "test"
+      }
     }
-  ]
+  ],
+  "targetDefaults": {
+    "build": { "dependsOn": ["^build"], "cache": true },
+    "lint": { "cache": true },
+    "test": { "cache": true },
+    "typecheck": { "cache": true }
+  }
 }

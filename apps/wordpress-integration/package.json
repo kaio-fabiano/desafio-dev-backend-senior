@@ -1,0 +1,11 @@
+{
+  "name": "@desafio-dev-backend-senior/wordpress-integration",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install-plugins": "bash scripts/install-plugins.sh",
+    "probe": "node scripts/probe.mjs",
+    "test": "node --test ../../test/marco-0-wordpress.test.mjs"
+  }
+}

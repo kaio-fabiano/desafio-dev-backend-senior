@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desafio.dev/contracts/events/payment-failed.v1.schema.json",
+  "title": "Payment failed event v1",
+  "allOf": [
+    { "$ref": "envelope.schema.json" },
+    { "type": "object", "properties": { "eventType": { "const": "payment.failed" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["paymentId", "reason"], "properties": { "paymentId": { "type": "string", "minLength": 1 }, "reason": { "type": "string", "minLength": 1 } } } }, "required": ["payload"] }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "runId": "desafio-dev-backend-senior-milestone-6-apollo-mcp-mtbu0lzn",
+  "feature": "milestone-6-apollo-mcp",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-27 18:04",
+  "branchTrabalho": "spec/milestone-6-apollo-mcp",
+  "baseDir": ".spec/features/milestone-6-apollo-mcp",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-milestone-6-apollo-mcp-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ],
+    [
+      "faixa-4"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/milestone-6-apollo-mcp-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-6-apollo-mcp-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-041",
+          "titulo": "Define the curated GraphQL operation manifest",
+          "modelo": "gpt-5.6-luna",
+          "esforco": "low",
+          "arquivos": [
+            "apps/apollo-mcp/operations/me.graphql",
+            "apps/apollo-mcp/operations/search-products.graphql",
+            "apps/apollo-mcp/operations/get-product.graphql",
+            "apps/apollo-mcp/operations/get-my-cart.graphql",
+            "apps/apollo-mcp/operations/get-my-orders.graphql",
+            "apps/apollo-mcp/operations/add-to-cart.graphql",
+            "apps/apollo-mcp/operations/remove-from-cart.graphql",
+            "test/milestone-6-mcp-operations.test.mjs"
+          ],
+          "refs": [
+            "US-034",
+            "AC-060",
+            "AC-061"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/milestone-6-apollo-mcp-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-6-apollo-mcp-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-042",
+          "titulo": "Configure the official self-hosted Apollo MCP Server",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/apollo-mcp/mcp.yaml",
+            "apps/apollo-mcp/Dockerfile",
+            "apps/apollo-mcp/project.json",
+            "docs/prds/08-riscos-e-decisoes-pendentes.md",
+            "test/milestone-6-mcp-config.test.mjs"
+          ],
+          "refs": [
+            "US-034",
+            "US-035",
+            "AC-060",
+            "AC-061",
+            "AC-062",
+            "AC-063"
+          ]
+        },
+        {
+          "id": "T-044",
+          "titulo": "Wire Apollo MCP to the gateway and Compose",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "compose.yaml",
+            "apps/gateway/src/main.ts",
+            "apps/apollo-mcp/mcp.yaml",
+            "test/milestone-6-mcp-propagation.test.mjs"
+          ],
+          "refs": [
+            "US-036",
+            "AC-064",
+            "AC-065"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/milestone-6-apollo-mcp-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-6-apollo-mcp-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-043",
+          "titulo": "Seed MCP OAuth resources and scoped client grants",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/identity-subgraph/src/auth/config.ts",
+            "apps/identity-subgraph/src/auth/seed.ts",
+            "apps/poc-auth/src/auth-server.ts",
+            "test/milestone-6-mcp-oauth.test.mjs"
+          ],
+          "refs": [
+            "US-035",
+            "AC-062",
+            "AC-063",
+            "AC-064"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-4",
+      "branch": "spec/milestone-6-apollo-mcp-faixa-4",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-milestone-6-apollo-mcp-faixa-4",
+      "tarefas": [
+        {
+          "id": "T-045",
+          "titulo": "Assemble MCP protocol and parity acceptance",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "package.json",
+            "pnpm-lock.yaml",
+            "apps/poc-harness/project.json",
+            "test/milestone-6-apollo-mcp.test.mjs",
+            "docs/runbooks/milestone-6-apollo-mcp.md",
+            "docs/evidence/mcp/README.md",
+            "onpspec.config.json",
+            ".github/workflows/ci.yml"
+          ],
+          "refs": [
+            "US-034",
+            "US-035",
+            "US-036",
+            "AC-060",
+            "AC-061",
+            "AC-062",
+            "AC-063",
+            "AC-064",
+            "AC-065",
+            "AC-066"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [],
+  "concluidas": [],
+  "avisos": []
+}

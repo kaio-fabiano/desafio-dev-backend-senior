@@ -1,0 +1,8 @@
+query getProduct($productId: ID!) {
+  product(id: $productId) {
+    id
+    name
+    price
+    supplier { id }
+  }
+}

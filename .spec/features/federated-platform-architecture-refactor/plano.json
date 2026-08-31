@@ -1,0 +1,53 @@
+{
+  "runId": "desafio-dev-backend-senior-federated-platform-architecture-refactor-mtgyjqs2",
+  "feature": "federated-platform-architecture-refactor",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-31 08:09",
+  "branchTrabalho": "spec/federated-platform-architecture-refactor",
+  "baseDir": ".spec/features/federated-platform-architecture-refactor",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-federated-platform-architecture-refactor-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-080",
+      "titulo": "Re-run the pull-request gates and merge into main",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        ".spec/verification/federated-platform-architecture-refactor.json",
+        "docs/evidence/federated-platform-refactor/review.md"
+      ],
+      "refs": [
+        "US-052",
+        "AC-103"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-065",
+    "T-066",
+    "T-067",
+    "T-068",
+    "T-069",
+    "T-070",
+    "T-071",
+    "T-072",
+    "T-073",
+    "T-074",
+    "T-075",
+    "T-076",
+    "T-077",
+    "T-078",
+    "T-079"
+  ],
+  "avisos": [
+    "T-080 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
+}

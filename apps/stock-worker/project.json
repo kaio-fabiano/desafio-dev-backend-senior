@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/stock-worker",
+  "projectType": "library",
+  "sourceRoot": "apps/stock-worker/src",
+  "tags": ["type:retired", "scope:inventory"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-8-worker-runtime.test.mjs"
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@desafio-dev-backend-senior/apollo-mcp",
+  "projectType": "application",
+  "root": "apps/apollo-mcp",
+  "tags": ["type:app", "scope:mcp"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --test --test-reporter=tap test/milestone-6-mcp-config.test.mjs"
+      }
+    },
+    "container-smoke": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build --file apps/apollo-mcp/Dockerfile --tag milestone-6-apollo-mcp:acceptance . && docker run --rm milestone-6-apollo-mcp:acceptance --version"
+      }
+    }
+  }
+}
