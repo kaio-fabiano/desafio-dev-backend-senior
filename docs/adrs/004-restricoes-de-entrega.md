@@ -9,14 +9,14 @@
 The challenge README requires SST v3 and historically states a deadline of
 08/07/2026 at 12:00 BRT. The owner subsequently confirmed nine calendar days
 from 2026-08-25, establishing 2026-09-03 as the deadline date. The delivery
-time remains unconfirmed and must not be inferred from the historical value.
+deadline is date-only and must not inherit a time or timezone from the historical value.
 
 ## Decision
 
 Keep SST on the v3 line until the owner explicitly authorizes a migration. The
-confirmed deadline is **2026-09-03**; the time and timezone are pending owner
-confirmation. Do not describe the old 08/07/2026 12:00 BRT timestamp as the
-active deadline.
+confirmed deadline is **2026-09-03**, expressed as a date only. Do not describe
+the old 08/07/2026 12:00 BRT timestamp—or any other time or timezone—as part of
+the active deadline.
 
 The compatibility proofs remain pinned to these evaluated versions or commits:
 
@@ -42,5 +42,5 @@ evidence, and decision, and that this deadline interpretation is explicit.
 ## Consequences
 
 - Dependency upgrades require a new compatibility proof or an explicit ADR update.
-- Scheduling can use 2026-09-03 as the date, but cannot assume a delivery time.
+- Scheduling can use 2026-09-03 as the complete deadline commitment.
 - SST migration remains a product-owner decision, not an implementation detail.

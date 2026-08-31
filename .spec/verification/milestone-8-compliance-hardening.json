@@ -1,11 +1,11 @@
 {
   "feature": "milestone-8-compliance-hardening",
-  "timestamp": "2026-08-31T14:33:11.363Z",
-  "gitRev": "a2a37a3",
+  "timestamp": "2026-08-31T21:49:42.871Z",
+  "gitRev": "57963cf",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 104,
+  "testsParsed": 113,
   "results": {
     "AC-078": {
       "status": "pass",
@@ -49,7 +49,7 @@
     },
     "AC-087": {
       "status": "pass",
-      "testName": "AC-087: review explicitly separates pending runtime evidence @spec:AC-087",
+      "testName": "AC-087: review records completed runtime evidence @spec:AC-087",
       "method": "tap"
     },
     "AC-088": {

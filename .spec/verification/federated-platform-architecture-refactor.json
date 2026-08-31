@@ -1,15 +1,15 @@
 {
   "feature": "federated-platform-architecture-refactor",
-  "timestamp": "2026-08-31T14:16:56.226Z",
-  "gitRev": "a2a37a3",
+  "timestamp": "2026-08-31T21:33:12.974Z",
+  "gitRev": "57963cf",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 104,
+  "testsParsed": 113,
   "results": {
     "AC-090": {
       "status": "pass",
-      "testName": "AC-090: the target contains five deployable applications and one test project @spec:AC-090",
+      "testName": "AC-090: the target contains six deployable applications and one test project @spec:AC-090",
       "method": "tap"
     },
     "AC-091": {
@@ -49,7 +49,7 @@
     },
     "AC-098": {
       "status": "pass",
-      "testName": "AC-098: Commerce and Stock are absent from the active runtime topology @spec:AC-098",
+      "testName": "AC-098: Commerce workflow and Java inventory consumers use the active topology @spec:AC-098",
       "method": "tap"
     },
     "AC-099": {

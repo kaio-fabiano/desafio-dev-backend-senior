@@ -3,11 +3,7 @@
   "feature": "marco-0-pocs",
   "agent": "codex",
   "modo": "paralelo",
-  "paralelizar": [
-    "T-004",
-    "T-005",
-    "T-006"
-  ],
+  "paralelizar": ["T-004", "T-005", "T-006"],
   "modeloForcado": null,
   "esforcoForcado": null,
   "geradoEm": "2026-08-26 14:22",
@@ -16,13 +12,7 @@
   "specDir": ".spec",
   "repoName": "desafio-dev-backend-senior",
   "logsDir": "../onp-worktrees/desafio-dev-backend-senior-marco-0-pocs-logs",
-  "ondas": [
-    [
-      "faixa-1",
-      "faixa-2",
-      "faixa-3"
-    ]
-  ],
+  "ondas": [["faixa-1", "faixa-2", "faixa-3"]],
   "faixas": [
     {
       "id": "faixa-1",
@@ -44,11 +34,7 @@
             "test/marco-0-sse.test.mjs",
             "docs/adrs/001-graphql-sse-federado.md"
           ],
-          "refs": [
-            "US-005",
-            "AC-009",
-            "AC-010"
-          ]
+          "refs": ["US-005", "AC-009", "AC-010"]
         }
       ]
     },
@@ -72,11 +58,7 @@
             "test/marco-0-auth.test.mjs",
             "docs/adrs/002-oauth-multi-resource.md"
           ],
-          "refs": [
-            "US-006",
-            "AC-011",
-            "AC-012"
-          ]
+          "refs": ["US-006", "AC-011", "AC-012"]
         }
       ]
     },
@@ -100,11 +82,7 @@
             "test/marco-0-wordpress.test.mjs",
             "docs/adrs/003-wordpress-federation.md"
           ],
-          "refs": [
-            "US-007",
-            "AC-013",
-            "AC-014"
-          ]
+          "refs": ["US-007", "AC-013", "AC-014"]
         }
       ]
     }
@@ -121,15 +99,9 @@
         "docs/prds/08-riscos-e-decisoes-pendentes.md",
         "test/marco-0-decisions.test.mjs"
       ],
-      "refs": [
-        "US-008",
-        "AC-015",
-        "AC-016"
-      ]
+      "refs": ["US-008", "AC-015", "AC-016"]
     }
   ],
-  "concluidas": [
-    "T-003"
-  ],
+  "concluidas": ["T-003"],
   "avisos": []
 }

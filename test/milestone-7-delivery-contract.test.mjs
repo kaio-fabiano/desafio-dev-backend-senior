@@ -5,7 +5,7 @@ import { test } from 'node:test';
 const matrix = await readFile('docs/evidence/milestone-7/requirements.md', 'utf8');
 const criteria = matrix
   .split('\n')
-  .filter((line) => /^\| AC-\d{3} \|/.test(line))
+  .filter((line) => /^\|\s*AC-\d{3}\s*\|/.test(line))
   .map((line) => {
     const [, id, requirement, evidence] = line.split('|');
     return [id.trim(), requirement.trim(), evidence.trim()];

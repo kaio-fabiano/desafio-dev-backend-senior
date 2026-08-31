@@ -7,17 +7,17 @@ updated: 2026-08-30
 
 This is the Obsidian memory entry point.
 
-The delivered topology has five deployable applications: Apollo MCP, Gateway,
-Identity Federation, Payment Federation, and WordPress Federation. The E2E
-project is an executable proof project, not a sixth runtime. The canonical
+The delivered topology has six deployable applications: Apollo MCP, Gateway,
+Identity Federation, Commerce Federation, Payment Federation, and WordPress
+Federation. The E2E project is an executable proof project, not a runtime. The canonical
 decision-to-test matrix is the [federated platform architecture
 review](../evidence/federated-platform-refactor/review.md).
 
-WordPress Federation contains no commercial WordPress implementation. It
-exchanges verified identities through WPGraphQL Headless Login, delegates the
-commercial graph to WooGraphQL, and converts signed WooCommerce order webhooks
-to the authenticated GraphQL-over-SSE stream. Payment alone uses WooCommerce
-REST credentials for paid-state transitions.
+WordPress Federation delegates the commercial graph to installed plugins.
+Commerce owns durable workflow and RabbitMQ delivery, while Payment Federation
+hosts payment and inventory consumers; inventory reaches WooCommerce through
+the federated WordPress GraphQL contract. Gateway exposes the authenticated
+GraphQL-over-SSE edge.
 
 ## Core
 

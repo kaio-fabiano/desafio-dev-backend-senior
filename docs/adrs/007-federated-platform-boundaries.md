@@ -6,11 +6,10 @@
 
 ## Context
 
-The milestone implementation proved the marketplace journey, but its runtime
-layout is not the target architecture. The gateway currently owns loaders and a
-subscription proxy, a Commerce application duplicates part of WooCommerce, and
-a Stock worker moves native inventory behavior into another process. Bootstrap
-files also construct infrastructure that should be owned by NestJS or Spring.
+The platform keeps WooCommerce as the commercial authority while satisfying
+the challenge's mandatory asynchronous checkout. Commerce therefore owns only
+workflow durability and event delivery, and inventory stays inside the Java
+Payment Federation rather than becoming another deployment.
 
 The refactor keeps the observable journey while assigning each business fact to
 one bounded context. This ADR is the canonical target for the project graph;
@@ -21,7 +20,7 @@ their respective areas.
 
 ## Decision
 
-The platform has five deployable applications. The end-to-end project remains
+The platform has six deployable applications. The end-to-end project remains
 in the Nx graph but is not deployed. The JSON block below is an executable
 architecture contract consumed by `test/federated-platform-refactor.test.mjs`.
 
@@ -33,11 +32,12 @@ architecture contract consumed by `test/federated-platform-refactor.test.mjs`.
     { "name": "Apollo MCP", "path": "apps/apollo-mcp" },
     { "name": "Gateway", "path": "apps/gateway" },
     { "name": "Identity Federation", "path": "apps/identity-subgraph" },
+    { "name": "Commerce Federation", "path": "apps/commerce-subgraph" },
     { "name": "Payment Federation", "path": "apps/payment-processor" },
     { "name": "WordPress Federation", "path": "apps/wordpress-federation" }
   ],
   "nonDeployableProjects": [{ "name": "End-to-end tests", "path": "apps/e2e" }],
-  "retiredApplications": ["apps/commerce-subgraph", "apps/stock-worker"]
+  "retiredApplications": ["apps/stock-worker"]
 }
 ```
 
@@ -54,7 +54,8 @@ additional deployable application. A catalog fallback is not part of the target.
 | Apollo MCP           | Authenticated MCP tools backed by registered graph operations                          | MCP SDK configuration and a Gateway client                                  | Domain state, direct subgraph clients, or persistence                            |
 | Gateway              | Verify identity, propagate safe context, and execute the composed query/mutation graph | NestJS providers for authentication and Apollo Gateway                      | Catalog/order loaders, repositories, commerce clients, or subscription transport |
 | Identity Federation  | Identity, sessions, OAuth, registration, and identity-owned graph fields               | `NestJSBetterAuth`, injectable plugin factories, and Identity resolvers     | A second mapping or repository for Better Auth records                           |
-| Payment Federation   | Payment commands, invariants, idempotency, payment views, and payment graph fields     | Spring configuration, command/query handlers, and Spring GraphQL Federation | WooCommerce order, cart, catalog, or inventory state                             |
+| Commerce Federation  | Checkout idempotency, workflow state, outbox/inbox, and order-event publication        | NestJS application services, PostgreSQL, and RabbitMQ adapters              | Authoritative product, cart, order, or inventory records                         |
+| Payment Federation   | Payment invariants plus internal payment and inventory event reactions                 | Spring GraphQL Federation, AMQP listeners, and application services         | Authoritative WooCommerce product, cart, or order records                        |
 | WordPress Federation | Product, cart, order, customer, inventory, and order-subscription capabilities         | Thin NestJS delegation to WPGraphQL/WooGraphQL and a `graphql-sse` endpoint | Duplicate commercial repositories, loaders, or CRUD models                       |
 
 WordPress/MySQL remains the commercial system of record. Better Auth remains the
@@ -86,8 +87,9 @@ they do not assemble infrastructure graphs manually.
 
 ## Deliberately omitted abstractions
 
-- No Commerce subgraph or Stock worker remains. Native WooCommerce capabilities
-  own cart, order, and inventory behavior.
+- No separate Stock worker remains. The Java deployment separates payment and
+  inventory application services internally, while WooCommerce remains the
+  inventory authority through WordPress Federation GraphQL.
 - No generic DDD framework, repository base class, service hierarchy, command
   bus, event sourcing platform, or distributed command bus is introduced.
 - No gateway DataLoader, business client, repository, or subscription proxy is
@@ -96,16 +98,15 @@ they do not assemble infrastructure graphs manually.
   already supplies the capability.
 - No Identity MikroORM mapping mirrors Better Auth. Add first-party persistence
   only if a future identity-owned model is proved by a failing requirement.
-- RabbitMQ, an outbox, and a generic distributed saga are not target components.
-  Introduce a specific asynchronous integration only after executable evidence
-  shows that synchronous owner APIs and native WooCommerce transitions are
-  insufficient.
+- RabbitMQ and the Commerce transactional outbox implement the specific
+  choreographed saga required by the challenge; no generic saga framework or
+  additional worker deployment is introduced.
 
 ## Quality gates and executable evidence
 
 | Decision                          | Enforced rule                                                                                             | Evidence                                                                                                       |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Runtime inventory                 | Exactly the five deployables and the non-deployable E2E project are allowed                               | `test/federated-platform-refactor.test.mjs`, then `test/five-app-topology.test.mjs` after migration            |
+| Runtime inventory                 | Exactly the six deployables and the non-deployable E2E project are allowed                                | `test/federated-platform-refactor.test.mjs` and `test/five-app-topology.test.mjs`                              |
 | Provider boundary                 | Frameworks compose adapters; bootstrap and core layers do not construct infrastructure                    | `test/architecture-boundaries.test.mjs` plus the Identity, Gateway, WordPress, and subscription refactor tests |
 | Domain decision                   | Commercial state belongs to WordPress; payment invariants belong to Payment; Better Auth owns its records | `test/architecture-boundaries.test.mjs` plus focused federation tests                                          |
 | Deliberately omitted abstractions | The omissions above stay absent unless a failing acceptance test justifies one                            | `test/federated-platform-refactor.test.mjs` and the final architecture review                                  |

@@ -59,14 +59,14 @@ static schema composition.
 
 ## Test pyramid
 
-| Level | Focus |
-|---|---|
-| Unit | Order and Payment invariants, transitions, and cursors |
-| Integration | real repositories, Better Auth, outbox/inbox, Woo adapter |
-| Contract | versioned SDL and events; cross-domain operations through the gateway |
-| Composition | Rover and reference resolvers |
-| E2E | complete journey from section 15, exclusively through the public gateway/MCP |
-| Load | gateway P95 and absence of N+1 |
+| Level       | Focus                                                                        |
+| ----------- | ---------------------------------------------------------------------------- |
+| Unit        | Order and Payment invariants, transitions, and cursors                       |
+| Integration | real repositories, Better Auth, outbox/inbox, Woo adapter                    |
+| Contract    | versioned SDL and events; cross-domain operations through the gateway        |
+| Composition | Rover and reference resolvers                                                |
+| E2E         | complete journey from section 15, exclusively through the public gateway/MCP |
+| Load        | gateway P95 and absence of N+1                                               |
 
 Coverage ≥ 70% is the floor for critical domains, not a target for glue code.
 

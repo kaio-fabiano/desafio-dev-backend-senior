@@ -29,11 +29,7 @@
         "infra/sst.config.ts",
         "test"
       ],
-      "refs": [
-        "US-053",
-        "AC-104",
-        "AC-105"
-      ]
+      "refs": ["US-053", "AC-104", "AC-105"]
     },
     {
       "id": "T-082",
@@ -48,12 +44,7 @@
         "test/retired-applications-removal.test.mjs",
         ".spec/verification/remove-retired-applications.json"
       ],
-      "refs": [
-        "US-053",
-        "AC-104",
-        "AC-105",
-        "AC-106"
-      ]
+      "refs": ["US-053", "AC-104", "AC-105", "AC-106"]
     }
   ],
   "concluidas": [],

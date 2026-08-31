@@ -7,6 +7,7 @@
 > must proceed without requesting this confirmation again.
 
 ## T-065 — Lock the target architecture and executable boundaries [concluida]
+
 - Refs: US-046, AC-090, AC-091, US-052, AC-103
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -14,6 +15,7 @@
 - Notas: Update stale planning before implementation. Encode allowed deployables and dependency directions without prescribing folder ceremony.
 
 ## T-066 — Extract NestJS composition libraries and provider contracts [concluida]
+
 - Refs: US-047, AC-092, US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
@@ -21,6 +23,7 @@
 - Notas: Add only providers shared by at least two NestJS applications. Do not create generic base services, repositories, or speculative factories.
 
 ## T-067 — Refactor Identity Federation around NestJSBetterAuth providers [concluida]
+
 - Refs: US-047, AC-092, AC-093, AC-094, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -28,6 +31,7 @@
 - Notas: Use the installed `@thallesp/nestjs-better-auth` integration and its documented handler. Remove direct Pool construction, manual HTTP bridging, closure-based adapters, and the custom PostgreSQL user repository only after equivalent tests exist.
 
 ## T-068 — Reduce Gateway to authenticated federation composition [concluida]
+
 - Refs: US-048, AC-095, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -35,6 +39,7 @@
 - Notas: Remove catalog/order loaders and subscription proxy from the gateway. Authentication and safe identity propagation remain providers because they are edge responsibilities.
 
 ## T-069 — Build the thin WordPress Federation adapter [concluida]
+
 - Refs: US-049, AC-097, AC-098, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -42,6 +47,7 @@
 - Notas: Start with WPGraphQL, WPGraphQL for WooCommerce, and federation plugin capabilities. Evaluate an established schema delegation library before custom remote execution. The NestJS adapter must not duplicate WPGraphQL loaders, Model Layer authorization, commercial repositories, or WooCommerce CRUD objects.
 
 ## T-070 — Refactor Payment as a Spring GraphQL Federation bounded context [concluida]
+
 - Refs: US-050, AC-099, AC-100, AC-101, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -49,13 +55,15 @@
 - Notas: Use Spring GraphQL Federation support before custom federation code. Keep CQRS lightweight: explicit command/query handlers, no Axon or event sourcing.
 
 ## T-071 — Move order subscriptions outside the federation gateway [concluida]
+
 - Refs: US-051, AC-102, US-048, AC-095
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Arquivos: libs/wordpress/nest/src/subscriptions/order-event.resolver.ts, libs/wordpress/nest/src/subscriptions/order-event.service.ts, libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts, libs/wordpress/nest/src/subscriptions/graphql-sse.adapter.ts, libs/wordpress/nest/src/subscriptions/subscriptions.module.ts, libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, libs/wordpress/nest/src/federation/wordpress-federation.module.ts, libs/wordpress/nest/src/index.ts, test/order-subscription-refactor.test.mjs
 - Notas: Preserve GraphQL-over-SSE. After Nest initialization, obtain the executable Apollo schema through `GraphQLSchemaHost` and pass the same instance to the official `graphql-sse` handler. Do not rebuild or fetch a second schema, and do not proxy the stream through the gateway.
 
-## T-072 — Integrate the five-app topology and retire obsolete runtimes [concluida]
+## T-072 — Integrate the federated topology and retire the Stock runtime [concluida]
+
 - Refs: US-046, AC-090, US-049, AC-098, US-050, AC-099
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -63,6 +71,7 @@
 - Notas: Run after T-067 through T-071. Rename projects only where the migration remains reviewable; remove Commerce/Stock and MikroORM dependencies only after replacement acceptance tests pass.
 
 ## T-073 — Prove quality and document the architecture walkthrough [concluida]
+
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -70,6 +79,7 @@
 - Notas: Run last. Explain DDD boundaries, selective CQRS, DI/provider composition, federation ownership, omitted MikroORM, and why existing libraries were selected before custom code.
 
 ## T-074 — Replace the custom WordPress identity bridge with standard session exchange [concluida]
+
 - Refs: US-048, AC-096, US-049, AC-097
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -77,6 +87,7 @@
 - Notas: Install and pin WPGraphQL Headless Login, configure Better Auth as the sole OAuth/OIDC provider, and use the plugin-issued WordPress/WooCommerce session instead of custom HMAC identity headers. Preserve independent WordPress authorization and never expose the Site Token to clients.
 
 ## T-075 — Replace custom order and payment GraphQL operations with native owner APIs [concluida]
+
 - Refs: US-049, AC-097, AC-098, US-050, AC-100, AC-101
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -84,6 +95,7 @@
 - Notas: Use WooGraphQL checkout/order fields for buyer operations and the authenticated WooCommerce REST owner API for service-side payment transitions. Buyers must never be able to mark their own order paid. Keep Payment idempotency in the Payment bounded context.
 
 ## T-076 — Feed order subscriptions from native WooCommerce webhooks [concluida]
+
 - Refs: US-051, AC-102, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -91,6 +103,7 @@
 - Notas: Configure a signed native WooCommerce order webhook to an internal NestJS endpoint and publish authorized GraphQL-over-SSE events from it. Remove coupling to custom mutation names and preserve cleanup, isolation, and terminal-event semantics.
 
 ## T-077 — Delete the marketplace MU-plugin and prove the plugin-first topology [concluida]
+
 - Refs: US-049, AC-097, AC-098, US-052, AC-103
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -98,6 +111,7 @@
 - Notas: Remove the custom GraphQL types, order/payment mutations, identity filter, API-key authentication, and inventory route. Prove that WPGraphQL, WooGraphQL, WPGraphQL Federations, Headless Login, WooCommerce REST, and native webhooks cover every retained capability.
 
 ## T-078 — Re-run acceptance and publish the native-plugin walkthrough [concluida]
+
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
@@ -105,6 +119,7 @@
 - Notas: Run after T-074 through T-077. Document the OIDC login exchange, native WooGraphQL and REST ownership, webhook-to-SSE path, removed custom PHP, and final executable evidence.
 
 ## T-079 — Restore clean-install TypeScript and Nx boundary compliance [concluida]
+
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
@@ -112,6 +127,7 @@
 - Notas: Add only the missing installed type declaration and replace cross-project relative imports with the existing workspace-scoped package entry points. Do not weaken Nx boundary rules or TypeScript strictness.
 
 ## T-080 — Re-run the pull-request gates and merge into main [concluida]
+
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-luna
 - Esforço: baixo

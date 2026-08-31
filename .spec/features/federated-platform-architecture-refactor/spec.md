@@ -12,10 +12,11 @@ Auth persistence access, the gateway contains catalog loaders and a subscription
 proxy, and commerce/payment/inventory responsibilities are split across more
 runtimes than the intended federated architecture.
 
-This refactor preserves the proven behavior while converging on five deployable
-applications: Apollo MCP, Gateway, Identity Federation, Payment Federation, and
-WordPress Federation. Domain logic belongs to the context that owns it; NestJS
-and Spring dependency injection compose providers at the application boundary.
+This refactor preserves the proven behavior with six deployable applications:
+Apollo MCP, Gateway, Identity Federation, Commerce Federation, Payment
+Federation, and WordPress Federation. Commerce owns only durable workflow and
+messaging; WooCommerce remains authoritative and Payment Federation contains
+the inventory reaction without a separate Stock deployment.
 
 ## User stories
 
@@ -28,7 +29,7 @@ responsibility so that I can understand why the technology and boundary exist.
 
 - **Dado** the refactored Nx project graph
 - **Quando** deployable applications are enumerated
-- **Então** only Apollo MCP, Gateway, Identity Federation, Payment Federation, WordPress Federation, and the end-to-end test project remain
+- **Então** only Apollo MCP, Gateway, Identity Federation, Commerce Federation, Payment Federation, WordPress Federation, and the end-to-end test project remain
 
 #### AC-091 — Architectural dependencies follow context boundaries
 
@@ -69,7 +70,7 @@ that the gateway composes subgraphs without owning business data or query logic.
 
 - **Dado** the Gateway module and request pipeline
 - **Quando** a federated request is processed
-- **Então** the gateway verifies identity, propagates authenticated context, composes the supergraph, and contains no catalog loader, business repository, commerce client, or subscription proxy
+- **Então** the gateway verifies identity, propagates authenticated context, composes the supergraph, and exposes the authenticated SSE transport without owning catalog loaders, business repositories, or commerce orchestration
 
 #### AC-096 — Subgraphs enforce sensitive authorization
 
@@ -89,11 +90,11 @@ not maintain competing commercial models.
 - **Quando** the WordPress subgraph SDL is published and composed
 - **Então** native product, cart, order, customer, and inventory capabilities are reused and only tested capability gaps receive custom plugin code
 
-#### AC-098 — Commerce and stock runtimes are retired safely
+#### AC-098 — Commerce workflow and inventory use the required boundaries
 
 - **Dado** checkout, inventory, and order status acceptance scenarios
 - **Quando** they execute through the composed graph
-- **Então** their observable behavior is provided by WordPress Federation and Payment Federation without deploying the former Commerce subgraph or Stock worker
+- **Então** Commerce provides only workflow/outbox behavior, Payment Federation owns the internal inventory reaction, WooCommerce remains authoritative through federated GraphQL, and no Stock worker is deployed
 
 ### US-050 — Spring Payment federation with focused DDD and CQRS
 
@@ -154,16 +155,16 @@ defended.
 
 ## Suposições
 
-| ID | Assumption | Status | Resolution |
-|---|---|---|---|
-| ASM-032 | The accepted final topology contains Apollo MCP, Gateway, Identity Federation, Payment Federation, and WordPress Federation; Commerce and Stock are retired. | confirmada | Confirmed by the user before this specification was created. |
-| ASM-033 | WordPress Federation remains plugin-first; a NestJS wrapper is allowed only after a failing compatibility test proves a gap. | invalidada | The user selected a thin NestJS WordPress Federation application after requesting validation against the official WPGraphQL documentation. Native WPGraphQL and WooGraphQL behavior must still be delegated rather than reimplemented. |
-| ASM-034 | Better Auth remains the sole owner of its internal persistence schema and no Identity MikroORM model mirrors it. | confirmada | Confirmed by the accepted architecture direction. |
-| ASM-035 | CQRS is applied to behavior-rich Payment use cases and other contexts only when separate read/write paths reduce real complexity. | confirmada | Confirmed by the accepted selective-CQRS direction. |
+| ID      | Assumption                                                                                                                                                                            | Status     | Resolution                                                                                                                                                                                                                             |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ASM-032 | The accepted final topology contains Apollo MCP, Gateway, Identity Federation, Commerce Federation, Payment Federation, and WordPress Federation; Stock is not a separate deployment. | confirmada | The challenge audit restored mandatory RabbitMQ choreography, and the owner confirmed inventory belongs inside the Java Payment Federation.                                                                                            |
+| ASM-033 | WordPress Federation remains plugin-first; a NestJS wrapper is allowed only after a failing compatibility test proves a gap.                                                          | invalidada | The user selected a thin NestJS WordPress Federation application after requesting validation against the official WPGraphQL documentation. Native WPGraphQL and WooGraphQL behavior must still be delegated rather than reimplemented. |
+| ASM-034 | Better Auth remains the sole owner of its internal persistence schema and no Identity MikroORM model mirrors it.                                                                      | confirmada | Confirmed by the accepted architecture direction.                                                                                                                                                                                      |
+| ASM-035 | CQRS is applied to behavior-rich Payment use cases and other contexts only when separate read/write paths reduce real complexity.                                                     | confirmada | Confirmed by the accepted selective-CQRS direction.                                                                                                                                                                                    |
 
 ## Perguntas em aberto
 
-| ID | Question | Status | Answer |
-|---|---|---|---|
-| Q-004 | Should the NestJS-managed order subscription preserve the challenge's GraphQL-over-SSE transport, or adopt the `graphql-ws` transport demonstrated by the NestJS subscription documentation? | respondida | Preserve GraphQL-over-SSE. Reuse the executable schema created by NestJS Apollo through `GraphQLSchemaHost` and attach the official `graphql-sse` handler after application initialization. |
-| Q-005 | Is WordPress Federation a NestJS application that delegates native WPGraphQL/WooGraphQL capabilities and owns the subscription endpoint, or is WordPress itself the direct federated subgraph? | respondida | Use a thin NestJS WordPress Federation application that delegates native WPGraphQL/WooGraphQL capabilities and owns the subscription endpoint. |
+| ID    | Question                                                                                                                                                                                       | Status     | Answer                                                                                                                                                                                      |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q-004 | Should the NestJS-managed order subscription preserve the challenge's GraphQL-over-SSE transport, or adopt the `graphql-ws` transport demonstrated by the NestJS subscription documentation?   | respondida | Preserve GraphQL-over-SSE. Reuse the executable schema created by NestJS Apollo through `GraphQLSchemaHost` and attach the official `graphql-sse` handler after application initialization. |
+| Q-005 | Is WordPress Federation a NestJS application that delegates native WPGraphQL/WooGraphQL capabilities and owns the subscription endpoint, or is WordPress itself the direct federated subgraph? | respondida | Use a thin NestJS WordPress Federation application that delegates native WPGraphQL/WooGraphQL capabilities and owns the subscription endpoint.                                              |

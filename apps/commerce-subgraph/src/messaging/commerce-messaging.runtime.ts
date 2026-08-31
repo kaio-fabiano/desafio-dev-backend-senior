@@ -1,8 +1,8 @@
 import type { EntityManager, MikroORM } from '@mikro-orm/core';
 
 import { MikroOrmInboxRepository } from '../inbox/inbox.repository.ts';
-import { MikroOrmOutboxRepository } from '../outbox/outbox.repository.ts';
 import { OutboxPublisher } from '../outbox/outbox.publisher.ts';
+import { MikroOrmOutboxRepository } from '../outbox/outbox.repository.ts';
 import {
   MikroOrmOrderSagaRepository,
   OrderEventConsumer,
@@ -10,13 +10,13 @@ import {
 import type { OrderSagaEvent } from '../saga/order-saga.ts';
 import { OrderEventBroker } from '../subscriptions/order-event-broker.ts';
 import { OrderTransitionPublisher } from '../subscriptions/order-transition.publisher.ts';
+import type { OrderWorkflowTransitionedEvent } from './rabbitmq.ts';
 import {
   ConfirmedRabbitMqPublisher,
   connectRabbitMq,
   consumeWithRetry,
   declareConsumerQueue,
 } from './rabbitmq.ts';
-import type { OrderWorkflowTransitionedEvent } from './rabbitmq.ts';
 
 export const COMMERCE_QUEUE = 'commerce-subgraph.v1';
 export const COMMERCE_EVENT_ROUTING_KEYS = [
@@ -95,7 +95,7 @@ export async function startCommerceMessaging({
           component: 'commerce-subgraph',
           eventId: event.eventId,
           eventType: event.eventType,
-          operationKey: event.operationKey,
+          operationKey: event.payload.operationKey,
           status: 'received',
         }),
       );
@@ -106,7 +106,7 @@ export async function startCommerceMessaging({
             component: 'commerce-subgraph',
             eventId: event.eventId,
             eventType: event.eventType,
-            operationKey: event.operationKey,
+            operationKey: event.payload.operationKey,
             outcome: result.outcome,
             status: 'completed',
           }),
@@ -117,7 +117,7 @@ export async function startCommerceMessaging({
             component: 'commerce-subgraph',
             eventId: event.eventId,
             eventType: event.eventType,
-            operationKey: event.operationKey,
+            operationKey: event.payload.operationKey,
             error: error instanceof Error ? error.message : 'unknown error',
             status: 'failed',
           }),

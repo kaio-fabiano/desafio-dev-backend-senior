@@ -11,15 +11,15 @@
 
 ## Ordem de execução (uma tarefa após a outra)
 
-| tarefa | título | modelo | esforço |
-|---|---|---|---|
-| T-085 | Encode the immutable challenge compliance gate | `gpt-5.6-luna` | low |
-| T-086 | Restore durable checkout and RabbitMQ choreography | `gpt-5.6-sol` | high |
-| T-087 | Reactivate the Java Payment Federation event runtime | `gpt-5.6-sol` | high |
-| T-088 | Add inventory reaction and compensation to Payment Federation | `gpt-5.6-sol` | high |
-| T-089 | Repair the complete Testcontainers acceptance journey | `gpt-5.6-sol` | high |
-| T-090 | Add optional end-to-end observability | `gpt-5.6-sol` | high |
-| T-091 | Reconcile documentation and close every gate | `gpt-5.6-terra` | medium |
+| tarefa | título                                                        | modelo          | esforço |
+| ------ | ------------------------------------------------------------- | --------------- | ------- |
+| T-085  | Encode the immutable challenge compliance gate                | `gpt-5.6-luna`  | low     |
+| T-086  | Restore durable checkout and RabbitMQ choreography            | `gpt-5.6-sol`   | high    |
+| T-087  | Reactivate the Java Payment Federation event runtime          | `gpt-5.6-sol`   | high    |
+| T-088  | Add inventory reaction and compensation to Payment Federation | `gpt-5.6-sol`   | high    |
+| T-089  | Repair the complete Testcontainers acceptance journey         | `gpt-5.6-sol`   | high    |
+| T-090  | Add optional end-to-end observability                         | `gpt-5.6-sol`   | high    |
+| T-091  | Reconcile documentation and close every gate                  | `gpt-5.6-terra` | medium  |
 
 ## Gestão de branches e commits
 

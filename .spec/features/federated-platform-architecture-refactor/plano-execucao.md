@@ -15,9 +15,9 @@
 
 ## Ordem de execução (uma tarefa após a outra)
 
-| tarefa | título | modelo | esforço |
-|---|---|---|---|
-| T-080 | Re-run the pull-request gates and merge into main | `gpt-5.6-luna` | low |
+| tarefa | título                                            | modelo         | esforço |
+| ------ | ------------------------------------------------- | -------------- | ------- |
+| T-080  | Re-run the pull-request gates and merge into main | `gpt-5.6-luna` | low     |
 
 ## Gestão de branches e commits
 
@@ -56,4 +56,3 @@ final, o usuário recebe o resumo completo da execução. A qualquer momento:
 onp-spec resumo federated-platform-architecture-refactor --tabela   # a tabela de andamento
 onp-spec resumo federated-platform-architecture-refactor            # o resumo em texto
 ```
-

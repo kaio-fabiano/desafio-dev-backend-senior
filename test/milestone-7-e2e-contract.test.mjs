@@ -125,6 +125,22 @@ test('AC-069: batched GraphQL SSE frames still expose the terminal event @spec:A
   });
 });
 
+test('AC-114: acceptance proves the complete public buyer contract @spec:AC-114', () => {
+  for (const assertion of [
+    /cardRetry/,
+    /compensation/,
+    /meOrdersAndProducts/,
+    /rejectionStatuses/,
+    /'PIX'/,
+  ]) {
+    assert.match(journey, assertion);
+  }
+  assert.match(acceptance, /proof\.mcp/);
+  assert.match(environment, /rabbitmq/);
+  assert.match(environment, /payment-processor/);
+  assert.doesNotMatch(journey, /recordPixPaymentV1|recordCardPaymentV1/);
+});
+
 test('AC-071: OAuth grants carry forward rotated signed cookies @spec:AC-071', () => {
   const response = new Response(null, {
     headers: [

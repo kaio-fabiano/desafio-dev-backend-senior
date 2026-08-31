@@ -2,7 +2,7 @@
 
 ## Expected outcome
 
-The platform converges on the five deployable applications fixed by
+The platform converges on the six deployable applications fixed by
 [ADR 007](../adrs/007-federated-platform-boundaries.md). Each process has one
 business responsibility, native products keep authority over their data, and
 framework code stays outside domain and application code.
@@ -26,6 +26,7 @@ framework code stays outside domain and application code.
 | ---------- | --------------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------- |
 | Identity   | Authentication, OAuth, registration, sessions, and identity graph fields    | Better Auth schema in PostgreSQL                         | Identity Federation    |
 | Commercial | Catalog, cart, checkout, orders, customers, stock, and order transitions    | WordPress/WooCommerce in MySQL                           | WordPress Federation   |
+| Workflow   | Checkout idempotency, outbox/inbox, and event delivery                      | Workflow state in PostgreSQL                             | Commerce Federation    |
 | Payment    | Authorization, Pix generation, compensation, idempotency, and payment views | Payment aggregate and dedicated projection in PostgreSQL | Payment Federation     |
 | Edge       | Authenticated graph composition and MCP operations                          | No domain persistence                                    | Gateway and Apollo MCP |
 
@@ -39,13 +40,14 @@ apps/
 ├── apollo-mcp/              authenticated MCP operations through Gateway
 ├── gateway/                 authenticated query/mutation federation edge
 ├── identity-subgraph/       Identity Federation with Better Auth
+├── commerce-subgraph/       durable checkout workflow and RabbitMQ boundary
 ├── payment-processor/       Payment Federation with Java 21 and Spring Boot
 ├── wordpress-federation/    thin WPGraphQL/WooGraphQL and SSE boundary
 └── e2e/                     non-deployable Vitest/Testcontainers project
 ```
 
-`apps/commerce-subgraph` and `apps/stock-worker` are retired after replacement
-acceptance tests pass. `apps/wordpress-integration` retains only reproducible
+`apps/stock-worker` is retired; its inventory reaction is an internal Payment
+Federation service. `apps/wordpress-integration` retains only reproducible
 WordPress infrastructure assets and is not a deployable Nx application.
 
 ## Target libraries

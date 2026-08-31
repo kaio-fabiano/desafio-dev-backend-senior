@@ -7,6 +7,7 @@ const deployableProjects = [
   'apps/apollo-mcp/project.json',
   'apps/gateway/project.json',
   'apps/identity-subgraph/project.json',
+  'apps/commerce-subgraph/project.json',
   'apps/payment-processor/project.json',
   'apps/wordpress-federation/project.json',
 ];
@@ -14,6 +15,7 @@ const deployableProjectNames = [
   '@desafio-dev-backend-senior/apollo-mcp',
   '@desafio-dev-backend-senior/gateway',
   '@desafio-dev-backend-senior/identity-subgraph',
+  '@desafio-dev-backend-senior/commerce-subgraph',
   '@desafio-dev-backend-senior/payment-processor',
   '@desafio-dev-backend-senior/wordpress-federation',
 ];
@@ -28,7 +30,7 @@ function supergraphNames(source) {
   return [...subgraphs.matchAll(/^  ([\w-]+):$/gm)].map(([, name]) => name);
 }
 
-test('AC-090: only five deployable applications and the E2E project remain active @spec:AC-090', async () => {
+test('AC-090: only six deployable applications and the E2E project remain active @spec:AC-090', async () => {
   const [compose, projects, e2e, allProjects] = await Promise.all([
     readFile('compose.yaml', 'utf8'),
     Promise.all(
@@ -76,13 +78,14 @@ test('AC-090: only five deployable applications and the E2E project remain activ
       'gateway',
       'apollo-mcp',
       'identity-subgraph',
+      'commerce-subgraph',
       'payment-processor',
       'wordpress-federation',
     ],
   );
 });
 
-test('AC-098: Commerce and Stock are absent from the active runtime topology @spec:AC-098', async () => {
+test('AC-098: Commerce workflow and Java inventory consumers use the active topology @spec:AC-098', async () => {
   const [compose, supergraph, environment, paymentBuild, paymentConfig] =
     await Promise.all([
       readFile('compose.yaml', 'utf8'),
@@ -98,14 +101,15 @@ test('AC-098: Commerce and Stock are absent from the active runtime topology @sp
   const services = composeServiceNames(compose);
   assert.ok(services.includes('wordpress-federation'));
   assert.ok(services.includes('payment-processor'));
-  assert.ok(!services.includes('commerce-subgraph'));
+  assert.ok(services.includes('commerce-subgraph'));
   assert.ok(!services.includes('stock-worker'));
   assert.deepEqual(supergraphNames(supergraph), [
     'identity',
     'wordpress',
     'payment',
+    'commerce',
   ]);
-  assert.doesNotMatch(supergraph, /\.\/commerce\/|commerce-subgraph/);
+  assert.match(supergraph, /\.\/commerce\/schema\.graphql/);
 
   const activeComponents = environment.match(
     /const COMPOSE_SERVICES = \[([\s\S]*?)\] as const;/,
@@ -115,11 +119,12 @@ test('AC-098: Commerce and Stock are absent from the active runtime topology @sp
     'the E2E environment must declare active services',
   );
   assert.match(activeComponents, /'wordpress-federation'/);
-  assert.doesNotMatch(activeComponents, /'commerce-subgraph'|'stock-worker'/);
-  assert.doesNotMatch(activeComponents, /'rabbitmq'/);
-  assert.doesNotMatch(compose, /^  rabbitmq:|RABBITMQ_URL|amqp:\/\//m);
-  assert.doesNotMatch(paymentBuild, /spring-boot-starter-amqp/);
-  assert.doesNotMatch(paymentConfig, /rabbitmq|amqp:/i);
+  assert.match(activeComponents, /'commerce-subgraph'/);
+  assert.match(activeComponents, /'rabbitmq'/);
+  assert.doesNotMatch(activeComponents, /'stock-worker'/);
+  assert.match(compose, /^  rabbitmq:/m);
+  assert.match(paymentBuild, /spring-boot-starter-amqp/);
+  assert.match(paymentConfig, /rabbitmq:/i);
 });
 
 test('AC-099: Payment is composed as the Spring GraphQL Federation subgraph @spec:AC-099', async () => {

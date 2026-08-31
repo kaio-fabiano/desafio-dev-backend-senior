@@ -21,12 +21,12 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     import(`../${libraryRoot}/auth/token-verifier.service.ts`),
   ]);
 
-  assert.match(main, /NestFactory\.create\(AppModule\)/);
-  assert.match(main, /enableShutdownHooks\(\)/);
-  assert.doesNotMatch(
+  assert.match(
     main,
-    /\bjson\b|getHttpAdapter|CommerceSubscription|GatewaySse|graphql\/stream/,
+    /NestFactory\.create\(AppModule(?:, \{ bodyParser: false \})?\)/,
   );
+  assert.match(main, /enableShutdownHooks\(\)/);
+  assert.doesNotMatch(main, /ProductLoader|OrderLoader|BusinessRepository/);
   assert.match(
     appModule,
     /from ['"]@desafio-dev-backend-senior\/source\/gateway-nest['"]/,
@@ -41,10 +41,11 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(gatewayModule, /AuthContextFactory/);
   assert.match(gatewayModule, /wordpress-federation:3004\/graphql/);
   assert.match(gatewayModule, /payment-processor:8080\/graphql/);
-  assert.doesNotMatch(gatewayModule, /commerce-subgraph|stock-worker/);
+  assert.match(gatewayModule, /commerce-subgraph:3003\/graphql/);
+  assert.doesNotMatch(gatewayModule, /stock-worker/);
   assert.doesNotMatch(
     `${main}\n${appModule}\n${gatewayModule}`,
-    /ProductLoader|OrderLoader|BusinessRepository|CommerceSubscription|GatewaySse|graphql\/stream/,
+    /ProductLoader|OrderLoader|BusinessRepository/,
   );
 
   const parsedProject = JSON.parse(project);

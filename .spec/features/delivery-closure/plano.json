@@ -26,10 +26,7 @@
         "test/five-app-topology.test.mjs",
         "test/milestone-8-real-e2e.test.mjs"
       ],
-      "refs": [
-        "US-055",
-        "AC-109"
-      ]
+      "refs": ["US-055", "AC-109"]
     },
     {
       "id": "T-086",
@@ -47,10 +44,7 @@
         "nx.json",
         "test/delivery-closure-rabbitmq.test.mjs"
       ],
-      "refs": [
-        "US-056",
-        "AC-110"
-      ]
+      "refs": ["US-056", "AC-110"]
     },
     {
       "id": "T-087",
@@ -64,10 +58,7 @@
         "apps/payment-processor/src/test",
         "test/delivery-closure-payment-runtime.test.mjs"
       ],
-      "refs": [
-        "US-056",
-        "AC-111"
-      ]
+      "refs": ["US-056", "AC-111"]
     },
     {
       "id": "T-088",
@@ -83,10 +74,7 @@
         "compose.yaml",
         "test/delivery-closure-inventory-saga.test.mjs"
       ],
-      "refs": [
-        "US-056",
-        "AC-112"
-      ]
+      "refs": ["US-056", "AC-112"]
     },
     {
       "id": "T-089",
@@ -102,11 +90,7 @@
         "test/milestone-7-e2e-contract.test.mjs",
         "test/milestone-8-real-e2e.test.mjs"
       ],
-      "refs": [
-        "US-057",
-        "AC-113",
-        "AC-114"
-      ]
+      "refs": ["US-057", "AC-113", "AC-114"]
     },
     {
       "id": "T-090",
@@ -127,10 +111,7 @@
         "docs/runbooks/observability.md",
         "test/delivery-closure-observability.test.mjs"
       ],
-      "refs": [
-        "US-058",
-        "AC-115"
-      ]
+      "refs": ["US-058", "AC-115"]
     },
     {
       "id": "T-091",
@@ -152,10 +133,7 @@
         ".spec/verification/delivery-closure.json",
         "libs/wordpress/nest/src/federation/wordpress-federation.module.ts"
       ],
-      "refs": [
-        "US-058",
-        "AC-116"
-      ]
+      "refs": ["US-058", "AC-116"]
     }
   ],
   "concluidas": [],

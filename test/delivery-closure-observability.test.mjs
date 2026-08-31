@@ -27,7 +27,7 @@ test('AC-115: optional telemetry crosses RabbitMQ and Payment Federation @spec:A
     /MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,prometheus/,
   );
   assert.match(rabbit, /traceparent/);
-  assert.match(commerceRuntime, /operationKey: event\.operationKey/);
+  assert.match(commerceRuntime, /operationKey: event\.payload\.operationKey/);
   assert.match(payment, /traceparent/);
   assert.match(inventory, /traceparent/);
   assert.match(collector, /exporters:\n  otlp\/jaeger:/);

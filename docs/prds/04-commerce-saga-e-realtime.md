@@ -124,11 +124,10 @@ HTTP. No runtime relabels one protocol as the other.
 
 ## Deliberate omissions
 
-There is no Commerce database, workflow mirror, Stock worker, RabbitMQ topology,
-generic outbox/inbox framework, distributed command bus, or event-sourcing
-layer. There is also no custom real-time proxy in Gateway. These abstractions
-return only when a failing requirement demonstrates a capability and recovery
-need that the owning products cannot provide.
+There is no separate Stock worker, generic saga framework, distributed command
+bus, or event-sourcing layer. Commerce keeps only the workflow state and
+transactional outbox required for RabbitMQ choreography. Payment Federation
+hosts both consumers, and Gateway owns only the authenticated SSE transport.
 
 ## Executable evidence
 

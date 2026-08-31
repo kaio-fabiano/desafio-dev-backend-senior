@@ -9,13 +9,13 @@ verifiability.
 
 ## Personas
 
-| Persona | Primary need | Security boundary |
-|---|---|---|
-| Buyer | browse, maintain a cart, pay, and track orders | accesses only their own cart/orders |
-| Supplier | manage products for their own company | never changes a third party's product |
-| Agent via MCP | query profile/catalog and operate a cart | curated tools only, under the token identity |
-| Operations | start, observe, and recover the platform | stateless services and traceable events |
-| Evaluator | reproduce the entire journey with one command | no prerequisites beyond Docker/toolchain |
+| Persona       | Primary need                                   | Security boundary                            |
+| ------------- | ---------------------------------------------- | -------------------------------------------- |
+| Buyer         | browse, maintain a cart, pay, and track orders | accesses only their own cart/orders          |
+| Supplier      | manage products for their own company          | never changes a third party's product        |
+| Agent via MCP | query profile/catalog and operate a cart       | curated tools only, under the token identity |
+| Operations    | start, observe, and recover the platform       | stateless services and traceable events      |
+| Evaluator     | reproduce the entire journey with one command  | no prerequisites beyond Docker/toolchain     |
 
 ## Critical journey
 
@@ -51,15 +51,15 @@ verifiability.
 
 ## Success metrics
 
-| Metric | Target |
-|---|---|
-| Required E2E | 100% passing from a clean state |
-| Supergraph composition | zero errors |
-| Order/payment coverage | ≥ 70% |
-| Local gateway query P95 | < 500 ms |
+| Metric                         | Target                                       |
+| ------------------------------ | -------------------------------------------- |
+| Required E2E                   | 100% passing from a clean state              |
+| Supergraph composition         | zero errors                                  |
+| Order/payment coverage         | ≥ 70%                                        |
+| Local gateway query P95        | < 500 ms                                     |
 | Duplication under the same key | zero duplicate orders and zero extra charges |
-| N+1 in the `me` query | batched calls, recorded evidence |
-| Versioned secrets | zero |
+| N+1 in the `me` query          | batched calls, recorded evidence             |
+| Versioned secrets              | zero                                         |
 
 ## Time constraint
 

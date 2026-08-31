@@ -38,21 +38,21 @@ WordPress plugin-first and functional testing through the gateway.
 
 ## Requirement → PRD → proof matrix
 
-| Source | Subject | Main PRD | Expected proof |
-|---|---|---|---|
-| O1, RNF01 | Schema-first Federation v2 | 02 | Rover composition in CI |
-| O2, RF03–RF04 | Supplier and ownership | 01, 03 | authorization tests |
-| O3–O4, RF01–RF02 | Better Auth OAuth2 | 03 | discovery, JWKS, and E2E |
-| O5, RF06–RF07 | `users`, `user`, `me` | 02, 03 | E2E federated query |
-| O6–O8, RF08–RF13 | Checkout, saga, and SSE | 04 | E2E + concurrent tests |
-| O9, RF14–RF15 | Apollo MCP | 05 | MCP Inspector + E2E |
-| O10 | Payment in another runtime | 01, 04 | dedicated container and tests |
-| O11, RNF02–RNF03 | Relay and DataLoader | 02 | contract + N+1 counters |
-| O12, RNF06–RNF07 | E2E test from scratch | 06 | Vitest + Testcontainers |
-| RNF04–RNF05 | Statelessness and workers | 01, 04 | retry/concurrency tests |
-| RNF08–RNF09 | Secrets and SST | 06 | scan + `sst diff/deploy` |
-| RNF10 | P95 under 500 ms | 06 | local load test |
-| RNF11 | OpenTelemetry | 06 | traces, metrics, and logs |
+| Source           | Subject                    | Main PRD | Expected proof                |
+| ---------------- | -------------------------- | -------- | ----------------------------- |
+| O1, RNF01        | Schema-first Federation v2 | 02       | Rover composition in CI       |
+| O2, RF03–RF04    | Supplier and ownership     | 01, 03   | authorization tests           |
+| O3–O4, RF01–RF02 | Better Auth OAuth2         | 03       | discovery, JWKS, and E2E      |
+| O5, RF06–RF07    | `users`, `user`, `me`      | 02, 03   | E2E federated query           |
+| O6–O8, RF08–RF13 | Checkout, saga, and SSE    | 04       | E2E + concurrent tests        |
+| O9, RF14–RF15    | Apollo MCP                 | 05       | MCP Inspector + E2E           |
+| O10              | Payment in another runtime | 01, 04   | dedicated container and tests |
+| O11, RNF02–RNF03 | Relay and DataLoader       | 02       | contract + N+1 counters       |
+| O12, RNF06–RNF07 | E2E test from scratch      | 06       | Vitest + Testcontainers       |
+| RNF04–RNF05      | Statelessness and workers  | 01, 04   | retry/concurrency tests       |
+| RNF08–RNF09      | Secrets and SST            | 06       | scan + `sst diff/deploy`      |
+| RNF10            | P95 under 500 ms           | 06       | local load test               |
+| RNF11            | OpenTelemetry              | 06       | traces, metrics, and logs     |
 
 ## Deliverables that must not disappear from the plan
 

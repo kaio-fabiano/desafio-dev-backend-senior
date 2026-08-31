@@ -1,7 +1,7 @@
 # Spec: Challenge compliance and delivery closure
 
 > feature: delivery-closure
-> status: rascunho
+> status: auditada
 
 ## Context
 
@@ -96,16 +96,16 @@ final gate, so that the system is both reviewable and diagnosable.
 
 ## Suposições
 
-| ID | Assumption | Status | Resolution |
-|---|---|---|---|
-| ASM-038 | The five-application topology satisfies the immutable challenge without RabbitMQ or an inventory reaction. | invalidada | README sections 1, 3, 5, 10, 14, 15, 16, 17, and 18 explicitly require RabbitMQ choreography, inventory reaction, compensation, and their E2E execution. |
-| ASM-039 | OpenTelemetry remains optional and cannot replace mandatory choreography evidence. | confirmada | README sections 13 and 18.7 classify observability as optional or bonus. |
-| ASM-040 | The deleted Commerce, Stock, and RabbitMQ implementation can be restored from repository history and adapted instead of rewritten. | confirmada | Commit `a2a37a3` deleted the previously passing runtime sources while preserving their full history. |
-| ASM-041 | Payment and inventory may share one Java Payment Federation deployment. | confirmada | The owner confirmed this boundary, and README section 3 permits merging services when all section 5 capabilities remain present and justified. |
-| ASM-042 | The Java Payment Federation may call WooCommerce REST endpoints directly. | invalidada | The owner confirmed that Java-to-WooCommerce communication must use the federated WordPress GraphQL contract exposed by the installed plugins. |
+| ID      | Assumption                                                                                                                         | Status     | Resolution                                                                                                                                               |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ASM-038 | The five-application topology satisfies the immutable challenge without RabbitMQ or an inventory reaction.                         | invalidada | README sections 1, 3, 5, 10, 14, 15, 16, 17, and 18 explicitly require RabbitMQ choreography, inventory reaction, compensation, and their E2E execution. |
+| ASM-039 | OpenTelemetry remains optional and cannot replace mandatory choreography evidence.                                                 | confirmada | README sections 13 and 18.7 classify observability as optional or bonus.                                                                                 |
+| ASM-040 | The deleted Commerce, Stock, and RabbitMQ implementation can be restored from repository history and adapted instead of rewritten. | confirmada | Commit `a2a37a3` deleted the previously passing runtime sources while preserving their full history.                                                     |
+| ASM-041 | Payment and inventory may share one Java Payment Federation deployment.                                                            | confirmada | The owner confirmed this boundary, and README section 3 permits merging services when all section 5 capabilities remain present and justified.           |
+| ASM-042 | The Java Payment Federation may call WooCommerce REST endpoints directly.                                                          | invalidada | The owner confirmed that Java-to-WooCommerce communication must use the federated WordPress GraphQL contract exposed by the installed plugins.           |
 
 ## Perguntas em aberto
 
-| ID | Question | Status | Answer |
-|---|---|---|---|
+| ID    | Question                                                      | Status     | Answer                                                                                    |
+| ----- | ------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------- |
 | Q-006 | What delivery time and timezone, if any, apply on 2026-09-03? | respondida | The owner confirmed a date-only deadline: 2026-09-03, with no committed time or timezone. |

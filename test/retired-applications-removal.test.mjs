@@ -6,7 +6,6 @@ import test from 'node:test';
 
 const execute = promisify(execFile);
 const retiredRoots = [
-  'apps/commerce-subgraph',
   'apps/stock-worker',
   'apps/poc-auth',
   'apps/poc-sse',
@@ -21,7 +20,11 @@ test('AC-104: retired application roots no longer exist @spec:AC-104', async () 
   for (const root of retiredRoots) {
     await assert.rejects(access(root));
   }
-  assert.equal(projects.some((project) => /commerce-subgraph|stock-worker/.test(project)), false);
+  assert.ok(projects.includes('@desafio-dev-backend-senior/commerce-subgraph'));
+  assert.equal(
+    projects.some((project) => /stock-worker/.test(project)),
+    false,
+  );
 });
 
 test('AC-105: active automation has no retired source dependency @spec:AC-105', async () => {
@@ -32,10 +35,13 @@ test('AC-105: active automation has no retired source dependency @spec:AC-105', 
     'onpspec.config.json',
     'package.json',
   ];
-  const sources = (await Promise.all(activeFiles.map((file) => readFile(file, 'utf8')))).join('\n');
+  const sources = (
+    await Promise.all(activeFiles.map((file) => readFile(file, 'utf8')))
+  ).join('\n');
 
-  assert.doesNotMatch(sources, /apps\/(?:commerce-subgraph|stock-worker)/);
-  assert.doesNotMatch(sources, /(?:CommerceSubgraph|StockWorker)/);
+  assert.doesNotMatch(sources, /apps\/stock-worker/);
+  assert.doesNotMatch(sources, /StockWorker/);
+  assert.match(sources, /commerce-subgraph/);
 });
 
 test('AC-106: supported project gates remain executable @spec:AC-106', async () => {
@@ -44,7 +50,10 @@ test('AC-106: supported project gates remain executable @spec:AC-106', async () 
     readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
   ]);
 
-  assert.equal(rootPackage.scripts['quality:nx'], 'nx run-many --target=build,typecheck,lint,test --all');
+  assert.equal(
+    rootPackage.scripts['quality:nx'],
+    'nx run-many --target=build,typecheck,lint,test --all',
+  );
   assert.ok(e2eProject.targets.acceptance);
   assert.ok(e2eProject.targets['milestone-7-quality']);
 });

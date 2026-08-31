@@ -50,7 +50,7 @@
 - Esforço: alto
 - Notes: Use standard OpenTelemetry propagation and an opt-in local collector/backend; instrument the restored RabbitMQ path rather than a reduced topology.
 
-## T-091 — Reconcile documentation and close every gate [pendente]
+## T-091 — Reconcile documentation and close every gate [concluida]
 
 - Refs: US-058, AC-116
 - Arquivos: README.md, docs/evidence/challenge-compliance.md, docs/evidence/milestone-8/requirements.md, docs/prds/08-riscos-e-decisoes-pendentes.md, docs/adrs/004-restricoes-de-entrega.md, docs/adrs/007-federated-platform-boundaries.md, docs/runbooks, .spec/features/milestone-6-apollo-mcp/spec.md, .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md, .spec/verification/delivery-closure.json, libs/wordpress/nest/src/federation/wordpress-federation.module.ts

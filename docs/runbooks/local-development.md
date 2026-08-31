@@ -14,7 +14,7 @@ fnm exec --using v24.19.0 -- node --version
 fnm exec --using v24.19.0 -- npm --version
 ```
 
-## Start the five-application topology
+## Start the six-application topology
 
 The setup pins WPGraphQL Headless Login and configures its server-only Site
 Token plus a signed WooCommerce `order.updated` webhook. Override
