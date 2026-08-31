@@ -1,10 +1,10 @@
+import type { ExecutionResult } from 'graphql';
 import {
   createClient,
   type Client,
   type ClientOptions,
   type RequestParams,
 } from 'graphql-sse';
-import type { ExecutionResult } from 'graphql';
 
 import type { AuthContext } from '../auth/auth-context.ts';
 
