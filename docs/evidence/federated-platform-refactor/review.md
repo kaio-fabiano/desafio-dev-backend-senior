@@ -182,15 +182,15 @@ verification command.
 | Historical spec verification       | PASS         | All eleven stale feature proofs were rerun against the same 238-test repository command                               |
 | Repository spec audit              | PASS         | `onp-spec audit --ci`; 103/103 criteria tested, 103/103 proved, zero warnings                                         |
 
-### T-080 rerun
+### Pull-request gate recovery
 
-The requested complete regression was rerun on 2026-08-31. It stopped at the
-Milestone 1 infrastructure gate: the clean-install Compose build succeeded,
-but `identity-subgraph` exited before readiness with
-`ERR_MODULE_NOT_FOUND: @desafio-dev-backend-senior/identity-nest`. The failure
-is reproducible in an isolated Compose project and requires a change outside
-T-080's permitted files. No merge was performed because the required gates did
-not pass.
+The clean-install failure was resolved by exporting the reusable NestJS
+libraries from the workspace package and importing those public entry points
+from each application. Runtime images now include the exported workspace
+sources, so Node resolves the same package contract locally and in Compose.
+The exact Nx CI matrix passes for all fourteen projects, and the feature
+verification passes all fourteen criteria after parsing 238 tests. PR #2
+remains unmerged until its remote required checks confirm the same result.
 
 ## Completed work previously recorded as blocked
 

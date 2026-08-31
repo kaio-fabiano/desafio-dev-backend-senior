@@ -104,7 +104,7 @@
 - Arquivos: README.md, docs/knowledge/Mapa do Projeto.md, docs/runbooks/local-development.md, docs/runbooks/e2e.md, docs/evidence/federated-platform-refactor/review.md, .spec/verification/federated-platform-architecture-refactor.json
 - Notas: Run after T-074 through T-077. Document the OIDC login exchange, native WooGraphQL and REST ownership, webhook-to-SSE path, removed custom PHP, and final executable evidence.
 
-## T-079 — Restore clean-install TypeScript and Nx boundary compliance [em-andamento]
+## T-079 — Restore clean-install TypeScript and Nx boundary compliance [concluida]
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
