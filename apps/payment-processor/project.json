@@ -13,6 +13,7 @@
     },
     "test": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build"],
       "options": {
         "command": "docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-processor:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test"
       }
