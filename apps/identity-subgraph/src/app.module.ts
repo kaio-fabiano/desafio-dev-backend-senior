@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { IdentityModule } from '../../../libs/identity/nest/src/index.ts';
+import { IdentityModule } from '@desafio-dev-backend-senior/identity-nest';
 import { HealthController } from './health.controller.ts';
 
 export class AppModule {}

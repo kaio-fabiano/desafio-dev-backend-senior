@@ -1,13 +1,26 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "composite": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
+    "ignoreDeprecations": "6.0",
     "importHelpers": true,
     "isolatedModules": true,
     "lib": ["es2022"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "paths": {
+      "@desafio-dev-backend-senior/gateway-nest": [
+        "libs/gateway/nest/src/index.ts"
+      ],
+      "@desafio-dev-backend-senior/identity-nest": [
+        "libs/identity/nest/src/index.ts"
+      ],
+      "@desafio-dev-backend-senior/wordpress-nest": [
+        "libs/wordpress/nest/src/index.ts"
+      ]
+    },
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,

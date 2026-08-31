@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { WordPressFederationModule } from '../../../libs/wordpress/nest/src/index.ts';
+import { WordPressFederationModule } from '@desafio-dev-backend-senior/wordpress-nest';
 
 export class AppModule {}
 

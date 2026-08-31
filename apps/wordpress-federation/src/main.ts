@@ -6,7 +6,7 @@ import { json } from 'express';
 import {
   WORDPRESS_FEDERATION_CONFIG,
   type WordPressFederationConfig,
-} from '../../../libs/wordpress/nest/src/index.ts';
+} from '@desafio-dev-backend-senior/wordpress-nest';
 import { AppModule } from './app.module.ts';
 
 async function bootstrap(): Promise<void> {

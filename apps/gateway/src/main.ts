@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module.ts';
 
-export { createGatewayAuthMiddleware } from '../../../libs/gateway/nest/src/index.ts';
+export { createGatewayAuthMiddleware } from '@desafio-dev-backend-senior/gateway-nest';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
