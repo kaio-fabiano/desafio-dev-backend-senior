@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module.ts';
-import { IdentityAuthBootstrap } from '@desafio-dev-backend-senior/identity-nest';
+import { IdentityAuthBootstrap } from '@desafio-dev-backend-senior/source/identity-nest';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bodyParser: false });

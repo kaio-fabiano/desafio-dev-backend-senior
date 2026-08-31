@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { GatewayModule } from '@desafio-dev-backend-senior/gateway-nest';
+import { GatewayModule } from '@desafio-dev-backend-senior/source/gateway-nest';
 import { HealthController } from './health.controller.ts';
 
 /**

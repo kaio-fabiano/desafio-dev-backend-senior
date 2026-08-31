@@ -1,6 +1,11 @@
 {
   "name": "@desafio-dev-backend-senior/source",
   "version": "0.0.0",
+  "exports": {
+    "./gateway-nest": "./libs/gateway/nest/src/index.ts",
+    "./identity-nest": "./libs/identity/nest/src/index.ts",
+    "./wordpress-nest": "./libs/wordpress/nest/src/index.ts"
+  },
   "packageManager": "pnpm@10.17.1",
   "license": "MIT",
   "scripts": {

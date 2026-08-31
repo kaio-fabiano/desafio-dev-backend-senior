@@ -2,5 +2,18 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./libs/wordpress/nest"
+    },
+    {
+      "path": "./libs/identity/nest"
+    },
+    {
+      "path": "./libs/platform/nest"
+    },
+    {
+      "path": "./libs/gateway/nest"
+    }
+  ]
 }
