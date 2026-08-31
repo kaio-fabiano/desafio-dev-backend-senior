@@ -9,8 +9,7 @@
 - Esforço: baixo
 - Notes: Replace self-referential topology assertions with a README-to-runtime matrix that fails on missing mandatory components or assertions.
 
-## T-086 — Restore durable checkout and RabbitMQ choreography [pendente]
-
+## T-086 — Restore durable checkout and RabbitMQ choreography [concluida]
 - Refs: US-056, AC-110
 - Arquivos: apps/commerce-subgraph, libs/contracts/graphql/commerce/schema.graphql, libs/contracts/events, compose.yaml, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, nx.json, test/delivery-closure-rabbitmq.test.mjs
 - Modelo: gpt-5.6-sol
