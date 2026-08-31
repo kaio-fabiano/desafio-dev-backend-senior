@@ -38,13 +38,13 @@
 </style>
 <main>
   <h1>Plano de execução — federated-platform-architecture-refactor</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-30 23:40 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-31 06:29 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>5</b> tarefa(s), uma após a outra</div>
+    <div><b>2</b> tarefa(s), uma após a outra</div>
     <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/federated-platform-architecture-refactor</code></div>
   </div>
-
+  
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
@@ -55,40 +55,22 @@
     (<code>onp-spec resumo federated-platform-architecture-refactor --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo federated-platform-architecture-refactor</code>).</p>
   </div>
-
-
+  
+  
     <section class="onda">
       <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
       <div class="grade"><div class="faixa">
         <div class="tarefa">
-          <span class="tid">T-074</span>
-          <span class="ttitulo">Replace the custom WordPress identity bridge with standard OIDC</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/wordpress-integration/scripts/install-plugins.sh</code> <code>compose.yaml</code> <code>libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts</code> <code>libs/identity/nest/src/auth/registration.service.ts</code> <code>libs/gateway/nest/src/federation/authenticated-data-source.ts</code> <code>libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts</code> <code>test/identity-federation-refactor.test.mjs</code> <code>test/gateway-federation-refactor.test.mjs</code> <code>test/wordpress-federation-refactor.test.mjs</code></span>
+          <span class="tid">T-079</span>
+          <span class="ttitulo">Restore clean-install TypeScript and Nx boundary compliance</span>
+          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
+          <span class="arquivos"><code>package.json</code> <code>pnpm-lock.yaml</code> <code>tsconfig.base.json</code> <code>apps/gateway/src/app.module.ts</code> <code>apps/gateway/src/main.ts</code> <code>apps/identity-subgraph/src/app.module.ts</code> <code>apps/identity-subgraph/src/main.ts</code> <code>apps/wordpress-federation/src/app.module.ts</code> <code>apps/wordpress-federation/src/main.ts</code> <code>libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts</code></span>
         </div>
         <div class="tarefa">
-          <span class="tid">T-075</span>
-          <span class="ttitulo">Replace custom order and payment GraphQL operations with native owner APIs</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/e2e/src/journey.ts</code> <code>apps/payment-processor/src/main/java/dev/desafio/payment</code> <code>libs/contracts/graphql/wordpress/schema.graphql</code> <code>libs/wordpress/nest/src/federation/wpgraphql-client.service.ts</code> <code>test/payment-federation-refactor.test.mjs</code> <code>test/wordpress-federation-refactor.test.mjs</code> <code>test/milestone-7-e2e-contract.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-076</span>
-          <span class="ttitulo">Feed order subscriptions from native WooCommerce webhooks</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>compose.yaml</code> <code>libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts</code> <code>libs/wordpress/nest/src/subscriptions/subscriptions.module.ts</code> <code>libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts</code> <code>test/order-subscription-refactor.test.mjs</code> <code>test/milestone-7-e2e-contract.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-077</span>
-          <span class="ttitulo">Delete the marketplace MU-plugin and prove the plugin-first topology</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/wordpress-integration/marketplace-inventory.php</code> <code>apps/wordpress-integration/compose.yaml</code> <code>apps/wordpress-integration/scripts/probe.mjs</code> <code>compose.yaml</code> <code>libs/contracts/graphql/wordpress/schema.graphql</code> <code>test/wordpress-federation-refactor.test.mjs</code> <code>test/five-app-topology.test.mjs</code> <code>test/federated-platform-quality.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-078</span>
-          <span class="ttitulo">Re-run acceptance and publish the native-plugin walkthrough</span>
+          <span class="tid">T-080</span>
+          <span class="ttitulo">Re-run the pull-request gates and merge into main</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>README.md</code> <code>docs/knowledge/Mapa do Projeto.md</code> <code>docs/runbooks/local-development.md</code> <code>docs/runbooks/e2e.md</code> <code>docs/evidence/federated-platform-refactor/review.md</code> <code>.spec/verification/federated-platform-architecture-refactor.json</code></span>
+          <span class="arquivos"><code>.spec/verification/federated-platform-architecture-refactor.json</code> <code>docs/evidence/federated-platform-refactor/review.md</code></span>
         </div></div></div>
     </section>
   <section class="onda">

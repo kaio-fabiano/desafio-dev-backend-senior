@@ -1,11 +1,11 @@
 # Plano de execução — federated-platform-architecture-refactor
 
-> gerado por `onp-spec plano` em 2026-08-30 23:40 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-08-31 06:29 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano federated-platform-architecture-refactor --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 5 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (9 já concluída(s): T-065, T-066, T-067, T-068, T-069, T-070, T-071, T-072, T-073)
+- **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (14 já concluída(s): T-065, T-066, T-067, T-068, T-069, T-070, T-071, T-072, T-073, T-074, T-075, T-076, T-077, T-078)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/federated-platform-architecture-refactor`; levar para a main é decisão sua
 
@@ -13,11 +13,8 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-074 | Replace the custom WordPress identity bridge with standard OIDC | `gpt-5.6-sol` | high |
-| T-075 | Replace custom order and payment GraphQL operations with native owner APIs | `gpt-5.6-sol` | high |
-| T-076 | Feed order subscriptions from native WooCommerce webhooks | `gpt-5.6-sol` | high |
-| T-077 | Delete the marketplace MU-plugin and prove the plugin-first topology | `gpt-5.6-sol` | high |
-| T-078 | Re-run acceptance and publish the native-plugin walkthrough | `gpt-5.6-luna` | low |
+| T-079 | Restore clean-install TypeScript and Nx boundary compliance | `gpt-5.6-terra` | medium |
+| T-080 | Re-run the pull-request gates and merge into main | `gpt-5.6-luna` | low |
 
 ## Gestão de branches e commits
 

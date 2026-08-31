@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-30 23:40
+# executar-tarefas.sh — gerado por `onp-spec plano federated-platform-architecture-refactor` em 2026-08-31 06:29
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtggd17t'
+RUN_ID='desafio-dev-backend-senior-federated-platform-architecture-refactor-mtguz1r8'
 FEATURE='federated-platform-architecture-refactor'
 BASE_BRANCH='spec/federated-platform-architecture-refactor'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,145 +168,49 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-074 (ordem do tasks.md) ──
-executar_seq_T_074() {
-  info 'sequencial T-074 — Replace the custom WordPress identity bridge with standard OIDC'
-  if rodar_tarefa seq 'T-074' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-079 (ordem do tasks.md) ──
+executar_seq_T_079() {
+  info 'sequencial T-079 — Restore clean-install TypeScript and Nx boundary compliance'
+  if rodar_tarefa seq 'T-079' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/federated-platform-architecture-refactor/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-074 — "Replace the custom WordPress identity bridge with standard OIDC"
-  critérios/refs: AC-096 (Subgraphs enforce sensitive authorization), AC-097 (WordPress plugins provide the commercial graph)
-  arquivos permitidos (e seus testes): apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts, libs/identity/nest/src/auth/registration.service.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts, test/identity-federation-refactor.test.mjs, test/gateway-federation-refactor.test.mjs, test/wordpress-federation-refactor.test.mjs
-  mensagem de commit: "T-074 federated-platform-architecture-refactor: Replace the custom WordPress identity bridge with standard OIDC"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-7-delivery-contract.test.mjs test/milestone-7-nx-quality.test.mjs test/milestone-7-containers.test.mjs test/milestone-7-e2e-contract.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs test/milestone-7-sst.test.mjs test/milestone-7-documentation.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-8-*.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/federated-platform-refactor.test.mjs test/architecture-boundaries.test.mjs test/nest-provider-composition.test.mjs test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/wordpress-federation-refactor.test.mjs test/payment-federation-refactor.test.mjs test/order-subscription-refactor.test.mjs test/five-app-topology.test.mjs test/federated-platform-quality.test.mjs && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-074 federated-platform-architecture-refactor: Replace the custom WordPress identity bridge with standard OIDC (auto-commit do plano)'
-    fi
-    marcar_concluidas T-074
-    verde "✔ T-074 concluída"
-    return 0
-  fi
-  vermelho "✘ T-074 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-074"
-  FALHAS="$FALHAS T-074"
-  return 1
-}
-
-# ── sequencial T-075 (ordem do tasks.md) ──
-executar_seq_T_075() {
-  info 'sequencial T-075 — Replace custom order and payment GraphQL operations with native owner APIs'
-  if rodar_tarefa seq 'T-075' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/federated-platform-architecture-refactor/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-075 — "Replace custom order and payment GraphQL operations with native owner APIs"
-  critérios/refs: AC-097 (WordPress plugins provide the commercial graph), AC-098 (Commerce and stock runtimes are retired safely), AC-100 (Payment write and read paths are explicit), AC-101 (Payment delivery remains idempotent)
-  arquivos permitidos (e seus testes): apps/e2e/src/journey.ts, apps/payment-processor/src/main/java/dev/desafio/payment, libs/contracts/graphql/wordpress/schema.graphql, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, test/payment-federation-refactor.test.mjs, test/wordpress-federation-refactor.test.mjs, test/milestone-7-e2e-contract.test.mjs
-  mensagem de commit: "T-075 federated-platform-architecture-refactor: Replace custom order and payment GraphQL operations with native owner APIs"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-7-delivery-contract.test.mjs test/milestone-7-nx-quality.test.mjs test/milestone-7-containers.test.mjs test/milestone-7-e2e-contract.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs test/milestone-7-sst.test.mjs test/milestone-7-documentation.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-8-*.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/federated-platform-refactor.test.mjs test/architecture-boundaries.test.mjs test/nest-provider-composition.test.mjs test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/wordpress-federation-refactor.test.mjs test/payment-federation-refactor.test.mjs test/order-subscription-refactor.test.mjs test/five-app-topology.test.mjs test/federated-platform-quality.test.mjs && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-075 federated-platform-architecture-refactor: Replace custom order and payment GraphQL operations with native owner APIs (auto-commit do plano)'
-    fi
-    marcar_concluidas T-075
-    verde "✔ T-075 concluída"
-    return 0
-  fi
-  vermelho "✘ T-075 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-075"
-  FALHAS="$FALHAS T-075"
-  return 1
-}
-
-# ── sequencial T-076 (ordem do tasks.md) ──
-executar_seq_T_076() {
-  info 'sequencial T-076 — Feed order subscriptions from native WooCommerce webhooks'
-  if rodar_tarefa seq 'T-076' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/federated-platform-architecture-refactor/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-076 — "Feed order subscriptions from native WooCommerce webhooks"
-  critérios/refs: AC-102 (NestJS manages the subscription lifecycle), AC-096 (Subgraphs enforce sensitive authorization)
-  arquivos permitidos (e seus testes): compose.yaml, libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts, libs/wordpress/nest/src/subscriptions/subscriptions.module.ts, libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts, test/order-subscription-refactor.test.mjs, test/milestone-7-e2e-contract.test.mjs
-  mensagem de commit: "T-076 federated-platform-architecture-refactor: Feed order subscriptions from native WooCommerce webhooks"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-7-delivery-contract.test.mjs test/milestone-7-nx-quality.test.mjs test/milestone-7-containers.test.mjs test/milestone-7-e2e-contract.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs test/milestone-7-sst.test.mjs test/milestone-7-documentation.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-8-*.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/federated-platform-refactor.test.mjs test/architecture-boundaries.test.mjs test/nest-provider-composition.test.mjs test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/wordpress-federation-refactor.test.mjs test/payment-federation-refactor.test.mjs test/order-subscription-refactor.test.mjs test/five-app-topology.test.mjs test/federated-platform-quality.test.mjs && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-076 federated-platform-architecture-refactor: Feed order subscriptions from native WooCommerce webhooks (auto-commit do plano)'
-    fi
-    marcar_concluidas T-076
-    verde "✔ T-076 concluída"
-    return 0
-  fi
-  vermelho "✘ T-076 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-076"
-  FALHAS="$FALHAS T-076"
-  return 1
-}
-
-# ── sequencial T-077 (ordem do tasks.md) ──
-executar_seq_T_077() {
-  info 'sequencial T-077 — Delete the marketplace MU-plugin and prove the plugin-first topology'
-  if rodar_tarefa seq 'T-077' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/federated-platform-architecture-refactor/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-077 — "Delete the marketplace MU-plugin and prove the plugin-first topology"
-  critérios/refs: AC-097 (WordPress plugins provide the commercial graph), AC-098 (Commerce and stock runtimes are retired safely), AC-103 (Quality gates explain and enforce the design)
-  arquivos permitidos (e seus testes): apps/wordpress-integration/marketplace-inventory.php, apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/probe.mjs, compose.yaml, libs/contracts/graphql/wordpress/schema.graphql, test/wordpress-federation-refactor.test.mjs, test/five-app-topology.test.mjs, test/federated-platform-quality.test.mjs
-  mensagem de commit: "T-077 federated-platform-architecture-refactor: Delete the marketplace MU-plugin and prove the plugin-first topology"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-7-delivery-contract.test.mjs test/milestone-7-nx-quality.test.mjs test/milestone-7-containers.test.mjs test/milestone-7-e2e-contract.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs test/milestone-7-sst.test.mjs test/milestone-7-documentation.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-8-*.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/federated-platform-refactor.test.mjs test/architecture-boundaries.test.mjs test/nest-provider-composition.test.mjs test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/wordpress-federation-refactor.test.mjs test/payment-federation-refactor.test.mjs test/order-subscription-refactor.test.mjs test/five-app-topology.test.mjs test/federated-platform-quality.test.mjs && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-077 federated-platform-architecture-refactor: Delete the marketplace MU-plugin and prove the plugin-first topology (auto-commit do plano)'
-    fi
-    marcar_concluidas T-077
-    verde "✔ T-077 concluída"
-    return 0
-  fi
-  vermelho "✘ T-077 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-077"
-  FALHAS="$FALHAS T-077"
-  return 1
-}
-
-# ── sequencial T-078 (ordem do tasks.md) ──
-executar_seq_T_078() {
-  info 'sequencial T-078 — Re-run acceptance and publish the native-plugin walkthrough'
-  if rodar_tarefa seq 'T-078' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/federated-platform-architecture-refactor/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-078 — "Re-run acceptance and publish the native-plugin walkthrough"
+T-079 — "Restore clean-install TypeScript and Nx boundary compliance"
   critérios/refs: AC-103 (Quality gates explain and enforce the design)
-  arquivos permitidos (e seus testes): README.md, docs/knowledge/Mapa do Projeto.md, docs/runbooks/local-development.md, docs/runbooks/e2e.md, docs/evidence/federated-platform-refactor/review.md, .spec/verification/federated-platform-architecture-refactor.json
-  mensagem de commit: "T-078 federated-platform-architecture-refactor: Re-run acceptance and publish the native-plugin walkthrough"
+  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, tsconfig.base.json, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/src/main.ts, libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts
+  mensagem de commit: "T-079 federated-platform-architecture-refactor: Restore clean-install TypeScript and Nx boundary compliance"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-7-delivery-contract.test.mjs test/milestone-7-nx-quality.test.mjs test/milestone-7-containers.test.mjs test/milestone-7-e2e-contract.test.mjs test/milestone-7-coverage.test.mjs test/milestone-7-load.test.mjs test/milestone-7-sst.test.mjs test/milestone-7-documentation.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-8-*.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/federated-platform-refactor.test.mjs test/architecture-boundaries.test.mjs test/nest-provider-composition.test.mjs test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/wordpress-federation-refactor.test.mjs test/payment-federation-refactor.test.mjs test/order-subscription-refactor.test.mjs test/five-app-topology.test.mjs test/federated-platform-quality.test.mjs && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-079 federated-platform-architecture-refactor: Restore clean-install TypeScript and Nx boundary compliance (auto-commit do plano)'
+    fi
+    marcar_concluidas T-079
+    verde "✔ T-079 concluída"
+    return 0
+  fi
+  vermelho "✘ T-079 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-079"
+  FALHAS="$FALHAS T-079"
+  return 1
+}
+
+# ── sequencial T-080 (ordem do tasks.md) ──
+executar_seq_T_080() {
+  info 'sequencial T-080 — Re-run the pull-request gates and merge into main'
+  if rodar_tarefa seq 'T-080' 'Você executa UMA tarefa da feature "federated-platform-architecture-refactor" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/federated-platform-architecture-refactor/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-080 — "Re-run the pull-request gates and merge into main"
+  critérios/refs: AC-103 (Quality gates explain and enforce the design)
+  arquivos permitidos (e seus testes): .spec/verification/federated-platform-architecture-refactor.json, docs/evidence/federated-platform-refactor/review.md
+  mensagem de commit: "T-080 federated-platform-architecture-refactor: Re-run the pull-request gates and merge into main"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -316,15 +220,15 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-078 federated-platform-architecture-refactor: Re-run acceptance and publish the native-plugin walkthrough (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-080 federated-platform-architecture-refactor: Re-run the pull-request gates and merge into main (auto-commit do plano)'
     fi
-    marcar_concluidas T-078
-    verde "✔ T-078 concluída"
+    marcar_concluidas T-080
+    verde "✔ T-080 concluída"
     return 0
   fi
-  vermelho "✘ T-078 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-078"
-  FALHAS="$FALHAS T-078"
+  vermelho "✘ T-080 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/federated-platform-architecture-refactor/executar-tarefas.sh --seq T-080"
+  FALHAS="$FALHAS T-080"
   return 1
 }
 
@@ -381,21 +285,15 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_074 || true
-  executar_seq_T_075 || true
-  executar_seq_T_076 || true
-  executar_seq_T_077 || true
-  executar_seq_T_078 || true
+  executar_seq_T_079 || true
+  executar_seq_T_080 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-074 (sequencial)"
-  echo "  seq       T-075 (sequencial)"
-  echo "  seq       T-076 (sequencial)"
-  echo "  seq       T-077 (sequencial)"
-  echo "  seq       T-078 (sequencial)"
+  echo "  seq       T-079 (sequencial)"
+  echo "  seq       T-080 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -430,11 +328,8 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-074) evento --tipo inicio --escopo "seq:T-074"; iniciar_resumos; executar_seq_T_074 || true; encerrar "seq:T-074" ;;
-      T-075) evento --tipo inicio --escopo "seq:T-075"; iniciar_resumos; executar_seq_T_075 || true; encerrar "seq:T-075" ;;
-      T-076) evento --tipo inicio --escopo "seq:T-076"; iniciar_resumos; executar_seq_T_076 || true; encerrar "seq:T-076" ;;
-      T-077) evento --tipo inicio --escopo "seq:T-077"; iniciar_resumos; executar_seq_T_077 || true; encerrar "seq:T-077" ;;
-      T-078) evento --tipo inicio --escopo "seq:T-078"; iniciar_resumos; executar_seq_T_078 || true; encerrar "seq:T-078" ;;
+      T-079) evento --tipo inicio --escopo "seq:T-079"; iniciar_resumos; executar_seq_T_079 || true; encerrar "seq:T-079" ;;
+      T-080) evento --tipo inicio --escopo "seq:T-080"; iniciar_resumos; executar_seq_T_080 || true; encerrar "seq:T-080" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

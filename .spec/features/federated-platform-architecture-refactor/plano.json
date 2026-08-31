@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-federated-platform-architecture-refactor-mtggd17t",
+  "runId": "desafio-dev-backend-senior-federated-platform-architecture-refactor-mtguz1r8",
   "feature": "federated-platform-architecture-refactor",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-08-30 23:40",
+  "geradoEm": "2026-08-31 06:29",
   "branchTrabalho": "spec/federated-platform-architecture-refactor",
   "baseDir": ".spec/features/federated-platform-architecture-refactor",
   "specDir": ".spec",
@@ -16,106 +16,35 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-074",
-      "titulo": "Replace the custom WordPress identity bridge with standard OIDC",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
+      "id": "T-079",
+      "titulo": "Restore clean-install TypeScript and Nx boundary compliance",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
       "arquivos": [
-        "apps/wordpress-integration/scripts/install-plugins.sh",
-        "compose.yaml",
-        "libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts",
-        "libs/identity/nest/src/auth/registration.service.ts",
-        "libs/gateway/nest/src/federation/authenticated-data-source.ts",
-        "libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts",
-        "test/identity-federation-refactor.test.mjs",
-        "test/gateway-federation-refactor.test.mjs",
-        "test/wordpress-federation-refactor.test.mjs"
+        "package.json",
+        "pnpm-lock.yaml",
+        "tsconfig.base.json",
+        "apps/gateway/src/app.module.ts",
+        "apps/gateway/src/main.ts",
+        "apps/identity-subgraph/src/app.module.ts",
+        "apps/identity-subgraph/src/main.ts",
+        "apps/wordpress-federation/src/app.module.ts",
+        "apps/wordpress-federation/src/main.ts",
+        "libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts"
       ],
       "refs": [
-        "US-048",
-        "AC-096",
-        "US-049",
-        "AC-097"
-      ]
-    },
-    {
-      "id": "T-075",
-      "titulo": "Replace custom order and payment GraphQL operations with native owner APIs",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/e2e/src/journey.ts",
-        "apps/payment-processor/src/main/java/dev/desafio/payment",
-        "libs/contracts/graphql/wordpress/schema.graphql",
-        "libs/wordpress/nest/src/federation/wpgraphql-client.service.ts",
-        "test/payment-federation-refactor.test.mjs",
-        "test/wordpress-federation-refactor.test.mjs",
-        "test/milestone-7-e2e-contract.test.mjs"
-      ],
-      "refs": [
-        "US-049",
-        "AC-097",
-        "AC-098",
-        "US-050",
-        "AC-100",
-        "AC-101"
-      ]
-    },
-    {
-      "id": "T-076",
-      "titulo": "Feed order subscriptions from native WooCommerce webhooks",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "compose.yaml",
-        "libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts",
-        "libs/wordpress/nest/src/subscriptions/subscriptions.module.ts",
-        "libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts",
-        "test/order-subscription-refactor.test.mjs",
-        "test/milestone-7-e2e-contract.test.mjs"
-      ],
-      "refs": [
-        "US-051",
-        "AC-102",
-        "US-048",
-        "AC-096"
-      ]
-    },
-    {
-      "id": "T-077",
-      "titulo": "Delete the marketplace MU-plugin and prove the plugin-first topology",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/wordpress-integration/marketplace-inventory.php",
-        "apps/wordpress-integration/compose.yaml",
-        "apps/wordpress-integration/scripts/probe.mjs",
-        "compose.yaml",
-        "libs/contracts/graphql/wordpress/schema.graphql",
-        "test/wordpress-federation-refactor.test.mjs",
-        "test/five-app-topology.test.mjs",
-        "test/federated-platform-quality.test.mjs"
-      ],
-      "refs": [
-        "US-049",
-        "AC-097",
-        "AC-098",
         "US-052",
         "AC-103"
       ]
     },
     {
-      "id": "T-078",
-      "titulo": "Re-run acceptance and publish the native-plugin walkthrough",
+      "id": "T-080",
+      "titulo": "Re-run the pull-request gates and merge into main",
       "modelo": "gpt-5.6-luna",
       "esforco": "low",
       "arquivos": [
-        "README.md",
-        "docs/knowledge/Mapa do Projeto.md",
-        "docs/runbooks/local-development.md",
-        "docs/runbooks/e2e.md",
-        "docs/evidence/federated-platform-refactor/review.md",
-        ".spec/verification/federated-platform-architecture-refactor.json"
+        ".spec/verification/federated-platform-architecture-refactor.json",
+        "docs/evidence/federated-platform-refactor/review.md"
       ],
       "refs": [
         "US-052",
@@ -132,7 +61,12 @@
     "T-070",
     "T-071",
     "T-072",
-    "T-073"
+    "T-073",
+    "T-074",
+    "T-075",
+    "T-076",
+    "T-077",
+    "T-078"
   ],
   "avisos": []
 }
