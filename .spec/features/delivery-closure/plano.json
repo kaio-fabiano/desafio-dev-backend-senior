@@ -1,0 +1,163 @@
+{
+  "runId": "desafio-dev-backend-senior-delivery-closure-mthe9061",
+  "feature": "delivery-closure",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-31 15:29",
+  "branchTrabalho": "spec/delivery-closure",
+  "baseDir": ".spec/features/delivery-closure",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-delivery-closure-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-085",
+      "titulo": "Encode the immutable challenge compliance gate",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "docs/evidence/challenge-compliance.md",
+        "test/challenge-compliance-contract.test.mjs",
+        "test/five-app-topology.test.mjs",
+        "test/milestone-8-real-e2e.test.mjs"
+      ],
+      "refs": [
+        "US-055",
+        "AC-109"
+      ]
+    },
+    {
+      "id": "T-086",
+      "titulo": "Restore durable checkout and RabbitMQ choreography",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/commerce-subgraph",
+        "libs/contracts/graphql/commerce/schema.graphql",
+        "libs/contracts/events",
+        "compose.yaml",
+        "package.json",
+        "pnpm-lock.yaml",
+        "pnpm-workspace.yaml",
+        "nx.json",
+        "test/delivery-closure-rabbitmq.test.mjs"
+      ],
+      "refs": [
+        "US-056",
+        "AC-110"
+      ]
+    },
+    {
+      "id": "T-087",
+      "titulo": "Reactivate the Java Payment Federation event runtime",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-processor/build.gradle.kts",
+        "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging",
+        "apps/payment-processor/src/main/resources",
+        "apps/payment-processor/src/test",
+        "test/delivery-closure-payment-runtime.test.mjs"
+      ],
+      "refs": [
+        "US-056",
+        "AC-111"
+      ]
+    },
+    {
+      "id": "T-088",
+      "titulo": "Add inventory reaction and compensation to Payment Federation",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-processor/src/main/java/dev/desafio/payment/inventory",
+        "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging",
+        "apps/payment-processor/src/test",
+        "apps/wordpress-integration",
+        "libs/contracts/events",
+        "compose.yaml",
+        "test/delivery-closure-inventory-saga.test.mjs"
+      ],
+      "refs": [
+        "US-056",
+        "AC-112"
+      ]
+    },
+    {
+      "id": "T-089",
+      "titulo": "Repair the complete Testcontainers acceptance journey",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/e2e/src/environment.ts",
+        "apps/e2e/src/journey.ts",
+        "apps/e2e/src/milestone-7.e2e.test.ts",
+        "apps/e2e/project.json",
+        "libs/contracts/graphql/supergraph.yaml",
+        "test/milestone-7-e2e-contract.test.mjs",
+        "test/milestone-8-real-e2e.test.mjs"
+      ],
+      "refs": [
+        "US-057",
+        "AC-113",
+        "AC-114"
+      ]
+    },
+    {
+      "id": "T-090",
+      "titulo": "Add optional end-to-end observability",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "libs/platform/nest/src",
+        "apps/gateway/src/main.ts",
+        "apps/identity-subgraph/src/main.ts",
+        "apps/commerce-subgraph/src",
+        "apps/wordpress-federation/src/main.ts",
+        "apps/payment-processor",
+        "compose.yaml",
+        "infra/observability/otel-collector.yaml",
+        "docs/runbooks/observability.md",
+        "test/delivery-closure-observability.test.mjs"
+      ],
+      "refs": [
+        "US-058",
+        "AC-115"
+      ]
+    },
+    {
+      "id": "T-091",
+      "titulo": "Reconcile documentation and close every gate",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "README.md",
+        "docs/evidence/challenge-compliance.md",
+        "docs/evidence/milestone-8/requirements.md",
+        "docs/prds/08-riscos-e-decisoes-pendentes.md",
+        "docs/adrs/004-restricoes-de-entrega.md",
+        "docs/adrs/007-federated-platform-boundaries.md",
+        "docs/runbooks",
+        ".spec/features/milestone-6-apollo-mcp/spec.md",
+        ".spec/features/milestone-7-e2e-deployment/spec.md",
+        ".spec/features/delivery-closure/spec.md",
+        ".spec/features/delivery-closure/tasks.md",
+        ".spec/verification/delivery-closure.json",
+        "libs/wordpress/nest/src/federation/wordpress-federation.module.ts"
+      ],
+      "refs": [
+        "US-058",
+        "AC-116"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
