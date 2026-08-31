@@ -6,17 +6,17 @@ import {
   type NestModule,
 } from '@nestjs/common';
 
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module.ts';
+import { WordPressCheckoutEventSource } from '../subscriptions/wordpress-checkout-event.source.ts';
+import {
+  createWpGraphqlAuth,
+  type WpGraphqlAuth,
+} from './wpgraphql-auth.factory.ts';
 import {
   WpGraphqlClientService,
   type WpGraphqlProxyRequest,
   type WpGraphqlProxyResponse,
 } from './wpgraphql-client.service.ts';
-import {
-  createWpGraphqlAuth,
-  type WpGraphqlAuth,
-} from './wpgraphql-auth.factory.ts';
-import { SubscriptionsModule } from '../subscriptions/subscriptions.module.ts';
-import { WordPressCheckoutEventSource } from '../subscriptions/wordpress-checkout-event.source.ts';
 
 export const WORDPRESS_FEDERATION_CONFIG = Symbol(
   'WORDPRESS_FEDERATION_CONFIG',
