@@ -1,7 +1,7 @@
 # Spec: Federated platform architecture refactor
 
 > feature: federated-platform-architecture-refactor
-> status: em-andamento
+> status: em-implementacao
 
 ## Context
 
