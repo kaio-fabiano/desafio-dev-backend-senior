@@ -1,0 +1,17 @@
+{
+  "feature": "delivery-closure",
+  "timestamp": "2026-08-31T15:43:24.578Z",
+  "gitRev": "ba1743b",
+  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 105,
+  "results": {
+    "AC-109": {
+      "status": "pass",
+      "testName": "AC-109: compliance evidence is anchored to the challenge README @spec:AC-109",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
