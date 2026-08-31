@@ -1,11 +1,11 @@
 {
   "feature": "import-order-stability",
-  "timestamp": "2026-08-31T13:32:47.627Z",
-  "gitRev": "699f6c1",
+  "timestamp": "2026-08-31T14:20:57.335Z",
+  "gitRev": "a2a37a3",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 102,
+  "testsParsed": 104,
   "results": {
     "AC-089": {
       "status": "pass",

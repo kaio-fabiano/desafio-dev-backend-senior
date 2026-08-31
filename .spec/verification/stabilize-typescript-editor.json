@@ -1,0 +1,22 @@
+{
+  "feature": "stabilize-typescript-editor",
+  "timestamp": "2026-08-31T14:13:29.778Z",
+  "gitRev": "a2a37a3",
+  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 104,
+  "results": {
+    "AC-107": {
+      "status": "pass",
+      "testName": "AC-107: active TypeScript applications pass explicit Nx typecheck targets @spec:AC-107",
+      "method": "tap"
+    },
+    "AC-108": {
+      "status": "pass",
+      "testName": "AC-108: TypeScript import organization stays disabled in language scopes @spec:AC-108",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

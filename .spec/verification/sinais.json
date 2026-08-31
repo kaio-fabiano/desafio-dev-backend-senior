@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 33,
+      "ocorrencias": 34,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-31T13:04:35.112Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 29,
+      "ocorrencias": 30,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-31T13:04:35.112Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 19,
+      "ocorrencias": 20,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-08-31T13:04:35.112Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 18,
+      "ocorrencias": 19,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-08-31T13:04:35.112Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2552,19 +2552,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-08-31T13:04:35.112Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "import-order-stability",
       "ref": "—",
-      "ocorrencias": 14,
+      "ocorrencias": 15,
       "primeiraVez": "2026-08-28T18:01:53.411Z",
-      "ultimaVez": "2026-08-31T13:04:35.112Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-065": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-08-31T13:04:35.112Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3204,6 +3204,51 @@
       "primeiraVez": "2026-08-31T12:58:49.257Z",
       "ultimaVez": "2026-08-31T12:58:49.257Z",
       "gitRev": "699f6c1"
+    },
+    "ARQUIVO_INEXISTENTE::stabilize-typescript-editor::T-083": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "stabilize-typescript-editor",
+      "ref": "T-083",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-31T13:58:00.138Z",
+      "ultimaVez": "2026-08-31T13:58:00.138Z",
+      "gitRev": "a2a37a3"
+    },
+    "ARQUIVO_INEXISTENTE::stabilize-typescript-editor::T-084": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "stabilize-typescript-editor",
+      "ref": "T-084",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T13:58:00.138Z",
+      "ultimaVez": "2026-08-31T13:58:00.138Z",
+      "gitRev": "a2a37a3"
+    },
+    "AC_SEM_TESTE::stabilize-typescript-editor::AC-107": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "stabilize-typescript-editor",
+      "ref": "AC-107",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T13:58:00.138Z",
+      "ultimaVez": "2026-08-31T13:58:00.138Z",
+      "gitRev": "a2a37a3"
+    },
+    "AC_SEM_TESTE::stabilize-typescript-editor::AC-108": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "stabilize-typescript-editor",
+      "ref": "AC-108",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T13:58:00.138Z",
+      "ultimaVez": "2026-08-31T13:58:00.138Z",
+      "gitRev": "a2a37a3"
+    },
+    "VERIFY_OBSOLETO::remove-retired-applications::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "remove-retired-applications",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T14:13:53.282Z",
+      "ultimaVez": "2026-08-31T14:13:53.282Z",
+      "gitRev": "a2a37a3"
     }
   }
 }

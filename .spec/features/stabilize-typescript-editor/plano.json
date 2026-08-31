@@ -1,0 +1,66 @@
+{
+  "runId": "desafio-dev-backend-senior-stabilize-typescript-editor-mthazlrp",
+  "feature": "stabilize-typescript-editor",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-31 13:58",
+  "branchTrabalho": "spec/stabilize-typescript-editor",
+  "baseDir": ".spec/features/stabilize-typescript-editor",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-stabilize-typescript-editor-logs",
+  "ondas": [
+    [
+      "faixa-1"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/stabilize-typescript-editor-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-stabilize-typescript-editor-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-083",
+          "titulo": "Add explicit application typecheck projects",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "apps/gateway/project.json",
+            "apps/gateway/tsconfig.app.json",
+            "apps/identity-subgraph/project.json",
+            "apps/identity-subgraph/tsconfig.app.json",
+            "apps/wordpress-federation/project.json",
+            "apps/wordpress-federation/tsconfig.app.json",
+            "tsconfig.json",
+            "test/typescript-editor-stability.test.mjs"
+          ],
+          "refs": [
+            "US-054",
+            "AC-107"
+          ]
+        },
+        {
+          "id": "T-084",
+          "titulo": "Lock language-specific import behavior",
+          "modelo": "gpt-5.6-luna",
+          "esforco": "low",
+          "arquivos": [
+            ".vscode/settings.json",
+            "test/typescript-editor-stability.test.mjs"
+          ],
+          "refs": [
+            "US-054",
+            "AC-108"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [],
+  "concluidas": [],
+  "avisos": []
+}
