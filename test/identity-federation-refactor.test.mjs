@@ -19,7 +19,10 @@ test('AC-092: NestJS owns Identity Federation runtime dependencies @spec:AC-092'
     main,
     /\bPool\b|createIdentityAuth|toBetterAuthRequest|auth\.handler|\.getHttpAdapter\(/,
   );
-  assert.match(appModule, /libs\/identity\/nest\/src\/index\.ts/);
+  assert.match(
+    appModule,
+    /from ['"]@desafio-dev-backend-senior\/source\/identity-nest['"]/,
+  );
   assert.match(identityModule, /providers:/);
   assert.match(identityModule, /RegistrationService/);
   assert.match(identityModule, /IdentityResolver/);

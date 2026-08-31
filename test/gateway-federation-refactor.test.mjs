@@ -27,7 +27,10 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     main,
     /\bjson\b|getHttpAdapter|CommerceSubscription|GatewaySse|graphql\/stream/,
   );
-  assert.match(appModule, /libs\/gateway\/nest\/src\/index\.ts/);
+  assert.match(
+    appModule,
+    /from ['"]@desafio-dev-backend-senior\/source\/gateway-nest['"]/,
+  );
   assert.doesNotMatch(
     appModule,
     /from ['"]@nestjs\/apollo['"]|from ['"]@apollo\/gateway['"]|readFileSync\(/,
