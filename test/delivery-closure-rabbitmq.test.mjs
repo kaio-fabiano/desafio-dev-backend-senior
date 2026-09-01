@@ -4,18 +4,18 @@ import test from 'node:test';
 
 import Ajv from 'ajv/dist/2020.js';
 
-import { CheckoutService } from '../apps/commerce-subgraph/src/checkout/checkout.service.ts';
-import { createWooOrderAdapter } from '../apps/commerce-subgraph/src/checkout/woo-order.adapter.ts';
+import { CheckoutService } from '../apps/order-workflow-subgraph/src/checkout/checkout.service.ts';
+import { createWooCheckoutAdapter } from '../apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts';
 import {
-  COMMERCE_EVENT_ROUTING_KEYS,
-  COMMERCE_QUEUE,
-} from '../apps/commerce-subgraph/src/messaging/commerce-messaging.runtime.ts';
+  ORDER_WORKFLOW_EVENT_ROUTING_KEYS,
+  ORDER_WORKFLOW_QUEUE,
+} from '../apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts';
 import {
   MARKETPLACE_EXCHANGE,
   declareConsumerQueue,
   declareRabbitMqTopology,
-} from '../apps/commerce-subgraph/src/messaging/rabbitmq.ts';
-import { OutboxPublisher } from '../apps/commerce-subgraph/src/outbox/outbox.publisher.ts';
+} from '../apps/order-workflow-subgraph/src/messaging/rabbitmq.ts';
+import { OutboxPublisher } from '../apps/order-workflow-subgraph/src/outbox/outbox.publisher.ts';
 
 test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC-110', async () => {
   const operation = {
@@ -26,7 +26,16 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
   const checkout = new CheckoutService(
     {
       async claim(input) {
-        return { created: true, operation: { ...operation, ...input } };
+        return {
+          ownerToken: 'owner-110',
+          operation: { ...operation, ...input, status: 'PENDING_WOO' },
+        };
+      },
+      async beginCreation() {
+        return undefined;
+      },
+      async release() {
+        return undefined;
       },
       async confirm(operationId, wooOrderId, stockItems, onConfirmed) {
         const workflow = {
@@ -51,22 +60,27 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
       },
     },
     {
+      async findByReference() {
+        return null;
+      },
       async createOrFind() {
-        return { id: '701' };
+        return {
+          id: '701',
+          cartSnapshot: {
+            items: [{ id: 42, quantity: 2 }],
+            totals: {
+              currency_code: 'BRL',
+              currency_minor_unit: 2,
+              total_price: '1990',
+            },
+          },
+        };
       },
     },
   );
 
   assert.deepEqual(
     await checkout.checkout({
-      cartSnapshot: {
-        items: [{ id: 42, quantity: 2 }],
-        totals: {
-          currency_code: 'BRL',
-          currency_minor_unit: 2,
-          total_price: '1990',
-        },
-      },
       operationKey: operation.operationKey,
       paymentMethod: 'CARD',
       subject: 'buyer-110',
@@ -84,24 +98,42 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
   });
 
   let wooOrderCreations = 0;
-  const wooOrders = createWooOrderAdapter({
-    consumerKey: 'local-test-key',
-    consumerSecret: 'local-test-secret',
-    endpoint: 'http://wordpress',
-    async request(_url, init) {
-      if (init?.method === 'POST') {
+  const wooOrders = createWooCheckoutAdapter(
+    'http://wordpress',
+    async (_url, init) => {
+      const body = JSON.parse(String(init?.body));
+      if (body.query.includes('mutation Checkout')) {
         wooOrderCreations += 1;
-        return new Response(JSON.stringify({ id: 702 }), { status: 201 });
+        return Response.json({
+          data: { checkout: { order: { databaseId: 702 } } },
+        });
       }
-      return new Response(JSON.stringify([]), {
-        headers: { 'x-wp-totalpages': '1' },
-        status: 200,
+      if (body.query.includes('OrderWorkflowCart')) {
+        return Response.json({
+          data: {
+            cart: {
+              total: '19.90',
+              contents: {
+                nodes: [{ quantity: 2, product: { node: { databaseId: 42 } } }],
+              },
+            },
+          },
+        });
+      }
+      return Response.json({
+        data: {
+          customer: { orders: { nodes: [], pageInfo: { hasNextPage: false } } },
+        },
       });
     },
-  });
+  );
   const concurrentOrders = await Promise.all(
     Array.from({ length: 8 }, () =>
-      wooOrders.createOrFind({ reference: 'checkout-client-110' }),
+      wooOrders.createOrFind({
+        paymentMethod: 'CARD',
+        reference: 'checkout-client-110',
+        subject: 'buyer-110',
+      }),
     ),
   );
   assert.equal(wooOrderCreations, 1);
@@ -122,7 +154,9 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
       async claimUnsent() {
         return outboxRows;
       },
-      async markPublicationAttempt() {},
+      async markPublicationAttempt() {
+        return undefined;
+      },
       async markSent(_transaction, eventId) {
         sent.push(eventId);
       },
@@ -184,8 +218,8 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
   await declareRabbitMqTopology(channel);
   await declareConsumerQueue(
     channel,
-    COMMERCE_QUEUE,
-    COMMERCE_EVENT_ROUTING_KEYS,
+    ORDER_WORKFLOW_QUEUE,
+    ORDER_WORKFLOW_EVENT_ROUTING_KEYS,
   );
   assert.ok(
     topology.exchanges.every(({ options }) => options.durable === true),
@@ -195,7 +229,7 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
     topology.bindings.some(
       ({ exchange, queue, routingKey }) =>
         exchange === MARKETPLACE_EXCHANGE &&
-        queue === COMMERCE_QUEUE &&
+        queue === ORDER_WORKFLOW_QUEUE &&
         routingKey === 'payment.authorized',
     ),
   );
@@ -203,28 +237,28 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
     topology.bindings.some(
       ({ exchange, queue, routingKey }) =>
         exchange === MARKETPLACE_EXCHANGE &&
-        queue === COMMERCE_QUEUE &&
+        queue === ORDER_WORKFLOW_QUEUE &&
         routingKey === 'stock.reserved',
     ),
   );
 
-  const [compose, runtime, commerceSchema] = await Promise.all([
+  const [compose, runtime, workflowSchema] = await Promise.all([
     readFile('compose.yaml', 'utf8'),
     readFile(
-      'apps/commerce-subgraph/src/messaging/commerce-messaging.runtime.ts',
+      'apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts',
       'utf8',
     ),
-    readFile('libs/contracts/graphql/commerce/schema.graphql', 'utf8'),
+    readFile('libs/contracts/graphql/order-workflow/schema.graphql', 'utf8'),
   ]);
-  assert.match(compose, /^  rabbitmq:/m);
-  assert.match(compose, /^  commerce-database:/m);
-  assert.match(compose, /^  commerce-subgraph:/m);
+  assert.match(compose, /^\s{2}rabbitmq:/m);
+  assert.match(compose, /^\s{2}order-workflow-database:/m);
+  assert.match(compose, /^\s{2}order-workflow-subgraph:/m);
   assert.match(compose, /RABBITMQ_URL: amqp:\/\/rabbitmq:5672/);
   assert.match(runtime, /consumeWithRetry/);
   assert.doesNotMatch(runtime, /fetch\(|payment-processor|stock-worker/);
   assert.match(
-    commerceSchema,
-    /startCheckout\(input: CommerceCheckoutInput!\): Order!/,
+    workflowSchema,
+    /startCheckout\(input: OrderWorkflowCheckoutInput!\): Order!/,
   );
-  assert.doesNotMatch(commerceSchema, /\n\s*checkout\(input: CheckoutInput!/);
+  assert.doesNotMatch(workflowSchema, /\n\s*checkout\(input: CheckoutInput!/);
 });

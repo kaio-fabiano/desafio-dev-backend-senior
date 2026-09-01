@@ -21,7 +21,7 @@
 ## T-094 — Review and improve Commerce workflow boundaries [concluida]
 
 - Refs: US-060, AC-123
-- Arquivos: apps/commerce-subgraph, test/delivery-closure-rabbitmq.test.mjs, test/structural-commerce-review.test.mjs
+- Arquivos: apps/order-workflow-subgraph, test/delivery-closure-rabbitmq.test.mjs, test/structural-commerce-review.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Run after Gateway findings establish the stable subscription edge.

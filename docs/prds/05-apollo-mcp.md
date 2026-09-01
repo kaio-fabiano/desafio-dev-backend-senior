@@ -18,15 +18,14 @@ but does not replace domain authorization.
 
 ## Allowed tools
 
-| Tool             | Registered operation | Suggested scope    | Mutation? |
-| ---------------- | -------------------- | ------------------ | --------- |
-| `me`             | `MeJourney`          | `marketplace:read` | no        |
-| `searchProducts` | `SearchProducts`     | `marketplace:read` | no        |
-| `getProduct`     | `GetProduct`         | `marketplace:read` | no        |
-| `getMyCart`      | `GetMyCart`          | `cart:read`        | no        |
-| `getMyOrders`    | `GetMyOrders`        | `orders:read`      | no        |
-| `addToCart`      | `AddToCart`          | `cart:write`       | yes       |
-| `removeFromCart` | `RemoveFromCart`     | `cart:write`       | yes       |
+| Tool             | Behavior                    | Suggested scope    | Mutation? |
+| ---------------- | --------------------------- | ------------------ | --------- |
+| `me`             | current user                | `marketplace:read` | no        |
+| `searchProducts` | paginated product discovery | `marketplace:read` | no        |
+| `getProduct`     | product lookup by ID        | `marketplace:read` | no        |
+| `getMyCart`      | current user's cart         | `cart:read`        | no        |
+| `getMyOrders`    | current user's orders       | `orders:read`      | no        |
+| `addToCart`      | add a product to the cart   | `cart:write`       | yes       |
 
 Do not register order/payment creation, administration, supplier registration,
 or catalog mutations. Operations reside in versioned files and are not freely

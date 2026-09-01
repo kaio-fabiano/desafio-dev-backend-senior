@@ -3,15 +3,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import type { NextFunction, Request, Response } from 'express';
 
 import { TokenVerifierService } from '@desafio-dev-backend-senior/source/gateway-nest';
-import { createCommerceSubscriptionClient } from './commerce-subscription.client.ts';
+import { createOrderWorkflowSubscriptionClient } from './order-workflow-subscription.client.ts';
 import { createGatewaySseHandler } from './sse-handler.ts';
 
 export class GatewaySseMiddleware implements NestMiddleware {
   private readonly handle = createGatewaySseHandler({
-    commerce: createCommerceSubscriptionClient({
+    orderWorkflow: createOrderWorkflowSubscriptionClient({
       url:
-        process.env.COMMERCE_SUBSCRIPTION_URL ??
-        'http://commerce-subgraph:3003/graphql/stream',
+        process.env.ORDER_WORKFLOW_SUBSCRIPTION_URL ??
+        'http://order-workflow-subgraph:3003/graphql/stream',
     }),
     verify: (request) => this.tokens.verify(request),
   });

@@ -7,13 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Comparator;
 
 public final class InventoryService {
     private final InventoryRepository repository;
     private final StockPort stock;
     private final Clock clock;
-    private final ConcurrentHashMap<String, Object> inFlight = new ConcurrentHashMap<>();
 
     public InventoryService(InventoryRepository repository, StockPort stock) {
         this(repository, stock, Clock.systemUTC());
@@ -27,38 +26,46 @@ public final class InventoryService {
 
     public ProcessingResult handle(ReservationRequested request) {
         Objects.requireNonNull(request, "request");
-        var lock = inFlight.computeIfAbsent(request.operationKey(), ignored -> new Object());
-        try {
-            synchronized (lock) {
-                return process(request);
-            }
-        } finally {
-            inFlight.remove(request.operationKey(), lock);
+        var claim = repository.claim(request, fingerprint(request));
+        if (claim.status() == InventoryRepository.ClaimStatus.COMPLETED) {
+            return new ProcessingResult(claim.completedEvent(), true);
         }
-    }
-
-    private ProcessingResult process(ReservationRequested request) {
-        var previous = repository.find(request.eventId(), request.operationKey());
-        if (previous.isPresent()) return new ProcessingResult(previous.orElseThrow(), true);
+        if (claim.status() == InventoryRepository.ClaimStatus.BUSY) {
+            throw new WorkInProgressException();
+        }
 
         OutgoingEvent proposed;
-        try {
-            stock.reserve(request);
+        var state = stock.reconcile(request);
+        if (state == StockState.RESERVED) {
             proposed = event(
                 request,
                 "stock.reserved",
                 Map.of("orderId", request.orderId(), "reservationId", request.operationKey())
             );
-        } catch (InsufficientStockException error) {
+        } else if (state == StockState.INSUFFICIENT) {
             proposed = event(
                 request,
                 "stock.reservation-failed",
                 Map.of("orderId", request.orderId(), "reason", "INSUFFICIENT_STOCK")
             );
+        } else {
+            try {
+                stock.reserve(request);
+                proposed = event(
+                    request,
+                    "stock.reserved",
+                    Map.of("orderId", request.orderId(), "reservationId", request.operationKey())
+                );
+            } catch (InsufficientStockException error) {
+                proposed = event(
+                    request,
+                    "stock.reservation-failed",
+                    Map.of("orderId", request.orderId(), "reason", "INSUFFICIENT_STOCK")
+                );
+            }
         }
 
-        var stored = repository.save(request.eventId(), proposed);
-        return new ProcessingResult(stored.event(), !stored.inserted());
+        return new ProcessingResult(repository.complete(claim, proposed), false);
     }
 
     private OutgoingEvent event(ReservationRequested request, String eventType, Map<String, String> payload) {
@@ -78,11 +85,29 @@ public final class InventoryService {
     @FunctionalInterface
     public interface StockPort {
         void reserve(ReservationRequested request);
+
+        default StockState reconcile(ReservationRequested request) {
+            return StockState.AVAILABLE;
+        }
+    }
+
+    public enum StockState { AVAILABLE, RESERVED, INSUFFICIENT }
+
+    public static final class WorkInProgressException extends RuntimeException {
+        public WorkInProgressException() {
+            super("Inventory operation is already claimed");
+        }
     }
 
     public static final class InsufficientStockException extends RuntimeException {
         public InsufficientStockException() {
             super("WooCommerce stock is insufficient");
+        }
+    }
+
+    public static final class InventoryConflictException extends RuntimeException {
+        public InventoryConflictException(String orderId) {
+            super("WooCommerce order " + orderId + " was processed by another inventory operation");
         }
     }
 
@@ -132,6 +157,17 @@ public final class InventoryService {
         return operationKey.length() + ":" + operationKey
             + orderId.length() + ":" + orderId
             + eventType.length() + ":" + eventType;
+    }
+
+    private static String fingerprint(ReservationRequested request) {
+        var items = request.items().stream()
+            .sorted(Comparator.comparing(StockItem::productId).thenComparingInt(StockItem::quantity))
+            .map(item -> item.productId().length() + ":" + item.productId() + ":" + item.quantity())
+            .toList();
+        return UUID.nameUUIDFromBytes(
+            stableMaterial(request.operationKey(), request.orderId(), String.join("|", items))
+                .getBytes(StandardCharsets.UTF_8)
+        ).toString();
     }
 
     private static String required(String value, String name) {

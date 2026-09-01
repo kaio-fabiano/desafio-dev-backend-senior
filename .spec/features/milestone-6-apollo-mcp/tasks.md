@@ -3,7 +3,7 @@
 
 ## T-041 — Define the curated GraphQL operation manifest [concluida]
 - Refs: US-034, AC-060, AC-061
-- Arquivos: apps/apollo-mcp/operations/me.graphql, apps/apollo-mcp/operations/search-products.graphql, apps/apollo-mcp/operations/get-product.graphql, apps/apollo-mcp/operations/get-my-cart.graphql, apps/apollo-mcp/operations/get-my-orders.graphql, apps/apollo-mcp/operations/add-to-cart.graphql, apps/apollo-mcp/operations/remove-from-cart.graphql, test/milestone-6-mcp-operations.test.mjs
+- Arquivos: apps/apollo-mcp/operations/me.graphql, apps/apollo-mcp/operations/search-products.graphql, apps/apollo-mcp/operations/get-product.graphql, apps/apollo-mcp/operations/get-my-cart.graphql, apps/apollo-mcp/operations/get-my-orders.graphql, apps/apollo-mcp/operations/add-to-cart.graphql, apps/apollo-mcp/mcp.yaml, test/milestone-6-mcp-operations.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: Use only schema-backed named operations. Do not expose execute, introspection, checkout, payment, administration, supplier, or catalog mutation capabilities.
@@ -35,3 +35,10 @@
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notas: Use an MCP protocol client for the automated gate and document Inspector steps. Compare the same token/fixtures through GraphQL and MCP; never store bearer tokens in evidence or logs.
+
+## T-107 — Separate product discovery from singular lookup [concluida]
+- Refs: US-034, AC-060, AC-066, AC-138
+- Arquivos: apps/apollo-mcp/schema.graphql, apps/apollo-mcp/operations/search-products.graphql, test/milestone-6-mcp-config.test.mjs, test/milestone-6-mcp-operations.test.mjs, test/milestone-6-apollo-mcp.test.mjs, docs/prds/05-apollo-mcp.md
+- Modelo: gpt-5.6-terra
+- Esforço: medio
+- Notas: Reuse the federated `products(first, after)` connection, keep `getProduct` as the only singular lookup, and prove both local operations against the pinned MCP schema.

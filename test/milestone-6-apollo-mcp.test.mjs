@@ -25,7 +25,6 @@ const expectedTools = [
   'getMyOrders',
   'getProduct',
   'me',
-  'removeFromCart',
   'searchProducts',
 ];
 const buyer = { id: 'buyer-mcp', email: 'buyer-mcp@example.test' };
@@ -89,7 +88,7 @@ test('AC-063: Tool scopes are enforced @spec:AC-063', async () => {
   await withFixture([REQUIRED_SCOPE], async ({ connect, gateway }) => {
     const mcp = await connect();
     try {
-      const read = await mcp.callTool({ name: 'searchProducts', arguments: { productId: 'product-1' } });
+      const read = await mcp.callTool({ name: 'searchProducts', arguments: { first: 20 } });
       assert.notEqual(read.isError, true);
       const mutation = await mcp.callTool({ name: 'addToCart', arguments: { productId: 'product-1', quantity: 1 } });
       assert.equal(mutation.isError, true);
@@ -149,7 +148,7 @@ test('AC-066: Milestone acceptance is reproducible @spec:AC-066', async () => {
     try {
       assert.deepEqual((await mcp.listTools()).tools.map(({ name }) => name).sort(), expectedTools);
       await mcp.callTool({ name: 'me', arguments: {} });
-      await mcp.callTool({ name: 'searchProducts', arguments: { productId: 'product-1' } });
+      await mcp.callTool({ name: 'searchProducts', arguments: { first: 20 } });
       await mcp.callTool({ name: 'addToCart', arguments: { productId: 'product-1', quantity: 1 } });
       assert.deepEqual(gateway.authorizationHeaders, [`Bearer ${token}`, `Bearer ${token}`, `Bearer ${token}`]);
       assert.ok(logs.every((entry) => !entry.includes(token)), 'probe logs must redact bearer tokens');
@@ -244,7 +243,6 @@ function registeredMcp({ token, scopes, gateway, logs }) {
     getMyCart: 'cart:read',
     getMyOrders: 'orders:read',
     addToCart: CART_WRITE_SCOPE,
-    removeFromCart: CART_WRITE_SCOPE,
   };
   for (const [name, scope] of Object.entries(requiredScopes)) {
     mcp.registerTool(name, {}, async (arguments_) => {

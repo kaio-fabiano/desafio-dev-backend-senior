@@ -32,7 +32,10 @@ architecture contract consumed by `test/federated-platform-refactor.test.mjs`.
     { "name": "Apollo MCP", "path": "apps/apollo-mcp" },
     { "name": "Gateway", "path": "apps/gateway" },
     { "name": "Identity Federation", "path": "apps/identity-subgraph" },
-    { "name": "Commerce Federation", "path": "apps/commerce-subgraph" },
+    {
+      "name": "Order Workflow Federation",
+      "path": "apps/order-workflow-subgraph"
+    },
     { "name": "Payment Federation", "path": "apps/payment-processor" }
   ],
   "nonDeployableProjects": [{ "name": "End-to-end tests", "path": "apps/e2e" }],
@@ -49,14 +52,14 @@ A catalog fallback is not part of the target.
 
 ## Runtime responsibilities
 
-| Runtime              | Business responsibility                                                                | Composition boundary                                                        | Must not own                                                                     |
-| -------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Apollo MCP           | Authenticated MCP tools backed by registered graph operations                          | MCP SDK configuration and a Gateway client                                  | Domain state, direct subgraph clients, or persistence                            |
-| Gateway              | Verify identity, propagate safe context, execute the composed graph, and expose SSE     | NestJS authentication, Apollo Gateway, and Commerce stream delegation       | Catalog/order loaders, repositories, or ownership of order events                 |
-| Identity Federation  | Identity, sessions, OAuth, registration, and identity-owned graph fields               | `NestJSBetterAuth`, injectable plugin factories, and Identity resolvers     | A second mapping or repository for Better Auth records                           |
-| Commerce Federation  | Checkout idempotency, workflow state, outbox/inbox, and order-event publication        | NestJS application services, PostgreSQL, and RabbitMQ adapters              | Authoritative product, cart, order, or inventory records                         |
-| Payment Federation   | Payment invariants plus internal payment and inventory event reactions                 | Spring GraphQL Federation, AMQP listeners, and application services         | Authoritative WooCommerce product, cart, or order records                        |
-| External WordPress   | Product, cart, order, customer, and inventory capabilities                             | Native WPGraphQL/WooGraphQL `/graphql` federated by `wp-graphql-federations` | Node proxy, SDL-normalization runtime, subscriptions, or duplicate commercial models |
+| Runtime                   | Business responsibility                                                             | Composition boundary                                                         | Must not own                                                                         |
+| ------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Apollo MCP                | Authenticated MCP tools backed by registered graph operations                       | MCP SDK configuration and a Gateway client                                   | Domain state, direct subgraph clients, or persistence                                |
+| Gateway                   | Verify identity, propagate safe context, execute the composed graph, and expose SSE | NestJS authentication, Apollo Gateway, and Order Workflow stream delegation  | Catalog/order loaders, repositories, or ownership of order events                    |
+| Identity Federation       | Identity, sessions, OAuth, registration, and identity-owned graph fields            | `NestJSBetterAuth`, injectable plugin factories, and Identity resolvers      | A second mapping or repository for Better Auth records                               |
+| Order Workflow Federation | Checkout idempotency, workflow state, outbox/inbox, and order-event publication     | NestJS application services, PostgreSQL, and RabbitMQ adapters               | Authoritative product, cart, order, or inventory records                             |
+| Payment Federation        | Payment invariants plus internal payment and inventory event reactions              | Spring GraphQL Federation, AMQP listeners, and application services          | Authoritative WooCommerce product, cart, or order records                            |
+| External WordPress        | Product, cart, order, customer, and inventory capabilities                          | Native WPGraphQL/WooGraphQL `/graphql` federated by `wp-graphql-federations` | Node proxy, SDL-normalization runtime, subscriptions, or duplicate commercial models |
 
 WordPress/MySQL remains the commercial system of record. Better Auth remains the
 owner of its persistence model. Payment owns its aggregate and dedicated read
@@ -93,12 +96,12 @@ they do not assemble infrastructure graphs manually.
 - No generic DDD framework, repository base class, service hierarchy, command
   bus, event sourcing platform, or distributed command bus is introduced.
 - No gateway DataLoader, business client, or repository is introduced. Its SSE
-  endpoint delegates to the Commerce-owned stream without owning order events.
+  endpoint delegates to the Order Workflow-owned stream without owning order events.
 - No custom WordPress commercial schema is built when WPGraphQL or WooGraphQL
   already supplies the capability.
 - No Identity MikroORM mapping mirrors Better Auth. Add first-party persistence
   only if a future identity-owned model is proved by a failing requirement.
-- RabbitMQ and the Commerce transactional outbox implement the specific
+- RabbitMQ and the Order Workflow transactional outbox implement the specific
   choreographed saga required by the challenge; no generic saga framework or
   additional worker deployment is introduced.
 
@@ -106,7 +109,7 @@ they do not assemble infrastructure graphs manually.
 
 | Decision                          | Enforced rule                                                                                             | Evidence                                                                                                       |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Runtime inventory                 | Exactly five deployables and the non-deployable E2E project are allowed                                    | `test/federated-platform-refactor.test.mjs` and `test/five-app-topology.test.mjs`                              |
+| Runtime inventory                 | Exactly five deployables and the non-deployable E2E project are allowed                                   | `test/federated-platform-refactor.test.mjs` and `test/five-app-topology.test.mjs`                              |
 | Provider boundary                 | Frameworks compose adapters; bootstrap and core layers do not construct infrastructure                    | `test/architecture-boundaries.test.mjs` plus the Identity, Gateway, WordPress, and subscription refactor tests |
 | Domain decision                   | Commercial state belongs to WordPress; payment invariants belong to Payment; Better Auth owns its records | `test/architecture-boundaries.test.mjs` plus focused federation tests                                          |
 | Deliberately omitted abstractions | The omissions above stay absent unless a failing acceptance test justifies one                            | `test/federated-platform-refactor.test.mjs` and the final architecture review                                  |
@@ -130,10 +133,10 @@ project retains explicit application logic only for identity integration,
 payment invariants, federation composition, and authenticated real-time
 delivery.
 
-This decision keeps ADR 001's Gateway SSE edge but assigns the stream to
-Commerce, and applies ADR 003's direct plugin-first WordPress boundary. It also
-supersedes ADR 005's planned Identity/Commerce MikroORM
-ownership, and ADR 006's Commerce-owned reconciliation. It preserves the proven
+This decision keeps ADR 001's Gateway SSE edge but assigns the stream to Order
+Workflow, and applies ADR 003's direct plugin-first WordPress boundary. It also
+supersedes ADR 005's planned Identity/Commerce MikroORM ownership, and ADR 006's
+Commerce-owned reconciliation. It preserves the proven
 protocol and product choices: GraphQL over SSE, plugin-first WordPress,
 Better Auth, Java 21/Spring Boot, Gradle through Nx, and stable idempotency keys.
 

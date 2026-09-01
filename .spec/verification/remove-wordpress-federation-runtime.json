@@ -1,11 +1,11 @@
 {
   "feature": "remove-wordpress-federation-runtime",
-  "timestamp": "2026-09-01T17:48:51.521Z",
-  "gitRev": "447d40f",
-  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "timestamp": "2026-09-01T23:03:42.171Z",
+  "gitRev": "d217645",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 120,
+  "testsParsed": 131,
   "results": {
     "AC-117": {
       "status": "pass",

@@ -3,6 +3,7 @@ package dev.desafio.payment.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.payment.adapter.persistence.PaymentRepository;
 import dev.desafio.payment.application.PaymentHandler;
+import dev.desafio.payment.application.PaymentProvider;
 import dev.desafio.payment.application.command.AuthorizePaymentHandler;
 import dev.desafio.payment.application.command.OrderPaymentPort;
 import dev.desafio.payment.application.query.FindPaymentHandler;
@@ -53,8 +54,14 @@ public class PaymentConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
-    PaymentHandler paymentHandler(PaymentRepository repository) {
-        return new PaymentHandler(repository);
+    PaymentProvider paymentProvider() {
+        return PaymentProvider.deterministic();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url")
+    PaymentHandler paymentHandler(PaymentRepository repository, PaymentProvider provider) {
+        return new PaymentHandler(repository, provider);
     }
 
     @Bean
@@ -98,7 +105,6 @@ public class PaymentConfiguration {
             input.put("id", command.orderId());
             var metadata = new ArrayList<>(List.of(Map.of("key", "operation_key", "value", command.operationKey())));
             if (payment.method() == Payment.Method.CARD) {
-                input.put("status", "COMPLETED");
                 input.put("isPaid", true);
                 input.put("transactionId", payment.id().toString());
             } else {

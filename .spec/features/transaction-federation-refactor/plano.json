@@ -1,0 +1,185 @@
+{
+  "runId": "desafio-dev-backend-senior-transaction-federation-refactor-mtj88w54",
+  "feature": "transaction-federation-refactor",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-01 22:16",
+  "branchTrabalho": "spec/transaction-federation-refactor",
+  "baseDir": ".spec/features/transaction-federation-refactor",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-transaction-federation-refactor-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-108",
+      "titulo": "Provar capacidades nativas e fronteiras",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "test/order-workflow-boundaries.test.mjs",
+        "test/wordpress-native-commerce.test.mjs",
+        "libs/contracts/graphql/wordpress/schema.graphql"
+      ],
+      "refs": [
+        "US-068",
+        "AC-139",
+        "AC-140",
+        "US-069",
+        "AC-141",
+        "AC-142"
+      ]
+    },
+    {
+      "id": "T-109",
+      "titulo": "Renomear Commerce para Order Workflow",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "apps/commerce-subgraph",
+        "apps/order-workflow-subgraph",
+        "libs/contracts/graphql/commerce",
+        "libs/contracts/graphql/order-workflow",
+        "package.json",
+        "pnpm-lock.yaml",
+        "nx.json",
+        "tsconfig.json",
+        "tsconfig.base.json"
+      ],
+      "refs": [
+        "US-069",
+        "AC-141",
+        "AC-142"
+      ]
+    },
+    {
+      "id": "T-110",
+      "titulo": "Remover wrappers e delegar ao WooGraphQL",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/cart",
+        "apps/order-workflow-subgraph/src/checkout",
+        "apps/order-workflow-subgraph/src/graphql",
+        "libs/contracts/graphql/order-workflow/schema.graphql",
+        "apps/order-workflow-subgraph/src/checkout"
+      ],
+      "refs": [
+        "US-068",
+        "AC-139",
+        "AC-140",
+        "US-070",
+        "AC-143",
+        "AC-144"
+      ]
+    },
+    {
+      "id": "T-111",
+      "titulo": "Simplificar saga e preservar SSE no Order Workflow",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/saga",
+        "apps/order-workflow-subgraph/src/inbox",
+        "apps/order-workflow-subgraph/src/outbox",
+        "apps/order-workflow-subgraph/src/subscriptions",
+        "apps/order-workflow-subgraph/src/persistence",
+        "apps/order-workflow-subgraph/src/messaging"
+      ],
+      "refs": [
+        "US-070",
+        "AC-143",
+        "AC-144",
+        "AC-145",
+        "US-071",
+        "AC-146",
+        "AC-147"
+      ]
+    },
+    {
+      "id": "T-112",
+      "titulo": "Isolar Payment, Inventory e porta de provedor",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-processor/src/main/java/dev/desafio/payment",
+        "apps/payment-processor/src/main/java/dev/desafio/inventory",
+        "apps/payment-processor/src/test/java/dev/desafio/payment",
+        "apps/payment-processor/src/test/java/dev/desafio/inventory"
+      ],
+      "refs": [
+        "US-070",
+        "AC-145",
+        "US-072",
+        "AC-148",
+        "AC-149"
+      ]
+    },
+    {
+      "id": "T-113",
+      "titulo": "Reconectar Gateway, MCP, compose e supergraph",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/gateway",
+        "libs/gateway",
+        "apps/apollo-mcp",
+        "compose.yaml",
+        "libs/contracts/graphql/supergraph.yaml",
+        "test/gateway-order-workflow.test.mjs"
+      ],
+      "refs": [
+        "AC-139",
+        "AC-141",
+        "AC-146",
+        "AC-147"
+      ]
+    },
+    {
+      "id": "T-114",
+      "titulo": "Registrar ADRs e plano do pagamento real",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "docs/adrs/008-native-commerce-and-order-workflow.md",
+        "docs/adrs/009-payment-provider-port.md",
+        "README.md",
+        "docs/prds/01-arquitetura-e-dominio.md",
+        "docs/prds/04-commerce-saga-e-realtime.md"
+      ],
+      "refs": [
+        "US-072",
+        "AC-148",
+        "AC-149",
+        "US-073",
+        "AC-150"
+      ]
+    },
+    {
+      "id": "T-115",
+      "titulo": "Fechar E2E, ESLint, composição e auditoria",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/e2e/src/journey.ts",
+        "test/order-workflow-e2e.test.mjs",
+        "test/order-workflow-architecture.spec.test.js",
+        ".spec/verification/transaction-federation-refactor.json"
+      ],
+      "refs": [
+        "AC-143",
+        "AC-144",
+        "AC-145",
+        "AC-146",
+        "AC-147",
+        "AC-151"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

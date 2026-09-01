@@ -7,14 +7,14 @@ const deployableProjects = [
   'apps/apollo-mcp/project.json',
   'apps/gateway/project.json',
   'apps/identity-subgraph/project.json',
-  'apps/commerce-subgraph/project.json',
+  'apps/order-workflow-subgraph/project.json',
   'apps/payment-processor/project.json',
 ];
 const deployableProjectNames = [
   '@desafio-dev-backend-senior/apollo-mcp',
   '@desafio-dev-backend-senior/gateway',
   '@desafio-dev-backend-senior/identity-subgraph',
-  '@desafio-dev-backend-senior/commerce-subgraph',
+  '@desafio-dev-backend-senior/order-workflow-subgraph',
   '@desafio-dev-backend-senior/payment-processor',
 ];
 
@@ -64,7 +64,7 @@ test('AC-090: only five deployable applications and the E2E project remain activ
     services.filter((name) =>
       [
         'apollo-mcp',
-        'commerce-subgraph',
+        'order-workflow-subgraph',
         'gateway',
         'identity-subgraph',
         'payment-processor',
@@ -75,13 +75,13 @@ test('AC-090: only five deployable applications and the E2E project remain activ
       'gateway',
       'apollo-mcp',
       'identity-subgraph',
-      'commerce-subgraph',
+      'order-workflow-subgraph',
       'payment-processor',
     ],
   );
 });
 
-test('AC-098: Commerce workflow and Java inventory consumers use the active topology @spec:AC-098', async () => {
+test('AC-098: OrderWorkflow workflow and Java inventory consumers use the active topology @spec:AC-098', async () => {
   const [compose, supergraph, environment, paymentBuild, paymentConfig] =
     await Promise.all([
       readFile('compose.yaml', 'utf8'),
@@ -97,15 +97,15 @@ test('AC-098: Commerce workflow and Java inventory consumers use the active topo
   const services = composeServiceNames(compose);
   assert.ok(services.includes('wordpress'));
   assert.ok(services.includes('payment-processor'));
-  assert.ok(services.includes('commerce-subgraph'));
+  assert.ok(services.includes('order-workflow-subgraph'));
   assert.ok(!services.includes('stock-worker'));
   assert.deepEqual(supergraphNames(supergraph), [
     'identity',
     'wordpress',
     'payment',
-    'commerce',
+    'order-workflow',
   ]);
-  assert.match(supergraph, /\.\/commerce\/schema\.graphql/);
+  assert.match(supergraph, /\.\/order-workflow\/schema\.graphql/);
 
   const activeComponents = environment.match(
     /const COMPOSE_SERVICES = \[([\s\S]*?)\] as const;/,
@@ -115,7 +115,7 @@ test('AC-098: Commerce workflow and Java inventory consumers use the active topo
     'the E2E environment must declare active services',
   );
   assert.match(activeComponents, /'wordpress'/);
-  assert.match(activeComponents, /'commerce-subgraph'/);
+  assert.match(activeComponents, /'order-workflow-subgraph'/);
   assert.match(activeComponents, /'rabbitmq'/);
   assert.doesNotMatch(activeComponents, /'stock-worker'/);
   assert.match(compose, /^  rabbitmq:/m);

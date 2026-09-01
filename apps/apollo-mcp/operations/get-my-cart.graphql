@@ -1,9 +1,18 @@
 query getMyCart {
   cart {
-    id
-    items {
-      edges { node { quantity product { id name price } } }
-      pageInfo { hasNextPage endCursor }
+    contents {
+      nodes {
+        key
+        quantity
+        product {
+          id
+          name
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
     }
   }
 }

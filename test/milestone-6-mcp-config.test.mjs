@@ -27,12 +27,11 @@ const expectedTools = new Set([
   'getMyCart',
   'getMyOrders',
   'addToCart',
-  'removeFromCart',
 ]);
 
 test('AC-060: Only approved operations become tools @spec:AC-060', () => {
-  assert.match(config, /operations:\n  source: local\n  paths:\n    - \/data\/operations/);
-  assert.match(config, /schema:\n  source: local\n  path: \/data\/schema\.graphql/);
+  assert.match(config, /operations:\n {2}source: local\n {2}paths:\n {4}- \/data\/operations/);
+  assert.match(config, /schema:\n {2}source: local\n {2}path: \/data\/schema\.graphql/);
   assert.equal(operations.length, expectedTools.size);
   for (const { file, document } of operations) {
     assert.deepEqual(validate(schema, document), [], `${file} must match the pinned client schema`);
@@ -43,7 +42,7 @@ test('AC-060: Only approved operations become tools @spec:AC-060', () => {
 
 test('AC-061: Forbidden mutations and arbitrary GraphQL tools stay disabled @spec:AC-061', () => {
   assert.match(config, /mutation_mode: explicit/);
-  assert.match(config, /introspection:\n  execute:\n    enabled: false\n  introspect:\n    enabled: false\n  search:\n    enabled: false\n  validate:\n    enabled: false/);
+  assert.match(config, /introspection:\n {2}execute:\n {4}enabled: false\n {2}introspect:\n {4}enabled: false\n {2}search:\n {4}enabled: false\n {2}validate:\n {4}enabled: false/);
   assert.doesNotMatch(config, /source: (?:collection|graphos|infer|introspect|manifest|uplink)/);
   assert.doesNotMatch(config, /(?:apollo_key|apollo_graph_ref|APOLLO_KEY|APOLLO_GRAPH_REF)/);
 
@@ -51,25 +50,25 @@ test('AC-061: Forbidden mutations and arbitrary GraphQL tools stay disabled @spe
     document.definitions
       .filter(({ kind, operation }) => kind === 'OperationDefinition' && operation === 'mutation')
       .flatMap(({ selectionSet }) => selectionSet.selections.map(({ name }) => name.value))));
-  assert.deepEqual(mutationFields, new Set(['addToCart', 'removeFromCart']));
+  assert.deepEqual(mutationFields, new Set(['addToCart']));
 });
 
 test('AC-062: Streamable HTTP rejects invalid MCP authentication at its resource boundary @spec:AC-062', () => {
-  assert.match(config, /transport:\n  type: streamable_http/);
+  assert.match(config, /transport:\n {2}type: streamable_http/);
   assert.match(
     config,
-    /host_validation:\n    enabled: true\n    allowed_hosts:\n      - apollo-mcp\n      - 172\.17\.0\.1/,
+    /host_validation:\n {4}enabled: true\n {4}allowed_hosts:\n {6}- apollo-mcp\n {6}- 172\.17\.0\.1/,
   );
-  assert.match(config, /servers:\n      - http:\/\/identity\.localhost:3001\/api\/auth/);
-  assert.match(config, /audiences:\n      - https:\/\/mcp\.marketplace\.local/);
-  assert.match(config, /issuers:\n      - http:\/\/identity\.localhost:3001\/api\/auth/);
+  assert.match(config, /servers:\n {6}- http:\/\/identity\.localhost:3001\/api\/auth/);
+  assert.match(config, /audiences:\n {6}- https:\/\/mcp\.marketplace\.local/);
+  assert.match(config, /issuers:\n {6}- http:\/\/identity\.localhost:3001\/api\/auth/);
   assert.match(config, /allow_any_audience: false/);
   assert.match(config, /resource: http:\/\/apollo-mcp:8000\/mcp/);
   assert.match(config, /allow_anonymous_mcp_discovery: false/);
 });
 
 test('AC-063: Every approved tool has an explicit least-privilege scope @spec:AC-063', () => {
-  assert.match(config, /scopes:\n      - mcp:tools\n    scope_mode: require_all/);
+  assert.match(config, /scopes:\n {6}- mcp:tools\n {4}scope_mode: require_all/);
   const expectedScopes = {
     me: 'marketplace:read',
     searchProducts: 'marketplace:read',
@@ -77,7 +76,6 @@ test('AC-063: Every approved tool has an explicit least-privilege scope @spec:AC
     getMyCart: 'cart:read',
     getMyOrders: 'orders:read',
     addToCart: 'cart:write',
-    removeFromCart: 'cart:write',
   };
   assert.deepEqual(new Set(Object.keys(expectedScopes)), expectedTools);
   for (const [operation, scope] of Object.entries(expectedScopes)) {

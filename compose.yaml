@@ -44,25 +44,30 @@ services:
 
   rabbitmq:
     image: rabbitmq:4.1.3-management
+    environment:
+      HOME: /tmp
+      RABBITMQ_ERLANG_COOKIE: local-development-cookie
     healthcheck:
       test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
       interval: 2s
       timeout: 2s
       retries: 30
+    tmpfs:
+      - /tmp:mode=0777
 
-  commerce-database:
+  order-workflow-database:
     image: postgres:17.6-bookworm
     environment:
-      POSTGRES_DB: commerce
+      POSTGRES_DB: order_workflow
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres -d commerce']
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d order_workflow']
       interval: 2s
       timeout: 2s
       retries: 30
     volumes:
-      - commerce-database-data:/var/lib/postgresql/data
+      - order-workflow-database-data:/var/lib/postgresql/data
 
   identity-database:
     image: postgres:17.6-bookworm
@@ -220,7 +225,7 @@ services:
       PORT: 3000
       WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
     depends_on:
-      commerce-subgraph:
+      order-workflow-subgraph:
         condition: service_healthy
       wordpress-setup:
         condition: service_healthy
@@ -312,26 +317,24 @@ services:
       timeout: 2s
       retries: 30
 
-  commerce-subgraph:
+  order-workflow-subgraph:
     build:
       context: .
-      dockerfile: apps/commerce-subgraph/Dockerfile
+      dockerfile: apps/order-workflow-subgraph/Dockerfile
     environment:
       NODE_OPTIONS: ${OTEL_NODE_OPTIONS:-}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-      OTEL_SERVICE_NAME: commerce-subgraph
-      COMMERCE_DB_HOST: commerce-database
-      COMMERCE_DB_NAME: commerce
-      COMMERCE_DB_PASSWORD: postgres
-      COMMERCE_DB_USER: postgres
+      OTEL_SERVICE_NAME: order-workflow-subgraph
+      ORDER_WORKFLOW_DB_HOST: order-workflow-database
+      ORDER_WORKFLOW_DB_NAME: order_workflow
+      ORDER_WORKFLOW_DB_PASSWORD: postgres
+      ORDER_WORKFLOW_DB_USER: postgres
       FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
       PORT: 3003
       RABBITMQ_URL: amqp://rabbitmq:5672
       WORDPRESS_URL: http://wordpress
-      WOO_CONSUMER_KEY: ck_2222222222222222222222222222222222222222
-      WOO_CONSUMER_SECRET: cs_2222222222222222222222222222222222222222
     depends_on:
-      commerce-database:
+      order-workflow-database:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
@@ -392,7 +395,7 @@ services:
     stop_grace_period: 35s
 
 volumes:
-  commerce-database-data:
+  order-workflow-database-data:
   identity-database-data:
   payment-database-data:
   wordpress-database-data:

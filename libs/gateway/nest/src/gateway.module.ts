@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { LocalCompose } from '@apollo/gateway';
 import {
   ApolloGatewayDriver,
@@ -8,6 +6,8 @@ import {
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { parse } from 'graphql';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 import { AuthContextFactory } from './auth/auth-context.factory.ts';
 import {
@@ -17,7 +17,9 @@ import {
 } from './auth/token-verifier.service.ts';
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
 
-function contract(name: 'identity' | 'wordpress' | 'payment' | 'commerce') {
+function contract(
+  name: 'identity' | 'wordpress' | 'payment' | 'order-workflow',
+) {
   return parse(
     readFileSync(
       resolve(`libs/contracts/graphql/${name}/schema.graphql`),
@@ -83,24 +85,27 @@ Module({
                 typeDefs: contract('payment'),
               },
               {
-                name: 'commerce',
+                name: 'order-workflow',
                 url:
-                  process.env.COMMERCE_GRAPHQL_URL ??
-                  'http://commerce-subgraph:3003/graphql',
-                typeDefs: contract('commerce'),
+                  process.env.ORDER_WORKFLOW_GRAPHQL_URL ??
+                  'http://order-workflow-subgraph:3003/graphql',
+                typeDefs: contract('order-workflow'),
               },
             ],
           }),
-          buildService: ({ name, url }) =>
-            new AuthenticatedDataSource(
-              {
-                url,
-                internalSecret:
-                  process.env.FEDERATION_INTERNAL_SECRET ??
-                  'federation-local-only',
-              },
-              name === 'wordpress',
-            ),
+          buildService: ({ name, url }) => {
+            if (!url) throw new Error(`Subgraph ${name} URL is required`);
+            return new AuthenticatedDataSource({
+              url,
+              internalSecret:
+                process.env.FEDERATION_INTERNAL_SECRET ??
+                'federation-local-only',
+              kind:
+                name === 'wordpress' || name === 'order-workflow'
+                  ? name
+                  : 'other',
+            });
+          },
         },
       }),
     }),

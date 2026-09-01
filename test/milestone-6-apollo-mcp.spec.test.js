@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 test('AC-060: Only approved operations become tools @spec:AC-060', () => {
   // Dado: the versioned operation manifest
   // Quando: an MCP client lists tools
-  // Então: exactly `me`, `searchProducts`, `getProduct`, `getMyCart`, `getMyOrders`, `addToCart`, and `removeFromCart` are exposed
+  // Então: exactly `me`, `searchProducts`, `getProduct`, `getMyCart`, `getMyOrders`, and `addToCart` are exposed
   assert.fail('critério de aceite AC-060 ainda não provado — implemente este teste');
 });
 

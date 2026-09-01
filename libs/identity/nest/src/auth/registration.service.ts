@@ -9,7 +9,7 @@ import { randomUUID } from 'node:crypto';
 
 const identityBootstrapToken = randomUUID();
 
-export function identityBootstrapHeaders() {
+export function identityBootstrapHeaders(): Headers {
   return new Headers({ 'x-identity-bootstrap': identityBootstrapToken });
 }
 

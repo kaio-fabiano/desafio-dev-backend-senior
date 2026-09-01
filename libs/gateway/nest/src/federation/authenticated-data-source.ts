@@ -7,18 +7,22 @@ import type { AuthContext } from '../auth/auth-context.factory.ts';
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext> {
   private readonly origin?: string;
-  private readonly wordpress: boolean;
+  private readonly capturesSession: boolean;
+  private readonly forwardsSession: boolean;
   private readonly internalSecret: string;
 
-  constructor(
-    config: { url: string; internalSecret?: string },
-    wordpress = false,
-  ) {
+  constructor(config: {
+    url: string;
+    internalSecret?: string;
+    kind?: 'wordpress' | 'order-workflow' | 'other';
+  }) {
     super({ url: config.url });
-    this.wordpress = wordpress;
+    const kind = config.kind ?? 'other';
+    this.capturesSession = kind === 'wordpress';
+    this.forwardsSession = kind === 'wordpress' || kind === 'order-workflow';
     this.internalSecret =
       config.internalSecret ?? process.env.FEDERATION_INTERNAL_SECRET ?? '';
-    this.origin = wordpress ? new URL(config.url).origin : undefined;
+    this.origin = kind === 'wordpress' ? new URL(config.url).origin : undefined;
   }
 
   override willSendRequest({
@@ -37,10 +41,13 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
       context.scopes.join(' '),
     );
     request.http?.headers.set('x-request-id', context.requestId);
-    if (this.wordpress) {
-      for (const [name, value] of Object.entries(
-        context.sessionHeaders ?? {},
-      )) {
+    if (this.forwardsSession) {
+      for (const name of [
+        'cookie',
+        'woocommerce-session',
+        'cart-token',
+      ] as const) {
+        const value = context.sessionHeaders?.[name];
         if (typeof value === 'string') request.http?.headers.set(name, value);
       }
     }
@@ -52,10 +59,15 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
     }
   }
 
-  override didReceiveResponse({ response, context }: Parameters<
+  override didReceiveResponse({
+    response,
+    context,
+  }: Parameters<
     NonNullable<RemoteGraphQLDataSource<AuthContext>['didReceiveResponse']>
-  >[0]): any {
-    if (!this.wordpress) return response;
+  >[0]): ReturnType<
+    NonNullable<RemoteGraphQLDataSource<AuthContext>['didReceiveResponse']>
+  > {
+    if (!this.capturesSession) return response;
     for (const name of ['woocommerce-session', 'cart-token']) {
       const value = response.http?.headers.get(name);
       if (typeof value === 'string' && value) {

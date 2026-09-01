@@ -8,14 +8,14 @@ import { runAcceptanceJourney, type AcceptanceProof } from './journey.ts';
 
 const requiredComponents = [
   'rabbitmq',
-  'commerce-database',
+  'order-workflow-database',
   'identity-database',
   'payment-database',
   'wordpress-database',
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'commerce-subgraph',
+  'order-workflow-subgraph',
   'payment-processor',
   'gateway',
   'apollo-mcp',

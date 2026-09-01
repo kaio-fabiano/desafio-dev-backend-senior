@@ -8,7 +8,7 @@ updated: 2026-08-30
 This is the Obsidian memory entry point.
 
 The delivered topology has five deployable applications: Apollo MCP, Gateway,
-Identity Federation, Commerce Federation, and Payment Federation. WordPress is
+Identity Federation, Order Workflow Federation, and Payment Federation. WordPress is
 external infrastructure and its plugin-provided `/graphql` endpoint is a native
 subgraph. The E2E project is an executable proof project, not a runtime. The canonical
 decision-to-test matrix is the [federated platform architecture

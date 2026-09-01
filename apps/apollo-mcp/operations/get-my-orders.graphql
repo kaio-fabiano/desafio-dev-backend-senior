@@ -1,13 +1,32 @@
 query getMyOrders($first: Int, $after: String) {
-  me {
+  customer {
     orders(first: $first, after: $after) {
-      edges {
-        node {
-          id status paymentMethod wooOrderId
-          items { edges { node { quantity product { id name price } } } pageInfo { hasNextPage endCursor } }
+      nodes {
+        id
+        status
+        transactionId
+        total
+        currency
+        lineItems {
+          nodes {
+            quantity
+            product {
+              id
+              name
+              price
+            }
+          }
         }
+        paymentMethod
+        workflow {
+          state
+        }
+        pixCode
       }
-      pageInfo { hasNextPage endCursor }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
     }
   }
 }

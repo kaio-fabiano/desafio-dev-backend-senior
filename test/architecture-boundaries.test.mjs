@@ -17,7 +17,7 @@ const sourceExtensions = new Set([
 ]);
 const ignoredDirectories = new Set(['.nx', 'build', 'dist', 'node_modules']);
 const contexts = [
-  ['commerce', ['commerce-subgraph', '/commerce/', '.commerce.']],
+  ['commerce', ['order-workflow-subgraph', '/commerce/', '.commerce.']],
   ['gateway', ['/gateway/', '.gateway.']],
   ['identity', ['identity-subgraph', '/identity/', '.identity.']],
   ['inventory', ['stock-worker', '/inventory/', '.inventory.']],

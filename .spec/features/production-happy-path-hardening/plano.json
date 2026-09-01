@@ -1,0 +1,140 @@
+{
+  "runId": "workspace-production-happy-path-hardening-mtizy2j7",
+  "feature": "production-happy-path-hardening",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-103",
+    "T-104"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-01 18:24",
+  "branchTrabalho": "spec/production-happy-path-hardening",
+  "baseDir": ".spec/features/production-happy-path-hardening",
+  "specDir": ".spec",
+  "repoName": "workspace",
+  "logsDir": "../onp-worktrees/workspace-production-happy-path-hardening-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/production-happy-path-hardening-faixa-1",
+      "worktree": "../onp-worktrees/workspace-production-happy-path-hardening-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-103",
+          "titulo": "Make WooCommerce order creation recoverable",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/commerce-subgraph/src/checkout",
+            "apps/commerce-subgraph/src/persistence",
+            "apps/commerce-subgraph/src/graphql",
+            "test"
+          ],
+          "refs": [
+            "US-064",
+            "AC-133",
+            "US-067",
+            "AC-136"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/production-happy-path-hardening-faixa-2",
+      "worktree": "../onp-worktrees/workspace-production-happy-path-hardening-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-104",
+          "titulo": "Make the inventory effect durably recoverable",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-processor/src/main/java/dev/desafio/payment/inventory",
+            "apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging",
+            "apps/payment-processor/src/test"
+          ],
+          "refs": [
+            "US-065",
+            "AC-134",
+            "US-067",
+            "AC-136"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-102",
+      "titulo": "Make cart ownership and session propagation federated",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/contracts/graphql",
+        "libs/gateway/nest/src/federation",
+        "apps/commerce-subgraph/src/cart",
+        "apps/commerce-subgraph/src/graphql",
+        "apps/apollo-mcp/operations",
+        "apps/e2e/src",
+        "test"
+      ],
+      "refs": [
+        "US-063",
+        "AC-131",
+        "AC-132",
+        "US-067",
+        "AC-136"
+      ]
+    },
+    {
+      "id": "T-105",
+      "titulo": "Make order subscriptions distributed and replayable",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/commerce-subgraph/src/subscriptions",
+        "apps/commerce-subgraph/src/messaging",
+        "apps/commerce-subgraph/src/main.ts",
+        "apps/commerce-subgraph/src/graphql",
+        "test"
+      ],
+      "refs": [
+        "US-066",
+        "AC-135",
+        "US-067",
+        "AC-136"
+      ]
+    },
+    {
+      "id": "T-106",
+      "titulo": "Refactor NestJS composition and close all quality gates",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/commerce-subgraph/src",
+        "libs/platform/nest/src",
+        "libs/gateway/nest/src",
+        "test",
+        "docs/evidence/production-happy-path-hardening",
+        ".spec/features/production-happy-path-hardening",
+        ".spec/verification/production-happy-path-hardening.json"
+      ],
+      "refs": [
+        "US-067",
+        "AC-136",
+        "AC-137"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

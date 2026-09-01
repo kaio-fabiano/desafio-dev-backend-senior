@@ -1,0 +1,47 @@
+{
+  "feature": "production-happy-path-hardening",
+  "timestamp": "2026-09-01T23:03:25.757Z",
+  "gitRev": "d217645",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 131,
+  "results": {
+    "AC-131": {
+      "status": "pass",
+      "testName": "AC-131: cart state is portable across replicas @spec:AC-131",
+      "method": "tap"
+    },
+    "AC-132": {
+      "status": "pass",
+      "testName": "AC-132: WordPress owns cart mutations @spec:AC-132",
+      "method": "tap"
+    },
+    "AC-133": {
+      "status": "pass",
+      "testName": "AC-133: checkout recovery has durable ownership @spec:AC-133",
+      "method": "tap"
+    },
+    "AC-134": {
+      "status": "pass",
+      "testName": "AC-134: inventory recovery is durable @spec:AC-134",
+      "method": "tap"
+    },
+    "AC-135": {
+      "status": "pass",
+      "testName": "AC-135: subscriptions replay durable state @spec:AC-135",
+      "method": "tap"
+    },
+    "AC-136": {
+      "status": "pass",
+      "testName": "AC-136: the quality loop has executable evidence @spec:AC-136",
+      "method": "tap"
+    },
+    "AC-137": {
+      "status": "pass",
+      "testName": "AC-137: dependencies point to application contracts @spec:AC-137",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

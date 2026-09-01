@@ -19,7 +19,7 @@ export default [
             { sourceTag: 'scope:gateway', onlyDependOnLibsWithTags: ['scope:gateway', 'scope:shared', 'scope:contract'] },
             { sourceTag: 'scope:identity', onlyDependOnLibsWithTags: ['scope:identity', 'scope:shared', 'scope:contract'] },
             { sourceTag: 'scope:wordpress', onlyDependOnLibsWithTags: ['scope:wordpress', 'scope:identity', 'scope:shared', 'scope:contract'] },
-            { sourceTag: 'scope:commerce', onlyDependOnLibsWithTags: ['scope:commerce', 'scope:shared', 'scope:contract'] },
+            { sourceTag: 'scope:order-workflow', onlyDependOnLibsWithTags: ['scope:order-workflow', 'scope:shared', 'scope:contract'] },
             { sourceTag: 'scope:contract', onlyDependOnLibsWithTags: ['scope:contract', 'scope:shared'] },
             { sourceTag: 'scope:shared', onlyDependOnLibsWithTags: ['scope:shared'] },
           ],

@@ -57,14 +57,14 @@ async function graphql(
         'query meOrdersAndProducts { me { id email orders(first: 20) { edges { node { id wooOrderId paymentMethod workflow { state } pixCode } } } } products(first: 20) { nodes { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } }',
       responseField: undefined,
     },
-    commerceAddToCart: {
+    addToCart: {
       query:
-        'mutation commerceAddToCart($productId: ID!, $quantity: Int!) { commerceAddToCart(productId: $productId, quantity: $quantity) }',
-      responseField: 'commerceAddToCart',
+        'mutation addToCart($productId: Int!, $quantity: Int!) { addToCart(input: { productId: $productId, quantity: $quantity }) { cart { contents { nodes { key quantity } } } } }',
+      responseField: 'addToCart',
     },
     startCheckout: {
       query:
-        'mutation startCheckout($input: CommerceCheckoutInput!) { startCheckout(input: $input) { id wooOrderId paymentMethod workflow { state } pixCode } }',
+        'mutation startCheckout($input: OrderWorkflowCheckoutInput!) { startCheckout(input: $input) { id wooOrderId paymentMethod workflow { state } pixCode } }',
       responseField: 'startCheckout',
     },
   };
@@ -484,7 +484,7 @@ export async function runAcceptanceJourney(
   const commerceSession: Record<string, string> = {};
   await graphql(
     environment,
-    'commerceAddToCart',
+    'addToCart',
     { productId: 1001, quantity: 1 },
     accessToken,
     commerceSession,
@@ -514,7 +514,7 @@ export async function runAcceptanceJourney(
   const pixOperationKey = 'milestone-7-pix';
   await graphql(
     environment,
-    'commerceAddToCart',
+    'addToCart',
     { productId: 1001, quantity: 1 },
     accessToken,
     commerceSession,
@@ -528,7 +528,7 @@ export async function runAcceptanceJourney(
   );
   await graphql(
     environment,
-    'commerceAddToCart',
+    'addToCart',
     { productId: 1001, quantity: 1 },
     accessToken,
     commerceSession,

@@ -73,7 +73,7 @@ This must be decided through an integration test, not an assumption.
   default merely because it appears in the minimum schema.
 - `user(id)` applies field and enumeration policy.
 - `me` ignores any external `userId` and uses the validated `sub`.
-- the user's orders are resolved by the commerce-subgraph through federation.
+- the user's orders are resolved by the order-workflow-subgraph through federation.
 
 ## Required tests
 

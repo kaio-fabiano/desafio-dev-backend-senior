@@ -45,7 +45,11 @@ public final class WooInventoryAdapter implements InventoryService.StockPort {
             "variables", Map.of("input", Map.of(
                 "clientMutationId", request.operationKey(),
                 "id", request.orderId(),
-                "status", "PROCESSING"
+                "status", "PROCESSING",
+                "metaData", java.util.List.of(Map.of(
+                    "key", "inventory_operation_key",
+                    "value", request.operationKey()
+                ))
             ))
         );
         var httpRequest = HttpRequest.newBuilder(endpoint)
@@ -70,6 +74,34 @@ public final class WooInventoryAdapter implements InventoryService.StockPort {
             throw new IllegalStateException("WooCommerce inventory request interrupted", error);
         } catch (IOException error) {
             throw new IllegalStateException("WordPress federation inventory request failed", error);
+        }
+    }
+
+    @Override
+    public InventoryService.StockState reconcile(InventoryService.ReservationRequested request) {
+        var operation = Map.of(
+            "operationName", "InventoryOperationState",
+            "query", "query InventoryOperationState($id: ID!) { order(id: $id, idType: DATABASE_ID) { status metaData { key value } } }",
+            "variables", Map.of("id", request.orderId())
+        );
+        var order = send(operation).path("data").path("order");
+        if (order.isMissingNode() || order.isNull()) {
+            throw new IllegalStateException("WordPress federation did not resolve order " + request.orderId());
+        }
+        for (var metadata : order.path("metaData")) {
+            if (!"inventory_operation_key".equals(metadata.path("key").asText())) {
+                continue;
+            }
+            if (request.operationKey().equals(metadata.path("value").asText())) {
+                return InventoryService.StockState.RESERVED;
+            }
+            throw new InventoryService.InventoryConflictException(request.orderId());
+        }
+        try {
+            assertAvailable(request);
+            return InventoryService.StockState.AVAILABLE;
+        } catch (InventoryService.InsufficientStockException error) {
+            return InventoryService.StockState.INSUFFICIENT;
         }
     }
 
@@ -108,7 +140,9 @@ public final class WooInventoryAdapter implements InventoryService.StockPort {
             var payload = json.readTree(response.body());
             var errors = payload.path("errors");
             if (response.statusCode() < 200 || response.statusCode() >= 300 || !errors.isMissingNode() && !errors.isEmpty()) {
-                throw new IllegalStateException("WordPress federation inventory query failed: " + response.statusCode());
+                throw new IllegalStateException(
+                    "WordPress federation inventory query failed: " + response.statusCode() + " " + errors
+                );
             }
             return payload;
         } catch (InterruptedException error) {

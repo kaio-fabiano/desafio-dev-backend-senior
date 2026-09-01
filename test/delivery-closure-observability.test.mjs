@@ -6,9 +6,9 @@ const read = (path) => readFileSync(path, 'utf8');
 
 test('AC-115: optional telemetry crosses RabbitMQ and Payment Federation @spec:AC-115', () => {
   const compose = read('compose.yaml');
-  const rabbit = read('apps/commerce-subgraph/src/messaging/rabbitmq.ts');
+  const rabbit = read('apps/order-workflow-subgraph/src/messaging/rabbitmq.ts');
   const commerceRuntime = read(
-    'apps/commerce-subgraph/src/messaging/commerce-messaging.runtime.ts',
+    'apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts',
   );
   const payment = read(
     'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',

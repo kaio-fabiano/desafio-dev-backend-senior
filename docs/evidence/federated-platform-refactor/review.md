@@ -117,8 +117,8 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
       ]
     },
     {
-      "name": "Commerce Federation",
-      "path": "apps/commerce-subgraph",
+      "name": "Order Workflow Federation",
+      "path": "apps/order-workflow-subgraph",
       "responsibility": "Own durable checkout workflow, outbox/inbox processing, and order-event publication.",
       "providerBoundary": "NestJS providers bind workflow persistence, RabbitMQ adapters, and the order-event stream consumed by Gateway.",
       "domainDecision": "Commerce owns workflow state and real-time delivery while WooCommerce remains the commercial system of record.",

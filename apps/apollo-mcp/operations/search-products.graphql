@@ -1,8 +1,13 @@
-query searchProducts($productId: ID!) {
-  product(id: $productId) {
-    id
-    name
-    price
-    supplier { id }
+query searchProducts($first: Int, $after: String) {
+  products(first: $first, after: $after) {
+    nodes {
+      id
+      name
+      price
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
 }

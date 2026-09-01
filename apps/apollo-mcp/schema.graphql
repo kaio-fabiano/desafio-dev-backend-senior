@@ -1,7 +1,6 @@
 type User {
   id: ID!
   email: String!
-  orders(first: Int, after: String): OrderConnection!
 }
 
 type SupplierCompany {
@@ -25,60 +24,70 @@ enum SupplierRole {
 type Product {
   id: ID!
   name: String!
-  price: Float!
-  supplier: SupplierCompany
+  price: String
 }
 
-type Cart {
-  id: ID!
-  items(first: Int, after: String): CartItemConnection!
-}
-
-type CartItem {
-  quantity: Int!
-  product: Product!
-}
-
-type CartItemConnection {
-  edges: [CartItemEdge!]!
+type ProductConnection {
+  nodes: [Product!]!
   pageInfo: PageInfo!
 }
 
-type CartItemEdge {
-  node: CartItem!
+type Cart {
+  contents: CartItemConnection
+}
+
+type CartItem {
+  key: ID!
+  quantity: Int!
+  product: Product
+}
+
+type CartItemConnection {
+  nodes: [CartItem!]!
+  pageInfo: PageInfo!
+}
+
+input AddToCartInput {
+  clientMutationId: String
+  productId: Int!
+  quantity: Int
+}
+
+type AddToCartPayload {
+  cart: Cart
+  clientMutationId: String
 }
 
 type Order {
   id: ID!
-  wooOrderId: ID!
-  status: OrderStatus!
+  databaseId: Int!
+  status: OrderStatusEnum
+  transactionId: String
+  total: String
+  currency: String
+  lineItems: OrderLineItemConnection
   paymentMethod: PaymentMethod!
-  items(first: Int, after: String): OrderItemConnection!
   workflow: OrderWorkflow!
   pixCode: String
 }
 
-type OrderItem {
-  quantity: Int!
-  product: Product!
+type OrderLineItemConnection {
+  nodes: [OrderLineItem!]!
+}
+
+type OrderLineItem {
+  quantity: Int
+  product: Product
+}
+
+type Customer {
+  id: ID!
+  orders(first: Int, after: String): OrderConnection
 }
 
 type OrderConnection {
-  edges: [OrderEdge!]!
+  nodes: [Order!]!
   pageInfo: PageInfo!
-}
-
-type OrderEdge {
-  node: Order!
-}
-
-type OrderItemConnection {
-  edges: [OrderItemEdge!]!
-  pageInfo: PageInfo!
-}
-
-type OrderItemEdge {
-  node: OrderItem!
 }
 
 type PageInfo {
@@ -86,10 +95,9 @@ type PageInfo {
   endCursor: String
 }
 
-enum OrderStatus {
-  PENDING
-  PAID
-  FAILED
+enum OrderStatusEnum {
+  COMPLETED
+  PROCESSING
 }
 
 enum PaymentMethod {
@@ -134,14 +142,15 @@ input CheckoutInput {
 
 type Query {
   me: User
-  cart: Cart!
+  customer: Customer
+  cart: Cart
+  products(first: Int, after: String): ProductConnection
   product(id: ID!): Product
   checkout(id: ID!): CheckoutOperation
 }
 
 type Mutation {
-  addToCart(productId: ID!, quantity: Int!): Cart!
-  removeFromCart(productId: ID!, quantity: Int!): Cart!
+  addToCart(input: AddToCartInput!): AddToCartPayload
   checkout(input: CheckoutInput!): Order!
 }
 

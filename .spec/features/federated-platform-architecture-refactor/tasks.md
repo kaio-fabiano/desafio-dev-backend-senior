@@ -59,7 +59,7 @@
 - Refs: US-051, AC-102, US-048, AC-095
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/commerce-subscription.client.ts, apps/commerce-subgraph/src/subscriptions/sse-handler.ts, test/remove-wordpress-federation-runtime.spec.test.mjs
+- Arquivos: apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/order-workflow-subscription.client.ts, apps/order-workflow-subgraph/src/subscriptions/sse-handler.ts, test/remove-wordpress-federation-runtime.spec.test.mjs
 - Notas: Preserve GraphQL-over-SSE at the authenticated gateway edge while Commerce remains the single owner of order-event publication and filtering.
 
 ## T-072 — Integrate the federated topology and retire the Stock runtime [concluida]
@@ -99,7 +99,7 @@
 - Refs: US-051, AC-102, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: compose.yaml, apps/commerce-subgraph/src/subscriptions, apps/gateway/src/subscriptions, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Arquivos: compose.yaml, apps/order-workflow-subgraph/src/subscriptions, apps/gateway/src/subscriptions, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
 - Notas: Publish authorized GraphQL-over-SSE events from Commerce and preserve cleanup, isolation, and terminal-event semantics through the gateway edge.
 
 ## T-077 — Delete the marketplace MU-plugin and prove the plugin-first topology [concluida]

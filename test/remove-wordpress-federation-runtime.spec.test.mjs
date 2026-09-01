@@ -30,8 +30,8 @@ test('AC-118: Single subscription owner @spec:AC-118 @spec:AC-102', async () => 
     readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
   ]);
 
-  assert.match(gatewayMiddleware, /createCommerceSubscriptionClient/);
-  assert.match(gatewaySse, /commerce\.subscribe/);
+  assert.match(gatewayMiddleware, /createOrderWorkflowSubscriptionClient/);
+  assert.match(gatewaySse, /orderWorkflow\.subscribe/);
   assert.equal(await exists('libs/wordpress/nest/src/subscriptions'), false);
 });
 

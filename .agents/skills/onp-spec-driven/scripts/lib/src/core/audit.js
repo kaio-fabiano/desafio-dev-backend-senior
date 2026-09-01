@@ -375,9 +375,21 @@ export function auditProject(project, { ci = false } = {}) {
     // verify obsoleto?
     const verification = project.verifications[name] || null;
     if (verification?.timestamp) {
+      const acceptanceIds = new Set(allAcs(feature.spec).map(({ id }) => id));
+      const annotatedTests = project.annotations.specTags
+        .filter(({ acId }) => acceptanceIds.has(acId))
+        .map(({ file }) => file);
+      const mappedSources = (feature.tasks?.tasks ?? [])
+        .flatMap(({ files }) => files)
+        .flatMap((mapped) => {
+          const prefix = mapped.replace(/\/$/, '');
+          if (project.testFiles.includes(prefix)) return [];
+          return project.srcFiles.filter(
+            (file) => file === prefix || file.startsWith(`${prefix}/`)
+          );
+        });
       const codeMtime = latestMtime(config.rootDir, [
-        ...project.srcFiles,
-        ...project.testFiles,
+        ...new Set([...mappedSources, ...annotatedTests]),
       ]);
       if (codeMtime > Date.parse(verification.timestamp)) {
         findings.push(
