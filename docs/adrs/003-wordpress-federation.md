@@ -1,15 +1,16 @@
-# ADR 003: Normalize the plugin-first WordPress federation schema
+# ADR 003: Use the native plugin-first WordPress federation schema
 
-- Status: accepted for the proof
+- Status: accepted for implementation
 - Date: 2026-08-26
 - Decision owner: catalog architecture
 
 ## Context
 
-Milestone 0 must try WPGraphQL, GraphQL for eCommerce, and
-`wp-graphql-federations` before introducing a WordPress wrapper. The proof must
-compose WooCommerce entities under Federation v2 and preserve the native Relay
-Connections, request loaders, and WordPress authorization checks.
+The platform must preserve WordPress and WooCommerce as the commercial system
+of record while participating in Apollo Federation v2. WPGraphQL, GraphQL for
+eCommerce, and `wp-graphql-federations` already expose the graph, native Relay
+Connections, request loaders, mutations, and WordPress authorization checks.
+A second Node runtime would duplicate that boundary.
 
 ## Pinned proof
 
@@ -34,42 +35,28 @@ node --test --test-reporter=tap test/marco-0-wordpress.test.mjs
 
 ## Evidence
 
-The probe first sends the plugin's unmodified `_service.sdl` to Rover. Direct
-Federation v2 composition succeeds for the configured concrete Woo product
-types and `Order`. The remaining gap is that GraphQL for eCommerce models the
-shared `Product` contract as an interface while the federation plugin registers
-only object types. The proof therefore adds the same `id` key to that interface
-at the schema publication boundary. No Woo field, protocol type, or resolver is
-rewritten.
-
-The normalized schema composes with `Product`, its concrete product types, and
-`Order` keyed by `id`. The live probe also proves:
-
-- two Relay pages return distinct cursor windows;
-- two product representations resolve in one `_entities` request, and MariaDB's
-  proof log contains one `wp_posts.ID IN (...)` load for both IDs through the
-  plugin's WPGraphQL deferred loader;
-- a vendor role with `edit_products` but without `edit_others_products` receives
-  a GraphQL mutation error when targeting another vendor's product, and the
-  product remains unchanged.
+The probe sends the plugin's `_service.sdl` to Rover and exercises the native
+WordPress endpoint. It proves Relay pagination, batched `_entities` resolution
+through WPGraphQL's deferred loader, and WooCommerce ownership enforcement.
+Historical compatibility experiments around the shared `Product` interface are
+retained as evidence, but do not justify a permanent schema-publication proxy.
 
 ## Decision
 
-Adopt the indicated plugins and keep native WooCommerce Connections, loaders,
-mutations, and WordPress capabilities. Add only the deterministic SDL
-normalization at the schema publication boundary. Do not build a NestJS proxy
-or replicate the WooCommerce schema. Revisit the normalization if a pinned
-`wp-graphql-federations` release emits a directly composable Federation v2 SDL.
+Use the WordPress installation's native `/graphql` endpoint as the external
+Federation v2 subgraph. Configure supported `@key`, `@external`, and `@requires`
+directives through `wp-graphql-federations` and capture that configuration in
+reproducible bootstrap and composition evidence.
 
-The runtime uses Headless Login's server-side `SITETOKEN` provider to exchange
-the verified Better Auth identity for WordPress and WooCommerce session tokens.
-Payment transitions use authenticated WooCommerce REST, and signed
-`order.updated` webhooks feed the NestJS SSE publisher. No marketplace
-MU-plugin, custom GraphQL field, custom inventory route, or custom WordPress
-authentication filter is retained.
+Do not build a NestJS proxy, duplicate the WooCommerce schema, or introduce an
+SDL-normalization runtime. Any plugin compatibility gap must be resolved with
+reproducible plugin configuration, an upstream-compatible plugin version, or a
+future decision backed by a failing composition test.
 
-For future directive changes, first use the plugin administration screen for
-supported `@key`, `@external`, and `@requires` configuration. Capture the applied
-configuration in reproducible bootstrap/export evidence and composition tests;
-the current proof did not verify that screen and therefore does not claim it can
-represent the interface normalization described above.
+WPGraphQL Headless Login remains responsible for the WordPress session model.
+Payment transitions use authenticated WooCommerce REST. Commerce owns order
+event publication, and Gateway exposes the authenticated GraphQL-over-SSE edge.
+WordPress does not own a second subscription implementation.
+
+No marketplace MU-plugin, custom GraphQL field, custom inventory route, or
+custom WordPress authentication filter is retained.

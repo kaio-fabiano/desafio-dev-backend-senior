@@ -104,10 +104,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "marco-0-pocs",
       "ref": "T-005",
-      "ocorrencias": 70,
+      "ocorrencias": 71,
       "primeiraVez": "2026-08-26T13:32:06.144Z",
-      "ultimaVez": "2026-08-28T04:30:54.993Z",
-      "gitRev": "cbf6847"
+      "ultimaVez": "2026-09-01T01:52:44.783Z",
+      "gitRev": "0c59158"
     },
     "ARQUIVO_INEXISTENTE::marco-0-pocs::T-006": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -293,10 +293,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "project-planning-memory",
       "ref": "—",
-      "ocorrencias": 34,
+      "ocorrencias": 47,
       "primeiraVez": "2026-08-26T13:32:06.249Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
     },
     "Q_ABERTA::marco-0-pocs::Q-002": {
       "codigo": "Q_ABERTA",
@@ -347,46 +347,46 @@
       "codigo": "VERIFY_FALHOU",
       "feature": "marco-0-pocs",
       "ref": "AC-013",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-26T13:35:18.081Z",
-      "ultimaVez": "2026-08-26T14:22:55.355Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-09-01T01:59:19.895Z",
+      "gitRev": "0c59158"
     },
     "VERIFY_FALHOU::marco-0-pocs::AC-014": {
       "codigo": "VERIFY_FALHOU",
       "feature": "marco-0-pocs",
       "ref": "AC-014",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-26T13:35:18.081Z",
-      "ultimaVez": "2026-08-26T14:22:55.355Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-09-01T01:59:19.895Z",
+      "gitRev": "0c59158"
     },
     "VERIFY_FALHOU::marco-0-pocs::AC-015": {
       "codigo": "VERIFY_FALHOU",
       "feature": "marco-0-pocs",
       "ref": "AC-015",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-26T13:35:18.081Z",
-      "ultimaVez": "2026-08-26T14:22:55.355Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-08-31T23:48:54.318Z",
+      "gitRev": "5c5a37a"
     },
     "VERIFY_FALHOU::marco-0-pocs::AC-016": {
       "codigo": "VERIFY_FALHOU",
       "feature": "marco-0-pocs",
       "ref": "AC-016",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-08-26T13:35:18.081Z",
-      "ultimaVez": "2026-08-26T14:22:55.355Z",
-      "gitRev": "bf6c285"
+      "ultimaVez": "2026-08-31T20:47:40.550Z",
+      "gitRev": "57963cf"
     },
     "VERIFY_OBSOLETO::marco-0-pocs::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 30,
+      "ocorrencias": 43,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -1913,10 +1913,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-7-e2e-deployment",
       "ref": "T-047",
-      "ocorrencias": 10,
+      "ocorrencias": 11,
       "primeiraVez": "2026-08-27T19:05:47.962Z",
-      "ultimaVez": "2026-08-31T12:57:39.542Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
     },
     "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-048": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 20,
+      "ocorrencias": 33,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2228,10 +2228,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "milestone-8-compliance-hardening",
       "ref": "T-058",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-27T22:13:30.303Z",
-      "ultimaVez": "2026-08-31T12:57:39.542Z",
-      "gitRev": "699f6c1"
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
     },
     "ARQUIVO_INEXISTENTE::milestone-8-compliance-hardening::T-059": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 19,
+      "ocorrencias": 32,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2552,19 +2552,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 13,
+      "ocorrencias": 26,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "import-order-stability",
       "ref": "—",
-      "ocorrencias": 15,
+      "ocorrencias": 28,
       "primeiraVez": "2026-08-28T18:01:53.411Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-065": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -2642,10 +2642,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-069",
-      "ocorrencias": 13,
+      "ocorrencias": 25,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-31T00:02:36.627Z",
-      "gitRev": "1880072"
+      "ultimaVez": "2026-09-01T01:52:44.783Z",
+      "gitRev": "0c59158"
     },
     "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-069": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2678,10 +2678,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-071",
-      "ocorrencias": 7,
+      "ocorrencias": 17,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-28T22:13:39.740Z",
-      "gitRev": "6b829c5"
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-071": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2795,10 +2795,10 @@
       "codigo": "AC_SEM_TESTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-097",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-28T22:13:39.740Z",
-      "gitRev": "6b829c5"
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
     },
     "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-098": {
       "codigo": "AC_SEM_TESTE",
@@ -2840,10 +2840,10 @@
       "codigo": "AC_SEM_TESTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "AC-102",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-28T22:13:39.740Z",
-      "gitRev": "6b829c5"
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
     },
     "AC_SEM_TESTE::federated-platform-architecture-refactor::AC-103": {
       "codigo": "AC_SEM_TESTE",
@@ -3011,10 +3011,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-077",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-08-31T00:02:36.627Z",
-      "ultimaVez": "2026-08-31T00:02:36.627Z",
-      "gitRev": "1880072"
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-077": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 6,
+      "ocorrencias": 19,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3209,10 +3209,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "stabilize-typescript-editor",
       "ref": "T-083",
-      "ocorrencias": 4,
+      "ocorrencias": 6,
       "primeiraVez": "2026-08-31T13:58:00.138Z",
-      "ultimaVez": "2026-08-31T13:58:00.138Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
     },
     "ARQUIVO_INEXISTENTE::stabilize-typescript-editor::T-084": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3245,10 +3245,1000 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "remove-retired-applications",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 13,
       "primeiraVez": "2026-08-31T14:13:53.282Z",
-      "ultimaVez": "2026-08-31T14:13:53.282Z",
-      "gitRev": "a2a37a3"
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
+    },
+    "SECAO_AUSENTE::delivery-closure::.spec/features/delivery-closure/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "delivery-closure",
+      "ref": ".spec/features/delivery-closure/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.284Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-109": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-109",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.284Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-110": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-110",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.284Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-111": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-111",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.284Z",
+      "ultimaVez": "2026-08-31T15:16:12.285Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-112": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-112",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:16:12.285Z",
+      "gitRev": "ac69369"
+    },
+    "AC_INCOMPLETO::delivery-closure::AC-113": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "delivery-closure",
+      "ref": "AC-113",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:16:12.285Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-085": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-085",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-086": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-086",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-087": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-087",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-088": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-088",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-109": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-109",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-110": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-110",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-111": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-111",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-112": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-112",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-113": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-113",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:16:12.285Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "ASM_STATUS_INVALIDO::delivery-closure::ASM-038": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "delivery-closure",
+      "ref": "ASM-038",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ASM_STATUS_INVALIDO::delivery-closure::ASM-039": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "delivery-closure",
+      "ref": "ASM-039",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ASM_STATUS_INVALIDO::delivery-closure::ASM-040": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "delivery-closure",
+      "ref": "ASM-040",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T15:20:57.051Z",
+      "gitRev": "ac69369"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-090": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-090",
+      "ocorrencias": 13,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
+    },
+    "ARQUIVO_INEXISTENTE::delivery-closure::T-091": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "delivery-closure",
+      "ref": "T-091",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-114": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-114",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T20:31:51.814Z",
+      "gitRev": "57963cf"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-115": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-115",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T19:12:39.685Z",
+      "gitRev": "988cf65"
+    },
+    "AC_SEM_TESTE::delivery-closure::AC-116": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "delivery-closure",
+      "ref": "AC-116",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-08-31T15:20:57.051Z",
+      "ultimaVez": "2026-08-31T20:31:51.814Z",
+      "gitRev": "57963cf"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::delivery-closure::T-086": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "delivery-closure",
+      "ref": "T-086",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:43:24.708Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::delivery-closure::T-087": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "delivery-closure",
+      "ref": "T-087",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:43:24.708Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::delivery-closure::T-088": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "delivery-closure",
+      "ref": "T-088",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:43:24.708Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::delivery-closure::T-089": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "delivery-closure",
+      "ref": "T-089",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-31T15:43:24.708Z",
+      "ultimaVez": "2026-08-31T20:31:51.814Z",
+      "gitRev": "57963cf"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::delivery-closure::T-090": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "delivery-closure",
+      "ref": "T-090",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:43:24.708Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::delivery-closure::T-091": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "delivery-closure",
+      "ref": "T-091",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T15:43:24.708Z",
+      "ultimaVez": "2026-08-31T15:43:24.708Z",
+      "gitRev": "ba1743b"
+    },
+    "VERIFY_OBSOLETO::stabilize-typescript-editor::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "stabilize-typescript-editor",
+      "ref": "—",
+      "ocorrencias": 12,
+      "primeiraVez": "2026-08-31T15:43:24.708Z",
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
+    },
+    "VERIFY_FALHOU::federated-platform-architecture-refactor::AC-090": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-090",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T20:41:03.564Z",
+      "ultimaVez": "2026-08-31T20:41:03.564Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::federated-platform-architecture-refactor::AC-095": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-095",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T20:41:03.564Z",
+      "ultimaVez": "2026-08-31T20:41:03.564Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::federated-platform-architecture-refactor::AC-098": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-098",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T20:41:03.564Z",
+      "ultimaVez": "2026-08-31T20:41:03.564Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-8-compliance-hardening::AC-086": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-086",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T20:53:57.092Z",
+      "ultimaVez": "2026-08-31T20:53:57.092Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-8-compliance-hardening::AC-087": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-8-compliance-hardening",
+      "ref": "AC-087",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T20:53:57.092Z",
+      "ultimaVez": "2026-08-31T20:53:57.092Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::remove-retired-applications::AC-104": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "remove-retired-applications",
+      "ref": "AC-104",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T20:59:07.528Z",
+      "ultimaVez": "2026-08-31T20:59:07.528Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::remove-retired-applications::AC-105": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "remove-retired-applications",
+      "ref": "AC-105",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T20:59:07.528Z",
+      "ultimaVez": "2026-08-31T20:59:07.528Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_OBSOLETO::delivery-closure::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "delivery-closure",
+      "ref": "—",
+      "ocorrencias": 9,
+      "primeiraVez": "2026-08-31T21:07:21.028Z",
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
+    },
+    "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "ASM-032",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:07:21.028Z",
+      "ultimaVez": "2026-08-31T21:07:21.028Z",
+      "gitRev": "57963cf"
+    },
+    "ASM_STATUS_INVALIDO::remove-retired-applications::ASM-036": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "remove-retired-applications",
+      "ref": "ASM-036",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:07:21.029Z",
+      "ultimaVez": "2026-08-31T21:07:21.029Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-067": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-067",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-068": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-068",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-069": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-069",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-070": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-070",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-071": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-071",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-072": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-072",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-073": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-073",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-074": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-074",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-075": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-075",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-076": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-076",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "VERIFY_FALHOU::milestone-7-e2e-deployment::AC-077": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "AC-077",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T21:24:43.917Z",
+      "ultimaVez": "2026-08-31T21:24:43.917Z",
+      "gitRev": "57963cf"
+    },
+    "ID_DUPLICADO::remove-wordpress-federation-runtime::ASM-001": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:07:34.955Z",
+      "ultimaVez": "2026-08-31T23:07:34.955Z",
+      "gitRev": "5c5a37a"
+    },
+    "ID_DUPLICADO::remove-wordpress-federation-runtime::ASM-002": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "ASM-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:07:34.955Z",
+      "ultimaVez": "2026-08-31T23:07:34.955Z",
+      "gitRev": "5c5a37a"
+    },
+    "ARQUIVO_INEXISTENTE::remove-wordpress-federation-runtime::T-001": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "T-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:07:34.955Z",
+      "ultimaVez": "2026-08-31T23:07:34.955Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_TESTE::remove-wordpress-federation-runtime::AC-117": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-117",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:07:34.955Z",
+      "ultimaVez": "2026-08-31T23:07:34.955Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_TESTE::remove-wordpress-federation-runtime::AC-118": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-118",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:07:34.955Z",
+      "ultimaVez": "2026-08-31T23:07:34.955Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_TESTE::remove-wordpress-federation-runtime::AC-119": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-119",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:07:34.955Z",
+      "ultimaVez": "2026-08-31T23:07:34.955Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_TESTE::remove-wordpress-federation-runtime::AC-120": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-120",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:07:34.955Z",
+      "ultimaVez": "2026-08-31T23:07:34.955Z",
+      "gitRev": "5c5a37a"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-074": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-074",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-075": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-075",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-076": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-076",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
+    },
+    "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-079": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "T-079",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::remove-wordpress-federation-runtime::T-001": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "T-001",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::remove-wordpress-federation-runtime::T-002": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "T-002",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "ARQUIVO_INEXISTENTE::remove-wordpress-federation-runtime::T-003": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "T-003",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:15:00.402Z",
+      "gitRev": "5c5a37a"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::remove-wordpress-federation-runtime::T-003": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "T-003",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::remove-wordpress-federation-runtime::T-004": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "T-004",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_PROVA::remove-wordpress-federation-runtime::AC-117": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-117",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_PROVA::remove-wordpress-federation-runtime::AC-118": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-118",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_PROVA::remove-wordpress-federation-runtime::AC-119": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-119",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "AC_SEM_PROVA::remove-wordpress-federation-runtime::AC-120": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "AC-120",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T23:15:00.402Z",
+      "ultimaVez": "2026-08-31T23:16:27.342Z",
+      "gitRev": "5c5a37a"
+    },
+    "VERIFY_OBSOLETO::remove-wordpress-federation-runtime::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "remove-wordpress-federation-runtime",
+      "ref": "—",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-08-31T23:16:27.342Z",
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
+    },
+    "VERIFY_FALHOU::delivery-closure::AC-116": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "delivery-closure",
+      "ref": "AC-116",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-08-31T23:18:21.333Z",
+      "ultimaVez": "2026-08-31T23:18:21.333Z",
+      "gitRev": "5c5a37a"
+    },
+    "VERIFY_FALHOU::federated-platform-architecture-refactor::AC-103": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "federated-platform-architecture-refactor",
+      "ref": "AC-103",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-08-31T23:23:01.467Z",
+      "ultimaVez": "2026-08-31T23:27:22.272Z",
+      "gitRev": "5c5a37a"
+    },
+    "STATUS_INVALIDO::structural-improvement-program::.spec/features/structural-improvement-program/spec.md": {
+      "codigo": "STATUS_INVALIDO",
+      "feature": "structural-improvement-program",
+      "ref": ".spec/features/structural-improvement-program/spec.md",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "SECAO_AUSENTE::structural-improvement-program::.spec/features/structural-improvement-program/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "structural-improvement-program",
+      "ref": ".spec/features/structural-improvement-program/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-121": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-121",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-122": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-122",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-123": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-123",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-124": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-124",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-125": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-125",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-126": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-126",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-127": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-127",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "AC_INCOMPLETO::structural-improvement-program::AC-128": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "structural-improvement-program",
+      "ref": "AC-128",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:25.314Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-092": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-092",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-093": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-093",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-094": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-094",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-095": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-095",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-096": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-096",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-097": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-097",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-098": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-098",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ARQUIVO_INEXISTENTE::structural-improvement-program::T-099": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "structural-improvement-program",
+      "ref": "T-099",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-121": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-121",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-122": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-122",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-123": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-123",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-124": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-124",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-125": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-125",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-126": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-126",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-127": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-127",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "AC_SEM_PROVA::structural-improvement-program::AC-128": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "structural-improvement-program",
+      "ref": "AC-128",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T01:27:25.314Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ID_DUPLICADO::structural-improvement-program::ASM-001": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "structural-improvement-program",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:54.539Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ID_DUPLICADO::structural-improvement-program::ASM-002": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "structural-improvement-program",
+      "ref": "ASM-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:54.539Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ASM_STATUS_INVALIDO::structural-improvement-program::ASM-001": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "structural-improvement-program",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:54.539Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ASM_STATUS_INVALIDO::structural-improvement-program::ASM-002": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "structural-improvement-program",
+      "ref": "ASM-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:27:54.539Z",
+      "ultimaVez": "2026-09-01T01:27:54.539Z",
+      "gitRev": "0c59158"
+    },
+    "ASM_STATUS_INVALIDO::structural-improvement-program::ASM-045": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "structural-improvement-program",
+      "ref": "ASM-045",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:52:44.783Z",
+      "ultimaVez": "2026-09-01T01:52:44.783Z",
+      "gitRev": "0c59158"
+    },
+    "ASM_STATUS_INVALIDO::structural-improvement-program::ASM-046": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "structural-improvement-program",
+      "ref": "ASM-046",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T01:52:44.783Z",
+      "ultimaVez": "2026-09-01T01:52:44.783Z",
+      "gitRev": "0c59158"
+    },
+    "VERIFY_OBSOLETO::structural-improvement-program::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "structural-improvement-program",
+      "ref": "—",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-09-01T03:06:54.499Z",
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
+    },
+    "VERIFY_OBSOLETO::keep-graphify-current::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "keep-graphify-current",
+      "ref": "—",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T15:49:12.336Z",
+      "ultimaVez": "2026-09-01T17:11:25.482Z",
+      "gitRev": "447d40f"
+    },
+    "ARQUIVO_INEXISTENTE::resolve-gateway-sse-todos::T-101": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "resolve-gateway-sse-todos",
+      "ref": "T-101",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-01T15:49:12.336Z",
+      "ultimaVez": "2026-09-01T15:49:12.336Z",
+      "gitRev": "447d40f"
+    },
+    "AC_SEM_PROVA::resolve-gateway-sse-todos::AC-130": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "resolve-gateway-sse-todos",
+      "ref": "AC-130",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-01T15:49:12.336Z",
+      "ultimaVez": "2026-09-01T15:49:12.336Z",
+      "gitRev": "447d40f"
     }
   }
 }

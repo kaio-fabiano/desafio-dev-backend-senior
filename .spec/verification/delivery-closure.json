@@ -1,0 +1,52 @@
+{
+  "feature": "delivery-closure",
+  "timestamp": "2026-09-01T17:14:55.428Z",
+  "gitRev": "447d40f",
+  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 120,
+  "results": {
+    "AC-109": {
+      "status": "pass",
+      "testName": "AC-109: compliance evidence is anchored to the challenge README @spec:AC-109",
+      "method": "tap"
+    },
+    "AC-110": {
+      "status": "pass",
+      "testName": "AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC-110",
+      "method": "tap"
+    },
+    "AC-111": {
+      "status": "pass",
+      "testName": "AC-111: Payment delivery is reliable and idempotent @spec:AC-111",
+      "method": "tap"
+    },
+    "AC-112": {
+      "status": "pass",
+      "testName": "AC-112: Payment Federation compensates inventory failure without duplicate effects @spec:AC-112",
+      "method": "tap"
+    },
+    "AC-113": {
+      "status": "pass",
+      "testName": "AC-113: one Java Payment Federation image starts payment and inventory consumers @spec:AC-113",
+      "method": "tap"
+    },
+    "AC-114": {
+      "status": "pass",
+      "testName": "AC-114: acceptance proves the complete public buyer contract @spec:AC-114",
+      "method": "tap"
+    },
+    "AC-115": {
+      "status": "pass",
+      "testName": "AC-115: optional telemetry crosses RabbitMQ and Payment Federation @spec:AC-115",
+      "method": "tap"
+    },
+    "AC-116": {
+      "status": "pass",
+      "testName": "AC-116: final records describe the delivered runtime @spec:AC-116",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

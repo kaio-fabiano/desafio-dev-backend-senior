@@ -1,0 +1,32 @@
+{
+  "feature": "remove-wordpress-federation-runtime",
+  "timestamp": "2026-09-01T17:48:51.521Z",
+  "gitRev": "447d40f",
+  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 120,
+  "results": {
+    "AC-117": {
+      "status": "pass",
+      "testName": "AC-117: Direct plugin subgraph @spec:AC-117 @spec:AC-097",
+      "method": "tap"
+    },
+    "AC-118": {
+      "status": "pass",
+      "testName": "AC-118: Single subscription owner @spec:AC-118 @spec:AC-102",
+      "method": "tap"
+    },
+    "AC-119": {
+      "status": "pass",
+      "testName": "AC-119: Reduced deployable topology @spec:AC-119",
+      "method": "tap"
+    },
+    "AC-120": {
+      "status": "pass",
+      "testName": "AC-120: WordPress capabilities preserved @spec:AC-120",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

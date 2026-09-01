@@ -1,12 +1,14 @@
 # Milestone 8 compliance review
 
-The repository currently contains contract and domain evidence from earlier
-milestones, but the final acceptance gate must distinguish those proofs from
-the delivered runtime. In particular, the real E2E topology, Identity and
-Gateway runtime, Commerce wiring, and worker choreography remain implementation
-work tracked by T-054 through T-059.
+The final acceptance journey passed all six scenarios on 2026-08-31 against
+delivered Compose images. It covered Better Auth, the composed Gateway,
+WooCommerce, durable Commerce/RabbitMQ choreography, both consumers inside the
+Java Payment Federation, GraphQL SSE, and authenticated Apollo MCP. Card, Pix,
+replay idempotency, inventory compensation, federated reads, MCP parity, and
+negative authorization cases all passed through public protocols.
 
-The infrastructure boundary is intentionally different: T-060 proves the SST
-configuration can be type-checked offline and that deployment is manual,
-credentialed, and environment-gated. No AWS resource is provisioned by the
-offline validation path.
+Inventory is not a separate deployable worker. It is an internal application
+boundary of Payment Federation and uses WordPress Federation GraphQL rather
+than a replacement WordPress plugin or direct WooCommerce REST inventory API.
+The SST proof remains offline, manual, credentialed, and environment-gated; no
+AWS resource is provisioned by validation.

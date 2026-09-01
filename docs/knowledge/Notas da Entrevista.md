@@ -68,7 +68,7 @@ repository are therefore an explicit part of the technical guidance.
 - [x] record the interface-key gap before adding publication-boundary normalization;
 - [x] keep WooCommerce as the authoritative source for the commercial order;
 - [ ] verify the directive administration screen and capture its configuration in
-  reproducible bootstrap/export evidence;
+      reproducible bootstrap/export evidence;
 - [ ] extend the vertical gateway proof to cart and checkout in Milestone 3.
 
 ## Decision Rule

@@ -21,6 +21,10 @@ concurrency:
 jobs:
   deploy:
     name: Deploy approved SST plan
+    # The current SST stack is a validation scaffold and does not yet model the
+    # complete Compose topology. Production deploys stay fail-closed until the
+    # topology has a post-deploy smoke test and this repository variable is set.
+    if: ${{ vars.SST_TOPOLOGY_READY == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment:

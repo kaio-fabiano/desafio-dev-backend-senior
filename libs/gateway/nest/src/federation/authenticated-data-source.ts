@@ -6,10 +6,29 @@ import {
 import type { AuthContext } from '../auth/auth-context.factory.ts';
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext> {
+  private readonly origin?: string;
+  private readonly wordpress: boolean;
+  private readonly internalSecret: string;
+
+  constructor(
+    config: { url: string; internalSecret?: string },
+    wordpress = false,
+  ) {
+    super({ url: config.url });
+    this.wordpress = wordpress;
+    this.internalSecret =
+      config.internalSecret ?? process.env.FEDERATION_INTERNAL_SECRET ?? '';
+    this.origin = wordpress ? new URL(config.url).origin : undefined;
+  }
+
   override willSendRequest({
     request,
     context,
   }: GraphQLDataSourceProcessOptions<AuthContext>) {
+    if (this.origin) request.http?.headers.set('origin', this.origin);
+    if (this.internalSecret) {
+      request.http?.headers.set('x-federation-secret', this.internalSecret);
+    }
     if (!context || !('subject' in context) || !context.subject) return;
 
     request.http?.headers.set('x-authenticated-subject', context.subject);
@@ -18,8 +37,12 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
       context.scopes.join(' '),
     );
     request.http?.headers.set('x-request-id', context.requestId);
-    for (const [name, value] of Object.entries(context.sessionHeaders ?? {})) {
-      if (typeof value === 'string') request.http?.headers.set(name, value);
+    if (this.wordpress) {
+      for (const [name, value] of Object.entries(
+        context.sessionHeaders ?? {},
+      )) {
+        if (typeof value === 'string') request.http?.headers.set(name, value);
+      }
     }
     if (context.supplierCompanyId) {
       request.http?.headers.set(
@@ -32,6 +55,7 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
   override didReceiveResponse({ response, context }: Parameters<
     NonNullable<RemoteGraphQLDataSource<AuthContext>['didReceiveResponse']>
   >[0]): any {
+    if (!this.wordpress) return response;
     for (const name of ['woocommerce-session', 'cart-token']) {
       const value = response.http?.headers.get(name);
       if (typeof value === 'string' && value) {

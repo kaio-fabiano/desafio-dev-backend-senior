@@ -5,25 +5,27 @@
 
 ## Contexto
 
-The five-application architecture retired the Commerce subgraph and Stock worker, but their source trees and historical executable targets still remain in the Nx workspace. This makes the repository contradict its documented topology.
+The architecture retired the separate Stock worker and obsolete PoC applications.
+Commerce was later restored as the mandatory RabbitMQ workflow/outbox boundary,
+while inventory remains an internal service of Payment Federation.
 
 ## Histórias
 
 ### US-053 — Keep only supported applications
 
-As a maintainer, I want retired runtime directories and executable references removed so that the repository matches the deployed five-application design.
+As a maintainer, I want retired runtime directories and executable references removed so that the repository matches the deployed six-application design.
 
 #### AC-104 — Retired application roots no longer exist
 
 - **Dado** the federated platform repository
 - **Quando** application roots and Nx projects are enumerated
-- **Então** Commerce subgraph, Stock worker, and obsolete PoC directories are absent
+- **Então** the Stock worker and obsolete PoC directories are absent, while Commerce remains active
 
 #### AC-105 — Active automation does not depend on retired sources
 
 - **Dado** repository tests, probes, Compose, and infrastructure definitions
 - **Quando** active quality and delivery commands execute
-- **Então** none imports, builds, or deploys Commerce subgraph or Stock worker sources
+- **Então** none imports, builds, or deploys Stock worker or obsolete PoC sources
 
 #### AC-106 — Supported project gates remain green
 
@@ -39,9 +41,9 @@ As a maintainer, I want retired runtime directories and executable references re
 
 ## Suposições
 
-| ID | Suposição | Status | Resolução |
-|---|---|---|---|
-| ASM-036 | Historical tests whose only purpose is executing retired source can be removed instead of migrated. | confirmada | The user explicitly requested removal of directories that no longer belong to the project. |
+| ID      | Suposição                                                                                           | Status     | Resolução                                                                                              |
+| ------- | --------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| ASM-036 | Historical tests whose only purpose is executing retired source can be removed instead of migrated. | confirmada | Only Stock and obsolete PoCs remain retired; Commerce was restored to meet the mandatory choreography. |
 
 ## Perguntas em aberto
 

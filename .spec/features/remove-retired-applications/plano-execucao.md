@@ -11,10 +11,10 @@
 
 ## Ordem de execução (uma tarefa após a outra)
 
-| tarefa | título | modelo | esforço |
-|---|---|---|---|
-| T-081 | Remove retired runtimes and executable dependencies | `gpt-5.6-sol` | high |
-| T-082 | Verify and document the reduced project graph | `gpt-5.6-luna` | low |
+| tarefa | título                                              | modelo         | esforço |
+| ------ | --------------------------------------------------- | -------------- | ------- |
+| T-081  | Remove retired runtimes and executable dependencies | `gpt-5.6-sol`  | high    |
+| T-082  | Verify and document the reduced project graph       | `gpt-5.6-luna` | low     |
 
 ## Gestão de branches e commits
 

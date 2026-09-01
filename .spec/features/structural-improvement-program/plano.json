@@ -1,0 +1,214 @@
+{
+  "runId": "desafio-dev-backend-senior-structural-improvement-program-mthzn7ek",
+  "feature": "structural-improvement-program",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-01 01:28",
+  "branchTrabalho": "spec/structural-improvement-program",
+  "baseDir": ".spec/features/structural-improvement-program",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ],
+    [
+      "faixa-4",
+      "faixa-5",
+      "faixa-6"
+    ],
+    [
+      "faixa-7",
+      "faixa-8"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/structural-improvement-program-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-092",
+          "titulo": "Review and improve Gateway boundaries",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/gateway",
+            "libs/gateway/nest",
+            "test/structural-gateway-review.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-121"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/structural-improvement-program-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-093",
+          "titulo": "Review and improve Identity boundaries",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/identity-subgraph",
+            "libs/identity/nest",
+            "test/structural-identity-review.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-122"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/structural-improvement-program-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-094",
+          "titulo": "Review and improve Commerce workflow boundaries",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/commerce-subgraph",
+            "test/structural-commerce-review.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-123"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-4",
+      "branch": "spec/structural-improvement-program-faixa-4",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-4",
+      "tarefas": [
+        {
+          "id": "T-095",
+          "titulo": "Review and improve Payment boundaries",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-processor",
+            "test/structural-payment-review.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-124"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-5",
+      "branch": "spec/structural-improvement-program-faixa-5",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-5",
+      "tarefas": [
+        {
+          "id": "T-096",
+          "titulo": "Review and improve WordPress integration",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "apps/wordpress-integration",
+            "test/structural-wordpress-review.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-125"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-6",
+      "branch": "spec/structural-improvement-program-faixa-6",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-6",
+      "tarefas": [
+        {
+          "id": "T-097",
+          "titulo": "Review and improve Apollo MCP boundaries",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "apps/apollo-mcp",
+            "test/structural-mcp-review.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-126"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-7",
+      "branch": "spec/structural-improvement-program-faixa-7",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-7",
+      "tarefas": [
+        {
+          "id": "T-098",
+          "titulo": "Review shared platform and infrastructure",
+          "modelo": "gpt-5.6-terra",
+          "esforco": "medium",
+          "arquivos": [
+            "libs/platform/nest",
+            "compose.yaml",
+            "nx.json",
+            "package.json",
+            "tsconfig.base.json",
+            ".github",
+            "test/structural-platform-review.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-127"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-8",
+      "branch": "spec/structural-improvement-program-faixa-8",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-8",
+      "tarefas": [
+        {
+          "id": "T-099",
+          "titulo": "Reconcile end-to-end evidence and documentation",
+          "modelo": "gpt-5.6-luna",
+          "esforco": "low",
+          "arquivos": [
+            "apps/e2e",
+            "README.md",
+            "docs",
+            ".spec/features/structural-improvement-program",
+            "test/structural-improvement-program.test.mjs"
+          ],
+          "refs": [
+            "US-060",
+            "AC-128"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [],
+  "concluidas": [],
+  "avisos": []
+}

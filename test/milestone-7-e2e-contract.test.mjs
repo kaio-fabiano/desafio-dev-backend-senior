@@ -36,12 +36,14 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
   );
   for (const component of [
     'identity-database',
+    'commerce-database',
     'payment-database',
     'wordpress-database',
     'wordpress',
     'wordpress-setup',
     'identity-subgraph',
-    'wordpress-federation',
+    'commerce-subgraph',
+    'rabbitmq',
     'payment-processor',
     'gateway',
     'apollo-mcp',
@@ -75,16 +77,14 @@ test('AC-071: OAuth distinguishes direct redirects from consent challenges @spec
   );
 });
 
-test('AC-068..AC-071: the journey uses Gateway and MCP plus the direct WordPress SSE boundary @spec:AC-068 @spec:AC-069 @spec:AC-070 @spec:AC-071', () => {
+test('AC-068..AC-071: the journey uses Gateway, MCP, and federated SSE @spec:AC-068 @spec:AC-069 @spec:AC-070 @spec:AC-071', () => {
   assert.doesNotMatch(
     journey,
     /\.\.\/\.\.\/(?:gateway|identity-subgraph|commerce-subgraph|payment-processor|stock-worker)/,
   );
   assert.match(journey, /environment\.gatewayUrl/);
   assert.match(journey, /environment\.mcpUrl/);
-  assert.match(journey, /environment\.wordpressFederationUrl/);
-  assert.match(journey, /wordpressFederationUrl\}\/graphql\/stream/);
-  assert.doesNotMatch(journey, /gatewayUrl\}\/graphql\/stream/);
+  assert.match(journey, /gatewayUrl\}\/graphql\/stream/);
   assert.match(journey, /authorization: `Bearer \$\{accessToken\}`/);
   assert.doesNotMatch(
     journey,
@@ -96,15 +96,15 @@ test('AC-068..AC-071: the journey uses Gateway and MCP plus the direct WordPress
   assert.match(journey, /api\/auth\/oauth2\/token/);
   assert.match(
     journey,
-    /const nextEvent = await subscribe\([\s\S]*'wordpressCheckout'[\s\S]*'authorizePayment'/,
+    /const nextEvent = await subscribe\([\s\S]*'startCheckout'/,
   );
   assert.doesNotMatch(
     journey,
     /updateOrder|recordPixPaymentV1|recordCardPaymentV1/,
   );
   assert.match(journey, /cardRetry/);
-  assert.match(journey, /payment:[\s\S]*responseField: 'payment'/);
-  assert.match(journey, /order:[\s\S]*responseField: 'order'/);
+  assert.match(journey, /meOrdersAndProducts/);
+  assert.match(journey, /startCheckout/);
   assert.match(journey, /rejectionStatuses/);
   for (const criterion of ['AC-068', 'AC-069', 'AC-070', 'AC-071']) {
     assert.match(acceptance, new RegExp(`@spec:${criterion}`));
@@ -122,6 +122,22 @@ test('AC-069: batched GraphQL SSE frames still expose the terminal event @spec:A
     operationKey: 'card',
     state: 'COMPLETED',
   });
+});
+
+test('AC-114: acceptance proves the complete public buyer contract @spec:AC-114', () => {
+  for (const assertion of [
+    /cardRetry/,
+    /compensation/,
+    /meOrdersAndProducts/,
+    /rejectionStatuses/,
+    /'PIX'/,
+  ]) {
+    assert.match(journey, assertion);
+  }
+  assert.match(acceptance, /proof\.mcp/);
+  assert.match(environment, /rabbitmq/);
+  assert.match(environment, /payment-processor/);
+  assert.doesNotMatch(journey, /recordPixPaymentV1|recordCardPaymentV1/);
 });
 
 test('AC-071: OAuth grants carry forward rotated signed cookies @spec:AC-071', () => {

@@ -9,7 +9,7 @@ import {
   executeIdentityOperation,
 } from '../apps/identity-subgraph/src/graphql/identity-schema.ts';
 import { OwnedProductMutations } from '../apps/identity-subgraph/src/supplier/owned-product-mutations.ts';
-import { AuthenticatedDataSource } from '../apps/gateway/src/federation/authenticated-data-source.ts';
+import { AuthenticatedDataSource } from '../libs/gateway/nest/src/federation/authenticated-data-source.ts';
 import { createIdentityAuth } from '../apps/identity-subgraph/src/auth/config.ts';
 import { seedGatewayClient } from '../apps/identity-subgraph/src/auth/seed.ts';
 import { toBetterAuthRequest } from '../apps/identity-subgraph/src/auth/http-bridge.ts';

@@ -107,6 +107,24 @@ class PaymentFederationTest {
     }
 
     @Test
+    @DisplayName("AC-124: Payment rejects forged federation identity headers @spec:AC-124")
+    void rejectsUntrustedFederationHeaders() {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("x-authenticated-subject", "attacker");
+        headers.set("x-authenticated-scopes", "orders:read cart:write");
+        var response = restTemplate.exchange(
+            "/graphql",
+            HttpMethod.POST,
+            new HttpEntity<>(Map.of("query", "{ payment(id: \"payment-99\") { id } }"), headers),
+            new ParameterizedTypeReference<Map<String, Object>>() {}
+        );
+
+        assertTrue(response.getStatusCode().isError());
+        verifyNoInteractions(authorizePaymentHandler, findPaymentHandler);
+    }
+
+    @Test
     @DisplayName("AC-100: command and query handlers keep write and read paths explicit @spec:AC-100")
     void separatesAggregateWritesFromPaymentViews() {
         var repository = new IdempotentRepository();
@@ -196,6 +214,7 @@ class PaymentFederationTest {
     private Map<String, Object> graphQl(String query, String subject, String scopes) {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("x-federation-secret", "federation-local-only");
         if (subject != null) headers.set("x-authenticated-subject", subject);
         if (scopes != null) headers.set("x-authenticated-scopes", scopes);
         var response = restTemplate.exchange(

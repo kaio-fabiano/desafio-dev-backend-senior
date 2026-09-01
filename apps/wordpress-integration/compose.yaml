@@ -54,33 +54,6 @@ services:
     volumes:
       - wordpress-data:/var/www/html
 
-  wordpress-federation:
-    image: node:24.8.0-bookworm-slim
-    depends_on:
-      wordpress:
-        condition: service_healthy
-    working_dir: /workspace
-    command:
-      - corepack
-      - pnpm@10.17.1
-      - exec
-      - nx
-      - serve
-      - '@desafio-dev-backend-senior/wordpress-federation'
-    environment:
-      PORT: '3004'
-      WPGRAPHQL_ENDPOINT: http://wordpress/graphql
-      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
-      WOO_WEBHOOK_SECRET: ${WOO_WEBHOOK_SECRET:-woocommerce-local-only}
-    ports:
-      - '127.0.0.1:18081:3004'
-    networks:
-      default:
-        aliases:
-          - wordpress-federation.local
-    volumes:
-      - ../..:/workspace
-
 volumes:
   database-data:
   wordpress-data:

@@ -11,8 +11,8 @@
 ## Completed but not yet committed
 
 - Gateway composes Identity, WordPress, and Payment only.
-- Nx and Compose expose five deployable applications plus the E2E project.
-- Commerce and Stock are retired from active build and runtime targets.
+- Nx and Compose expose six deployable applications plus the E2E project.
+- Commerce owns workflow/outbox delivery; Stock is not a separate deployment.
 - RabbitMQ is removed from the active topology and Payment runtime.
 - Payment command/query evidence covers CQRS and idempotency.
 - WordPress Federation owns GraphQL-over-SSE using the NestJS

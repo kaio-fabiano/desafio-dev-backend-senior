@@ -20,11 +20,11 @@ bootstrap test because a global configuration can break GraphQL or webhooks.
 
 ## Proposed clients and resources
 
-| Client | Type | Grants | Resource/audience | Minimum scopes |
-|---|---|---|---|---|
-| cliente-e2e | public or confidential for testing | authorization_code + PKCE | gateway | `openid profile marketplace:read cart:write` |
-| apollo-mcp | public/confidential according to transport | authorization_code + PKCE | MCP | `openid mcp:tools cart:write` |
-| internal workers | confidential | client_credentials when necessary | internal APIs | smallest possible set |
+| Client           | Type                                       | Grants                            | Resource/audience | Minimum scopes                               |
+| ---------------- | ------------------------------------------ | --------------------------------- | ----------------- | -------------------------------------------- |
+| cliente-e2e      | public or confidential for testing         | authorization_code + PKCE         | gateway           | `openid profile marketplace:read cart:write` |
+| apollo-mcp       | public/confidential according to transport | authorization_code + PKCE         | MCP               | `openid mcp:tools cart:write`                |
+| internal workers | confidential                               | client_credentials when necessary | internal APIs     | smallest possible set                        |
 
 Client Credentials is enabled only with its own administrative scopes; delegated
 user scopes must not automatically authorize machine-to-machine access.

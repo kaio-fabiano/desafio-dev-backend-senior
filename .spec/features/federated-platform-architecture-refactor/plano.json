@@ -24,10 +24,7 @@
         ".spec/verification/federated-platform-architecture-refactor.json",
         "docs/evidence/federated-platform-refactor/review.md"
       ],
-      "refs": [
-        "US-052",
-        "AC-103"
-      ]
+      "refs": ["US-052", "AC-103"]
     }
   ],
   "concluidas": [

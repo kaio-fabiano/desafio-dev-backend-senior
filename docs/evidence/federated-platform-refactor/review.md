@@ -41,12 +41,11 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
     },
     {
       "name": "Unit and integration",
-      "command": "node --experimental-transform-types --test --test-reporter=tap test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/wordpress-federation-refactor.test.mjs test/order-subscription-refactor.test.mjs",
+      "command": "node --experimental-transform-types --test --test-reporter=tap test/identity-federation-refactor.test.mjs test/gateway-federation-refactor.test.mjs test/remove-wordpress-federation-runtime.spec.test.mjs",
       "evidence": [
         "test/identity-federation-refactor.test.mjs",
         "test/gateway-federation-refactor.test.mjs",
-        "test/wordpress-federation-refactor.test.mjs",
-        "test/order-subscription-refactor.test.mjs",
+        "test/remove-wordpress-federation-runtime.spec.test.mjs",
         "apps/payment-processor/src/test/java/dev/desafio/payment/PaymentFederationTest.java"
       ]
     },
@@ -87,10 +86,10 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
       "responsibility": "Verify identity, propagate safe context, and execute the composed query and mutation graph.",
       "providerBoundary": "NestJS composes token verification, request context, Apollo Gateway, and the authenticated data source.",
       "domainDecision": "Authorization is propagated at the edge and enforced again by each owning federation.",
-      "omittedAbstraction": "No catalog loader, business repository, commerce client, or subscription proxy.",
+      "omittedAbstraction": "No catalog loader, business repository, or ownership of order events; the SSE edge delegates to Commerce.",
       "evidence": [
         "test/gateway-federation-refactor.test.mjs",
-        "test/order-subscription-refactor.test.mjs"
+        "test/remove-wordpress-federation-runtime.spec.test.mjs"
       ]
     },
     {
@@ -118,22 +117,26 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
       ]
     },
     {
-      "name": "WordPress Federation",
-      "path": "apps/wordpress-federation",
-      "responsibility": "Expose authoritative catalog, cart, order, customer, inventory, and order-subscription capabilities.",
-      "providerBoundary": "NestJS providers delegate to WPGraphQL and WooGraphQL and attach graphql-sse to the executable NestJS schema.",
-      "domainDecision": "WordPress and WooCommerce remain the commercial system of record; the adapter uses pinned plugins, REST, and signed webhooks without custom WordPress PHP.",
-      "omittedAbstraction": "No competing commercial repository, loader, CRUD model, Commerce runtime, Stock worker, or Gateway stream proxy.",
-      "evidence": [
-        "test/wordpress-federation-refactor.test.mjs",
-        "test/order-subscription-refactor.test.mjs"
-      ]
+      "name": "Commerce Federation",
+      "path": "apps/commerce-subgraph",
+      "responsibility": "Own durable checkout workflow, outbox/inbox processing, and order-event publication.",
+      "providerBoundary": "NestJS providers bind workflow persistence, RabbitMQ adapters, and the order-event stream consumed by Gateway.",
+      "domainDecision": "Commerce owns workflow state and real-time delivery while WooCommerce remains the commercial system of record.",
+      "omittedAbstraction": "No duplicate product, cart, order, customer, or inventory authority.",
+      "evidence": ["test/remove-wordpress-federation-runtime.spec.test.mjs"]
     }
   ]
 }
 ```
 
 <!-- federated-platform-review:end -->
+
+WordPress is deliberately absent from the runtime array. It is external
+infrastructure whose native `/graphql` endpoint becomes a Federation v2
+subgraph through WPGraphQL, WooGraphQL, and `wp-graphql-federations`.
+`apps/wordpress-integration` contains only reproducible support assets and
+tests; there is no WordPress Node deployable, NestJS proxy, SDL-normalization
+runtime, or second subscription implementation.
 
 ## Walkthrough order
 
@@ -147,9 +150,10 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
    NestJS and Spring composition modules named above. Bootstraps create and
    close framework applications; they do not assemble infrastructure graphs.
 4. **Ownership:** trace Better Auth records to Identity, payment invariants to
-   Payment, and commercial state plus SSE delivery to WordPress Federation.
+   Payment, commercial state to WordPress, and SSE delivery to Commerce through Gateway.
 5. **External contract:** compose the SDL, exercise focused tests, then run the
-   isolated E2E journey through Gateway, WordPress SSE, and Apollo MCP.
+   isolated E2E journey through Gateway and its Commerce-backed SSE edge, the
+   native WordPress subgraph, and Apollo MCP.
 
 ## Deliberate design choices
 
@@ -208,9 +212,8 @@ remains unmerged until its remote required checks confirm the same result.
 - Payment persistence and read/write providers are owned by Spring
   `PaymentConfiguration` and are enabled only when a datasource is configured.
 - Signed WooCommerce order webhooks feed the order stream, which is
-  authenticated and served directly by WordPress Federation
-  through the executable NestJS GraphQL schema and the official `graphql-sse`
-  handler; Gateway does not proxy it.
+  published by Commerce and exposed through Gateway's authenticated
+  `graphql-sse` edge; WordPress has no subscription runtime.
 - Compose enables the reproducible checkout path and declares the required
   identity, WordPress, Payment, Gateway, and MCP dependencies.
 

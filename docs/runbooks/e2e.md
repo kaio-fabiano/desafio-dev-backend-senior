@@ -19,23 +19,26 @@ The journey covers:
 1. Better Auth registration and WordPress account linkage;
 2. scoped access through Gateway and Apollo MCP using the same short-lived
    bearer token;
-3. native WooCommerce catalog, cart, checkout, order, and inventory behavior;
-4. idempotent card authorization and stable Pix output from Payment Federation;
-5. an authenticated order stream opened directly at WordPress Federation's
-   `/graphql/stream` endpoint before checkout; and
+3. WooCommerce-authoritative catalog plus durable Commerce checkout/outbox;
+4. RabbitMQ payment and inventory reactions inside Payment Federation, including
+   idempotent Card, stable Pix, and failed-stock compensation;
+5. an authenticated order stream opened at Gateway's `/graphql/stream`
+   endpoint before checkout; and
 6. rejection of missing identity, wrong audience, missing scopes, or another
    buyer's operation key by the owning federation.
 
-The WordPress leg also proves that the Site Token exchange yields plugin
-tokens, payment updates use WooCommerce REST credentials, the webhook signature
-is checked, and `apps/wordpress-integration/marketplace-inventory.php` is absent.
+The inventory leg proves that Payment Federation calls WordPress's native,
+plugin-federated `/graphql` endpoint and that
+`apps/wordpress-integration/marketplace-inventory.php` is absent because the
+installed plugins already expose the required capabilities.
 
-Gateway serves federated queries and mutations but does not proxy the SSE
-stream. Compare the terminal stream event with the federated order/payment view
+Gateway serves federated queries, mutations, and the authenticated SSE edge;
+Commerce is the sole owner and publisher of the order-event stream.
+Compare the terminal stream event with the federated order/payment view
 and the corresponding MCP operation before accepting the run.
 
-The final architecture-refactor execution on 2026-08-30 passed all five
-scenarios. It proved both Card and Pix journeys, direct authenticated SSE,
+The final delivery-closure execution on 2026-08-31 passed all six scenarios.
+It proved both Card and Pix journeys, compensation, authenticated SSE,
 persistent order/payment reads after the write, and MCP parity. A skipped
 scenario is not a pass and must keep the gate red.
 

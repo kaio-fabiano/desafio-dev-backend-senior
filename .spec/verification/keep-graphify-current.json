@@ -1,0 +1,17 @@
+{
+  "feature": "keep-graphify-current",
+  "timestamp": "2026-09-01T17:25:02.326Z",
+  "gitRev": "447d40f",
+  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 120,
+  "results": {
+    "AC-129": {
+      "status": "pass",
+      "testName": "AC-129: canonical Graphify outputs are versioned and freshness is enforced @spec:AC-129",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

@@ -12,6 +12,7 @@ interface Product @key(fields: "id") {
   name: String
   sku: String
   stockQuantity: Int
+  stockStatus: StockStatusEnum
 }
 
 type SimpleProduct implements Product @key(fields: "id") {
@@ -20,6 +21,7 @@ type SimpleProduct implements Product @key(fields: "id") {
   name: String
   sku: String
   stockQuantity: Int
+  stockStatus: StockStatusEnum
 }
 
 type VariableProduct implements Product @key(fields: "id") {
@@ -28,6 +30,7 @@ type VariableProduct implements Product @key(fields: "id") {
   name: String
   sku: String
   stockQuantity: Int
+  stockStatus: StockStatusEnum
 }
 
 type ExternalProduct implements Product @key(fields: "id") {
@@ -36,6 +39,7 @@ type ExternalProduct implements Product @key(fields: "id") {
   name: String
   sku: String
   stockQuantity: Int
+  stockStatus: StockStatusEnum
 }
 
 type GroupProduct implements Product @key(fields: "id") {
@@ -44,6 +48,13 @@ type GroupProduct implements Product @key(fields: "id") {
   name: String
   sku: String
   stockQuantity: Int
+  stockStatus: StockStatusEnum
+}
+
+enum StockStatusEnum {
+  IN_STOCK
+  OUT_OF_STOCK
+  ON_BACKORDER
 }
 
 type ProductConnection {
@@ -119,6 +130,7 @@ type CheckoutPayload {
 
 enum OrderStatusEnum {
   COMPLETED
+  PROCESSING
 }
 
 enum OrderIdTypeEnum {

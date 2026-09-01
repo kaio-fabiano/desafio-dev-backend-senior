@@ -21,12 +21,12 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     import(`../${libraryRoot}/auth/token-verifier.service.ts`),
   ]);
 
-  assert.match(main, /NestFactory\.create\(AppModule\)/);
-  assert.match(main, /enableShutdownHooks\(\)/);
-  assert.doesNotMatch(
+  assert.match(
     main,
-    /\bjson\b|getHttpAdapter|CommerceSubscription|GatewaySse|graphql\/stream/,
+    /NestFactory\.create\(AppModule(?:, \{ bodyParser: false \})?\)/,
   );
+  assert.match(main, /enableShutdownHooks\(\)/);
+  assert.doesNotMatch(main, /ProductLoader|OrderLoader|BusinessRepository/);
   assert.match(
     appModule,
     /from ['"]@desafio-dev-backend-senior\/source\/gateway-nest['"]/,
@@ -39,12 +39,13 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(gatewayModule, /LocalCompose/);
   assert.match(gatewayModule, /AuthenticatedDataSource/);
   assert.match(gatewayModule, /AuthContextFactory/);
-  assert.match(gatewayModule, /wordpress-federation:3004\/graphql/);
+  assert.match(gatewayModule, /http:\/\/wordpress\/graphql/);
   assert.match(gatewayModule, /payment-processor:8080\/graphql/);
-  assert.doesNotMatch(gatewayModule, /commerce-subgraph|stock-worker/);
+  assert.match(gatewayModule, /commerce-subgraph:3003\/graphql/);
+  assert.doesNotMatch(gatewayModule, /stock-worker/);
   assert.doesNotMatch(
     `${main}\n${appModule}\n${gatewayModule}`,
-    /ProductLoader|OrderLoader|BusinessRepository|CommerceSubscription|GatewaySse|graphql\/stream/,
+    /ProductLoader|OrderLoader|BusinessRepository/,
   );
 
   const parsedProject = JSON.parse(project);
@@ -145,11 +146,52 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   );
   assert.equal(headers.get('x-supplier-company-id'), 'supplier-company');
   assert.equal(headers.get('x-request-id'), 'request-1');
-  assert.equal(headers.get('woocommerce-session'), 'session-token');
-  assert.equal(headers.get('cart-token'), 'cart-token');
+  assert.equal(headers.get('woocommerce-session'), null);
+  assert.equal(headers.get('cart-token'), null);
 
   const returnedHeaders = [];
   source.didReceiveResponse({
+    response: {
+      http: {
+        headers: new Headers({
+          'woocommerce-session': 'next-session-token',
+          'cart-token': 'next-cart-token',
+          'set-cookie': 'wp_woocommerce_session=value; Path=/; HttpOnly',
+        }),
+      },
+    },
+    context: {
+      subject: 'supplier-user',
+      scopes: ['marketplace:read'],
+      audience: ['https://gateway.marketplace.local'],
+      requestId: 'request-1',
+      setResponseHeader: (name, value) => returnedHeaders.push([name, value]),
+    },
+  });
+  assert.deepEqual(returnedHeaders, []);
+
+  const wordpress = new AuthenticatedDataSource(
+    { url: 'http://wordpress/graphql' },
+    true,
+  );
+  const wordpressHeaders = new Headers();
+  wordpress.willSendRequest({
+    request: { http: { headers: wordpressHeaders } },
+    context: {
+      subject: 'supplier-user',
+      scopes: ['marketplace:read'],
+      audience: ['https://gateway.marketplace.local'],
+      requestId: 'request-1',
+      sessionHeaders: {
+        'woocommerce-session': 'session-token',
+        'cart-token': 'cart-token',
+      },
+    },
+  });
+  assert.equal(wordpressHeaders.get('origin'), 'http://wordpress');
+  assert.equal(wordpressHeaders.get('woocommerce-session'), 'session-token');
+  assert.equal(wordpressHeaders.get('cart-token'), 'cart-token');
+  wordpress.didReceiveResponse({
     response: {
       http: {
         headers: new Headers({

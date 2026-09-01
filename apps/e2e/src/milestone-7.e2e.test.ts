@@ -7,13 +7,15 @@ import {
 import { runAcceptanceJourney, type AcceptanceProof } from './journey.ts';
 
 const requiredComponents = [
+  'rabbitmq',
+  'commerce-database',
   'identity-database',
   'payment-database',
   'wordpress-database',
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'wordpress-federation',
+  'commerce-subgraph',
   'payment-processor',
   'gateway',
   'apollo-mcp',
@@ -38,7 +40,7 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     if (!process.env.KEEP_E2E_ON_FAILURE) await environment?.stop();
   }, 120_000);
 
-  it('starts the complete isolated topology from one target @spec:AC-067 @spec:AC-078', async () => {
+  it('starts the complete isolated topology from one target @spec:AC-067 @spec:AC-078 @spec:AC-113', async () => {
     expect(new Set(environment?.startedComponents)).toEqual(
       new Set(requiredComponents),
     );
@@ -69,38 +71,44 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     });
   });
 
-  it('converges Card checkout across subscription, federation, and persistence exactly once @spec:AC-069 @spec:AC-083 @spec:AC-084', () => {
+  it('converges Card checkout across RabbitMQ, subscription, federation, and persistence exactly once @spec:AC-069 @spec:AC-083 @spec:AC-084', () => {
     expect(proof.card.subscriptionOpenedBeforeCheckout).toBe(true);
-    expect(proof.card.retry.id).toBe(proof.card.payment.id);
+    expect(proof.card.retry.wooOrderId).toBe(proof.card.checkout.wooOrderId);
     expect(proof.card.event).toMatchObject({
       operationKey: 'milestone-7-card',
-      orderId: proof.card.order.id,
+      orderId: proof.card.checkout.wooOrderId,
       state: 'COMPLETED',
     });
-    expect(proof.card.payment).toMatchObject({
-      orderId: proof.card.order.id,
-      method: 'CARD',
-      status: 'AUTHORIZED',
+    expect(proof.card.meOrder).toMatchObject({
+      wooOrderId: proof.card.checkout.wooOrderId,
+      paymentMethod: 'CARD',
+      workflow: { state: 'COMPLETED' },
     });
-    expect(proof.card.order).toMatchObject({ status: 'COMPLETED' });
+    expect(proof.card.products).toEqual(
+      expect.arrayContaining([expect.objectContaining({ databaseId: 1001 })]),
+    );
+  });
+
+  it('compensates an authorized Card payment after inventory failure @spec:AC-114', () => {
+    expect(proof.compensation.event).toMatchObject({
+      operationKey: 'milestone-7-compensation',
+      orderId: proof.compensation.checkout.wooOrderId,
+      state: 'CANCELLED',
+    });
   });
 
   it('converges Pix checkout on one stable generated code @spec:AC-070', () => {
     expect(proof.pix.subscriptionOpenedBeforeCheckout).toBe(true);
     expect(proof.pix.event).toMatchObject({
       operationKey: 'milestone-7-pix',
-      orderId: proof.pix.order.id,
+      orderId: proof.pix.checkout.wooOrderId,
       state: 'PIX_GENERATED',
       pixCode: expect.stringMatching(/^PIX-/),
     });
-    expect(proof.pix.payment).toMatchObject({
-      orderId: proof.pix.order.id,
-      method: 'PIX',
-      status: 'PIX_GENERATED',
-      pixCode: proof.pix.event.pixCode,
-    });
-    expect(proof.pix.order).toMatchObject({
-      paymentState: 'PIX_GENERATED',
+    expect(proof.pix.meOrder).toMatchObject({
+      wooOrderId: proof.pix.checkout.wooOrderId,
+      paymentMethod: 'PIX',
+      workflow: { state: 'PIX_GENERATED' },
       pixCode: proof.pix.event.pixCode,
     });
   });

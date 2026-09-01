@@ -2,7 +2,7 @@
 
 ## Goal
 
-Converge the proof of concept on five deployable applications while preserving
+Converge the proof of concept on six deployable applications while preserving
 its tested marketplace journey. The design uses strategic DDD to establish
 ownership, tactical DDD only where invariants justify it, and CQRS only where
 read and write behavior genuinely differ.
@@ -19,13 +19,13 @@ Client -> Gateway -> Identity Federation
 Order subscription client -> NestJS subscription endpoint
 ```
 
-| Runtime | Responsibility | Explicitly does not own |
-|---|---|---|
-| Gateway | Supergraph composition, token verification, authenticated context propagation | Loaders, repositories, commerce rules, subscription proxy |
-| Identity Federation | Better Auth, OAuth resources/plugins, account linkage, identity GraphQL fields | Mirrored Better Auth tables, commercial customer/order data |
+| Runtime              | Responsibility                                                                                       | Explicitly does not own                                                                  |
+| -------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Gateway              | Supergraph composition, token verification, authenticated context propagation                        | Loaders, repositories, commerce rules, subscription proxy                                |
+| Identity Federation  | Better Auth, OAuth resources/plugins, account linkage, identity GraphQL fields                       | Mirrored Better Auth tables, commercial customer/order data                              |
 | WordPress Federation | Thin NestJS federation adapter over native WPGraphQL/WooGraphQL plus the order subscription endpoint | Duplicate loaders, commercial persistence, payment state machine, gateway authentication |
-| Payment Federation | Payment aggregate, idempotent commands, compensation, payment views | Orders, inventory, identity sessions |
-| Apollo MCP | Reviewed operations and bearer-token forwarding | A custom MCP server or independent authorization rules |
+| Payment Federation   | Payment aggregate, idempotent commands, compensation, payment views                                  | Orders, inventory, identity sessions                                                     |
+| Apollo MCP           | Reviewed operations and bearer-token forwarding                                                      | A custom MCP server or independent authorization rules                                   |
 
 ## Boundary policy
 
@@ -94,7 +94,7 @@ context to a supported WordPress authentication mechanism and delegates native
 queries and mutations. A schema delegation library must be evaluated before any
 custom remote-execution layer is implemented.
 
-Commerce and Stock are retired only after cart, checkout, inventory,
+The separate Stock deployment is retired only after cart, checkout, inventory,
 idempotency, compensation, and composed-query acceptance scenarios pass through
 the new owners.
 
@@ -136,12 +136,12 @@ for mapping WordPress hooks to order events.
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-|---|---|
-| WooCommerce plugin lacks required federation behavior | Reproduce the exact gap before adding a custom resolver or PHP extension |
-| Nest adapter duplicates WPGraphQL loaders or authorization | Delegate native operations and assert that no commercial repository/loader exists in NestJS |
-| Removing Commerce loses saga/idempotency guarantees | Keep old runtime until replacement acceptance tests pass; migrate one invariant at a time |
-| Better Auth integration lacks required OAuth-provider hook | Verify the installed integration API before designing an adapter; keep custom code behind a provider only for a proven gap |
-| Spring Federation library version conflicts with current Boot/GraphQL versions | Add a focused composition test before moving handlers |
-| SSE transport drifts from the Apollo schema | Reuse the post-initialization `GraphQLSchemaHost.schema` instance and prove schema identity in an integration test |
-| Refactor turns into folder-only DDD | Tests assert dependencies and behavior; no empty abstractions or one-use generic frameworks |
+| Risk                                                                           | Mitigation                                                                                                                 |
+| ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| WooCommerce plugin lacks required federation behavior                          | Reproduce the exact gap before adding a custom resolver or PHP extension                                                   |
+| Nest adapter duplicates WPGraphQL loaders or authorization                     | Delegate native operations and assert that no commercial repository/loader exists in NestJS                                |
+| Removing Commerce loses saga/idempotency guarantees                            | Keep old runtime until replacement acceptance tests pass; migrate one invariant at a time                                  |
+| Better Auth integration lacks required OAuth-provider hook                     | Verify the installed integration API before designing an adapter; keep custom code behind a provider only for a proven gap |
+| Spring Federation library version conflicts with current Boot/GraphQL versions | Add a focused composition test before moving handlers                                                                      |
+| SSE transport drifts from the Apollo schema                                    | Reuse the post-initialization `GraphQLSchemaHost.schema` instance and prove schema identity in an integration test         |
+| Refactor turns into folder-only DDD                                            | Tests assert dependencies and behavior; no empty abstractions or one-use generic frameworks                                |

@@ -24,15 +24,15 @@ test('AC-090: the target contains five deployable applications and one test proj
     { name: 'Apollo MCP', path: 'apps/apollo-mcp' },
     { name: 'Gateway', path: 'apps/gateway' },
     { name: 'Identity Federation', path: 'apps/identity-subgraph' },
+    { name: 'Commerce Federation', path: 'apps/commerce-subgraph' },
     { name: 'Payment Federation', path: 'apps/payment-processor' },
-    { name: 'WordPress Federation', path: 'apps/wordpress-federation' },
   ]);
   assert.deepEqual(contract.nonDeployableProjects, [
     { name: 'End-to-end tests', path: 'apps/e2e' },
   ]);
   assert.deepEqual(contract.retiredApplications, [
-    'apps/commerce-subgraph',
     'apps/stock-worker',
+    'apps/wordpress-federation',
   ]);
 });
 

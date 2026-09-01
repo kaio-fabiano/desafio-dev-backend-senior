@@ -1,5 +1,6 @@
 package dev.desafio.payment.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.payment.adapter.persistence.PaymentRepository;
 import dev.desafio.payment.application.PaymentHandler;
 import dev.desafio.payment.application.command.AuthorizePaymentHandler;
@@ -7,6 +8,10 @@ import dev.desafio.payment.application.command.OrderPaymentPort;
 import dev.desafio.payment.application.query.FindPaymentHandler;
 import dev.desafio.payment.application.query.PaymentView;
 import dev.desafio.payment.domain.Payment;
+import dev.desafio.payment.inventory.InventoryRepository;
+import dev.desafio.payment.inventory.InventoryService;
+import dev.desafio.payment.inventory.WooInventoryAdapter;
+import dev.desafio.payment.wordpress.WpGraphqlAuthentication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer;
@@ -22,9 +27,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,6 +58,28 @@ public class PaymentConfiguration {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url")
+    InventoryRepository inventoryRepository(DataSource dataSource) {
+        return new InventoryRepository.Jdbc(dataSource);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = {"spring.datasource.url", "wordpress.graphql-url"})
+    WooInventoryAdapter wooInventoryAdapter(ObjectMapper json) {
+        return new WooInventoryAdapter(
+            URI.create(requiredEnvironment("WORDPRESS_GRAPHQL_URL")),
+            requiredEnvironment("WPGRAPHQL_SITE_TOKEN"),
+            json
+        );
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = {"spring.datasource.url", "wordpress.graphql-url"})
+    InventoryService inventoryService(InventoryRepository repository, WooInventoryAdapter stock) {
+        return new InventoryService(repository, stock);
+    }
+
+    @Bean
     @ConditionalOnBean(PaymentHandler.class)
     AuthorizePaymentHandler authorizePaymentHandler(PaymentHandler paymentHandler, Optional<OrderPaymentPort> orders) {
         return orders.map(orderPort -> new AuthorizePaymentHandler(paymentHandler, orderPort))
@@ -58,35 +87,53 @@ public class PaymentConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "wordpress.url")
-    OrderPaymentPort wooCommerceOrderPayment() {
-        var endpoint = requiredEnvironment("WORDPRESS_URL");
-        var credentials = Base64.getEncoder().encodeToString((
-            requiredEnvironment("WOO_CONSUMER_KEY") + ":" + requiredEnvironment("WOO_CONSUMER_SECRET")
-        ).getBytes(StandardCharsets.UTF_8));
+    @ConditionalOnProperty(name = "wordpress.graphql-url")
+    OrderPaymentPort wooCommerceOrderPayment(ObjectMapper json) {
+        var endpoint = URI.create(requiredEnvironment("WORDPRESS_GRAPHQL_URL"));
+        var siteToken = requiredEnvironment("WPGRAPHQL_SITE_TOKEN");
         var client = HttpClient.newHttpClient();
         return (command, payment) -> {
-            var metadata = "\"meta_data\":[{\"key\":\"operation_key\",\"value\":\"" + json(command.operationKey()) + "\"}";
-            var body = payment.method() == Payment.Method.CARD
-                ? "{\"status\":\"completed\",\"set_paid\":true,\"transaction_id\":\"" + json(payment.id()) + "\"," + metadata + "]}"
-                : "{" + metadata + ",{\"key\":\"payment_state\",\"value\":\"PIX_GENERATED\"},{\"key\":\"pix_code\",\"value\":\"" + json(payment.pixCode()) + "\"}]}";
-            var request = HttpRequest.newBuilder(URI.create(endpoint + "/wp-json/wc/v3/orders/" + command.orderId()))
-                .header("Authorization", "Basic " + credentials)
+            var input = new LinkedHashMap<String, Object>();
+            input.put("clientMutationId", command.operationKey());
+            input.put("id", command.orderId());
+            var metadata = new ArrayList<>(List.of(Map.of("key", "operation_key", "value", command.operationKey())));
+            if (payment.method() == Payment.Method.CARD) {
+                input.put("status", "COMPLETED");
+                input.put("isPaid", true);
+                input.put("transactionId", payment.id().toString());
+            } else {
+                metadata.add(Map.of("key", "payment_state", "value", "PIX_GENERATED"));
+                metadata.add(Map.of("key", "pix_code", "value", payment.pixCode()));
+            }
+            input.put("metaData", metadata);
+            var operation = Map.of(
+                "operationName", "UpdateOrderPayment",
+                "query", "mutation UpdateOrderPayment($input: UpdateOrderInput!) { updateOrder(input: $input) { order { id status transactionId } } }",
+                "variables", Map.of("input", input)
+            );
+            final String body;
+            try {
+                body = json.writeValueAsString(operation);
+            } catch (com.fasterxml.jackson.core.JsonProcessingException exception) {
+                throw new IllegalStateException("WordPress federation payment request could not be serialized", exception);
+            }
+            var request = HttpRequest.newBuilder(endpoint)
                 .header("Content-Type", "application/json")
-                .header("X-Forwarded-Proto", "https")
-                .PUT(HttpRequest.BodyPublishers.ofString(body))
+                .header("Origin", endpoint.resolve("/").toString().replaceAll("/$", ""))
+                .header("Authorization", "Bearer " + WpGraphqlAuthentication.bearerToken(endpoint, siteToken, json, client))
+                .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             try {
                 var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                if (response.statusCode() < 200 || response.statusCode() >= 300) {
-                    throw new IllegalStateException("WooCommerce order update failed: " + response.statusCode());
+                var payload = json.readTree(response.body());
+                if (response.statusCode() < 200 || response.statusCode() >= 300 || !payload.path("errors").isMissingNode()) {
+                    throw new IllegalStateException("WordPress federation payment update failed: " + response.statusCode());
                 }
-                deliverLocalWebhook(client, response.body());
             } catch (InterruptedException exception) {
                 Thread.currentThread().interrupt();
-                throw new IllegalStateException("WooCommerce order update interrupted", exception);
+                throw new IllegalStateException("WordPress federation payment update interrupted", exception);
             } catch (java.io.IOException exception) {
-                throw new IllegalStateException("WooCommerce order update failed", exception);
+                throw new IllegalStateException("WordPress federation payment update failed", exception);
             }
         };
     }
@@ -119,8 +166,22 @@ public class PaymentConfiguration {
     }
 
     @Bean
-    WebGraphQlInterceptor propagatedPaymentIdentity() {
+    WebGraphQlInterceptor propagatedPaymentIdentity(
+        @org.springframework.beans.factory.annotation.Value("${federation.internal-secret:federation-local-only}")
+        String internalSecret
+    ) {
         return (request, chain) -> {
+            var suppliedSecret = Optional.ofNullable(
+                request.getHeaders().getFirst("x-federation-secret")
+            ).orElse("");
+            if (!MessageDigest.isEqual(
+                suppliedSecret.getBytes(StandardCharsets.UTF_8),
+                internalSecret.getBytes(StandardCharsets.UTF_8)
+            )) {
+                return reactor.core.publisher.Mono.error(
+                    new IllegalStateException("Untrusted federation request")
+                );
+            }
             var subject = Optional.ofNullable(request.getHeaders().getFirst("x-authenticated-subject"))
                 .orElse("");
             var scopes = scopes(request.getHeaders().getFirst("x-authenticated-scopes"));
@@ -145,31 +206,4 @@ public class PaymentConfiguration {
         return value;
     }
 
-    private static String json(String value) {
-        return value.replace("\\", "\\\\").replace("\"", "\\\"");
-    }
-
-    private static void deliverLocalWebhook(HttpClient client, String body) throws java.io.IOException, InterruptedException {
-        var url = System.getenv("WOO_WEBHOOK_DELIVERY_URL");
-        var secret = System.getenv("WOO_WEBHOOK_SECRET");
-        if (url == null || url.isBlank() || secret == null || secret.isBlank()) return;
-        try {
-            var mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
-            var signature = Base64.getEncoder().encodeToString(mac.doFinal(body.getBytes(StandardCharsets.UTF_8)));
-            var response = client.send(
-                HttpRequest.newBuilder(URI.create(url))
-                    .header("Content-Type", "application/json")
-                    .header("X-WC-Webhook-Signature", signature)
-                    .POST(HttpRequest.BodyPublishers.ofString(body))
-                    .build(),
-                HttpResponse.BodyHandlers.discarding()
-            );
-            if (response.statusCode() < 200 || response.statusCode() >= 300) {
-                throw new IllegalStateException("Local webhook delivery failed: " + response.statusCode());
-            }
-        } catch (java.security.GeneralSecurityException exception) {
-            throw new IllegalStateException("Webhook signature failed", exception);
-        }
-    }
 }

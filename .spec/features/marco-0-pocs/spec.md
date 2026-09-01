@@ -103,14 +103,14 @@ the monorepo foundation uses only proven paths.
 
 ## Suposições
 
-| ID | Assumption | Status | Resolution |
-|---|---|---|---|
+| ID      | Assumption                                                                      | Status     | Resolution                                                        |
+| ------- | ------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------- |
 | ASM-003 | PoCs may live in isolated projects and be replaced by the final implementation. | confirmada | The roadmap defines Milestone 0 as a proof before the final apps. |
-| ASM-004 | Docker and Docker Compose are available for local proofs. | confirmada | Environment verified with Docker 29.7.2 and Compose 5.5.0. |
-| ASM-005 | SST must remain pinned to the v3 line until explicit authorization to migrate. | confirmada | The README explicitly requires SST v3. |
+| ASM-004 | Docker and Docker Compose are available for local proofs.                       | confirmada | Environment verified with Docker 29.7.2 and Compose 5.5.0.        |
+| ASM-005 | SST must remain pinned to the v3 line until explicit authorization to migrate.  | confirmada | The README explicitly requires SST v3.                            |
 
 ## Perguntas em aberto
 
-| ID | Question | Status | Answer |
-|---|---|---|---|
-| Q-002 | Has the 08/07/2026 at 12:00 BRT deadline passed, or was it extended? | respondida | The owner confirmed nine calendar days from 2026-08-25, resulting in 2026-09-03; the delivery time remains unconfirmed. |
+| ID    | Question                                                             | Status     | Answer                                                                                       |
+| ----- | -------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------------------- |
+| Q-002 | Has the 08/07/2026 at 12:00 BRT deadline passed, or was it extended? | respondida | The owner confirmed 2026-09-03 as a date-only deadline, with no time or timezone commitment. |

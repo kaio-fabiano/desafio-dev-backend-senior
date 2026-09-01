@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "exports": {
     "./gateway-nest": "./libs/gateway/nest/src/index.ts",
-    "./identity-nest": "./libs/identity/nest/src/index.ts",
-    "./wordpress-nest": "./libs/wordpress/nest/src/index.ts"
+    "./identity-nest": "./libs/identity/nest/src/index.ts"
   },
   "packageManager": "pnpm@10.17.1",
   "license": "MIT",
   "scripts": {
     "acceptance:milestone-7": "nx run @desafio-dev-backend-senior/e2e:acceptance",
+    "graphify:check": "node scripts/check-graphify-current.mjs",
     "test:spec": "node --experimental-transform-types --test --test-reporter=tap test/*.test.mjs",
     "quality:nx": "nx run-many --target=build,typecheck,lint,test --all",
     "quality:affected": "nx affected --target=build,typecheck,lint,test",
@@ -30,6 +30,10 @@
     "@nestjs/core": "11.1.6",
     "@nestjs/graphql": "13.4.5",
     "@nestjs/platform-express": "11.1.6",
+    "@opentelemetry/api": "1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "0.79.0",
+    "@opentelemetry/exporter-trace-otlp-http": "0.221.0",
+    "@opentelemetry/sdk-node": "0.221.0",
     "@thallesp/nestjs-better-auth": "2.7.0",
     "ajv": "8.17.1",
     "amqplib": "2.0.1",

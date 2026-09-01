@@ -6,10 +6,14 @@ subgraphs:
     schema:
       file: ./identity/schema.graphql
   wordpress:
-    routing_url: http://wordpress-federation:3004/graphql
+    routing_url: http://wordpress/graphql
     schema:
       file: ./wordpress/schema.graphql
   payment:
     routing_url: http://payment-processor:8080/graphql
     schema:
       file: ./payment/schema.graphql
+  commerce:
+    routing_url: http://commerce-subgraph:3003/graphql
+    schema:
+      file: ./commerce/schema.graphql

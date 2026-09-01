@@ -5,7 +5,7 @@ import { createServer } from 'node:http';
 import { test } from 'node:test';
 
 import { createGatewayAuthMiddleware } from '../apps/gateway/src/main.ts';
-import { verifyGatewayRequest } from '../apps/gateway/src/auth/token-verifier.ts';
+import { verifyGatewayRequest } from '../libs/gateway/nest/src/auth/token-verifier.service.ts';
 
 const bearer = 'Bearer opaque-multi-audience-token';
 const issuer = 'https://identity.marketplace.test/api/auth';
