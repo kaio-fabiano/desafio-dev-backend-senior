@@ -1,15 +1,20 @@
 {
   "feature": "milestone-6-apollo-mcp",
-  "timestamp": "2026-09-01T17:31:54.722Z",
-  "gitRev": "447d40f",
+  "timestamp": "2026-09-01T21:13:46.873Z",
+  "gitRev": "75bbc44",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 120,
+  "testsParsed": 128,
   "results": {
     "AC-060": {
       "status": "pass",
       "testName": "AC-060: Only approved operations become tools @spec:AC-060",
+      "method": "tap"
+    },
+    "AC-138": {
+      "status": "pass",
+      "testName": "AC-138: Product discovery and lookup have distinct contracts @spec:AC-138",
       "method": "tap"
     },
     "AC-061": {

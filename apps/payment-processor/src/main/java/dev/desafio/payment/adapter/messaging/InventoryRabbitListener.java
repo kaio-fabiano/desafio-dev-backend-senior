@@ -44,7 +44,15 @@ public final class InventoryRabbitListener {
             LOG.info("Inventory event completed eventId={} operationKey={}",
                 message.getMessageProperties().getMessageId(),
                 message.getMessageProperties().getCorrelationId());
+        } catch (InventoryService.InventoryConflictException error) {
+            LOG.error("Inventory event rejected eventId={} operationKey={}",
+                message.getMessageProperties().getMessageId(),
+                message.getMessageProperties().getCorrelationId(), error);
+            routePermanentFailure(message);
         } catch (Exception error) {
+            LOG.warn("Inventory event failed eventId={} operationKey={}",
+                message.getMessageProperties().getMessageId(),
+                message.getMessageProperties().getCorrelationId(), error);
             try {
                 routeFailure(message);
             } catch (Exception routingError) {
@@ -131,6 +139,11 @@ public final class InventoryRabbitListener {
             });
             return;
         }
+        routePermanentFailure(message);
+    }
+
+    private void routePermanentFailure(Message message) throws Exception {
+        var properties = message.getMessageProperties();
         var failure = new HashMap<String, Object>();
         failure.put("eventId", properties.getMessageId());
         failure.put("eventType", properties.getType());

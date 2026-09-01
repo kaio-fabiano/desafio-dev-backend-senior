@@ -24,7 +24,10 @@ test('AC-090: the target contains five deployable applications and one test proj
     { name: 'Apollo MCP', path: 'apps/apollo-mcp' },
     { name: 'Gateway', path: 'apps/gateway' },
     { name: 'Identity Federation', path: 'apps/identity-subgraph' },
-    { name: 'Commerce Federation', path: 'apps/commerce-subgraph' },
+    {
+      name: 'Order Workflow Federation',
+      path: 'apps/order-workflow-subgraph',
+    },
     { name: 'Payment Federation', path: 'apps/payment-processor' },
   ]);
   assert.deepEqual(contract.nonDeployableProjects, [

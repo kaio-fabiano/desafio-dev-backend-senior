@@ -1,6 +1,7 @@
 {
   "name": "@desafio-dev-backend-senior/source",
   "version": "0.0.0",
+  "type": "module",
   "exports": {
     "./gateway-nest": "./libs/gateway/nest/src/index.ts",
     "./identity-nest": "./libs/identity/nest/src/index.ts"
@@ -10,7 +11,7 @@
   "scripts": {
     "acceptance:milestone-7": "nx run @desafio-dev-backend-senior/e2e:acceptance",
     "graphify:check": "node scripts/check-graphify-current.mjs",
-    "test:spec": "node --experimental-transform-types --test --test-reporter=tap test/*.test.mjs",
+    "test:spec": "NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap test/*.test.mjs",
     "quality:nx": "nx run-many --target=build,typecheck,lint,test --all",
     "quality:affected": "nx affected --target=build,typecheck,lint,test",
     "quality:coverage": "nx run @desafio-dev-backend-senior/e2e:milestone-7-quality"
@@ -43,7 +44,8 @@
     "graphql-sse": "2.6.1",
     "pg": "8.23.0",
     "reflect-metadata": "0.2.2",
-    "rxjs": "7.8.2"
+    "rxjs": "7.8.2",
+    "tsx": "4.20.6"
   },
   "devDependencies": {
     "@modelcontextprotocol/sdk": "1.17.0",

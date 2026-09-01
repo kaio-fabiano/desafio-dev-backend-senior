@@ -1,0 +1,77 @@
+{
+  "feature": "transaction-federation-refactor",
+  "timestamp": "2026-09-01T23:03:58.399Z",
+  "gitRev": "d217645",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 131,
+  "results": {
+    "AC-139": {
+      "status": "pass",
+      "testName": "AC-139: WordPress owns native commerce operations @spec:AC-139",
+      "method": "tap"
+    },
+    "AC-140": {
+      "status": "pass",
+      "testName": "AC-140: Order Workflow delegates order creation to WooGraphQL checkout @spec:AC-140",
+      "method": "tap"
+    },
+    "AC-141": {
+      "status": "pass",
+      "testName": "AC-141: Order Workflow remains an independent focused service @spec:AC-141",
+      "method": "tap"
+    },
+    "AC-142": {
+      "status": "pass",
+      "testName": "AC-142: Order Workflow persists process state, not commerce aggregates @spec:AC-142",
+      "method": "tap"
+    },
+    "AC-143": {
+      "status": "pass",
+      "testName": "AC-143: concurrent checkout creates one order @spec:AC-143",
+      "method": "tap"
+    },
+    "AC-144": {
+      "status": "pass",
+      "testName": "AC-144: an operation key cannot change owner or command @spec:AC-144",
+      "method": "tap"
+    },
+    "AC-145": {
+      "status": "pass",
+      "testName": "AC-145: workflow, payment and inventory progress through RabbitMQ @spec:AC-145",
+      "method": "tap"
+    },
+    "AC-146": {
+      "status": "pass",
+      "testName": "AC-146: subscription can precede checkout @spec:AC-146",
+      "method": "tap"
+    },
+    "AC-147": {
+      "status": "pass",
+      "testName": "AC-147: stream ownership prevents cross-user events @spec:AC-147",
+      "method": "tap"
+    },
+    "AC-148": {
+      "status": "pass",
+      "testName": "AC-148: Payment application depends on a provider port, not a vendor SDK @spec:AC-148",
+      "method": "tap"
+    },
+    "AC-149": {
+      "status": "pass",
+      "testName": "AC-149: Inventory is an independent asynchronous participant @spec:AC-149",
+      "method": "tap"
+    },
+    "AC-150": {
+      "status": "pass",
+      "testName": "AC-150: ADRs record native capability, gap, alternatives and removal @spec:AC-150",
+      "method": "tap"
+    },
+    "AC-151": {
+      "status": "pass",
+      "testName": "AC-151: the four-subgraph contract composes @spec:AC-151",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

@@ -41,7 +41,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(gatewayModule, /AuthContextFactory/);
   assert.match(gatewayModule, /http:\/\/wordpress\/graphql/);
   assert.match(gatewayModule, /payment-processor:8080\/graphql/);
-  assert.match(gatewayModule, /commerce-subgraph:3003\/graphql/);
+  assert.match(gatewayModule, /order-workflow-subgraph:3003\/graphql/);
   assert.doesNotMatch(gatewayModule, /stock-worker/);
   assert.doesNotMatch(
     `${main}\n${appModule}\n${gatewayModule}`,
@@ -135,6 +135,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
       sessionHeaders: {
         'woocommerce-session': 'session-token',
         'cart-token': 'cart-token',
+        authorization: 'Bearer must-not-forward',
       },
     },
   });
@@ -148,6 +149,31 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   assert.equal(headers.get('x-request-id'), 'request-1');
   assert.equal(headers.get('woocommerce-session'), null);
   assert.equal(headers.get('cart-token'), null);
+
+  const orderWorkflow = new AuthenticatedDataSource({
+    url: 'http://order-workflow-subgraph:3003/graphql',
+    kind: 'order-workflow',
+  });
+  const orderWorkflowHeaders = new Headers();
+  orderWorkflow.willSendRequest({
+    request: { http: { headers: orderWorkflowHeaders } },
+    context: {
+      subject: 'buyer-1',
+      scopes: ['marketplace:read'],
+      audience: ['https://gateway.marketplace.local'],
+      requestId: 'request-2',
+      sessionHeaders: {
+        'woocommerce-session': 'session-token',
+        'cart-token': 'cart-token',
+      },
+    },
+  });
+  assert.equal(
+    orderWorkflowHeaders.get('woocommerce-session'),
+    'session-token',
+  );
+  assert.equal(orderWorkflowHeaders.get('cart-token'), 'cart-token');
+  assert.equal(orderWorkflowHeaders.get('authorization'), null);
 
   const returnedHeaders = [];
   source.didReceiveResponse({
@@ -170,10 +196,10 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   });
   assert.deepEqual(returnedHeaders, []);
 
-  const wordpress = new AuthenticatedDataSource(
-    { url: 'http://wordpress/graphql' },
-    true,
-  );
+  const wordpress = new AuthenticatedDataSource({
+    url: 'http://wordpress/graphql',
+    kind: 'wordpress',
+  });
   const wordpressHeaders = new Headers();
   wordpress.willSendRequest({
     request: { http: { headers: wordpressHeaders } },

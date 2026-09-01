@@ -128,7 +128,7 @@ class PaymentFederationTest {
     @DisplayName("AC-100: command and query handlers keep write and read paths explicit @spec:AC-100")
     void separatesAggregateWritesFromPaymentViews() {
         var repository = new IdempotentRepository();
-        var commandHandler = new AuthorizePaymentHandler(new PaymentHandler(repository));
+        var commandHandler = new AuthorizePaymentHandler(new PaymentHandler(repository, dev.desafio.payment.application.PaymentProvider.deterministic()));
 
         assertThrows(IllegalArgumentException.class, () -> commandHandler.handle(new AuthorizePayment(
             "operation-invalid", "payment-invalid", "order-invalid", Payment.Method.CARD,
@@ -161,7 +161,7 @@ class PaymentFederationTest {
     @DisplayName("AC-101: concurrent authorization and repeated Pix or compensation remain idempotent @spec:AC-101")
     void keepsEveryPaymentDeliveryIdempotent() throws Exception {
         var repository = new IdempotentRepository();
-        var paymentHandler = new PaymentHandler(repository);
+        var paymentHandler = new PaymentHandler(repository, dev.desafio.payment.application.PaymentProvider.deterministic());
         var authorization = new AuthorizePaymentHandler(paymentHandler);
         var card = new AuthorizePayment(
             "operation-card", "payment-card", "order-card", Payment.Method.CARD,

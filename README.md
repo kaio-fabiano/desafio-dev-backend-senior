@@ -15,7 +15,7 @@ flowchart LR
   Client --> Gateway
   Agent[AI agent] --> MCP[Apollo MCP] --> Gateway
   Gateway --> Identity[Identity Federation]
-  Gateway --> Commerce[Commerce Federation]
+  Gateway --> Workflow[Order Workflow Federation]
   Gateway --> Payment[Payment Federation]
   Gateway --> WordPress[WordPress / WPGraphQL native subgraph]
   Commerce --> RabbitMQ[(RabbitMQ)]
@@ -28,14 +28,14 @@ flowchart LR
   Gateway -->|Order event stream| Commerce
 ```
 
-| Runtime              | Single responsibility                                                                         | Composition boundary                                                                       |
-| -------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Apollo MCP           | Expose curated authenticated graph operations to agents                                       | Apollo MCP configuration and its Gateway endpoint                                          |
-| Gateway              | Authenticate, propagate safe context, and compose queries and mutations                       | NestJS authentication providers and Apollo Gateway                                         |
-| Identity Federation  | Own identity, sessions, OAuth, registration, and identity graph fields                        | `NestJSBetterAuth`, plugin factories, and Identity providers                               |
-| Commerce Federation  | Own idempotent checkout workflow, transactional outbox, and order-event stream                | NestJS application services, PostgreSQL, and RabbitMQ publishers/consumers                 |
-| Payment Federation   | Own payment invariants and the internal payment and inventory event consumers                 | Spring GraphQL Federation, Spring AMQP, and focused application boundaries                 |
-| WordPress / WPGraphQL | Expose authoritative product, cart, order, customer, and inventory capabilities | Native `/graphql` endpoint federated by `wp-graphql-federations`; external infrastructure, not a Node deployable |
+| Runtime                   | Single responsibility                                                           | Composition boundary                                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Apollo MCP                | Expose curated authenticated graph operations to agents                         | Apollo MCP configuration and its Gateway endpoint                                                                |
+| Gateway                   | Authenticate, propagate safe context, and compose queries and mutations         | NestJS authentication providers and Apollo Gateway                                                               |
+| Identity Federation       | Own identity, sessions, OAuth, registration, and identity graph fields          | `NestJSBetterAuth`, plugin factories, and Identity providers                                                     |
+| Order Workflow Federation | Own idempotent checkout workflow, transactional outbox, and order-event stream  | NestJS application services, PostgreSQL, and RabbitMQ publishers/consumers                                       |
+| Payment Federation        | Own payment invariants and the internal payment and inventory event consumers   | Spring GraphQL Federation, Spring AMQP, and focused application boundaries                                       |
+| WordPress / WPGraphQL     | Expose authoritative product, cart, order, customer, and inventory capabilities | Native `/graphql` endpoint federated by `wp-graphql-federations`; external infrastructure, not a Node deployable |
 
 The domain rule is ownership, not uniformity: Better Auth owns its records,
 WooCommerce owns commercial state, and Payment owns its aggregate and read

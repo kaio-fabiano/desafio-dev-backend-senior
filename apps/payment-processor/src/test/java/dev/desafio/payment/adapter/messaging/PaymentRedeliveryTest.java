@@ -25,6 +25,7 @@ class PaymentRedeliveryTest {
         var repository = new RedeliveryRepository();
         var handler = new PaymentHandler(
             repository,
+            dev.desafio.payment.application.PaymentProvider.deterministic(),
             Clock.fixed(Instant.parse("2026-08-27T12:00:00Z"), ZoneOffset.UTC)
         );
         var consumer = new PaymentConsumer(handler);

@@ -9,13 +9,17 @@ import {
   verifyGatewayRequest,
 } from './token-verifier.service.ts';
 
+export type CartSessionHeaders = Readonly<
+  Partial<Record<'cookie' | 'woocommerce-session' | 'cart-token', string>>
+>;
+
 export type AuthContext = {
   subject: string;
   scopes: readonly string[];
   audience: readonly string[];
   supplierCompanyId?: string;
   requestId: string;
-  sessionHeaders?: Readonly<Record<string, string>>;
+  sessionHeaders?: CartSessionHeaders;
   setResponseHeader?: (name: string, value: string | string[]) => void;
 };
 

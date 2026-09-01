@@ -13,7 +13,7 @@ subgraphs:
     routing_url: http://payment-processor:8080/graphql
     schema:
       file: ./payment/schema.graphql
-  commerce:
-    routing_url: http://commerce-subgraph:3003/graphql
+  order-workflow:
+    routing_url: http://order-workflow-subgraph:3003/graphql
     schema:
-      file: ./commerce/schema.graphql
+      file: ./order-workflow/schema.graphql

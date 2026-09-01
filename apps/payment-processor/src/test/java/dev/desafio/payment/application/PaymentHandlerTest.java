@@ -24,7 +24,7 @@ class PaymentHandlerTest {
     @DisplayName("AC-043: concurrent Card redelivery records one authorization @spec:AC-043")
     void authorizesCardOnceAcrossConcurrentRedelivery() throws Exception {
         var repository = new AtomicRepository();
-        var handler = new PaymentHandler(repository, CLOCK);
+        var handler = new PaymentHandler(repository, PaymentProvider.deterministic(), CLOCK);
         var incomingEventId = UUID.randomUUID();
         var command = new Payment.PaymentRequested(
             "checkout-43", "payment-43", "order-43", Payment.Method.CARD,
@@ -49,7 +49,7 @@ class PaymentHandlerTest {
     @DisplayName("AC-044: Pix code and terminal result stay stable for one operation @spec:AC-044")
     void generatesStablePixCodeWithoutInventoryRequest() {
         var repository = new AtomicRepository();
-        var handler = new PaymentHandler(repository, CLOCK);
+        var handler = new PaymentHandler(repository, PaymentProvider.deterministic(), CLOCK);
         var command = new Payment.PaymentRequested(
             "checkout-44", "payment-44", "order-44", Payment.Method.PIX,
             new BigDecimal("82.50"), "BRL"
@@ -72,7 +72,7 @@ class PaymentHandlerTest {
     @DisplayName("AC-049: duplicate compensation requests record one refund @spec:AC-049")
     void refundsAuthorizedCardOnce() {
         var repository = new AtomicRepository();
-        var handler = new PaymentHandler(repository, CLOCK);
+        var handler = new PaymentHandler(repository, PaymentProvider.deterministic(), CLOCK);
         handler.handle(UUID.randomUUID(), new Payment.PaymentRequested(
             "checkout-49", "payment-49", "order-49", Payment.Method.CARD,
             new BigDecimal("31.00"), "BRL"

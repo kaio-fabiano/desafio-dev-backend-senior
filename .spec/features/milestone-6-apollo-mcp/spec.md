@@ -12,7 +12,12 @@ As an AI agent user, I want a small reviewed tool set so that the model cannot c
 #### AC-060 — Only approved operations become tools
 - **Dado** the versioned operation manifest
 - **Quando** an MCP client lists tools
-- **Então** exactly `me`, `searchProducts`, `getProduct`, `getMyCart`, `getMyOrders`, `addToCart`, and `removeFromCart` are exposed
+- **Então** exactly `me`, `searchProducts`, `getProduct`, `getMyCart`, `getMyOrders`, and `addToCart` are exposed
+
+#### AC-138 — Product discovery and lookup have distinct contracts
+- **Dado** the curated `searchProducts` and `getProduct` tools
+- **Quando** an MCP client discovers products or requests one product by ID
+- **Então** `searchProducts` returns a paginated product connection while `getProduct` performs the singular lookup
 
 #### AC-061 — Forbidden mutations cannot be invoked
 - **Dado** the running MCP server
@@ -48,7 +53,7 @@ As a buyer, I want MCP tools to use my original identity so that agents cannot b
 #### AC-066 — Milestone acceptance is reproducible
 - **Dado** Better Auth, the gateway, Apollo MCP, and its registered operations
 - **Quando** the Nx acceptance target and MCP protocol probe run
-- **Então** tool listing, `me`, `searchProducts`, `addToCart`, negative authentication, scope, parity, and token-redaction checks all pass
+- **Então** tool listing, paginated `searchProducts`, `addToCart`, negative authentication, scope, parity, and token-redaction checks all pass
 
 ## Out of scope
 - Checkout/payment tools, unrestricted execute/introspection tools, prompts, MCP Apps, and custom MCP server code.

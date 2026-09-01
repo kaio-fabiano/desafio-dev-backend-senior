@@ -18,13 +18,13 @@ test('AC-116: final records describe the delivered runtime @spec:AC-116', () => 
   assert.match(deadline, /2026-09-03/);
   assert.match(deadline, /date only/);
   assert.match(readme, /five deployable applications/);
-  assert.match(boundaries, /"name": "Commerce Federation"/);
+  assert.match(boundaries, /"name": "Order Workflow Federation"/);
   assert.match(
     boundaries,
     /"retiredApplications": \["apps\/stock-worker", "apps\/wordpress-federation"\]/,
   );
   assert.match(tasks, /T-090[^\n]*\[concluida\]/);
-  assert.match(compose, /^  commerce-subgraph:/m);
+  assert.match(compose, /^  order-workflow-subgraph:/m);
   assert.match(compose, /^  rabbitmq:/m);
   assert.match(compose, /^  payment-processor:/m);
   assert.doesNotMatch(compose, /^  stock-worker:/m);

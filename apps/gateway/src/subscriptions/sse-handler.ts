@@ -2,10 +2,10 @@ import { createHandler } from 'graphql-sse/lib/use/http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import type { AuthContext } from '@desafio-dev-backend-senior/source/gateway-nest';
-import type { CommerceSubscriptionClient } from './commerce-subscription.client.ts';
+import type { OrderWorkflowSubscriptionClient } from './order-workflow-subscription.client.ts';
 
 type GatewaySseOptions = {
-  commerce: CommerceSubscriptionClient;
+  orderWorkflow: OrderWorkflowSubscriptionClient;
   verify: (request: Request) => Promise<AuthContext>;
 };
 
@@ -25,7 +25,7 @@ function toRequest(request: IncomingMessage) {
 }
 
 export function createGatewaySseHandler({
-  commerce,
+  orderWorkflow,
   verify,
 }: GatewaySseOptions) {
   const authenticated = new WeakMap<IncomingMessage, AuthContext>();
@@ -43,7 +43,7 @@ export function createGatewaySseHandler({
     onSubscribe: (_request, params) => {
       const context = authenticated.get(_request.raw);
       if (!context) throw new Error('Unauthenticated subscription');
-      const subscription = commerce.subscribe(params, context);
+      const subscription = orderWorkflow.subscribe(params, context);
       active.set(_request.raw, subscription);
       return subscription;
     },

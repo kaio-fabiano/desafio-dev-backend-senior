@@ -16,7 +16,7 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
     paymentConsumer,
     wooInventory,
   ] = await Promise.all([
-    read('apps/commerce-subgraph/src/saga/order-saga.ts'),
+    read('apps/order-workflow-subgraph/src/saga/order-saga.ts'),
     read(
       'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
     ),
@@ -46,11 +46,9 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
   assert.match(configuration, /stock\.reservation-requested/);
   assert.match(inventoryListener, /waitForConfirmsOrDie\(10_000\)/);
   assert.match(inventoryListener, /basicAck\(deliveryTag, false\)/);
-  assert.match(inventoryService, /ConcurrentHashMap/);
-  assert.match(
-    inventoryService,
-    /repository\.find\(request\.eventId\(\), request\.operationKey\(\)\)/,
-  );
+  assert.doesNotMatch(inventoryService, /ConcurrentHashMap/);
+  assert.match(inventoryService, /repository\.claim\(request, fingerprint\(request\)\)/);
+  assert.match(inventoryService, /stock\.reconcile\(request\)/);
   assert.match(inventoryRepository, /on conflict \(operation_key\) do nothing/);
   assert.match(migration, /create table inventory_inbox/);
   assert.match(migration, /create table inventory_outbox/);
@@ -59,6 +57,9 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
   assert.match(wooInventory, /mutation ReserveOrderInventory/);
   assert.match(wooInventory, /updateOrder\(input: \$input\)/);
   assert.match(wooInventory, /"status", "PROCESSING"/);
+  assert.match(wooInventory, /"inventory_operation_key"\.equals/);
+  assert.match(wooInventory, /request\.operationKey\(\)\.equals/);
+  assert.doesNotMatch(wooInventory, /if \("PROCESSING"\.equals\(status\)/);
   assert.match(wooInventory, /"Authorization", "Bearer " \+ bearerToken\(\)/);
   assert.match(wooInventory, /\.POST\(/);
   assert.match(paymentConfiguration, /mutation UpdateOrderPayment/);
@@ -96,20 +97,20 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
 
   for (const service of [
     'rabbitmq',
-    'commerce-database',
+    'order-workflow-database',
     'identity-database',
     'payment-database',
     'wordpress-database',
     'wordpress',
     'gateway',
     'identity-subgraph',
-    'commerce-subgraph',
+    'order-workflow-subgraph',
     'payment-processor',
     'apollo-mcp',
   ]) {
     assert.match(compose, new RegExp(`^  ${service}:`, 'm'));
   }
-  assert.doesNotMatch(compose, /^  stock-worker:/m);
+  assert.doesNotMatch(compose, /^ {2}stock-worker:/m);
   assert.match(
     compose,
     /payment-processor:[\s\S]*?RABBITMQ_URL: amqp:\/\/rabbitmq:5672/,
@@ -120,7 +121,7 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
   );
   assert.match(
     compose,
-    /payment-processor:[\s\S]*?rabbitmq:\n        condition: service_healthy/,
+    /payment-processor:[\s\S]*?rabbitmq:\n {8}condition: service_healthy/,
   );
   assert.match(configuration, /PAYMENT_QUEUE = "payment-processor\.v1"/);
   assert.match(

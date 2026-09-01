@@ -22,13 +22,13 @@ framework code stays outside domain and application code.
 
 ## Bounded contexts
 
-| Context    | Responsibility                                                              | Authoritative state                                      | Runtime                |
-| ---------- | --------------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------- |
-| Identity   | Authentication, OAuth, registration, sessions, and identity graph fields    | Better Auth schema in PostgreSQL                         | Identity Federation    |
+| Context    | Responsibility                                                              | Authoritative state                                      | Runtime                     |
+| ---------- | --------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------- |
+| Identity   | Authentication, OAuth, registration, sessions, and identity graph fields    | Better Auth schema in PostgreSQL                         | Identity Federation         |
 | Commercial | Catalog, cart, checkout, orders, customers, stock, and order transitions    | WordPress/WooCommerce in MySQL                           | External WordPress subgraph |
-| Workflow   | Checkout idempotency, outbox/inbox, and event delivery                      | Workflow state in PostgreSQL                             | Commerce Federation    |
-| Payment    | Authorization, Pix generation, compensation, idempotency, and payment views | Payment aggregate and dedicated projection in PostgreSQL | Payment Federation     |
-| Edge       | Authenticated graph composition and MCP operations                          | No domain persistence                                    | Gateway and Apollo MCP |
+| Workflow   | Checkout idempotency, outbox/inbox, and event delivery                      | Workflow state in PostgreSQL                             | Order Workflow Federation   |
+| Payment    | Authorization, Pix generation, compensation, idempotency, and payment views | Payment aggregate and dedicated projection in PostgreSQL | Payment Federation          |
+| Edge       | Authenticated graph composition and MCP operations                          | No domain persistence                                    | Gateway and Apollo MCP      |
 
 The end-to-end project is part of the Nx graph but not deployed. WordPress
 bootstrap, plugins, and fixtures are support assets rather than another runtime.
@@ -40,7 +40,7 @@ apps/
 ├── apollo-mcp/              authenticated MCP operations through Gateway
 ├── gateway/                 authenticated query/mutation federation edge
 ├── identity-subgraph/       Identity Federation with Better Auth
-├── commerce-subgraph/       durable checkout workflow and RabbitMQ boundary
+├── order-workflow-subgraph/       durable checkout workflow and RabbitMQ boundary
 ├── payment-processor/       Payment Federation with Java 21 and Spring Boot
 └── e2e/                     non-deployable Vitest/Testcontainers project
 ```

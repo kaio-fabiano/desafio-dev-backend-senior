@@ -18,7 +18,7 @@ The suite proves token-derived cart ownership, deterministic validation,
 sequential and concurrent checkout idempotency, conflict detection, recovery
 after a remote WooCommerce order, atomic workflow/outbox persistence, and the
 federated `me` order journey with batched products. The same suite is available
-through `nx run @desafio-dev-backend-senior/commerce-subgraph:acceptance`.
+through `nx run @desafio-dev-backend-senior/order-workflow-subgraph:acceptance`.
 
 The feature-level verification and repository audit are owned by the
 orchestrator:

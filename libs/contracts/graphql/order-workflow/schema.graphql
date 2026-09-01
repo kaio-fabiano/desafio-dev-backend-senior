@@ -1,0 +1,73 @@
+extend schema
+  @link(
+    url: "https://specs.apollo.dev/federation/v2.11"
+    import: ["@key", "@external", "@shareable"]
+  )
+
+type CheckoutOperation @key(fields: "id") {
+  id: ID!
+  operationKey: ID!
+  status: CheckoutStatus!
+}
+
+extend type Order @key(fields: "id") {
+  id: ID! @external
+  wooOrderId: ID! @shareable
+  paymentMethod: PaymentMethod!
+  workflow: OrderWorkflow!
+  pixCode: String
+}
+
+type OrderWorkflow {
+  state: WorkflowState!
+}
+
+enum CheckoutStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum WorkflowState {
+  CREATED
+  PAYMENT_PENDING
+  PAYMENT_AUTHORIZED
+  STOCK_PENDING
+  COMPLETED
+  STOCK_FAILED
+  REFUND_PENDING
+  REFUNDED
+  CANCELLED
+  PIX_PENDING
+  PIX_GENERATED
+}
+
+input OrderWorkflowCheckoutInput {
+  operationKey: ID!
+  paymentMethod: PaymentMethod!
+}
+
+enum PaymentMethod {
+  PIX
+  CARD
+}
+
+type Query {
+  checkout(id: ID!): CheckoutOperation
+}
+
+type Mutation {
+  startCheckout(input: OrderWorkflowCheckoutInput!): Order!
+}
+
+type Subscription {
+  orderEvents(operationKey: ID!): OrderEvent!
+}
+
+type OrderEvent {
+  operationKey: ID!
+  orderId: ID!
+  state: WorkflowState!
+  pixCode: String
+  eventTime: String!
+}

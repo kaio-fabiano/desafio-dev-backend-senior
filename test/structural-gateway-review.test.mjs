@@ -47,8 +47,7 @@ test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => 
   assert.deepEqual(reflected, []);
 
   const wordpress = new AuthenticatedDataSource(
-    { url: 'http://wordpress/graphql' },
-    true,
+    { url: 'http://wordpress/graphql', kind: 'wordpress' },
   );
   const wordpressHeaders = new Headers();
   wordpress.willSendRequest({

@@ -3,6 +3,5 @@ query getProduct($productId: ID!) {
     id
     name
     price
-    supplier { id }
   }
 }

@@ -59,8 +59,6 @@ overrides:
       - orders:read
     addToCart:
       - cart:write
-    removeFromCart:
-      - cart:write
 
 health_check:
   enabled: true

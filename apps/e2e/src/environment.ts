@@ -10,14 +10,14 @@ const STARTUP_TIMEOUT = 600_000;
 const RETIRED_COMPONENTS = ['stock-worker'];
 const COMPOSE_SERVICES = [
   'rabbitmq',
-  'commerce-database',
+  'order-workflow-database',
   'identity-database',
   'payment-database',
   'wordpress-database',
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'commerce-subgraph',
+  'order-workflow-subgraph',
   'payment-processor',
   'gateway',
   'apollo-mcp',
@@ -59,7 +59,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
     const identity = environment.getContainer('identity-subgraph-1');
     const mcp = environment.getContainer('apollo-mcp-1');
     const wordpress = environment.getContainer('wordpress-1');
-    const commerce = environment.getContainer('commerce-subgraph-1');
+    const commerce = environment.getContainer('order-workflow-subgraph-1');
     return {
       identityUrl: `http://${identity.getHost()}:${identity.getMappedPort(3001)}`,
       gatewayUrl: `http://${gateway.getHost()}:${gateway.getMappedPort(3000)}`,
@@ -70,7 +70,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       isStopped: () => stopped,
       diagnostics: async () => {
         const services = [
-          'commerce-subgraph',
+          'order-workflow-subgraph',
           'payment-processor',
           'wordpress',
         ];

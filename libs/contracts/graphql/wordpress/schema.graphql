@@ -10,6 +10,7 @@ interface Product @key(fields: "id") {
   id: ID!
   databaseId: Int!
   name: String
+  price: String
   sku: String
   stockQuantity: Int
   stockStatus: StockStatusEnum
@@ -19,6 +20,7 @@ type SimpleProduct implements Product @key(fields: "id") {
   id: ID!
   databaseId: Int!
   name: String
+  price: String
   sku: String
   stockQuantity: Int
   stockStatus: StockStatusEnum
@@ -28,6 +30,7 @@ type VariableProduct implements Product @key(fields: "id") {
   id: ID!
   databaseId: Int!
   name: String
+  price: String
   sku: String
   stockQuantity: Int
   stockStatus: StockStatusEnum
@@ -37,6 +40,7 @@ type ExternalProduct implements Product @key(fields: "id") {
   id: ID!
   databaseId: Int!
   name: String
+  price: String
   sku: String
   stockQuantity: Int
   stockStatus: StockStatusEnum
@@ -46,6 +50,7 @@ type GroupProduct implements Product @key(fields: "id") {
   id: ID!
   databaseId: Int!
   name: String
+  price: String
   sku: String
   stockQuantity: Int
   stockStatus: StockStatusEnum
@@ -88,6 +93,18 @@ type Order @key(fields: "id") {
   status: OrderStatusEnum
   transactionId: String
   metaData: [MetaData]
+  total: String
+  currency: String
+  lineItems: OrderLineItemConnection
+}
+
+type OrderLineItemConnection {
+  nodes: [OrderLineItem!]!
+}
+
+type OrderLineItem {
+  quantity: Int
+  product: Product
 }
 
 type MetaData {
@@ -121,6 +138,7 @@ type AddToCartPayload {
 input CheckoutInput {
   clientMutationId: String
   paymentMethod: String
+  metaData: [MetaDataInput]
 }
 
 type CheckoutPayload {

@@ -13,7 +13,7 @@
 ## T-086 — Restore durable checkout and RabbitMQ choreography [concluida]
 
 - Refs: US-056, AC-110
-- Arquivos: apps/commerce-subgraph, libs/contracts/graphql/commerce/schema.graphql, libs/contracts/events, compose.yaml, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, nx.json, test/delivery-closure-rabbitmq.test.mjs
+- Arquivos: apps/order-workflow-subgraph, libs/contracts/graphql/order-workflow/schema.graphql, libs/contracts/events, compose.yaml, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, nx.json, test/delivery-closure-rabbitmq.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Restore the smallest proven Commerce/outbox implementation from pre-`a2a37a3`, keep WooCommerce authoritative, and adapt it to current federation boundaries.
@@ -37,7 +37,7 @@
 ## T-089 — Repair the complete Testcontainers acceptance journey [concluida]
 
 - Refs: US-057, AC-113, AC-114
-- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/gateway/src/main.ts, apps/commerce-subgraph/src/cart, apps/commerce-subgraph/src/graphql, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java, apps/payment-processor/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java, libs/contracts/graphql/commerce/schema.graphql, libs/contracts/graphql/wordpress/schema.graphql, libs/contracts/graphql/supergraph.yaml, libs/gateway/nest/src/gateway.module.ts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
+- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/gateway/src/main.ts, apps/order-workflow-subgraph/src/graphql, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java, apps/payment-processor/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java, libs/contracts/graphql/order-workflow/schema.graphql, libs/contracts/graphql/wordpress/schema.graphql, libs/contracts/graphql/supergraph.yaml, libs/gateway/nest/src/gateway.module.ts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Start RabbitMQ and the Payment Federation consumers, remove direct payment orchestration from the client, query full federated `me`, prove checkout replay and compensation, and retain MCP parity/negative cases.
@@ -45,7 +45,7 @@
 ## T-090 — Add optional end-to-end observability [concluida]
 
 - Refs: US-058, AC-115
-- Arquivos: package.json, pnpm-lock.yaml, libs/platform/nest/src, apps/gateway/src/main.ts, apps/identity-subgraph/src/main.ts, apps/commerce-subgraph/src, apps/payment-processor, compose.yaml, infra/observability/otel-collector.yaml, docs/runbooks/observability.md, test/delivery-closure-observability.test.mjs
+- Arquivos: package.json, pnpm-lock.yaml, libs/platform/nest/src, apps/gateway/src/main.ts, apps/identity-subgraph/src/main.ts, apps/order-workflow-subgraph/src, apps/payment-processor, compose.yaml, infra/observability/otel-collector.yaml, docs/runbooks/observability.md, test/delivery-closure-observability.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Use standard OpenTelemetry propagation and an opt-in local collector/backend; instrument the restored RabbitMQ path rather than a reduced topology.

@@ -24,7 +24,9 @@ test('AC-141: Order Workflow remains an independent focused service @spec:AC-141
 
 test('AC-142: Order Workflow persists process state, not commerce aggregates @spec:AC-142', async () => {
   const entityRoot = `${workflowRoot}/src/persistence/entities`;
-  const files = (await readdir(entityRoot)).filter((file) => file.endsWith('.ts'));
+  const files = (await readdir(entityRoot)).filter((file) =>
+    file.endsWith('.ts'),
+  );
   const entities = await Promise.all(
     files.map((file) => readFile(`${entityRoot}/${file}`, 'utf8')),
   );
@@ -39,5 +41,8 @@ test('AC-142: Order Workflow persists process state, not commerce aggregates @sp
   }
 
   assert.doesNotMatch(source, /class\s+(?:Product|Cart|Customer|Order)\b/);
-  assert.doesNotMatch(source, /@Entity\([^)]*tableName:\s*['"](?:product|cart|customer|order)s?['"]/);
+  assert.doesNotMatch(
+    source,
+    /@Entity\([^)]*tableName:\s*['"](?:product|cart|customer|order)s?['"]/,
+  );
 });

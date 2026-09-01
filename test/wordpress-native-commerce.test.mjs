@@ -25,7 +25,7 @@ test('AC-139: WordPress owns native commerce operations @spec:AC-139', async () 
 
   assert.doesNotMatch(workflow, /\btype\s+(?:Cart|Product|Customer)\b/);
   assert.doesNotMatch(workflow, /extend\s+type\s+User[\s\S]*?\borders\s*\(/);
-  assert.doesNotMatch(workflow, /\bCommerceOrderConnection\b/);
+  assert.doesNotMatch(workflow, /\bOrderWorkflowOrderConnection\b/);
 });
 
 test('AC-140: Order Workflow delegates order creation to WooGraphQL checkout @spec:AC-140', async () => {
@@ -36,6 +36,7 @@ test('AC-140: Order Workflow delegates order creation to WooGraphQL checkout @sp
 
   assert.match(adapter, /mutation\s+Checkout|checkout\s*\(/);
   assert.match(adapter, /\/graphql/);
+  assert.doesNotMatch(adapter, /paymentMethod:\s*['"]cod['"]/);
   assert.doesNotMatch(adapter, /\/wp-json\/wc\/v3\/orders/);
   assert.doesNotMatch(adapter, /consumerSecret|consumer_key/i);
 });
