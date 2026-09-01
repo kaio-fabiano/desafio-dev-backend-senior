@@ -474,75 +474,75 @@
     "semantic_hash": "e858ce66f36ff409c62d12c67e026691"
   },
   ".spec/verification/delivery-closure.json": {
-    "mtime": 1788232245.8493211,
-    "seen": 1788234655.872473,
-    "ast_hash": "9c82c2d53a590e32174ece9485eafc55",
+    "mtime": 1788282895.4319098,
+    "seen": 1788285375.667133,
+    "ast_hash": "d55149e2bfb231ca292b0c1f5fd2c424",
     "semantic_hash": ""
   },
   ".spec/verification/federated-platform-architecture-refactor.json": {
-    "mtime": 1788232441.4728615,
-    "seen": 1788234655.8724747,
-    "ast_hash": "ead948f7087075225b3d49a63437ea0d",
+    "mtime": 1788283099.2575166,
+    "seen": 1788285375.6671348,
+    "ast_hash": "602b54f5445e35cd86fc886407bccead",
     "semantic_hash": ""
   },
   ".spec/verification/import-order-stability.json": {
-    "mtime": 1788232633.236374,
-    "seen": 1788234655.8724759,
-    "ast_hash": "73ed17ccee6a49f34b7559ed97be2167",
+    "mtime": 1788283299.5320892,
+    "seen": 1788285375.6671357,
+    "ast_hash": "428f11673ff0424b9c31d02db5763ee5",
     "semantic_hash": ""
   },
   ".spec/verification/marco-0-pocs.json": {
-    "mtime": 1788232827.8936534,
-    "seen": 1788234655.8724787,
-    "ast_hash": "9683b21f88c5b72af38f3c85160e6b4a",
+    "mtime": 1788283708.1202862,
+    "seen": 1788285375.667138,
+    "ast_hash": "bfedbc1bba960fa90c72be151b710f48",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-6-apollo-mcp.json": {
-    "mtime": 1788233013.0974224,
-    "seen": 1788234655.8724794,
-    "ast_hash": "a7bf351f3b1e7fe7bd7bbbc4c295a72e",
+    "mtime": 1788283914.725883,
+    "seen": 1788285375.667139,
+    "ast_hash": "deb00c83bf399715a34d086cda10f029",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
-    "mtime": 1788233205.1454659,
-    "seen": 1788234655.8724802,
-    "ast_hash": "0049ce60592b9daf85fe46236d8c02da",
+    "mtime": 1788284120.8162515,
+    "seen": 1788285375.66714,
+    "ast_hash": "77cfe78f71d4fc35281b40160e3babda",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-8-compliance-hardening.json": {
-    "mtime": 1788233407.295743,
-    "seen": 1788234655.872481,
-    "ast_hash": "a4a6c8f9a824b838bd3e69ca8a51c283",
+    "mtime": 1788284327.1396852,
+    "seen": 1788285375.6671412,
+    "ast_hash": "a7d0d7f7aa253be29c652983d2c4b8be",
     "semantic_hash": ""
   },
   ".spec/verification/project-planning-memory.json": {
-    "mtime": 1788233596.3180053,
-    "seen": 1788234655.8724818,
-    "ast_hash": "748a38bdcf1d5ada044c8a1074f67e0d",
+    "mtime": 1788284519.3850598,
+    "seen": 1788285375.6671422,
+    "ast_hash": "6e86f433687d6b60e3b2532f48ff59aa",
     "semantic_hash": ""
   },
   ".spec/verification/remove-retired-applications.json": {
-    "mtime": 1788233789.473342,
-    "seen": 1788234655.8724823,
-    "ast_hash": "234c4b959ce5cfb079362ba93ada3f44",
+    "mtime": 1788284727.0975733,
+    "seen": 1788285375.667143,
+    "ast_hash": "c7d666db13d7cd7e66671fd9017f1705",
     "semantic_hash": ""
   },
   ".spec/verification/remove-wordpress-federation-runtime.json": {
-    "mtime": 1788233986.70374,
-    "seen": 1788234655.872483,
-    "ast_hash": "16d73df7e08ac96ef1a62148a69f9c1a",
+    "mtime": 1788284931.525082,
+    "seen": 1788285375.6671443,
+    "ast_hash": "e191d9ae59a3e1c933d5b61146be5698",
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788232014.5005047,
-    "seen": 1788234655.8724837,
-    "ast_hash": "46ab67417487784f7cbea6202a722e82",
+    "mtime": 1788282685.483245,
+    "seen": 1788285375.6671462,
+    "ast_hash": "e3bbc252123847078b95c22f74eb8295",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
-    "mtime": 1788234180.0031323,
-    "seen": 1788234655.8724847,
-    "ast_hash": "6556c611edaf069a5ada6afc147d5845",
+    "mtime": 1788285140.4216373,
+    "seen": 1788285375.6671472,
+    "ast_hash": "66b6a4ab44ca8ab14c50601f1327e17d",
     "semantic_hash": ""
   },
   "apps/apollo-mcp/project.json": {
@@ -786,16 +786,16 @@
     "semantic_hash": "4301fa690d08ab09aed7872bf3213001"
   },
   "apps/gateway/project.json": {
-    "mtime": 1788226225.0883873,
-    "seen": 1788231740.053827,
-    "ast_hash": "b912f02d50f8d22d21586126175a01d2",
+    "mtime": 1788281510.5197666,
+    "seen": 1788282261.4054682,
+    "ast_hash": "ec56dc8266a764b47a1636e7748574da",
     "semantic_hash": ""
   },
   "apps/gateway/src/app.module.ts": {
-    "mtime": 1788164617.787535,
-    "seen": 1788225909.9264755,
-    "ast_hash": "48c5a0f1b96a8a1dc58305c05a8c60ab",
-    "semantic_hash": "48c5a0f1b96a8a1dc58305c05a8c60ab"
+    "mtime": 1788281915.5359378,
+    "seen": 1788282261.4054692,
+    "ast_hash": "e2616160b682823667a9925946b3dafa",
+    "semantic_hash": ""
   },
   "apps/gateway/src/catalog/order-loader.ts": {
     "mtime": 1788164617.787667,
@@ -822,9 +822,9 @@
     "semantic_hash": "f9edcbbd4a54620f1961fdf66840ab76"
   },
   "apps/gateway/src/main.ts": {
-    "mtime": 1788226555.454684,
-    "seen": 1788231740.0539458,
-    "ast_hash": "5b696239ebce47eb4ab6111dac56aca4",
+    "mtime": 1788281346.3515034,
+    "seen": 1788282261.4055479,
+    "ast_hash": "41d2aa984f1df7a9f5e9d255b3334032",
     "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/commerce-subscription.client.ts": {
@@ -834,9 +834,9 @@
     "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/sse-handler.ts": {
-    "mtime": 1788226225.0883873,
-    "seen": 1788231740.0539486,
-    "ast_hash": "21e0b9f70eee9a610663d38f93395505",
+    "mtime": 1788281346.3525033,
+    "seen": 1788282261.4055696,
+    "ast_hash": "7f350be0e2949f35e4d113f1456a81e7",
     "semantic_hash": ""
   },
   "apps/gateway/tsconfig.app.json": {
@@ -1716,10 +1716,10 @@
     "semantic_hash": "c4051797f33654050af97bd54ff11050"
   },
   "test/remove-wordpress-federation-runtime.spec.test.mjs": {
-    "mtime": 1788218628.7628944,
-    "seen": 1788225909.9266315,
-    "ast_hash": "483f4203785cb6ace23ae1a8a808cc67",
-    "semantic_hash": "483f4203785cb6ace23ae1a8a808cc67"
+    "mtime": 1788282468.3825073,
+    "seen": 1788282476.0574765,
+    "ast_hash": "9945cd29aae444b36d5bbaba81a1b467",
+    "semantic_hash": ""
   },
   "test/retired-applications-removal.test.mjs": {
     "mtime": 1788220293.1006916,
@@ -1758,9 +1758,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/structural-improvement-program.json": {
-    "mtime": 1788234402.5627542,
-    "seen": 1788234655.8724854,
-    "ast_hash": "12d22d7ea26c7bf2716eb43baf1fc760",
+    "mtime": 1788285343.280156,
+    "seen": 1788285375.6671486,
+    "ast_hash": "d8661f98acb3555a4b2508559d67693c",
     "semantic_hash": ""
   },
   "scripts/check-graphify-current.mjs": {
@@ -2370,9 +2370,63 @@
     "semantic_hash": ""
   },
   ".spec/verification/keep-graphify-current.json": {
-    "mtime": 1788234587.831114,
-    "seen": 1788234655.8724775,
-    "ast_hash": "c6fed58f5daed98219c0e131e0eb7b8d",
+    "mtime": 1788283502.3296776,
+    "seen": 1788285375.6671367,
+    "ast_hash": "df72022b5bda77463824b17feccee41c",
+    "semantic_hash": ""
+  },
+  ".spec/features/resolve-gateway-sse-todos/executar-tarefas.sh": {
+    "mtime": 1788282476.17257,
+    "seen": 1788285375.6670237,
+    "ast_hash": "ee6b09d7087cc366afea2d1f75024fed",
+    "semantic_hash": ""
+  },
+  ".spec/features/resolve-gateway-sse-todos/plano.json": {
+    "mtime": 1788282476.17157,
+    "seen": 1788285375.6670275,
+    "ast_hash": "9550ef1392c152858a4578e6fd2bd8db",
+    "semantic_hash": ""
+  },
+  ".spec/verification/resolve-gateway-sse-todos.json": {
+    "mtime": 1788282681.0002093,
+    "seen": 1788285375.6671453,
+    "ast_hash": "3a701bcd408b8151046d99a6e2eaa699",
+    "semantic_hash": ""
+  },
+  "apps/gateway/src/subscriptions/sse.middleware.ts": {
+    "mtime": 1788281915.5359378,
+    "seen": 1788282261.405571,
+    "ast_hash": "1fa6e83880c577727fa07715d8d1fb93",
+    "semantic_hash": ""
+  },
+  "test/resolve-gateway-sse-todos.test.mjs": {
+    "mtime": 1788281915.5369377,
+    "seen": 1788282261.4085598,
+    "ast_hash": "1860e96bcf2460b3ae73c365cda56576",
+    "semantic_hash": ""
+  },
+  ".spec/features/resolve-gateway-sse-todos/plano-execucao.html": {
+    "mtime": 1788282476.1737943,
+    "seen": 1788285375.673016,
+    "ast_hash": "49e96f06de02b57f50cc1ca2663768f7",
+    "semantic_hash": ""
+  },
+  ".spec/features/resolve-gateway-sse-todos/plano-execucao.md": {
+    "mtime": 1788282476.17157,
+    "seen": 1788285375.6730175,
+    "ast_hash": "887001dbdd95360029d02900b81274e8",
+    "semantic_hash": ""
+  },
+  ".spec/features/resolve-gateway-sse-todos/spec.md": {
+    "mtime": 1788281922.7127812,
+    "seen": 1788282261.4098215,
+    "ast_hash": "c2771f23e7c3f3c2eaf80a985d72d258",
+    "semantic_hash": ""
+  },
+  ".spec/features/resolve-gateway-sse-todos/tasks.md": {
+    "mtime": 1788282685.380244,
+    "seen": 1788285375.6730394,
+    "ast_hash": "20c15fe8a6b04d53f8ecf8d7e61e883c",
     "semantic_hash": ""
   }
 }
