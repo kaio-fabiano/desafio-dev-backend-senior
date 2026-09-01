@@ -92,7 +92,15 @@ Module({
             ],
           }),
           buildService: ({ name, url }) =>
-            new AuthenticatedDataSource({ url }, name === 'wordpress'),
+            new AuthenticatedDataSource(
+              {
+                url,
+                internalSecret:
+                  process.env.FEDERATION_INTERNAL_SECRET ??
+                  'federation-local-only',
+              },
+              name === 'wordpress',
+            ),
         },
       }),
     }),

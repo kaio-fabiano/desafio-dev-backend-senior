@@ -49,6 +49,7 @@ export class CommerceResolver<Order, Workflow> {
     ) => Promise<Workflow | null>,
     private readonly subscriptions?: OrderEventsSubscription,
     private readonly findCheckout?: (
+      subject: string,
       id: string,
     ) => Promise<CheckoutOperationView | null>,
   ) {}
@@ -61,8 +62,8 @@ export class CommerceResolver<Order, Workflow> {
     return order.workflow ?? this.findWorkflow(order.wooOrderId);
   }
 
-  checkoutOperation(id: string) {
-    return this.findCheckout?.(id) ?? null;
+  checkoutOperation(id: string, context: AuthContext) {
+    return this.findCheckout?.(authenticatedSubject(context), id) ?? null;
   }
 
   orderEvents(
@@ -98,6 +99,7 @@ ResolveField('workflow')(
   Object.getOwnPropertyDescriptor(CommerceResolver.prototype, 'workflow')!,
 );
 Args('id')(CommerceResolver.prototype, 'checkoutOperation', 0);
+Context()(CommerceResolver.prototype, 'checkoutOperation', 1);
 Query('checkout')(
   CommerceResolver.prototype,
   'checkoutOperation',
@@ -140,7 +142,10 @@ export type CommerceOperations<Order, Workflow> = {
     session?: Omit<AuthContext, 'subject'>,
   ): Promise<Order>;
   findWorkflow(wooOrderId: string): Promise<Workflow | null>;
-  findCheckout(id: string): Promise<CheckoutOperationView | null>;
+  findCheckout(
+    subject: string,
+    id: string,
+  ): Promise<CheckoutOperationView | null>;
   findOrders(
     subject: string,
     first: number,

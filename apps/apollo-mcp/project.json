@@ -8,7 +8,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --test --test-reporter=tap test/milestone-6-mcp-config.test.mjs"
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-propagation.test.mjs test/structural-mcp-review.test.mjs"
       }
     },
     "container-smoke": {

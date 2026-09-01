@@ -1,8 +1,10 @@
 import { createHandler } from 'graphql-sse/lib/use/http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import type { AuthContext } from '../auth/auth-context.ts';
-import { verifyGatewayRequest } from '../auth/token-verifier.ts';
+import {
+  type AuthContext,
+  verifyGatewayRequest,
+} from '@desafio-dev-backend-senior/source/gateway-nest';
 import type { CommerceSubscriptionClient } from './commerce-subscription.client.ts';
 
 type GatewayTokenOptions = {

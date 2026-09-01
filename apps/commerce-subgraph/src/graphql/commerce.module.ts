@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'node:crypto';
 import { resolve } from 'node:path';
 
 import { MikroORM, type EntityManager } from '@mikro-orm/core';
@@ -58,6 +59,12 @@ export function commerceRequestContext({
 }: {
   req: { headers: Record<string, string | string[] | undefined> };
 }) {
+  const receivedSecret = String(req.headers['x-federation-secret'] ?? '');
+  const expectedSecret = requiredEnvironment('FEDERATION_INTERNAL_SECRET');
+  const trusted =
+    receivedSecret.length === expectedSecret.length &&
+    timingSafeEqual(Buffer.from(receivedSecret), Buffer.from(expectedSecret));
+  if (!trusted) throw new Error('Untrusted federation request');
   const rawSubject = req.headers['x-authenticated-subject'];
   const subject =
     (Array.isArray(rawSubject) ? rawSubject[0] : rawSubject) ?? '';
@@ -153,9 +160,10 @@ Module({
           },
           findWorkflow: (wooOrderId: string) =>
             entityManager.findOne(OrderWorkflow, { wooOrderId }),
-          findCheckout: async (id: string) => {
+          findCheckout: async (subject: string, id: string) => {
             const operation = await entityManager.findOne(CheckoutOperation, {
               id,
+              subject,
             });
             return (
               operation && {

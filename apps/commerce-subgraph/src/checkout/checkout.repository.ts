@@ -30,6 +30,7 @@ export type ConfirmCheckout = (
 
 export interface CheckoutRepository {
   claim(input: ClaimCheckoutInput): Promise<ClaimedCheckout>;
+  find(subject: string, operationKey: string): Promise<CheckoutOperation | null>;
   confirm(
     operationId: string,
     wooOrderId: string,
@@ -67,6 +68,14 @@ export class MikroOrmCheckoutRepository implements CheckoutRepository {
       });
       return { operation, created };
     });
+  }
+
+  find(subject: string, operationKey: string): Promise<CheckoutOperation | null> {
+    return this.entityManager.findOne(
+      CheckoutOperation,
+      { subject, operationKey },
+      { refresh: true },
+    );
   }
 
   async confirm(

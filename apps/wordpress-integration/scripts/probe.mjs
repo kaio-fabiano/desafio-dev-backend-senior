@@ -226,43 +226,49 @@ const representations = products
 database(
   'SET GLOBAL log_output="TABLE"; SET GLOBAL general_log=ON; TRUNCATE TABLE mysql.general_log;',
 );
-const entities = await graphql(
-  `
-    query BatchedProducts($representations: [_Any!]!) {
-      _entities(representations: $representations) {
-        ... on SimpleProduct {
-          id
-          databaseId
-          name
+let entities;
+let databaseQueries;
+try {
+  entities = await graphql(
+    `
+      query BatchedProducts($representations: [_Any!]!) {
+        _entities(representations: $representations) {
+          ... on SimpleProduct {
+            id
+            databaseId
+            name
+          }
         }
       }
-    }
-  `,
-  { representations },
-);
-assert.equal(
-  entities.body.errors,
-  undefined,
-  JSON.stringify(entities.body.errors),
-);
-assert.equal(entities.body.data._entities.length, 2);
-assert.ok(entities.body.data._entities.every(Boolean));
-const databaseIds = products
-  .slice(0, 2)
-  .map(({ databaseId }) => databaseId)
-  .sort((left, right) => left - right);
-const databaseQueries = database(
-  "SELECT argument FROM mysql.general_log WHERE command_type='Query' AND argument LIKE '%wp_posts.ID IN (%' ORDER BY event_time; SET GLOBAL general_log=OFF;",
-)
-  .split('\n')
-  .filter((query) =>
-    query.includes(`wp_posts.ID IN (${databaseIds.join(',')})`),
+    `,
+    { representations },
   );
-assert.equal(
-  databaseQueries.length,
-  1,
-  `expected one batched post load, got ${databaseQueries.length}`,
-);
+  assert.equal(
+    entities.body.errors,
+    undefined,
+    JSON.stringify(entities.body.errors),
+  );
+  assert.equal(entities.body.data._entities.length, 2);
+  assert.ok(entities.body.data._entities.every(Boolean));
+  const databaseIds = products
+    .slice(0, 2)
+    .map(({ databaseId }) => databaseId)
+    .sort((left, right) => left - right);
+  databaseQueries = database(
+    "SELECT argument FROM mysql.general_log WHERE command_type='Query' AND argument LIKE '%wp_posts.ID IN (%' ORDER BY event_time;",
+  )
+    .split('\n')
+    .filter((query) =>
+      query.includes(`wp_posts.ID IN (${databaseIds.join(',')})`),
+    );
+  assert.equal(
+    databaseQueries.length,
+    1,
+    `expected one batched post load, got ${databaseQueries.length}`,
+  );
+} finally {
+  database('SET GLOBAL general_log=OFF;');
+}
 
 const alpha = products.find((product) => product.sku === 'POC-ALPHA');
 const beta = products.find((product) => product.sku === 'POC-BETA');

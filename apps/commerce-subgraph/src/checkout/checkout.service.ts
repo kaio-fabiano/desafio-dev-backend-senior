@@ -1,3 +1,5 @@
+import { setTimeout as delay } from 'node:timers/promises';
+
 import {
   checkoutCommandHash,
   checkoutWooReference,
@@ -34,6 +36,9 @@ export class CheckoutService {
 
   async checkout(command: CheckoutCommand): Promise<CheckoutResult> {
     this.validate(command);
+    const items = cartItems(command.cartSnapshot);
+    const amount = cartAmount(command.cartSnapshot);
+    const currency = cartCurrency(command.cartSnapshot);
     const commandHash = checkoutCommandHash({
       paymentMethod: command.paymentMethod,
       cartSnapshot: command.cartSnapshot,
@@ -42,7 +47,7 @@ export class CheckoutService {
       command.subject,
       command.operationKey,
     );
-    const { operation } = await this.checkouts.claim({
+    const { operation, created } = await this.checkouts.claim({
       subject: command.subject,
       operationKey: command.operationKey,
       commandHash,
@@ -57,6 +62,15 @@ export class CheckoutService {
     if (operation.wooOrderId) {
       return { operationId: operation.id, wooOrderId: operation.wooOrderId };
     }
+    if (!created) {
+      const confirmed = await this.waitForConfirmation(command);
+      if (confirmed?.wooOrderId) {
+        return {
+          operationId: confirmed.id,
+          wooOrderId: confirmed.wooOrderId,
+        };
+      }
+    }
 
     const order = await this.wooOrders.createOrFind({
       subject: command.subject,
@@ -64,10 +78,10 @@ export class CheckoutService {
       cartSnapshot: command.cartSnapshot,
       reference: operation.wooReference,
     });
-    await this.checkouts.confirm(
+    const workflow = await this.checkouts.confirm(
       operation.id,
       order.id,
-      cartItems(command.cartSnapshot),
+      items,
       async (transaction, workflow) =>
         this.enqueueCheckoutRequested(
           transaction,
@@ -76,10 +90,12 @@ export class CheckoutService {
           operation.operationKey,
           order.id,
           command,
+          amount,
+          currency,
         ),
       command.paymentMethod,
     );
-    return { operationId: operation.id, wooOrderId: order.id };
+    return { operationId: operation.id, wooOrderId: workflow.wooOrderId };
   }
 
   reconcile(command: CheckoutCommand): Promise<CheckoutResult> {
@@ -93,6 +109,8 @@ export class CheckoutService {
     operationKey: string,
     orderId: string,
     command: CheckoutCommand,
+    amount: number,
+    currency: string,
   ): Promise<void> {
     return this.outbox.enqueueCheckoutRequested(transaction, workflowId, {
       checkoutId,
@@ -100,8 +118,8 @@ export class CheckoutService {
       paymentId: `payment-${checkoutId}`,
       orderId,
       method: command.paymentMethod,
-      amount: cartAmount(command.cartSnapshot),
-      currency: cartCurrency(command.cartSnapshot),
+      amount,
+      currency,
     });
   }
 
@@ -115,6 +133,18 @@ export class CheckoutService {
         throw new CheckoutInputError('Checkout fields are required');
     }
   }
+
+  private async waitForConfirmation(command: CheckoutCommand) {
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      await delay(50);
+      const operation = await this.checkouts.find(
+        command.subject,
+        command.operationKey,
+      );
+      if (operation?.wooOrderId) return operation;
+    }
+    return null;
+  }
 }
 
 function cartItems(
@@ -124,7 +154,9 @@ function cartItems(
     snapshot && typeof snapshot === 'object'
       ? Reflect.get(snapshot, 'items')
       : undefined;
-  if (!Array.isArray(items)) return [];
+  if (!Array.isArray(items) || items.length === 0) {
+    throw new CheckoutInputError('Cart must contain at least one item');
+  }
   return items.map((item: unknown) => {
     if (!item || typeof item !== 'object')
       throw new CheckoutInputError('Cart item is invalid');
@@ -157,7 +189,16 @@ function cartAmount(snapshot: unknown): number {
     totals && typeof totals === 'object'
       ? Number(Reflect.get(totals, 'currency_minor_unit'))
       : 2;
-  return Number.isFinite(total) ? total / 10 ** minorUnit : 0;
+  if (
+    !Number.isSafeInteger(total) ||
+    total <= 0 ||
+    !Number.isSafeInteger(minorUnit) ||
+    minorUnit < 0 ||
+    minorUnit > 6
+  ) {
+    throw new CheckoutInputError('Cart total is invalid');
+  }
+  return total / 10 ** minorUnit;
 }
 
 function cartCurrency(snapshot: unknown): string {
@@ -169,5 +210,8 @@ function cartCurrency(snapshot: unknown): string {
     totals && typeof totals === 'object'
       ? Reflect.get(totals, 'currency_code')
       : undefined;
-  return typeof currency === 'string' && currency ? currency : 'BRL';
+  if (typeof currency !== 'string' || !/^[A-Z]{3}$/.test(currency)) {
+    throw new CheckoutInputError('Cart currency is invalid');
+  }
+  return currency;
 }

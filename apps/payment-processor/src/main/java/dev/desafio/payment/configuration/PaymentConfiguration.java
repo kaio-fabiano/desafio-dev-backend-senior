@@ -26,6 +26,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -164,8 +166,22 @@ public class PaymentConfiguration {
     }
 
     @Bean
-    WebGraphQlInterceptor propagatedPaymentIdentity() {
+    WebGraphQlInterceptor propagatedPaymentIdentity(
+        @org.springframework.beans.factory.annotation.Value("${federation.internal-secret:federation-local-only}")
+        String internalSecret
+    ) {
         return (request, chain) -> {
+            var suppliedSecret = Optional.ofNullable(
+                request.getHeaders().getFirst("x-federation-secret")
+            ).orElse("");
+            if (!MessageDigest.isEqual(
+                suppliedSecret.getBytes(StandardCharsets.UTF_8),
+                internalSecret.getBytes(StandardCharsets.UTF_8)
+            )) {
+                return reactor.core.publisher.Mono.error(
+                    new IllegalStateException("Untrusted federation request")
+                );
+            }
             var subject = Optional.ofNullable(request.getHeaders().getFirst("x-authenticated-subject"))
                 .orElse("");
             var scopes = scopes(request.getHeaders().getFirst("x-authenticated-scopes"));

@@ -1,0 +1,52 @@
+{
+  "feature": "structural-improvement-program",
+  "timestamp": "2026-09-01T02:33:07.076Z",
+  "gitRev": "0c59158",
+  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 118,
+  "results": {
+    "AC-121": {
+      "status": "pass",
+      "testName": "AC-121: Gateway remains a thin and secure edge @spec:AC-121",
+      "method": "tap"
+    },
+    "AC-122": {
+      "status": "pass",
+      "testName": "AC-122: Identity keeps one authorization authority @spec:AC-122",
+      "method": "tap"
+    },
+    "AC-123": {
+      "status": "pass",
+      "testName": "AC-123: Commerce keeps deterministic workflow ownership @spec:AC-123",
+      "method": "tap"
+    },
+    "AC-124": {
+      "status": "pass",
+      "testName": "AC-124: Payment keeps reliable isolated adapters @spec:AC-124",
+      "method": "tap"
+    },
+    "AC-125": {
+      "status": "pass",
+      "testName": "AC-125: WordPress bootstrap stays minimal and reproducible @spec:AC-125",
+      "method": "tap"
+    },
+    "AC-126": {
+      "status": "pass",
+      "testName": "AC-126: MCP exposes only least-privilege operations @spec:AC-126",
+      "method": "tap"
+    },
+    "AC-127": {
+      "status": "pass",
+      "testName": "AC-127: shared platform deployment paths fail closed @spec:AC-127",
+      "method": "tap"
+    },
+    "AC-128": {
+      "status": "pass",
+      "testName": "AC-128: evidence matches the improved topology @spec:AC-128",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

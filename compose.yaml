@@ -113,6 +113,7 @@ services:
       wordpress-database:
         condition: service_healthy
     environment:
+      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
       WORDPRESS_DB_HOST: wordpress-database
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
@@ -140,6 +141,7 @@ services:
       wordpress:
         condition: service_healthy
     environment:
+      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
       WORDPRESS_DB_HOST: wordpress-database
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
@@ -157,7 +159,7 @@ services:
         wp plugin activate wp-graphql-federations
         wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Cash on delivery"}' --format=json
         wp option update wpgraphql_federation_settings '{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}' --format=json
-        wp option update wpgraphql_login_provider_siteToken '{"isEnabled":true,"clientOptions":{"headerKey":"X-WPGraphQL-Site-Token","secretKey":"wordpress-local-only"},"loginOptions":{"metaKey":"better_auth_user_id"}}' --format=json
+        wp option update wpgraphql_login_provider_siteToken "{\"isEnabled\":true,\"clientOptions\":{\"headerKey\":\"X-WPGraphQL-Site-Token\",\"secretKey\":\"$${WPGRAPHQL_SITE_TOKEN}\"},\"loginOptions\":{\"metaKey\":\"better_auth_user_id\"}}" --format=json
         wp option update wpgraphql_login_access_control '{"shouldBlockUnauthorizedDomains":true,"hasSiteAddressInOrigin":true,"additionalAuthorizedDomains":["http://wordpress"],"customHeaders":[]}' --format=json
         wp user get payment-federation || wp user create payment-federation payment-federation@example.test --role=shop_manager --user_pass=payment-federation-local-only
         wp user meta update payment-federation better_auth_user_id payment-federation
@@ -166,6 +168,8 @@ services:
         wp cap remove marketplace_vendor edit_others_products || true
         wp user get vendor-alpha || wp user create vendor-alpha vendor-alpha@example.test --role=marketplace_vendor --user_pass=vendor-alpha-local-only
         wp user get vendor-beta || wp user create vendor-beta vendor-beta@example.test --role=marketplace_vendor --user_pass=vendor-beta-local-only
+        wp user update vendor-alpha --user_email=vendor-alpha@example.test --role=marketplace_vendor --user_pass=vendor-alpha-local-only
+        wp user update vendor-beta --user_email=vendor-beta@example.test --role=marketplace_vendor --user_pass=vendor-beta-local-only
         wp post get 1001 >/dev/null 2>&1 || wp post create --post_type=product --post_status=publish --post_title='Alpha product' --import_id=1001
         wp post meta update 1001 _sku POC-ALPHA
         wp post meta update 1001 _regular_price 19.90
@@ -176,6 +180,15 @@ services:
         wp post term set 1001 product_type simple --by=slug
         wp post list --post_type=product --meta_key=_sku --meta_value=POC-BETA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Beta product' --type=simple --regular_price=29.90 --sku=POC-BETA --status=publish
         wp post list --post_type=product --meta_key=_sku --meta_value=POC-GAMMA --field=ID --format=ids | grep -q . || wp wc product create --user=admin --name='Gamma product' --type=simple --regular_price=39.90 --sku=POC-GAMMA --status=publish
+        alpha_user_id="$$(wp user get vendor-alpha --field=ID)"
+        beta_user_id="$$(wp user get vendor-beta --field=ID)"
+        beta_product_id="$$(wp post list --post_type=product --meta_key=_sku --meta_value=POC-BETA --field=ID --format=ids)"
+        gamma_product_id="$$(wp post list --post_type=product --meta_key=_sku --meta_value=POC-GAMMA --field=ID --format=ids)"
+        wp post update 1001 --post_author="$$alpha_user_id" --post_title='Alpha product' --post_status=publish
+        wp wc product update "$$beta_product_id" --user=admin --name='Beta product' --type=simple --regular_price=29.90 --status=publish
+        wp wc product update "$$gamma_product_id" --user=admin --name='Gamma product' --type=simple --regular_price=39.90 --status=publish
+        wp post update "$$beta_product_id" --post_author="$$beta_user_id"
+        wp post update "$$gamma_product_id" --post_author="$$beta_user_id"
         wp eval 'global $$wpdb; $$table = $$wpdb->prefix . "woocommerce_api_keys"; $$credentials = [["ck_1111111111111111111111111111111111111111", "cs_1111111111111111111111111111111111111111", "Marketplace identity"], ["ck_2222222222222222222222222222222222222222", "cs_2222222222222222222222222222222222222222", "Marketplace commerce"], ["ck_3333333333333333333333333333333333333333", "cs_3333333333333333333333333333333333333333", "Marketplace stock"]]; foreach ($$credentials as [$$key, $$secret, $$description]) { if (!$$wpdb->get_var($$wpdb->prepare("SELECT key_id FROM {$$table} WHERE consumer_key = %s", wc_api_hash($$key)))) { $$wpdb->insert($$table, ["user_id" => 1, "description" => $$description, "permissions" => "read_write", "consumer_key" => wc_api_hash($$key), "consumer_secret" => $$secret, "truncated_key" => substr($$key, -7), "last_access" => null]); } }'
         wp rewrite structure '/%postname%/' --hard
         wp cache flush
@@ -201,6 +214,7 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: gateway
       GATEWAY_AUDIENCE: https://gateway.marketplace.local
+      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PORT: 3000
@@ -265,6 +279,7 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: identity-subgraph
       BETTER_AUTH_SECRET: local-development-secret-change-me
+      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
       DATABASE_URL: postgresql://postgres:postgres@identity-database:5432/identity
       IDENTITY_BASE_URL: http://identity.localhost:3001
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
@@ -309,6 +324,7 @@ services:
       COMMERCE_DB_NAME: commerce
       COMMERCE_DB_PASSWORD: postgres
       COMMERCE_DB_USER: postgres
+      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
       PORT: 3003
       RABBITMQ_URL: amqp://rabbitmq:5672
       WORDPRESS_URL: http://wordpress
@@ -346,6 +362,7 @@ services:
       MANAGEMENT_TRACING_ENABLED: ${OTEL_ENABLED:-false}
       MANAGEMENT_TRACING_SAMPLING_PROBABILITY: '1.0'
       OTEL_SERVICE_NAME: payment-federation
+      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
       SERVER_PORT: 8080
       RABBITMQ_URL: amqp://rabbitmq:5672
       SPRING_DATASOURCE_PASSWORD: postgres

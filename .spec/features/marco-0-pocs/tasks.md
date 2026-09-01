@@ -21,7 +21,7 @@
 ## T-005 — Validate the Better Auth token at the gateway and MCP [concluida]
 
 - Refs: US-006, AC-011, AC-012
-- Arquivos: test/fixtures/auth-server.ts, apps/identity-subgraph/src/auth/config.ts, apps/gateway/src/auth/token-verifier.ts, test/marco-0-auth.test.mjs, docs/adrs/002-oauth-multi-resource.md
+- Arquivos: test/fixtures/auth-server.ts, apps/identity-subgraph/src/auth/config.ts, libs/gateway/nest/src/auth/token-verifier.service.ts, test/marco-0-auth.test.mjs, docs/adrs/002-oauth-multi-resource.md
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Execute after T-003; never accept audience or scope through a permissive fallback.

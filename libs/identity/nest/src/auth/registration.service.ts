@@ -5,6 +5,13 @@ import {
   type AuthHookContext,
 } from '@thallesp/nestjs-better-auth';
 import { APIError } from 'better-auth/api';
+import { randomUUID } from 'node:crypto';
+
+const identityBootstrapToken = randomUUID();
+
+export function identityBootstrapHeaders() {
+  return new Headers({ 'x-identity-bootstrap': identityBootstrapToken });
+}
 
 export type WordPressIdentity = {
   createOrLink(input: {
@@ -54,7 +61,7 @@ export const wordpressIdentityProvider: Provider = {
       }
 
       const existing = await findByEmail();
-      if (existing) return { id: String(existing.id) };
+      if (existing) throw new Error('WordPress identity already exists');
 
       const response = await fetch(
         new URL('/wp-json/wc/v3/customers', endpoint),
@@ -70,7 +77,7 @@ export const wordpressIdentityProvider: Provider = {
       );
       if (!response.ok) {
         const raced = await findByEmail();
-        if (raced) return raced;
+        if (raced) throw new Error('WordPress identity already exists');
         throw new Error(`WordPress identity failed: ${response.status}`);
       }
       const created = (await response.json()) as { id: string | number };
@@ -110,7 +117,10 @@ export class RegistrationService {
   constructor(private readonly wordpress: WordPressIdentity) {}
 
   async afterEmailSignUp(context: AuthHookContext) {
-    if (context.headers?.get('x-identity-bootstrap') === '1') return;
+    if (
+      context.headers?.get('x-identity-bootstrap') === identityBootstrapToken
+    )
+      return;
     const input = context.body as SignUpInput | undefined;
     const result = await this.signUpResult(context.context.returned);
     if (!input?.email || !input.name || !input.password || !result.user) return;

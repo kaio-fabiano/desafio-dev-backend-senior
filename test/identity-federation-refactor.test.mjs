@@ -78,7 +78,10 @@ test('AC-093: Better Auth uses injectable plugin factories and its NestJS integr
 });
 
 test('AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094', async () => {
-  const [{ IdentityResolver }, { RegistrationService }] = await Promise.all([
+  const [
+    { IdentityResolver },
+    { RegistrationService, identityBootstrapHeaders },
+  ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
     import(`../${libraryRoot}/auth/registration.service.ts`),
   ]);
@@ -136,7 +139,7 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     },
   ]);
   await registration.afterEmailSignUp({
-    headers: new Headers({ 'x-identity-bootstrap': '1' }),
+    headers: identityBootstrapHeaders(),
     body: { email: 'admin@example.test', name: 'Admin', password: 'secret' },
     context: {
       returned: { user: { id: 'admin' } },

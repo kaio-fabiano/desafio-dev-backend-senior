@@ -9,6 +9,7 @@ import { betterAuth } from 'better-auth';
 import { Pool } from 'pg';
 
 import { JwtPluginFactory } from './plugins/jwt-plugin.factory.ts';
+import { identityBootstrapHeaders } from './registration.service.ts';
 import {
   GATEWAY_AUDIENCE,
   MCP_AUDIENCE,
@@ -192,7 +193,7 @@ export class IdentityAuthBootstrap implements OnApplicationBootstrap {
         })
       : await this.auth.api.signUpEmail({
           body: { ...credentials, name: 'Identity client seed' },
-          headers: new Headers({ 'x-identity-bootstrap': '1' }),
+          headers: identityBootstrapHeaders(),
           asResponse: true,
         });
     if (!response.ok) {

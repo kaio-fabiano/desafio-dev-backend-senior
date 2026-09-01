@@ -36,7 +36,7 @@ async function bootstrap() {
             'http://identity-subgraph:3001/api/auth/jwks',
           audience:
             process.env.GATEWAY_AUDIENCE ?? 'https://gateway.marketplace.local',
-          requiredScopes: ['marketplace:read'],
+          requiredScopes: [],
         },
       }),
     );

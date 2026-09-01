@@ -43,7 +43,7 @@
 - Refs: US-049, AC-097, AC-098, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/publish-subgraph.mjs, libs/contracts/graphql/wordpress/schema.graphql, test/remove-wordpress-federation-runtime.spec.test.mjs
+- Arquivos: apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/probe.mjs, libs/contracts/graphql/wordpress/schema.graphql, test/remove-wordpress-federation-runtime.spec.test.mjs
 - Notas: WPGraphQL, WPGraphQL for WooCommerce, and the federation plugin provide the subgraph directly without a NestJS adapter or duplicate commercial models.
 
 ## T-070 — Refactor Payment as a Spring GraphQL Federation bounded context [concluida]

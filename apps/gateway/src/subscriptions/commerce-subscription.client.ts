@@ -6,7 +6,7 @@ import {
   type RequestParams,
 } from 'graphql-sse';
 
-import type { AuthContext } from '../auth/auth-context.ts';
+import type { AuthContext } from '@desafio-dev-backend-senior/source/gateway-nest';
 
 type DelegatedClient = Pick<Client, 'dispose' | 'iterate'>;
 
@@ -19,11 +19,13 @@ export type CommerceSubscriptionClient = {
 
 type CommerceSubscriptionClientOptions = {
   url: string;
+  internalSecret?: string;
   createClient?: (options: ClientOptions<false>) => DelegatedClient;
 };
 
 export function createCommerceSubscriptionClient({
   url,
+  internalSecret = process.env.FEDERATION_INTERNAL_SECRET ?? '',
   createClient: makeClient = createClient,
 }: CommerceSubscriptionClientOptions): CommerceSubscriptionClient {
   return {
@@ -33,6 +35,7 @@ export function createCommerceSubscriptionClient({
         singleConnection: false,
         retryAttempts: 0,
         headers: {
+          'x-federation-secret': internalSecret,
           'x-authenticated-subject': context.subject,
           'x-request-id': context.requestId,
         },

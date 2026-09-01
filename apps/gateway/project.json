@@ -20,7 +20,7 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-2-*.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-8-identity-gateway.test.mjs"
+        "command": "node --experimental-transform-types --test --test-reporter=tap test/gateway-federation-refactor.test.mjs test/marco-0-sse.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-8-identity-gateway.test.mjs test/structural-gateway-review.test.mjs"
       }
     },
     "serve": {

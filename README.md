@@ -60,6 +60,8 @@ Start with the [project map](docs/knowledge/Mapa%20do%20Projeto.md), then use th
 [end-to-end runbook](docs/runbooks/e2e.md). The executable decision-to-evidence
 matrix and recommended review order are in the
 [federated platform review](docs/evidence/federated-platform-refactor/review.md).
+The follow-up [structural improvement review](docs/evidence/structural-improvement-program/review.md)
+records the security and reliability changes plus the explicitly deferred work.
 
 ---
 
