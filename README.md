@@ -7,7 +7,7 @@
 
 ## Delivered architecture walkthrough
 
-The implementation uses six deployable applications and one
+The implementation uses five deployable applications and one
 non-deployable end-to-end project:
 
 ```mermaid
@@ -17,14 +17,15 @@ flowchart LR
   Gateway --> Identity[Identity Federation]
   Gateway --> Commerce[Commerce Federation]
   Gateway --> Payment[Payment Federation]
-  Gateway --> WordPress[WordPress Federation]
+  Gateway --> WordPress[WordPress / WPGraphQL native subgraph]
   Commerce --> RabbitMQ[(RabbitMQ)]
   RabbitMQ --> Payment
   Payment -->|Federated GraphQL inventory| WordPress
   Identity --> BetterAuth[(Better Auth PostgreSQL)]
   Payment --> PaymentDB[(Payment PostgreSQL)]
-  WordPress --> Woo[(WordPress / WooCommerce)]
-  Client -->|GraphQL over SSE| WordPress
+  WordPress --> Woo[(WooCommerce)]
+  Client -->|GraphQL over SSE| Gateway
+  Gateway -->|Order event stream| Commerce
 ```
 
 | Runtime              | Single responsibility                                                                         | Composition boundary                                                                       |
@@ -34,7 +35,7 @@ flowchart LR
 | Identity Federation  | Own identity, sessions, OAuth, registration, and identity graph fields                        | `NestJSBetterAuth`, plugin factories, and Identity providers                               |
 | Commerce Federation  | Own idempotent checkout workflow, transactional outbox, and order-event stream                | NestJS application services, PostgreSQL, and RabbitMQ publishers/consumers                 |
 | Payment Federation   | Own payment invariants and the internal payment and inventory event consumers                 | Spring GraphQL Federation, Spring AMQP, and focused application boundaries                 |
-| WordPress Federation | Expose authoritative product, cart, order, customer, inventory, and order-stream capabilities | Thin NestJS delegation to WPGraphQL/WooGraphQL and a provider-owned `graphql-sse` endpoint |
+| WordPress / WPGraphQL | Expose authoritative product, cart, order, customer, and inventory capabilities | Native `/graphql` endpoint federated by `wp-graphql-federations`; external infrastructure, not a Node deployable |
 
 The domain rule is ownership, not uniformity: Better Auth owns its records,
 WooCommerce owns commercial state, and Payment owns its aggregate and read
@@ -48,9 +49,11 @@ inside the Java Payment Federation deployment.
 WordPress integration is plugin-first: WPGraphQL, WooGraphQL, WPGraphQL
 Federations, and WPGraphQL Headless Login provide the graph and session model.
 Commerce publishes checkout through RabbitMQ. Payment Federation processes
-payment and inventory events, and its inventory adapter calls WordPress
-Federation GraphQL backed by the installed plugins. The resulting events drive
-the Gateway SSE stream. There is no marketplace inventory MU-plugin.
+payment and inventory events, and its inventory adapter calls the native
+WordPress GraphQL subgraph backed by the installed plugins. Commerce owns the
+order-event stream exposed through the Gateway SSE edge. There is no WordPress
+NestJS proxy, custom SDL-normalization runtime, or marketplace inventory
+MU-plugin.
 
 Start with the [project map](docs/knowledge/Mapa%20do%20Projeto.md), then use the
 [local development runbook](docs/runbooks/local-development.md) and the
@@ -375,8 +378,10 @@ idempotência, constraint única, outbox, dedupe no consumidor…) são **decis�
 
 ### 10.3 Transporte: Server-Sent Events
 
-As subscriptions devem ser implementadas com [`graphql-sse`](https://github.com/enisdenjo/graphql-sse)
-(**SSE**), do subgraph ao gateway e do gateway ao cliente. **WebSockets não atendem este requisito.**
+Subscriptions use [`graphql-sse`](https://github.com/enisdenjo/graphql-sse)
+(**SSE**). Commerce owns the order-event stream and the Gateway exposes it to
+clients. WordPress participates only as the native plugin-backed query/mutation
+subgraph. **WebSockets do not satisfy this requirement.**
 
 > **Por quê:** em arquiteturas federadas, subscriptions sobre SSE são muito mais proveitosas —
 > mantêm o transporte em HTTP puro (compatível com o mesmo pipeline de auth, headers, proxies, load

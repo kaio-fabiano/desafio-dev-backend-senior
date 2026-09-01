@@ -7,17 +7,18 @@ updated: 2026-08-30
 
 This is the Obsidian memory entry point.
 
-The delivered topology has six deployable applications: Apollo MCP, Gateway,
-Identity Federation, Commerce Federation, Payment Federation, and WordPress
-Federation. The E2E project is an executable proof project, not a runtime. The canonical
+The delivered topology has five deployable applications: Apollo MCP, Gateway,
+Identity Federation, Commerce Federation, and Payment Federation. WordPress is
+external infrastructure and its plugin-provided `/graphql` endpoint is a native
+subgraph. The E2E project is an executable proof project, not a runtime. The canonical
 decision-to-test matrix is the [federated platform architecture
 review](../evidence/federated-platform-refactor/review.md).
 
-WordPress Federation delegates the commercial graph to installed plugins.
+WordPress exposes the commercial graph directly through installed plugins.
 Commerce owns durable workflow and RabbitMQ delivery, while Payment Federation
 hosts payment and inventory consumers; inventory reaches WooCommerce through
 the federated WordPress GraphQL contract. Gateway exposes the authenticated
-GraphQL-over-SSE edge.
+GraphQL-over-SSE edge backed by Commerce's order-event stream.
 
 ## Core
 
@@ -43,12 +44,13 @@ flowchart LR
   MCP[Apollo MCP] --> Gateway
   Gateway --> Identity[Identity Federation]
   Gateway --> Payment[Payment Federation]
-  Gateway --> WordPress[WordPress Federation]
+  Gateway --> WordPress[WordPress / WPGraphQL native subgraph]
   Identity --> BetterAuth[Better Auth]
   Payment --> PaymentData[Payment aggregate and view]
   WordPress --> Woo[WPGraphQL and WooGraphQL]
-  Client --> SSE[WordPress graphql-sse]
-  SSE --> WordPress
+  Client --> SSE[Gateway graphql-sse]
+  SSE --> Gateway
+  Gateway --> Commerce[Commerce order stream]
 ```
 
 ## Review path
@@ -56,7 +58,7 @@ flowchart LR
 1. Read [ADR 007](../adrs/007-federated-platform-boundaries.md) for the runtime
    inventory and inward dependency rule.
 2. Follow the provider boundaries in `libs/platform/nest`, `libs/gateway/nest`,
-   `libs/identity/nest`, `libs/wordpress/nest`, and Payment's Spring
+   `libs/identity/nest`, Commerce, and Payment's Spring
    configuration.
 3. Inspect the versioned SDL under `libs/contracts/graphql`, then run the
    composition gate from the [local development runbook](../runbooks/local-development.md).

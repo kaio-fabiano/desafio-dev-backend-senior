@@ -27,11 +27,13 @@ The journey covers:
 6. rejection of missing identity, wrong audience, missing scopes, or another
    buyer's operation key by the owning federation.
 
-The inventory leg proves that Payment Federation calls the federated WordPress
-GraphQL contract and that `apps/wordpress-integration/marketplace-inventory.php`
-is absent because installed plugins already expose the required capabilities.
+The inventory leg proves that Payment Federation calls WordPress's native,
+plugin-federated `/graphql` endpoint and that
+`apps/wordpress-integration/marketplace-inventory.php` is absent because the
+installed plugins already expose the required capabilities.
 
-Gateway serves federated queries, mutations, and the authenticated SSE edge.
+Gateway serves federated queries, mutations, and the authenticated SSE edge;
+Commerce is the sole owner and publisher of the order-event stream.
 Compare the terminal stream event with the federated order/payment view
 and the corresponding MCP operation before accepting the run.
 

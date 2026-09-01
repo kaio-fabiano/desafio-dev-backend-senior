@@ -2,7 +2,7 @@
 
 ## Expected outcome
 
-The platform converges on the six deployable applications fixed by
+The platform converges on the five deployable applications fixed by
 [ADR 007](../adrs/007-federated-platform-boundaries.md). Each process has one
 business responsibility, native products keep authority over their data, and
 framework code stays outside domain and application code.
@@ -25,7 +25,7 @@ framework code stays outside domain and application code.
 | Context    | Responsibility                                                              | Authoritative state                                      | Runtime                |
 | ---------- | --------------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------- |
 | Identity   | Authentication, OAuth, registration, sessions, and identity graph fields    | Better Auth schema in PostgreSQL                         | Identity Federation    |
-| Commercial | Catalog, cart, checkout, orders, customers, stock, and order transitions    | WordPress/WooCommerce in MySQL                           | WordPress Federation   |
+| Commercial | Catalog, cart, checkout, orders, customers, stock, and order transitions    | WordPress/WooCommerce in MySQL                           | External WordPress subgraph |
 | Workflow   | Checkout idempotency, outbox/inbox, and event delivery                      | Workflow state in PostgreSQL                             | Commerce Federation    |
 | Payment    | Authorization, Pix generation, compensation, idempotency, and payment views | Payment aggregate and dedicated projection in PostgreSQL | Payment Federation     |
 | Edge       | Authenticated graph composition and MCP operations                          | No domain persistence                                    | Gateway and Apollo MCP |
@@ -42,7 +42,6 @@ apps/
 ├── identity-subgraph/       Identity Federation with Better Auth
 ├── commerce-subgraph/       durable checkout workflow and RabbitMQ boundary
 ├── payment-processor/       Payment Federation with Java 21 and Spring Boot
-├── wordpress-federation/    thin WPGraphQL/WooGraphQL and SSE boundary
 └── e2e/                     non-deployable Vitest/Testcontainers project
 ```
 
@@ -58,7 +57,6 @@ libs/
 ├── platform/nest/           providers proven reusable by two or more runtimes
 ├── gateway/nest/            Gateway edge providers and authenticated data source
 ├── identity/nest/           Better Auth factories, registration, and resolvers
-└── wordpress/nest/          WPGraphQL delegation and subscription providers
 ```
 
 Payment keeps its domain, application command/query handlers, GraphQL adapter,
@@ -93,17 +91,19 @@ flowchart LR
   MCP[Apollo MCP] --> Gateway
   Gateway --> Identity[Identity Federation]
   Gateway --> Payment[Payment Federation]
-  Gateway --> WordPress[WordPress Federation]
+  Gateway --> WordPress[WordPress / WPGraphQL native subgraph]
   Identity --> BetterAuth[(Better Auth PostgreSQL)]
   Payment --> PaymentDB[(Payment PostgreSQL)]
   WordPress --> Woo[(WordPress / WooCommerce)]
-  Client --> SSE[WordPress Federation graphql-sse]
-  SSE --> WordPress
+  Client --> SSE[Gateway graphql-sse]
+  SSE --> Gateway
+  Gateway --> Commerce[Commerce order stream]
 ```
 
-The Gateway does not proxy the SSE stream and owns no catalog, order, or
-commerce client. WordPress Federation delegates commercial graph operations to
-native WPGraphQL/WooGraphQL behavior. Payment Federation exposes its own graph
+The Gateway exposes the SSE transport while Commerce owns and publishes the
+order stream. The Gateway owns no catalog or order repository. WordPress
+exposes commercial graph operations directly through native
+WPGraphQL/WooGraphQL behavior and `wp-graphql-federations`. Payment Federation exposes its own graph
 fields and commands; it never writes WooCommerce storage directly.
 
 ## Data and consistency

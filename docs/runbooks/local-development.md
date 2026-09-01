@@ -14,12 +14,12 @@ fnm exec --using v24.19.0 -- node --version
 fnm exec --using v24.19.0 -- npm --version
 ```
 
-## Start the six-application topology
+## Start the five-application topology
 
-The setup pins WPGraphQL Headless Login and configures its server-only Site
-Token plus a signed WooCommerce `order.updated` webhook. Override
-`WPGRAPHQL_SITE_TOKEN` and `WOO_WEBHOOK_SECRET` outside local development; never
-expose either value to a browser client.
+The setup pins WPGraphQL Headless Login and `wp-graphql-federations`. WordPress
+serves its native plugin-backed `/graphql` endpoint; no Node federation proxy is
+started. Override `WPGRAPHQL_SITE_TOKEN` outside local development and never
+expose it to a browser client.
 
 ```sh
 corepack pnpm@10.17.1 install --frozen-lockfile
@@ -46,7 +46,6 @@ node --experimental-transform-types --test --test-reporter=tap \
   test/nest-provider-composition.test.mjs \
   test/identity-federation-refactor.test.mjs \
   test/gateway-federation-refactor.test.mjs \
-  test/wordpress-federation-refactor.test.mjs \
   test/payment-federation-refactor.test.mjs \
   test/order-subscription-refactor.test.mjs \
   test/five-app-topology.test.mjs \

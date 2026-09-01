@@ -20,7 +20,7 @@ their respective areas.
 
 ## Decision
 
-The platform has six deployable applications. The end-to-end project remains
+The platform has five deployable applications. The end-to-end project remains
 in the Nx graph but is not deployed. The JSON block below is an executable
 architecture contract consumed by `test/federated-platform-refactor.test.mjs`.
 
@@ -33,30 +33,30 @@ architecture contract consumed by `test/federated-platform-refactor.test.mjs`.
     { "name": "Gateway", "path": "apps/gateway" },
     { "name": "Identity Federation", "path": "apps/identity-subgraph" },
     { "name": "Commerce Federation", "path": "apps/commerce-subgraph" },
-    { "name": "Payment Federation", "path": "apps/payment-processor" },
-    { "name": "WordPress Federation", "path": "apps/wordpress-federation" }
+    { "name": "Payment Federation", "path": "apps/payment-processor" }
   ],
   "nonDeployableProjects": [{ "name": "End-to-end tests", "path": "apps/e2e" }],
-  "retiredApplications": ["apps/stock-worker"]
+  "retiredApplications": ["apps/stock-worker", "apps/wordpress-federation"]
 }
 ```
 
 <!-- architecture-contract:end -->
 
 `apps/wordpress-integration` contains reproducible WordPress, WooCommerce, and
-plugin support assets. It is infrastructure for WordPress Federation, not an
-additional deployable application. A catalog fallback is not part of the target.
+plugin support assets. WordPress is external infrastructure whose native
+`/graphql` endpoint is the plugin-provided subgraph, not a Node/Nx deployable.
+A catalog fallback is not part of the target.
 
 ## Runtime responsibilities
 
 | Runtime              | Business responsibility                                                                | Composition boundary                                                        | Must not own                                                                     |
 | -------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | Apollo MCP           | Authenticated MCP tools backed by registered graph operations                          | MCP SDK configuration and a Gateway client                                  | Domain state, direct subgraph clients, or persistence                            |
-| Gateway              | Verify identity, propagate safe context, and execute the composed query/mutation graph | NestJS providers for authentication and Apollo Gateway                      | Catalog/order loaders, repositories, commerce clients, or subscription transport |
+| Gateway              | Verify identity, propagate safe context, execute the composed graph, and expose SSE     | NestJS authentication, Apollo Gateway, and Commerce stream delegation       | Catalog/order loaders, repositories, or ownership of order events                 |
 | Identity Federation  | Identity, sessions, OAuth, registration, and identity-owned graph fields               | `NestJSBetterAuth`, injectable plugin factories, and Identity resolvers     | A second mapping or repository for Better Auth records                           |
 | Commerce Federation  | Checkout idempotency, workflow state, outbox/inbox, and order-event publication        | NestJS application services, PostgreSQL, and RabbitMQ adapters              | Authoritative product, cart, order, or inventory records                         |
 | Payment Federation   | Payment invariants plus internal payment and inventory event reactions                 | Spring GraphQL Federation, AMQP listeners, and application services         | Authoritative WooCommerce product, cart, or order records                        |
-| WordPress Federation | Product, cart, order, customer, inventory, and order-subscription capabilities         | Thin NestJS delegation to WPGraphQL/WooGraphQL and a `graphql-sse` endpoint | Duplicate commercial repositories, loaders, or CRUD models                       |
+| External WordPress   | Product, cart, order, customer, and inventory capabilities                             | Native WPGraphQL/WooGraphQL `/graphql` federated by `wp-graphql-federations` | Node proxy, SDL-normalization runtime, subscriptions, or duplicate commercial models |
 
 WordPress/MySQL remains the commercial system of record. Better Auth remains the
 owner of its persistence model. Payment owns its aggregate and dedicated read
@@ -89,11 +89,11 @@ they do not assemble infrastructure graphs manually.
 
 - No separate Stock worker remains. The Java deployment separates payment and
   inventory application services internally, while WooCommerce remains the
-  inventory authority through WordPress Federation GraphQL.
+  inventory authority through the native WordPress GraphQL subgraph.
 - No generic DDD framework, repository base class, service hierarchy, command
   bus, event sourcing platform, or distributed command bus is introduced.
-- No gateway DataLoader, business client, repository, or subscription proxy is
-  introduced. Those concerns remain with the owning federation.
+- No gateway DataLoader, business client, or repository is introduced. Its SSE
+  endpoint delegates to the Commerce-owned stream without owning order events.
 - No custom WordPress commercial schema is built when WPGraphQL or WooGraphQL
   already supplies the capability.
 - No Identity MikroORM mapping mirrors Better Auth. Add first-party persistence
@@ -106,7 +106,7 @@ they do not assemble infrastructure graphs manually.
 
 | Decision                          | Enforced rule                                                                                             | Evidence                                                                                                       |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Runtime inventory                 | Exactly the six deployables and the non-deployable E2E project are allowed                                | `test/federated-platform-refactor.test.mjs` and `test/five-app-topology.test.mjs`                              |
+| Runtime inventory                 | Exactly five deployables and the non-deployable E2E project are allowed                                    | `test/federated-platform-refactor.test.mjs` and `test/five-app-topology.test.mjs`                              |
 | Provider boundary                 | Frameworks compose adapters; bootstrap and core layers do not construct infrastructure                    | `test/architecture-boundaries.test.mjs` plus the Identity, Gateway, WordPress, and subscription refactor tests |
 | Domain decision                   | Commercial state belongs to WordPress; payment invariants belong to Payment; Better Auth owns its records | `test/architecture-boundaries.test.mjs` plus focused federation tests                                          |
 | Deliberately omitted abstractions | The omissions above stay absent unless a failing acceptance test justifies one                            | `test/federated-platform-refactor.test.mjs` and the final architecture review                                  |
@@ -130,8 +130,9 @@ project retains explicit application logic only for identity integration,
 payment invariants, federation composition, and authenticated real-time
 delivery.
 
-This decision supersedes ADR 001's gateway subscription proxy, ADR 003's ban on
-a thin NestJS WordPress wrapper, ADR 005's planned Identity/Commerce MikroORM
+This decision keeps ADR 001's Gateway SSE edge but assigns the stream to
+Commerce, and applies ADR 003's direct plugin-first WordPress boundary. It also
+supersedes ADR 005's planned Identity/Commerce MikroORM
 ownership, and ADR 006's Commerce-owned reconciliation. It preserves the proven
 protocol and product choices: GraphQL over SSE, plugin-first WordPress,
 Better Auth, Java 21/Spring Boot, Gradle through Nx, and stable idempotency keys.
