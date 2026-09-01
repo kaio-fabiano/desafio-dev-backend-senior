@@ -1,23 +1,12 @@
 import { createHandler } from 'graphql-sse/lib/use/http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import {
-  type AuthContext,
-  verifyGatewayRequest,
-} from '@desafio-dev-backend-senior/source/gateway-nest';
+import type { AuthContext } from '@desafio-dev-backend-senior/source/gateway-nest';
 import type { CommerceSubscriptionClient } from './commerce-subscription.client.ts';
-
-type GatewayTokenOptions = {
-  issuer: string;
-  jwksUrl?: string;
-  audience: string;
-  requiredScopes: readonly string[];
-};
 
 type GatewaySseOptions = {
   commerce: CommerceSubscriptionClient;
-  token: GatewayTokenOptions;
-  verify?: typeof verifyGatewayRequest;
+  verify: (request: Request) => Promise<AuthContext>;
 };
 
 function toRequest(request: IncomingMessage) {
@@ -37,14 +26,13 @@ function toRequest(request: IncomingMessage) {
 
 export function createGatewaySseHandler({
   commerce,
-  token,
-  verify = verifyGatewayRequest,
+  verify,
 }: GatewaySseOptions) {
   const authenticated = new WeakMap<IncomingMessage, AuthContext>();
   const active = new WeakMap<IncomingMessage, AsyncGenerator>();
   const handler = createHandler<AuthContext>({
     authenticate: async ({ raw }) => {
-      authenticated.set(raw, await verify(toRequest(raw), token));
+      authenticated.set(raw, await verify(toRequest(raw)));
       return null;
     },
     context: ({ raw }) => {

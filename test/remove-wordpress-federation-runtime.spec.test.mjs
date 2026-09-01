@@ -25,12 +25,12 @@ test('AC-117: Direct plugin subgraph @spec:AC-117 @spec:AC-097', async () => {
 
 // US-059 — Compose WordPress directly
 test('AC-118: Single subscription owner @spec:AC-118 @spec:AC-102', async () => {
-  const [gatewayMain, gatewaySse] = await Promise.all([
-    readFile('apps/gateway/src/main.ts', 'utf8'),
+  const [gatewayMiddleware, gatewaySse] = await Promise.all([
+    readFile('apps/gateway/src/subscriptions/sse.middleware.ts', 'utf8'),
     readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
   ]);
 
-  assert.match(gatewayMain, /createCommerceSubscriptionClient/);
+  assert.match(gatewayMiddleware, /createCommerceSubscriptionClient/);
   assert.match(gatewaySse, /commerce\.subscribe/);
   assert.equal(await exists('libs/wordpress/nest/src/subscriptions'), false);
 });

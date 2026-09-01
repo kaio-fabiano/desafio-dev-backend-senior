@@ -1,11 +1,11 @@
 {
   "feature": "milestone-6-apollo-mcp",
-  "timestamp": "2026-09-01T03:23:33.094Z",
-  "gitRev": "7ac67cc",
+  "timestamp": "2026-09-01T17:31:54.722Z",
+  "gitRev": "447d40f",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 119,
+  "testsParsed": 120,
   "results": {
     "AC-060": {
       "status": "pass",

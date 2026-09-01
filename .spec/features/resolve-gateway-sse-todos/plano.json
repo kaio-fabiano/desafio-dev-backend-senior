@@ -1,0 +1,40 @@
+{
+  "runId": "desafio-dev-backend-senior-resolve-gateway-sse-todos-mtix7pn0",
+  "feature": "resolve-gateway-sse-todos",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-01 17:07",
+  "branchTrabalho": "spec/resolve-gateway-sse-todos",
+  "baseDir": ".spec/features/resolve-gateway-sse-todos",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-resolve-gateway-sse-todos-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-101",
+      "titulo": "Register and authenticate gateway SSE through NestJS",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/gateway/project.json",
+        "apps/gateway/src/main.ts",
+        "apps/gateway/src/app.module.ts",
+        "apps/gateway/src/subscriptions/sse-handler.ts",
+        "apps/gateway/src/subscriptions/sse.middleware.ts",
+        "test/remove-wordpress-federation-runtime.spec.test.mjs",
+        "test/resolve-gateway-sse-todos.test.mjs"
+      ],
+      "refs": [
+        "US-062",
+        "AC-130"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
