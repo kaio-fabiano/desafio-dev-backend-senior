@@ -11,6 +11,7 @@ import dev.desafio.payment.domain.Payment;
 import dev.desafio.payment.inventory.InventoryRepository;
 import dev.desafio.payment.inventory.InventoryService;
 import dev.desafio.payment.inventory.WooInventoryAdapter;
+import dev.desafio.payment.wordpress.WpGraphqlAuthentication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer;
@@ -65,6 +66,7 @@ public class PaymentConfiguration {
     WooInventoryAdapter wooInventoryAdapter(ObjectMapper json) {
         return new WooInventoryAdapter(
             URI.create(requiredEnvironment("WORDPRESS_GRAPHQL_URL")),
+            requiredEnvironment("WPGRAPHQL_SITE_TOKEN"),
             json
         );
     }
@@ -86,6 +88,7 @@ public class PaymentConfiguration {
     @ConditionalOnProperty(name = "wordpress.graphql-url")
     OrderPaymentPort wooCommerceOrderPayment(ObjectMapper json) {
         var endpoint = URI.create(requiredEnvironment("WORDPRESS_GRAPHQL_URL"));
+        var siteToken = requiredEnvironment("WPGRAPHQL_SITE_TOKEN");
         var client = HttpClient.newHttpClient();
         return (command, payment) -> {
             var input = new LinkedHashMap<String, Object>();
@@ -114,8 +117,8 @@ public class PaymentConfiguration {
             }
             var request = HttpRequest.newBuilder(endpoint)
                 .header("Content-Type", "application/json")
-                .header("X-Authenticated-Subject", "payment-federation")
-                .header("X-Authenticated-Scopes", "orders:write")
+                .header("Origin", endpoint.resolve("/").toString().replaceAll("/$", ""))
+                .header("Authorization", "Bearer " + WpGraphqlAuthentication.bearerToken(endpoint, siteToken, json, client))
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
             try {

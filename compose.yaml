@@ -15,11 +15,9 @@ x-federated-node-build: &federated-node-build
     COPY --chown=app:app package.json ./package.json
     COPY --chown=app:app apps/gateway ./apps/gateway
     COPY --chown=app:app apps/identity-subgraph ./apps/identity-subgraph
-    COPY --chown=app:app apps/wordpress-federation ./apps/wordpress-federation
     COPY --chown=app:app libs/contracts/graphql ./libs/contracts/graphql
     COPY --chown=app:app libs/gateway/nest ./libs/gateway/nest
     COPY --chown=app:app libs/identity/nest ./libs/identity/nest
-    COPY --chown=app:app libs/wordpress/nest ./libs/wordpress/nest
     USER app
 
 services:
@@ -163,7 +161,6 @@ services:
         wp option update wpgraphql_login_access_control '{"shouldBlockUnauthorizedDomains":true,"hasSiteAddressInOrigin":true,"additionalAuthorizedDomains":["http://wordpress"],"customHeaders":[]}' --format=json
         wp user get payment-federation || wp user create payment-federation payment-federation@example.test --role=shop_manager --user_pass=payment-federation-local-only
         wp user meta update payment-federation better_auth_user_id payment-federation
-        wp wc webhook list --user=admin --field=delivery_url --format=csv | grep -Fxq 'http://wordpress-federation.local:3004/webhooks/woocommerce/orders' || wp wc webhook create --user=admin --name='WordPress Federation order events' --topic=order.updated --delivery_url='http://wordpress-federation.local:3004/webhooks/woocommerce/orders' --secret='woocommerce-local-only' --status=active
         wp role create marketplace_vendor 'Marketplace Vendor' || true
         wp cap add marketplace_vendor read edit_products edit_published_products publish_products
         wp cap remove marketplace_vendor edit_others_products || true
@@ -207,10 +204,11 @@ services:
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PORT: 3000
+      WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
     depends_on:
       commerce-subgraph:
         condition: service_healthy
-      wordpress-federation:
+      wordpress-setup:
         condition: service_healthy
       payment-processor:
         condition: service_healthy
@@ -354,17 +352,14 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
       SPRING_DATASOURCE_USERNAME: postgres
       WORDPRESS_URL: http://wordpress
-      WORDPRESS_GRAPHQL_URL: http://wordpress-federation:3004/graphql
-      WOO_WEBHOOK_DELIVERY_URL: http://wordpress-federation:3004/webhooks/woocommerce/orders
-      WOO_WEBHOOK_SECRET: ${WOO_WEBHOOK_SECRET:-woocommerce-local-only}
+      WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
+      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
     depends_on:
       payment-database:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
       wordpress-setup:
-        condition: service_healthy
-      wordpress-federation:
         condition: service_healthy
     ports:
       - '8080'
@@ -378,48 +373,6 @@ services:
       timeout: 2s
       retries: 30
     stop_grace_period: 35s
-
-  wordpress-federation:
-    build: *federated-node-build
-    command:
-      [
-        'node',
-        '--experimental-transform-types',
-        'apps/wordpress-federation/src/main.ts',
-      ]
-    environment:
-      NODE_OPTIONS: ${OTEL_NODE_OPTIONS:-}
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-      OTEL_SERVICE_NAME: wordpress-federation
-      GATEWAY_AUDIENCE: https://gateway.marketplace.local
-      IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
-      OAUTH_ISSUER: http://identity.localhost:3001/api/auth
-      PORT: 3004
-      WPGRAPHQL_ENDPOINT: http://wordpress/graphql
-      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
-      WOO_WEBHOOK_SECRET: ${WOO_WEBHOOK_SECRET:-woocommerce-local-only}
-    depends_on:
-      identity-subgraph:
-        condition: service_healthy
-      wordpress-setup:
-        condition: service_healthy
-    ports:
-      - '3004'
-    networks:
-      default:
-        aliases:
-          - wordpress-federation.local
-    healthcheck:
-      test:
-        [
-          'CMD',
-          'node',
-          '-e',
-          "require('node:net').connect(3004, '127.0.0.1').once('connect', () => process.exit(0)).once('error', () => process.exit(1))",
-        ]
-      interval: 2s
-      timeout: 2s
-      retries: 30
 
 volumes:
   commerce-database-data:

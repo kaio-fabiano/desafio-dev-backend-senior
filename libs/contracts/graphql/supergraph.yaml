@@ -6,7 +6,7 @@ subgraphs:
     schema:
       file: ./identity/schema.graphql
   wordpress:
-    routing_url: http://wordpress-federation:3004/graphql
+    routing_url: http://wordpress/graphql
     schema:
       file: ./wordpress/schema.graphql
   payment:

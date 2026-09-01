@@ -55,11 +55,6 @@ if ! wp user get payment-federation --field=ID >/dev/null 2>&1; then
 fi
 wp user meta update payment-federation better_auth_user_id payment-federation
 
-webhook_url="${WOO_WEBHOOK_URL:-http://wordpress-federation.local:3004/webhooks/woocommerce/orders}"
-if ! wp wc webhook list --user=admin --field=delivery_url --format=csv | grep -Fxq "$webhook_url"; then
-  wp wc webhook create --user=admin --name='WordPress Federation order events' --topic=order.updated --delivery_url="$webhook_url" --secret="${WOO_WEBHOOK_SECRET:-woocommerce-local-only}" --status=active >/dev/null
-fi
-
 wp role create marketplace_vendor "Marketplace Vendor" 2>/dev/null || true
 for capability in read edit_products edit_published_products publish_products; do
   wp cap add marketplace_vendor "$capability"

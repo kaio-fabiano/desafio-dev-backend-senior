@@ -72,7 +72,7 @@ Module({
                 name: 'wordpress',
                 url:
                   process.env.WORDPRESS_GRAPHQL_URL ??
-                  'http://wordpress-federation:3004/graphql',
+                  'http://wordpress/graphql',
                 typeDefs: contract('wordpress'),
               },
               {
@@ -91,7 +91,8 @@ Module({
               },
             ],
           }),
-          buildService: ({ url }) => new AuthenticatedDataSource({ url }),
+          buildService: ({ name, url }) =>
+            new AuthenticatedDataSource({ url }, name === 'wordpress'),
         },
       }),
     }),

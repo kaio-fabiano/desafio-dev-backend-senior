@@ -4,9 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "./libs/wordpress/nest"
-    },
-    {
       "path": "./libs/identity/nest"
     },
     {

@@ -2,6 +2,7 @@ package dev.desafio.payment.inventory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.desafio.payment.wordpress.WpGraphqlAuthentication;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,17 +18,20 @@ public final class WooInventoryAdapter implements InventoryService.StockPort {
     private final URI endpoint;
     private final HttpClient client;
     private final ObjectMapper json;
+    private final String siteToken;
 
-    public WooInventoryAdapter(URI endpoint, ObjectMapper json) {
-        this(endpoint, json, HttpClient.newHttpClient());
+    public WooInventoryAdapter(URI endpoint, String siteToken, ObjectMapper json) {
+        this(endpoint, siteToken, json, HttpClient.newHttpClient());
     }
 
     WooInventoryAdapter(
         URI endpoint,
+        String siteToken,
         ObjectMapper json,
         HttpClient client
     ) {
         this.endpoint = endpoint;
+        this.siteToken = siteToken;
         this.json = json;
         this.client = client;
     }
@@ -47,8 +51,8 @@ public final class WooInventoryAdapter implements InventoryService.StockPort {
         var httpRequest = HttpRequest.newBuilder(endpoint)
             .timeout(Duration.ofSeconds(10))
             .header("Content-Type", "application/json")
-            .header("X-Authenticated-Subject", "payment-federation")
-            .header("X-Authenticated-Scopes", "orders:write")
+            .header("Origin", endpoint.resolve("/").toString().replaceAll("/$", ""))
+            .header("Authorization", "Bearer " + bearerToken())
             .POST(HttpRequest.BodyPublishers.ofString(write(operation)))
             .build();
         try {
@@ -95,8 +99,8 @@ public final class WooInventoryAdapter implements InventoryService.StockPort {
         var request = HttpRequest.newBuilder(endpoint)
             .timeout(Duration.ofSeconds(10))
             .header("Content-Type", "application/json")
-            .header("X-Authenticated-Subject", "payment-federation")
-            .header("X-Authenticated-Scopes", "orders:write")
+            .header("Origin", endpoint.resolve("/").toString().replaceAll("/$", ""))
+            .header("Authorization", "Bearer " + bearerToken())
             .POST(HttpRequest.BodyPublishers.ofString(write(operation)))
             .build();
         try {
@@ -113,6 +117,10 @@ public final class WooInventoryAdapter implements InventoryService.StockPort {
         } catch (IOException error) {
             throw new IllegalStateException("WordPress federation inventory request failed", error);
         }
+    }
+
+    private String bearerToken() {
+        return WpGraphqlAuthentication.bearerToken(endpoint, siteToken, json, client);
     }
 
     private String write(Object value) {

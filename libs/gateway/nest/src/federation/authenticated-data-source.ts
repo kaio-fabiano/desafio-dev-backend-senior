@@ -6,10 +6,18 @@ import {
 import type { AuthContext } from '../auth/auth-context.factory.ts';
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext> {
+  private readonly origin?: string;
+
+  constructor(config: { url: string }, sendOrigin = false) {
+    super(config);
+    this.origin = sendOrigin ? new URL(config.url).origin : undefined;
+  }
+
   override willSendRequest({
     request,
     context,
   }: GraphQLDataSourceProcessOptions<AuthContext>) {
+    if (this.origin) request.http?.headers.set('origin', this.origin);
     if (!context || !('subject' in context) || !context.subject) return;
 
     request.http?.headers.set('x-authenticated-subject', context.subject);
