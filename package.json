@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "acceptance:milestone-7": "nx run @desafio-dev-backend-senior/e2e:acceptance",
+    "graphify:check": "node scripts/check-graphify-current.mjs",
     "test:spec": "node --experimental-transform-types --test --test-reporter=tap test/*.test.mjs",
     "quality:nx": "nx run-many --target=build,typecheck,lint,test --all",
     "quality:affected": "nx affected --target=build,typecheck,lint,test",

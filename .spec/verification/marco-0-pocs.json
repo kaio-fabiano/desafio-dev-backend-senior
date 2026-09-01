@@ -1,11 +1,11 @@
 {
   "feature": "marco-0-pocs",
-  "timestamp": "2026-09-01T02:06:24.136Z",
-  "gitRev": "0c59158",
+  "timestamp": "2026-09-01T03:20:27.889Z",
+  "gitRev": "7ac67cc",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 118,
+  "testsParsed": 119,
   "results": {
     "AC-008": {
       "status": "pass",

@@ -47,3 +47,10 @@ Thumbs.db
 # local Gradle state and compiled Payment artifacts
 /apps/payment-processor/.gradle/
 /apps/payment-processor/build/
+
+# Graphify publishes only portable, clone-ready outputs.
+/graphify-out/**
+!/graphify-out/graph.json
+!/graphify-out/manifest.json
+!/graphify-out/GRAPH_REPORT.md
+!/graphify-out/graph.html

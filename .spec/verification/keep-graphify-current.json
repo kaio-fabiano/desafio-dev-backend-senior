@@ -1,15 +1,15 @@
 {
-  "feature": "import-order-stability",
-  "timestamp": "2026-09-01T03:17:13.234Z",
+  "feature": "keep-graphify-current",
+  "timestamp": "2026-09-01T03:49:47.828Z",
   "gitRev": "7ac67cc",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
   "testsParsed": 119,
   "results": {
-    "AC-089": {
+    "AC-129": {
       "status": "pass",
-      "testName": "AC-089: VS Code does not organize imports automatically @spec:AC-089",
+      "testName": "AC-129: canonical Graphify outputs are versioned and freshness is enforced @spec:AC-129",
       "method": "tap"
     }
   },
