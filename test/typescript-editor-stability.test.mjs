@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const applications = ['gateway', 'identity-subgraph', 'wordpress-federation'];
+const applications = ['gateway', 'identity-subgraph'];
 
 test('AC-107: active TypeScript applications pass explicit Nx typecheck targets @spec:AC-107', async () => {
   for (const application of applications) {

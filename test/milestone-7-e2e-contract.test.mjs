@@ -44,7 +44,6 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
     'identity-subgraph',
     'commerce-subgraph',
     'rabbitmq',
-    'wordpress-federation',
     'payment-processor',
     'gateway',
     'apollo-mcp',

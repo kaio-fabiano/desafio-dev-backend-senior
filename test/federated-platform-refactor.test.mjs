@@ -17,7 +17,7 @@ function architectureContract(adr) {
   return JSON.parse(match[1]);
 }
 
-test('AC-090: the target contains six deployable applications and one test project @spec:AC-090', async () => {
+test('AC-090: the target contains five deployable applications and one test project @spec:AC-090', async () => {
   const contract = architectureContract(await readFile(adrPath, 'utf8'));
 
   assert.deepEqual(contract.deployableApplications, [
@@ -26,12 +26,14 @@ test('AC-090: the target contains six deployable applications and one test proje
     { name: 'Identity Federation', path: 'apps/identity-subgraph' },
     { name: 'Commerce Federation', path: 'apps/commerce-subgraph' },
     { name: 'Payment Federation', path: 'apps/payment-processor' },
-    { name: 'WordPress Federation', path: 'apps/wordpress-federation' },
   ]);
   assert.deepEqual(contract.nonDeployableProjects, [
     { name: 'End-to-end tests', path: 'apps/e2e' },
   ]);
-  assert.deepEqual(contract.retiredApplications, ['apps/stock-worker']);
+  assert.deepEqual(contract.retiredApplications, [
+    'apps/stock-worker',
+    'apps/wordpress-federation',
+  ]);
 });
 
 test('AC-103: architecture documentation maps decisions and omissions to executable gates @spec:AC-103', async () => {

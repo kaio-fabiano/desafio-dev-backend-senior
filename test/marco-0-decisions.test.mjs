@@ -37,7 +37,7 @@ test('AC-015: Each proof closes a decision with evidence @spec:AC-015', () => {
         '6.8.2-php8.3-apache',
         'ac480974ceb6a1680410f955005e060056f150da',
         'node apps/wordpress-integration/scripts/probe.mjs',
-        'Adopt the indicated plugins',
+        "Use the WordPress installation's native `/graphql` endpoint",
       ],
     ],
   ]) {

@@ -59,12 +59,12 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
   assert.match(wooInventory, /mutation ReserveOrderInventory/);
   assert.match(wooInventory, /updateOrder\(input: \$input\)/);
   assert.match(wooInventory, /"status", "PROCESSING"/);
-  assert.match(wooInventory, /"X-Authenticated-Scopes", "orders:write"/);
+  assert.match(wooInventory, /"Authorization", "Bearer " \+ bearerToken\(\)/);
   assert.match(wooInventory, /\.POST\(/);
   assert.match(paymentConfiguration, /mutation UpdateOrderPayment/);
   assert.match(
     paymentConfiguration,
-    /"X-Authenticated-Scopes", "orders:write"/,
+    /WpGraphqlAuthentication\.bearerToken/,
   );
   assert.doesNotMatch(paymentConfiguration, /\/wp-json\/wc\/v3\/orders/);
 
@@ -105,7 +105,6 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
     'identity-subgraph',
     'commerce-subgraph',
     'payment-processor',
-    'wordpress-federation',
     'apollo-mcp',
   ]) {
     assert.match(compose, new RegExp(`^  ${service}:`, 'm'));
@@ -117,7 +116,7 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
   );
   assert.match(
     compose,
-    /payment-processor:[\s\S]*?WORDPRESS_GRAPHQL_URL: http:\/\/wordpress-federation:3004\/graphql/,
+    /payment-processor:[\s\S]*?WORDPRESS_GRAPHQL_URL: http:\/\/wordpress\/graphql/,
   );
   assert.match(
     compose,

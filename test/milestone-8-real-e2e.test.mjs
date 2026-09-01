@@ -15,7 +15,6 @@ test('AC-078: acceptance executes the production topology @spec:AC-078', async (
     'commerce-subgraph',
     'commerce-database',
     'rabbitmq',
-    'wordpress-federation',
     'payment-processor',
     'wordpress',
     'apollo-mcp',

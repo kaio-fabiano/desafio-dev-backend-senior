@@ -5,7 +5,6 @@ import test from 'node:test';
 const applications = [
   'gateway',
   'identity-subgraph',
-  'wordpress-federation',
   'payment-processor',
   'apollo-mcp',
 ];

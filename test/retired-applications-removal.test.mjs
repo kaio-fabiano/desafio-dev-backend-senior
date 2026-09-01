@@ -14,7 +14,15 @@ const retiredRoots = [
 
 test('AC-104: retired application roots no longer exist @spec:AC-104', async () => {
   const projects = JSON.parse(
-    (await execute('pnpm', ['exec', 'nx', 'show', 'projects'])).stdout,
+    (
+      await execute('corepack', [
+        'pnpm@10.17.1',
+        'exec',
+        'nx',
+        'show',
+        'projects',
+      ])
+    ).stdout,
   );
 
   for (const root of retiredRoots) {

@@ -9,7 +9,6 @@ const deployableProjects = [
   'apps/identity-subgraph/project.json',
   'apps/commerce-subgraph/project.json',
   'apps/payment-processor/project.json',
-  'apps/wordpress-federation/project.json',
 ];
 const deployableProjectNames = [
   '@desafio-dev-backend-senior/apollo-mcp',
@@ -17,7 +16,6 @@ const deployableProjectNames = [
   '@desafio-dev-backend-senior/identity-subgraph',
   '@desafio-dev-backend-senior/commerce-subgraph',
   '@desafio-dev-backend-senior/payment-processor',
-  '@desafio-dev-backend-senior/wordpress-federation',
 ];
 
 function composeServiceNames(source) {
@@ -30,7 +28,7 @@ function supergraphNames(source) {
   return [...subgraphs.matchAll(/^  ([\w-]+):$/gm)].map(([, name]) => name);
 }
 
-test('AC-090: only six deployable applications and the E2E project remain active @spec:AC-090', async () => {
+test('AC-090: only five deployable applications and the E2E project remain active @spec:AC-090', async () => {
   const [compose, projects, e2e, allProjects] = await Promise.all([
     readFile('compose.yaml', 'utf8'),
     Promise.all(
@@ -71,7 +69,6 @@ test('AC-090: only six deployable applications and the E2E project remain active
         'identity-subgraph',
         'payment-processor',
         'stock-worker',
-        'wordpress-federation',
       ].includes(name),
     ),
     [
@@ -80,7 +77,6 @@ test('AC-090: only six deployable applications and the E2E project remain active
       'identity-subgraph',
       'commerce-subgraph',
       'payment-processor',
-      'wordpress-federation',
     ],
   );
 });
@@ -99,7 +95,7 @@ test('AC-098: Commerce workflow and Java inventory consumers use the active topo
     ]);
 
   const services = composeServiceNames(compose);
-  assert.ok(services.includes('wordpress-federation'));
+  assert.ok(services.includes('wordpress'));
   assert.ok(services.includes('payment-processor'));
   assert.ok(services.includes('commerce-subgraph'));
   assert.ok(!services.includes('stock-worker'));
@@ -118,7 +114,7 @@ test('AC-098: Commerce workflow and Java inventory consumers use the active topo
     activeComponents,
     'the E2E environment must declare active services',
   );
-  assert.match(activeComponents, /'wordpress-federation'/);
+  assert.match(activeComponents, /'wordpress'/);
   assert.match(activeComponents, /'commerce-subgraph'/);
   assert.match(activeComponents, /'rabbitmq'/);
   assert.doesNotMatch(activeComponents, /'stock-worker'/);
