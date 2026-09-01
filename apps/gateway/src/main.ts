@@ -1,6 +1,6 @@
-import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { json, type NextFunction, type Request, type Response } from 'express';
+import 'reflect-metadata';
 
 import { AppModule } from './app.module.ts';
 import { createCommerceSubscriptionClient } from './subscriptions/commerce-subscription.client.ts';
