@@ -45,7 +45,7 @@
 ## T-090 — Add optional end-to-end observability [concluida]
 
 - Refs: US-058, AC-115
-- Arquivos: package.json, pnpm-lock.yaml, libs/platform/nest/src, apps/gateway/src/main.ts, apps/identity-subgraph/src/main.ts, apps/commerce-subgraph/src, apps/wordpress-federation/src/main.ts, apps/payment-processor, compose.yaml, infra/observability/otel-collector.yaml, docs/runbooks/observability.md, test/delivery-closure-observability.test.mjs
+- Arquivos: package.json, pnpm-lock.yaml, libs/platform/nest/src, apps/gateway/src/main.ts, apps/identity-subgraph/src/main.ts, apps/commerce-subgraph/src, apps/payment-processor, compose.yaml, infra/observability/otel-collector.yaml, docs/runbooks/observability.md, test/delivery-closure-observability.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Use standard OpenTelemetry propagation and an opt-in local collector/backend; instrument the restored RabbitMQ path rather than a reduced topology.
@@ -53,7 +53,7 @@
 ## T-091 — Reconcile documentation and close every gate [concluida]
 
 - Refs: US-058, AC-116
-- Arquivos: README.md, docs/evidence/challenge-compliance.md, docs/evidence/milestone-8/requirements.md, docs/prds/08-riscos-e-decisoes-pendentes.md, docs/adrs/004-restricoes-de-entrega.md, docs/adrs/007-federated-platform-boundaries.md, docs/runbooks, .spec/features/milestone-6-apollo-mcp/spec.md, .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md, .spec/verification/delivery-closure.json, libs/wordpress/nest/src/federation/wordpress-federation.module.ts
+- Arquivos: README.md, docs/evidence/challenge-compliance.md, docs/evidence/milestone-8/requirements.md, docs/prds/08-riscos-e-decisoes-pendentes.md, docs/adrs/004-restricoes-de-entrega.md, docs/adrs/007-federated-platform-boundaries.md, docs/runbooks, .spec/features/milestone-6-apollo-mcp/spec.md, .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md, .spec/verification/delivery-closure.json, test/remove-wordpress-federation-runtime.spec.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Preserve the staged import-order correction, incorporate the owner deadline answer, run all quality and acceptance gates, verify, audit, and remove generated Graphify query state from the delivery.

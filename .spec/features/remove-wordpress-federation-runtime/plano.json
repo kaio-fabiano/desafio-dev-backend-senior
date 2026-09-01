@@ -1,0 +1,140 @@
+{
+  "runId": "desafio-dev-backend-senior-remove-wordpress-federation-runtime-mthuo64i",
+  "feature": "remove-wordpress-federation-runtime",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-002",
+    "T-003",
+    "T-004"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-08-31 23:08",
+  "branchTrabalho": "spec/remove-wordpress-federation-runtime",
+  "baseDir": ".spec/features/remove-wordpress-federation-runtime",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-remove-wordpress-federation-runtime-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/remove-wordpress-federation-runtime-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-remove-wordpress-federation-runtime-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-002",
+          "titulo": "Route integrations directly to native WordPress",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "libs/gateway/nest/src/gateway.module.ts",
+            "libs/contracts/graphql/supergraph.yaml",
+            "compose.yaml",
+            "apps/wordpress-integration/compose.yaml",
+            "apps/wordpress-integration/scripts/install-plugins.sh",
+            "apps/e2e/src/environment.ts"
+          ],
+          "refs": [
+            "US-059",
+            "AC-117",
+            "AC-120"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/remove-wordpress-federation-runtime-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-remove-wordpress-federation-runtime-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-003",
+          "titulo": "Remove the redundant WordPress NestJS runtime",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/wordpress-federation",
+            "libs/wordpress/nest",
+            "package.json",
+            "tsconfig.base.json",
+            "test/wordpress-federation-refactor.test.mjs",
+            "test/order-subscription-refactor.test.mjs",
+            "test/typescript-editor-stability.test.mjs",
+            "test/milestone-7-nx-quality.test.mjs",
+            "test/milestone-7-containers.test.mjs",
+            "test/milestone-7-e2e-contract.test.mjs",
+            "test/milestone-8-real-e2e.test.mjs",
+            "test/delivery-closure-inventory-saga.test.mjs"
+          ],
+          "refs": [
+            "US-059",
+            "AC-118",
+            "AC-119"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/remove-wordpress-federation-runtime-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-remove-wordpress-federation-runtime-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-004",
+          "titulo": "Align architecture documentation with the plugin-first topology",
+          "modelo": "gpt-5.6-luna",
+          "esforco": "low",
+          "arquivos": [
+            "README.md",
+            "docs/adrs/003-wordpress-federation.md",
+            "docs/adrs/007-federated-platform-boundaries.md",
+            "docs/adrs/README.md",
+            "docs/prds/01-arquitetura-e-dominio.md",
+            "docs/knowledge/Mapa do Projeto.md",
+            "docs/runbooks/local-development.md",
+            "docs/runbooks/e2e.md",
+            "docs/evidence/federated-platform-refactor/review.md"
+          ],
+          "refs": [
+            "US-059",
+            "AC-117",
+            "AC-118",
+            "AC-119",
+            "AC-120"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-001",
+      "titulo": "Define direct WordPress federation acceptance contracts",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "test/wordpress-direct-federation.test.mjs",
+        "test/five-app-topology.test.mjs",
+        "test/federated-platform-refactor.test.mjs",
+        "test/architecture-boundaries.test.mjs"
+      ],
+      "refs": [
+        "US-059",
+        "AC-117",
+        "AC-118",
+        "AC-119",
+        "AC-120"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

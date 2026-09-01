@@ -126,11 +126,11 @@ As an authenticated buyer, I want to subscribe to my order transitions through
 a documented GraphQL subscription endpoint so that real-time delivery does not
 depend on custom gateway transport code.
 
-#### AC-102 — NestJS manages the subscription lifecycle
+#### AC-102 — Commerce manages the subscription lifecycle
 
 - **Dado** an authenticated order subscription
 - **Quando** it opens, receives transitions, or is cancelled
-- **Então** a `graphql-sse` handler uses the executable schema produced by the NestJS Apollo application while NestJS providers manage authentication, filtering, cleanup, and delivery outside the federation gateway
+- **Então** Commerce manages filtering, cleanup, and event delivery while the authenticated gateway SSE edge delegates the stream without a second WordPress subscription runtime
 
 ### US-052 — Reviewable technical challenge
 

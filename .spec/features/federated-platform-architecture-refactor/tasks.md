@@ -38,13 +38,13 @@
 - Arquivos: apps/gateway/src/main.ts, apps/gateway/src/app.module.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, libs/gateway/nest/src/auth/token-verifier.service.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/gateway/nest/src/gateway.module.ts, libs/gateway/nest/src/index.ts, libs/gateway/nest/project.json, libs/gateway/nest/tsconfig.json, libs/gateway/nest/tsconfig.lib.json, test/gateway-federation-refactor.test.mjs
 - Notas: Remove catalog/order loaders and subscription proxy from the gateway. Authentication and safe identity propagation remain providers because they are edge responsibilities.
 
-## T-069 — Build the thin WordPress Federation adapter [concluida]
+## T-069 — Configure the native WordPress Federation plugin [concluida]
 
 - Refs: US-049, AC-097, AC-098, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/wordpress-federation/src/main.ts, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/project.json, apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/publish-subgraph.mjs, libs/wordpress/nest/src/federation/wordpress-federation.module.ts, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts, libs/wordpress/nest/src/index.ts, libs/wordpress/nest/project.json, libs/wordpress/nest/tsconfig.json, libs/wordpress/nest/tsconfig.lib.json, libs/contracts/graphql/wordpress/schema.graphql, test/wordpress-federation-refactor.test.mjs
-- Notas: Start with WPGraphQL, WPGraphQL for WooCommerce, and federation plugin capabilities. Evaluate an established schema delegation library before custom remote execution. The NestJS adapter must not duplicate WPGraphQL loaders, Model Layer authorization, commercial repositories, or WooCommerce CRUD objects.
+- Arquivos: apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/publish-subgraph.mjs, libs/contracts/graphql/wordpress/schema.graphql, test/remove-wordpress-federation-runtime.spec.test.mjs
+- Notas: WPGraphQL, WPGraphQL for WooCommerce, and the federation plugin provide the subgraph directly without a NestJS adapter or duplicate commercial models.
 
 ## T-070 — Refactor Payment as a Spring GraphQL Federation bounded context [concluida]
 
@@ -54,13 +54,13 @@
 - Arquivos: apps/payment-processor/build.gradle.kts, apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java, apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePayment.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePaymentHandler.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPayment.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/query/PaymentView.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPaymentHandler.java, apps/payment-processor/src/main/java/dev/desafio/payment/graphql/PaymentController.java, apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java, apps/payment-processor/src/main/resources/graphql/payment.graphqls, apps/payment-processor/src/test/java/dev/desafio/payment/PaymentFederationTest.java, libs/contracts/graphql/payment/schema.graphql, test/payment-federation-refactor.test.mjs
 - Notas: Use Spring GraphQL Federation support before custom federation code. Keep CQRS lightweight: explicit command/query handlers, no Axon or event sourcing.
 
-## T-071 — Move order subscriptions outside the federation gateway [concluida]
+## T-071 — Keep order subscriptions in Commerce behind the gateway SSE edge [concluida]
 
 - Refs: US-051, AC-102, US-048, AC-095
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/wordpress/nest/src/subscriptions/order-event.resolver.ts, libs/wordpress/nest/src/subscriptions/order-event.service.ts, libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts, libs/wordpress/nest/src/subscriptions/graphql-sse.adapter.ts, libs/wordpress/nest/src/subscriptions/subscriptions.module.ts, libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, libs/wordpress/nest/src/federation/wordpress-federation.module.ts, libs/wordpress/nest/src/index.ts, test/order-subscription-refactor.test.mjs
-- Notas: Preserve GraphQL-over-SSE. After Nest initialization, obtain the executable Apollo schema through `GraphQLSchemaHost` and pass the same instance to the official `graphql-sse` handler. Do not rebuild or fetch a second schema, and do not proxy the stream through the gateway.
+- Arquivos: apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/commerce-subscription.client.ts, apps/commerce-subgraph/src/subscriptions/sse-handler.ts, test/remove-wordpress-federation-runtime.spec.test.mjs
+- Notas: Preserve GraphQL-over-SSE at the authenticated gateway edge while Commerce remains the single owner of order-event publication and filtering.
 
 ## T-072 — Integrate the federated topology and retire the Stock runtime [concluida]
 
@@ -83,7 +83,7 @@
 - Refs: US-048, AC-096, US-049, AC-097
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts, libs/identity/nest/src/auth/registration.service.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/wordpress/nest/src/federation/wpgraphql-auth.factory.ts, test/identity-federation-refactor.test.mjs, test/gateway-federation-refactor.test.mjs, test/wordpress-federation-refactor.test.mjs
+- Arquivos: apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts, libs/identity/nest/src/auth/registration.service.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, test/identity-federation-refactor.test.mjs, test/gateway-federation-refactor.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs
 - Notas: Install and pin WPGraphQL Headless Login, configure Better Auth as the sole OAuth/OIDC provider, and use the plugin-issued WordPress/WooCommerce session instead of custom HMAC identity headers. Preserve independent WordPress authorization and never expose the Site Token to clients.
 
 ## T-075 — Replace custom order and payment GraphQL operations with native owner APIs [concluida]
@@ -91,23 +91,23 @@
 - Refs: US-049, AC-097, AC-098, US-050, AC-100, AC-101
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/e2e/src/journey.ts, apps/payment-processor/src/main/java/dev/desafio/payment, libs/contracts/graphql/wordpress/schema.graphql, libs/wordpress/nest/src/federation/wpgraphql-client.service.ts, test/payment-federation-refactor.test.mjs, test/wordpress-federation-refactor.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Arquivos: apps/e2e/src/journey.ts, apps/payment-processor/src/main/java/dev/desafio/payment, libs/contracts/graphql/wordpress/schema.graphql, test/payment-federation-refactor.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
 - Notas: Use WooGraphQL checkout/order fields for buyer operations and the authenticated WooCommerce REST owner API for service-side payment transitions. Buyers must never be able to mark their own order paid. Keep Payment idempotency in the Payment bounded context.
 
-## T-076 — Feed order subscriptions from native WooCommerce webhooks [concluida]
+## T-076 — Feed order subscriptions from Commerce events [concluida]
 
 - Refs: US-051, AC-102, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: compose.yaml, libs/wordpress/nest/src/subscriptions/wordpress-checkout-event.source.ts, libs/wordpress/nest/src/subscriptions/subscriptions.module.ts, libs/wordpress/nest/src/subscriptions/subscription-auth.guard.ts, test/order-subscription-refactor.test.mjs, test/milestone-7-e2e-contract.test.mjs
-- Notas: Configure a signed native WooCommerce order webhook to an internal NestJS endpoint and publish authorized GraphQL-over-SSE events from it. Remove coupling to custom mutation names and preserve cleanup, isolation, and terminal-event semantics.
+- Arquivos: compose.yaml, apps/commerce-subgraph/src/subscriptions, apps/gateway/src/subscriptions, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Notas: Publish authorized GraphQL-over-SSE events from Commerce and preserve cleanup, isolation, and terminal-event semantics through the gateway edge.
 
 ## T-077 — Delete the marketplace MU-plugin and prove the plugin-first topology [concluida]
 
 - Refs: US-049, AC-097, AC-098, US-052, AC-103
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/probe.mjs, compose.yaml, libs/contracts/graphql/wordpress/schema.graphql, test/milestone-8-wordpress-inventory-plugin.test.mjs, test/wordpress-federation-refactor.test.mjs, test/five-app-topology.test.mjs, test/federated-platform-quality.test.mjs
+- Arquivos: apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/probe.mjs, compose.yaml, libs/contracts/graphql/wordpress/schema.graphql, test/milestone-8-wordpress-inventory-plugin.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/five-app-topology.test.mjs, test/federated-platform-quality.test.mjs
 - Notas: Remove the custom GraphQL types, order/payment mutations, identity filter, API-key authentication, and inventory route. Prove that WPGraphQL, WooGraphQL, WPGraphQL Federations, Headless Login, WooCommerce REST, and native webhooks cover every retained capability.
 
 ## T-078 — Re-run acceptance and publish the native-plugin walkthrough [concluida]
@@ -123,7 +123,7 @@
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
-- Arquivos: package.json, pnpm-lock.yaml, tsconfig.base.json, tsconfig.json, eslint.config.mjs, compose.yaml, apps/gateway/Dockerfile, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/Dockerfile, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/payment-processor/project.json, apps/wordpress-federation/src/app.module.ts, apps/wordpress-federation/src/main.ts, libs/platform/nest/tsconfig.lib.json, libs/wordpress/nest/src/subscriptions/woocommerce-webhook.controller.ts, test/gateway-federation-refactor.test.mjs, test/identity-federation-refactor.test.mjs
+- Arquivos: package.json, pnpm-lock.yaml, tsconfig.base.json, tsconfig.json, eslint.config.mjs, compose.yaml, apps/gateway/Dockerfile, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/Dockerfile, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/payment-processor/project.json, libs/platform/nest/tsconfig.lib.json, test/gateway-federation-refactor.test.mjs, test/identity-federation-refactor.test.mjs
 - Notas: Add only the missing installed type declaration and replace cross-project relative imports with the existing workspace-scoped package entry points. Do not weaken Nx boundary rules or TypeScript strictness.
 
 ## T-080 — Re-run the pull-request gates and merge into main [concluida]

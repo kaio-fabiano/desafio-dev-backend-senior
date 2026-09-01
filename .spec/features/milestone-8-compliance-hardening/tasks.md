@@ -32,7 +32,7 @@
 
 ## T-058 — Replace the simulated E2E with the delivered system [concluida]
 - Refs: US-040, US-041, US-042, AC-078, AC-079, AC-080, AC-081, AC-082, AC-084
-- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/identity-subgraph/project.json, apps/gateway/project.json, apps/wordpress-federation/project.json, apps/payment-processor/build.gradle.kts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
+- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/identity-subgraph/project.json, apps/gateway/project.json, apps/payment-processor/build.gradle.kts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Depends on T-055 through T-057. Build and run the actual images and assert through public protocols only.

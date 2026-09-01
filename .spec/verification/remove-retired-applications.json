@@ -1,11 +1,11 @@
 {
   "feature": "remove-retired-applications",
-  "timestamp": "2026-08-31T21:56:10.652Z",
-  "gitRev": "57963cf",
+  "timestamp": "2026-09-01T01:03:04.833Z",
+  "gitRev": "5c5a37a",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 113,
+  "testsParsed": 110,
   "results": {
     "AC-104": {
       "status": "pass",

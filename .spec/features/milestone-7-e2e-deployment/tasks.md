@@ -11,7 +11,7 @@
 
 ## T-047 — Complete the cross-language Nx quality graph [concluida]
 - Refs: US-038, AC-074
-- Arquivos: nx.json, package.json, apps/gateway/project.json, apps/identity-subgraph/project.json, apps/wordpress-federation/project.json, apps/payment-processor/project.json, test/milestone-7-nx-quality.test.mjs
+- Arquivos: nx.json, package.json, apps/gateway/project.json, apps/identity-subgraph/project.json, apps/payment-processor/project.json, test/milestone-7-nx-quality.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Reuse Nx targets and native dynamic output; add no custom TUI and no duplicate task runner.

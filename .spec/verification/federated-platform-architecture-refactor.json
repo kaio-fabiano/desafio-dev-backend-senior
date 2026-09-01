@@ -1,15 +1,15 @@
 {
   "feature": "federated-platform-architecture-refactor",
-  "timestamp": "2026-08-31T21:33:12.974Z",
-  "gitRev": "57963cf",
+  "timestamp": "2026-09-01T00:39:23.271Z",
+  "gitRev": "5c5a37a",
   "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 113,
+  "testsParsed": 110,
   "results": {
     "AC-090": {
       "status": "pass",
-      "testName": "AC-090: the target contains six deployable applications and one test project @spec:AC-090",
+      "testName": "AC-090: the target contains five deployable applications and one test project @spec:AC-090",
       "method": "tap"
     },
     "AC-091": {
@@ -44,7 +44,7 @@
     },
     "AC-097": {
       "status": "pass",
-      "testName": "AC-097: native WordPress plugins provide the delegated commercial graph @spec:AC-097",
+      "testName": "AC-117: Direct plugin subgraph @spec:AC-117 @spec:AC-097",
       "method": "tap"
     },
     "AC-098": {
@@ -69,7 +69,7 @@
     },
     "AC-102": {
       "status": "pass",
-      "testName": "AC-102: NestJS providers own authenticated order subscription filtering and cleanup @spec:AC-102",
+      "testName": "AC-118: Single subscription owner @spec:AC-118 @spec:AC-102",
       "method": "tap"
     },
     "AC-103": {
