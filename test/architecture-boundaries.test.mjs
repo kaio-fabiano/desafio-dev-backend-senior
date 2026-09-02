@@ -22,7 +22,7 @@ const contexts = [
   ['identity', ['identity-subgraph', '/identity/', '.identity.']],
   ['inventory', ['stock-worker', '/inventory/', '.inventory.']],
   ['mcp', ['apollo-mcp', '/mcp/', '.mcp.']],
-  ['payment', ['payment-processor', '/payment/', '.payment.']],
+  ['payment', ['payment-federation', '/payment/', '.payment.']],
   [
     'wordpress',
     [

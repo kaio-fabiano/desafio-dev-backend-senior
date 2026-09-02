@@ -30,7 +30,7 @@
 
 ## T-112 — Isolar Payment, Inventory e porta de provedor [concluida]
 - Refs: US-070, AC-145, US-072, AC-148, AC-149
-- Arquivos: apps/payment-processor/src/main/java/dev/desafio/payment, apps/payment-processor/src/main/java/dev/desafio/payment/inventory, apps/payment-processor/src/test/java/dev/desafio/payment, apps/payment-processor/src/test/java/dev/desafio/payment/inventory
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/payment, apps/payment-federation/src/main/java/dev/desafio/payment/inventory, apps/payment-federation/src/test/java/dev/desafio/payment, apps/payment-federation/src/test/java/dev/desafio/payment/inventory
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 

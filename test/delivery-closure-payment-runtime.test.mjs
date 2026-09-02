@@ -15,26 +15,26 @@ test('AC-111: Payment delivery is reliable and idempotent @spec:AC-111', async (
     migration,
     yaml,
   ] = await Promise.all([
-    read('apps/payment-processor/build.gradle.kts'),
+    read('apps/payment-federation/build.gradle.kts'),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
     ),
     read(
-      'apps/payment-processor/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java',
+      'apps/payment-federation/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
     ),
     read(
-      'apps/payment-processor/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java',
+      'apps/payment-federation/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java',
     ),
     read(
-      'apps/payment-processor/src/main/resources/db/migration/V1__payment_inbox_outbox.sql',
+      'apps/payment-federation/src/main/resources/db/migration/V1__payment_inbox_outbox.sql',
     ),
-    read('apps/payment-processor/src/main/resources/application.yaml'),
+    read('apps/payment-federation/src/main/resources/application.yaml'),
   ]);
 
   assert.match(build, /spring-boot-starter-amqp/);

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: payment-processor
+    name: payment-federation
   lifecycle:
     timeout-per-shutdown-phase: 30s
   rabbitmq:

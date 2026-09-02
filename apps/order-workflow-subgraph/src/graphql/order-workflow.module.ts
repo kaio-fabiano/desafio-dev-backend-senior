@@ -26,6 +26,7 @@ import { MikroOrmOrderEventReplay } from '../subscriptions/mikro-orm-order-event
 import { OrderEventBroker } from '../subscriptions/order-event-broker.ts';
 import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
 import { PostgresOrderEventRelay } from '../subscriptions/postgres-order-event.relay.ts';
+import { FederationAuthGuard } from './federation-auth.guard.ts';
 import { OrderWorkflowOperationsService } from './order-workflow-operations.service.ts';
 import {
   ORDER_WORKFLOW_OPERATIONS,
@@ -39,12 +40,11 @@ import {
   OUTBOX_REPOSITORY,
   WOO_CHECKOUT,
 } from './order-workflow.tokens.ts';
-import { FederationAuthGuard } from './federation-auth.guard.ts';
 import { SubjectOwnerGuard } from './subject-owner.guard.ts';
 
 export {
   ORDER_WORKFLOW_ENTITY_MANAGER,
-  ORDER_WORKFLOW_ORM,
+  ORDER_WORKFLOW_ORM
 } from './order-workflow.tokens.ts';
 
 function requiredEnvironment(name: string): string {
@@ -93,7 +93,10 @@ export function orderWorkflowRequestContext({
     {
       provide: WOO_CHECKOUT,
       useFactory: () =>
-        createWooCheckoutAdapter(requiredEnvironment('WORDPRESS_URL')),
+        createWooCheckoutAdapter(requiredEnvironment('WORDPRESS_URL'), {
+          consumerKey: requiredEnvironment('WOO_CONSUMER_KEY'),
+          consumerSecret: requiredEnvironment('WOO_CONSUMER_SECRET'),
+        }),
     },
     {
       provide: CHECKOUT_REPOSITORY,

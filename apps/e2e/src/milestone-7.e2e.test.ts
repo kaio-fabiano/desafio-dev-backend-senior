@@ -16,7 +16,7 @@ const requiredComponents = [
   'wordpress-setup',
   'identity-subgraph',
   'order-workflow-subgraph',
-  'payment-processor',
+  'payment-federation',
   'gateway',
   'apollo-mcp',
 ];

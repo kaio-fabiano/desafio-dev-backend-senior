@@ -45,8 +45,8 @@ Thumbs.db
 .claude/settings.local.json
 
 # local Gradle state and compiled Payment artifacts
-/apps/payment-processor/.gradle/
-/apps/payment-processor/build/
+/apps/payment-federation/.gradle/
+/apps/payment-federation/build/
 
 # Graphify publishes only portable, clone-ready outputs.
 /graphify-out/**

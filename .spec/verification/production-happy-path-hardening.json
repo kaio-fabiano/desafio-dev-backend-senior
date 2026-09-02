@@ -1,11 +1,11 @@
 {
   "feature": "production-happy-path-hardening",
-  "timestamp": "2026-09-01T23:03:25.757Z",
-  "gitRev": "d217645",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-02T06:38:33.529Z",
+  "gitRev": "293a98b",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 131,
+  "testsParsed": 139,
   "results": {
     "AC-131": {
       "status": "pass",

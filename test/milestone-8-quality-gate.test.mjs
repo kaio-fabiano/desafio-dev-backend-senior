@@ -5,7 +5,7 @@ import test from 'node:test';
 test('@spec:AC-085 quality commands use workspace and containerized tools', async () => {
   const [rootPackage, paymentProject, eslintConfig] = await Promise.all([
     readFile('package.json', 'utf8'),
-    readFile('apps/payment-processor/project.json', 'utf8'),
+    readFile('apps/payment-federation/project.json', 'utf8'),
     readFile('eslint.config.mjs', 'utf8'),
   ]);
 

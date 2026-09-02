@@ -40,7 +40,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(gatewayModule, /AuthenticatedDataSource/);
   assert.match(gatewayModule, /AuthContextFactory/);
   assert.match(gatewayModule, /http:\/\/wordpress\/graphql/);
-  assert.match(gatewayModule, /payment-processor:8080\/graphql/);
+  assert.match(gatewayModule, /payment-federation:8080\/graphql/);
   assert.match(gatewayModule, /order-workflow-subgraph:3003\/graphql/);
   assert.doesNotMatch(gatewayModule, /stock-worker/);
   assert.doesNotMatch(

@@ -44,7 +44,7 @@ jobs:
       - run: pnpm exec nx run-many -t lint test build typecheck
       - run: pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-6-acceptance
       - run: docker compose --file compose.yaml config --quiet
-      - run: docker build --file apps/payment-processor/Dockerfile .
+      - run: docker build --file apps/payment-federation/Dockerfile .
       - run: pnpm run acceptance:milestone-7
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: pnpm exec nx fix-ci

@@ -52,6 +52,7 @@ services:
       WORDPRESS_DB_USER: wordpress
     user: '33:33'
     volumes:
+      - ./plugins:/integration/plugins:ro
       - wordpress-data:/var/www/html
 
 volumes:

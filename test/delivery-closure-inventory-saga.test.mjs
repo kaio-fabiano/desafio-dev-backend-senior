@@ -18,28 +18,28 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
   ] = await Promise.all([
     read('apps/order-workflow-subgraph/src/saga/order-saga.ts'),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/inventory/InventoryRepository.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/InventoryRepository.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/inventory/InventoryService.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/InventoryService.java',
     ),
     read(
-      'apps/payment-processor/src/main/resources/db/migration/V2__inventory_inbox_outbox.sql',
+      'apps/payment-federation/src/main/resources/db/migration/V2__inventory_inbox_outbox.sql',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java',
     ),
   ]);
 
@@ -84,14 +84,14 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
   ] = await Promise.all([
     read('compose.yaml'),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
     ),
-    read('apps/payment-processor/Dockerfile'),
+    read('apps/payment-federation/Dockerfile'),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
     ),
     read(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
     ),
   ]);
 
@@ -105,7 +105,7 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
     'gateway',
     'identity-subgraph',
     'order-workflow-subgraph',
-    'payment-processor',
+    'payment-federation',
     'apollo-mcp',
   ]) {
     assert.match(compose, new RegExp(`^  ${service}:`, 'm'));
@@ -113,17 +113,17 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
   assert.doesNotMatch(compose, /^ {2}stock-worker:/m);
   assert.match(
     compose,
-    /payment-processor:[\s\S]*?RABBITMQ_URL: amqp:\/\/rabbitmq:5672/,
+    /payment-federation:[\s\S]*?RABBITMQ_URL: amqp:\/\/rabbitmq:5672/,
   );
   assert.match(
     compose,
-    /payment-processor:[\s\S]*?WORDPRESS_GRAPHQL_URL: http:\/\/wordpress\/graphql/,
+    /payment-federation:[\s\S]*?WORDPRESS_GRAPHQL_URL: http:\/\/wordpress\/graphql/,
   );
   assert.match(
     compose,
-    /payment-processor:[\s\S]*?rabbitmq:\n {8}condition: service_healthy/,
+    /payment-federation:[\s\S]*?rabbitmq:\n {8}condition: service_healthy/,
   );
-  assert.match(configuration, /PAYMENT_QUEUE = "payment-processor\.v1"/);
+  assert.match(configuration, /PAYMENT_QUEUE = "payment-federation\.v1"/);
   assert.match(
     configuration,
     /INVENTORY_QUEUE = "payment-federation\.inventory\.v1"/,

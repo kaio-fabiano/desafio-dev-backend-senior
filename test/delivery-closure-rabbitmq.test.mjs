@@ -100,7 +100,9 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
   let wooOrderCreations = 0;
   const wooOrders = createWooCheckoutAdapter(
     'http://wordpress',
+    { consumerKey: 'commerce-key', consumerSecret: 'commerce-secret' },
     async (_url, init) => {
+      if (init?.method === 'GET') return Response.json([]);
       const body = JSON.parse(String(init?.body));
       if (body.query.includes('mutation Checkout')) {
         wooOrderCreations += 1;
@@ -120,11 +122,7 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
           },
         });
       }
-      return Response.json({
-        data: {
-          customer: { orders: { nodes: [], pageInfo: { hasNextPage: false } } },
-        },
-      });
+      throw new Error('Unexpected WooCommerce request');
     },
   );
   const concurrentOrders = await Promise.all(
@@ -255,7 +253,7 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
   assert.match(compose, /^\s{2}order-workflow-subgraph:/m);
   assert.match(compose, /RABBITMQ_URL: amqp:\/\/rabbitmq:5672/);
   assert.match(runtime, /consumeWithRetry/);
-  assert.doesNotMatch(runtime, /fetch\(|payment-processor|stock-worker/);
+  assert.doesNotMatch(runtime, /fetch\(|payment-federation|stock-worker/);
   assert.match(
     workflowSchema,
     /startCheckout\(input: OrderWorkflowCheckoutInput!\): Order!/,

@@ -28,7 +28,7 @@ test('AC-090: the target contains five deployable applications and one test proj
       name: 'Order Workflow Federation',
       path: 'apps/order-workflow-subgraph',
     },
-    { name: 'Payment Federation', path: 'apps/payment-processor' },
+    { name: 'Payment Federation', path: 'apps/payment-federation' },
   ]);
   assert.deepEqual(contract.nonDeployableProjects, [
     { name: 'End-to-end tests', path: 'apps/e2e' },

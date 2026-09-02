@@ -46,7 +46,7 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
         "test/identity-federation-refactor.test.mjs",
         "test/gateway-federation-refactor.test.mjs",
         "test/remove-wordpress-federation-runtime.spec.test.mjs",
-        "apps/payment-processor/src/test/java/dev/desafio/payment/PaymentFederationTest.java"
+        "apps/payment-federation/src/test/java/dev/desafio/payment/PaymentFederationTest.java"
       ]
     },
     {
@@ -106,13 +106,13 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
     },
     {
       "name": "Payment Federation",
-      "path": "apps/payment-processor",
+      "path": "apps/payment-federation",
       "responsibility": "Own payment invariants, idempotent commands, dedicated read views, and payment graph fields.",
       "providerBoundary": "Spring configuration binds the aggregate handler, focused command/query handlers, JDBC view, and GraphQL Federation adapter.",
       "domainDecision": "Selective CQRS separates invariant-bearing writes from direct payment views without adding a command bus.",
       "omittedAbstraction": "No Axon, event sourcing, generic CQRS framework, or WooCommerce persistence access.",
       "evidence": [
-        "apps/payment-processor/src/test/java/dev/desafio/payment/PaymentFederationTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/payment/PaymentFederationTest.java",
         "test/architecture-boundaries.test.mjs"
       ]
     },

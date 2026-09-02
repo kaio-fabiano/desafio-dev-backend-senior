@@ -8,14 +8,14 @@ const deployableProjects = [
   'apps/gateway/project.json',
   'apps/identity-subgraph/project.json',
   'apps/order-workflow-subgraph/project.json',
-  'apps/payment-processor/project.json',
+  'apps/payment-federation/project.json',
 ];
 const deployableProjectNames = [
   '@desafio-dev-backend-senior/apollo-mcp',
   '@desafio-dev-backend-senior/gateway',
   '@desafio-dev-backend-senior/identity-subgraph',
   '@desafio-dev-backend-senior/order-workflow-subgraph',
-  '@desafio-dev-backend-senior/payment-processor',
+  '@desafio-dev-backend-senior/payment-federation',
 ];
 
 function composeServiceNames(source) {
@@ -67,7 +67,7 @@ test('AC-090: only five deployable applications and the E2E project remain activ
         'order-workflow-subgraph',
         'gateway',
         'identity-subgraph',
-        'payment-processor',
+        'payment-federation',
         'stock-worker',
       ].includes(name),
     ),
@@ -76,7 +76,7 @@ test('AC-090: only five deployable applications and the E2E project remain activ
       'apollo-mcp',
       'identity-subgraph',
       'order-workflow-subgraph',
-      'payment-processor',
+      'payment-federation',
     ],
   );
 });
@@ -87,16 +87,16 @@ test('AC-098: OrderWorkflow workflow and Java inventory consumers use the active
       readFile('compose.yaml', 'utf8'),
       readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
       readFile('apps/e2e/src/environment.ts', 'utf8'),
-      readFile('apps/payment-processor/build.gradle.kts', 'utf8'),
+      readFile('apps/payment-federation/build.gradle.kts', 'utf8'),
       readFile(
-        'apps/payment-processor/src/main/resources/application.yaml',
+        'apps/payment-federation/src/main/resources/application.yaml',
         'utf8',
       ),
     ]);
 
   const services = composeServiceNames(compose);
   assert.ok(services.includes('wordpress'));
-  assert.ok(services.includes('payment-processor'));
+  assert.ok(services.includes('payment-federation'));
   assert.ok(services.includes('order-workflow-subgraph'));
   assert.ok(!services.includes('stock-worker'));
   assert.deepEqual(supergraphNames(supergraph), [
@@ -128,9 +128,9 @@ test('AC-099: Payment is composed as the Spring GraphQL Federation subgraph @spe
     await Promise.all([
       readFile('compose.yaml', 'utf8'),
       readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
-      readFile('apps/payment-processor/project.json', 'utf8').then(JSON.parse),
+      readFile('apps/payment-federation/project.json', 'utf8').then(JSON.parse),
       readFile(
-        'apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
+        'apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
         'utf8',
       ),
       Promise.all(
@@ -147,9 +147,9 @@ test('AC-099: Payment is composed as the Spring GraphQL Federation subgraph @spe
 
   assert.match(
     supergraph,
-    /payment:\n\s+routing_url: http:\/\/payment-processor:8080\/graphql\n\s+schema:\n\s+file: \.\/payment\/schema\.graphql/,
+    /payment:\n\s+routing_url: http:\/\/payment-federation:8080\/graphql\n\s+schema:\n\s+file: \.\/payment\/schema\.graphql/,
   );
-  assert.match(compose, /^  payment-processor:\n[\s\S]*?SERVER_PORT: 8080/m);
+  assert.match(compose, /^  payment-federation:\n[\s\S]*?SERVER_PORT: 8080/m);
   assert.equal(project.tags.includes('scope:payment'), true);
   assert.match(project.targets.build.options.command, /gradle.*bootJar/);
   assert.match(springConfiguration, /FederationSchemaFactory/);

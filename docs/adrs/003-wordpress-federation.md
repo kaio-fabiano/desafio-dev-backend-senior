@@ -33,6 +33,13 @@ node apps/wordpress-integration/scripts/probe.mjs
 node --test --test-reporter=tap test/marco-0-wordpress.test.mjs
 ```
 
+The local and CI bootstrap validates the installed plugin version before using
+the pinned source URL. It reuses an exact match and downloads only a missing or
+mismatched plugin. Production must use a prebuilt immutable WordPress image
+containing these pinned plugins and must not download plugins at startup.
+Plugin upgrades therefore require an explicit version change, image rebuild,
+and successful composition proof before deployment.
+
 ## Evidence
 
 The probe sends the plugin's `_service.sdl` to Rover and exercises the native
@@ -58,5 +65,20 @@ Payment transitions use authenticated WooCommerce REST. Commerce owns order
 event publication, and Gateway exposes the authenticated GraphQL-over-SSE edge.
 WordPress does not own a second subscription implementation.
 
-No marketplace MU-plugin, custom GraphQL field, custom inventory route, or
-custom WordPress authentication filter is retained.
+One private compatibility plugin is retained for Order Workflow idempotency.
+WooCommerce's native `wc/v3/orders?search=` collection does not include
+arbitrary order metadata in its search fields, while WPGraphQL's
+`customer.orders` requires a live WordPress customer session that cannot be
+relied on after a timeout or process restart. The plugin adds only
+`_order_workflow_operation_reference` to WooCommerce's official legacy and HPOS
+search filters. It creates no route, schema field, table, or authentication
+mechanism; reconciliation continues through the authenticated native
+WooCommerce REST collection. The plugin must be included in the immutable
+WordPress image and reviewed whenever WooCommerce changes either search hook.
+Order creation explicitly selects WooCommerce's enabled native `cod` offline
+gateway because the financial method and lifecycle are owned by Payment
+Federation; this satisfies WooCommerce checkout validation without introducing
+a second payment processor or a custom WooCommerce gateway.
+
+No marketplace MU-plugin, custom GraphQL field, custom inventory route, custom
+REST route, or custom WordPress authentication filter is retained.

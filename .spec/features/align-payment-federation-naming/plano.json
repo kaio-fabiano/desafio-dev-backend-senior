@@ -1,0 +1,57 @@
+{
+  "runId": "desafio-dev-backend-senior-align-payment-federation-naming-mtjady4c",
+  "feature": "align-payment-federation-naming",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-01 23:16",
+  "branchTrabalho": "spec/align-payment-federation-naming",
+  "baseDir": ".spec/features/align-payment-federation-naming",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-align-payment-federation-naming-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-116",
+      "titulo": "Define executable naming boundaries",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "test/align-payment-federation-naming.spec.test.mjs"
+      ],
+      "refs": ["US-074", "AC-152", "AC-153", "US-075", "AC-154"]
+    },
+    {
+      "id": "T-117",
+      "titulo": "Rename the Java runtime and active references",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "apps/payment-federation",
+        "apps/payment-federation",
+        "apps/e2e",
+        "compose.yaml",
+        "infra/sst.config.ts",
+        "libs/contracts/graphql/supergraph.yaml",
+        "libs/gateway/nest/src/gateway.module.ts",
+        "package.json",
+        "test"
+      ],
+      "refs": ["US-074", "AC-152", "AC-153"]
+    },
+    {
+      "id": "T-118",
+      "titulo": "Remove the retired contract and align documentation",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": ["libs/contracts/graphql/catalog", "README.md", "docs"],
+      "refs": ["US-075", "AC-154"]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

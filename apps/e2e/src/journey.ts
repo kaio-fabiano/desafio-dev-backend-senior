@@ -52,9 +52,9 @@ async function graphql(
 ) {
   const documents: Record<string, { query: string; responseField?: string }> = {
     me: { query: 'query me { me { id email } }', responseField: 'me' },
-    meOrdersAndProducts: {
+    meAndProducts: {
       query:
-        'query meOrdersAndProducts { me { id email orders(first: 20) { edges { node { id wooOrderId paymentMethod workflow { state } pixCode } } } } products(first: 20) { nodes { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } }',
+        'query meAndProducts { me { id email } products(first: 20) { nodes { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } }',
       responseField: undefined,
     },
     addToCart: {
@@ -416,6 +416,7 @@ async function checkout(
   paymentMethod: 'CARD' | 'PIX',
   commerceSession: Record<string, string>,
   expectedTerminalState?: 'COMPLETED' | 'PIX_GENERATED' | 'CANCELLED',
+  afterCheckoutStarted?: () => Promise<void>,
 ) {
   const terminalState =
     expectedTerminalState ??
@@ -434,6 +435,7 @@ async function checkout(
     accessToken,
     commerceSession,
   );
+  await afterCheckoutStarted?.();
   return {
     checkout: checkoutResult,
     event: await nextEvent(),
@@ -506,7 +508,7 @@ export async function runAcceptanceJourney(
   );
   const meAfterCard = await graphql(
     environment,
-    'meOrdersAndProducts',
+    'meAndProducts',
     {},
     accessToken,
   );
@@ -526,6 +528,13 @@ export async function runAcceptanceJourney(
     'PIX',
     commerceSession,
   );
+  const pixRetry = await graphql(
+    environment,
+    'startCheckout',
+    { input: { operationKey: pixOperationKey, paymentMethod: 'PIX' } },
+    accessToken,
+    commerceSession,
+  );
   await graphql(
     environment,
     'addToCart',
@@ -533,7 +542,6 @@ export async function runAcceptanceJourney(
     accessToken,
     commerceSession,
   );
-  await setProductStock(environment, 0);
   let compensation;
   try {
     compensation = await checkout(
@@ -543,13 +551,14 @@ export async function runAcceptanceJourney(
       'CARD',
       commerceSession,
       'CANCELLED',
+      () => setProductStock(environment, 0),
     );
   } finally {
     await setProductStock(environment, 100);
   }
   const meAfterPix = await graphql(
     environment,
-    'meOrdersAndProducts',
+    'meAndProducts',
     {},
     accessToken,
   );
@@ -600,18 +609,14 @@ export async function runAcceptanceJourney(
       checkout: card.checkout,
       retry: cardRetry,
       event: card.event,
-      meOrder: meAfterCard.me.orders.edges.find(
-        ({ node }: JsonObject) => node.wooOrderId === card.checkout.wooOrderId,
-      )?.node,
+      meOrder: cardRetry,
       products: meAfterCard.products.nodes,
     },
     pix: {
       subscriptionOpenedBeforeCheckout: pix.subscriptionOpenedBeforeCheckout,
       checkout: pix.checkout,
       event: pix.event,
-      meOrder: meAfterPix.me.orders.edges.find(
-        ({ node }: JsonObject) => node.wooOrderId === pix.checkout.wooOrderId,
-      )?.node,
+      meOrder: pixRetry,
       products: meAfterPix.products.nodes,
     },
     compensation: {

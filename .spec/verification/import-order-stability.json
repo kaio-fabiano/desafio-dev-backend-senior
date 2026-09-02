@@ -1,11 +1,11 @@
 {
   "feature": "import-order-stability",
-  "timestamp": "2026-09-01T21:13:46.873Z",
-  "gitRev": "75bbc44",
-  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "timestamp": "2026-09-02T04:02:07.466Z",
+  "gitRev": "0ccdd90",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 128,
+  "testsParsed": 134,
   "results": {
     "AC-089": {
       "status": "pass",

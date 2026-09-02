@@ -18,7 +18,7 @@ const COMPOSE_SERVICES = [
   'wordpress-setup',
   'identity-subgraph',
   'order-workflow-subgraph',
-  'payment-processor',
+  'payment-federation',
   'gateway',
   'apollo-mcp',
 ] as const;
@@ -71,7 +71,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       diagnostics: async () => {
         const services = [
           'order-workflow-subgraph',
-          'payment-processor',
+          'payment-federation',
           'wordpress',
         ];
         const serviceLogs = (

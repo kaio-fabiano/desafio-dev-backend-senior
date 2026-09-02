@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         "management.health.rabbit.enabled=false"
     }
 )
-class PaymentProcessorApplicationTest {
+class PaymentFederationApplicationTest {
     @LocalServerPort
     private int port;
 

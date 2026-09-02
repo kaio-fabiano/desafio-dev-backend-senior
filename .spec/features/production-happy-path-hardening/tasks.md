@@ -24,7 +24,7 @@
 ## T-104 — Make the inventory effect durably recoverable [concluida]
 
 - Refs: US-065, AC-134, US-067, AC-136
-- Arquivos: apps/payment-processor/src/main/java/dev/desafio/payment/inventory, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-processor/src/test
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/payment/inventory, apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-federation/src/test
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Persist the claim before the external effect and reconcile WooCommerce state on recovery. Preserve explicit domain objects; do not use an in-memory CQRS saga. Run focused tests, applicable lint, and code review.
@@ -43,3 +43,10 @@
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Replace the request-scoped manual object graph with ports, typed injection tokens, injectable singleton adapters, and the smallest request-scoped GraphQL context provider. Enable and use idiomatic NestJS decorator syntax instead of manual decorator function calls, while keeping explicit injection tokens at port boundaries. Move authentication/authorization into guards and context extraction into parameter decorators; use pipes, filters, interceptors, and lifecycle providers only for their proper cross-cutting roles. Promote a primitive to libs/platform/nest only when two real consumers share identical semantics. Add dependency-direction tests, review the full happy path, run all Nx ESLint targets and acceptance tests, refresh Graphify, then pass onp-spec verify and audit --ci.
+
+## T-123 — Reconcile checkout without a WordPress customer session [concluida]
+- Refs: US-064, AC-133, US-067, AC-136
+- Arquivos: apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts, apps/wordpress-integration/plugins/order-workflow-reconciliation, apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, docs/adrs/003-wordpress-federation.md, test/production-happy-path-hardening.spec.test.js, apps/e2e/src
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Notes: Preserve one-order idempotency by extending WooCommerce's native order search filters for both CPT and HPOS, then query the native REST collection with scoped service credentials instead of relying on an authenticated WordPress customer session. Document why the small private plugin is required.

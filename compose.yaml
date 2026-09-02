@@ -162,6 +162,9 @@ services:
         wp plugin install https://github.com/AxeWP/wp-graphql-headless-login/releases/download/0.4.4/wp-graphql-headless-login.zip --activate --force
         wp plugin install https://github.com/Manuel-Antunes/wp-graphql-federations/archive/ac480974ceb6a1680410f955005e060056f150da.zip --force
         wp plugin activate wp-graphql-federations
+        install -d /var/www/html/wp-content/plugins/order-workflow-reconciliation
+        cp /integration/plugins/order-workflow-reconciliation/order-workflow-reconciliation.php /var/www/html/wp-content/plugins/order-workflow-reconciliation/order-workflow-reconciliation.php
+        wp plugin activate order-workflow-reconciliation
         wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Cash on delivery"}' --format=json
         wp option update wpgraphql_federation_settings '{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}' --format=json
         wp option update wpgraphql_login_provider_siteToken "{\"isEnabled\":true,\"clientOptions\":{\"headerKey\":\"X-WPGraphQL-Site-Token\",\"secretKey\":\"$${WPGRAPHQL_SITE_TOKEN}\"},\"loginOptions\":{\"metaKey\":\"better_auth_user_id\"}}" --format=json
@@ -229,7 +232,7 @@ services:
         condition: service_healthy
       wordpress-setup:
         condition: service_healthy
-      payment-processor:
+      payment-federation:
         condition: service_healthy
       identity-subgraph:
         condition: service_healthy
@@ -333,6 +336,8 @@ services:
       PORT: 3003
       RABBITMQ_URL: amqp://rabbitmq:5672
       WORDPRESS_URL: http://wordpress
+      WOO_CONSUMER_KEY: ck_2222222222222222222222222222222222222222
+      WOO_CONSUMER_SECRET: cs_2222222222222222222222222222222222222222
     depends_on:
       order-workflow-database:
         condition: service_healthy
@@ -355,10 +360,10 @@ services:
       retries: 30
     stop_grace_period: 35s
 
-  payment-processor:
+  payment-federation:
     build:
       context: .
-      dockerfile: apps/payment-processor/Dockerfile
+      dockerfile: apps/payment-federation/Dockerfile
     environment:
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,prometheus
       MANAGEMENT_OTLP_TRACING_ENDPOINT: http://otel-collector:4318/v1/traces

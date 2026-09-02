@@ -1,3 +1,5 @@
+import { Buffer } from 'node:buffer';
+
 import type {
   WooCartSnapshot,
   WooCheckoutInput,
@@ -8,6 +10,11 @@ import type {
 type Fetch = typeof fetch;
 
 const OPERATION_META_KEY = '_order_workflow_operation_reference';
+
+export type WooCheckoutServiceCredentials = {
+  consumerKey: string;
+  consumerSecret: string;
+};
 
 export class WooCheckoutRequestError extends Error {
   readonly code = 'WOO_CHECKOUT_REQUEST_FAILED';
@@ -22,6 +29,7 @@ export class WooCheckoutRequestError extends Error {
 
 export function createWooCheckoutAdapter(
   endpoint: string,
+  credentials: WooCheckoutServiceCredentials,
   request: Fetch = fetch,
 ): WooCheckoutPort {
   const pending = new Map<string, Promise<WooCheckoutOrder>>();
@@ -89,37 +97,41 @@ export function createWooCheckoutAdapter(
   async function findByReference(
     input: WooCheckoutInput,
   ): Promise<WooCheckoutOrder | null> {
-    let after: string | null = null;
-    do {
-      const data: OrderConnectionResponse =
-        await execute<OrderConnectionResponse>(
-          input,
-          `query OrderWorkflowOrders($after: String) {
-          customer {
-            orders(first: 100, after: $after) {
-              nodes {
-                databaseId total currency metaData { key value }
-                lineItems { nodes { quantity product { databaseId } } }
-              }
-              pageInfo { hasNextPage endCursor }
-            }
-          }
-        }`,
-          { after },
-        );
-      const connection: OrderConnection | undefined = data.customer?.orders;
-      const order = connection?.nodes?.find((candidate) =>
-        candidate.metaData?.some(
-          ({ key, value }) =>
-            key === OPERATION_META_KEY && value === input.reference,
-        ),
+    const ordersEndpoint = new URL('/wp-json/wc/v3/orders', endpoint);
+    ordersEndpoint.searchParams.set('search', input.reference);
+    ordersEndpoint.searchParams.set('per_page', '2');
+    const authorization = Buffer.from(
+      `${credentials.consumerKey}:${credentials.consumerSecret}`,
+    ).toString('base64');
+    const response = await request(ordersEndpoint, {
+      method: 'GET',
+      headers: {
+        authorization: `Basic ${authorization}`,
+        ...(ordersEndpoint.protocol === 'http:'
+          ? { 'x-forwarded-proto': 'https' }
+          : {}),
+      },
+    });
+    if (!response.ok) throw new WooCheckoutRequestError(response.status);
+    const payload = (await response.json()) as unknown;
+    if (!Array.isArray(payload)) {
+      throw new WooCheckoutRequestError(502, 'WooCommerce orders are invalid');
+    }
+    const matches = payload.filter(
+      (order): order is WooRestOrder =>
+        isWooRestOrder(order) &&
+        order.meta_data.some(
+        ({ key, value }) =>
+          key === OPERATION_META_KEY && value === input.reference,
+      ),
+    );
+    if (matches.length > 1) {
+      throw new WooCheckoutRequestError(
+        502,
+        'WooCommerce operation reference is not unique',
       );
-      if (order) return remoteOrder(order);
-      after = connection?.pageInfo?.hasNextPage
-        ? (connection.pageInfo.endCursor ?? null)
-        : null;
-    } while (after);
-    return null;
+    }
+    return matches[0] ? restOrder(matches[0]) : null;
   }
 
   async function create(input: WooCheckoutInput): Promise<WooCheckoutOrder> {
@@ -134,15 +146,20 @@ export function createWooCheckoutAdapter(
       {
         input: {
           clientMutationId: input.reference,
+          paymentMethod: 'cod',
           metaData: [{ key: OPERATION_META_KEY, value: input.reference }],
         },
       },
     );
     const id = data.checkout?.order?.databaseId;
-    if (!Number.isSafeInteger(id) || !id) {
+    if (Number.isSafeInteger(id) && id) {
+      return { id: String(id), cartSnapshot: snapshot };
+    }
+    const reconciled = await findByReference(input);
+    if (!reconciled) {
       throw new WooCheckoutRequestError(502, 'Checkout order is missing');
     }
-    return { id: String(id), cartSnapshot: snapshot };
+    return reconciled;
   }
 
   async function createOrFind(input: WooCheckoutInput) {
@@ -163,36 +180,35 @@ export function createWooCheckoutAdapter(
   return { findByReference, createOrFind };
 }
 
-type RemoteOrder = {
-  databaseId?: number;
+type WooRestOrder = {
+  id: number;
   total?: string;
   currency?: string;
-  metaData?: Array<{ key?: string; value?: string }>;
-  lineItems?: {
-    nodes?: Array<{
-      quantity?: number;
-      product?: { databaseId?: number };
-    }>;
-  };
+  meta_data: Array<{ key?: string; value?: string }>;
+  line_items: Array<{ quantity?: number; product_id?: number }>;
 };
 
-type OrderConnection = {
-  nodes?: Array<RemoteOrder>;
-  pageInfo?: { hasNextPage?: boolean; endCursor?: string | null };
-};
+function isWooRestOrder(value: unknown): value is WooRestOrder {
+  if (!value || typeof value !== 'object') return false;
+  const order = value as Partial<WooRestOrder>;
+  return (
+    Number.isSafeInteger(order.id) &&
+    Array.isArray(order.meta_data) &&
+    Array.isArray(order.line_items)
+  );
+}
 
-type OrderConnectionResponse = {
-  customer?: { orders?: OrderConnection };
-};
-
-function remoteOrder(order: RemoteOrder): WooCheckoutOrder {
-  if (!Number.isSafeInteger(order.databaseId) || !order.databaseId) {
+function restOrder(order: WooRestOrder): WooCheckoutOrder {
+  if (!Number.isSafeInteger(order.id) || !order.id) {
     throw new WooCheckoutRequestError(502, 'Stored order id is invalid');
   }
   return {
-    id: String(order.databaseId),
+    id: String(order.id),
     cartSnapshot: cartSnapshot(
-      order.lineItems?.nodes ?? [],
+      order.line_items.map((item) => ({
+        quantity: item.quantity,
+        product: { databaseId: item.product_id },
+      })),
       order.total,
       order.currency ?? 'BRL',
     ),
