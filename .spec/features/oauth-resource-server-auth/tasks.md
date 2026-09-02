@@ -9,8 +9,7 @@
 - Arquivos: libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts, libs/identity/nest/src/auth/resource-audiences.ts, apps/identity-subgraph/src/auth/config.ts, test/oauth-resource-server-auth.spec.test.js
 - Notas: Add explicit owned-resource audiences and least-privilege scope ceilings without changing WordPress session authentication.
 
-## T-134 — Build the shared NestJS OAuth resource module [pendente]
-
+## T-134 — Build the shared NestJS OAuth resource module [concluida]
 - Refs: US-088, AC-176
 - Modelo: gpt-5.6-sol
 - Esforço: alto
