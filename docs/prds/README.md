@@ -1,6 +1,6 @@
 # PRDs — Federated B2B marketplace
 
-> Status: initial planning record · Updated on 2026-08-25
+> Status: challenge delivery plus production-readiness backlog · Updated on 2026-09-02
 
 This folder breaks down the [original README](../../README.md) into smaller
 contracts. The README remains the primary source for the challenge; these PRDs
@@ -28,6 +28,10 @@ located at `graphify-out/obsidian/`.
 The [interview note](../knowledge/Notas%20da%20Entrevista.md) preserves the
 verbal guidance that changes the interpretation of the README, especially
 WordPress plugin-first and functional testing through the gateway.
+
+The [production-readiness gap register](08-riscos-e-decisoes-pendentes.md#production-readiness-gap-register)
+is the authoritative backlog after challenge acceptance. It distinguishes
+delivered local evidence from the work required before a real production claim.
 
 ## Reading rule
 

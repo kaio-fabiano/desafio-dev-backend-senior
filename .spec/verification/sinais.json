@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 38,
+      "ocorrencias": 39,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-09-02T06:27:05.300Z",
-      "gitRev": "293a98b"
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2552,10 +2552,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 31,
+      "ocorrencias": 32,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-09-01T23:02:01.925Z",
-      "gitRev": "d217645"
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 24,
+      "ocorrencias": 25,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-09-01T23:02:01.925Z",
-      "gitRev": "d217645"
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-02T06:27:05.300Z",
-      "gitRev": "293a98b"
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -4208,10 +4208,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "structural-improvement-program",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-01T03:06:54.499Z",
-      "ultimaVez": "2026-09-01T23:02:01.925Z",
-      "gitRev": "d217645"
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
     },
     "VERIFY_OBSOLETO::keep-graphify-current::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -4298,10 +4298,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "production-happy-path-hardening",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-01T21:13:57.059Z",
-      "ultimaVez": "2026-09-01T23:02:01.925Z",
-      "gitRev": "d217645"
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
     },
     "ID_DUPLICADO::transaction-federation-refactor::ASM-001": {
       "codigo": "ID_DUPLICADO",
@@ -4676,10 +4676,145 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "transaction-federation-refactor",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-01T22:40:14.199Z",
-      "ultimaVez": "2026-09-01T22:40:14.199Z",
-      "gitRev": "d217645"
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
+    },
+    "ID_DUPLICADO::production-readiness-gap-register::US-077": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "production-readiness-gap-register",
+      "ref": "US-077",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T07:40:08.793Z",
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
+    },
+    "VERIFY_OBSOLETO::align-payment-federation-naming::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "align-payment-federation-naming",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T07:40:08.793Z",
+      "ultimaVez": "2026-09-02T07:40:08.793Z",
+      "gitRev": "188d5da"
+    },
+    "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-124": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "T-124",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-125": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "T-125",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-126": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "T-126",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-128": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "T-128",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-160": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-160",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-161": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-161",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-162": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-162",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-163": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-163",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-164": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-164",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-165": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-165",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-166": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-166",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-167": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-167",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
+    },
+    "AC_SEM_TESTE::mercado-pago-payment-provider::AC-168": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "AC-168",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T08:08:30.519Z",
+      "ultimaVez": "2026-09-02T08:08:30.519Z",
+      "gitRev": "188d5da"
     }
   }
 }

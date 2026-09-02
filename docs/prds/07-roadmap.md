@@ -113,3 +113,18 @@ flowchart LR
 After M3, saga, SSE, and MCP have parallelizable parts, but final integration
 remains serial through the same E2E. Each milestone must become its own feature
 spec before implementation, with annotated and auditable criteria.
+
+## Production continuation
+
+Milestone 7 closes the challenge delivery, not the production lifecycle. Follow
+the prioritized [production-readiness gap register](08-riscos-e-decisoes-pendentes.md#production-readiness-gap-register)
+without combining unrelated operational decisions into one migration:
+
+1. close the P0 payment, infrastructure, and WordPress hosting decisions;
+2. establish recovery and security controls before processing real data;
+3. harden broker availability, identity reconciliation, and observability;
+4. validate capacity only against an approved workload, SLO, and cost envelope.
+
+Each gap becomes its own spec and ADR when its documented trigger occurs. A gap
+may move to closed only when its acceptance evidence is executable or linked to
+an externally verifiable operational drill.

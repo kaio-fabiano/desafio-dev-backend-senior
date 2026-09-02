@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "proximoId": 7,
+  "proximoId": 8,
   "licoes": [
     {
       "id": "L-001",
@@ -139,6 +139,29 @@
       "penalidades": 0,
       "criadaEm": "2026-08-28T05:09:49.050Z",
       "ultimaVez": "2026-08-28T05:09:49.050Z"
+    },
+    {
+      "id": "L-007",
+      "texto": "Before promoting a preserved draft, rescan all feature specs and reassign globally unique trace IDs.",
+      "chave": "ID_DUPLICADO::before promoting a preserved draft rescan all feature specs and reassign globally unique trace ids",
+      "sinal": "ID_DUPLICADO",
+      "escopo": "specification",
+      "status": "candidata",
+      "recorrencia": 1,
+      "features": [
+        "production-readiness-gap-register"
+      ],
+      "evidencias": [
+        {
+          "fonte": "US-077",
+          "feature": "production-readiness-gap-register",
+          "quando": "2026-09-02T07:54:48.115Z",
+          "gitRev": "188d5da"
+        }
+      ],
+      "penalidades": 0,
+      "criadaEm": "2026-09-02T07:54:48.115Z",
+      "ultimaVez": "2026-09-02T07:54:48.115Z"
     }
   ]
 }
