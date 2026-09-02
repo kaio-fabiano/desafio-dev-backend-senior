@@ -41,14 +41,15 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
   }, 120_000);
 
   it('starts the complete isolated topology from one target @spec:AC-067 @spec:AC-078 @spec:AC-113', async () => {
-    expect(new Set(environment?.startedComponents)).toEqual(
+    if (!environment) throw new Error('Acceptance environment is not ready');
+    expect(new Set(environment.startedComponents)).toEqual(
       new Set(requiredComponents),
     );
     await expect(
-      fetch(`${environment!.gatewayUrl}/ready`).then(({ status }) => status),
+      fetch(`${environment.gatewayUrl}/ready`).then(({ status }) => status),
     ).resolves.toBe(200);
     await expect(
-      fetch(environment!.mcpUrl.replace('/mcp', '/health')).then(
+      fetch(environment.mcpUrl.replace('/mcp', '/health')).then(
         ({ status }) => status,
       ),
     ).resolves.toBe(200);
@@ -61,7 +62,10 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     expect(new Set(proof.identity.claims.aud)).toEqual(
       new Set([
         'https://gateway.marketplace.local',
+        'https://identity.marketplace.local',
         'https://mcp.marketplace.local',
+        'https://order-workflow.marketplace.local',
+        'https://payment.marketplace.local',
         'http://identity.localhost:3001/api/auth/oauth2/userinfo',
       ]),
     );

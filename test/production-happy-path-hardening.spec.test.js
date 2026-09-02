@@ -475,7 +475,7 @@ test('AC-137: Dependencies point toward application contracts @spec:AC-137', asy
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/federation-auth.guard.ts',
+      'libs/platform/nest/src/auth/oauth-resource.guard.ts',
       'utf8',
     ),
     readFile(
@@ -484,7 +484,7 @@ test('AC-137: Dependencies point toward application contracts @spec:AC-137', asy
     ),
   ]);
   assert.match(resolver, /@Resolver/);
-  assert.match(resolver, /@AuthenticatedSubject/);
+  assert.match(resolver, /@OAuthSubject/);
   assert.match(resolver, /@Inject\(ORDER_WORKFLOW_OPERATIONS\)/);
   assert.doesNotMatch(resolver, /woo-checkout\.adapter|checkout\.repository/);
   assert.match(module, /provide: ORDER_WORKFLOW_OPERATIONS/);

@@ -8,7 +8,7 @@ const BUYER_EMAIL = 'milestone-7-buyer@example.test';
 const BUYER_PASSWORD = ['milestone', '7', 'buyer', 'password'].join('-');
 const SCOPES = ['marketplace:read', 'cart:write', 'orders:read', 'mcp:tools'];
 
-type JsonObject = Record<string, any>;
+type JsonObject = Record<string, unknown>;
 
 export type AcceptanceProof = {
   identity: {
@@ -194,11 +194,11 @@ async function issueToken(
   );
   sessionCookie = mergeResponseCookies(sessionCookie, tokenResponse);
   const token = (await tokenResponse.json()) as { access_token: string };
+  const encodedClaims = token.access_token.split('.')[1];
+  if (!encodedClaims) throw new Error('OAuth access token has no JWT payload');
   const claims = JSON.parse(
-    Buffer.from(token.access_token.split('.')[1]!, 'base64url').toString(
-      'utf8',
-    ),
-  );
+    Buffer.from(encodedClaims, 'base64url').toString('utf8'),
+  ) as JsonObject;
   return { accessToken: token.access_token, claims, cookie: sessionCookie };
 }
 

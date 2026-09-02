@@ -4,7 +4,8 @@
   "type": "module",
   "exports": {
     "./gateway-nest": "./libs/gateway/nest/src/index.ts",
-    "./identity-nest": "./libs/identity/nest/src/index.ts"
+    "./identity-nest": "./libs/identity/nest/src/index.ts",
+    "./platform-nest": "./libs/platform/nest/src/index.ts"
   },
   "packageManager": "pnpm@10.17.1",
   "license": "MIT",

@@ -1,5 +1,9 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
+import {
+  type OAuthClaims,
+  toOAuthRequest,
+} from '@desafio-dev-backend-senior/source/platform-nest';
 import type { GraphQLSchema } from 'graphql';
 import { createHandler } from 'graphql-sse/lib/use/http';
 
@@ -30,16 +34,31 @@ export function registerDeferredSseRoute(
   };
 }
 
-export function createOrderWorkflowSseHandler(schema: GraphQLSchema) {
+export function createOrderWorkflowSseHandler(
+  schema: GraphQLSchema,
+  verify: (request: Request) => Promise<OAuthClaims>,
+) {
+  const authenticated = new WeakMap<IncomingMessage, OAuthClaims>();
   const handler = createHandler({
     schema,
+    authenticate: async ({ raw }: { raw: IncomingMessage }) => {
+      authenticated.set(raw, await verify(toOAuthRequest(raw)));
+      return null;
+    },
     context: ({ raw }: { raw: IncomingMessage }) => {
+      const auth = authenticated.get(raw);
+      if (!auth) throw new Error('Unauthenticated subscription');
       return {
+        auth,
         req: raw,
-        subject: String(raw.headers['x-authenticated-subject'] ?? ''),
       };
     },
   });
-  return (request: IncomingMessage, response: ServerResponse) =>
-    handler(request, response);
+  return async (request: IncomingMessage, response: ServerResponse) => {
+    try {
+      await handler(request, response);
+    } finally {
+      authenticated.delete(request);
+    }
+  };
 }

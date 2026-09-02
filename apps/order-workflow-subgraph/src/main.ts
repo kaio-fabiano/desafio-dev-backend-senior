@@ -1,8 +1,9 @@
-import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
+import { OAuthResourceService } from '@desafio-dev-backend-senior/source/platform-nest';
 import type { MikroORM } from '@mikro-orm/core';
+import { NestFactory } from '@nestjs/core';
 import { GraphQLSchemaHost } from '@nestjs/graphql';
 import { json, type NextFunction, type Request, type Response } from 'express';
+import 'reflect-metadata';
 
 import { AppModule } from './app.module.ts';
 import { ORDER_WORKFLOW_ORM } from './graphql/order-workflow.module.ts';
@@ -27,7 +28,13 @@ async function bootstrap() {
   await orm.getMigrator().up();
   app.enableShutdownHooks();
   await app.init();
-  activateSse(createOrderWorkflowSseHandler(app.get(GraphQLSchemaHost).schema));
+  const oauth = app.get(OAuthResourceService);
+  activateSse(
+    createOrderWorkflowSseHandler(
+      app.get(GraphQLSchemaHost).schema,
+      (request) => oauth.verify(request),
+    ),
+  );
   await app.listen(Number(process.env.PORT ?? 3000));
 }
 

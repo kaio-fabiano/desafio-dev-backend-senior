@@ -55,11 +55,12 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       .withDefaultWaitStrategy(Wait.forHealthCheck())
       .withStartupTimeout(STARTUP_TIMEOUT)
       .up(COMPOSE_SERVICES.filter((service) => service !== 'wordpress-setup'));
-    const gateway = environment.getContainer('gateway-1');
-    const identity = environment.getContainer('identity-subgraph-1');
-    const mcp = environment.getContainer('apollo-mcp-1');
-    const wordpress = environment.getContainer('wordpress-1');
-    const commerce = environment.getContainer('order-workflow-subgraph-1');
+    const startedEnvironment = environment;
+    const gateway = startedEnvironment.getContainer('gateway-1');
+    const identity = startedEnvironment.getContainer('identity-subgraph-1');
+    const mcp = startedEnvironment.getContainer('apollo-mcp-1');
+    const wordpress = startedEnvironment.getContainer('wordpress-1');
+    const commerce = startedEnvironment.getContainer('order-workflow-subgraph-1');
     return {
       identityUrl: `http://${identity.getHost()}:${identity.getMappedPort(3001)}`,
       gatewayUrl: `http://${gateway.getHost()}:${gateway.getMappedPort(3000)}`,
@@ -77,7 +78,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
         const serviceLogs = (
           await Promise.all(
             services.map(async (service) => {
-              const stream = await environment!
+              const stream = await startedEnvironment
                 .getContainer(`${service}-1`)
                 .logs({ tail: 200 });
               let logs = '';
@@ -90,7 +91,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
             }),
           )
         ).join('\n');
-        const rabbit = await environment!
+        const rabbit = await startedEnvironment
           .getContainer('rabbitmq-1')
           .exec([
             'rabbitmqctl',
