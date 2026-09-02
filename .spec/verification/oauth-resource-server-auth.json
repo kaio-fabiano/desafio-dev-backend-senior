@@ -1,11 +1,11 @@
 {
   "feature": "oauth-resource-server-auth",
-  "timestamp": "2026-09-02T19:52:08.555Z",
-  "gitRev": "880a87a",
+  "timestamp": "2026-09-02T21:58:47.060Z",
+  "gitRev": "83e9632",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
-  "exitCode": 0,
-  "testsParsed": 168,
+  "exitCode": 123,
+  "testsParsed": 169,
   "results": {
     "AC-174": {
       "status": "pass",
@@ -55,6 +55,11 @@
     "AC-183": {
       "status": "pass",
       "testName": "AC-183: Authentication composition contains no redundant wrappers or context state @spec:AC-183",
+      "method": "tap"
+    },
+    "AC-184": {
+      "status": "pass",
+      "testName": "AC-184: Authentication changes remain compatible with canonical CI runtimes @spec:AC-184",
       "method": "tap"
     }
   },

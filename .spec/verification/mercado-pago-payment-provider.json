@@ -1,11 +1,11 @@
 {
   "feature": "mercado-pago-payment-provider",
-  "timestamp": "2026-09-02T15:53:56.686Z",
-  "gitRev": "b7c2786",
+  "timestamp": "2026-09-02T22:01:00.330Z",
+  "gitRev": "83e9632",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
-  "exitCode": 0,
-  "testsParsed": 157,
+  "exitCode": 123,
+  "testsParsed": 169,
   "results": {
     "AC-160": {
       "status": "pass",

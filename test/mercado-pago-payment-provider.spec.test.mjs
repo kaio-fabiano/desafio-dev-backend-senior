@@ -179,7 +179,7 @@ test('AC-168: provider behavior has repeatable credential-free and sandbox evide
     'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java',
     'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java',
     'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ProviderNotificationHandlerTest.java',
-    'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/PaymentHandlerTest.java',
+    'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java',
   ];
   const [tests, runbook, adr] = await Promise.all([
     Promise.all(testPaths.map((path) => readFile(path, 'utf8'))),

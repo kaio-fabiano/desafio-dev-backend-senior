@@ -12,7 +12,7 @@ import java.util.HashSet;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class PaymentHandlerTest {
+class ArchitectureBoundariesTest {
     @Test
     @DisplayName("AC-169: Java dependencies point inward from clean architecture packages @spec:AC-169")
     void dependenciesPointInward() throws IOException {

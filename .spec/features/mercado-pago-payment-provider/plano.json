@@ -123,7 +123,7 @@
         "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ProviderNotificationHandlerTest.java",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/PaymentHandlerTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java",
         "apps/e2e/src/journey.ts",
         "test/mercado-pago-payment-provider.spec.test.mjs",
         "docs/adrs/010-mercado-pago-payment-provider.md",

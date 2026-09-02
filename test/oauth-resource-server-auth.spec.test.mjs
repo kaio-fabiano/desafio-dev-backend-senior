@@ -206,3 +206,22 @@ test('AC-183: Authentication composition contains no redundant wrappers or conte
   assert.doesNotMatch(resolver, /AuthenticatedSubject/);
   assert.doesNotMatch(`${factory}\n${module}`, /JwtPluginFactory|OAuthProviderPluginFactory/);
 });
+
+test('AC-184: Authentication changes remain compatible with canonical CI runtimes @spec:AC-184', async () => {
+  const [nestModule, architectureTest, paymentHandlerTest] = await Promise.all([
+    readFile('libs/platform/nest/src/auth/oauth-resource.module.ts', 'utf8'),
+    readFile(
+      'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java',
+      'utf8',
+    ),
+    readFile(
+      'apps/payment-federation/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java',
+      'utf8',
+    ),
+  ]);
+
+  assert.doesNotMatch(nestModule, /@Module\s*\(/);
+  assert.match(nestModule, /Module\(\{\}\)\(OAuthResourceModule\)/);
+  assert.match(architectureTest, /class ArchitectureBoundariesTest/);
+  assert.match(paymentHandlerTest, /class PaymentHandlerTest/);
+});

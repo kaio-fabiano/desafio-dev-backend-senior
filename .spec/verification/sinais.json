@@ -4730,10 +4730,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "mercado-pago-payment-provider",
       "ref": "T-128",
-      "ocorrencias": 6,
+      "ocorrencias": 7,
       "primeiraVez": "2026-09-02T08:08:30.519Z",
-      "ultimaVez": "2026-09-02T08:08:30.519Z",
-      "gitRev": "188d5da"
+      "ultimaVez": "2026-09-02T21:58:55.779Z",
+      "gitRev": "83e9632"
     },
     "AC_SEM_TESTE::mercado-pago-payment-provider::AC-160": {
       "codigo": "AC_SEM_TESTE",
@@ -5094,6 +5094,24 @@
       "primeiraVez": "2026-09-02T17:36:56.907Z",
       "ultimaVez": "2026-09-02T17:36:56.907Z",
       "gitRev": "44f1a8e"
+    },
+    "ARQUIVO_INEXISTENTE::oauth-resource-server-auth::T-143": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-143",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T21:58:55.779Z",
+      "ultimaVez": "2026-09-02T21:58:55.779Z",
+      "gitRev": "83e9632"
+    },
+    "VERIFY_OBSOLETO::mercado-pago-payment-provider::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "mercado-pago-payment-provider",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T21:59:31.241Z",
+      "ultimaVez": "2026-09-02T21:59:31.241Z",
+      "gitRev": "83e9632"
     }
   }
 }

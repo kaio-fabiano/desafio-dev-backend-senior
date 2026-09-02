@@ -110,6 +110,12 @@ or vendor abstractions.
 - **Quando** Identity and Order Workflow compose authentication
 - **Então** consumers use one verified-claims context and one shared subject decorator, and plugin functions are not hidden behind single-implementation forwarding factories
 
+#### AC-184 — The completed authentication change passes the canonical CI runtime
+
+- **Dado** the repository test targets running with native Node 24 type stripping and the Java test compiler
+- **Quando** the complete Nx quality job executes in a clean CI checkout
+- **Então** NestJS module metadata uses syntax supported by that runner, Java test classes have unique package names, and the job reaches the container and end-to-end acceptance stages
+
 ## Out of scope
 
 - Replacing WooCommerce cookies, cart tokens, or WordPress service credentials.

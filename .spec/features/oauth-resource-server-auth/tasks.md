@@ -71,3 +71,10 @@
 - Esforço: alto
 - Arquivos: libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/better-auth.module.ts, libs/identity/nest/src/auth/resource-audiences.ts, libs/identity/nest/src/graphql/identity.resolver.ts, libs/identity/nest/src/index.ts, test/identity-federation-refactor.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
 - Notas: Call Better Auth plugin constructors directly, remove forwarding-only providers, run TypeScript, ESLint, focused and repository tests, the code-review loop, onp-spec verify, and onp-spec audit --ci.
+
+## T-143 — Repair canonical CI compatibility [concluida]
+- Refs: US-092, AC-176, AC-179, AC-184
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: libs/platform/nest/src/auth/oauth-resource.module.ts, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, test/oauth-resource-server-auth.spec.test.mjs, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
+- Notas: Preserve NestJS module metadata without unsupported decorator syntax, give the structural Java test its actual unique name, run the exact failing Nx targets locally, refresh Graphify after commit, and require the fork PR CI to pass before merge.

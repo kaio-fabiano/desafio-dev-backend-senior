@@ -1,4 +1,4 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { Module, type DynamicModule } from '@nestjs/common';
 
 import { GraphqlOAuthResourceGuard } from './oauth-resource.guard.ts';
 import {
@@ -7,7 +7,6 @@ import {
   type OAuthResourceOptions,
 } from './oauth-resource.service.ts';
 
-@Module({})
 export class OAuthResourceModule {
   static register(options: OAuthResourceOptions): DynamicModule {
     return {
@@ -21,3 +20,5 @@ export class OAuthResourceModule {
     };
   }
 }
+
+Module({})(OAuthResourceModule);
