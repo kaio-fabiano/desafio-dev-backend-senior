@@ -1,6 +1,6 @@
 import type { NestMiddleware } from '@nestjs/common';
 import { Inject, Injectable } from '@nestjs/common';
-import type { NextFunction, Request, Response } from 'express';
+import type { Request, Response } from 'express';
 
 import { TokenVerifierService } from '@desafio-dev-backend-senior/source/gateway-nest';
 import { createOrderWorkflowSubscriptionClient } from './order-workflow-subscription.client.ts';
@@ -18,7 +18,7 @@ export class GatewaySseMiddleware implements NestMiddleware {
 
   constructor(private readonly tokens: TokenVerifierService) {}
 
-  use(request: Request, response: Response, _next: NextFunction) {
+  use(request: Request, response: Response) {
     return this.handle(request, response);
   }
 }

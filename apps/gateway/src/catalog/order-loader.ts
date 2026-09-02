@@ -27,7 +27,11 @@ export function createOrderLoader<OrderConnection>(
     try {
       const orders = await batch(current.map(({ subject, page }) => ({ subject, page })));
       if (orders.length !== current.length) throw new Error('Order batch order mismatch');
-      current.forEach(({ resolve }, index) => resolve(orders[index]!));
+      current.forEach(({ resolve }, index) => {
+        const order = orders[index];
+        if (order === undefined) throw new Error('Order batch order mismatch');
+        resolve(order);
+      });
     } catch (error) {
       current.forEach(({ reject }) => reject(error));
     }

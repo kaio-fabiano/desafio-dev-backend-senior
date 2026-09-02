@@ -3,10 +3,11 @@ import { GraphQLError } from 'graphql';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import {
+  OAuthResourceService,
+  type OAuthResourceOptions,
+} from '@desafio-dev-backend-senior/source/platform-nest';
+import {
   TokenVerifierService,
-  type VerifyGatewayRequest,
-  type VerifyOptions,
-  verifyGatewayRequest,
 } from './token-verifier.service.ts';
 
 export type CartSessionHeaders = Readonly<
@@ -14,6 +15,7 @@ export type CartSessionHeaders = Readonly<
 >;
 
 export type AuthContext = {
+  authorization: string;
   subject: string;
   scopes: readonly string[];
   audience: readonly string[];
@@ -85,8 +87,9 @@ type AuthenticatedRequest = IncomingMessage & { authContext?: AuthContext };
 
 /** Compatibility middleware for non-Nest callers; the Gateway uses the provider above. */
 export function createGatewayAuthMiddleware(
-  token: VerifyOptions,
-  verify: VerifyGatewayRequest = verifyGatewayRequest,
+  token: OAuthResourceOptions,
+  verify = (request: Request) =>
+    new TokenVerifierService(new OAuthResourceService(token)).verify(request),
 ) {
   return async (
     request: AuthenticatedRequest,
@@ -94,7 +97,7 @@ export function createGatewayAuthMiddleware(
     next: () => void,
   ) => {
     try {
-      request.authContext = await verify(toFetchRequest(request), token);
+      request.authContext = await verify(toFetchRequest(request));
       next();
     } catch {
       response.writeHead(401, { 'content-type': 'application/json' });

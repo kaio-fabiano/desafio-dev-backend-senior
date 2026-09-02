@@ -9,12 +9,9 @@ import { parse } from 'graphql';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { OAuthResourceModule } from '@desafio-dev-backend-senior/source/platform-nest';
 import { AuthContextFactory } from './auth/auth-context.factory.ts';
-import {
-  GATEWAY_TOKEN_OPTIONS,
-  TokenVerifierService,
-  gatewayTokenOptions,
-} from './auth/token-verifier.service.ts';
+import { TokenVerifierService } from './auth/token-verifier.service.ts';
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
 
 function contract(
@@ -31,8 +28,18 @@ function contract(
 export class GatewayAuthProvidersModule {}
 
 Module({
+  imports: [
+    OAuthResourceModule.register({
+      issuer:
+        process.env.OAUTH_ISSUER ?? 'http://identity-subgraph:3001/api/auth',
+      jwksUrl:
+        process.env.IDENTITY_JWKS_URL ??
+        'http://identity-subgraph:3001/api/auth/jwks',
+      audience:
+        process.env.GATEWAY_AUDIENCE ?? 'https://gateway.marketplace.local',
+    }),
+  ],
   providers: [
-    { provide: GATEWAY_TOKEN_OPTIONS, useFactory: gatewayTokenOptions },
     TokenVerifierService,
     AuthContextFactory,
   ],
@@ -97,9 +104,6 @@ Module({
             if (!url) throw new Error(`Subgraph ${name} URL is required`);
             return new AuthenticatedDataSource({
               url,
-              internalSecret:
-                process.env.FEDERATION_INTERNAL_SECRET ??
-                'federation-local-only',
               kind:
                 name === 'wordpress' || name === 'order-workflow'
                   ? name
