@@ -44,7 +44,7 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
     'identity-subgraph',
     'order-workflow-subgraph',
     'rabbitmq',
-    'payment-processor',
+    'payment-federation',
     'gateway',
     'apollo-mcp',
   ]) {
@@ -80,7 +80,7 @@ test('AC-071: OAuth distinguishes direct redirects from consent challenges @spec
 test('AC-068..AC-071: the journey uses Gateway, MCP, and federated SSE @spec:AC-068 @spec:AC-069 @spec:AC-070 @spec:AC-071', () => {
   assert.doesNotMatch(
     journey,
-    /\.\.\/\.\.\/(?:gateway|identity-subgraph|order-workflow-subgraph|payment-processor|stock-worker)/,
+    /\.\.\/\.\.\/(?:gateway|identity-subgraph|order-workflow-subgraph|payment-federation|stock-worker)/,
   );
   assert.match(journey, /environment\.gatewayUrl/);
   assert.match(journey, /environment\.mcpUrl/);
@@ -136,7 +136,7 @@ test('AC-114: acceptance proves the complete public buyer contract @spec:AC-114'
   }
   assert.match(acceptance, /proof\.mcp/);
   assert.match(environment, /rabbitmq/);
-  assert.match(environment, /payment-processor/);
+  assert.match(environment, /payment-federation/);
   assert.doesNotMatch(journey, /recordPixPaymentV1|recordCardPaymentV1/);
 });
 

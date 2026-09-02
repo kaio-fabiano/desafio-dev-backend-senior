@@ -1,6 +1,6 @@
 FROM gradle:8.14.3-jdk21 AS build
 WORKDIR /workspace
-COPY apps/payment-processor/ .
+COPY apps/payment-federation/ .
 RUN gradle --no-daemon bootJar
 
 FROM eclipse-temurin:21.0.8_9-jre AS runtime

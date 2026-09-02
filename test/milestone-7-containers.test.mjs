@@ -5,12 +5,12 @@ import test from 'node:test';
 const applications = [
   'gateway',
   'identity-subgraph',
-  'payment-processor',
+  'payment-federation',
   'apollo-mcp',
 ];
 
 test('@spec:AC-075 production application images are pinned, multi-stage, and non-root', async () => {
-  for (const application of ['payment-processor', 'apollo-mcp']) {
+  for (const application of ['payment-federation', 'apollo-mcp']) {
     const dockerfile = await readFile(`apps/${application}/Dockerfile`, 'utf8');
     assert.match(dockerfile, /^FROM .+:.+ AS .+$/m, `${application} needs a pinned build stage`);
     assert.match(dockerfile, /^FROM .+:.+ AS runtime$/m, `${application} needs a pinned runtime stage`);

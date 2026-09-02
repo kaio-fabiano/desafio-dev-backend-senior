@@ -229,7 +229,7 @@ services:
         condition: service_healthy
       wordpress-setup:
         condition: service_healthy
-      payment-processor:
+      payment-federation:
         condition: service_healthy
       identity-subgraph:
         condition: service_healthy
@@ -355,10 +355,10 @@ services:
       retries: 30
     stop_grace_period: 35s
 
-  payment-processor:
+  payment-federation:
     build:
       context: .
-      dockerfile: apps/payment-processor/Dockerfile
+      dockerfile: apps/payment-federation/Dockerfile
     environment:
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,prometheus
       MANAGEMENT_OTLP_TRACING_ENDPOINT: http://otel-collector:4318/v1/traces

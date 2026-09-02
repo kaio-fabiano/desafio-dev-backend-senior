@@ -42,13 +42,13 @@ test('AC-133: checkout recovery has durable ownership @spec:AC-133', async () =>
 test('AC-134: inventory recovery is durable @spec:AC-134', async () => {
   const [migration, service, testSource] = await Promise.all([
     source(
-      'apps/payment-processor/src/main/resources/db/migration/V3__durable_inventory_operation.sql',
+      'apps/payment-federation/src/main/resources/db/migration/V3__durable_inventory_operation.sql',
     ),
     source(
-      'apps/payment-processor/src/main/java/dev/desafio/payment/inventory/InventoryService.java',
+      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/InventoryService.java',
     ),
     source(
-      'apps/payment-processor/src/test/java/dev/desafio/payment/inventory/InventoryServiceTest.java',
+      'apps/payment-federation/src/test/java/dev/desafio/payment/inventory/InventoryServiceTest.java',
     ),
   ]);
   assert.match(migration, /inventory_operation/i);

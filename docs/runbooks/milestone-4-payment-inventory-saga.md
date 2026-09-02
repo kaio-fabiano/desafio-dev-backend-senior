@@ -7,7 +7,7 @@ Install workspace dependencies, ensure Docker is running, then execute:
 ```bash
 pnpm exec nx run @desafio-dev-backend-senior/e2e:milestone-4-acceptance
 docker compose --file compose.yaml config --quiet
-docker build --file apps/payment-processor/Dockerfile .
+docker build --file apps/payment-federation/Dockerfile .
 ```
 
 The Nx target covers event contracts, confirmed outbox publication, bounded
@@ -24,7 +24,7 @@ payload contains correlation identifiers and a safe reason, never credentials
 or buyer data. Fix the cause before replaying a message with its original event
 and operation identifiers.
 
-Use `docker compose stop --timeout 35 payment-processor order-workflow-subgraph` for
+Use `docker compose stop --timeout 35 payment-federation order-workflow-subgraph` for
 planned shutdown. Consumers stop accepting deliveries,
 finish active effects, close broker connections, and only then exit. Preserve
 the Commerce and payment PostgreSQL volumes while diagnosing state.

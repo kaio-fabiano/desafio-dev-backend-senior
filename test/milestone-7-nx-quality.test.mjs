@@ -6,7 +6,7 @@ const readJson = async (path) => JSON.parse(await readFile(path, 'utf8'));
 const projects = [
   'apps/gateway/project.json',
   'apps/identity-subgraph/project.json',
-  'apps/payment-processor/project.json',
+  'apps/payment-federation/project.json',
 ];
 
 test('AC-074: Nx caches cross-language build and test targets @spec:AC-074', async () => {

@@ -26,7 +26,7 @@ test('AC-116: final records describe the delivered runtime @spec:AC-116', () => 
   assert.match(tasks, /T-090[^\n]*\[concluida\]/);
   assert.match(compose, /^  order-workflow-subgraph:/m);
   assert.match(compose, /^  rabbitmq:/m);
-  assert.match(compose, /^  payment-processor:/m);
+  assert.match(compose, /^  payment-federation:/m);
   assert.doesNotMatch(compose, /^  stock-worker:/m);
   assert.equal(
     existsSync('apps/wordpress-integration/marketplace-inventory.php'),

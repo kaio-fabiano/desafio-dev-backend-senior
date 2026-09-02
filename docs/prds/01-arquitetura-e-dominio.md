@@ -41,7 +41,7 @@ apps/
 ├── gateway/                 authenticated query/mutation federation edge
 ├── identity-subgraph/       Identity Federation with Better Auth
 ├── order-workflow-subgraph/       durable checkout workflow and RabbitMQ boundary
-├── payment-processor/       Payment Federation with Java 21 and Spring Boot
+├── payment-federation/       Payment Federation with Java 21 and Spring Boot
 └── e2e/                     non-deployable Vitest/Testcontainers project
 ```
 

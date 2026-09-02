@@ -56,11 +56,11 @@ export default $config({
       serviceRegistry: { port: 3001 },
     });
 
-    const paymentProcessor = new sst.aws.Service("PaymentProcessor", {
+    const paymentFederation = new sst.aws.Service("PaymentFederation", {
       cluster,
       image: {
         context: "..",
-        dockerfile: "apps/payment-processor/Dockerfile",
+        dockerfile: "apps/payment-federation/Dockerfile",
       },
       link: [paymentDatabase],
     });
@@ -92,7 +92,7 @@ export default $config({
       gatewayUrl: gateway.url,
       resourceNames: [
         "IdentitySubgraph",
-        "PaymentProcessor",
+        "PaymentFederation",
         "RabbitMq",
         "WordPress",
       ],

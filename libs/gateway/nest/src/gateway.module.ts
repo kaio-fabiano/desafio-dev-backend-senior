@@ -81,7 +81,7 @@ Module({
                 name: 'payment',
                 url:
                   process.env.PAYMENT_GRAPHQL_URL ??
-                  'http://payment-processor:8080/graphql',
+                  'http://payment-federation:8080/graphql',
                 typeDefs: contract('payment'),
               },
               {

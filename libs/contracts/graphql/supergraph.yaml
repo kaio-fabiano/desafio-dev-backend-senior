@@ -10,7 +10,7 @@ subgraphs:
     schema:
       file: ./wordpress/schema.graphql
   payment:
-    routing_url: http://payment-processor:8080/graphql
+    routing_url: http://payment-federation:8080/graphql
     schema:
       file: ./payment/schema.graphql
   order-workflow:

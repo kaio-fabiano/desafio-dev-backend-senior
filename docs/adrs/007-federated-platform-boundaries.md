@@ -36,7 +36,7 @@ architecture contract consumed by `test/federated-platform-refactor.test.mjs`.
       "name": "Order Workflow Federation",
       "path": "apps/order-workflow-subgraph"
     },
-    { "name": "Payment Federation", "path": "apps/payment-processor" }
+    { "name": "Payment Federation", "path": "apps/payment-federation" }
   ],
   "nonDeployableProjects": [{ "name": "End-to-end tests", "path": "apps/e2e" }],
   "retiredApplications": ["apps/stock-worker", "apps/wordpress-federation"]
