@@ -1,11 +1,11 @@
 {
   "feature": "federated-platform-architecture-refactor",
-  "timestamp": "2026-09-02T15:58:01.146Z",
-  "gitRev": "b7c2786",
+  "timestamp": "2026-09-02T19:53:58.019Z",
+  "gitRev": "880a87a",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 157,
+  "testsParsed": 168,
   "results": {
     "AC-090": {
       "status": "pass",
@@ -24,7 +24,7 @@
     },
     "AC-093": {
       "status": "pass",
-      "testName": "AC-093: Better Auth uses injectable plugin factories and its NestJS integration @spec:AC-093",
+      "testName": "AC-093: Better Auth uses direct plugins and its NestJS integration @spec:AC-093",
       "method": "tap"
     },
     "AC-094": {

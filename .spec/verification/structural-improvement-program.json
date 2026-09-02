@@ -1,11 +1,11 @@
 {
   "feature": "structural-improvement-program",
-  "timestamp": "2026-09-02T16:18:48.977Z",
-  "gitRev": "b7c2786",
+  "timestamp": "2026-09-02T19:58:42.565Z",
+  "gitRev": "880a87a",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 157,
+  "testsParsed": 168,
   "results": {
     "AC-121": {
       "status": "pass",

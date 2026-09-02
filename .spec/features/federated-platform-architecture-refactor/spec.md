@@ -47,13 +47,13 @@ framework rather than bootstrap singletons.
 
 - **Dado** Gateway and Identity Federation startup
 - **Quando** their Nest application contexts are created
-- **Então** configuration, authentication, plugin factories, adapters, and lifecycle resources resolve through registered providers without constructing infrastructure in `main.ts`
+- **Então** configuration, authentication, adapters, and lifecycle resources resolve through registered providers without constructing infrastructure in `main.ts`
 
 #### AC-093 — Better Auth uses its NestJS integration
 
 - **Dado** Identity Federation authentication and OAuth plugins
 - **Quando** the Identity module is initialized
-- **Então** `NestJSBetterAuth` and one injectable factory per configured Better Auth plugin create the auth runtime and expose its framework-managed handler
+- **Então** `NestJSBetterAuth` creates the auth runtime and exposes its framework-managed handler while native Better Auth plugin constructors remain direct composition functions
 
 #### AC-094 — Identity does not duplicate Better Auth persistence
 

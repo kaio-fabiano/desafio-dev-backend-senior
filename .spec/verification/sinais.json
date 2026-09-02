@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 37,
+      "ocorrencias": 38,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-02T15:53:56.781Z",
-      "gitRev": "b7c2786"
+      "ultimaVez": "2026-09-02T19:54:08.525Z",
+      "gitRev": "880a87a"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2552,10 +2552,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 33,
+      "ocorrencias": 34,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-09-02T15:53:56.781Z",
-      "gitRev": "b7c2786"
+      "ultimaVez": "2026-09-02T17:56:54.156Z",
+      "gitRev": "880a87a"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -2606,10 +2606,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-067",
-      "ocorrencias": 12,
+      "ocorrencias": 14,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-08-28T22:13:39.740Z",
-      "gitRev": "6b829c5"
+      "ultimaVez": "2026-09-02T19:54:08.525Z",
+      "gitRev": "880a87a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-067": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 26,
+      "ocorrencias": 27,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-09-02T15:53:56.781Z",
-      "gitRev": "b7c2786"
+      "ultimaVez": "2026-09-02T17:56:54.156Z",
+      "gitRev": "880a87a"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3776,10 +3776,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-074",
-      "ocorrencias": 2,
+      "ocorrencias": 3,
       "primeiraVez": "2026-08-31T23:15:00.402Z",
-      "ultimaVez": "2026-08-31T23:15:00.402Z",
-      "gitRev": "5c5a37a"
+      "ultimaVez": "2026-09-02T19:54:08.525Z",
+      "gitRev": "880a87a"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-075": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -4208,10 +4208,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "structural-improvement-program",
       "ref": "—",
-      "ocorrencias": 11,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-01T03:06:54.499Z",
-      "ultimaVez": "2026-09-02T17:36:56.907Z",
-      "gitRev": "44f1a8e"
+      "ultimaVez": "2026-09-02T19:54:08.525Z",
+      "gitRev": "880a87a"
     },
     "VERIFY_OBSOLETO::keep-graphify-current::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -4298,10 +4298,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "production-happy-path-hardening",
       "ref": "—",
-      "ocorrencias": 7,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-01T21:13:57.059Z",
-      "ultimaVez": "2026-09-02T15:53:56.781Z",
-      "gitRev": "b7c2786"
+      "ultimaVez": "2026-09-02T19:54:08.525Z",
+      "gitRev": "880a87a"
     },
     "ID_DUPLICADO::transaction-federation-refactor::ASM-001": {
       "codigo": "ID_DUPLICADO",
@@ -4991,10 +4991,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "oauth-resource-server-auth",
       "ref": "T-133",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-02T17:36:56.907Z",
-      "ultimaVez": "2026-09-02T17:36:56.907Z",
-      "gitRev": "44f1a8e"
+      "ultimaVez": "2026-09-02T19:54:08.525Z",
+      "gitRev": "880a87a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::oauth-resource-server-auth::T-133": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",

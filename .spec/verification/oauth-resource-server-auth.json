@@ -1,15 +1,60 @@
 {
   "feature": "oauth-resource-server-auth",
-  "timestamp": "2026-09-02T17:36:56.791Z",
-  "gitRev": "44f1a8e",
+  "timestamp": "2026-09-02T19:52:08.555Z",
+  "gitRev": "880a87a",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
-  "exitCode": 123,
-  "testsParsed": 158,
+  "exitCode": 0,
+  "testsParsed": 168,
   "results": {
+    "AC-174": {
+      "status": "pass",
+      "testName": "AC-174: Tokens are issued for every owned protected resource @spec:AC-174",
+      "method": "tap"
+    },
+    "AC-175": {
+      "status": "pass",
+      "testName": "AC-175: Federation preserves the standard bearer credential @spec:AC-175",
+      "method": "tap"
+    },
+    "AC-176": {
+      "status": "pass",
+      "testName": "AC-176: NestJS resource servers use Better Auth verification @spec:AC-176",
+      "method": "tap"
+    },
     "AC-177": {
       "status": "pass",
-      "testName": "AC-177: Payment delegates bearer validation to Spring Security @spec:AC-177",
+      "testName": "AC-177: Payment is a standard Spring OAuth resource server @spec:AC-177",
+      "method": "tap"
+    },
+    "AC-178": {
+      "status": "pass",
+      "testName": "AC-178: SSE validates the same bearer token @spec:AC-178",
+      "method": "tap"
+    },
+    "AC-179": {
+      "status": "pass",
+      "testName": "AC-179: Native-first boundaries are documented and executable @spec:AC-179",
+      "method": "tap"
+    },
+    "AC-180": {
+      "status": "pass",
+      "testName": "AC-180: DPoP verification receives the original request target @spec:AC-180",
+      "method": "tap"
+    },
+    "AC-181": {
+      "status": "pass",
+      "testName": "AC-181: Authentication and scope authorization have distinct outcomes @spec:AC-181",
+      "method": "tap"
+    },
+    "AC-182": {
+      "status": "pass",
+      "testName": "AC-182: Gateway and subgraphs share one token verification policy @spec:AC-182",
+      "method": "tap"
+    },
+    "AC-183": {
+      "status": "pass",
+      "testName": "AC-183: Authentication composition contains no redundant wrappers or context state @spec:AC-183",
       "method": "tap"
     }
   },

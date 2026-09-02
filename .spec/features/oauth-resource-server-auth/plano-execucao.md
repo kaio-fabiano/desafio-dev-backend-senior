@@ -1,11 +1,11 @@
 # Plano de execução — oauth-resource-server-auth
 
-> gerado por `onp-spec plano` em 2026-09-02 17:09 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-02 19:41 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano oauth-resource-server-auth --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 6 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
+- **modo SEQUENCIAL (escolha do usuário)**: 4 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (6 já concluída(s): T-133, T-134, T-135, T-136, T-137, T-138)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/oauth-resource-server-auth`; levar para a main é decisão sua
 
@@ -13,12 +13,10 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-133 | Model owned OAuth resources in Better Auth | `gpt-5.6-sol` | high |
-| T-134 | Build the shared NestJS OAuth resource module | `gpt-5.6-sol` | high |
-| T-135 | Migrate Order Workflow GraphQL and SSE authentication | `gpt-5.6-sol` | high |
-| T-136 | Forward bearer credentials through the Gateway | `gpt-5.6-sol` | high |
-| T-137 | Migrate Payment to Spring Security resource-server support | `gpt-5.6-sol` | high |
-| T-138 | Remove the custom trust protocol and codify native-first review | `gpt-5.6-sol` | high |
+| T-139 | Preserve OAuth request proof and separate scope authorization | `gpt-5.6-sol` | high |
+| T-140 | Remove duplicated GraphQL authentication state and decorators | `gpt-5.6-sol` | high |
+| T-141 | Consolidate Gateway verification on the shared OAuth service | `gpt-5.6-sol` | high |
+| T-142 | Simplify Better Auth composition and close quality gates | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits
 

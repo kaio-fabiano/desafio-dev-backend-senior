@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano oauth-resource-server-auth` em 2026-09-02 17:09
+# executar-tarefas.sh — gerado por `onp-spec plano oauth-resource-server-auth` em 2026-09-02 19:41
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-oauth-resource-server-auth-mtkcpdbr'
+RUN_ID='desafio-dev-backend-senior-oauth-resource-server-auth-mtki4v58'
 FEATURE='oauth-resource-server-auth'
 BASE_BRANCH='spec/oauth-resource-server-auth'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,17 +168,17 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-133 (ordem do tasks.md) ──
-executar_seq_T_133() {
-  info 'sequencial T-133 — Model owned OAuth resources in Better Auth'
-  if rodar_tarefa seq 'T-133' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-139 (ordem do tasks.md) ──
+executar_seq_T_139() {
+  info 'sequencial T-139 — Preserve OAuth request proof and separate scope authorization'
+  if rodar_tarefa seq 'T-139' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/oauth-resource-server-auth/spec.md, .spec/features/oauth-resource-server-auth/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-133 — "Model owned OAuth resources in Better Auth"
-  critérios/refs: AC-174 (Tokens are issued for every owned protected resource)
-  arquivos permitidos (e seus testes): libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts, libs/identity/nest/src/auth/resource-audiences.ts, apps/identity-subgraph/src/auth/config.ts, test/oauth-resource-server-auth.spec.test.js
-  mensagem de commit: "T-133 oauth-resource-server-auth: Model owned OAuth resources in Better Auth"
+T-139 — "Preserve OAuth request proof and separate scope authorization"
+  critérios/refs: AC-180 (DPoP verification receives the original request target), AC-181 (Authentication and scope authorization have distinct outcomes)
+  arquivos permitidos (e seus testes): libs/platform/nest/src/auth/oauth-resource.service.ts, libs/platform/nest/src/auth/oauth-resource.guard.ts, libs/platform/nest/src/auth/oauth-resource.module.ts, libs/platform/nest/src/index.ts, test/oauth-resource-server-auth.spec.test.mjs
+  mensagem de commit: "T-139 oauth-resource-server-auth: Preserve OAuth request proof and separate scope authorization"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -188,29 +188,29 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-133 oauth-resource-server-auth: Model owned OAuth resources in Better Auth (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-139 oauth-resource-server-auth: Preserve OAuth request proof and separate scope authorization (auto-commit do plano)'
     fi
-    marcar_concluidas T-133
-    verde "✔ T-133 concluída"
+    marcar_concluidas T-139
+    verde "✔ T-139 concluída"
     return 0
   fi
-  vermelho "✘ T-133 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-133"
-  FALHAS="$FALHAS T-133"
+  vermelho "✘ T-139 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-139"
+  FALHAS="$FALHAS T-139"
   return 1
 }
 
-# ── sequencial T-134 (ordem do tasks.md) ──
-executar_seq_T_134() {
-  info 'sequencial T-134 — Build the shared NestJS OAuth resource module'
-  if rodar_tarefa seq 'T-134' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-140 (ordem do tasks.md) ──
+executar_seq_T_140() {
+  info 'sequencial T-140 — Remove duplicated GraphQL authentication state and decorators'
+  if rodar_tarefa seq 'T-140' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/oauth-resource-server-auth/spec.md, .spec/features/oauth-resource-server-auth/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-134 — "Build the shared NestJS OAuth resource module"
-  critérios/refs: AC-176 (NestJS resource servers use Better Auth verification)
-  arquivos permitidos (e seus testes): libs/platform/nest/src/auth, libs/platform/nest/src/index.ts, libs/identity/nest/src/identity.module.ts, apps/identity-subgraph/src/graphql/identity.module.ts, test/oauth-resource-server-auth.spec.test.js
-  mensagem de commit: "T-134 oauth-resource-server-auth: Build the shared NestJS OAuth resource module"
+T-140 — "Remove duplicated GraphQL authentication state and decorators"
+  critérios/refs: AC-181 (Authentication and scope authorization have distinct outcomes), AC-183 (Authentication composition contains no redundant wrappers or context state)
+  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/graphql/authenticated-subject.decorator.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts, libs/identity/nest/src/identity.module.ts, test/oauth-resource-server-auth.spec.test.mjs
+  mensagem de commit: "T-140 oauth-resource-server-auth: Remove duplicated GraphQL authentication state and decorators"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -220,29 +220,29 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-134 oauth-resource-server-auth: Build the shared NestJS OAuth resource module (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-140 oauth-resource-server-auth: Remove duplicated GraphQL authentication state and decorators (auto-commit do plano)'
     fi
-    marcar_concluidas T-134
-    verde "✔ T-134 concluída"
+    marcar_concluidas T-140
+    verde "✔ T-140 concluída"
     return 0
   fi
-  vermelho "✘ T-134 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-134"
-  FALHAS="$FALHAS T-134"
+  vermelho "✘ T-140 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-140"
+  FALHAS="$FALHAS T-140"
   return 1
 }
 
-# ── sequencial T-135 (ordem do tasks.md) ──
-executar_seq_T_135() {
-  info 'sequencial T-135 — Migrate Order Workflow GraphQL and SSE authentication'
-  if rodar_tarefa seq 'T-135' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-141 (ordem do tasks.md) ──
+executar_seq_T_141() {
+  info 'sequencial T-141 — Consolidate Gateway verification on the shared OAuth service'
+  if rodar_tarefa seq 'T-141' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/oauth-resource-server-auth/spec.md, .spec/features/oauth-resource-server-auth/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-135 — "Migrate Order Workflow GraphQL and SSE authentication"
-  critérios/refs: AC-176 (NestJS resource servers use Better Auth verification), AC-178 (SSE validates the same bearer token)
-  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/graphql, apps/order-workflow-subgraph/src/subscriptions, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/project.json, test/oauth-resource-server-auth.spec.test.js, test/production-happy-path-hardening.spec.test.js
-  mensagem de commit: "T-135 oauth-resource-server-auth: Migrate Order Workflow GraphQL and SSE authentication"
+T-141 — "Consolidate Gateway verification on the shared OAuth service"
+  critérios/refs: AC-182 (Gateway and subgraphs share one token verification policy)
+  arquivos permitidos (e seus testes): libs/gateway/nest/src/auth/token-verifier.service.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, libs/gateway/nest/src/gateway.module.ts, libs/platform/nest/src/auth/oauth-resource.service.ts, test/gateway-federation-refactor.test.mjs, test/oauth-resource-server-auth.spec.test.mjs
+  mensagem de commit: "T-141 oauth-resource-server-auth: Consolidate Gateway verification on the shared OAuth service"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -252,29 +252,29 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-135 oauth-resource-server-auth: Migrate Order Workflow GraphQL and SSE authentication (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-141 oauth-resource-server-auth: Consolidate Gateway verification on the shared OAuth service (auto-commit do plano)'
     fi
-    marcar_concluidas T-135
-    verde "✔ T-135 concluída"
+    marcar_concluidas T-141
+    verde "✔ T-141 concluída"
     return 0
   fi
-  vermelho "✘ T-135 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-135"
-  FALHAS="$FALHAS T-135"
+  vermelho "✘ T-141 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-141"
+  FALHAS="$FALHAS T-141"
   return 1
 }
 
-# ── sequencial T-136 (ordem do tasks.md) ──
-executar_seq_T_136() {
-  info 'sequencial T-136 — Forward bearer credentials through the Gateway'
-  if rodar_tarefa seq 'T-136' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-142 (ordem do tasks.md) ──
+executar_seq_T_142() {
+  info 'sequencial T-142 — Simplify Better Auth composition and close quality gates'
+  if rodar_tarefa seq 'T-142' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/oauth-resource-server-auth/spec.md, .spec/features/oauth-resource-server-auth/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-136 — "Forward bearer credentials through the Gateway"
-  critérios/refs: AC-175 (Federation preserves the standard bearer credential), AC-178 (SSE validates the same bearer token)
-  arquivos permitidos (e seus testes): libs/gateway/nest/src/auth, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/gateway/nest/src/gateway.module.ts, apps/gateway/src/subscriptions, test/gateway-federation-refactor.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/oauth-resource-server-auth.spec.test.js
-  mensagem de commit: "T-136 oauth-resource-server-auth: Forward bearer credentials through the Gateway"
+T-142 — "Simplify Better Auth composition and close quality gates"
+  critérios/refs: AC-183 (Authentication composition contains no redundant wrappers or context state)
+  arquivos permitidos (e seus testes): libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/better-auth.module.ts, libs/identity/nest/src/auth/plugins/jwt-plugin.factory.ts, libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts, test/oauth-resource-server-auth.spec.test.mjs, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
+  mensagem de commit: "T-142 oauth-resource-server-auth: Simplify Better Auth composition and close quality gates"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -284,79 +284,15 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-136 oauth-resource-server-auth: Forward bearer credentials through the Gateway (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-142 oauth-resource-server-auth: Simplify Better Auth composition and close quality gates (auto-commit do plano)'
     fi
-    marcar_concluidas T-136
-    verde "✔ T-136 concluída"
+    marcar_concluidas T-142
+    verde "✔ T-142 concluída"
     return 0
   fi
-  vermelho "✘ T-136 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-136"
-  FALHAS="$FALHAS T-136"
-  return 1
-}
-
-# ── sequencial T-137 (ordem do tasks.md) ──
-executar_seq_T_137() {
-  info 'sequencial T-137 — Migrate Payment to Spring Security resource-server support'
-  if rodar_tarefa seq 'T-137' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/oauth-resource-server-auth/spec.md, .spec/features/oauth-resource-server-auth/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-137 — "Migrate Payment to Spring Security resource-server support"
-  critérios/refs: AC-177 (Payment is a standard Spring OAuth resource server)
-  arquivos permitidos (e seus testes): apps/payment-federation/build.gradle.kts, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/test, test/structural-payment-review.test.mjs, test/oauth-resource-server-auth.spec.test.js
-  mensagem de commit: "T-137 oauth-resource-server-auth: Migrate Payment to Spring Security resource-server support"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-137 oauth-resource-server-auth: Migrate Payment to Spring Security resource-server support (auto-commit do plano)'
-    fi
-    marcar_concluidas T-137
-    verde "✔ T-137 concluída"
-    return 0
-  fi
-  vermelho "✘ T-137 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-137"
-  FALHAS="$FALHAS T-137"
-  return 1
-}
-
-# ── sequencial T-138 (ordem do tasks.md) ──
-executar_seq_T_138() {
-  info 'sequencial T-138 — Remove the custom trust protocol and codify native-first review'
-  if rodar_tarefa seq 'T-138' 'Você executa UMA tarefa da feature "oauth-resource-server-auth" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/oauth-resource-server-auth/spec.md, .spec/features/oauth-resource-server-auth/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-138 — "Remove the custom trust protocol and codify native-first review"
-  critérios/refs: AC-174 (Tokens are issued for every owned protected resource), AC-175 (Federation preserves the standard bearer credential), AC-176 (NestJS resource servers use Better Auth verification), AC-177 (Payment is a standard Spring OAuth resource server), AC-178 (SSE validates the same bearer token), AC-179 (Native-first boundaries are documented and executable)
-  arquivos permitidos (e seus testes): compose.yaml, docs/adrs, docs/prds, test, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
-  mensagem de commit: "T-138 oauth-resource-server-auth: Remove the custom trust protocol and codify native-first review"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-138 oauth-resource-server-auth: Remove the custom trust protocol and codify native-first review (auto-commit do plano)'
-    fi
-    marcar_concluidas T-138
-    verde "✔ T-138 concluída"
-    return 0
-  fi
-  vermelho "✘ T-138 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-138"
-  FALHAS="$FALHAS T-138"
+  vermelho "✘ T-142 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/oauth-resource-server-auth/executar-tarefas.sh --seq T-142"
+  FALHAS="$FALHAS T-142"
   return 1
 }
 
@@ -413,23 +349,19 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_133 || true
-  executar_seq_T_134 || true
-  executar_seq_T_135 || true
-  executar_seq_T_136 || true
-  executar_seq_T_137 || true
-  executar_seq_T_138 || true
+  executar_seq_T_139 || true
+  executar_seq_T_140 || true
+  executar_seq_T_141 || true
+  executar_seq_T_142 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-133 (sequencial)"
-  echo "  seq       T-134 (sequencial)"
-  echo "  seq       T-135 (sequencial)"
-  echo "  seq       T-136 (sequencial)"
-  echo "  seq       T-137 (sequencial)"
-  echo "  seq       T-138 (sequencial)"
+  echo "  seq       T-139 (sequencial)"
+  echo "  seq       T-140 (sequencial)"
+  echo "  seq       T-141 (sequencial)"
+  echo "  seq       T-142 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -464,12 +396,10 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-133) evento --tipo inicio --escopo "seq:T-133"; iniciar_resumos; executar_seq_T_133 || true; encerrar "seq:T-133" ;;
-      T-134) evento --tipo inicio --escopo "seq:T-134"; iniciar_resumos; executar_seq_T_134 || true; encerrar "seq:T-134" ;;
-      T-135) evento --tipo inicio --escopo "seq:T-135"; iniciar_resumos; executar_seq_T_135 || true; encerrar "seq:T-135" ;;
-      T-136) evento --tipo inicio --escopo "seq:T-136"; iniciar_resumos; executar_seq_T_136 || true; encerrar "seq:T-136" ;;
-      T-137) evento --tipo inicio --escopo "seq:T-137"; iniciar_resumos; executar_seq_T_137 || true; encerrar "seq:T-137" ;;
-      T-138) evento --tipo inicio --escopo "seq:T-138"; iniciar_resumos; executar_seq_T_138 || true; encerrar "seq:T-138" ;;
+      T-139) evento --tipo inicio --escopo "seq:T-139"; iniciar_resumos; executar_seq_T_139 || true; encerrar "seq:T-139" ;;
+      T-140) evento --tipo inicio --escopo "seq:T-140"; iniciar_resumos; executar_seq_T_140 || true; encerrar "seq:T-140" ;;
+      T-141) evento --tipo inicio --escopo "seq:T-141"; iniciar_resumos; executar_seq_T_141 || true; encerrar "seq:T-141" ;;
+      T-142) evento --tipo inicio --escopo "seq:T-142"; iniciar_resumos; executar_seq_T_142 || true; encerrar "seq:T-142" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

@@ -80,6 +80,36 @@ protocol or lifecycle abstraction.
 - **Quando** architecture documentation and quality tests are inspected
 - **Então** they require native security/configuration/lifecycle facilities first, record any remaining custom gap, and prevent the removed identity-header protocol from returning
 
+### US-092 — Harden and simplify the shared resource-server integration
+
+As a platform maintainer, I want one accurate and minimal OAuth integration,
+so that every transport preserves protocol security without duplicate framework
+or vendor abstractions.
+
+#### AC-180 — DPoP verification receives the original request target
+
+- **Dado** a GraphQL request carrying an OAuth bearer or DPoP credential
+- **Quando** the shared NestJS resource server verifies that request
+- **Então** verification receives the real HTTP method and externally visible URL instead of a fabricated resource URL
+
+#### AC-181 — Authentication and scope authorization have distinct outcomes
+
+- **Dado** a resolver protected by metadata-driven scopes
+- **Quando** its credential is absent or invalid, or its verified token lacks a required scope
+- **Então** invalid authentication is rejected as unauthorized, insufficient scope is rejected as forbidden, and unsupported execution contexts are not silently presented as protected
+
+#### AC-182 — Gateway and subgraphs share one token verification policy
+
+- **Dado** the Gateway and owned NestJS subgraphs receiving OAuth access tokens
+- **Quando** they verify issuer, audience, lifetime, and token proof
+- **Então** they delegate to the same Better Auth resource-server service while the Gateway keeps only correlation and Gateway-specific context enrichment
+
+#### AC-183 — Authentication composition contains no redundant wrappers or context state
+
+- **Dado** the shared subject decorator and Better Auth plugin constructors
+- **Quando** Identity and Order Workflow compose authentication
+- **Então** consumers use one verified-claims context and one shared subject decorator, and plugin functions are not hidden behind single-implementation forwarding factories
+
 ## Out of scope
 
 - Replacing WooCommerce cookies, cart tokens, or WordPress service credentials.
@@ -91,9 +121,9 @@ protocol or lifecycle abstraction.
 
 | ID | Assumption | Status | Resolution |
 |---|---|---|---|
-| ASM-063 | Better Auth JWT access tokens can carry all explicitly requested/default resource audiences required by the federated request. | confirmed | The OAuth Provider resource configuration already controls JWT `aud`; owned subgraphs will be registered explicitly. |
-| ASM-064 | Forwarding the original bearer token is acceptable inside the private federation network without token exchange. | confirmed | The token remains audience-bound, short-lived, TLS-protected in production, and independently verified at every owned resource. |
-| ASM-065 | WordPress cannot become a Better Auth resource server without custom plugin work. | confirmed | Its native session/service authentication remains isolated and is not treated as proof of Better Auth identity. |
+| ASM-063 | Better Auth JWT access tokens can carry all explicitly requested/default resource audiences required by the federated request. | confirmada | The OAuth Provider resource configuration already controls JWT `aud`; owned subgraphs will be registered explicitly. |
+| ASM-064 | Forwarding the original bearer token is acceptable inside the private federation network without token exchange. | confirmada | The token remains audience-bound, short-lived, TLS-protected in production, and independently verified at every owned resource. |
+| ASM-065 | WordPress cannot become a Better Auth resource server without custom plugin work. | confirmada | Its native session/service authentication remains isolated and is not treated as proof of Better Auth identity. |
 
 ## Perguntas em aberto
 
