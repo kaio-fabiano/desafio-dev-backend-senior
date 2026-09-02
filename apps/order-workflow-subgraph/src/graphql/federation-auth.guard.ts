@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-
+//TODO: Avaliar esse Federation Auth guard aparentemente é pra usar um recurso do betterauth de OAuth2, mas não está sendo usado
 @Injectable()
 export class FederationAuthGuard implements CanActivate {
   canActivate(executionContext: ExecutionContext): boolean {
