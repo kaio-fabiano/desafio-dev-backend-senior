@@ -1,8 +1,10 @@
-package dev.desafio.payment.adapter.messaging;
+package dev.desafio.transaction.payment.adapter.messaging;
 
-import dev.desafio.payment.adapter.persistence.PaymentRepository;
-import dev.desafio.payment.application.PaymentHandler;
-import dev.desafio.payment.domain.Payment;
+import dev.desafio.transaction.payment.adapter.provider.DeterministicPaymentProvider;
+import dev.desafio.transaction.payment.application.PaymentHandler;
+import dev.desafio.transaction.payment.application.PaymentProvider;
+import dev.desafio.transaction.payment.application.PaymentRepository;
+import dev.desafio.transaction.payment.domain.Payment;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,13 +27,14 @@ class PaymentRedeliveryTest {
         var repository = new RedeliveryRepository();
         var handler = new PaymentHandler(
             repository,
-            dev.desafio.payment.application.PaymentProvider.deterministic(),
+            new DeterministicPaymentProvider(),
             Clock.fixed(Instant.parse("2026-08-27T12:00:00Z"), ZoneOffset.UTC)
         );
         var consumer = new PaymentConsumer(handler);
         var delivery = PaymentConsumer.Delivery.paymentRequested(
             UUID.randomUUID(), "checkout-51", "payment-51", "order-51",
-            Payment.Method.CARD, new BigDecimal("75.00"), "BRL"
+            Payment.Method.CARD, new BigDecimal("75.00"), "BRL",
+            "provider-token", "buyer@example.test", "visa"
         );
 
         assertThrows(SimulatedCrash.class, () -> consumer.consume(delivery, () -> {
@@ -54,15 +57,24 @@ class PaymentRedeliveryTest {
         private int effectCount;
 
         @Override
+        public String providerReference(Payment.RefundRequested command) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public synchronized ProcessingResult process(
             UUID incomingEventId,
             Payment.Command command,
+            PaymentProvider.Result providerResult,
             Instant occurredAt
         ) {
             var previous = inbox.get(incomingEventId);
             if (previous != null) return new ProcessingResult(previous.payment(), previous.outgoingEvent(), true);
 
-            var payment = Payment.start((Payment.PaymentRequested) command);
+            var payment = Payment.fromProvider(
+                (Payment.PaymentRequested) command,
+                providerResult.toDomainResult()
+            );
             var event = outbox.computeIfAbsent(payment.operationKey(), ignored -> {
                 effectCount++;
                 return Payment.resultEvent(payment, Payment.Status.AUTHORIZED, occurredAt);

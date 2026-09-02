@@ -19,7 +19,14 @@
             "orderId": { "type": "string", "minLength": 1 },
             "method": { "enum": ["CARD", "PIX"] },
             "amount": { "type": "number", "exclusiveMinimum": 0 },
-            "currency": { "type": "string", "pattern": "^[A-Z]{3}$" }
+            "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+            "providerToken": { "type": "string", "minLength": 1 },
+            "payerEmail": { "type": "string", "minLength": 3 },
+            "paymentMethodId": { "type": "string", "minLength": 1 }
+          },
+          "dependentRequired": {
+            "providerToken": ["payerEmail", "paymentMethodId"],
+            "paymentMethodId": ["providerToken", "payerEmail"]
           }
         }
       },

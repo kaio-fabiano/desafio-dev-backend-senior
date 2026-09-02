@@ -114,6 +114,21 @@ After M3, saga, SSE, and MCP have parallelizable parts, but final integration
 remains serial through the same E2E. Each milestone must become its own feature
 spec before implementation, with annotated and auditable criteria.
 
+## Mercado Pago provider continuation
+
+The first payment production-readiness slice selects Mercado Pago and keeps it
+behind Payment's existing outbound port. Credential-free contracts cover Card
+token boundaries, Pix response mapping, idempotent creation, signed and
+replay-safe webhooks, authoritative state lookup, timeout reconciliation, and
+refunds. The deterministic adapter remains limited to explicit local and test
+profiles.
+
+Sandbox activation is a separate opt-in operational gate because credentials,
+the public HTTPS callback, and test-account state live outside the repository.
+Follow [ADR 010](../adrs/010-mercado-pago-payment-provider.md) and the
+[sandbox runbook](../runbooks/mercado-pago-sandbox.md); passing local contracts
+does not authorize a production deployment or prove Pix settlement.
+
 ## Production continuation
 
 Milestone 7 closes the challenge delivery, not the production lifecycle. Follow

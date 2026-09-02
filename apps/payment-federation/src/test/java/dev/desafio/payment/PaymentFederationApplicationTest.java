@@ -1,4 +1,4 @@
-package dev.desafio.payment;
+package dev.desafio.transaction;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

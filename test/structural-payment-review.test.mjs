@@ -5,7 +5,7 @@ import test from 'node:test';
 test('AC-124: Payment keeps reliable isolated adapters @spec:AC-124', async () => {
   const [configuration, compose] = await Promise.all([
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java',
       'utf8',
     ),
     readFile('compose.yaml', 'utf8'),

@@ -23,3 +23,19 @@ management:
     health:
       probes:
         enabled: true
+payment:
+  provider:
+    mode: ${PAYMENT_PROVIDER_MODE:}
+    access-token: ${MERCADO_PAGO_ACCESS_TOKEN:}
+    webhook-secret: ${MERCADO_PAGO_WEBHOOK_SECRET:}
+    api-base-url: ${MERCADO_PAGO_API_BASE_URL:}
+    connection-timeout: ${MERCADO_PAGO_CONNECTION_TIMEOUT:}
+    read-timeout: ${MERCADO_PAGO_READ_TIMEOUT:}
+---
+spring:
+  config:
+    activate:
+      on-profile: "local | test"
+payment:
+  provider:
+    mode: ${PAYMENT_PROVIDER_MODE:deterministic}

@@ -130,7 +130,7 @@ test('AC-099: Payment is composed as the Spring GraphQL Federation subgraph @spe
       readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
       readFile('apps/payment-federation/project.json', 'utf8').then(JSON.parse),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java',
         'utf8',
       ),
       Promise.all(

@@ -2,5 +2,26 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://desafio.dev/contracts/events/payment-pix-generated.v1.schema.json",
   "title": "Payment Pix generated event v1",
-  "allOf": [{ "$ref": "envelope.schema.json" }, { "type": "object", "properties": { "eventType": { "const": "payment.pix-generated" }, "eventVersion": { "const": "v1" }, "payload": { "type": "object", "additionalProperties": false, "required": ["paymentId", "orderId", "pixCode"], "properties": { "paymentId": { "type": "string", "minLength": 1 }, "orderId": { "type": "string", "minLength": 1 }, "pixCode": { "type": "string", "minLength": 1 } } } }, "required": ["payload"] }]
+  "allOf": [
+    { "$ref": "envelope.schema.json" },
+    {
+      "type": "object",
+      "properties": {
+        "eventType": { "const": "payment.pix-generated" },
+        "eventVersion": { "const": "v1" },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["paymentId", "orderId", "providerReference", "pixCode"],
+          "properties": {
+            "paymentId": { "type": "string", "minLength": 1 },
+            "orderId": { "type": "string", "minLength": 1 },
+            "providerReference": { "type": "string", "minLength": 1 },
+            "pixCode": { "type": "string", "minLength": 1 }
+          }
+        }
+      },
+      "required": ["payload"]
+    }
+  ]
 }
