@@ -13,5 +13,6 @@ COPY --chown=app:app package.json ./package.json
 COPY --chown=app:app apps/identity-subgraph ./apps/identity-subgraph
 COPY --chown=app:app libs/contracts/graphql/identity/schema.graphql ./libs/contracts/graphql/identity/schema.graphql
 COPY --chown=app:app libs/identity/nest ./libs/identity/nest
+COPY --chown=app:app libs/platform/nest ./libs/platform/nest
 USER app
 CMD ["node", "--experimental-transform-types", "apps/identity-subgraph/src/main.ts"]

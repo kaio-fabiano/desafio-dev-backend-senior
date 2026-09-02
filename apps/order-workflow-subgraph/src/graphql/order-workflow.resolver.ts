@@ -23,6 +23,9 @@ import {
 export type CheckoutInput = {
   operationKey: string;
   paymentMethod: 'PIX' | 'CARD';
+  payerEmail: string;
+  providerToken?: string;
+  paymentMethodId?: string;
 };
 type OrderReference = { wooOrderId: string };
 export type CheckoutOperationView = Omit<CheckoutOperation, 'status'> & {

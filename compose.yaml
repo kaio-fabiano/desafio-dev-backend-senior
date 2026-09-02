@@ -18,6 +18,7 @@ x-federated-node-build: &federated-node-build
     COPY --chown=app:app libs/contracts/graphql ./libs/contracts/graphql
     COPY --chown=app:app libs/gateway/nest ./libs/gateway/nest
     COPY --chown=app:app libs/identity/nest ./libs/identity/nest
+    COPY --chown=app:app libs/platform/nest ./libs/platform/nest
     USER app
 
 services:
@@ -377,6 +378,7 @@ services:
       PAYMENT_OAUTH_AUDIENCE: https://payment.marketplace.local
       SERVER_PORT: 8080
       RABBITMQ_URL: amqp://rabbitmq:5672
+      SPRING_PROFILES_ACTIVE: local
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
       SPRING_DATASOURCE_USERNAME: postgres

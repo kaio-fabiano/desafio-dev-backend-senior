@@ -3,7 +3,10 @@ import { createHash, randomBytes } from 'node:crypto';
 import type { Milestone7Environment } from './environment.ts';
 
 const GATEWAY_AUDIENCE = 'https://gateway.marketplace.local';
+const IDENTITY_AUDIENCE = 'https://identity.marketplace.local';
 const MCP_AUDIENCE = 'https://mcp.marketplace.local';
+const ORDER_WORKFLOW_AUDIENCE = 'https://order-workflow.marketplace.local';
+const PAYMENT_AUDIENCE = 'https://payment.marketplace.local';
 const BUYER_EMAIL = 'milestone-7-buyer@example.test';
 const BUYER_PASSWORD = ['milestone', '7', 'buyer', 'password'].join('-');
 const SCOPES = ['marketplace:read', 'cart:write', 'orders:read', 'mcp:tools'];
@@ -431,7 +434,7 @@ async function checkout(
   const checkoutResult = await graphql(
     environment,
     'startCheckout',
-    { input: { operationKey, paymentMethod } },
+    { input: checkoutInput(operationKey, paymentMethod) },
     accessToken,
     commerceSession,
   );
@@ -440,6 +443,20 @@ async function checkout(
     checkout: checkoutResult,
     event: await nextEvent(),
     subscriptionOpenedBeforeCheckout,
+  };
+}
+
+function checkoutInput(operationKey: string, paymentMethod: 'CARD' | 'PIX') {
+  return {
+    operationKey,
+    paymentMethod,
+    payerEmail: 'milestone-7-buyer@example.test',
+    ...(paymentMethod === 'CARD'
+      ? {
+          providerToken: `deterministic-token-${operationKey}`,
+          paymentMethodId: 'visa',
+        }
+      : {}),
   };
 }
 
@@ -474,7 +491,13 @@ export async function runAcceptanceJourney(
   let cookie = registration.cookie;
   const primaryGrant = await issueToken(
     environment,
-    [GATEWAY_AUDIENCE, MCP_AUDIENCE],
+    [
+      GATEWAY_AUDIENCE,
+      IDENTITY_AUDIENCE,
+      MCP_AUDIENCE,
+      ORDER_WORKFLOW_AUDIENCE,
+      PAYMENT_AUDIENCE,
+    ],
     SCOPES,
     cookie,
   );
@@ -502,7 +525,7 @@ export async function runAcceptanceJourney(
   const cardRetry = await graphql(
     environment,
     'startCheckout',
-    { input: { operationKey: cardOperationKey, paymentMethod: 'CARD' } },
+    { input: checkoutInput(cardOperationKey, 'CARD') },
     accessToken,
     commerceSession,
   );
@@ -531,7 +554,7 @@ export async function runAcceptanceJourney(
   const pixRetry = await graphql(
     environment,
     'startCheckout',
-    { input: { operationKey: pixOperationKey, paymentMethod: 'PIX' } },
+    { input: checkoutInput(pixOperationKey, 'PIX') },
     accessToken,
     commerceSession,
   );

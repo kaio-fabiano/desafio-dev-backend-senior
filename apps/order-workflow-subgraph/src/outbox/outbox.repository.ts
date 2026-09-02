@@ -12,6 +12,9 @@ export interface CheckoutRequestedEvent {
   method: string;
   amount: number;
   currency: string;
+  payerEmail: string;
+  providerToken?: string;
+  paymentMethodId?: string;
 }
 
 export interface OutboxRepository {

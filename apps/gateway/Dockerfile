@@ -13,5 +13,6 @@ COPY --chown=app:app package.json ./package.json
 COPY --chown=app:app apps/gateway ./apps/gateway
 COPY --chown=app:app libs/contracts/graphql ./libs/contracts/graphql
 COPY --chown=app:app libs/gateway/nest ./libs/gateway/nest
+COPY --chown=app:app libs/platform/nest ./libs/platform/nest
 USER app
 CMD ["node", "--experimental-transform-types", "apps/gateway/src/main.ts"]

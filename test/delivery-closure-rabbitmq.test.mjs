@@ -83,6 +83,9 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
     await checkout.checkout({
       operationKey: operation.operationKey,
       paymentMethod: 'CARD',
+      payerEmail: 'buyer-110@example.test',
+      providerToken: 'provider-token-110',
+      paymentMethodId: 'visa',
       subject: 'buyer-110',
     }),
     { operationId: operation.id, wooOrderId: '701' },
@@ -94,7 +97,10 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
     method: 'CARD',
     operationKey: operation.operationKey,
     orderId: '701',
+    payerEmail: 'buyer-110@example.test',
+    paymentMethodId: 'visa',
     paymentId: `payment-${operation.id}`,
+    providerToken: 'provider-token-110',
   });
 
   let wooOrderCreations = 0;
@@ -179,7 +185,10 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
       currency: 'BRL',
       method: 'CARD',
       orderId: '701',
+      payerEmail: 'buyer-110@example.test',
+      paymentMethodId: 'visa',
       paymentId: `payment-${operation.id}`,
+      providerToken: 'provider-token-110',
     },
     traceContext: { traceId: published[0].traceContext.traceId },
   });

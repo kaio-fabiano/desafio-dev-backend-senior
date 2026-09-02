@@ -45,6 +45,9 @@ enum WorkflowState {
 input OrderWorkflowCheckoutInput {
   operationKey: ID!
   paymentMethod: PaymentMethod!
+  payerEmail: String!
+  providerToken: String
+  paymentMethodId: String
 }
 
 enum PaymentMethod {

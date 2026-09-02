@@ -187,21 +187,25 @@ export class IdentityAuthBootstrap implements OnApplicationBootstrap {
       throw new Error(`Identity client seed failed: ${response.status}`);
     }
 
+    const body = {
+      client_name: seed.name,
+      software_id: seed.softwareId,
+      redirect_uris: [seed.redirectUri] as [string],
+      scope: ['openid', 'profile', ...MCP_TOOL_SCOPES].join(' '),
+      grant_types: ['authorization_code'] as ['authorization_code'],
+      response_types: ['code'] as ['code'],
+      token_endpoint_auth_method: 'none' as const,
+      application_type: 'native' as const,
+      require_pkce: true as const,
+      // Better Auth supports this for administrator-created first-party clients;
+      // its generated admin API type currently omits the optional field.
+      skip_consent: true,
+    };
     const client = await this.auth.api.adminCreateOAuthClient({
       headers: new Headers({
         cookie: response.headers.get('set-cookie') ?? '',
       }),
-      body: {
-        client_name: seed.name,
-        software_id: seed.softwareId,
-        redirect_uris: [seed.redirectUri],
-        scope: ['openid', 'profile', ...MCP_TOOL_SCOPES].join(' '),
-        grant_types: ['authorization_code'],
-        response_types: ['code'],
-        token_endpoint_auth_method: 'none',
-        application_type: 'native',
-        require_pkce: true,
-      },
+      body,
     });
     return { clientId: client.client_id, created: true };
   }

@@ -8,15 +8,24 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
   // Dado: Better Auth configured as the platform authorization server
   // Quando: a Gateway, MCP, Order Workflow, Identity, or Payment token is issued
   // Então: each owned protected resource has an explicit audience and allowed scopes, while WordPress session integration remains outside this OAuth trust model
-  const [resources, factory] = await Promise.all([
+  const [resources, factory, journey] = await Promise.all([
     readFile('libs/identity/nest/src/auth/resource-audiences.ts', 'utf8'),
     readFile('libs/identity/nest/src/auth/better-auth.factory.ts', 'utf8'),
+    readFile('apps/e2e/src/journey.ts', 'utf8'),
   ]);
   for (const resource of ['gateway', 'identity', 'mcp', 'orderWorkflow', 'payment']) {
     assert.match(resources, new RegExp(`${resource}:`));
   }
   assert.match(factory, /Object\.values\(OAUTH_RESOURCES\)/);
   assert.match(factory, /OAUTH_RESOURCE_SCOPES\[identifier\]/);
+  assert.match(factory, /skip_consent: true/);
+  assert.equal(
+    [...resources.matchAll(/\[OAUTH_RESOURCES\.[^\]]+\]: MARKETPLACE_OAUTH_SCOPES/g)].length,
+    5,
+  );
+  for (const audience of ['GATEWAY', 'IDENTITY', 'MCP', 'ORDER_WORKFLOW', 'PAYMENT']) {
+    assert.match(journey, new RegExp(`${audience}_AUDIENCE,`));
+  }
   assert.doesNotMatch(resources, /wordpress/i);
 });
 
@@ -208,7 +217,7 @@ test('AC-183: Authentication composition contains no redundant wrappers or conte
 });
 
 test('AC-184: Authentication changes remain compatible with canonical CI runtimes @spec:AC-184', async () => {
-  const [nestModule, architectureTest, paymentHandlerTest] = await Promise.all([
+  const [nestModule, architectureTest, paymentHandlerTest, compose, paymentDockerfile, ...nodeDockerfiles] = await Promise.all([
     readFile('libs/platform/nest/src/auth/oauth-resource.module.ts', 'utf8'),
     readFile(
       'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java',
@@ -218,10 +227,21 @@ test('AC-184: Authentication changes remain compatible with canonical CI runtime
       'apps/payment-federation/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java',
       'utf8',
     ),
+    readFile('compose.yaml', 'utf8'),
+    readFile('apps/payment-federation/Dockerfile', 'utf8'),
+    readFile('apps/gateway/Dockerfile', 'utf8'),
+    readFile('apps/identity-subgraph/Dockerfile', 'utf8'),
+    readFile('apps/order-workflow-subgraph/Dockerfile', 'utf8'),
   ]);
 
   assert.doesNotMatch(nestModule, /@Module\s*\(/);
   assert.match(nestModule, /Module\(\{\}\)\(OAuthResourceModule\)/);
   assert.match(architectureTest, /class ArchitectureBoundariesTest/);
   assert.match(paymentHandlerTest, /class PaymentHandlerTest/);
+  for (const containerDefinition of [compose, ...nodeDockerfiles]) {
+    assert.match(containerDefinition, /COPY .*libs\/platform\/nest .*libs\/platform\/nest/);
+  }
+  assert.match(compose, /SPRING_PROFILES_ACTIVE: local/);
+  assert.match(nodeDockerfiles[2], /COPY .*package\.json .*package\.json/);
+  assert.match(paymentDockerfile, /RUN gradle clean --no-daemon bootJar/);
 });

@@ -1,11 +1,11 @@
 {
   "feature": "milestone-6-apollo-mcp",
-  "timestamp": "2026-09-02T19:56:06.777Z",
-  "gitRev": "880a87a",
+  "timestamp": "2026-09-02T23:24:29.622Z",
+  "gitRev": "a3545b4",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 168,
+  "testsParsed": 169,
   "results": {
     "AC-060": {
       "status": "pass",

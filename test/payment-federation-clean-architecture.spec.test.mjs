@@ -9,7 +9,13 @@ const javaRoot = 'apps/payment-federation/src/main/java/dev/desafio';
 const transactionRoot = `${javaRoot}/transaction`;
 
 async function javaSources(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
+  let entries;
+  try {
+    entries = await readdir(directory, { withFileTypes: true });
+  } catch (error) {
+    if (error?.code === 'ENOENT') return [];
+    throw error;
+  }
   return (
     await Promise.all(
       entries.map(async (entry) => {

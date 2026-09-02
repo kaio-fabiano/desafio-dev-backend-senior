@@ -21,12 +21,8 @@ export const MCP_TOOL_SCOPES = MARKETPLACE_OAUTH_SCOPES;
 
 export const OAUTH_RESOURCE_SCOPES = {
   [OAUTH_RESOURCES.gateway]: MARKETPLACE_OAUTH_SCOPES,
-  [OAUTH_RESOURCES.identity]: ['marketplace:read'],
+  [OAUTH_RESOURCES.identity]: MARKETPLACE_OAUTH_SCOPES,
   [OAUTH_RESOURCES.mcp]: MARKETPLACE_OAUTH_SCOPES,
-  [OAUTH_RESOURCES.orderWorkflow]: [
-    'cart:read',
-    'orders:read',
-    'cart:write',
-  ],
-  [OAUTH_RESOURCES.payment]: ['orders:read', 'cart:write'],
+  [OAUTH_RESOURCES.orderWorkflow]: MARKETPLACE_OAUTH_SCOPES,
+  [OAUTH_RESOURCES.payment]: MARKETPLACE_OAUTH_SCOPES,
 } as const;

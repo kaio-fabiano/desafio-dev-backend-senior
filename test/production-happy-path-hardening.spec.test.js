@@ -234,6 +234,9 @@ async function proveRecoverableCheckout() {
     subject: 'buyer-133',
     operationKey: 'concurrent',
     paymentMethod: 'CARD',
+    payerEmail: 'buyer@example.test',
+    providerToken: 'provider-token',
+    paymentMethodId: 'visa',
   };
   let creates = 0;
   const woo = {

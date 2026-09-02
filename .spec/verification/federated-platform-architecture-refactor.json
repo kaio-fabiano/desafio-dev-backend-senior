@@ -1,11 +1,11 @@
 {
   "feature": "federated-platform-architecture-refactor",
-  "timestamp": "2026-09-02T19:53:58.019Z",
-  "gitRev": "880a87a",
+  "timestamp": "2026-09-02T23:17:35.603Z",
+  "gitRev": "a3545b4",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 168,
+  "testsParsed": 169,
   "results": {
     "AC-090": {
       "status": "pass",

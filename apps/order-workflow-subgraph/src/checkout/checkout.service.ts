@@ -152,6 +152,9 @@ export class CheckoutService {
       method: command.paymentMethod,
       amount,
       currency,
+      payerEmail: command.payerEmail,
+      providerToken: command.providerToken,
+      paymentMethodId: command.paymentMethodId,
     });
   }
 
@@ -160,9 +163,26 @@ export class CheckoutService {
       command.subject,
       command.operationKey,
       command.paymentMethod,
+      command.payerEmail,
     ]) {
       if (!value.trim())
         throw new CheckoutInputError('Checkout fields are required');
+    }
+    if (
+      command.paymentMethod === 'CARD' &&
+      (!command.providerToken?.trim() || !command.paymentMethodId?.trim())
+    ) {
+      throw new CheckoutInputError(
+        'Card checkout requires providerToken and paymentMethodId',
+      );
+    }
+    if (
+      command.paymentMethod === 'PIX' &&
+      (command.providerToken || command.paymentMethodId)
+    ) {
+      throw new CheckoutInputError(
+        'Pix checkout does not accept Card provider fields',
+      );
     }
   }
 }

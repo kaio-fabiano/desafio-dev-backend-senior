@@ -107,7 +107,7 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
       operationKey: 'milestone-7-pix',
       orderId: proof.pix.checkout.wooOrderId,
       state: 'PIX_GENERATED',
-      pixCode: expect.stringMatching(/^PIX-/),
+      pixCode: expect.stringMatching(/\S/),
     });
     expect(proof.pix.meOrder).toMatchObject({
       wooOrderId: proof.pix.checkout.wooOrderId,

@@ -278,7 +278,19 @@ public final class JdbcPaymentRepository implements PaymentRepository {
             statement.setString(4, event.eventType());
             statement.setString(5, event.eventVersion());
             var index = 6;
-            for (var value : event.payload().values()) statement.setString(index++, value);
+            statement.setString(index++, event.payload().get("paymentId"));
+            if ("payment.failed".equals(event.eventType())) {
+                statement.setString(index++, event.payload().get("reason"));
+            } else {
+                statement.setString(index++, event.payload().get("orderId"));
+                if ("payment.authorized".equals(event.eventType())
+                    || "payment.pix-generated".equals(event.eventType())) {
+                    statement.setString(index++, event.payload().get("providerReference"));
+                }
+                if ("payment.pix-generated".equals(event.eventType())) {
+                    statement.setString(index++, event.payload().get("pixCode"));
+                }
+            }
             statement.setTimestamp(index, Timestamp.from(event.occurredAt()));
             statement.executeUpdate();
         }
@@ -306,10 +318,12 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         UUID value,
         Payment payment
     ) throws SQLException {
-        try (var statement = connection.prepareStatement("""
+        var sql = """
             select event_id, event_type, event_version, operation_key, occurred_at
               from payment_outbox
-             where """ + column + " = ?")) {
+             where %s = ?
+            """.formatted(column);
+        try (var statement = connection.prepareStatement(sql)) {
             statement.setObject(1, value);
             try (var rows = statement.executeQuery()) {
                 if (!rows.next()) return Optional.empty();
