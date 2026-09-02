@@ -2,19 +2,36 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-test('AC-124: Payment keeps reliable isolated adapters @spec:AC-124', async () => {
-  const [configuration, compose] = await Promise.all([
+async function paymentSecurityBoundary() {
+  return Promise.all([
     readFile(
       'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java',
       'utf8',
     ),
-    readFile('compose.yaml', 'utf8'),
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java',
+      'utf8',
+    ),
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql/PaymentController.java',
+      'utf8',
+    ),
   ]);
-  assert.match(configuration, /x-federation-secret/);
-  assert.match(configuration, /MessageDigest\.isEqual/);
-  assert.match(configuration, /Untrusted federation request/);
-  assert.match(
-    compose,
-    /payment-federation:[\s\S]*?FEDERATION_INTERNAL_SECRET: \$\{FEDERATION_INTERNAL_SECRET:-federation-local-only\}/,
+}
+
+test('AC-124: Payment keeps reliable isolated adapters @spec:AC-124', async () => {
+  const [configuration, security, controller] = await paymentSecurityBoundary();
+  assert.match(security, /oauth2ResourceServer/);
+  assert.doesNotMatch(
+    `${configuration}\n${controller}`,
+    /x-federation-secret|x-authenticated-subject|x-authenticated-scopes|MessageDigest/,
   );
+});
+
+test('AC-177: Payment delegates bearer validation to Spring Security @spec:AC-177', async () => {
+  const [configuration, security, controller] = await paymentSecurityBoundary();
+  assert.match(security, /requestMatchers\("\/graphql"\)\.authenticated\(\)/);
+  assert.match(security, /oauth2ResourceServer/);
+  assert.match(controller, /@PreAuthorize/);
+  assert.doesNotMatch(configuration, /WebGraphQlInterceptor|federation\.internal-secret/);
 });

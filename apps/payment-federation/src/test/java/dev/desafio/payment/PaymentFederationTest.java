@@ -10,6 +10,7 @@ import dev.desafio.transaction.payment.application.query.FindPayment;
 import dev.desafio.transaction.payment.application.query.FindPaymentHandler;
 import dev.desafio.transaction.payment.application.query.PaymentView;
 import dev.desafio.transaction.payment.domain.Payment;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.oauth2.jwt.BadJwtException;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
@@ -31,7 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -65,6 +71,31 @@ class PaymentFederationTest {
 
     @MockitoBean
     private FindPaymentHandler findPaymentHandler;
+
+    @MockitoBean
+    private JwtDecoder jwtDecoder;
+
+    private final Map<String, BearerClaims> bearerClaims = new ConcurrentHashMap<>();
+    private final AtomicInteger bearerSequence = new AtomicInteger();
+
+    @BeforeEach
+    void decodeTestBearerTokens() {
+        bearerClaims.clear();
+        when(jwtDecoder.decode(any(String.class))).thenAnswer(invocation -> {
+            var token = invocation.<String>getArgument(0);
+            var claims = bearerClaims.get(token);
+            if (claims == null) throw new BadJwtException("Invalid bearer token");
+
+            var now = Instant.now();
+            var jwt = Jwt.withTokenValue(token)
+                .header("alg", "RS256")
+                .issuedAt(now.minusSeconds(1))
+                .expiresAt(now.plusSeconds(60));
+            if (claims.subject() != null) jwt.subject(claims.subject());
+            if (claims.scopes() != null) jwt.claim("scope", claims.scopes());
+            return jwt.build();
+        });
+    }
 
     @Test
     @DisplayName("AC-099: Spring serves Payment query, mutation, and entity federation fields @spec:AC-099")
@@ -125,6 +156,24 @@ class PaymentFederationTest {
         );
 
         assertTrue(response.getStatusCode().isError());
+        verifyNoInteractions(authorizePaymentHandler, findPaymentHandler);
+    }
+
+    @Test
+    @DisplayName("AC-177: invalid bearer tokens are rejected before Payment GraphQL business code @spec:AC-177")
+    void rejectsInvalidBearerBeforeGraphQlBusinessCode() {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth("invalid-token");
+
+        var response = restTemplate.exchange(
+            "/graphql",
+            HttpMethod.POST,
+            new HttpEntity<>(Map.of("query", "{ payment(id: \"payment-99\") { id } }"), headers),
+            new ParameterizedTypeReference<Map<String, Object>>() {}
+        );
+
+        assertEquals(401, response.getStatusCode().value());
         verifyNoInteractions(authorizePaymentHandler, findPaymentHandler);
     }
 
@@ -228,9 +277,7 @@ class PaymentFederationTest {
     private Map<String, Object> graphQl(String query, String subject, String scopes) {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("x-federation-secret", "federation-local-only");
-        if (subject != null) headers.set("x-authenticated-subject", subject);
-        if (scopes != null) headers.set("x-authenticated-scopes", scopes);
+        headers.setBearerAuth(bearerToken(subject, scopes));
         var response = restTemplate.exchange(
             "/graphql",
             HttpMethod.POST,
@@ -240,6 +287,14 @@ class PaymentFederationTest {
         assertTrue(response.getStatusCode().is2xxSuccessful());
         return Optional.ofNullable(response.getBody()).orElseThrow();
     }
+
+    private String bearerToken(String subject, String scopes) {
+        var token = "payment-test-token-" + bearerSequence.incrementAndGet();
+        bearerClaims.put(token, new BearerClaims(subject, scopes));
+        return token;
+    }
+
+    private record BearerClaims(String subject, String scopes) {}
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> nested(Map<?, ?> source, String key) {

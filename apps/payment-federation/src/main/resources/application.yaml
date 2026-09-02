@@ -1,6 +1,14 @@
 spring:
   application:
     name: payment-federation
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${OAUTH_ISSUER:http://identity.localhost:3001/api/auth}
+          jwk-set-uri: ${IDENTITY_JWKS_URL:http://identity-subgraph:3001/api/auth/jwks}
+          audiences:
+            - ${PAYMENT_OAUTH_AUDIENCE:https://payment.marketplace.local}
   lifecycle:
     timeout-per-shutdown-phase: 30s
   rabbitmq:

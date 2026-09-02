@@ -1,6 +1,7 @@
 // Testes de spec da feature oauth-resource-server-auth — gerados por onp-spec scaffold
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 
 // US-087 — Preserve OAuth proof across federation boundaries
 test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174', () => {
@@ -27,11 +28,37 @@ test('AC-176: NestJS resource servers use Better Auth verification @spec:AC-176'
 });
 
 // US-089 — Use Spring Security at the Java boundary
-test('AC-177: Payment is a standard Spring OAuth resource server @spec:AC-177', () => {
+test('AC-177: Payment is a standard Spring OAuth resource server @spec:AC-177', async () => {
   // Dado: the Payment GraphQL federation endpoint
   // Quando: a bearer token reaches the Java runtime
   // Então: Spring Security validates signature, issuer, audience, expiry, and required scopes before GraphQL business code, with no static federation-secret interceptor
-  assert.fail('critério de aceite AC-177 ainda não provado — implemente este teste');
+  const [build, security, controller, graphql, application] = await Promise.all([
+    readFile('apps/payment-federation/build.gradle.kts', 'utf8'),
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java',
+      'utf8',
+    ),
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql/PaymentController.java',
+      'utf8',
+    ),
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java',
+      'utf8',
+    ),
+    readFile('apps/payment-federation/src/main/resources/application.yaml', 'utf8'),
+  ]);
+
+  assert.match(build, /spring-boot-starter-oauth2-resource-server/);
+  assert.match(security, /@EnableMethodSecurity/);
+  assert.match(security, /requestMatchers\("\/graphql"\)\.authenticated\(\)/);
+  assert.match(security, /oauth2ResourceServer\(oauth2 -> oauth2\.jwt\(/);
+  assert.match(controller, /@PreAuthorize\("[^"]*hasAuthority\('SCOPE_orders:read'\)"\)/);
+  assert.match(controller, /@PreAuthorize\("[^"]*hasAuthority\('SCOPE_cart:write'\)"\)/);
+  assert.match(application, /issuer-uri: \$\{OAUTH_ISSUER:/);
+  assert.match(application, /jwk-set-uri: \$\{IDENTITY_JWKS_URL:/);
+  assert.match(application, /audiences:\n\s+- \$\{PAYMENT_OAUTH_AUDIENCE:https:\/\/payment\.marketplace\.local\}/);
+  assert.doesNotMatch(`${graphql}\n${controller}`, /x-federation-secret|x-authenticated-subject|x-authenticated-scopes|WebGraphQlInterceptor/);
 });
 
 // US-090 — Keep streaming authentication equivalent to GraphQL
