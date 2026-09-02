@@ -474,10 +474,10 @@
     "semantic_hash": "e858ce66f36ff409c62d12c67e026691"
   },
   ".spec/verification/delivery-closure.json": {
-    "mtime": 1788324146.8047829,
-    "seen": 1788324285.3206928,
-    "ast_hash": "e1e0008df05d9291583dd36dad7779cb",
-    "semantic_hash": "e1e0008df05d9291583dd36dad7779cb"
+    "mtime": 1788331196.992461,
+    "seen": 1788331325.656854,
+    "ast_hash": "9c75f5e5a6747419555be006cca48d56",
+    "semantic_hash": ""
   },
   ".spec/verification/federated-platform-architecture-refactor.json": {
     "mtime": 1788321720.3468492,
@@ -504,10 +504,10 @@
     "semantic_hash": "839e24ed9ebf8bb0cf18e7220c57d8ca"
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
-    "mtime": 1788321742.0709624,
-    "seen": 1788322487.4464571,
-    "ast_hash": "4538745f34d21cff53df2f27f97bc49b",
-    "semantic_hash": "4538745f34d21cff53df2f27f97bc49b"
+    "mtime": 1788331282.189738,
+    "seen": 1788331325.6569378,
+    "ast_hash": "13de0152ebddd5425cfef84a5e9afda8",
+    "semantic_hash": ""
   },
   ".spec/verification/milestone-8-compliance-hardening.json": {
     "mtime": 1788321749.8390028,
@@ -534,10 +534,10 @@
     "semantic_hash": "030771979e840ddfa2eaa74ea428f113"
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788324214.282807,
-    "seen": 1788324285.3209946,
-    "ast_hash": "cb734726995cec1604fa7560ae2adc2d",
-    "semantic_hash": "cb734726995cec1604fa7560ae2adc2d"
+    "mtime": 1788330425.3026192,
+    "seen": 1788331325.6570213,
+    "ast_hash": "d95f4b31bdaa92073ad6b2fb3b4756cd",
+    "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
     "mtime": 1788321787.5121992,
@@ -564,10 +564,10 @@
     "semantic_hash": "badb59492dc2ca0ad93baedb2ebc3cf7"
   },
   "apps/e2e/src/journey.ts": {
-    "mtime": 1788304392.5288725,
-    "seen": 1788305841.9776924,
-    "ast_hash": "3076323131b5aaa4da1e82c548ee9ebf",
-    "semantic_hash": "3076323131b5aaa4da1e82c548ee9ebf"
+    "mtime": 1788329973.375932,
+    "seen": 1788331325.6571374,
+    "ast_hash": "bd624d6336ec530bfb5ab1ca783a9f37",
+    "semantic_hash": ""
   },
   "apps/e2e/src/milestone-7.e2e.test.ts": {
     "mtime": 1788304712.80002,
@@ -768,10 +768,10 @@
     "semantic_hash": "90c9e2ca95d5f40cc1892d3d021ba7b0"
   },
   "apps/wordpress-integration/scripts/install-plugins.sh": {
-    "mtime": 1788322821.961543,
-    "seen": 1788323043.5275905,
-    "ast_hash": "d2fdd26c3ef17fbed4098d5da10b3eda",
-    "semantic_hash": "d2fdd26c3ef17fbed4098d5da10b3eda"
+    "mtime": 1788328192.6722791,
+    "seen": 1788331325.6594431,
+    "ast_hash": "b99639b537125fb234acef12508c9676",
+    "semantic_hash": ""
   },
   "apps/wordpress-integration/scripts/probe.mjs": {
     "mtime": 1788285711.7770553,
@@ -1074,10 +1074,10 @@
     "semantic_hash": "c9c3a7956d6c4e63406356a01e03207d"
   },
   "test/delivery-closure-rabbitmq.test.mjs": {
-    "mtime": 1788321571.2061322,
-    "seen": 1788322487.452291,
-    "ast_hash": "4f1e5279bc3e996bb19ab514c40d1cf0",
-    "semantic_hash": "4f1e5279bc3e996bb19ab514c40d1cf0"
+    "mtime": 1788328095.0867362,
+    "seen": 1788331325.6603994,
+    "ast_hash": "68eb8093a5d8fcc235143f2b51f7d3f8",
+    "semantic_hash": ""
   },
   "test/federated-platform-quality.test.mjs": {
     "mtime": 1788304392.5398726,
@@ -1242,10 +1242,10 @@
     "semantic_hash": "86ccd0338faa69d87413f7c768fc0eb0"
   },
   "test/milestone-7-e2e-contract.test.mjs": {
-    "mtime": 1788321571.2067008,
-    "seen": 1788322487.4526846,
-    "ast_hash": "c19be302954e67e489fc1b243b4d7c5d",
-    "semantic_hash": "c19be302954e67e489fc1b243b4d7c5d"
+    "mtime": 1788329741.1511023,
+    "seen": 1788331325.6608171,
+    "ast_hash": "111d0c8b84f00af3c957e4157d3cdc20",
+    "semantic_hash": ""
   },
   "test/milestone-7-load.test.mjs": {
     "mtime": 1788321560.4351199,
@@ -1740,15 +1740,15 @@
     "semantic_hash": ""
   },
   "apps/wordpress-integration/compose.yaml": {
-    "mtime": 1788285711.7770553,
-    "seen": 1788326711.1500912,
-    "ast_hash": "206dec5e63e3e8178159ea6209772ea2",
+    "mtime": 1788328192.6705468,
+    "seen": 1788331325.662869,
+    "ast_hash": "123f5bc6e5ac76dd0bc9ba36e7e96e08",
     "semantic_hash": ""
   },
   "compose.yaml": {
-    "mtime": 1788304712.7990985,
-    "seen": 1788326711.150092,
-    "ast_hash": "9aef529d4c0b847b9503da865e3f46d4",
+    "mtime": 1788328261.3331106,
+    "seen": 1788331325.66287,
+    "ast_hash": "d5a82a5287a17366365aec53bde36276",
     "semantic_hash": ""
   },
   "docs/adrs/001-graphql-sse-federado.md": {
@@ -1764,9 +1764,9 @@
     "semantic_hash": ""
   },
   "docs/adrs/003-wordpress-federation.md": {
-    "mtime": 1788322730.6486871,
-    "seen": 1788326711.1501174,
-    "ast_hash": "2d3d6e21608792f4e767ef3a0aa89bbe",
+    "mtime": 1788330247.0850778,
+    "seen": 1788331325.662904,
+    "ast_hash": "59fcf0a7e30006c951b8a51791d83c1b",
     "semantic_hash": ""
   },
   "docs/adrs/004-restricoes-de-entrega.md": {
@@ -2010,16 +2010,16 @@
     "semantic_hash": "b14f52797030a60ac066cebacbd99420"
   },
   ".spec/verification/production-happy-path-hardening.json": {
-    "mtime": 1788321757.4070423,
-    "seen": 1788322487.4464588,
-    "ast_hash": "eaab12643675c3dfb1c18434e3b31b69",
-    "semantic_hash": "eaab12643675c3dfb1c18434e3b31b69"
+    "mtime": 1788331113.532266,
+    "seen": 1788331325.6569557,
+    "ast_hash": "0bb8296e41be78e684b705dd2c613a95",
+    "semantic_hash": ""
   },
   "test/production-happy-path-hardening.spec.test.js": {
-    "mtime": 1788304392.5398726,
-    "seen": 1788305841.9877439,
-    "ast_hash": "2ba4525c6b39a31ba6a2bfcad8955231",
-    "semantic_hash": "2ba4525c6b39a31ba6a2bfcad8955231"
+    "mtime": 1788329486.6720815,
+    "seen": 1788331325.661056,
+    "ast_hash": "774917c5183530c06bfeab3d6a18bedc",
+    "semantic_hash": ""
   },
   "test/production-happy-path-hardening.test.mjs": {
     "mtime": 1788321571.2023754,
@@ -2040,10 +2040,10 @@
     "semantic_hash": "7fc41232d71b6ecf6bad150fa98cf4fc"
   },
   ".spec/verification/transaction-federation-refactor.json": {
-    "mtime": 1788321802.5412774,
-    "seen": 1788322487.4464953,
-    "ast_hash": "ba72f1f699398f7459f0c6a40c86b258",
-    "semantic_hash": "ba72f1f699398f7459f0c6a40c86b258"
+    "mtime": 1788331029.138512,
+    "seen": 1788331325.657055,
+    "ast_hash": "0d47a38b15976632f0b4059bc5fee180",
+    "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/order-workflow-subscription.client.ts": {
     "mtime": 1788304392.5288725,
@@ -2082,10 +2082,10 @@
     "semantic_hash": "b0270ab5e699bc93950f0421ca8a1d10"
   },
   "apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts": {
-    "mtime": 1788304392.5293272,
-    "seen": 1788305841.9810708,
-    "ast_hash": "5570ad2772890d2273abbaa9bd83fca2",
-    "semantic_hash": "5570ad2772890d2273abbaa9bd83fca2"
+    "mtime": 1788330173.2955003,
+    "seen": 1788331325.6578178,
+    "ast_hash": "82d73bf988f94ca1a497dad40f291fac",
+    "semantic_hash": ""
   },
   "apps/order-workflow-subgraph/src/checkout/woo-checkout.port.ts": {
     "mtime": 1788304392.5293272,
@@ -2112,10 +2112,10 @@
     "semantic_hash": "1e98afb0c8a592012409cc29474b8399"
   },
   "apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts": {
-    "mtime": 1788304392.529703,
-    "seen": 1788305841.981087,
-    "ast_hash": "067822c9c1e1a9ef3196f7e3c8110098",
-    "semantic_hash": "067822c9c1e1a9ef3196f7e3c8110098"
+    "mtime": 1788330655.6577954,
+    "seen": 1788331325.657896,
+    "ast_hash": "73cd83661cc58c160b8e5984d05d470f",
+    "semantic_hash": ""
   },
   "apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts": {
     "mtime": 1788304392.529703,
@@ -2328,10 +2328,10 @@
     "semantic_hash": "b639e3929fbc2bb2ca0ba5b2f16fc89d"
   },
   "test/wordpress-native-commerce.test.mjs": {
-    "mtime": 1788304392.5408726,
-    "seen": 1788305841.9882433,
-    "ast_hash": "00dc79cbcdc2e0b352b0a2b2e31185e9",
-    "semantic_hash": "00dc79cbcdc2e0b352b0a2b2e31185e9"
+    "mtime": 1788330832.0046892,
+    "seen": 1788331325.6612663,
+    "ast_hash": "8aca114d89a87ffc8295efd82ec1fa15",
+    "semantic_hash": ""
   },
   ".spec/features/align-payment-federation-naming/executar-tarefas.sh": {
     "mtime": 1788324214.2820413,
@@ -2586,9 +2586,9 @@
     "semantic_hash": ""
   },
   ".spec/features/production-happy-path-hardening/tasks.md": {
-    "mtime": 1788305207.0809236,
-    "seen": 1788326711.1499922,
-    "ast_hash": "975de54e32e8a9578a64e31c95ec7ae1",
+    "mtime": 1788330247.0850778,
+    "seen": 1788331325.6623096,
+    "ast_hash": "c3b6061d040b331a052a74a7af80a97c",
     "semantic_hash": ""
   },
   ".spec/features/transaction-federation-refactor/design.md": {
@@ -2643,6 +2643,12 @@
     "mtime": 1788304392.5308726,
     "seen": 1788326711.1501913,
     "ast_hash": "6790999fa47bacad95fb989f1dc69c38",
+    "semantic_hash": ""
+  },
+  "apps/wordpress-integration/plugins/order-workflow-reconciliation/order-workflow-reconciliation.php": {
+    "mtime": 1788328192.6695468,
+    "seen": 1788331325.6594253,
+    "ast_hash": "7fe47b0994f0bf01e0b24e4fe3f5d09e",
     "semantic_hash": ""
   }
 }
