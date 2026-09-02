@@ -1,10 +1,14 @@
-import { Module } from '@nestjs/common';
+import {
+  GraphqlOAuthResourceGuard,
+  OAuthResourceModule,
+} from '@desafio-dev-backend-senior/source/platform-nest';
 import {
   ApolloFederationDriver,
   type ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
-import { GraphQLError } from 'graphql';
 
 import { BetterAuthModule } from './auth/better-auth.module.ts';
 import {
@@ -13,38 +17,21 @@ import {
 } from './auth/registration.service.ts';
 import { IdentityResolver } from './graphql/identity.resolver.ts';
 
-function header(
-  headers: Record<string, string | string[] | undefined>,
-  name: string,
-) {
-  const value = headers[name];
-  return Array.isArray(value) ? value[0] : (value ?? '');
-}
-
-export function trustedFederationContext(
-  headers: Record<string, string | string[] | undefined>,
-  expectedSecret =
-    process.env.FEDERATION_INTERNAL_SECRET ?? 'federation-local-only',
-) {
-  if (
-    !expectedSecret ||
-    header(headers, 'x-federation-secret') !== expectedSecret
-  ) {
-    throw new GraphQLError('Unauthorized', {
-      extensions: { code: 'UNAUTHENTICATED', http: { status: 401 } },
-    });
-  }
-  return {
-    subject: header(headers, 'x-authenticated-subject'),
-    scopes: header(headers, 'x-authenticated-scopes').split(' ').filter(Boolean),
-  };
-}
-
 export class IdentityModule {}
 
 Module({
   imports: [
     BetterAuthModule,
+    OAuthResourceModule.register({
+      audience:
+        process.env.IDENTITY_OAUTH_AUDIENCE ??
+        'https://identity.marketplace.local',
+      issuer:
+        process.env.OAUTH_ISSUER ?? 'http://identity-subgraph:3001/api/auth',
+      jwksUrl:
+        process.env.IDENTITY_JWKS_URL ??
+        'http://identity-subgraph:3001/api/auth/jwks',
+    }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       path: '/graphql',
@@ -53,8 +40,13 @@ Module({
         req,
       }: {
         req: { headers: Record<string, string | string[] | undefined> };
-      }) => trustedFederationContext(req.headers),
+      }) => ({ req }),
     }),
   ],
-  providers: [IdentityResolver, RegistrationService, wordpressIdentityProvider],
+  providers: [
+    IdentityResolver,
+    RegistrationService,
+    wordpressIdentityProvider,
+    { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },
+  ],
 })(IdentityModule);

@@ -28,17 +28,10 @@ test('AC-092: NestJS owns Identity Federation runtime dependencies @spec:AC-092'
   assert.match(identityModule, /IdentityResolver/);
 });
 
-test('AC-093: Better Auth uses injectable plugin factories and its NestJS integration @spec:AC-093', async () => {
-  const [
-    moduleSource,
-    { BetterAuthFactory },
-    { JwtPluginFactory },
-    { OAuthProviderPluginFactory },
-  ] = await Promise.all([
+test('AC-093: Better Auth uses direct plugins and its NestJS integration @spec:AC-093', async () => {
+  const [moduleSource, { BetterAuthFactory }] = await Promise.all([
     readFile(`${libraryRoot}/auth/better-auth.module.ts`, 'utf8'),
     import(`../${libraryRoot}/auth/better-auth.factory.ts`),
-    import(`../${libraryRoot}/auth/plugins/jwt-plugin.factory.ts`),
-    import(`../${libraryRoot}/auth/plugins/oauth-provider-plugin.factory.ts`),
   ]);
   const { memoryAdapter } = await import('better-auth/adapters/memory');
   const database = {
@@ -55,10 +48,7 @@ test('AC-093: Better Auth uses injectable plugin factories and its NestJS integr
     oauthResource: [],
     oauthClientResource: [],
   };
-  const factory = new BetterAuthFactory(
-    new JwtPluginFactory(),
-    new OAuthProviderPluginFactory(),
-  );
+  const factory = new BetterAuthFactory();
   const auth = factory.create({
     database: memoryAdapter(database),
     baseURL: 'http://identity.test',
@@ -105,7 +95,7 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
   });
   const context = { subject: 'u-1', scopes: ['marketplace:read'] };
 
-  assert.deepEqual(await resolver.me(context), users[0]);
+  assert.deepEqual(await resolver.me(context.subject), users[0]);
   assert.deepEqual(await resolver.user('u-2', context), users[1]);
   assert.equal((await resolver.users(1, undefined, context)).edges.length, 1);
   assert.deepEqual(
@@ -202,37 +192,19 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
 });
 
 test('AC-096: Identity Federation rejects sensitive operations without propagated scope @spec:AC-096', async () => {
-  const { IdentityResolver } = await import(
-    `../${libraryRoot}/graphql/identity.resolver.ts`
-  );
-  const resolver = new IdentityResolver({
-    instance: {
-      $context: Promise.resolve({
-        adapter: {
-          async findOne() {
-            return { id: 'u-1', email: 'buyer@example.test' };
-          },
-          async findMany() {
-            return [{ id: 'u-1', email: 'buyer@example.test' }];
-          },
-        },
-      }),
-    },
-  });
-
-  for (const context of [
-    { subject: '', scopes: ['marketplace:read'] },
-    { subject: 'u-1', scopes: [] },
-  ]) {
-    await assert.rejects(() => resolver.me(context), /access denied/);
-    await assert.rejects(() => resolver.user('u-1', context), /access denied/);
-    await assert.rejects(
-      () => resolver.users(20, undefined, context),
-      /access denied/,
-    );
-    await assert.rejects(
-      () => resolver.resolveReference({ id: 'u-1' }, context),
-      /access denied/,
+  const [resolver, guard, service] = await Promise.all([
+    readFile(`${libraryRoot}/graphql/identity.resolver.ts`, 'utf8'),
+    readFile('libs/platform/nest/src/auth/oauth-resource.guard.ts', 'utf8'),
+    readFile('libs/platform/nest/src/auth/oauth-resource.service.ts', 'utf8'),
+  ]);
+  for (const operation of ['users', 'user', 'me', 'resolveReference']) {
+    assert.match(
+      resolver,
+      new RegExp(`RequireScopes\\(MARKETPLACE_READ_SCOPE\\)[\\s\\S]*'${operation}'`),
     );
   }
+  assert.match(guard, /this\.resources\.verify\(toOAuthRequest\(context\.req\)\)/);
+  assert.match(guard, /assertScopes\(auth, scopes\)/);
+  assert.match(service, /verifyAccessTokenRequest/);
+  assert.doesNotMatch(service, /requiredScopes/);
 });

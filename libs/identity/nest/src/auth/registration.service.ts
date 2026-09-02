@@ -164,11 +164,15 @@ export class RegistrationService {
 Injectable()(RegistrationService);
 Hook()(RegistrationService);
 Inject(WORDPRESS_IDENTITY)(RegistrationService, undefined, 0);
+const afterEmailSignUpDescriptor = Object.getOwnPropertyDescriptor(
+  RegistrationService.prototype,
+  'afterEmailSignUp',
+);
+if (!afterEmailSignUpDescriptor) {
+  throw new Error('Registration sign-up hook is missing');
+}
 AfterHook('/sign-up/email')(
   RegistrationService.prototype,
   'afterEmailSignUp',
-  Object.getOwnPropertyDescriptor(
-    RegistrationService.prototype,
-    'afterEmailSignUp',
-  )!,
+  afterEmailSignUpDescriptor,
 );

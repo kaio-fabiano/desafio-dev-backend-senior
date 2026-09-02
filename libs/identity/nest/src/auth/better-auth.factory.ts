@@ -1,3 +1,4 @@
+import { oauthProvider } from '@better-auth/oauth-provider';
 import {
   Inject,
   Injectable,
@@ -6,16 +7,15 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '@thallesp/nestjs-better-auth';
 import { betterAuth } from 'better-auth';
+import { jwt } from 'better-auth/plugins';
 import { Pool } from 'pg';
 
-import { JwtPluginFactory } from './plugins/jwt-plugin.factory.ts';
-import {
-  GATEWAY_AUDIENCE,
-  MCP_AUDIENCE,
-  MCP_TOOL_SCOPES,
-  OAuthProviderPluginFactory,
-} from './plugins/oauth-provider-plugin.factory.ts';
 import { identityBootstrapHeaders } from './registration.service.ts';
+import {
+  MCP_TOOL_SCOPES,
+  OAUTH_RESOURCES,
+  OAUTH_RESOURCE_SCOPES,
+} from './resource-audiences.ts';
 
 type IdentityDatabase = NonNullable<
   Parameters<typeof betterAuth>[0]['database']
@@ -56,11 +56,6 @@ export type IdentityAuth = BaseIdentityAuth & {
 export class BetterAuthFactory implements OnModuleDestroy {
   private database?: Pool;
 
-  constructor(
-    private readonly jwtPlugins: JwtPluginFactory,
-    private readonly oauthPlugins: OAuthProviderPluginFactory,
-  ) {}
-
   create(options: IdentityAuthOptions = {}): IdentityAuth {
     const seedAdminEmail =
       options.seedAdminEmail ??
@@ -87,25 +82,19 @@ export class BetterAuthFactory implements OnModuleDestroy {
       disabledPaths: ['/token'],
       hooks: {},
       plugins: [
-        this.jwtPlugins.create({
+        jwt({
           disableSettingJwtHeader: true,
           jwt: { issuer },
         }),
-        this.oauthPlugins.create({
+        oauthProvider({
           loginPage: '/sign-in',
           consentPage: '/consent',
           scopes: ['openid', 'profile', ...MCP_TOOL_SCOPES],
-          resources: [
-            {
-              identifier: GATEWAY_AUDIENCE,
-              allowedScopes: [...MCP_TOOL_SCOPES],
-            },
-            {
-              identifier: MCP_AUDIENCE,
-              allowedScopes: [...MCP_TOOL_SCOPES],
-            },
-          ],
-          clientRegistrationDefaultResources: [GATEWAY_AUDIENCE, MCP_AUDIENCE],
+          resources: Object.values(OAUTH_RESOURCES).map((identifier) => ({
+            identifier,
+            allowedScopes: [...OAUTH_RESOURCE_SCOPES[identifier]],
+          })),
+          clientRegistrationDefaultResources: Object.values(OAUTH_RESOURCES),
           clientPrivileges: async ({ user }) => user?.email === seedAdminEmail,
         }) as never,
       ],
@@ -123,8 +112,6 @@ export class BetterAuthFactory implements OnModuleDestroy {
 }
 
 Injectable()(BetterAuthFactory);
-Inject(JwtPluginFactory)(BetterAuthFactory, undefined, 0);
-Inject(OAuthProviderPluginFactory)(BetterAuthFactory, undefined, 1);
 
 type OAuthClientSeed = {
   name: string;
