@@ -13,7 +13,9 @@ function toRequest(request: IncomingMessage) {
   const host = request.headers.host ?? 'gateway.local';
   const headers = new Headers();
   for (let index = 0; index < request.rawHeaders.length; index += 2) {
-    headers.append(request.rawHeaders[index]!, request.rawHeaders[index + 1]!);
+    const name = request.rawHeaders[index];
+    const value = request.rawHeaders[index + 1];
+    if (name && value !== undefined) headers.append(name, value);
   }
   return new Request(
     new URL(request.url ?? '/graphql/stream', `http://${host}`),

@@ -33,20 +33,20 @@ export default $config({
       "WordPressApplicationPassword",
     );
 
-    const rabbitMq = new sst.aws.Service("RabbitMq", {
+    new sst.aws.Service("RabbitMq", {
       cluster,
       image: "rabbitmq:4.1.3-management",
       serviceRegistry: { port: 5672 },
     });
 
-    const wordpress = new sst.aws.Service("WordPress", {
+    new sst.aws.Service("WordPress", {
       cluster,
       image: "wordpress:6.8.2-php8.3-apache",
       link: [wordpressApplicationPassword],
       serviceRegistry: { port: 80 },
     });
 
-    const identity = new sst.aws.Service("IdentitySubgraph", {
+    new sst.aws.Service("IdentitySubgraph", {
       cluster,
       image: {
         context: "..",
@@ -56,7 +56,7 @@ export default $config({
       serviceRegistry: { port: 3001 },
     });
 
-    const paymentFederation = new sst.aws.Service("PaymentFederation", {
+    new sst.aws.Service("PaymentFederation", {
       cluster,
       image: {
         context: "..",

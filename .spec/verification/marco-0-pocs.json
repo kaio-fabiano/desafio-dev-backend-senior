@@ -1,11 +1,11 @@
 {
   "feature": "marco-0-pocs",
-  "timestamp": "2026-09-02T04:23:42.805Z",
-  "gitRev": "0ccdd90",
+  "timestamp": "2026-09-02T23:21:38.719Z",
+  "gitRev": "a3545b4",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 137,
+  "testsParsed": 169,
   "results": {
     "AC-008": {
       "status": "pass",

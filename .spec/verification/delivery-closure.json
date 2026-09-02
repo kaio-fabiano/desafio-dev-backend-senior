@@ -1,11 +1,11 @@
 {
   "feature": "delivery-closure",
-  "timestamp": "2026-09-02T06:39:56.988Z",
-  "gitRev": "293a98b",
+  "timestamp": "2026-09-02T23:16:05.857Z",
+  "gitRev": "a3545b4",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 139,
+  "testsParsed": 169,
   "results": {
     "AC-109": {
       "status": "pass",

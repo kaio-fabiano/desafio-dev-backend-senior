@@ -45,7 +45,6 @@ export function createWooCheckoutAdapter(
       headers: {
         'content-type': 'application/json',
         origin: graphqlEndpoint.origin,
-        'x-authenticated-subject': input.subject,
         ...(input.session?.cartToken
           ? { 'cart-token': input.session.cartToken }
           : {}),

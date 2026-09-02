@@ -9,17 +9,23 @@ import {
   Subscription,
 } from '@nestjs/graphql';
 
+import {
+  OAuthSubject,
+  RequireScopes,
+} from '@desafio-dev-backend-senior/source/platform-nest';
 import type { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
 import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
 import {
-  AuthenticatedSubject,
   OrderWorkflowSession,
-  type OrderWorkflowAuthContext,
+  type OrderWorkflowSessionContext,
 } from './authenticated-subject.decorator.ts';
 
 export type CheckoutInput = {
   operationKey: string;
   paymentMethod: 'PIX' | 'CARD';
+  payerEmail: string;
+  providerToken?: string;
+  paymentMethodId?: string;
 };
 type OrderReference = { wooOrderId: string };
 export type CheckoutOperationView = Omit<CheckoutOperation, 'status'> & {
@@ -32,9 +38,10 @@ export class OrderWorkflowResolver<Order, Workflow> {
     private readonly runCheckout: (
       subject: string,
       input: CheckoutInput,
-      session?: Omit<OrderWorkflowAuthContext, 'subject'>,
+      session?: OrderWorkflowSessionContext,
     ) => Promise<Order>,
     private readonly findWorkflow: (
+      subject: string,
       wooOrderId: string,
     ) => Promise<Workflow | null>,
     private readonly subscriptions?: OrderEventsSubscription,
@@ -45,23 +52,29 @@ export class OrderWorkflowResolver<Order, Workflow> {
   ) {}
 
   @Mutation('startCheckout')
+  @RequireScopes('cart:write')
   checkout(
-    @AuthenticatedSubject() subject: string,
+    @OAuthSubject() subject: string,
     @Args('input') input: CheckoutInput,
-    @OrderWorkflowSession() session: Omit<OrderWorkflowAuthContext, 'subject'>,
+    @OrderWorkflowSession() session: OrderWorkflowSessionContext,
   ) {
     return this.runCheckout(subject, input, session);
   }
 
   @ResolveField('workflow')
-  workflow(@Parent() order: OrderReference & { workflow?: Workflow }) {
-    return order.workflow ?? this.findWorkflow(order.wooOrderId);
+  @RequireScopes('orders:read')
+  workflow(
+    @Parent() order: OrderReference & { workflow?: Workflow },
+    @OAuthSubject() subject: string,
+  ) {
+    return order.workflow ?? this.findWorkflow(subject, order.wooOrderId);
   }
 
   @Query('checkout')
+  @RequireScopes('orders:read')
   checkoutOperation(
     @Args('id') id: string,
-    @AuthenticatedSubject() subject: string,
+    @OAuthSubject() subject: string,
   ) {
     return this.findCheckout?.(subject, id) ?? null;
   }
@@ -80,9 +93,9 @@ export type OrderWorkflowOperations<Order, Workflow> = {
   checkout(
     subject: string,
     input: CheckoutInput,
-    session?: Omit<OrderWorkflowAuthContext, 'subject'>,
+    session?: OrderWorkflowSessionContext,
   ): Promise<Order>;
-  findWorkflow(wooOrderId: string): Promise<Workflow | null>;
+  findWorkflow(subject: string, wooOrderId: string): Promise<Workflow | null>;
   findCheckout(
     subject: string,
     id: string,
@@ -115,8 +128,9 @@ export class OrderWorkflowSubscriptionResolver {
   ) {}
 
   @Subscription('orderEvents', { resolve: (event: unknown) => event })
+  @RequireScopes('orders:read')
   orderEvents(
-    @AuthenticatedSubject() subject: string,
+    @OAuthSubject() subject: string,
     @Args('operationKey') operationKey: string,
   ) {
     return this.subscriptions.subscribe(subject, operationKey);

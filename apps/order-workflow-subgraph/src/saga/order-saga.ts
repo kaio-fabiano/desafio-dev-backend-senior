@@ -177,6 +177,7 @@ export class OrderSaga {
     switch (event.eventType) {
       case 'payment.authorized': {
         const paymentId = requiredString(event.payload.paymentId, 'paymentId');
+        requiredString(event.payload.providerReference, 'providerReference');
         const items = requiredStockItems(context.stockItems);
         return {
           paymentId,
@@ -198,6 +199,7 @@ export class OrderSaga {
           },
         };
       case 'payment.pix-generated':
+        requiredString(event.payload.providerReference, 'providerReference');
         return {
           paymentId: requiredString(event.payload.paymentId, 'paymentId'),
           pixCode: requiredString(event.payload.pixCode, 'pixCode'),

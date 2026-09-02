@@ -1,19 +1,34 @@
-import { Module } from '@nestjs/common';
+import {
+  GraphqlOAuthResourceGuard,
+  OAuthResourceModule,
+} from '@desafio-dev-backend-senior/source/platform-nest';
 import {
   ApolloFederationDriver,
   type ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { Pool } from 'pg';
 
-import { IdentityResolver } from './identity.resolver.ts';
 import { createIdentitySchema } from './identity-schema.ts';
+import { IdentityResolver } from './identity.resolver.ts';
 import { PostgresUserRepository } from './postgres-user.repository.ts';
 
 export class IdentityModule {}
 
 Module({
   imports: [
+    OAuthResourceModule.register({
+      audience:
+        process.env.IDENTITY_OAUTH_AUDIENCE ??
+        'https://identity.marketplace.local',
+      issuer:
+        process.env.OAUTH_ISSUER ?? 'http://identity-subgraph:3001/api/auth',
+      jwksUrl:
+        process.env.IDENTITY_JWKS_URL ??
+        'http://identity-subgraph:3001/api/auth/jwks',
+    }),
     GraphQLModule.forRootAsync<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       useFactory: async () => {
@@ -36,10 +51,7 @@ Module({
               ReturnType<typeof repository.findById>
             >();
             return {
-              subject: req.headers['x-authenticated-subject'] ?? '',
-              scopes: (req.headers['x-authenticated-scopes'] ?? '')
-                .split(' ')
-                .filter(Boolean),
+              req,
               loadUser(id: string) {
                 const existing = cache.get(id);
                 if (existing) return existing;
@@ -53,4 +65,5 @@ Module({
       },
     }),
   ],
+  providers: [{ provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard }],
 })(IdentityModule);

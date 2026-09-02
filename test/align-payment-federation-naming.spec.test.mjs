@@ -39,25 +39,29 @@ test('AC-153: Payment and Inventory remain internal participants @spec:AC-153', 
   // Dado: the renamed Java runtime
   // Quando: its package and messaging structure is inspected
   // Então: Payment and Inventory remain isolated modules and RabbitMQ participants in the same deployment
-  const [configuration, paymentListener, inventoryListener] = await Promise.all(
+  const [paymentConfiguration, inventoryConfiguration, paymentListener, inventoryListener] = await Promise.all(
     [
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentConfiguration.java',
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration/InventoryConfiguration.java',
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java',
+        'utf8',
+      ),
+      readFile(
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
         'utf8',
       ),
     ],
   );
 
-  assert.match(configuration, /PaymentHandler/);
-  assert.match(configuration, /InventoryService/);
+  assert.match(paymentConfiguration, /PaymentHandler/);
+  assert.match(inventoryConfiguration, /InventoryService/);
   assert.match(paymentListener, /@RabbitListener/);
   assert.match(inventoryListener, /@RabbitListener/);
 });
@@ -65,11 +69,11 @@ test('AC-153: Payment and Inventory remain internal participants @spec:AC-153', 
 // US-074 — Make runtime naming match its bounded context
 test('AC-157: Payment queue uses the canonical federation name @spec:AC-157', async () => {
   const configuration = await readFile(
-    'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+    'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java',
     'utf8',
   );
 
-  assert.match(configuration, /PAYMENT_QUEUE = "payment-federation\.v1"/);
+  assert.match(configuration, /QUEUE = "payment-federation\.v1"/);
   assert.doesNotMatch(configuration, /payment-processor\.v1/);
   assert.match(configuration, /EVENTS = "marketplace\.events\.v1"/);
   assert.match(configuration, /with\("payment\.requested"\)/);

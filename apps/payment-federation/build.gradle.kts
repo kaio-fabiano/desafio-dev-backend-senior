@@ -20,10 +20,12 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
+    implementation("com.mercadopago:sdk-java:3.3.1")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
     runtimeOnly("io.opentelemetry:opentelemetry-exporter-otlp")
     implementation("com.apollographql.federation:federation-graphql-java-support:5.5.0")

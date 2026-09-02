@@ -18,6 +18,7 @@ x-federated-node-build: &federated-node-build
     COPY --chown=app:app libs/contracts/graphql ./libs/contracts/graphql
     COPY --chown=app:app libs/gateway/nest ./libs/gateway/nest
     COPY --chown=app:app libs/identity/nest ./libs/identity/nest
+    COPY --chown=app:app libs/platform/nest ./libs/platform/nest
     USER app
 
 services:
@@ -222,7 +223,6 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: gateway
       GATEWAY_AUDIENCE: https://gateway.marketplace.local
-      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PORT: 3000
@@ -287,7 +287,8 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: identity-subgraph
       BETTER_AUTH_SECRET: local-development-secret-change-me
-      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
+      IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
+      IDENTITY_OAUTH_AUDIENCE: https://identity.marketplace.local
       DATABASE_URL: postgresql://postgres:postgres@identity-database:5432/identity
       IDENTITY_BASE_URL: http://identity.localhost:3001
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
@@ -332,7 +333,9 @@ services:
       ORDER_WORKFLOW_DB_NAME: order_workflow
       ORDER_WORKFLOW_DB_PASSWORD: postgres
       ORDER_WORKFLOW_DB_USER: postgres
-      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
+      IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
+      OAUTH_ISSUER: http://identity.localhost:3001/api/auth
+      ORDER_WORKFLOW_OAUTH_AUDIENCE: https://order-workflow.marketplace.local
       PORT: 3003
       RABBITMQ_URL: amqp://rabbitmq:5672
       WORDPRESS_URL: http://wordpress
@@ -370,9 +373,12 @@ services:
       MANAGEMENT_TRACING_ENABLED: ${OTEL_ENABLED:-false}
       MANAGEMENT_TRACING_SAMPLING_PROBABILITY: '1.0'
       OTEL_SERVICE_NAME: payment-federation
-      FEDERATION_INTERNAL_SECRET: ${FEDERATION_INTERNAL_SECRET:-federation-local-only}
+      IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
+      OAUTH_ISSUER: http://identity.localhost:3001/api/auth
+      PAYMENT_OAUTH_AUDIENCE: https://payment.marketplace.local
       SERVER_PORT: 8080
       RABBITMQ_URL: amqp://rabbitmq:5672
+      SPRING_PROFILES_ACTIVE: local
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
       SPRING_DATASOURCE_USERNAME: postgres

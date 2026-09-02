@@ -81,14 +81,16 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
   source.willSendRequest({
     request: { http: { headers } },
     context: {
+      authorization: 'Bearer identity-token',
       subject: 'u-1',
       scopes: ['marketplace:read'],
       audience: ['gateway'],
       requestId: 'request-1',
     },
   });
-  assert.equal(headers.get('x-authenticated-subject'), 'u-1');
-  assert.equal(headers.get('x-authenticated-scopes'), 'marketplace:read');
+  assert.equal(headers.get('authorization'), 'Bearer identity-token');
+  assert.equal(headers.get('x-authenticated-subject'), null);
+  assert.equal(headers.get('x-authenticated-scopes'), null);
   assert.doesNotThrow(() =>
     source.willSendRequest({
       request: { http: { headers: new Headers() } },

@@ -10,8 +10,10 @@ ENV NODE_ENV=production
 ENV TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json
 RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home app
 COPY --from=dependencies --chown=app:app /workspace/node_modules ./node_modules
+COPY --chown=app:app package.json ./package.json
 COPY --chown=app:app tsconfig.base.json ./tsconfig.base.json
 COPY --chown=app:app apps/order-workflow-subgraph ./apps/order-workflow-subgraph
 COPY --chown=app:app libs/contracts/graphql/order-workflow/schema.graphql ./libs/contracts/graphql/order-workflow/schema.graphql
+COPY --chown=app:app libs/platform/nest ./libs/platform/nest
 USER app
 CMD ["node", "--import", "tsx", "apps/order-workflow-subgraph/src/main.ts"]

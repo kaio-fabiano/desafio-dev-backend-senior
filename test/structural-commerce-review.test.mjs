@@ -78,6 +78,9 @@ test('AC-143: concurrent checkout creates one order @spec:AC-143', async () => {
     subject: 'buyer-1',
     operationKey: 'operation-1',
     paymentMethod: 'CARD',
+    payerEmail: 'buyer-1@example.test',
+    providerToken: 'provider-token-1',
+    paymentMethodId: 'visa',
   };
 
   const [first, duplicate] = await Promise.all([
@@ -117,6 +120,9 @@ test('AC-144: an operation key cannot change owner or command @spec:AC-144', asy
       subject: 'buyer-2',
       operationKey: operation.operationKey,
       paymentMethod: 'CARD',
+      payerEmail: 'buyer-2@example.test',
+      providerToken: 'provider-token-2',
+      paymentMethodId: 'visa',
     }),
     /already bound/,
   );
@@ -125,6 +131,7 @@ test('AC-144: an operation key cannot change owner or command @spec:AC-144', asy
       subject: operation.subject,
       operationKey: operation.operationKey,
       paymentMethod: 'PIX',
+      payerEmail: 'buyer-1@example.test',
     }),
     /already bound/,
   );

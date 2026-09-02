@@ -1,11 +1,11 @@
 {
   "feature": "keep-graphify-current",
-  "timestamp": "2026-09-01T21:13:46.873Z",
-  "gitRev": "75bbc44",
-  "command": "pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000",
+  "timestamp": "2026-09-02T23:20:18.765Z",
+  "gitRev": "a3545b4",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 128,
+  "testsParsed": 169,
   "results": {
     "AC-129": {
       "status": "pass",

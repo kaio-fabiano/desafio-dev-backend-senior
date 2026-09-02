@@ -2,6 +2,9 @@ import { createHash } from 'node:crypto';
 
 export interface CheckoutCommandData {
   paymentMethod: 'PIX' | 'CARD';
+  payerEmail: string;
+  providerToken?: string;
+  paymentMethodId?: string;
 }
 
 function canonicalize(value: unknown): unknown {
@@ -32,7 +35,12 @@ function sha256(value: unknown): string {
 }
 
 export function checkoutCommandHash(command: CheckoutCommandData): string {
-  return sha256({ paymentMethod: command.paymentMethod });
+  return sha256({
+    paymentMethod: command.paymentMethod,
+    payerEmail: command.payerEmail,
+    providerToken: command.providerToken,
+    paymentMethodId: command.paymentMethodId,
+  });
 }
 
 export function checkoutWooReference(

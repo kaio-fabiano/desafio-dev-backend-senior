@@ -6,9 +6,9 @@ const read = (path) => readFile(path, 'utf8');
 
 test('AC-100: Payment exposes explicit command and query paths @spec:AC-100', async () => {
   const [controller, commandHandler, queryHandler, schema] = await Promise.all([
-    read('apps/payment-federation/src/main/java/dev/desafio/payment/graphql/PaymentController.java'),
-    read('apps/payment-federation/src/main/java/dev/desafio/payment/application/command/AuthorizePaymentHandler.java'),
-    read('apps/payment-federation/src/main/java/dev/desafio/payment/application/query/FindPaymentHandler.java'),
+    read('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql/PaymentController.java'),
+    read('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/command/AuthorizePaymentHandler.java'),
+    read('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/query/FindPaymentHandler.java'),
     read('apps/payment-federation/src/main/resources/graphql/payment.graphqls'),
   ]);
 
@@ -22,7 +22,7 @@ test('AC-100: Payment exposes explicit command and query paths @spec:AC-100', as
 
 test('AC-101: Payment authorization remains idempotent @spec:AC-101', async () => {
   const [handler, testSource] = await Promise.all([
-    read('apps/payment-federation/src/main/java/dev/desafio/payment/application/command/AuthorizePaymentHandler.java'),
+    read('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/command/AuthorizePaymentHandler.java'),
     read('apps/payment-federation/src/test/java/dev/desafio/payment/PaymentFederationTest.java'),
   ]);
 

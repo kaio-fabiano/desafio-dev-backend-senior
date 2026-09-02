@@ -1,0 +1,101 @@
+{
+  "runId": "desafio-dev-backend-senior-oauth-resource-server-auth-mtki4v58",
+  "feature": "oauth-resource-server-auth",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-02 19:41",
+  "branchTrabalho": "spec/oauth-resource-server-auth",
+  "baseDir": ".spec/features/oauth-resource-server-auth",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-oauth-resource-server-auth-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-139",
+      "titulo": "Preserve OAuth request proof and separate scope authorization",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/platform/nest/src/auth/oauth-resource.service.ts",
+        "libs/platform/nest/src/auth/oauth-resource.guard.ts",
+        "libs/platform/nest/src/auth/oauth-resource.module.ts",
+        "libs/platform/nest/src/index.ts",
+        "test/oauth-resource-server-auth.spec.test.mjs"
+      ],
+      "refs": [
+        "US-092",
+        "AC-180",
+        "AC-181"
+      ]
+    },
+    {
+      "id": "T-140",
+      "titulo": "Remove duplicated GraphQL authentication state and decorators",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/graphql/authenticated-subject.decorator.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts",
+        "libs/identity/nest/src/identity.module.ts",
+        "test/oauth-resource-server-auth.spec.test.mjs"
+      ],
+      "refs": [
+        "US-092",
+        "AC-181",
+        "AC-183"
+      ]
+    },
+    {
+      "id": "T-141",
+      "titulo": "Consolidate Gateway verification on the shared OAuth service",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/gateway/nest/src/auth/token-verifier.service.ts",
+        "libs/gateway/nest/src/auth/auth-context.factory.ts",
+        "libs/gateway/nest/src/gateway.module.ts",
+        "libs/platform/nest/src/auth/oauth-resource.service.ts",
+        "test/gateway-federation-refactor.test.mjs",
+        "test/oauth-resource-server-auth.spec.test.mjs"
+      ],
+      "refs": [
+        "US-092",
+        "AC-182"
+      ]
+    },
+    {
+      "id": "T-142",
+      "titulo": "Simplify Better Auth composition and close quality gates",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/identity/nest/src/auth/better-auth.factory.ts",
+        "libs/identity/nest/src/auth/better-auth.module.ts",
+        "libs/identity/nest/src/auth/plugins/jwt-plugin.factory.ts",
+        "libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts",
+        "test/oauth-resource-server-auth.spec.test.mjs",
+        ".spec/features/oauth-resource-server-auth",
+        ".spec/verification/oauth-resource-server-auth.json"
+      ],
+      "refs": [
+        "US-092",
+        "AC-183"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-133",
+    "T-134",
+    "T-135",
+    "T-136",
+    "T-137",
+    "T-138"
+  ],
+  "avisos": []
+}

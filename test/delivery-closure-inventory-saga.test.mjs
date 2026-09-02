@@ -18,28 +18,28 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
   ] = await Promise.all([
     read('apps/order-workflow-subgraph/src/saga/order-saga.ts'),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration/InventoryMessagingConfiguration.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/InventoryRepository.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/persistence/JdbcInventoryRepository.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/InventoryService.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/InventoryService.java',
     ),
     read(
       'apps/payment-federation/src/main/resources/db/migration/V2__inventory_inbox_outbox.sql',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/wordpress/WordPressOrderPaymentAdapter.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentConsumer.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentConsumer.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/wordpress/WooInventoryAdapter.java',
     ),
   ]);
 
@@ -84,14 +84,14 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
   ] = await Promise.all([
     read('compose.yaml'),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration/InventoryMessagingConfiguration.java',
     ),
     read('apps/payment-federation/Dockerfile'),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java',
     ),
   ]);
 
@@ -123,7 +123,7 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
     compose,
     /payment-federation:[\s\S]*?rabbitmq:\n {8}condition: service_healthy/,
   );
-  assert.match(configuration, /PAYMENT_QUEUE = "payment-federation\.v1"/);
+  assert.match(paymentListener, /QUEUE = "payment-federation\.v1"/);
   assert.match(
     configuration,
     /INVENTORY_QUEUE = "payment-federation\.inventory\.v1"/,

@@ -8,8 +8,6 @@ import {
   type IdentityAuth,
   IdentityAuthBootstrap,
 } from './better-auth.factory.ts';
-import { JwtPluginFactory } from './plugins/jwt-plugin.factory.ts';
-import { OAuthProviderPluginFactory } from './plugins/oauth-provider-plugin.factory.ts';
 
 export const IDENTITY_AUTH = Symbol('IDENTITY_AUTH');
 
@@ -22,12 +20,7 @@ const identityAuthProvider: Provider = {
 class IdentityAuthProvidersModule {}
 
 Module({
-  providers: [
-    JwtPluginFactory,
-    OAuthProviderPluginFactory,
-    BetterAuthFactory,
-    identityAuthProvider,
-  ],
+  providers: [BetterAuthFactory, identityAuthProvider],
   exports: [IDENTITY_AUTH],
 })(IdentityAuthProvidersModule);
 
@@ -39,11 +32,17 @@ class OAuthClientsController {
   }
 }
 
+const clientsDescriptor = Object.getOwnPropertyDescriptor(
+  OAuthClientsController.prototype,
+  'clients',
+);
+if (!clientsDescriptor) throw new Error('OAuth clients handler is missing');
+
 Controller('oauth/clients')(OAuthClientsController);
 Get()(
   OAuthClientsController.prototype,
   'clients',
-  Object.getOwnPropertyDescriptor(OAuthClientsController.prototype, 'clients')!,
+  clientsDescriptor,
 );
 Inject(IdentityAuthBootstrap)(OAuthClientsController, undefined, 0);
 

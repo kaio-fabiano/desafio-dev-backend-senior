@@ -19,6 +19,40 @@ export interface MarketplaceEvent {
   traceContext: { traceId: string; spanId?: string };
 }
 
+export interface PaymentRequestedEvent extends MarketplaceEvent {
+  eventType: 'payment.requested';
+  payload: {
+    checkoutId?: string;
+    paymentId: string;
+    orderId: string;
+    method: 'CARD' | 'PIX';
+    amount: number;
+    currency: string;
+    providerToken?: string;
+    payerEmail: string;
+    paymentMethodId?: string;
+  };
+}
+
+export interface PaymentAuthorizedEvent extends MarketplaceEvent {
+  eventType: 'payment.authorized';
+  payload: {
+    paymentId: string;
+    orderId: string;
+    providerReference: string;
+  };
+}
+
+export interface PaymentPixGeneratedEvent extends MarketplaceEvent {
+  eventType: 'payment.pix-generated';
+  payload: {
+    paymentId: string;
+    orderId: string;
+    providerReference: string;
+    pixCode: string;
+  };
+}
+
 export interface OrderWorkflowTransitionedEvent extends MarketplaceEvent {
   eventType: 'order.workflow-transitioned';
   eventVersion: 'v1';

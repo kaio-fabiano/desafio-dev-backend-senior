@@ -4,7 +4,7 @@ import { Inject, Injectable, Scope } from '@nestjs/common';
 import { CheckoutService } from '../checkout/checkout.service.ts';
 import { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
 import { OrderWorkflow } from '../persistence/entities/order-workflow.entity.ts';
-import type { OrderWorkflowAuthContext } from './authenticated-subject.decorator.ts';
+import type { OrderWorkflowSessionContext } from './authenticated-subject.decorator.ts';
 import type {
   CheckoutInput,
   CheckoutOperationView,
@@ -35,7 +35,7 @@ export class OrderWorkflowOperationsService
   async checkout(
     subject: string,
     input: CheckoutInput,
-    session?: Omit<OrderWorkflowAuthContext, 'subject'>,
+    session?: OrderWorkflowSessionContext,
   ): Promise<OrderWorkflowOrder> {
     const result = await this.checkoutService.checkout({
       subject,
@@ -48,8 +48,19 @@ export class OrderWorkflowOperationsService
     return orderView(result.wooOrderId, input.paymentMethod, workflow);
   }
 
-  findWorkflow(wooOrderId: string): Promise<OrderWorkflow | null> {
-    return this.entityManager.findOne(OrderWorkflow, { wooOrderId });
+  async findWorkflow(
+    subject: string,
+    wooOrderId: string,
+  ): Promise<OrderWorkflow | null> {
+    const operation = await this.entityManager.findOne(CheckoutOperation, {
+      subject,
+      wooOrderId,
+    });
+    return operation
+      ? this.entityManager.findOne(OrderWorkflow, {
+          checkoutOperationId: operation.id,
+        })
+      : null;
   }
 
   async findCheckout(

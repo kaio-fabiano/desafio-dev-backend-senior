@@ -43,6 +43,11 @@ Vistas em uma feature só. Registradas, não confiadas.
 - features: milestone-8-compliance-hardening
 - última evidência: T-059 (milestone-8-compliance-hardening, 2026-08-28T05:09:49.050Z)
 
+### L-007 — Before promoting a preserved draft, rescan all feature specs and reassign globally unique trace IDs.
+- sinal: `ID_DUPLICADO` · recorrência: 1 feature(s) · escopo: `specification` · penalidades: 0
+- features: production-readiness-gap-register
+- última evidência: US-077 (production-readiness-gap-register, 2026-09-02T07:54:48.115Z)
+
 ## Quarentena — aplicadas e falharam, ignorar
 
 A falha recorreu mesmo com a lição aplicada. Revisão é do usuário.

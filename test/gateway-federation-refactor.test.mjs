@@ -58,18 +58,12 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     'typecheck',
   ]);
 
-  const now = 2_000_000_000;
   const tokens = new TokenVerifierService({
-    issuer: 'https://identity.test/api/auth',
-    audience: 'https://gateway.marketplace.local',
-    requiredScopes: ['marketplace:read'],
-    now: () => now * 1000,
     verify: async () => ({
-      sub: 'buyer-1',
-      iss: 'https://identity.test/api/auth',
-      aud: 'https://gateway.marketplace.local',
-      exp: now + 60,
-      scope: 'marketplace:read',
+      subject: 'buyer-1',
+      audience: ['https://gateway.marketplace.local'],
+      scopes: ['marketplace:read'],
+      claims: {},
     }),
   });
   const context = await new AuthContextFactory(tokens).create({
@@ -127,6 +121,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   source.willSendRequest({
     request: { http: { headers } },
     context: {
+      authorization: 'Bearer access-token',
       subject: 'supplier-user',
       scopes: ['marketplace:read', 'payment:authorize'],
       audience: ['https://gateway.marketplace.local'],
@@ -140,12 +135,10 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
     },
   });
 
-  assert.equal(headers.get('x-authenticated-subject'), 'supplier-user');
-  assert.equal(
-    headers.get('x-authenticated-scopes'),
-    'marketplace:read payment:authorize',
-  );
-  assert.equal(headers.get('x-supplier-company-id'), 'supplier-company');
+  assert.equal(headers.get('authorization'), 'Bearer access-token');
+  assert.equal(headers.get('x-authenticated-subject'), null);
+  assert.equal(headers.get('x-authenticated-scopes'), null);
+  assert.equal(headers.get('x-supplier-company-id'), null);
   assert.equal(headers.get('x-request-id'), 'request-1');
   assert.equal(headers.get('woocommerce-session'), null);
   assert.equal(headers.get('cart-token'), null);
@@ -158,6 +151,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   orderWorkflow.willSendRequest({
     request: { http: { headers: orderWorkflowHeaders } },
     context: {
+      authorization: 'Bearer workflow-token',
       subject: 'buyer-1',
       scopes: ['marketplace:read'],
       audience: ['https://gateway.marketplace.local'],
@@ -173,7 +167,10 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
     'session-token',
   );
   assert.equal(orderWorkflowHeaders.get('cart-token'), 'cart-token');
-  assert.equal(orderWorkflowHeaders.get('authorization'), null);
+  assert.equal(
+    orderWorkflowHeaders.get('authorization'),
+    'Bearer workflow-token',
+  );
 
   const returnedHeaders = [];
   source.didReceiveResponse({

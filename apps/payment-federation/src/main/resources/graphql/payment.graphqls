@@ -9,6 +9,7 @@ type Payment @key(fields: "id") {
   amount: Float!
   currency: String!
   status: PaymentStatus!
+  providerReference: ID!
   pixCode: String
 }
 
@@ -19,6 +20,9 @@ input AuthorizePaymentInput {
   method: PaymentMethod!
   amount: Float!
   currency: String!
+  providerToken: String
+  payerEmail: String!
+  paymentMethodId: String
 }
 
 enum PaymentMethod {
@@ -27,9 +31,11 @@ enum PaymentMethod {
 }
 
 enum PaymentStatus {
+  PENDING
   AUTHORIZED
   PIX_GENERATED
   REFUNDED
+  REJECTED
 }
 
 type Query {

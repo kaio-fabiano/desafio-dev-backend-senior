@@ -1,4 +1,6 @@
-package dev.desafio.payment.inventory;
+package dev.desafio.transaction.inventory.application;
+
+import dev.desafio.transaction.inventory.domain.Inventory;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +29,7 @@ class InventoryServiceTest {
         var reservations = new AtomicInteger();
         var service = new InventoryService(repository, request -> {
             reservations.incrementAndGet();
-            throw new InventoryService.InsufficientStockException();
+            throw new Inventory.InsufficientStockException();
         }, CLOCK);
         var request = request("checkout-112");
 
@@ -62,19 +64,19 @@ class InventoryServiceTest {
         var repository = new MemoryRepository();
         var remoteReserved = new AtomicBoolean();
         var reservations = new AtomicInteger();
-        var stock = new InventoryService.StockPort() {
+        var stock = new StockPort() {
             @Override
-            public void reserve(InventoryService.ReservationRequested request) {
+            public void reserve(Inventory.ReservationRequested request) {
                 reservations.incrementAndGet();
                 remoteReserved.set(true);
                 throw new IllegalStateException("connection closed after WooCommerce committed");
             }
 
             @Override
-            public InventoryService.StockState reconcile(InventoryService.ReservationRequested request) {
+            public Inventory.StockState reconcile(Inventory.ReservationRequested request) {
                 return remoteReserved.get()
-                    ? InventoryService.StockState.RESERVED
-                    : InventoryService.StockState.AVAILABLE;
+                    ? Inventory.StockState.RESERVED
+                    : Inventory.StockState.AVAILABLE;
             }
         };
         var service = new InventoryService(repository, stock, CLOCK);
@@ -104,19 +106,19 @@ class InventoryServiceTest {
         assertEquals(1, effects.get());
     }
 
-    private static InventoryService.ReservationRequested request(String operationKey) {
-        return new InventoryService.ReservationRequested(
+    private static Inventory.ReservationRequested request(String operationKey) {
+        return new Inventory.ReservationRequested(
             UUID.randomUUID(), operationKey, "order-112",
-            List.of(new InventoryService.StockItem("1001", 2))
+            List.of(new Inventory.StockItem("1001", 2))
         );
     }
 
     private static final class MemoryRepository implements InventoryRepository {
         private final Map<String, StoredOperation> operations = new HashMap<>();
-        private final Map<String, InventoryService.OutgoingEvent> events = new HashMap<>();
+        private final Map<String, Inventory.OutgoingEvent> events = new HashMap<>();
 
         @Override
-        public synchronized Claim claim(InventoryService.ReservationRequested request, String fingerprint) {
+        public synchronized Claim claim(Inventory.ReservationRequested request, String fingerprint) {
             var stored = operations.get(request.operationKey());
             if (stored != null && !stored.fingerprint.equals(fingerprint)) {
                 throw new IllegalArgumentException("operationKey identifies a different inventory request");
@@ -133,7 +135,7 @@ class InventoryServiceTest {
         }
 
         @Override
-        public synchronized InventoryService.OutgoingEvent complete(Claim claim, InventoryService.OutgoingEvent event) {
+        public synchronized Inventory.OutgoingEvent complete(Claim claim, Inventory.OutgoingEvent event) {
             var stored = operations.get(claim.operationKey());
             if (stored == null || !claim.ownerToken().equals(stored.owner)) {
                 throw new IllegalStateException("inventory claim ownership was lost before completion");
@@ -158,6 +160,6 @@ class InventoryServiceTest {
         }
 
         private record StoredOperation(String fingerprint, UUID owner, boolean expired,
-                                       InventoryService.OutgoingEvent event) {}
+                                       Inventory.OutgoingEvent event) {}
     }
 }

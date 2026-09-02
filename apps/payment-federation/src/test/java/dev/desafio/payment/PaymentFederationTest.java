@@ -1,14 +1,16 @@
-package dev.desafio.payment;
+package dev.desafio.transaction.payment;
 
-import dev.desafio.payment.application.PaymentHandler;
-import dev.desafio.payment.application.PaymentRepository;
-import dev.desafio.payment.application.command.AuthorizePayment;
-import dev.desafio.payment.application.command.AuthorizePaymentHandler;
-import dev.desafio.payment.application.query.FindPayment;
-import dev.desafio.payment.application.query.FindPaymentHandler;
-import dev.desafio.payment.application.query.PaymentView;
-import dev.desafio.payment.configuration.PaymentConfiguration;
-import dev.desafio.payment.domain.Payment;
+import dev.desafio.transaction.payment.adapter.provider.DeterministicPaymentProvider;
+import dev.desafio.transaction.payment.application.PaymentHandler;
+import dev.desafio.transaction.payment.application.PaymentProvider;
+import dev.desafio.transaction.payment.application.PaymentRepository;
+import dev.desafio.transaction.payment.application.command.AuthorizePayment;
+import dev.desafio.transaction.payment.application.command.AuthorizePaymentHandler;
+import dev.desafio.transaction.payment.application.query.FindPayment;
+import dev.desafio.transaction.payment.application.query.FindPaymentHandler;
+import dev.desafio.transaction.payment.application.query.PaymentView;
+import dev.desafio.transaction.payment.domain.Payment;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.oauth2.jwt.BadJwtException;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
@@ -30,7 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,7 +60,7 @@ import static org.mockito.Mockito.when;
 class PaymentFederationTest {
     private static final PaymentView CARD_VIEW = new PaymentView(
         "payment-99", "operation-99", "order-99", Payment.Method.CARD,
-        new BigDecimal("149.90"), "BRL", Payment.Status.AUTHORIZED, null
+        new BigDecimal("149.90"), "BRL", Payment.Status.AUTHORIZED, "provider-99", null
     );
 
     @Autowired
@@ -64,6 +71,31 @@ class PaymentFederationTest {
 
     @MockitoBean
     private FindPaymentHandler findPaymentHandler;
+
+    @MockitoBean
+    private JwtDecoder jwtDecoder;
+
+    private final Map<String, BearerClaims> bearerClaims = new ConcurrentHashMap<>();
+    private final AtomicInteger bearerSequence = new AtomicInteger();
+
+    @BeforeEach
+    void decodeTestBearerTokens() {
+        bearerClaims.clear();
+        when(jwtDecoder.decode(any(String.class))).thenAnswer(invocation -> {
+            var token = invocation.<String>getArgument(0);
+            var claims = bearerClaims.get(token);
+            if (claims == null) throw new BadJwtException("Invalid bearer token");
+
+            var now = Instant.now();
+            var jwt = Jwt.withTokenValue(token)
+                .header("alg", "RS256")
+                .issuedAt(now.minusSeconds(1))
+                .expiresAt(now.plusSeconds(60));
+            if (claims.subject() != null) jwt.subject(claims.subject());
+            if (claims.scopes() != null) jwt.claim("scope", claims.scopes());
+            return jwt.build();
+        });
+    }
 
     @Test
     @DisplayName("AC-099: Spring serves Payment query, mutation, and entity federation fields @spec:AC-099")
@@ -86,6 +118,9 @@ class PaymentFederationTest {
                 method: CARD
                 amount: 149.90
                 currency: "BRL"
+                providerToken: "provider-token"
+                payerEmail: "buyer@example.test"
+                paymentMethodId: "visa"
               }) { id status }
             }
             """, "buyer-99", "cart:write");
@@ -125,14 +160,32 @@ class PaymentFederationTest {
     }
 
     @Test
+    @DisplayName("AC-177: invalid bearer tokens are rejected before Payment GraphQL business code @spec:AC-177")
+    void rejectsInvalidBearerBeforeGraphQlBusinessCode() {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth("invalid-token");
+
+        var response = restTemplate.exchange(
+            "/graphql",
+            HttpMethod.POST,
+            new HttpEntity<>(Map.of("query", "{ payment(id: \"payment-99\") { id } }"), headers),
+            new ParameterizedTypeReference<Map<String, Object>>() {}
+        );
+
+        assertEquals(401, response.getStatusCode().value());
+        verifyNoInteractions(authorizePaymentHandler, findPaymentHandler);
+    }
+
+    @Test
     @DisplayName("AC-100: command and query handlers keep write and read paths explicit @spec:AC-100")
     void separatesAggregateWritesFromPaymentViews() {
         var repository = new IdempotentRepository();
-        var commandHandler = new AuthorizePaymentHandler(new PaymentHandler(repository, dev.desafio.payment.application.PaymentProvider.deterministic()));
+        var commandHandler = new AuthorizePaymentHandler(new PaymentHandler(repository, new DeterministicPaymentProvider()));
 
         assertThrows(IllegalArgumentException.class, () -> commandHandler.handle(new AuthorizePayment(
             "operation-invalid", "payment-invalid", "order-invalid", Payment.Method.CARD,
-            BigDecimal.ZERO, "BRL"
+            BigDecimal.ZERO, "BRL", "provider-token", "buyer@example.test", "visa"
         )));
 
         var dataSource = new DriverManagerDataSource("jdbc:h2:mem:payment-view;MODE=PostgreSQL;DB_CLOSE_DELAY=-1");
@@ -140,17 +193,27 @@ class PaymentFederationTest {
         jdbc.execute("""
             create table payment_record (
                 payment_id varchar primary key, operation_key varchar, order_id varchar,
-                method varchar, amount numeric, currency varchar, status varchar, pix_code varchar
+                method varchar, amount numeric, currency varchar, status varchar,
+                provider_reference varchar, pix_code varchar
             )
             """);
         jdbc.update("""
             insert into payment_record
-                (payment_id, operation_key, order_id, method, amount, currency, status, pix_code)
-            values (?, ?, ?, ?, ?, ?, ?, ?)
+                (payment_id, operation_key, order_id, method, amount, currency, status, provider_reference, pix_code)
+            values (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, "payment-view", "operation-view", "order-view", "CARD",
-            new BigDecimal("42.50"), "BRL", "AUTHORIZED", null);
+            new BigDecimal("42.50"), "BRL", "AUTHORIZED", "provider-view", null);
 
-        var view = new PaymentConfiguration().findPaymentHandler(jdbc).handle(new FindPayment("payment-view"));
+        var view = new FindPaymentHandler(paymentId -> jdbc.query(
+            "select payment_id, operation_key, order_id, method, amount, currency, status, provider_reference, pix_code from payment_record where payment_id = ?",
+            (row, index) -> new PaymentView(
+                row.getString("payment_id"), row.getString("operation_key"), row.getString("order_id"),
+                Payment.Method.valueOf(row.getString("method")), row.getBigDecimal("amount"),
+                row.getString("currency"), Payment.Status.valueOf(row.getString("status")),
+                row.getString("provider_reference"), row.getString("pix_code")
+            ),
+            paymentId
+        ).stream().findFirst()).handle(new FindPayment("payment-view"));
 
         assertEquals("order-view", view.orElseThrow().orderId());
         assertEquals(0, new BigDecimal("42.50").compareTo(view.orElseThrow().amount()));
@@ -161,11 +224,11 @@ class PaymentFederationTest {
     @DisplayName("AC-101: concurrent authorization and repeated Pix or compensation remain idempotent @spec:AC-101")
     void keepsEveryPaymentDeliveryIdempotent() throws Exception {
         var repository = new IdempotentRepository();
-        var paymentHandler = new PaymentHandler(repository, dev.desafio.payment.application.PaymentProvider.deterministic());
+        var paymentHandler = new PaymentHandler(repository, new DeterministicPaymentProvider());
         var authorization = new AuthorizePaymentHandler(paymentHandler);
         var card = new AuthorizePayment(
             "operation-card", "payment-card", "order-card", Payment.Method.CARD,
-            new BigDecimal("31.00"), "BRL"
+            new BigDecimal("31.00"), "BRL", "provider-token", "buyer@example.test", "visa"
         );
 
         try (var executor = Executors.newFixedThreadPool(2)) {
@@ -176,7 +239,7 @@ class PaymentFederationTest {
 
         var pix = new AuthorizePayment(
             "operation-pix", "payment-pix", "order-pix", Payment.Method.PIX,
-            new BigDecimal("82.50"), "BRL"
+            new BigDecimal("82.50"), "BRL", null, "buyer@example.test", null
         );
         assertEquals(authorization.handle(pix), authorization.handle(pix));
 
@@ -214,9 +277,7 @@ class PaymentFederationTest {
     private Map<String, Object> graphQl(String query, String subject, String scopes) {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("x-federation-secret", "federation-local-only");
-        if (subject != null) headers.set("x-authenticated-subject", subject);
-        if (scopes != null) headers.set("x-authenticated-scopes", scopes);
+        headers.setBearerAuth(bearerToken(subject, scopes));
         var response = restTemplate.exchange(
             "/graphql",
             HttpMethod.POST,
@@ -226,6 +287,14 @@ class PaymentFederationTest {
         assertTrue(response.getStatusCode().is2xxSuccessful());
         return Optional.ofNullable(response.getBody()).orElseThrow();
     }
+
+    private String bearerToken(String subject, String scopes) {
+        var token = "payment-test-token-" + bearerSequence.incrementAndGet();
+        bearerClaims.put(token, new BearerClaims(subject, scopes));
+        return token;
+    }
+
+    private record BearerClaims(String subject, String scopes) {}
 
     @SuppressWarnings("unchecked")
     private static Map<String, Object> nested(Map<?, ?> source, String key) {
@@ -242,21 +311,32 @@ class PaymentFederationTest {
         private final Map<String, ProcessingResult> effects = new HashMap<>();
 
         @Override
-        public synchronized ProcessingResult process(UUID eventId, Payment.Command command, Instant occurredAt) {
+        public synchronized String providerReference(Payment.RefundRequested command) {
+            return Optional.ofNullable(payments.get(command.operationKey()))
+                .orElseThrow(() -> new IllegalStateException("payment not found"))
+                .providerReference();
+        }
+
+        @Override
+        public synchronized ProcessingResult process(
+            UUID eventId,
+            Payment.Command command,
+            PaymentProvider.Result providerResult,
+            Instant occurredAt
+        ) {
             if (command instanceof Payment.PaymentRequested requested) {
-                var proposed = Payment.start(requested);
+                var proposed = Payment.fromProvider(requested, providerResult.toDomainResult());
                 var payment = payments.computeIfAbsent(command.operationKey(), ignored -> proposed);
                 if (!payment.hasSameIdentity(proposed)) throw new IllegalArgumentException("conflicting payment");
                 var effect = requested.method() == Payment.Method.CARD ? "AUTHORIZATION" : "PIX";
-                var status = requested.method() == Payment.Method.CARD
-                    ? Payment.Status.AUTHORIZED : Payment.Status.PIX_GENERATED;
+                var status = providerResult.status();
                 return effects.computeIfAbsent(effect + ':' + payment.paymentId(), ignored -> result(payment, status));
             }
 
             var refund = (Payment.RefundRequested) command;
             var payment = Optional.ofNullable(payments.get(command.operationKey()))
                 .orElseThrow(() -> new IllegalStateException("payment not found"))
-                .refund(refund);
+                .refund(refund, providerResult.toDomainResult());
             payments.put(command.operationKey(), payment);
             return effects.computeIfAbsent("REFUND:" + payment.paymentId(), ignored -> result(payment, Payment.Status.REFUNDED));
         }

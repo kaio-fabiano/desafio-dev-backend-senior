@@ -5,7 +5,6 @@ import { createServer } from 'node:http';
 import { test } from 'node:test';
 
 import { createGatewayAuthMiddleware } from '../apps/gateway/src/main.ts';
-import { verifyGatewayRequest } from '../libs/gateway/nest/src/auth/token-verifier.service.ts';
 
 const bearer = 'Bearer opaque-multi-audience-token';
 const issuer = 'https://identity.marketplace.test/api/auth';
@@ -85,18 +84,19 @@ test('AC-065: MCP and GraphQL return the same buyer view @spec:AC-065', async ()
 async function gatewayHarness() {
   let verifications = 0;
   const authorizationHeaders = [];
-  const middleware = createGatewayAuthMiddleware(token, (request, options) => {
+  const middleware = createGatewayAuthMiddleware(token, async (request) => {
     verifications += 1;
     authorizationHeaders.push(request.headers.get('authorization'));
-    return verifyGatewayRequest(request, {
-      ...options,
-      verify: async (verifiedRequest) => {
-        if (verifiedRequest.headers.get('authorization') !== bearer) {
-          throw new Error('Invalid access token');
-        }
-        return claims;
-      },
-    });
+    if (request.headers.get('authorization') !== bearer) {
+      throw new Error('Invalid access token');
+    }
+    return {
+      authorization: bearer,
+      subject: claims.sub,
+      scopes: claims.scope.split(' '),
+      audience: [claims.aud],
+      requestId: 'mcp-test',
+    };
   });
   const server = createServer((request, response) => {
     void middleware(request, response, () => {

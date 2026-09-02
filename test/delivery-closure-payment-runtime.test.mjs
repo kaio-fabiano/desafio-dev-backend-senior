@@ -17,19 +17,19 @@ test('AC-111: Payment delivery is reliable and idempotent @spec:AC-111', async (
   ] = await Promise.all([
     read('apps/payment-federation/build.gradle.kts'),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java',
     ),
     read(
       'apps/payment-federation/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java',
     ),
     read(
       'apps/payment-federation/src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/persistence/JdbcPaymentRepository.java',
     ),
     read(
       'apps/payment-federation/src/main/resources/db/migration/V1__payment_inbox_outbox.sql',
@@ -51,7 +51,7 @@ test('AC-111: Payment delivery is reliable and idempotent @spec:AC-111', async (
   assert.match(repository, /connection\.setAutoCommit\(false\)/);
   assert.match(repository, /claimInbox\(connection, incomingEventId/);
   assert.match(repository, /on conflict \(event_id\) do nothing/);
-  assert.match(repository, /UUID\.nameUUIDFromBytes/);
+  assert.match(repository, /Payment\.stableUuid/);
   assert.match(handlerTest, /authorizesCardOnceAcrossConcurrentRedelivery/);
   assert.match(redeliveryTest, /SimulatedCrash/);
   assert.match(redeliveryTest, /duplicateDelivery\(\)/);
@@ -61,7 +61,7 @@ test('AC-111: Payment delivery is reliable and idempotent @spec:AC-111', async (
   assert.match(configuration, /new TopicExchange\(DEAD_LETTER, true, false\)/);
   assert.match(
     configuration,
-    /QueueBuilder\.durable\(DEAD_LETTER_QUEUE\)\.quorum\(\)/,
+    /QueueBuilder\.durable\(DEAD_LETTER\)\.quorum\(\)/,
   );
   assert.match(
     configuration,
@@ -73,6 +73,6 @@ test('AC-111: Payment delivery is reliable and idempotent @spec:AC-111', async (
   assert.match(listener, /basicAck\(deliveryTag, false\)/);
   assert.match(listener, /basicNack\(deliveryTag, false, true\)/);
   assert.match(listener, /x-retry-attempt/);
-  assert.match(listener, /PaymentRuntimeConfiguration\.RETRY/);
-  assert.match(listener, /PaymentRuntimeConfiguration\.DEAD_LETTER/);
+  assert.match(listener, /RETRY = "marketplace\.retry\.v1"/);
+  assert.match(listener, /DEAD_LETTER = "marketplace\.dead-letter\.v1"/);
 });

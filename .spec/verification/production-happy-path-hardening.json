@@ -1,11 +1,11 @@
 {
   "feature": "production-happy-path-hardening",
-  "timestamp": "2026-09-02T06:38:33.529Z",
-  "gitRev": "293a98b",
+  "timestamp": "2026-09-02T23:30:19.341Z",
+  "gitRev": "a3545b4",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 139,
+  "testsParsed": 169,
   "results": {
     "AC-131": {
       "status": "pass",

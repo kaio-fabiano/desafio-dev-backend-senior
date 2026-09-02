@@ -1,33 +1,21 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFile } from 'node:fs/promises';
 
 import {
   wordpressIdentityProvider,
 } from '../libs/identity/nest/src/auth/registration.service.ts';
-import { trustedFederationContext } from '../libs/identity/nest/src/identity.module.ts';
 
 test('AC-122: Identity keeps one authorization authority @spec:AC-122', async () => {
-  assert.throws(
-    () =>
-      trustedFederationContext(
-        {
-          'x-authenticated-subject': 'victim',
-          'x-authenticated-scopes': 'marketplace:read',
-        },
-        'internal-secret',
-      ),
-    /Unauthorized/,
-  );
-  assert.deepEqual(
-    trustedFederationContext(
-      {
-        'x-federation-secret': 'internal-secret',
-        'x-authenticated-subject': 'buyer-1',
-        'x-authenticated-scopes': 'marketplace:read',
-      },
-      'internal-secret',
-    ),
-    { subject: 'buyer-1', scopes: ['marketplace:read'] },
+  const [identityModule, resource] = await Promise.all([
+    readFile('libs/identity/nest/src/identity.module.ts', 'utf8'),
+    readFile('libs/platform/nest/src/auth/oauth-resource.service.ts', 'utf8'),
+  ]);
+  assert.match(identityModule, /OAuthResourceModule\.register/);
+  assert.match(resource, /verifyAccessTokenRequest/);
+  assert.doesNotMatch(
+    identityModule,
+    /x-federation-secret|x-authenticated-subject|x-authenticated-scopes/,
   );
 
   const originalFetch = globalThis.fetch;

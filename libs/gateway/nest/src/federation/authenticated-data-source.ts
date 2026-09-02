@@ -8,20 +8,18 @@ import type { AuthContext } from '../auth/auth-context.factory.ts';
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext> {
   private readonly origin?: string;
   private readonly capturesSession: boolean;
+  private readonly forwardsBearer: boolean;
   private readonly forwardsSession: boolean;
-  private readonly internalSecret: string;
 
   constructor(config: {
     url: string;
-    internalSecret?: string;
     kind?: 'wordpress' | 'order-workflow' | 'other';
   }) {
     super({ url: config.url });
     const kind = config.kind ?? 'other';
     this.capturesSession = kind === 'wordpress';
+    this.forwardsBearer = kind !== 'wordpress';
     this.forwardsSession = kind === 'wordpress' || kind === 'order-workflow';
-    this.internalSecret =
-      config.internalSecret ?? process.env.FEDERATION_INTERNAL_SECRET ?? '';
     this.origin = kind === 'wordpress' ? new URL(config.url).origin : undefined;
   }
 
@@ -30,16 +28,11 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
     context,
   }: GraphQLDataSourceProcessOptions<AuthContext>) {
     if (this.origin) request.http?.headers.set('origin', this.origin);
-    if (this.internalSecret) {
-      request.http?.headers.set('x-federation-secret', this.internalSecret);
-    }
     if (!context || !('subject' in context) || !context.subject) return;
 
-    request.http?.headers.set('x-authenticated-subject', context.subject);
-    request.http?.headers.set(
-      'x-authenticated-scopes',
-      context.scopes.join(' '),
-    );
+    if (this.forwardsBearer) {
+      request.http?.headers.set('authorization', context.authorization);
+    }
     request.http?.headers.set('x-request-id', context.requestId);
     if (this.forwardsSession) {
       for (const name of [
@@ -50,12 +43,6 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
         const value = context.sessionHeaders?.[name];
         if (typeof value === 'string') request.http?.headers.set(name, value);
       }
-    }
-    if (context.supplierCompanyId) {
-      request.http?.headers.set(
-        'x-supplier-company-id',
-        context.supplierCompanyId,
-      );
     }
   }
 

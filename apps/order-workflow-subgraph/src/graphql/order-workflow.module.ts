@@ -1,5 +1,9 @@
 import { resolve } from 'node:path';
 
+import {
+  GraphqlOAuthResourceGuard,
+  OAuthResourceModule,
+} from '@desafio-dev-backend-senior/source/platform-nest';
 import { MikroORM, type EntityManager } from '@mikro-orm/core';
 import {
   ApolloFederationDriver,
@@ -26,7 +30,6 @@ import { MikroOrmOrderEventReplay } from '../subscriptions/mikro-orm-order-event
 import { OrderEventBroker } from '../subscriptions/order-event-broker.ts';
 import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
 import { PostgresOrderEventRelay } from '../subscriptions/postgres-order-event.relay.ts';
-import { FederationAuthGuard } from './federation-auth.guard.ts';
 import { OrderWorkflowOperationsService } from './order-workflow-operations.service.ts';
 import {
   ORDER_WORKFLOW_OPERATIONS,
@@ -40,7 +43,6 @@ import {
   OUTBOX_REPOSITORY,
   WOO_CHECKOUT,
 } from './order-workflow.tokens.ts';
-import { SubjectOwnerGuard } from './subject-owner.guard.ts';
 
 export {
   ORDER_WORKFLOW_ENTITY_MANAGER,
@@ -58,10 +60,8 @@ export function orderWorkflowRequestContext({
 }: {
   req: { headers: Record<string, string | string[] | undefined> };
 }) {
-  const rawSubject = req.headers['x-authenticated-subject'];
   return {
     req,
-    subject: (Array.isArray(rawSubject) ? rawSubject[0] : rawSubject) ?? '',
     cartToken: String(req.headers['cart-token'] ?? ''),
     wooSession: String(req.headers['woocommerce-session'] ?? ''),
     cookie: String(req.headers.cookie ?? ''),
@@ -70,6 +70,16 @@ export function orderWorkflowRequestContext({
 
 @Module({
   imports: [
+    OAuthResourceModule.register({
+      audience:
+        process.env.ORDER_WORKFLOW_OAUTH_AUDIENCE ??
+        'https://order-workflow.marketplace.local',
+      issuer:
+        process.env.OAUTH_ISSUER ?? 'http://identity-subgraph:3001/api/auth',
+      jwksUrl:
+        process.env.IDENTITY_JWKS_URL ??
+        'http://identity-subgraph:3001/api/auth/jwks',
+    }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       typePaths: [
@@ -129,9 +139,7 @@ export function orderWorkflowRequestContext({
     OrderWorkflowSubscriptionResolver,
     OrderWorkflowRuntimeLifecycle,
     OrderEventBroker,
-    SubjectOwnerGuard,
-    FederationAuthGuard,
-    { provide: APP_GUARD, useExisting: FederationAuthGuard },
+    { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },
     {
       provide: PostgresOrderEventRelay,
       inject: [OrderEventBroker, ORDER_WORKFLOW_ORM],

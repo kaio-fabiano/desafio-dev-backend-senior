@@ -28,11 +28,11 @@ test('AC-145: workflow, payment and inventory progress through RabbitMQ @spec:AC
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java',
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
         'utf8',
       ),
     ]);
@@ -46,21 +46,21 @@ test('AC-145: workflow, payment and inventory progress through RabbitMQ @spec:AC
 test('AC-148: Payment application depends on a provider port, not a vendor SDK @spec:AC-148', async () => {
   const [provider, handler, domain, application] = await Promise.all([
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/application/PaymentProvider.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/PaymentProvider.java',
       'utf8',
     ),
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/application/PaymentHandler.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/PaymentHandler.java',
       'utf8',
     ),
-    sources('apps/payment-federation/src/main/java/dev/desafio/payment/domain'),
+    sources('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain'),
     sources(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/application',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application',
     ),
   ]);
 
   assert.match(provider, /interface PaymentProvider/);
-  assert.match(provider, /operationKey/);
+  assert.match(provider, /execute\(Payment\.Command command\)/);
   assert.match(handler, /PaymentProvider/);
   assert.match(handler, /provider\.execute/);
   assert.doesNotMatch(
@@ -73,22 +73,22 @@ test('AC-149: Inventory is an independent asynchronous participant @spec:AC-149'
   const [paymentCore, inventory, listener, runtime] = await Promise.all([
     Promise.all([
       sources(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/domain',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain',
       ),
       sources(
-        'apps/payment-federation/src/main/java/dev/desafio/payment/application',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application',
       ),
     ]),
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/inventory/InventoryService.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/InventoryService.java',
       'utf8',
     ),
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
       'utf8',
     ),
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration/InventoryMessagingConfiguration.java',
       'utf8',
     ),
   ]);

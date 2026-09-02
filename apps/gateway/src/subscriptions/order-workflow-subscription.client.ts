@@ -19,13 +19,11 @@ export type OrderWorkflowSubscriptionClient = {
 
 type OrderWorkflowSubscriptionClientOptions = {
   url: string;
-  internalSecret?: string;
   createClient?: (options: ClientOptions<false>) => DelegatedClient;
 };
 
 export function createOrderWorkflowSubscriptionClient({
   url,
-  internalSecret = process.env.FEDERATION_INTERNAL_SECRET ?? '',
   createClient: makeClient = createClient,
 }: OrderWorkflowSubscriptionClientOptions): OrderWorkflowSubscriptionClient {
   return {
@@ -35,8 +33,7 @@ export function createOrderWorkflowSubscriptionClient({
         singleConnection: false,
         retryAttempts: 0,
         headers: {
-          'x-federation-secret': internalSecret,
-          'x-authenticated-subject': context.subject,
+          authorization: context.authorization,
           'x-request-id': context.requestId,
         },
       });
