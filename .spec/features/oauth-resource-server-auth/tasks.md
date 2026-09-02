@@ -2,8 +2,7 @@
 
 > feature: oauth-resource-server-auth
 
-## T-133 — Model owned OAuth resources in Better Auth [pendente]
-
+## T-133 — Model owned OAuth resources in Better Auth [concluida]
 - Refs: US-087, AC-174
 - Modelo: gpt-5.6-sol
 - Esforço: alto
