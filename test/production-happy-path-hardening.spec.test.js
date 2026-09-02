@@ -55,23 +55,42 @@ test('AC-131: Cart survives replica changes @spec:AC-131', async () => {
     },
   });
   const receivedHeaders = [];
+  const receivedOperations = [];
+  let orderCreated = false;
   const adapter = createWooCheckoutAdapter(
     'http://wordpress.test',
+    {
+      consumerKey: 'commerce-key',
+      consumerSecret: 'commerce-secret',
+    },
     async (_, init) => {
       receivedHeaders.push(init.headers);
-      const { query } = JSON.parse(String(init.body));
-      if (query.includes('OrderWorkflowOrders')) {
-        return Response.json({
-          data: {
-            customer: {
-              orders: { nodes: [], pageInfo: { hasNextPage: false } },
-            },
-          },
-        });
-      }
+      if (init.method === 'GET')
+        return Response.json(
+          orderCreated
+            ? [
+                {
+                  id: 7001,
+                  total: '19.90',
+                  currency: 'BRL',
+                  meta_data: [
+                    {
+                      key: '_order_workflow_operation_reference',
+                      value: 'replica-portable-operation',
+                    },
+                  ],
+                  line_items: [{ product_id: 1001, quantity: 1 }],
+                },
+              ]
+            : [],
+        );
+      const operation = JSON.parse(String(init.body));
+      receivedOperations.push(operation);
+      const { query } = operation;
       if (query.includes('mutation Checkout')) {
+        orderCreated = true;
         return Response.json({
-          data: { checkout: { order: { databaseId: 7001 } } },
+          data: { checkout: { order: {} } },
         });
       }
       return Response.json({
@@ -96,11 +115,23 @@ test('AC-131: Cart survives replica changes @spec:AC-131', async () => {
       cookie: workflowHeaders.get('cookie'),
     },
   });
-  assert.equal(receivedHeaders[0]['woocommerce-session'], 'woo-session');
-  assert.equal(receivedHeaders[0].cookie, 'wp_session=cookie-value');
+  const graphqlHeaders = receivedHeaders.find(
+    (headers) => headers['woocommerce-session'],
+  );
+  assert.equal(graphqlHeaders['woocommerce-session'], 'woo-session');
+  assert.equal(graphqlHeaders.cookie, 'wp_session=cookie-value');
+  assert.equal(
+    receivedOperations.find(({ query }) => query.includes('mutation Checkout'))
+      .variables.input.paymentMethod,
+    'cod',
+  );
   assert.deepEqual(order.cartSnapshot.items, [{ id: 1001, quantity: 1 }]);
   const failing = createWooCheckoutAdapter(
     'http://wordpress.test',
+    {
+      consumerKey: 'commerce-key',
+      consumerSecret: 'commerce-secret',
+    },
     async () => new Response(null, { status: 503 }),
   );
   await assert.rejects(
@@ -118,7 +149,7 @@ test('AC-131: Cart survives replica changes @spec:AC-131', async () => {
       'apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts',
       'utf8',
     ),
-    /consumerSecret|\/wp-json\/wc\/v3\/orders/,
+    /customer\s*\{\s*orders/,
   );
 });
 
@@ -268,6 +299,62 @@ async function proveRecoverableCheckout() {
   const recovered = await secondReplica.checkout(timedOut);
   assert.equal(recovered.wooOrderId, 'woo-after-timeout');
   assert.equal(creates, 1, 'reconciliation must not issue another POST');
+
+  const [{ createWooCheckoutAdapter }, plugin] = await Promise.all([
+    import(
+      '../apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts'
+    ),
+    readFile(
+      'apps/wordpress-integration/plugins/order-workflow-reconciliation/order-workflow-reconciliation.php',
+      'utf8',
+    ),
+  ]);
+  let reconciliationRequest;
+  const reconciliation = createWooCheckoutAdapter(
+    'http://wordpress.test',
+    {
+      consumerKey: 'commerce-key',
+      consumerSecret: 'commerce-secret',
+    },
+    async (url, init) => {
+      reconciliationRequest = { url: new URL(url), init };
+      return Response.json([
+        {
+          id: 8123,
+          total: '19.90',
+          currency: 'BRL',
+          meta_data: [
+            {
+              key: '_order_workflow_operation_reference',
+              value: 'stable-operation-reference',
+            },
+          ],
+          line_items: [{ product_id: 1001, quantity: 1 }],
+        },
+      ]);
+    },
+  );
+  const found = await reconciliation.findByReference({
+    paymentMethod: 'CARD',
+    reference: 'stable-operation-reference',
+    subject: 'buyer-133',
+  });
+  assert.equal(found.id, '8123');
+  assert.equal(reconciliationRequest.url.pathname, '/wp-json/wc/v3/orders');
+  assert.equal(
+    reconciliationRequest.url.searchParams.get('search'),
+    'stable-operation-reference',
+  );
+  assert.equal(
+    reconciliationRequest.init.headers.authorization,
+    `Basic ${Buffer.from('commerce-key:commerce-secret').toString('base64')}`,
+  );
+  assert.equal(
+    reconciliationRequest.init.headers['x-forwarded-proto'],
+    'https',
+  );
+  assert.match(plugin, /woocommerce_shop_order_search_fields/);
+  assert.match(plugin, /woocommerce_order_table_search_query_meta_keys/);
 }
 
 // US-066 — Observe order progress across replicas

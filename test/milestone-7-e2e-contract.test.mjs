@@ -103,7 +103,7 @@ test('AC-068..AC-071: the journey uses Gateway, MCP, and federated SSE @spec:AC-
     /updateOrder|recordPixPaymentV1|recordCardPaymentV1/,
   );
   assert.match(journey, /cardRetry/);
-  assert.match(journey, /meOrdersAndProducts/);
+  assert.match(journey, /meAndProducts/);
   assert.match(journey, /startCheckout/);
   assert.match(journey, /rejectionStatuses/);
   for (const criterion of ['AC-068', 'AC-069', 'AC-070', 'AC-071']) {
@@ -128,7 +128,7 @@ test('AC-114: acceptance proves the complete public buyer contract @spec:AC-114'
   for (const assertion of [
     /cardRetry/,
     /compensation/,
-    /meOrdersAndProducts/,
+    /meAndProducts/,
     /rejectionStatuses/,
     /'PIX'/,
   ]) {

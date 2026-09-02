@@ -54,7 +54,14 @@ ensure_plugin wp-graphql-headless-login 0.4.4 "https://github.com/AxeWP/wp-graph
 federation_commit=ac480974ceb6a1680410f955005e060056f150da
 ensure_plugin wp-graphql-federations 0.1.0 "https://github.com/Manuel-Antunes/wp-graphql-federations/archive/$federation_commit.zip"
 
-for plugin in woocommerce wp-graphql wp-graphql-woocommerce wp-graphql-federations wp-graphql-headless-login; do
+plugin_dir=/var/www/html/wp-content/plugins/order-workflow-reconciliation
+wp eval 'wp_mkdir_p( WP_PLUGIN_DIR . "/order-workflow-reconciliation" );'
+"${compose[@]}" run --rm --no-deps cli cp \
+  /integration/plugins/order-workflow-reconciliation/order-workflow-reconciliation.php \
+  "$plugin_dir/order-workflow-reconciliation.php"
+wp plugin activate order-workflow-reconciliation
+
+for plugin in woocommerce wp-graphql wp-graphql-woocommerce wp-graphql-federations wp-graphql-headless-login order-workflow-reconciliation; do
   wp plugin is-active "$plugin"
 done
 federation_settings='{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}'

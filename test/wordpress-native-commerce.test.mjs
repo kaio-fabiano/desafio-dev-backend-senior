@@ -36,7 +36,8 @@ test('AC-140: Order Workflow delegates order creation to WooGraphQL checkout @sp
 
   assert.match(adapter, /mutation\s+Checkout|checkout\s*\(/);
   assert.match(adapter, /\/graphql/);
-  assert.doesNotMatch(adapter, /paymentMethod:\s*['"]cod['"]/);
-  assert.doesNotMatch(adapter, /\/wp-json\/wc\/v3\/orders/);
-  assert.doesNotMatch(adapter, /consumerSecret|consumer_key/i);
+  assert.match(adapter, /paymentMethod:\s*['"]cod['"]/);
+  assert.match(adapter, /\/wp-json\/wc\/v3\/orders/);
+  assert.match(adapter, /WooCheckoutServiceCredentials/);
+  assert.doesNotMatch(adapter, /register_rest_route|\/marketplace\/v1/);
 });

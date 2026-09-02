@@ -1,11 +1,11 @@
 {
   "feature": "milestone-7-e2e-deployment",
-  "timestamp": "2026-09-02T04:02:22.064Z",
-  "gitRev": "0ccdd90",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-02T06:41:22.187Z",
+  "gitRev": "293a98b",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 134,
+  "testsParsed": 139,
   "results": {
     "AC-067": {
       "status": "pass",
