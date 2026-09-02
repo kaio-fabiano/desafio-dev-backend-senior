@@ -23,8 +23,7 @@
 - Arquivos: apps/order-workflow-subgraph/src/graphql, apps/order-workflow-subgraph/src/subscriptions, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/project.json, test/oauth-resource-server-auth.spec.test.js, test/production-happy-path-hardening.spec.test.js
 - Notas: Replace FederationAuthGuard with the shared OAuth integration while preserving SubjectOwnerGuard as bounded-context authorization.
 
-## T-136 — Forward bearer credentials through the Gateway [pendente]
-
+## T-136 — Forward bearer credentials through the Gateway [concluida]
 - Refs: US-087, US-090, AC-175, AC-178
 - Modelo: gpt-5.6-sol
 - Esforço: alto
