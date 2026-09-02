@@ -21,7 +21,7 @@
 ## T-087 — Reactivate the Java Payment Federation event runtime [concluida]
 
 - Refs: US-056, AC-111
-- Arquivos: apps/payment-federation/build.gradle.kts, apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-federation/src/main/resources, apps/payment-federation/src/test, test/delivery-closure-payment-runtime.test.mjs
+- Arquivos: apps/payment-federation/build.gradle.kts, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging, apps/payment-federation/src/main/resources, apps/payment-federation/src/test, test/delivery-closure-payment-runtime.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Remove the messaging source exclusion, restore Spring AMQP dependencies/configuration, and prove database idempotency, confirms, acknowledgements, bounded retry, and DLQ.
@@ -29,7 +29,7 @@
 ## T-088 — Add inventory reaction and compensation to Payment Federation [concluida]
 
 - Refs: US-056, AC-112
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/payment/inventory, apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-federation/src/test, apps/wordpress-integration, libs/contracts/events, compose.yaml, test/delivery-closure-inventory-saga.test.mjs
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging, apps/payment-federation/src/test, apps/wordpress-integration, libs/contracts/events, compose.yaml, test/delivery-closure-inventory-saga.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Port the proven stock-worker behavior from pre-`a2a37a3` behind an internal Java application boundary; retain WooCommerce as stock authority without creating another deployable service.
@@ -37,7 +37,7 @@
 ## T-089 — Repair the complete Testcontainers acceptance journey [concluida]
 
 - Refs: US-057, AC-113, AC-114
-- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/gateway/src/main.ts, apps/order-workflow-subgraph/src/graphql, apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRabbitListener.java, apps/payment-federation/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java, libs/contracts/graphql/order-workflow/schema.graphql, libs/contracts/graphql/wordpress/schema.graphql, libs/contracts/graphql/supergraph.yaml, libs/gateway/nest/src/gateway.module.ts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
+- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/gateway/src/main.ts, apps/order-workflow-subgraph/src/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/wordpress/WooInventoryAdapter.java, libs/contracts/graphql/order-workflow/schema.graphql, libs/contracts/graphql/wordpress/schema.graphql, libs/contracts/graphql/supergraph.yaml, libs/gateway/nest/src/gateway.module.ts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Start RabbitMQ and the Payment Federation consumers, remove direct payment orchestration from the client, query full federated `me`, prove checkout replay and compensation, and retain MCP parity/negative cases.

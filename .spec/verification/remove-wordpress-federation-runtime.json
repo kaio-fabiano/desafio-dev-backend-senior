@@ -1,11 +1,11 @@
 {
   "feature": "remove-wordpress-federation-runtime",
-  "timestamp": "2026-09-02T04:02:59.780Z",
-  "gitRev": "0ccdd90",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-02T16:14:40.836Z",
+  "gitRev": "b7c2786",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 134,
+  "testsParsed": 157,
   "results": {
     "AC-117": {
       "status": "pass",

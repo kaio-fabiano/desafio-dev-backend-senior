@@ -1,0 +1,32 @@
+{
+  "feature": "payment-federation-clean-architecture",
+  "timestamp": "2026-09-02T15:52:28.110Z",
+  "gitRev": "b7c2786",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 157,
+  "results": {
+    "AC-170": {
+      "status": "pass",
+      "testName": "AC-170: Payment and Inventory use consistent inward layers @spec:AC-170",
+      "method": "tap"
+    },
+    "AC-171": {
+      "status": "pass",
+      "testName": "AC-171: legacy Payment packages and direct context coupling are absent @spec:AC-171",
+      "method": "tap"
+    },
+    "AC-172": {
+      "status": "pass",
+      "testName": "AC-172: migrated runtime has executable build and behavior evidence @spec:AC-172",
+      "method": "tap"
+    },
+    "AC-173": {
+      "status": "pass",
+      "testName": "AC-173: payment refactor commits do not absorb identity changes @spec:AC-173",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

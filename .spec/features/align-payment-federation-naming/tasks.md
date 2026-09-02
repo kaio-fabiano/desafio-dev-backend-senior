@@ -35,7 +35,7 @@
 ## T-121 — Rename the undeployed payment queue [concluida]
 
 - Refs: US-074, AC-157
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java, test/delivery-closure-inventory-saga.test.mjs, test/align-payment-federation-naming.spec.test.mjs
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java, test/delivery-closure-inventory-saga.test.mjs, test/align-payment-federation-naming.spec.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Rename only the queue namespace; preserve the event type, exchange, retry behavior, and delivery semantics.

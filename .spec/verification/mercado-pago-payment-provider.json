@@ -1,0 +1,62 @@
+{
+  "feature": "mercado-pago-payment-provider",
+  "timestamp": "2026-09-02T15:53:56.686Z",
+  "gitRev": "b7c2786",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 157,
+  "results": {
+    "AC-160": {
+      "status": "pass",
+      "testName": "AC-160: provider creation reuses the workflow operation key @spec:AC-160",
+      "method": "tap"
+    },
+    "AC-161": {
+      "status": "pass",
+      "testName": "AC-161: Card boundaries accept a provider token and no raw Card fields @spec:AC-161",
+      "method": "tap"
+    },
+    "AC-162": {
+      "status": "pass",
+      "testName": "AC-162: Pix outcomes carry Mercado Pago reference and copy-and-paste code @spec:AC-162",
+      "method": "tap"
+    },
+    "AC-163": {
+      "status": "pass",
+      "testName": "AC-163: signed webhooks are rejected or deduplicated before transition @spec:AC-163",
+      "method": "tap"
+    },
+    "AC-164": {
+      "status": "pass",
+      "testName": "AC-164: financial transitions require the authoritative provider reference @spec:AC-164",
+      "method": "tap"
+    },
+    "AC-165": {
+      "status": "pass",
+      "testName": "AC-165: ambiguous creation remains recoverable with the same key @spec:AC-165",
+      "method": "tap"
+    },
+    "AC-166": {
+      "status": "pass",
+      "testName": "AC-166: refund confirmation uses the persisted original provider reference @spec:AC-166",
+      "method": "tap"
+    },
+    "AC-167": {
+      "status": "pass",
+      "testName": "AC-167: Mercado Pago mode validates secrets, endpoint and timeouts at startup @spec:AC-167",
+      "method": "tap"
+    },
+    "AC-168": {
+      "status": "pass",
+      "testName": "AC-168: provider behavior has repeatable credential-free and sandbox evidence @spec:AC-168",
+      "method": "tap"
+    },
+    "AC-169": {
+      "status": "pass",
+      "testName": "AC-169: Java packages enforce inward dependencies for Payment and Inventory @spec:AC-169",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

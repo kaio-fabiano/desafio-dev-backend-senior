@@ -17,7 +17,7 @@
 
 ## T-110 — Remover wrappers e delegar ao WooGraphQL [concluida]
 - Refs: US-068, AC-139, AC-140, US-070, AC-143, AC-144
-- Arquivos: apps/order-workflow-subgraph/src/cart, apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/graphql, libs/contracts/graphql/order-workflow/schema.graphql, apps/order-workflow-subgraph/src/checkout
+- Arquivos: apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/graphql, libs/contracts/graphql/order-workflow/schema.graphql
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Manter apenas a fachada idempotente que delega checkout nativo.
@@ -30,7 +30,7 @@
 
 ## T-112 — Isolar Payment, Inventory e porta de provedor [concluida]
 - Refs: US-070, AC-145, US-072, AC-148, AC-149
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/payment, apps/payment-federation/src/main/java/dev/desafio/payment/inventory, apps/payment-federation/src/test/java/dev/desafio/payment, apps/payment-federation/src/test/java/dev/desafio/payment/inventory
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/test/java/dev/desafio/payment, apps/payment-federation/src/test/java/dev/desafio/payment/inventory
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 
