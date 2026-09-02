@@ -4208,10 +4208,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "structural-improvement-program",
       "ref": "—",
-      "ocorrencias": 10,
+      "ocorrencias": 11,
       "primeiraVez": "2026-09-01T03:06:54.499Z",
-      "ultimaVez": "2026-09-02T15:53:56.781Z",
-      "gitRev": "b7c2786"
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
     },
     "VERIFY_OBSOLETO::keep-graphify-current::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -4959,6 +4959,141 @@
       "primeiraVez": "2026-09-02T15:53:56.781Z",
       "ultimaVez": "2026-09-02T15:53:56.781Z",
       "gitRev": "b7c2786"
+    },
+    "ASM_STATUS_INVALIDO::oauth-resource-server-auth::ASM-063": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "oauth-resource-server-auth",
+      "ref": "ASM-063",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "ASM_STATUS_INVALIDO::oauth-resource-server-auth::ASM-064": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "oauth-resource-server-auth",
+      "ref": "ASM-064",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "ASM_STATUS_INVALIDO::oauth-resource-server-auth::ASM-065": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "oauth-resource-server-auth",
+      "ref": "ASM-065",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "ARQUIVO_INEXISTENTE::oauth-resource-server-auth::T-133": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-133",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::oauth-resource-server-auth::T-133": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-133",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "ARQUIVO_INEXISTENTE::oauth-resource-server-auth::T-134": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-134",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::oauth-resource-server-auth::T-134": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-134",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::oauth-resource-server-auth::T-135": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-135",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::oauth-resource-server-auth::T-136": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-136",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::oauth-resource-server-auth::T-138": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "T-138",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "AC_SEM_PROVA::oauth-resource-server-auth::AC-174": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "AC-174",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "AC_SEM_PROVA::oauth-resource-server-auth::AC-175": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "AC-175",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "AC_SEM_PROVA::oauth-resource-server-auth::AC-176": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "AC-176",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "AC_SEM_PROVA::oauth-resource-server-auth::AC-178": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "AC-178",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
+    },
+    "AC_SEM_PROVA::oauth-resource-server-auth::AC-179": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "oauth-resource-server-auth",
+      "ref": "AC-179",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-02T17:36:56.907Z",
+      "ultimaVez": "2026-09-02T17:36:56.907Z",
+      "gitRev": "44f1a8e"
     }
   }
 }

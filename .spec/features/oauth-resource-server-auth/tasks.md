@@ -37,8 +37,7 @@
 - Arquivos: apps/payment-federation/build.gradle.kts, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/test, test/structural-payment-review.test.mjs, test/oauth-resource-server-auth.spec.test.js
 - Notas: Use Spring Security OAuth2 Resource Server and method/security context integration; remove the custom federation-secret interceptor.
 
-## T-138 — Remove the custom trust protocol and codify native-first review [pendente]
-
+## T-138 — Remove the custom trust protocol and codify native-first review [concluida]
 - Refs: US-087, US-088, US-089, US-090, US-091, AC-174, AC-175, AC-176, AC-177, AC-178, AC-179
 - Modelo: gpt-5.6-sol
 - Esforço: alto

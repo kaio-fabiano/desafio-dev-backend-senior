@@ -1,0 +1,17 @@
+{
+  "feature": "oauth-resource-server-auth",
+  "timestamp": "2026-09-02T17:36:56.791Z",
+  "gitRev": "44f1a8e",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 123,
+  "testsParsed": 158,
+  "results": {
+    "AC-177": {
+      "status": "pass",
+      "testName": "AC-177: Payment delegates bearer validation to Spring Security @spec:AC-177",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
