@@ -474,10 +474,10 @@
     "semantic_hash": "e858ce66f36ff409c62d12c67e026691"
   },
   ".spec/verification/delivery-closure.json": {
-    "mtime": 1788321712.9598105,
-    "seen": 1788322487.4464238,
-    "ast_hash": "9e69002dfdd4f7c0c88180554e813835",
-    "semantic_hash": "9e69002dfdd4f7c0c88180554e813835"
+    "mtime": 1788324146.8047829,
+    "seen": 1788324285.3206928,
+    "ast_hash": "e1e0008df05d9291583dd36dad7779cb",
+    "semantic_hash": "e1e0008df05d9291583dd36dad7779cb"
   },
   ".spec/verification/federated-platform-architecture-refactor.json": {
     "mtime": 1788321720.3468492,
@@ -534,8 +534,8 @@
     "semantic_hash": "030771979e840ddfa2eaa74ea428f113"
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788323278.4263408,
-    "seen": 1788323293.4078343,
+    "mtime": 1788324214.282807,
+    "seen": 1788324285.3209946,
     "ast_hash": "cb734726995cec1604fa7560ae2adc2d",
     "semantic_hash": "cb734726995cec1604fa7560ae2adc2d"
   },
@@ -1056,10 +1056,10 @@
     "semantic_hash": "edd86388dd35abb48447bca2e142d252"
   },
   "test/delivery-closure-inventory-saga.test.mjs": {
-    "mtime": 1788321571.2101192,
-    "seen": 1788322487.4522886,
-    "ast_hash": "40b0521aa32adeace0f179cb82d73f5d",
-    "semantic_hash": "40b0521aa32adeace0f179cb82d73f5d"
+    "mtime": 1788323796.9256268,
+    "seen": 1788324285.3262284,
+    "ast_hash": "6d208042ac0a8dfb26358814b6ff1be2",
+    "semantic_hash": "6d208042ac0a8dfb26358814b6ff1be2"
   },
   "test/delivery-closure-observability.test.mjs": {
     "mtime": 1788321571.2027473,
@@ -2334,22 +2334,22 @@
     "semantic_hash": "00dc79cbcdc2e0b352b0a2b2e31185e9"
   },
   ".spec/features/align-payment-federation-naming/executar-tarefas.sh": {
-    "mtime": 1788305825.5675395,
-    "seen": 1788305841.9753978,
+    "mtime": 1788324214.2820413,
+    "seen": 1788324285.3198764,
     "ast_hash": "c89dad5fa3add9a6d601b4025afbc6c2",
     "semantic_hash": "c89dad5fa3add9a6d601b4025afbc6c2"
   },
   ".spec/features/align-payment-federation-naming/plano.json": {
-    "mtime": 1788305207.0797992,
-    "seen": 1788305841.9754014,
+    "mtime": 1788324214.2821906,
+    "seen": 1788324285.3198779,
     "ast_hash": "487d9cef52e720dbcd1a56aac859b333",
     "semantic_hash": "487d9cef52e720dbcd1a56aac859b333"
   },
   ".spec/verification/align-payment-federation-naming.json": {
-    "mtime": 1788322946.9486303,
-    "seen": 1788323043.5224066,
-    "ast_hash": "67a19f4d519f1b3744e99d640172a387",
-    "semantic_hash": "67a19f4d519f1b3744e99d640172a387"
+    "mtime": 1788324018.3170004,
+    "seen": 1788324285.3206918,
+    "ast_hash": "8bc4a98f752d8409f250517dcd1f71a0",
+    "semantic_hash": "8bc4a98f752d8409f250517dcd1f71a0"
   },
   "apps/payment-federation/build.gradle.kts": {
     "mtime": 1788285711.775973,
@@ -2394,10 +2394,10 @@
     "semantic_hash": "639463aed64d440bb27909d3e12d1187"
   },
   "apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java": {
-    "mtime": 1788304712.8121834,
-    "seen": 1788305841.9812024,
-    "ast_hash": "09971d2fee506268af5e4c7fbebaf8c7",
-    "semantic_hash": "09971d2fee506268af5e4c7fbebaf8c7"
+    "mtime": 1788323805.8926833,
+    "seen": 1788324285.323694,
+    "ast_hash": "6e133ec1c43850c91a40701f0c0505cb",
+    "semantic_hash": "6e133ec1c43850c91a40701f0c0505cb"
   },
   "apps/payment-federation/src/main/java/dev/desafio/payment/adapter/persistence/PaymentRepository.java": {
     "mtime": 1788164617.7891378,
@@ -2532,9 +2532,9 @@
     "semantic_hash": "b2204d0d027463e3634c7607a0fbc782"
   },
   "test/align-payment-federation-naming.spec.test.mjs": {
-    "mtime": 1788322861.1500185,
-    "seen": 1788323043.5293057,
-    "ast_hash": "32828aa6a2d1430b0e867368596418a7",
-    "semantic_hash": "32828aa6a2d1430b0e867368596418a7"
+    "mtime": 1788323796.9236267,
+    "seen": 1788324285.3261492,
+    "ast_hash": "34571b14f1f7e55d81a828483fcd82ac",
+    "semantic_hash": "34571b14f1f7e55d81a828483fcd82ac"
   }
 }
