@@ -30,8 +30,7 @@
 - Arquivos: libs/gateway/nest/src/auth, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/gateway/nest/src/gateway.module.ts, apps/gateway/src/subscriptions, test/gateway-federation-refactor.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/oauth-resource-server-auth.spec.test.js
 - Notas: Preserve the verified bearer credential and correlation metadata; retain WordPress-specific session propagation as a separate adapter concern.
 
-## T-137 — Migrate Payment to Spring Security resource-server support [pendente]
-
+## T-137 — Migrate Payment to Spring Security resource-server support [concluida]
 - Refs: US-089, AC-177
 - Modelo: gpt-5.6-sol
 - Esforço: alto
