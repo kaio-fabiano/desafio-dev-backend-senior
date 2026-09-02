@@ -1,0 +1,143 @@
+{
+  "runId": "desafio-dev-backend-senior-oauth-resource-server-auth-mtkcpdbr",
+  "feature": "oauth-resource-server-auth",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-02 17:09",
+  "branchTrabalho": "spec/oauth-resource-server-auth",
+  "baseDir": ".spec/features/oauth-resource-server-auth",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-oauth-resource-server-auth-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-133",
+      "titulo": "Model owned OAuth resources in Better Auth",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/identity/nest/src/auth/better-auth.factory.ts",
+        "libs/identity/nest/src/auth/plugins/oauth-provider-plugin.factory.ts",
+        "libs/identity/nest/src/auth/resource-audiences.ts",
+        "apps/identity-subgraph/src/auth/config.ts",
+        "test/oauth-resource-server-auth.spec.test.js"
+      ],
+      "refs": [
+        "US-087",
+        "AC-174"
+      ]
+    },
+    {
+      "id": "T-134",
+      "titulo": "Build the shared NestJS OAuth resource module",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/platform/nest/src/auth",
+        "libs/platform/nest/src/index.ts",
+        "libs/identity/nest/src/identity.module.ts",
+        "apps/identity-subgraph/src/graphql/identity.module.ts",
+        "test/oauth-resource-server-auth.spec.test.js"
+      ],
+      "refs": [
+        "US-088",
+        "AC-176"
+      ]
+    },
+    {
+      "id": "T-135",
+      "titulo": "Migrate Order Workflow GraphQL and SSE authentication",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/graphql",
+        "apps/order-workflow-subgraph/src/subscriptions",
+        "apps/order-workflow-subgraph/src/main.ts",
+        "apps/order-workflow-subgraph/project.json",
+        "test/oauth-resource-server-auth.spec.test.js",
+        "test/production-happy-path-hardening.spec.test.js"
+      ],
+      "refs": [
+        "US-088",
+        "US-090",
+        "AC-176",
+        "AC-178"
+      ]
+    },
+    {
+      "id": "T-136",
+      "titulo": "Forward bearer credentials through the Gateway",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/gateway/nest/src/auth",
+        "libs/gateway/nest/src/federation/authenticated-data-source.ts",
+        "libs/gateway/nest/src/gateway.module.ts",
+        "apps/gateway/src/subscriptions",
+        "test/gateway-federation-refactor.test.mjs",
+        "test/milestone-8-identity-gateway.test.mjs",
+        "test/oauth-resource-server-auth.spec.test.js"
+      ],
+      "refs": [
+        "US-087",
+        "US-090",
+        "AC-175",
+        "AC-178"
+      ]
+    },
+    {
+      "id": "T-137",
+      "titulo": "Migrate Payment to Spring Security resource-server support",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/build.gradle.kts",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql",
+        "apps/payment-federation/src/main/resources/application.yaml",
+        "apps/payment-federation/src/test",
+        "test/structural-payment-review.test.mjs",
+        "test/oauth-resource-server-auth.spec.test.js"
+      ],
+      "refs": [
+        "US-089",
+        "AC-177"
+      ]
+    },
+    {
+      "id": "T-138",
+      "titulo": "Remove the custom trust protocol and codify native-first review",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "compose.yaml",
+        "docs/adrs",
+        "docs/prds",
+        "test",
+        "graphify-out",
+        ".spec/features/oauth-resource-server-auth",
+        ".spec/verification/oauth-resource-server-auth.json"
+      ],
+      "refs": [
+        "US-087",
+        "US-088",
+        "US-089",
+        "US-090",
+        "US-091",
+        "AC-174",
+        "AC-175",
+        "AC-176",
+        "AC-177",
+        "AC-178",
+        "AC-179"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
