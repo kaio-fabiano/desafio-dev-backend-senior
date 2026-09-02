@@ -1,11 +1,11 @@
 {
   "feature": "align-payment-federation-naming",
-  "timestamp": "2026-09-02T04:40:18.314Z",
-  "gitRev": "2830146",
+  "timestamp": "2026-09-02T05:20:57.022Z",
+  "gitRev": "347cd94",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 138,
+  "testsParsed": 139,
   "results": {
     "AC-152": {
       "status": "pass",
@@ -30,6 +30,11 @@
     "AC-155": {
       "status": "pass",
       "testName": "AC-155: Plugin bootstrap is idempotent and production stays immutable @spec:AC-155",
+      "method": "tap"
+    },
+    "AC-158": {
+      "status": "pass",
+      "testName": "AC-158: Rename migration handles fresh and legacy schemas @spec:AC-158",
       "method": "tap"
     }
   },

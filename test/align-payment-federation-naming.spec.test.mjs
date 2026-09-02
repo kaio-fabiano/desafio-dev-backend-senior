@@ -118,3 +118,17 @@ test('AC-155: Plugin bootstrap is idempotent and production stays immutable @spe
   assert.match(architectureDecision, /immutable WordPress image/i);
   assert.match(architectureDecision, /must not download plugins at startup/i);
 });
+
+// US-077 — Keep Order Workflow deployable across database states
+test('AC-158: Rename migration handles fresh and legacy schemas @spec:AC-158', async () => {
+  const migration = await readFile(
+    'apps/order-workflow-subgraph/src/persistence/migrations/Migration202609010003.ts',
+    'utf8',
+  );
+
+  assert.match(migration, /to_regclass\('\$\{source\}'\) is not null/);
+  assert.match(migration, /to_regclass\('\$\{target\}'\) is null/);
+  assert.match(migration, /alter table "\$\{source\}" rename to "\$\{target\}"/);
+  assert.match(migration, /renameTables\('commerce', 'order_workflow'\)/);
+  assert.match(migration, /renameTables\('order_workflow', 'commerce'\)/);
+});

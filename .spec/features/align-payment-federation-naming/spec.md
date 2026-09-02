@@ -57,6 +57,18 @@ so that tests do not depend on downloading unchanged plugins on every run.
 - **Quando** the bootstrap runs again
 - **Então** exact versions are reused, missing or mismatched versions are installed, and production deployment is documented as an immutable prebuilt image
 
+### US-077 — Keep Order Workflow deployable across database states
+
+As a maintainer, I want the bounded-context rename migration to tolerate both
+fresh and legacy schemas, so that a clean deployment and an upgrade can start
+the Order Workflow runtime safely.
+
+#### AC-158 — The rename migration handles fresh and legacy schemas
+
+- **Dado** either a fresh schema with the canonical tables or a legacy schema with `commerce_*` tables
+- **Quando** the Order Workflow migrations run
+- **Então** the rename migration preserves canonical tables and renames legacy tables without failing on missing relations
+
 ## Out of scope
 
 - Changing Java package names under `dev.desafio.payment`.
