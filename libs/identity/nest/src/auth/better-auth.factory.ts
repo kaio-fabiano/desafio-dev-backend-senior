@@ -9,13 +9,13 @@ import { betterAuth } from 'better-auth';
 import { Pool } from 'pg';
 
 import { JwtPluginFactory } from './plugins/jwt-plugin.factory.ts';
-import { identityBootstrapHeaders } from './registration.service.ts';
 import {
   GATEWAY_AUDIENCE,
   MCP_AUDIENCE,
   MCP_TOOL_SCOPES,
   OAuthProviderPluginFactory,
 } from './plugins/oauth-provider-plugin.factory.ts';
+import { identityBootstrapHeaders } from './registration.service.ts';
 
 type IdentityDatabase = NonNullable<
   Parameters<typeof betterAuth>[0]['database']
