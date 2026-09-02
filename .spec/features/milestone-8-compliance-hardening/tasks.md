@@ -11,7 +11,7 @@
 
 ## T-054 — Repair the reproducible Nx quality toolchain [concluida]
 - Refs: US-043, AC-085, AC-086
-- Arquivos: eslint.config.mjs, package.json, pnpm-lock.yaml, nx.json, apps/payment-processor/project.json, test/milestone-8-quality-gate.test.mjs
+- Arquivos: eslint.config.mjs, package.json, pnpm-lock.yaml, nx.json, apps/payment-federation/project.json, test/milestone-8-quality-gate.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Configure TypeScript linting and make Java builds independent of globally installed Gradle.
@@ -25,14 +25,14 @@
 
 ## T-057 — Complete payment and inventory worker runtime [concluida]
 - Refs: US-042, AC-084, AC-085, AC-086
-- Arquivos: apps/payment-processor/src, apps/payment-processor/build.gradle.kts, apps/wordpress-integration/scripts/install-plugins.sh, test/milestone-8-wordpress-inventory-plugin.test.mjs
+- Arquivos: apps/payment-federation/src, apps/payment-federation/build.gradle.kts, apps/wordpress-integration/scripts/install-plugins.sh, test/milestone-8-wordpress-inventory-plugin.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Preserve database idempotency, explicit acknowledgements, retry/DLQ, and graceful shutdown.
 
 ## T-058 — Replace the simulated E2E with the delivered system [concluida]
 - Refs: US-040, US-041, US-042, AC-078, AC-079, AC-080, AC-081, AC-082, AC-084
-- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/identity-subgraph/project.json, apps/gateway/project.json, apps/payment-processor/build.gradle.kts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
+- Arquivos: apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, apps/identity-subgraph/project.json, apps/gateway/project.json, apps/payment-federation/build.gradle.kts, compose.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Depends on T-055 through T-057. Build and run the actual images and assert through public protocols only.

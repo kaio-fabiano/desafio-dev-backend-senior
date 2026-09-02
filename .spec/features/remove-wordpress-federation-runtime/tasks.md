@@ -27,7 +27,7 @@
 
 ## T-002 — Route integrations directly to native WordPress [concluida]
 - Refs: US-059, AC-117, AC-120
-- Arquivos: libs/gateway/nest/src/gateway.module.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/contracts/graphql/supergraph.yaml, compose.yaml, apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/install-plugins.sh, apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java, apps/payment-processor/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java, apps/payment-processor/src/main/java/dev/desafio/payment/wordpress/WpGraphqlAuthentication.java, apps/e2e/src/environment.ts
+- Arquivos: libs/gateway/nest/src/gateway.module.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, libs/contracts/graphql/supergraph.yaml, compose.yaml, apps/wordpress-integration/compose.yaml, apps/wordpress-integration/scripts/install-plugins.sh, apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java, apps/payment-federation/src/main/java/dev/desafio/payment/inventory/WooInventoryAdapter.java, apps/payment-federation/src/main/java/dev/desafio/payment/wordpress/WpGraphqlAuthentication.java, apps/e2e/src/environment.ts
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Preserve authentication trust boundaries and plugin bootstrap with direct Origin propagation and site-token exchange while removing the Node.js hop.

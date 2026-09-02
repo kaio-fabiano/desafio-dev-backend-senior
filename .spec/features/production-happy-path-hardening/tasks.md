@@ -24,7 +24,7 @@
 ## T-104 — Make the inventory effect durably recoverable [concluida]
 
 - Refs: US-065, AC-134, US-067, AC-136
-- Arquivos: apps/payment-processor/src/main/java/dev/desafio/payment/inventory, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-processor/src/test
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/payment/inventory, apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-federation/src/test
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Persist the claim before the external effect and reconcile WooCommerce state on recovery. Preserve explicit domain objects; do not use an in-memory CQRS saga. Run focused tests, applicable lint, and code review.

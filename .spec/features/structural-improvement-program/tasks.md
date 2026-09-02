@@ -29,7 +29,7 @@
 ## T-095 — Review and improve Payment boundaries [concluida]
 
 - Refs: US-060, AC-124
-- Arquivos: apps/payment-processor, compose.yaml, test/structural-payment-review.test.mjs
+- Arquivos: apps/payment-federation, compose.yaml, test/structural-payment-review.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Run after Commerce findings establish the stable choreography contract.

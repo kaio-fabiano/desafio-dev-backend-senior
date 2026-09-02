@@ -1,11 +1,11 @@
 {
   "feature": "structural-improvement-program",
-  "timestamp": "2026-09-01T23:03:50.281Z",
-  "gitRev": "d217645",
+  "timestamp": "2026-09-02T04:03:15.143Z",
+  "gitRev": "0ccdd90",
   "command": "find test -maxdepth 1 -name '*.test.mjs' ! -name 'marco-0-wordpress.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 131,
+  "testsParsed": 134,
   "results": {
     "AC-121": {
       "status": "pass",

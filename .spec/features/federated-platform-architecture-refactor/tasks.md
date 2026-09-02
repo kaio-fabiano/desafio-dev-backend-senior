@@ -51,7 +51,7 @@
 - Refs: US-050, AC-099, AC-100, AC-101, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/payment-processor/build.gradle.kts, apps/payment-processor/src/main/java/dev/desafio/payment/PaymentProcessorApplication.java, apps/payment-processor/src/main/java/dev/desafio/payment/domain/Payment.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePayment.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/command/AuthorizePaymentHandler.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPayment.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/query/PaymentView.java, apps/payment-processor/src/main/java/dev/desafio/payment/application/query/FindPaymentHandler.java, apps/payment-processor/src/main/java/dev/desafio/payment/graphql/PaymentController.java, apps/payment-processor/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java, apps/payment-processor/src/main/resources/graphql/payment.graphqls, apps/payment-processor/src/test/java/dev/desafio/payment/PaymentFederationTest.java, libs/contracts/graphql/payment/schema.graphql, test/payment-federation-refactor.test.mjs
+- Arquivos: apps/payment-federation/build.gradle.kts, apps/payment-federation/src/main/java/dev/desafio/payment/PaymentFederationApplication.java, apps/payment-federation/src/main/java/dev/desafio/payment/domain/Payment.java, apps/payment-federation/src/main/java/dev/desafio/payment/application/command/AuthorizePayment.java, apps/payment-federation/src/main/java/dev/desafio/payment/application/command/AuthorizePaymentHandler.java, apps/payment-federation/src/main/java/dev/desafio/payment/application/query/FindPayment.java, apps/payment-federation/src/main/java/dev/desafio/payment/application/query/PaymentView.java, apps/payment-federation/src/main/java/dev/desafio/payment/application/query/FindPaymentHandler.java, apps/payment-federation/src/main/java/dev/desafio/payment/graphql/PaymentController.java, apps/payment-federation/src/main/java/dev/desafio/payment/configuration/PaymentConfiguration.java, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/test/java/dev/desafio/payment/PaymentFederationTest.java, libs/contracts/graphql/payment/schema.graphql, test/payment-federation-refactor.test.mjs
 - Notas: Use Spring GraphQL Federation support before custom federation code. Keep CQRS lightweight: explicit command/query handlers, no Axon or event sourcing.
 
 ## T-071 — Keep order subscriptions in Commerce behind the gateway SSE edge [concluida]
@@ -67,7 +67,7 @@
 - Refs: US-046, AC-090, US-049, AC-098, US-050, AC-099
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: package.json, nx.json, tsconfig.base.json, compose.yaml, libs/contracts/graphql/supergraph.yaml, apps/identity-subgraph/project.json, apps/payment-processor/project.json, apps/gateway/project.json, apps/apollo-mcp/project.json, apps/e2e/src/environment.ts, test/five-app-topology.test.mjs
+- Arquivos: package.json, nx.json, tsconfig.base.json, compose.yaml, libs/contracts/graphql/supergraph.yaml, apps/identity-subgraph/project.json, apps/payment-federation/project.json, apps/gateway/project.json, apps/apollo-mcp/project.json, apps/e2e/src/environment.ts, test/five-app-topology.test.mjs
 - Notas: Run after T-067 through T-071. Rename projects only where the migration remains reviewable; remove Commerce/Stock and MikroORM dependencies only after replacement acceptance tests pass.
 
 ## T-073 — Prove quality and document the architecture walkthrough [concluida]
@@ -91,7 +91,7 @@
 - Refs: US-049, AC-097, AC-098, US-050, AC-100, AC-101
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/e2e/src/journey.ts, apps/payment-processor/src/main/java/dev/desafio/payment, libs/contracts/graphql/wordpress/schema.graphql, test/payment-federation-refactor.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Arquivos: apps/e2e/src/journey.ts, apps/payment-federation/src/main/java/dev/desafio/payment, libs/contracts/graphql/wordpress/schema.graphql, test/payment-federation-refactor.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
 - Notas: Use WooGraphQL checkout/order fields for buyer operations and the authenticated WooCommerce REST owner API for service-side payment transitions. Buyers must never be able to mark their own order paid. Keep Payment idempotency in the Payment bounded context.
 
 ## T-076 — Feed order subscriptions from Commerce events [concluida]
@@ -123,7 +123,7 @@
 - Refs: US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
-- Arquivos: package.json, pnpm-lock.yaml, tsconfig.base.json, tsconfig.json, eslint.config.mjs, compose.yaml, apps/gateway/Dockerfile, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/Dockerfile, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/payment-processor/project.json, libs/platform/nest/tsconfig.lib.json, test/gateway-federation-refactor.test.mjs, test/identity-federation-refactor.test.mjs
+- Arquivos: package.json, pnpm-lock.yaml, tsconfig.base.json, tsconfig.json, eslint.config.mjs, compose.yaml, apps/gateway/Dockerfile, apps/gateway/src/app.module.ts, apps/gateway/src/main.ts, apps/identity-subgraph/Dockerfile, apps/identity-subgraph/src/app.module.ts, apps/identity-subgraph/src/main.ts, apps/payment-federation/project.json, libs/platform/nest/tsconfig.lib.json, test/gateway-federation-refactor.test.mjs, test/identity-federation-refactor.test.mjs
 - Notas: Add only the missing installed type declaration and replace cross-project relative imports with the existing workspace-scoped package entry points. Do not weaken Nx boundary rules or TypeScript strictness.
 
 ## T-080 — Re-run the pull-request gates and merge into main [concluida]
