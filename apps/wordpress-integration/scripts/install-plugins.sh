@@ -8,6 +8,21 @@ wp() {
   "${compose[@]}" run --rm --no-deps cli wp "$@" </dev/null
 }
 
+ensure_plugin() {
+  local slug="$1"
+  local version="$2"
+  local source="$3"
+  local installed_version
+
+  installed_version="$(wp plugin get "$slug" --field=version 2>/dev/null || true)"
+  if [[ "$installed_version" == "$version" ]]; then
+    wp plugin activate "$slug" >/dev/null
+    return
+  fi
+
+  wp plugin install "$source" --activate --force
+}
+
 "${compose[@]}" up --detach --wait database wordpress
 
 for attempt in $(seq 1 30); do
@@ -31,14 +46,13 @@ if ! wp core is-installed >/dev/null 2>&1; then
     --skip-email
 fi
 
-wp plugin install "https://downloads.wordpress.org/plugin/woocommerce.10.4.3.zip" --activate --force
-wp plugin install "https://downloads.wordpress.org/plugin/wp-graphql.2.20.0.zip" --activate --force
-wp plugin install "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip" --activate --force
-wp plugin install "https://github.com/AxeWP/wp-graphql-headless-login/releases/download/0.4.4/wp-graphql-headless-login.zip" --activate --force
+ensure_plugin woocommerce 10.4.3 "https://downloads.wordpress.org/plugin/woocommerce.10.4.3.zip"
+ensure_plugin wp-graphql 2.20.0 "https://downloads.wordpress.org/plugin/wp-graphql.2.20.0.zip"
+ensure_plugin wp-graphql-woocommerce 1.0.3 "https://github.com/wp-graphql/wp-graphql-woocommerce/releases/download/v1.0.3/wp-graphql-woocommerce.zip"
+ensure_plugin wp-graphql-headless-login 0.4.4 "https://github.com/AxeWP/wp-graphql-headless-login/releases/download/0.4.4/wp-graphql-headless-login.zip"
 
 federation_commit=ac480974ceb6a1680410f955005e060056f150da
-wp plugin install "https://github.com/Manuel-Antunes/wp-graphql-federations/archive/$federation_commit.zip" --force
-wp plugin activate wp-graphql-federations
+ensure_plugin wp-graphql-federations 0.1.0 "https://github.com/Manuel-Antunes/wp-graphql-federations/archive/$federation_commit.zip"
 
 for plugin in woocommerce wp-graphql wp-graphql-woocommerce wp-graphql-federations wp-graphql-headless-login; do
   wp plugin is-active "$plugin"

@@ -33,6 +33,13 @@ node apps/wordpress-integration/scripts/probe.mjs
 node --test --test-reporter=tap test/marco-0-wordpress.test.mjs
 ```
 
+The local and CI bootstrap validates the installed plugin version before using
+the pinned source URL. It reuses an exact match and downloads only a missing or
+mismatched plugin. Production must use a prebuilt immutable WordPress image
+containing these pinned plugins and must not download plugins at startup.
+Plugin upgrades therefore require an explicit version change, image rebuild,
+and successful composition proof before deployment.
+
 ## Evidence
 
 The probe sends the plugin's `_service.sdl` to Rover and exercises the native
