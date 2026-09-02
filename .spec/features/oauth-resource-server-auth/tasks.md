@@ -16,8 +16,7 @@
 - Arquivos: libs/platform/nest/src/auth, libs/platform/nest/src/index.ts, libs/identity/nest/src/identity.module.ts, apps/identity-subgraph/src/graphql/identity.module.ts, test/oauth-resource-server-auth.spec.test.js
 - Notas: Wrap Better Auth verification with injectable options, execution-context extraction, typed claims, and metadata-based scopes; do not create a second token verifier.
 
-## T-135 — Migrate Order Workflow GraphQL and SSE authentication [pendente]
-
+## T-135 — Migrate Order Workflow GraphQL and SSE authentication [concluida]
 - Refs: US-088, US-090, AC-176, AC-178
 - Modelo: gpt-5.6-sol
 - Esforço: alto
