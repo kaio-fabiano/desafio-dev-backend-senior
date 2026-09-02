@@ -29,6 +29,12 @@ so that deployment and source structure communicate its actual responsibility.
 - **Quando** its package and messaging structure is inspected
 - **Então** Payment and Inventory remain isolated modules and RabbitMQ participants in the same deployment
 
+#### AC-157 — Payment queue uses the canonical federation name
+
+- **Dado** no deployed environment or persisted RabbitMQ messages require compatibility with the previous queue name
+- **Quando** the Payment Federation declares its durable payment and retry topology
+- **Então** the queue uses `payment-federation.v1` while the `payment.requested` event contract and exchange remain unchanged
+
 ### US-075 — Remove the retired Catalog contract
 
 As a maintainer, I want only composed GraphQL contracts retained, so that no
@@ -63,7 +69,7 @@ so that tests do not depend on downloading unchanged plugins on every run.
 
 | ID      | Assumption                                                                           | Status    | Resolution                                                                           |
 | ------- | ------------------------------------------------------------------------------------ | --------- | ------------------------------------------------------------------------------------ |
-| ASM-056 | Versioned AMQP identifiers retain `payment-processor.v1` for backward compatibility. | confirmada | Renaming a deployed protocol requires a separate migration and compatibility window. |
+| ASM-056 | Versioned AMQP identifiers retain `payment-processor.v1` for backward compatibility. | invalidada | The owner confirmed that no production environment exists, so there are no persisted messages or consumers to migrate. |
 
 ## Perguntas em aberto
 

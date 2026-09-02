@@ -123,7 +123,7 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
     compose,
     /payment-federation:[\s\S]*?rabbitmq:\n {8}condition: service_healthy/,
   );
-  assert.match(configuration, /PAYMENT_QUEUE = "payment-processor\.v1"/);
+  assert.match(configuration, /PAYMENT_QUEUE = "payment-federation\.v1"/);
   assert.match(
     configuration,
     /INVENTORY_QUEUE = "payment-federation\.inventory\.v1"/,

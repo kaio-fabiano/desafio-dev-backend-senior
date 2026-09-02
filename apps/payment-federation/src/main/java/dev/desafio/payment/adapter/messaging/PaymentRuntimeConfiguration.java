@@ -21,7 +21,7 @@ public class PaymentRuntimeConfiguration {
     static final String RETRY = "marketplace.retry.v1";
     static final String DEAD_LETTER = "marketplace.dead-letter.v1";
     static final String DEAD_LETTER_QUEUE = "marketplace.dead-letter.v1";
-    static final String PAYMENT_QUEUE = "payment-processor.v1";
+    static final String PAYMENT_QUEUE = "payment-federation.v1";
     static final String INVENTORY_QUEUE = "payment-federation.inventory.v1";
     static final String QUEUE = PAYMENT_QUEUE;
     static final long[] RETRY_DELAYS = {1_000, 10_000, 60_000};

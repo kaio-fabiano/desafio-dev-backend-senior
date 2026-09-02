@@ -62,6 +62,19 @@ test('AC-153: Payment and Inventory remain internal participants @spec:AC-153', 
   assert.match(inventoryListener, /@RabbitListener/);
 });
 
+// US-074 — Make runtime naming match its bounded context
+test('AC-157: Payment queue uses the canonical federation name @spec:AC-157', async () => {
+  const configuration = await readFile(
+    'apps/payment-federation/src/main/java/dev/desafio/payment/adapter/messaging/PaymentRuntimeConfiguration.java',
+    'utf8',
+  );
+
+  assert.match(configuration, /PAYMENT_QUEUE = "payment-federation\.v1"/);
+  assert.doesNotMatch(configuration, /payment-processor\.v1/);
+  assert.match(configuration, /EVENTS = "marketplace\.events\.v1"/);
+  assert.match(configuration, /with\("payment\.requested"\)/);
+});
+
 // US-075 — Remove the retired Catalog contract
 test('AC-154: Catalog contract is absent @spec:AC-154', async () => {
   // Dado: the GraphQL contract directory and supergraph configuration
