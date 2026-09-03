@@ -1,0 +1,17 @@
+{
+  "feature": "sonar-java-full-analysis",
+  "timestamp": "2026-09-03T11:15:35.754Z",
+  "gitRev": "2a34b4e",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 123,
+  "testsParsed": 178,
+  "results": {
+    "AC-194": {
+      "status": "pass",
+      "testName": "@spec:AC-194 configures complete Gradle-backed Sonar analysis",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
