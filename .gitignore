@@ -52,6 +52,7 @@ Thumbs.db
 # local Gradle state and compiled Payment artifacts
 /apps/payment-federation/.gradle/
 /apps/payment-federation/build/
+/infra/.sst/
 
 # Graphify publishes only portable, clone-ready outputs.
 /graphify-out/**
