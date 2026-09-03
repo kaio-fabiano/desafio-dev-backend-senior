@@ -2,6 +2,61 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+test('AC-187: the complete credential-free gate records every required check without skips @spec:AC-187', async () => {
+  const [sourcePackage, e2eProject, evidence] = await Promise.all([
+    readFile('package.json', 'utf8').then(JSON.parse),
+    readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/credential-free-gate.md',
+      'utf8',
+    ),
+  ]);
+
+  for (const script of [
+    'test:spec',
+    'quality:nx',
+    'quality:coverage',
+    'acceptance:milestone-7',
+  ]) {
+    assert.ok(sourcePackage.scripts[script], `missing ${script} quality gate`);
+    assert.match(evidence, new RegExp('\\| `' + script + '`\\s+\\| PASS'));
+  }
+  assert.equal(e2eProject.targets.acceptance.cache, false);
+  assert.doesNotMatch(evidence, /\\b(?:SKIP|TODO)\\b/i);
+  assert.match(evidence, /Git revision: `[0-9a-f]{7,40}`/);
+});
+
+test('AC-188: the payment-critical gate covers Card, Pix, webhook, recovery, refund, and raw-card exclusion @spec:AC-188', async () => {
+  const [providerTest, webhookTest, evidence] = await Promise.all([
+    readFile(
+      'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java',
+      'utf8',
+    ),
+    readFile(
+      'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java',
+      'utf8',
+    ),
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/credential-free-gate.md',
+      'utf8',
+    ),
+  ]);
+
+  for (const behavior of [
+    /card/i,
+    /pix/i,
+    /idempot/i,
+    /timeout|ambiguous|retry/i,
+    /refund/i,
+  ]) {
+    assert.match(providerTest, behavior);
+  }
+  assert.match(webhookTest, /signature/i);
+  assert.match(webhookTest, /unauthorized|401/i);
+  assert.match(evidence, /Payment Federation Java tests.*PASS/);
+  assert.match(evidence, /raw Card data exclusion.*PASS/i);
+});
+
 test('AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spec:AC-189', async () => {
   const [project, verifier, verifierTest, runbook] = await Promise.all([
     readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
@@ -38,7 +93,10 @@ test('AC-190: sandbox webhooks and repeated refunds converge authoritatively @sp
   assert.match(verifierTest, /\[\s*401, 200, 200,?\s*\]/);
   assert.match(verifierTest, /new Set\(driver\.refundKeys\)\.size/);
   assert.match(runbook, /Replay the same `x-request-id`/);
-  assert.doesNotMatch(verifier, /console\.(?:log|error)\([^)]*(?:accessToken|webhookSecret|cardToken|bearerToken)/);
+  assert.doesNotMatch(
+    verifier,
+    /console\.(?:log|error)\([^)]*(?:accessToken|webhookSecret|cardToken|bearerToken)/,
+  );
 });
 
 test('AC-191: infrastructure fails closed and contains the complete runtime @spec:AC-191', async () => {
@@ -97,10 +155,7 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
     config,
     /MERCADO_PAGO_API_BASE_URL: ['"]https:\/\/api\.mercadopago\.com['"]/,
   );
-  assert.match(
-    config,
-    /GATEWAY_GRAPHQL_URL:.*serviceHost\(['"]Gateway['"]/,
-  );
+  assert.match(config, /GATEWAY_GRAPHQL_URL:.*serviceHost\(['"]Gateway['"]/);
   assert.match(
     config,
     /IDENTITY_OAUTH_URL:.*serviceHost\(['"]IdentitySubgraph['"]/,
