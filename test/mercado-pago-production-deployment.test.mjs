@@ -184,10 +184,7 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
     /MERCADO_PAGO_API_BASE_URL: ['"]https:\/\/api\.mercadopago\.com['"]/,
   );
   assert.match(config, /GATEWAY_GRAPHQL_URL:.*serviceHost\(['"]Gateway['"]/);
-  assert.match(
-    config,
-    /IDENTITY_OAUTH_URL:.*serviceHost\(['"]IdentitySubgraph['"]/,
-  );
+  assert.match(config, /IDENTITY_OAUTH_URL: publicOAuthIssuer/);
   assert.match(
     config,
     /entrypoint: \[['"]\/bin\/busybox['"], ['"]sh['"], ['"]-ec['"]\]/,
@@ -195,11 +192,8 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
   assert.match(config, /\/actuator\/health/);
   assert.ok((config.match(/health: \{/g) ?? []).length >= applications.length);
 
-  assert.equal((config.match(/loadBalancer: \{/g) ?? []).length, 3);
-  assert.match(
-    config,
-    /conditions: \{ path: ['"]\/webhooks\/mercado-pago\*['"] \}/,
-  );
+  assert.doesNotMatch(config, /loadBalancer:/);
+  assert.match(config, /routePrivate\(\s*['"]POST \/webhooks\/mercado-pago['"]/);
   assert.doesNotMatch(
     config,
     /MERCADO_PAGO_(?:ACCESS_TOKEN|WEBHOOK_SECRET): ['"][^'"$]+['"]/,
@@ -346,4 +340,33 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
     runbook,
     /MERCADO_PAGO_(?:ACCESS_TOKEN|WEBHOOK_SECRET)=\S+/,
   );
+});
+
+test('AC-195: one managed HTTPS API exposes only approved private routes @spec:AC-195', async () => {
+  const [stack, mcpConfig] = await Promise.all([
+    readFile('infra/sst.config.ts', 'utf8'),
+    readFile('apps/apollo-mcp/mcp.yaml', 'utf8'),
+  ]);
+
+  assert.equal((stack.match(/new sst\.aws\.ApiGatewayV2\(/g) ?? []).length, 1);
+  assert.match(stack, /new sst\.aws\.ApiGatewayV2\(['"]PublicApi['"], \{ vpc \}\)/);
+  assert.doesNotMatch(stack, /loadBalancer:/);
+  for (const route of [
+    'ANY /api/auth',
+    'ANY /api/auth/{proxy+}',
+    'POST /webhooks/mercado-pago',
+    'ANY /mcp',
+    'ANY /mcp/{proxy+}',
+    'GET /health',
+    '$default',
+  ]) {
+    assert.match(
+      stack,
+      new RegExp(
+        `routePrivate\\(\\s*['"]${route.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`,
+      ),
+    );
+  }
+  assert.match(stack, /PUBLIC_API_HOST: publicApi\.url\.apply/);
+  assert.match(mcpConfig, /- public-api\.invalid/);
 });

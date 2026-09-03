@@ -64,11 +64,11 @@ request:
 3. Estimated monthly cost and an approved maximum, including the VPC NAT
    instance, ECS/Fargate services, RDS PostgreSQL for Payment, Aurora PostgreSQL
    for Identity and Order Workflow, Aurora MySQL for WordPress, storage, data
-   transfer, and three public load balancers.
-4. Public endpoints: Gateway, Apollo MCP, and the path-restricted Mercado Pago
-   webhook. RabbitMQ, WordPress, databases, and application service registries
-   remain private. Confirm the approved HTTPS callback or tunnel before provider
-   verification.
+   transfer, and the API Gateway HTTP API.
+4. One API Gateway HTTPS endpoint exposes Gateway by default, OAuth under
+   `/api/auth`, Apollo MCP under `/mcp`, and only the exact Mercado Pago webhook
+   path `/webhooks/mercado-pago`. RabbitMQ, WordPress, databases, and all ECS
+   services remain private behind Cloud Map and the VPC link.
 5. Secret bindings. Mercado Pago access-token and webhook-secret resources bind
    only to Payment Federation; secret values must not appear in the diff.
 6. Healthcheck paths and rollback owner. Payment Federation uses

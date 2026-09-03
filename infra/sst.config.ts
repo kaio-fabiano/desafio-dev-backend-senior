@@ -22,6 +22,8 @@ export default $config({
   async run() {
     const vpc = new sst.aws.Vpc('MarketplaceVpc', { nat: 'ec2' });
     const cluster = new sst.aws.Cluster('MarketplaceCluster', { vpc });
+    const publicApi = new sst.aws.ApiGatewayV2('PublicApi', { vpc });
+    const publicOAuthIssuer = $interpolate`${publicApi.url}/api/auth`;
     const identityDatabase = new sst.aws.Aurora('IdentityDatabase', {
       database: 'identity',
       engine: 'postgres',
@@ -106,10 +108,10 @@ export default $config({
       environment: {
         BETTER_AUTH_SECRET: oauthSigningSecret.value,
         DATABASE_URL: $interpolate`postgresql://${identityDatabase.username}:${identityDatabase.password}@${identityDatabase.host}:${identityDatabase.port}/${identityDatabase.database}`,
-        IDENTITY_BASE_URL: serviceHost('IdentitySubgraph', 3001),
+        IDENTITY_BASE_URL: publicOAuthIssuer,
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         NODE_ENV: 'production',
-        OAUTH_ISSUER: `${serviceHost('IdentitySubgraph', 3001)}/api/auth`,
+        OAUTH_ISSUER: publicOAuthIssuer,
         PORT: '3001',
         SEED_ADMIN_PASSWORD: identitySeedAdminPassword.value,
         WOO_CONSUMER_KEY: wordpressConsumerKey.value,
@@ -143,7 +145,7 @@ export default $config({
       environment: {
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         NODE_ENV: 'production',
-        OAUTH_ISSUER: `${serviceHost('IdentitySubgraph', 3001)}/api/auth`,
+        OAUTH_ISSUER: publicOAuthIssuer,
         ORDER_WORKFLOW_DB_HOST: orderWorkflowDatabase.host,
         ORDER_WORKFLOW_DB_NAME: orderWorkflowDatabase.database,
         ORDER_WORKFLOW_DB_PASSWORD: orderWorkflowDatabase.password,
@@ -185,7 +187,7 @@ export default $config({
         MERCADO_PAGO_CONNECTION_TIMEOUT: '5s',
         MERCADO_PAGO_READ_TIMEOUT: '15s',
         MERCADO_PAGO_WEBHOOK_SECRET: mercadoPagoWebhookSecret.value,
-        OAUTH_ISSUER: `${serviceHost('IdentitySubgraph', 3001)}/api/auth`,
+        OAUTH_ISSUER: publicOAuthIssuer,
         PAYMENT_PROVIDER_MODE: 'mercado-pago',
         RABBITMQ_URL: serviceHost('RabbitMq', 5672).replace('http', 'amqp'),
         SERVER_PORT: '8080',
@@ -213,18 +215,6 @@ export default $config({
         mercadoPagoAccessToken,
         mercadoPagoWebhookSecret,
       ],
-      loadBalancer: {
-        health: {
-          '8080/http': { path: '/actuator/health' },
-        },
-        rules: [
-          {
-            listen: '80/http',
-            forward: '8080/http',
-            conditions: { path: '/webhooks/mercado-pago*' },
-          },
-        ],
-      },
       serviceRegistry: { port: 8080 },
     });
 
@@ -235,7 +225,7 @@ export default $config({
         IDENTITY_GRAPHQL_URL: `${serviceHost('IdentitySubgraph', 3001)}/graphql`,
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         NODE_ENV: 'production',
-        OAUTH_ISSUER: `${serviceHost('IdentitySubgraph', 3001)}/api/auth`,
+        OAUTH_ISSUER: publicOAuthIssuer,
         ORDER_WORKFLOW_GRAPHQL_URL: `${serviceHost('OrderWorkflowSubgraph', 3003)}/graphql`,
         ORDER_WORKFLOW_SUBSCRIPTION_URL: `${serviceHost('OrderWorkflowSubgraph', 3003)}/graphql/stream`,
         PAYMENT_GRAPHQL_URL: `${serviceHost('PaymentFederation', 8080)}/graphql`,
@@ -254,10 +244,6 @@ export default $config({
         context: '..',
         dockerfile: 'apps/gateway/Dockerfile',
       },
-      loadBalancer: {
-        health: { '3000/http': { path: '/ready' } },
-        rules: [{ listen: '80/http', forward: '3000/http' }],
-      },
       link: [identity, orderWorkflow, paymentFederation, wordpress],
       serviceRegistry: { port: 3000 },
     });
@@ -265,12 +251,14 @@ export default $config({
     const apolloMcp = new sst.aws.Service('ApolloMcp', {
       cluster,
       command: [
-        'sed -i "s|http://gateway:3000/graphql|$GATEWAY_GRAPHQL_URL|; s|http://identity.localhost:3001/api/auth|$IDENTITY_OAUTH_URL|g" /data/mcp.yaml && exec apollo-mcp-server /data/mcp.yaml',
+        'sed -i "s|http://gateway:3000/graphql|$GATEWAY_GRAPHQL_URL|; s|http://identity.localhost:3001/api/auth|$IDENTITY_OAUTH_URL|g; s|http://apollo-mcp:8000/mcp|$MCP_RESOURCE_URL|g; s|public-api.invalid|$PUBLIC_API_HOST|g" /data/mcp.yaml && exec apollo-mcp-server /data/mcp.yaml',
       ],
       entrypoint: ['/bin/busybox', 'sh', '-ec'],
       environment: {
         GATEWAY_GRAPHQL_URL: `${serviceHost('Gateway', 3000)}/graphql`,
-        IDENTITY_OAUTH_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth`,
+        IDENTITY_OAUTH_URL: publicOAuthIssuer,
+        MCP_RESOURCE_URL: $interpolate`${publicApi.url}/mcp`,
+        PUBLIC_API_HOST: publicApi.url.apply((url) => new URL(url).host),
       },
       health: {
         command: [
@@ -286,17 +274,30 @@ export default $config({
         dockerfile: 'apps/apollo-mcp/Dockerfile',
       },
       link: [gateway, identity],
-      loadBalancer: {
-        health: { '8000/http': { path: '/health' } },
-        rules: [{ listen: '80/http', forward: '8000/http' }],
-      },
       serviceRegistry: { port: 8000 },
     });
 
+    publicApi.routePrivate('ANY /api/auth', identity.nodes.cloudmapService.arn);
+    publicApi.routePrivate(
+      'ANY /api/auth/{proxy+}',
+      identity.nodes.cloudmapService.arn,
+    );
+    publicApi.routePrivate(
+      'POST /webhooks/mercado-pago',
+      paymentFederation.nodes.cloudmapService.arn,
+    );
+    publicApi.routePrivate('ANY /mcp', apolloMcp.nodes.cloudmapService.arn);
+    publicApi.routePrivate(
+      'ANY /mcp/{proxy+}',
+      apolloMcp.nodes.cloudmapService.arn,
+    );
+    publicApi.routePrivate('GET /health', apolloMcp.nodes.cloudmapService.arn);
+    publicApi.routePrivate('$default', gateway.nodes.cloudmapService.arn);
+
     return {
-      apolloMcpUrl: apolloMcp.url,
-      gatewayUrl: gateway.url,
-      mercadoPagoWebhookUrl: $interpolate`${paymentFederation.url}/webhooks/mercado-pago`,
+      apolloMcpUrl: $interpolate`${publicApi.url}/mcp`,
+      gatewayUrl: publicApi.url,
+      mercadoPagoWebhookUrl: $interpolate`${publicApi.url}/webhooks/mercado-pago`,
       resourceNames: [
         'ApolloMcp',
         'Gateway',

@@ -75,6 +75,18 @@ can be verified and rolled back.
 - **Quando** health, authentication, Card, Pix, webhook, idempotency, and refund smoke tests run
 - **Então** the release evidence identifies the deployed revision and stage, secrets remain redacted, and rollback instructions are executable if any critical check fails
 
+### US-098 — Expose the sandbox securely without a custom domain
+
+As an operator without a registered domain, I want one managed HTTPS entry point,
+so that OAuth, GraphQL, MCP, and Mercado Pago webhooks are reachable without
+permanent load-balancer costs or a purchased DNS name.
+
+#### AC-195 — One API Gateway exposes only the approved public routes
+
+- **Dado** the private ECS services and their Cloud Map registrations
+- **Quando** the SST sandbox infrastructure is evaluated
+- **Então** one API Gateway HTTP API routes OAuth, Gateway, MCP, health, and the exact Mercado Pago webhook path over its managed HTTPS URL without service-owned load balancers
+
 ## Out of scope
 
 - Production customer traffic or live customer cards.
@@ -89,6 +101,7 @@ can be verified and rolled back.
 | ASM-067 | The first external deployment should use an isolated non-production stage and Mercado Pago test credentials.                                     | confirmada | The owner approved the recommended `sandbox` stage.                             |
 | ASM-068 | AWS remains the deployment target because the repository already contains an SST v3 AWS stack.                                                   | confirmada | The owner approved the recommended SST/AWS deployment path.                     |
 | ASM-069 | Provider test payments may be created and refunded as part of verification, provided every operation is uniquely keyed and evidence is redacted. | confirmada | The owner authorized test transactions, refunds, and a temporary HTTPS webhook. |
+| ASM-070 | A managed AWS HTTPS endpoint is preferable to purchasing and operating a custom domain for the sandbox.                                            | confirmada | The owner declined a domain and approved the API Gateway design.                                                   |
 
 ## Perguntas em aberto
 

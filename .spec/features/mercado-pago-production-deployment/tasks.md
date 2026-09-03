@@ -82,3 +82,19 @@
 - Esforço: alto
 - Arquivos: docs/evidence/mercado-pago-production-deployment/predeploy.md
 - Notas: Generate missing non-provider secrets locally, keep values out of files and logs, set every secret for stage sandbox, validate the clean revision, and record the redacted diff digest and cost surface for explicit approval.
+
+## T-158 — Accept official Mercado Pago webhook timestamp formats [concluida]
+
+- Refs: US-095, AC-163, AC-189
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookController.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java
+- Notas: Keep SDK HMAC verification, enforce the five-minute replay window for both legacy epoch-second and current epoch-millisecond signatures, and prove both accepted and stale requests with real signatures.
+
+## T-159 — Replace public load balancers with managed HTTPS routing [em-andamento]
+
+- Refs: US-098, AC-195, AC-192, AC-193
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: infra/sst.config.ts, apps/apollo-mcp/mcp.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
+- Notas: Use one API Gateway HTTP API with a VPC link and exact private routes, keep every ECS service on Cloud Map, publish the real OAuth issuer and MCP resource URL, remove service-owned ALBs, and retain the SST v3 approval gate.

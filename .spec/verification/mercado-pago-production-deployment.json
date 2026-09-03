@@ -1,11 +1,11 @@
 {
   "feature": "mercado-pago-production-deployment",
-  "timestamp": "2026-09-03T11:36:34.843Z",
-  "gitRev": "28c0671",
+  "timestamp": "2026-09-03T13:18:41.421Z",
+  "gitRev": "95e9264",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 179,
+  "testsParsed": 180,
   "results": {
     "AC-187": {
       "status": "pass",
@@ -35,6 +35,11 @@
     "AC-192": {
       "status": "pass",
       "testName": "AC-192: deployment is reviewed before provisioning @spec:AC-192",
+      "method": "tap"
+    },
+    "AC-195": {
+      "status": "pass",
+      "testName": "AC-195: one managed HTTPS API exposes only approved private routes @spec:AC-195",
       "method": "tap"
     }
   },
