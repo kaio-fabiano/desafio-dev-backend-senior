@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-7-e2e-deployment` em 2026-08-27 19:18
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-7-e2e-deployment` em 2026-09-03 01:10
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,11 +14,11 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-7-e2e-deployment-mtbwo54u'
+RUN_ID='desafio-dev-backend-senior-milestone-7-e2e-deployment-mtktweue'
 FEATURE='milestone-7-e2e-deployment'
 BASE_BRANCH='spec/milestone-7-e2e-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
-CODEX_FLAGS=(--sandbox 'workspace-write')
+CODEX_FLAGS=(--sandbox 'danger-full-access')
 STREAM_FLAGS=(--json)
 FALHAS=""
 COM_GATE=1
@@ -168,184 +168,36 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-046 ──
-executar_faixa_1() {
-  local WT="$WT_BASE-faixa-1"
-  preparar_worktree 'faixa-1' 'spec/milestone-7-e2e-deployment-faixa-1' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-1' --estado executando --tentativa "$(tentativa 'faixa-1')"
-  : > "$LOG_DIR/faixa-1.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-1' 'T-046' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-145 (ordem do tasks.md) ──
+executar_seq_T_145() {
+  info 'sequencial T-145 — Execute the final challenge handoff'
+  if rodar_tarefa seq 'T-145' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-046 — "Trace mandatory delivery requirements"
+T-145 — "Execute the final challenge handoff"
   critérios/refs: AC-067 (The complete environment and journey run from one command), AC-068 (Registration and OAuth identity are proven end to end), AC-069 (Card checkout reaches the same terminal state everywhere), AC-070 (Pix checkout reaches the same terminal state everywhere), AC-071 (MCP parity and rejection are proven through the protocol), AC-072 (Critical domains meet the coverage floor), AC-073 (Gateway latency and batching meet their budgets), AC-074 (Nx provides one cached cross-language task graph), AC-075 (Production containers are complete and operable), AC-076 (SST changes are reproducible and secret-safe), AC-077 (Every required deliverable has executable evidence)
-  arquivos permitidos (e seus testes): docs/evidence/milestone-7/requirements.md, test/milestone-7-delivery-contract.test.mjs
-  mensagem de commit: "T-046 milestone-7-e2e-deployment: Trace mandatory delivery requirements"
+  arquivos permitidos (e seus testes): README.md, docs/evidence/challenge-compliance.md, docs/runbooks/e2e.md, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json, graphify-out
+  mensagem de commit: "T-145 milestone-7-e2e-deployment: Execute the final challenge handoff"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs` até passarem.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low
-  ) >> "$LOG_DIR/faixa-1.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-1' 'spec/milestone-7-e2e-deployment-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-046
-  return 0
-}
-
-# ── faixa-2: T-047 T-049 T-050 ──
-executar_faixa_2() {
-  local WT="$WT_BASE-faixa-2"
-  preparar_worktree 'faixa-2' 'spec/milestone-7-e2e-deployment-faixa-2' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
-  : > "$LOG_DIR/faixa-2.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-2' 'T-047' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-047 — "Complete the cross-language Nx quality graph"
-  critérios/refs: AC-074 (Nx provides one cached cross-language task graph)
-  arquivos permitidos (e seus testes): nx.json, package.json, apps/gateway/project.json, apps/identity-subgraph/project.json, apps/commerce-subgraph/project.json, apps/stock-worker/project.json, apps/payment-processor/project.json, test/milestone-7-nx-quality.test.mjs
-  mensagem de commit: "T-047 milestone-7-e2e-deployment: Complete the cross-language Nx quality graph"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium &&
-    rodar_tarefa 'faixa-2' 'T-049' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-049 — "Implement the complete Testcontainers acceptance journey"
-  critérios/refs: AC-067 (The complete environment and journey run from one command), AC-068 (Registration and OAuth identity are proven end to end), AC-069 (Card checkout reaches the same terminal state everywhere), AC-070 (Pix checkout reaches the same terminal state everywhere), AC-071 (MCP parity and rejection are proven through the protocol)
-  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, apps/e2e/project.json, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, test/milestone-7-e2e-contract.test.mjs
-  mensagem de commit: "T-049 milestone-7-e2e-deployment: Implement the complete Testcontainers acceptance journey"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high &&
-    rodar_tarefa 'faixa-2' 'T-050' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-050 — "Enforce coverage, P95, and N+1 budgets"
-  critérios/refs: AC-072 (Critical domains meet the coverage floor), AC-073 (Gateway latency and batching meet their budgets)
-  arquivos permitidos (e seus testes): package.json, apps/poc-harness/project.json, test/milestone-7-coverage.test.mjs, test/milestone-7-load.test.mjs, docs/evidence/milestone-7/quality.md
-  mensagem de commit: "T-050 milestone-7-e2e-deployment: Enforce coverage, P95, and N+1 budgets"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium
-  ) >> "$LOG_DIR/faixa-2.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-2' 'spec/milestone-7-e2e-deployment-faixa-2' "$WT" "$st" || return 1
-  marcar_concluidas T-047 T-049 T-050
-  return 0
-}
-
-# ── faixa-3: T-048 ──
-executar_faixa_3() {
-  local WT="$WT_BASE-faixa-3"
-  preparar_worktree 'faixa-3' 'spec/milestone-7-e2e-deployment-faixa-3' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-3' --estado executando --tentativa "$(tentativa 'faixa-3')"
-  : > "$LOG_DIR/faixa-3.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-3' 'T-048' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-048 — "Harden final application images and Compose readiness"
-  critérios/refs: AC-067 (The complete environment and journey run from one command), AC-075 (Production containers are complete and operable)
-  arquivos permitidos (e seus testes): compose.yaml, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/commerce-subgraph/Dockerfile, apps/stock-worker/Dockerfile, apps/payment-processor/Dockerfile, apps/apollo-mcp/Dockerfile, test/milestone-7-containers.test.mjs
-  mensagem de commit: "T-048 milestone-7-e2e-deployment: Harden final application images and Compose readiness"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium
-  ) >> "$LOG_DIR/faixa-3.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-3' 'spec/milestone-7-e2e-deployment-faixa-3' "$WT" "$st" || return 1
-  marcar_concluidas T-048
-  return 0
-}
-
-# ── faixa-4: T-051 ──
-executar_faixa_4() {
-  local WT="$WT_BASE-faixa-4"
-  preparar_worktree 'faixa-4' 'spec/milestone-7-e2e-deployment-faixa-4' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-4' --estado executando --tentativa "$(tentativa 'faixa-4')"
-  : > "$LOG_DIR/faixa-4.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-4' 'T-051' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-051 — "Add the pinned SST v3 stack and protected CI delivery path"
-  critérios/refs: AC-076 (SST changes are reproducible and secret-safe)
-  arquivos permitidos (e seus testes): infra/sst.config.ts, infra/package.json, infra/tsconfig.json, .github/workflows/ci.yml, .github/workflows/deploy.yml, test/milestone-7-sst.test.mjs
-  mensagem de commit: "T-051 milestone-7-e2e-deployment: Add the pinned SST v3 stack and protected CI delivery path"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
-  ) >> "$LOG_DIR/faixa-4.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-4' 'spec/milestone-7-e2e-deployment-faixa-4' "$WT" "$st" || return 1
-  marcar_concluidas T-051
-  return 0
-}
-
-# ── faixa-5: T-052 ──
-executar_faixa_5() {
-  local WT="$WT_BASE-faixa-5"
-  preparar_worktree 'faixa-5' 'spec/milestone-7-e2e-deployment-faixa-5' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-5' --estado executando --tentativa "$(tentativa 'faixa-5')"
-  : > "$LOG_DIR/faixa-5.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-5' 'T-052' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-052 — "Publish final runbooks, operation collection, and evidence index"
-  critérios/refs: AC-077 (Every required deliverable has executable evidence)
-  arquivos permitidos (e seus testes): README.md, docs/runbooks/local-development.md, docs/runbooks/e2e.md, docs/runbooks/deployment.md, docs/operations/marketplace.http, docs/evidence/mcp/README.md, docs/evidence/milestone-7/README.md, test/milestone-7-documentation.test.mjs
-  mensagem de commit: "T-052 milestone-7-e2e-deployment: Publish final runbooks, operation collection, and evidence index"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `node test/project-planning-memory.test.mjs && node --test --test-reporter=tap test/marco-0-*.test.mjs test/marco-0-pocs.spec.test.js && node --test --test-reporter=tap test/milestone-1-baseline.test.mjs test/milestone-1-boundaries.test.mjs test/milestone-1-health.test.mjs test/milestone-1-graphql-contracts.test.mjs test/milestone-1-events.test.mjs test/milestone-1-foundation.test.mjs test/milestone-1-infrastructure.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-2-oauth-bootstrap.test.mjs test/milestone-2-token-me.test.mjs test/milestone-2-registration.test.mjs test/milestone-2-supplier-ownership.test.mjs test/milestone-2-catalog-connection.test.mjs test/milestone-2-catalog-batching.test.mjs test/milestone-2-identity-catalog.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-3-commerce-contract.test.mjs test/milestone-3-cart.test.mjs test/milestone-3-migrations.test.mjs test/milestone-3-checkout-idempotency.test.mjs test/milestone-3-checkout-recovery.test.mjs test/milestone-3-wordpress-checkout.test.mjs test/milestone-3-federated-me.test.mjs test/milestone-3-cart-order.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-4-event-contracts.test.mjs test/milestone-4-outbox-publisher.test.mjs test/milestone-4-rabbitmq-topology.test.mjs test/milestone-4-nx-gradle.test.mjs test/milestone-4-inventory-worker.test.mjs test/milestone-4-inventory-redelivery.test.mjs test/milestone-4-order-saga.test.mjs test/milestone-4-order-saga-redelivery.test.mjs test/milestone-4-compose.test.mjs test/milestone-4-payment-inventory-saga.spec.test.js && node --experimental-transform-types --test --test-reporter=tap test/milestone-5-subscription-contract.test.mjs test/milestone-5-transition-publication.test.mjs test/milestone-5-commerce-subscription.test.mjs test/milestone-5-subscription-lifecycle.test.mjs test/milestone-5-gateway-sse.test.mjs test/milestone-5-subscription-sse.test.mjs && node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low
-  ) >> "$LOG_DIR/faixa-5.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-5' 'spec/milestone-7-e2e-deployment-faixa-5' "$WT" "$st" || return 1
-  marcar_concluidas T-052
-  return 0
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-145 milestone-7-e2e-deployment: Execute the final challenge handoff (auto-commit do plano)'
+    fi
+    marcar_concluidas T-145
+    verde "✔ T-145 concluída"
+    return 0
+  fi
+  vermelho "✘ T-145 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh --seq T-145"
+  FALHAS="$FALHAS T-145"
+  return 1
 }
 
 # ── gate: quem decide é a máquina ────────────────────────────────────
@@ -401,30 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  # onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3
-  info "onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3 — janelas limpas em paralelo"
-  executar_faixa_1 & PID_FAIXA_1=$!
-  executar_faixa_2 & PID_FAIXA_2=$!
-  executar_faixa_3 & PID_FAIXA_3=$!
-  wait "$PID_FAIXA_1" || true
-  wait "$PID_FAIXA_2" || true
-  wait "$PID_FAIXA_3" || true
-  # onda 2: faixa-4 ∥ faixa-5
-  info "onda 2: faixa-4 ∥ faixa-5 — janelas limpas em paralelo"
-  executar_faixa_4 & PID_FAIXA_4=$!
-  executar_faixa_5 & PID_FAIXA_5=$!
-  wait "$PID_FAIXA_4" || true
-  wait "$PID_FAIXA_5" || true
+  executar_seq_T_145 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-046"
-  echo "  faixa-2  onda 1  T-047, T-049, T-050"
-  echo "  faixa-3  onda 1  T-048"
-  echo "  faixa-4  onda 2  T-051"
-  echo "  faixa-5  onda 2  T-052"
+  echo "  seq       T-145 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -455,15 +290,11 @@ case "$MODO" in
   gate) COM_GATE=1; iniciar_resumos; encerrar gate ;;
   faixa)
     case "$ALVO" in
-      faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
-      faixa-2) evento --tipo inicio --escopo "faixa:faixa-2"; iniciar_resumos; executar_faixa_2 || true; encerrar "faixa:faixa-2" ;;
-      faixa-3) evento --tipo inicio --escopo "faixa:faixa-3"; iniciar_resumos; executar_faixa_3 || true; encerrar "faixa:faixa-3" ;;
-      faixa-4) evento --tipo inicio --escopo "faixa:faixa-4"; iniciar_resumos; executar_faixa_4 || true; encerrar "faixa:faixa-4" ;;
-      faixa-5) evento --tipo inicio --escopo "faixa:faixa-5"; iniciar_resumos; executar_faixa_5 || true; encerrar "faixa:faixa-5" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)
     case "$ALVO" in
+      T-145) evento --tipo inicio --escopo "seq:T-145"; iniciar_resumos; executar_seq_T_145 || true; encerrar "seq:T-145" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

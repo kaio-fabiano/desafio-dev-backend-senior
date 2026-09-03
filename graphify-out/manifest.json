@@ -408,16 +408,16 @@
     "semantic_hash": "39b9b49f862ad2b17304632f9056c850"
   },
   ".spec/features/milestone-7-e2e-deployment/executar-tarefas.sh": {
-    "mtime": 1788321560.4486754,
-    "seen": 1788322487.4460974,
-    "ast_hash": "bb5e2db761724194469748cbcefc2c4f",
-    "semantic_hash": "bb5e2db761724194469748cbcefc2c4f"
+    "mtime": 1788397842.4704413,
+    "seen": 1788398354.851962,
+    "ast_hash": "4aff4ebac1dcf26ad7e13f67a0bce710",
+    "semantic_hash": "4aff4ebac1dcf26ad7e13f67a0bce710"
   },
   ".spec/features/milestone-7-e2e-deployment/plano.json": {
-    "mtime": 1788321560.4491255,
-    "seen": 1788322487.4460988,
-    "ast_hash": "7fa816b1da10dda47973e054913ab226",
-    "semantic_hash": "7fa816b1da10dda47973e054913ab226"
+    "mtime": 1788397842.4704413,
+    "seen": 1788398354.8519695,
+    "ast_hash": "3313b0341f72c2054e10b088f8c6a401",
+    "semantic_hash": "3313b0341f72c2054e10b088f8c6a401"
   },
   ".spec/features/milestone-8-compliance-hardening/executar-tarefas.sh": {
     "mtime": 1788181142.5596561,
@@ -504,10 +504,10 @@
     "semantic_hash": "7e2ed8fc103e6a4923b4c9c957cf9578"
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
-    "mtime": 1788393054.502068,
-    "seen": 1788396833.6607678,
-    "ast_hash": "dd9a05f6225160d3071b66d2c68af3b0",
-    "semantic_hash": "dd9a05f6225160d3071b66d2c68af3b0"
+    "mtime": 1788398543.0966127,
+    "seen": 1788398557.2036717,
+    "ast_hash": "15df55c1a8c8cdc7391a7bb537e95787",
+    "semantic_hash": "15df55c1a8c8cdc7391a7bb537e95787"
   },
   ".spec/verification/milestone-8-compliance-hardening.json": {
     "mtime": 1788395133.8686917,
@@ -534,10 +534,10 @@
     "semantic_hash": "855a8838c0657e9bfc293202d7b72917"
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788396620.862881,
-    "seen": 1788396833.6607814,
-    "ast_hash": "23503545283c57e8a0cdbbc6402f3fac",
-    "semantic_hash": "23503545283c57e8a0cdbbc6402f3fac"
+    "mtime": 1788397048.3382215,
+    "seen": 1788398354.8549197,
+    "ast_hash": "ad0948a0caf0fc22994a1ef49b104984",
+    "semantic_hash": "ad0948a0caf0fc22994a1ef49b104984"
   },
   ".spec/verification/stabilize-typescript-editor.json": {
     "mtime": 1788393054.502068,
@@ -2982,10 +2982,10 @@
     "semantic_hash": "d8a5d77f13dfd10ace8bbad145903414"
   },
   ".spec/verification/reconcile-architecture-decisions.json": {
-    "mtime": 1788396714.1356091,
-    "seen": 1788396833.6607778,
-    "ast_hash": "bca48c4984a1dd7abd13142f68d023ba",
-    "semantic_hash": "bca48c4984a1dd7abd13142f68d023ba"
+    "mtime": 1788397161.2181048,
+    "seen": 1788398354.854788,
+    "ast_hash": "192da6fb925ea0457953115a9aaea929",
+    "semantic_hash": "192da6fb925ea0457953115a9aaea929"
   },
   "test/reconcile-architecture-decisions.spec.test.mjs": {
     "mtime": 1788396484.8428204,

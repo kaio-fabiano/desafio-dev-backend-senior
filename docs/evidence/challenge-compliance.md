@@ -4,7 +4,7 @@ This is the compliance gate for the immutable challenge contract. The
 challenge README is the source of truth; repository specifications and task
 lists are not evidence of compliance. A row is only `proven` when its evidence
 link points to an executable test or gate. The complete Testcontainers journey
-was last executed successfully on 2026-08-31; structural contracts keep the
+was last executed successfully on 2026-09-02; structural contracts keep the
 same assertions discoverable by the specification audit.
 
 Source: [challenge README](../../README.md).
@@ -33,3 +33,8 @@ Source: [challenge README](../../README.md).
 The matrix deliberately does not claim that a future task is evidence. No row
 contains a task reference; task status belongs to the delivery plan, while
 this record remains anchored to the challenge and executable artifacts.
+
+The successful local acceptance run proves the challenge contract against the
+isolated Testcontainers topology. It is not evidence of a deployed production
+environment or a credentialed Mercado Pago sandbox transaction; those remain
+explicitly tracked in the [production-readiness gap register](../prds/08-riscos-e-decisoes-pendentes.md#production-readiness-gap-register).

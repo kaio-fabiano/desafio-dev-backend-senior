@@ -38,11 +38,10 @@
 </style>
 <main>
   <h1>Plano de execução — milestone-7-e2e-deployment</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-08-27 19:18 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 01:10 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>7</b> tarefa(s) em paralelo</div>
-    <div><b>5</b> faixa(s) · <b>2</b> onda(s)</div>
-    <div><b>0</b> sequencial(is)</div>
+    <div><b>1</b> tarefa(s), uma após a outra</div>
+    <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/milestone-7-e2e-deployment</code></div>
   </div>
   
@@ -50,90 +49,29 @@
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
     <div><code id="cmd">bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh</code></div>
-    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
+    <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
     (<code>onp-spec resumo milestone-7-e2e-deployment --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo milestone-7-e2e-deployment</code>).</p>
   </div>
-  
+
+
     <section class="onda">
-      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 ∥ faixa-3 — em paralelo, janelas limpas</small></h3>
-      <div class="grade">
-      <div class="faixa">
-        <h4>faixa-1 <small>branch <code>spec/milestone-7-e2e-deployment-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-7-e2e-deployment-faixa-1</code></small></h4>
-        
+      <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
         <div class="tarefa">
-          <span class="tid">T-046</span>
-          <span class="ttitulo">Trace mandatory delivery requirements</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>docs/evidence/milestone-7/requirements.md</code> <code>test/milestone-7-delivery-contract.test.mjs</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-2 <small>branch <code>spec/milestone-7-e2e-deployment-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-7-e2e-deployment-faixa-2</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-047</span>
-          <span class="ttitulo">Complete the cross-language Nx quality graph</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>nx.json</code> <code>package.json</code> <code>apps/gateway/project.json</code> <code>apps/identity-subgraph/project.json</code> <code>apps/commerce-subgraph/project.json</code> <code>apps/stock-worker/project.json</code> <code>apps/payment-processor/project.json</code> <code>test/milestone-7-nx-quality.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-049</span>
-          <span class="ttitulo">Implement the complete Testcontainers acceptance journey</span>
+          <span class="tid">T-145</span>
+          <span class="ttitulo">Execute the final challenge handoff</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>package.json</code> <code>pnpm-lock.yaml</code> <code>apps/e2e/project.json</code> <code>apps/e2e/src/milestone-7.e2e.test.ts</code> <code>apps/e2e/src/environment.ts</code> <code>apps/e2e/src/journey.ts</code> <code>test/milestone-7-e2e-contract.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-050</span>
-          <span class="ttitulo">Enforce coverage, P95, and N+1 budgets</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>package.json</code> <code>apps/poc-harness/project.json</code> <code>test/milestone-7-coverage.test.mjs</code> <code>test/milestone-7-load.test.mjs</code> <code>docs/evidence/milestone-7/quality.md</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-3 <small>branch <code>spec/milestone-7-e2e-deployment-faixa-3</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-7-e2e-deployment-faixa-3</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-048</span>
-          <span class="ttitulo">Harden final application images and Compose readiness</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>compose.yaml</code> <code>apps/gateway/Dockerfile</code> <code>apps/identity-subgraph/Dockerfile</code> <code>apps/commerce-subgraph/Dockerfile</code> <code>apps/stock-worker/Dockerfile</code> <code>apps/payment-processor/Dockerfile</code> <code>apps/apollo-mcp/Dockerfile</code> <code>test/milestone-7-containers.test.mjs</code></span>
-        </div>
-      </div></div>
+          <span class="arquivos"><code>README.md</code> <code>docs/evidence/challenge-compliance.md</code> <code>docs/runbooks/e2e.md</code> <code>.spec/features/milestone-7-e2e-deployment/tasks.md</code> <code>.spec/verification/milestone-7-e2e-deployment.json</code> <code>graphify-out</code></span>
+        </div></div></div>
     </section>
-    <section class="onda">
-      <h3>Onda 2 <small>faixa-4 ∥ faixa-5 — em paralelo, janelas limpas</small></h3>
-      <div class="grade">
-      <div class="faixa">
-        <h4>faixa-4 <small>branch <code>spec/milestone-7-e2e-deployment-faixa-4</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-7-e2e-deployment-faixa-4</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-051</span>
-          <span class="ttitulo">Add the pinned SST v3 stack and protected CI delivery path</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>infra/sst.config.ts</code> <code>infra/package.json</code> <code>infra/tsconfig.json</code> <code>.github/workflows/ci.yml</code> <code>.github/workflows/deploy.yml</code> <code>test/milestone-7-sst.test.mjs</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-5 <small>branch <code>spec/milestone-7-e2e-deployment-faixa-5</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-milestone-7-e2e-deployment-faixa-5</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-052</span>
-          <span class="ttitulo">Publish final runbooks, operation collection, and evidence index</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>README.md</code> <code>docs/runbooks/local-development.md</code> <code>docs/runbooks/e2e.md</code> <code>docs/runbooks/deployment.md</code> <code>docs/operations/marketplace.http</code> <code>docs/evidence/mcp/README.md</code> <code>docs/evidence/milestone-7/README.md</code> <code>test/milestone-7-documentation.test.mjs</code></span>
-        </div>
-      </div></div>
-    </section>
-  
   <section class="onda">
     <h3>Branches e commits</h3>
     <ol>
       <li>tudo parte da branch de trabalho <code>spec/milestone-7-e2e-deployment</code></li>
-      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx milestone-7-e2e-deployment: título</code></li>
-      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
+      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx milestone-7-e2e-deployment: título</code></li>
       <li>gate final: <code>onp-spec verify milestone-7-e2e-deployment</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>

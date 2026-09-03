@@ -50,3 +50,10 @@
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notes: Link existing ADRs and evidence instead of duplicating them. Never store bearer tokens, AWS credentials, or screenshots containing secrets.
+
+## T-145 — Execute the final challenge handoff [concluida]
+- Refs: AC-067, AC-068, AC-069, AC-070, AC-071, AC-072, AC-073, AC-074, AC-075, AC-076, AC-077
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: README.md, docs/evidence/challenge-compliance.md, docs/runbooks/e2e.md, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json, graphify-out
+- Notes: Run the complete public-protocol Testcontainers journey and every repository quality gate before changing delivery evidence. Preserve all production-readiness gaps, push only to the user fork, open the pull request against the fork main branch, wait for CI, and merge only when required checks pass.
