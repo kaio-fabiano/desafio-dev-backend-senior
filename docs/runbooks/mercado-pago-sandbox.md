@@ -9,7 +9,7 @@ The normal repository gate remains credential-free.
 - Java 21, Docker, Node.js 24, Corepack, and repository dependencies are
   available.
 - A Mercado Pago test account supplies an access token and webhook secret
-  through an approved secret store. Never commit them or paste them into logs,
+  through the ignored local `.env`. Never commit them or paste them into logs,
   screenshots, issue comments, shell history, or evidence files.
 - The public callback forwards only to
   `POST /webhooks/mercado-pago`; its TLS endpoint and tunnel logs are controlled.
@@ -17,7 +17,7 @@ The normal repository gate remains credential-free.
   returned short-lived `providerToken` reaches this platform. Never send PAN,
   expiry, cardholder document, or security-code fields to GraphQL or RabbitMQ.
 
-Configure the runtime from the secret-bearing execution environment:
+Configure the local runtime in the ignored root `.env`:
 
 ```text
 PAYMENT_PROVIDER_MODE=mercado-pago
@@ -28,9 +28,31 @@ MERCADO_PAGO_CONNECTION_TIMEOUT=5s
 MERCADO_PAGO_READ_TIMEOUT=15s
 ```
 
-Do not place real secret values in `.env` files. An empty, malformed, or
-non-official endpoint must prevent startup. Deterministic mode is valid only in
-the `local` or `test` profile and is not a production fallback.
+Do not place production credentials in local files. The root `.env` is ignored
+by Git and is only for test credentials. An empty, malformed, or non-official
+endpoint must prevent Mercado Pago mode from starting. Deterministic mode is
+the Compose default when `PAYMENT_PROVIDER_MODE` is absent and is not a
+production fallback.
+
+## Start the local real-provider runtime
+
+Docker Compose reads the root `.env` automatically, including from Fish. Start
+the complete local topology and wait for Payment Federation readiness:
+
+```sh
+docker compose up --detach --build --wait
+docker compose port payment-federation 8080
+```
+
+The second command prints the random loopback port published for Payment
+Federation. Point the approved HTTPS tunnel at that address and configure only
+`POST /webhooks/mercado-pago` as the Mercado Pago callback. Do not expose the
+databases, RabbitMQ, WordPress, or internal service ports through the tunnel.
+
+To prove fail-closed startup without revealing values, run Compose with
+`PAYMENT_PROVIDER_MODE=mercado-pago` and either required secret empty; Payment
+Federation must remain unhealthy. Normal credential-free E2E explicitly uses
+the deterministic default.
 
 ## Credential-free gate
 

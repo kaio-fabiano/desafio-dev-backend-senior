@@ -58,12 +58,15 @@ test('AC-188: the payment-critical gate covers Card, Pix, webhook, recovery, ref
 });
 
 test('AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spec:AC-189', async () => {
-  const [project, verifier, verifierTest, runbook] = await Promise.all([
-    readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
-    readFile('apps/e2e/src/mercado-pago-sandbox.ts', 'utf8'),
-    readFile('apps/e2e/src/mercado-pago-sandbox.test.ts', 'utf8'),
-    readFile('docs/runbooks/mercado-pago-sandbox.md', 'utf8'),
-  ]);
+  const [project, verifier, verifierTest, runbook, compose] = await Promise.all(
+    [
+      readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
+      readFile('apps/e2e/src/mercado-pago-sandbox.ts', 'utf8'),
+      readFile('apps/e2e/src/mercado-pago-sandbox.test.ts', 'utf8'),
+      readFile('docs/runbooks/mercado-pago-sandbox.md', 'utf8'),
+      readFile('compose.yaml', 'utf8'),
+    ],
+  );
 
   assert.equal(
     project.targets['mercado-pago-sandbox'].options.command,
@@ -77,6 +80,20 @@ test('AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spe
   assert.match(verifierTest, /authorizations\)\.toHaveLength\(4\)/);
   assert.match(verifierTest, /serialized\)\.not\.toContain\(secret\)/);
   assert.match(runbook, /only timestamps, unique operation keys, SHA-256/);
+  assert.match(
+    compose,
+    /PAYMENT_PROVIDER_MODE: \$\{PAYMENT_PROVIDER_MODE:-deterministic\}/,
+  );
+  for (const variable of [
+    'MERCADO_PAGO_ACCESS_TOKEN',
+    'MERCADO_PAGO_WEBHOOK_SECRET',
+    'MERCADO_PAGO_API_BASE_URL',
+    'MERCADO_PAGO_CONNECTION_TIMEOUT',
+    'MERCADO_PAGO_READ_TIMEOUT',
+  ]) {
+    assert.match(compose, new RegExp(`${variable}: \\$\\{${variable}`));
+  }
+  assert.match(runbook, /docker compose port payment-federation 8080/);
 });
 
 test('AC-190: sandbox webhooks and repeated refunds converge authoritatively @spec:AC-190', async () => {

@@ -376,6 +376,12 @@ services:
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PAYMENT_OAUTH_AUDIENCE: https://payment.marketplace.local
+      PAYMENT_PROVIDER_MODE: ${PAYMENT_PROVIDER_MODE:-deterministic}
+      MERCADO_PAGO_ACCESS_TOKEN: ${MERCADO_PAGO_ACCESS_TOKEN:-}
+      MERCADO_PAGO_WEBHOOK_SECRET: ${MERCADO_PAGO_WEBHOOK_SECRET:-}
+      MERCADO_PAGO_API_BASE_URL: ${MERCADO_PAGO_API_BASE_URL:-https://api.mercadopago.com}
+      MERCADO_PAGO_CONNECTION_TIMEOUT: ${MERCADO_PAGO_CONNECTION_TIMEOUT:-5s}
+      MERCADO_PAGO_READ_TIMEOUT: ${MERCADO_PAGO_READ_TIMEOUT:-15s}
       SERVER_PORT: 8080
       RABBITMQ_URL: amqp://rabbitmq:5672
       SPRING_PROFILES_ACTIVE: local
