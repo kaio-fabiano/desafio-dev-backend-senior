@@ -1,12 +1,22 @@
 {
   "feature": "mercado-pago-production-deployment",
-  "timestamp": "2026-09-03T08:12:42.831Z",
-  "gitRev": "3b515c7",
+  "timestamp": "2026-09-03T08:16:16.817Z",
+  "gitRev": "db30f89",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 175,
+  "testsParsed": 177,
   "results": {
+    "AC-187": {
+      "status": "pass",
+      "testName": "AC-187: the complete credential-free gate records every required check without skips @spec:AC-187",
+      "method": "tap"
+    },
+    "AC-188": {
+      "status": "pass",
+      "testName": "AC-188: the payment-critical gate covers Card, Pix, webhook, recovery, refund, and raw-card exclusion @spec:AC-188",
+      "method": "tap"
+    },
     "AC-189": {
       "status": "pass",
       "testName": "AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spec:AC-189",
