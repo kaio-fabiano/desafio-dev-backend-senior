@@ -38,8 +38,7 @@
 - Arquivos: .gitignore, .env.example, docs/runbooks/deployment.md
 - Notas: Ignore every local `.env` file, version placeholders only, default the documented stage to `sandbox`, and document loading the configured AWS profile plus syncing secrets to the SST secret store without printing values.
 
-## T-151 — Enable real Mercado Pago mode in local Compose [pendente]
-
+## T-151 — Enable real Mercado Pago mode in local Compose [concluida]
 - Refs: US-095, AC-189, AC-190
 - Modelo: gpt-5.6-sol
 - Esforço: alto
