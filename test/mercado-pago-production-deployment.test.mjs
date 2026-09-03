@@ -390,6 +390,7 @@ test('AC-195: one managed HTTPS API exposes only approved private routes @spec:A
   ]);
 
   assert.equal((stack.match(/new sst\.aws\.ApiGatewayV2\(/g) ?? []).length, 1);
+  assert.match(stack, /nat: \{ type: ['"]ec2['"], ec2: \{ instance: ['"]t4g\.micro['"] \} \}/);
   assert.match(stack, /new sst\.aws\.ApiGatewayV2\(['"]PublicApi['"], \{ vpc \}\)/);
   assert.doesNotMatch(stack, /loadBalancer:/);
   for (const route of [

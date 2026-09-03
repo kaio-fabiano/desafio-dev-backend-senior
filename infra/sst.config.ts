@@ -20,7 +20,9 @@ export default $config({
     };
   },
   async run() {
-    const vpc = new sst.aws.Vpc('MarketplaceVpc', { nat: 'ec2' });
+    const vpc = new sst.aws.Vpc('MarketplaceVpc', {
+      nat: { type: 'ec2', ec2: { instance: 't4g.micro' } },
+    });
     const cluster = new sst.aws.Cluster('MarketplaceCluster', { vpc });
     const publicApi = new sst.aws.ApiGatewayV2('PublicApi', { vpc });
     const publicOAuthIssuer = $interpolate`${publicApi.url}/api/auth`;
