@@ -1,0 +1,32 @@
+{
+  "feature": "mercado-pago-production-deployment",
+  "timestamp": "2026-09-03T08:12:42.831Z",
+  "gitRev": "3b515c7",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 123,
+  "testsParsed": 175,
+  "results": {
+    "AC-189": {
+      "status": "pass",
+      "testName": "AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spec:AC-189",
+      "method": "tap"
+    },
+    "AC-190": {
+      "status": "pass",
+      "testName": "AC-190: sandbox webhooks and repeated refunds converge authoritatively @spec:AC-190",
+      "method": "tap"
+    },
+    "AC-191": {
+      "status": "pass",
+      "testName": "AC-191: infrastructure fails closed and contains the complete runtime @spec:AC-191",
+      "method": "tap"
+    },
+    "AC-192": {
+      "status": "pass",
+      "testName": "AC-192: deployment is reviewed before provisioning @spec:AC-192",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
