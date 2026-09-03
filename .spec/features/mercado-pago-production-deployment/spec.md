@@ -84,16 +84,16 @@ can be verified and rolled back.
 
 ## Suposições
 
-| ID | Assumption | Status | Resolution |
-|---|---|---|---|
-| ASM-061 | The first external deployment should use an isolated non-production stage and Mercado Pago test credentials. | confirmada | The owner approved the recommended `sandbox` stage. |
-| ASM-062 | AWS remains the deployment target because the repository already contains an SST v3 AWS stack. | confirmada | The owner approved the recommended SST/AWS deployment path. |
-| ASM-063 | Provider test payments may be created and refunded as part of verification, provided every operation is uniquely keyed and evidence is redacted. | confirmada | The owner authorized test transactions, refunds, and a temporary HTTPS webhook. |
+| ID      | Assumption                                                                                                                                       | Status     | Resolution                                                                      |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | ------------------------------------------------------------------------------- |
+| ASM-067 | The first external deployment should use an isolated non-production stage and Mercado Pago test credentials.                                     | confirmada | The owner approved the recommended `sandbox` stage.                             |
+| ASM-068 | AWS remains the deployment target because the repository already contains an SST v3 AWS stack.                                                   | confirmada | The owner approved the recommended SST/AWS deployment path.                     |
+| ASM-069 | Provider test payments may be created and refunded as part of verification, provided every operation is uniquely keyed and evidence is redacted. | confirmada | The owner authorized test transactions, refunds, and a temporary HTTPS webhook. |
 
 ## Perguntas em aberto
 
-| ID | Question | Status | Answer |
-|---|---|---|---|
-| Q-009 | Which exact SST stage name and AWS account/region should receive the first deployment? | respondida | Use stage `sandbox` in the stack's configured `us-east-1` region; the AWS account will be resolved from credentials before diff or deployment. |
+| ID    | Question                                                                                                                                                       | Status     | Answer                                                                                                                                                      |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Q-009 | Which exact SST stage name and AWS account/region should receive the first deployment?                                                                         | respondida | Use stage `sandbox` in the stack's configured `us-east-1` region; the AWS account will be resolved from credentials before diff or deployment.              |
 | Q-010 | Are the AWS credentials, Mercado Pago test access token, and webhook secret already available through the local credential helper or an approved secret store? | respondida | No relevant credentials are present in the current process environment; external verification and provisioning must wait for approved credential injection. |
-| Q-011 | May the verification create and refund Mercado Pago test transactions and expose a temporary public webhook endpoint? | respondida | Yes, for test transactions only, with unique operation keys and redacted evidence. |
+| Q-011 | May the verification create and refund Mercado Pago test transactions and expose a temporary public webhook endpoint?                                          | respondida | Yes, for test transactions only, with unique operation keys and redacted evidence.                                                                          |
