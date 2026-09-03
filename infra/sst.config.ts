@@ -27,7 +27,7 @@ export default $config({
     const publicApi = new sst.aws.ApiGatewayV2('PublicApi', { vpc });
     const publicOAuthIssuer = $interpolate`${publicApi.url}/api/auth`;
     const identityDatabase = new sst.aws.Aurora('IdentityDatabase', {
-      database: 'identity',
+      database: 'identity_service',
       engine: 'postgres',
       vpc,
     });
