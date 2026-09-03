@@ -53,9 +53,37 @@ client isolated; they do not claim that a sandbox transaction occurred.
 
 ## Sandbox verification
 
-Use unique, recorded operation keys for the following checks. Evidence records
-the timestamp, operation key, sanitized provider reference, terminal status,
-and command exit status only.
+Load every value below from the approved secret-bearing environment. Do not put
+the values on a command line or in a checked-in `.env` file.
+
+```text
+MERCADO_PAGO_SANDBOX_CONFIRM=CREATE_AND_REFUND_TEST_PAYMENTS
+MERCADO_PAGO_ACCESS_TOKEN=<secret>
+MERCADO_PAGO_WEBHOOK_SECRET=<secret>
+MERCADO_PAGO_SANDBOX_BEARER_TOKEN=<short-lived cart:write and orders:read token>
+MERCADO_PAGO_SANDBOX_CARD_TOKEN=<client-tokenized approved test Card>
+MERCADO_PAGO_SANDBOX_PAYMENT_METHOD_ID=<test Card payment method>
+MERCADO_PAGO_SANDBOX_PAYER_EMAIL=<test payer email>
+MERCADO_PAGO_SANDBOX_AMOUNT=<approved BRL test amount>
+MERCADO_PAGO_SANDBOX_GRAPHQL_URL=https://<stage-host>/graphql
+MERCADO_PAGO_SANDBOX_WEBHOOK_URL=https://<stage-host>/webhooks/mercado-pago
+```
+
+Run the opt-in target and redirect standard output to the approved evidence
+location:
+
+```sh
+corepack pnpm exec nx run @desafio-dev-backend-senior/e2e:mercado-pago-sandbox \
+  > "$APPROVED_REDACTED_EVIDENCE_PATH"
+```
+
+The target refuses to start without the exact confirmation and every input. It
+always calls the official `https://api.mercadopago.com` API, requires HTTPS for
+the deployed endpoints, and writes no remote response body or secret to output.
+Its JSON evidence contains only timestamps, unique operation keys, SHA-256
+reference fingerprints, statuses, and zero exit results.
+
+The verifier automates the following checks:
 
 1. Create a Card payment with a client-generated test token, payer email, and
    Mercado Pago payment-method identifier. Confirm the stored reference is the
@@ -64,15 +92,12 @@ and command exit status only.
 2. Create a BRL Pix payment. Confirm the stored reference and copy-and-paste
    code exactly match Mercado Pago's response. Do not treat code generation as
    settlement or expect an inventory reservation.
-3. Send a webhook with an invalid signature and confirm HTTP 401 with no inbox,
-   payment, or outbox change.
-4. Let Mercado Pago deliver a valid notification. Confirm the service fetches
-   the resource with server credentials. Replay the same `x-request-id` and
-   confirm one financial transition and one outbox event.
-5. Interrupt the response after a create request reaches Mercado Pago. Redeliver
-   the command with the original operation key and confirm the stored result is
-   recovered without a distinct payment.
-6. For an approved Card payment, request a refund using its persisted provider
+3. Send a webhook with an invalid signature and confirm HTTP 401 with no local
+   payment-state change.
+4. Deliver a correctly signed notification. Confirm the service fetches the
+   resource with server credentials. Replay the same `x-request-id` and confirm
+   the local payment remains at the single authoritative transition.
+5. For an approved Card payment, request a refund using its persisted provider
    reference. Replay the refund command with its original operation key and
    confirm one provider refund; accept local `REFUNDED` only after authoritative
    lookup returns the refunded status.
