@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtlargup",
+  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtlbhg8w",
   "feature": "mercado-pago-production-deployment",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-03 09:02",
+  "geradoEm": "2026-09-03 09:22",
   "branchTrabalho": "spec/mercado-pago-production-deployment",
   "baseDir": ".spec/features/mercado-pago-production-deployment",
   "specDir": ".spec",
@@ -41,7 +41,8 @@
     "T-148",
     "T-150",
     "T-151",
-    "T-152"
+    "T-152",
+    "T-153"
   ],
   "avisos": []
 }

@@ -17,11 +17,14 @@ import {
   CART_READ_SCOPE,
   CART_WRITE_SCOPE as IDENTITY_CART_WRITE_SCOPE,
   GATEWAY_AUDIENCE as IDENTITY_GATEWAY_AUDIENCE,
+  IDENTITY_AUDIENCE,
   MARKETPLACE_READ_SCOPE,
   MCP_AUDIENCE as IDENTITY_MCP_AUDIENCE,
   MCP_SCOPE,
   MCP_TOOL_SCOPES,
   ORDERS_READ_SCOPE,
+  ORDER_WORKFLOW_AUDIENCE,
+  PAYMENT_AUDIENCE,
   createIdentityAuth,
 } from '../apps/identity-subgraph/src/auth/config.ts';
 import {
@@ -149,11 +152,14 @@ test('AC-063: Tool scopes are enforced @spec:AC-063', async () => {
       allowedScopes,
     })),
     [
-      { identifier: IDENTITY_GATEWAY_AUDIENCE, allowedScopes: MCP_TOOL_SCOPES },
-      { identifier: IDENTITY_MCP_AUDIENCE, allowedScopes: MCP_TOOL_SCOPES },
-    ],
+      IDENTITY_GATEWAY_AUDIENCE,
+      IDENTITY_AUDIENCE,
+      IDENTITY_MCP_AUDIENCE,
+      ORDER_WORKFLOW_AUDIENCE,
+      PAYMENT_AUDIENCE,
+    ].map((identifier) => ({ identifier, allowedScopes: MCP_TOOL_SCOPES })),
   );
-  assert.equal(links.length, 4);
+  assert.equal(links.length, 10);
 
   const auth = await startAuthServer();
   try {

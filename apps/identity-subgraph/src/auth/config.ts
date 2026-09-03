@@ -3,7 +3,11 @@ import { betterAuth } from 'better-auth';
 import { jwt } from 'better-auth/plugins';
 
 export const GATEWAY_AUDIENCE = 'https://gateway.marketplace.local';
+export const IDENTITY_AUDIENCE = 'https://identity.marketplace.local';
 export const MCP_AUDIENCE = 'https://mcp.marketplace.local';
+export const ORDER_WORKFLOW_AUDIENCE =
+  'https://order-workflow.marketplace.local';
+export const PAYMENT_AUDIENCE = 'https://payment.marketplace.local';
 export const MARKETPLACE_READ_SCOPE = 'marketplace:read';
 export const CART_READ_SCOPE = 'cart:read';
 export const ORDERS_READ_SCOPE = 'orders:read';
@@ -57,11 +61,29 @@ export function createIdentityAuth(
             allowedScopes: MCP_TOOL_SCOPES,
           },
           {
+            identifier: IDENTITY_AUDIENCE,
+            allowedScopes: MCP_TOOL_SCOPES,
+          },
+          {
             identifier: MCP_AUDIENCE,
             allowedScopes: MCP_TOOL_SCOPES,
           },
+          {
+            identifier: ORDER_WORKFLOW_AUDIENCE,
+            allowedScopes: MCP_TOOL_SCOPES,
+          },
+          {
+            identifier: PAYMENT_AUDIENCE,
+            allowedScopes: MCP_TOOL_SCOPES,
+          },
         ],
-        clientRegistrationDefaultResources: [GATEWAY_AUDIENCE, MCP_AUDIENCE],
+        clientRegistrationDefaultResources: [
+          GATEWAY_AUDIENCE,
+          IDENTITY_AUDIENCE,
+          MCP_AUDIENCE,
+          ORDER_WORKFLOW_AUDIENCE,
+          PAYMENT_AUDIENCE,
+        ],
         clientPrivileges: async ({ user }) =>
           user?.email === options.seedAdminEmail,
       }) as never,

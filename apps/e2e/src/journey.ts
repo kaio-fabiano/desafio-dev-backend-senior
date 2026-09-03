@@ -114,7 +114,7 @@ async function graphql(
 }
 
 async function issueToken(
-  environment: Milestone7Environment,
+  environment: Pick<Milestone7Environment, 'identityUrl'>,
   audiences: string[],
   scopes: string[],
   cookie: string,
@@ -251,8 +251,10 @@ export function mergeResponseCookies(
   return [...values].map(([name, value]) => `${name}=${value}`).join('; ');
 }
 
-async function registerBuyer(environment: Milestone7Environment) {
-  const response = await fetch(
+async function registerBuyer(
+  environment: Pick<Milestone7Environment, 'identityUrl'>,
+) {
+  let response = await fetch(
     `${environment.identityUrl}/api/auth/sign-up/email`,
     {
       method: 'POST',
@@ -267,9 +269,24 @@ async function registerBuyer(environment: Milestone7Environment) {
       }),
     },
   );
+  if (!response.ok) {
+    response = await fetch(
+      `${environment.identityUrl}/api/auth/sign-in/email`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          origin: 'http://identity.localhost:3001',
+        },
+        body: JSON.stringify({ email: BUYER_EMAIL, password: BUYER_PASSWORD }),
+      },
+    );
+  }
   const payload = (await response.json()) as { user: JsonObject };
   if (!response.ok)
-    throw new Error(`Better Auth sign-up failed: ${JSON.stringify(payload)}`);
+    throw new Error(
+      `Better Auth buyer authentication failed with ${response.status}`,
+    );
   return {
     buyer: payload.user,
     cookie: response.headers
@@ -277,6 +294,16 @@ async function registerBuyer(environment: Milestone7Environment) {
       .map((value) => value.split(';', 1)[0])
       .join('; '),
   };
+}
+
+export async function issueSandboxBearer(identityUrl: string) {
+  const registration = await registerBuyer({ identityUrl });
+  return issueToken(
+    { identityUrl },
+    [GATEWAY_AUDIENCE, ORDER_WORKFLOW_AUDIENCE, PAYMENT_AUDIENCE],
+    ['cart:write', 'orders:read'],
+    registration.cookie,
+  );
 }
 
 async function mcpRequest(

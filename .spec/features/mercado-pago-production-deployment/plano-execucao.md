@@ -1,11 +1,11 @@
 # Plano de execução — mercado-pago-production-deployment
 
-> gerado por `onp-spec plano` em 2026-09-03 09:02 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-03 09:22 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano mercado-pago-production-deployment --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (6 já concluída(s): T-146, T-147, T-148, T-150, T-151, T-152)
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (7 já concluída(s): T-146, T-147, T-148, T-150, T-151, T-152, T-153)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/mercado-pago-production-deployment`; levar para a main é decisão sua
 

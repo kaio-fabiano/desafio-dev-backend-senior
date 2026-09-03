@@ -52,3 +52,11 @@
 - Esforço: alto
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookController.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java
 - Notas: Mark the production constructor as the Spring injection point, add a regression test that starts the controller in real-provider mode, and rebuild Payment Federation before resuming the local sandbox verification.
+
+## T-153 — Generate local sandbox bearer securely [concluida]
+
+- Refs: US-095, AC-189
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, apps/e2e/project.json, apps/identity-subgraph/src/auth/config.ts, apps/identity-subgraph/src/auth/seed.ts, libs/identity/nest/src/auth/better-auth.factory.ts, test/milestone-6-mcp-oauth.test.mjs, docs/runbooks/mercado-pago-sandbox.md
+- Notas: Reuse the existing OAuth PKCE flow, request only the scopes required by sandbox payments, validate the JWT grant, and update the ignored local environment without printing the bearer token.

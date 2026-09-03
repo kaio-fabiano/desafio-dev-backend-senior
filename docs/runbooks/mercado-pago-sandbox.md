@@ -75,6 +75,17 @@ client isolated; they do not claim that a sandbox transaction occurred.
 
 ## Sandbox verification
 
+Generate the local application bearer through the existing OAuth PKCE flow.
+Pass the random Identity host port reported by Compose; the command validates
+the required scopes and updates the ignored `.env` atomically without printing
+the token:
+
+```sh
+identity_port=$(docker compose port identity-subgraph 3001 | awk -F: '{print $NF}')
+corepack pnpm exec nx run @desafio-dev-backend-senior/e2e:mercado-pago-sandbox-bearer \
+  --args="http://127.0.0.1:${identity_port} .env"
+```
+
 Load every value below from the approved secret-bearing environment. Do not put
 the values on a command line or in a checked-in `.env` file.
 

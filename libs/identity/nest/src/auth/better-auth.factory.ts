@@ -167,7 +167,27 @@ export class IdentityAuthBootstrap implements OnApplicationBootstrap {
       model: 'oauthClient',
       where: [{ field: 'softwareId', value: seed.softwareId }],
     });
-    if (existing) return { clientId: existing.clientId, created: false };
+    if (existing) {
+      const links = await context.adapter.findMany<{ resourceId: string }>({
+        model: 'oauthClientResource',
+        where: [{ field: 'clientId', value: existing.clientId }],
+      });
+      const linkedResources = new Set(
+        links.map(({ resourceId }) => resourceId),
+      );
+      for (const resourceId of Object.values(OAUTH_RESOURCES)) {
+        if (linkedResources.has(resourceId)) continue;
+        await context.adapter.create({
+          model: 'oauthClientResource',
+          data: {
+            clientId: existing.clientId,
+            resourceId,
+            createdAt: new Date(),
+          },
+        });
+      }
+      return { clientId: existing.clientId, created: false };
+    }
 
     const administrator = await context.adapter.findOne<{ id: string }>({
       model: 'user',
