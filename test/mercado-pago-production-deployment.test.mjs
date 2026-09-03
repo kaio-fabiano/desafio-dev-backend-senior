@@ -241,6 +241,8 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
   const firstDeploy = infraPackage.scripts['deploy:first'];
   const deploy = infraPackage.scripts.deploy;
   assert.match(review, /sst diff --stage/);
+  assert.match(review, /Permalink\/d/);
+  assert.match(review, /LC_ALL=C sort/);
   assert.match(review, /sha256sum/);
   assert.match(deploy, /SST_DEPLOY_APPROVAL/);
   assert.match(deploy, /SST_APPROVED_STAGE/);
@@ -249,6 +251,8 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
   assert.match(deploy, /pnpm run validate/);
   assert.match(deploy, /sst diff --stage/);
   assert.match(deploy, /sha256sum/);
+  assert.match(deploy, /Permalink\/d/);
+  assert.match(deploy, /LC_ALL=C sort/);
   assert.match(deploy, /sst deploy --stage/);
   assert.ok(deploy.indexOf('pnpm run validate') < deploy.indexOf('sst diff'));
   assert.ok(deploy.indexOf('sst diff') < deploy.indexOf('sst deploy'));

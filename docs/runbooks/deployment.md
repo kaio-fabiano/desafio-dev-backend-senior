@@ -49,8 +49,9 @@ application from starting.
 ## Generate and review the exact diff
 
 The review command runs `sst diff` for `SST_STAGE`, writes the complete diff to
-the terminal, and prints its SHA-256 digest as the final line. It does not
-provision resources.
+the terminal, and prints its canonical SHA-256 digest as the final line. The
+digest ignores only volatile SST permalinks, elapsed times, blank lines, and
+output order; resource content remains covered. It does not provision resources.
 
 ```sh
 corepack pnpm run review
