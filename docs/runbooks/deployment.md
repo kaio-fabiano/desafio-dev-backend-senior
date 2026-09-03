@@ -56,6 +56,23 @@ provision resources.
 corepack pnpm run review
 ```
 
+SST v3 reports `Stage not found` instead of generating a diff before the first
+deployment. In that one case, approve the exact clean Git revision and use the
+dedicated first-deployment guard. It rejects `production`, a dirty working tree,
+an existing stage, a revision mismatch, or anything other than SST's explicit
+missing-stage response.
+
+```sh
+export SST_APPROVED_STAGE="$SST_STAGE"
+export SST_APPROVED_GIT_REV="$(git rev-parse HEAD)"
+export SST_APPROVED_MONTHLY_COST_USD=<approved-cost-ceiling>
+export SST_FIRST_DEPLOY_APPROVAL=CREATE
+corepack pnpm run deploy:first
+```
+
+After the stage exists, this exception no longer applies and every update uses
+the diff digest flow below.
+
 Before granting explicit approval, record all of the following with the change
 request:
 

@@ -96,5 +96,5 @@
 - Refs: US-098, AC-195, AC-192, AC-193
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: infra/sst.config.ts, apps/apollo-mcp/mcp.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
+- Arquivos: infra/sst.config.ts, infra/package.json, apps/apollo-mcp/mcp.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
 - Notas: Use one API Gateway HTTP API with a VPC link and exact private routes, keep every ECS service on Cloud Map, publish the real OAuth issuer and MCP resource URL, remove service-owned ALBs, and retain the SST v3 approval gate.

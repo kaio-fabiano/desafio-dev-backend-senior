@@ -65,9 +65,9 @@ can be verified and rolled back.
 
 #### AC-192 — Deployment is reviewed before provisioning
 
-- **Dado** approved AWS credentials, a named non-production stage, and a generated infrastructure diff
+- **Dado** approved AWS credentials and a named non-production stage, with either a generated infrastructure diff or an explicitly approved clean Git revision when SST v3 reports that the stage does not exist
 - **Quando** the operator reviews the resources, estimated cost exposure, public endpoints, and secret bindings
-- **Então** deployment runs only after explicit approval for that exact stage and diff
+- **Então** deployment runs only after explicit approval for that exact stage and diff, or for the exact clean revision during its first creation
 
 #### AC-193 — Post-deploy smoke tests prove and preserve the release
 

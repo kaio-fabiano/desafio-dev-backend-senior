@@ -238,6 +238,7 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
   assert.doesNotMatch(environmentTemplate, /APP_USR-|TEST-/);
 
   const review = infraPackage.scripts.review;
+  const firstDeploy = infraPackage.scripts['deploy:first'];
   const deploy = infraPackage.scripts.deploy;
   assert.match(review, /sst diff --stage/);
   assert.match(review, /sha256sum/);
@@ -251,6 +252,13 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
   assert.match(deploy, /sst deploy --stage/);
   assert.ok(deploy.indexOf('pnpm run validate') < deploy.indexOf('sst diff'));
   assert.ok(deploy.indexOf('sst diff') < deploy.indexOf('sst deploy'));
+  assert.match(firstDeploy, /SST_FIRST_DEPLOY_APPROVAL/);
+  assert.match(firstDeploy, /SST_APPROVED_GIT_REV/);
+  assert.match(firstDeploy, /git status --porcelain/);
+  assert.match(firstDeploy, /git rev-parse HEAD/);
+  assert.match(firstDeploy, /Stage not found/);
+  assert.match(firstDeploy, /pnpm run validate/);
+  assert.match(firstDeploy, /sst deploy --stage/);
 
   const { spawnSync } = await import('node:child_process');
   for (const environment of [
@@ -316,6 +324,39 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
       env: { ...approvedEnvironment, SST_APPROVED_DIFF_SHA256: reviewedHash },
     });
     assert.equal(approved.status, 0, approved.stderr.toString());
+    assert.match(
+      await readFile(fakeLog, 'utf8'),
+      /pnpm run validate[\s\S]*sst diff --stage sandbox[\s\S]*sst deploy --stage sandbox/,
+    );
+
+    await Promise.all([
+      writeFile(
+        join(fakeBin, 'git'),
+        '#!/bin/sh\n[ "$1" = status ] && exit 0\n[ "$1 $2" = "rev-parse HEAD" ] && printf "approved-revision\\n"\n',
+        { mode: 0o755 },
+      ),
+      writeFile(
+        join(fakeBin, 'sst'),
+        '#!/bin/sh\nprintf "sst %s\\n" "$*" >> "$FAKE_LOG"\n[ "$1" != diff ] || { printf "Stage not found\\n" >&2; exit 1; }\n',
+        { mode: 0o755 },
+      ),
+    ]);
+    await Promise.all([
+      chmod(join(fakeBin, 'git'), 0o755),
+      chmod(join(fakeBin, 'sst'), 0o755),
+    ]);
+    const firstApproved = spawnSync(
+      'bash',
+      ['-o', 'pipefail', '-c', firstDeploy],
+      {
+        env: {
+          ...approvedEnvironment,
+          SST_APPROVED_GIT_REV: 'approved-revision',
+          SST_FIRST_DEPLOY_APPROVAL: 'CREATE',
+        },
+      },
+    );
+    assert.equal(firstApproved.status, 0, firstApproved.stderr.toString());
     assert.match(
       await readFile(fakeLog, 'utf8'),
       /pnpm run validate[\s\S]*sst diff --stage sandbox[\s\S]*sst deploy --stage sandbox/,
