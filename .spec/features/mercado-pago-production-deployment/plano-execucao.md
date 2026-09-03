@@ -1,19 +1,24 @@
 # Plano de execução — mercado-pago-production-deployment
 
-> gerado por `onp-spec plano` em 2026-09-03 09:22 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-03 09:55 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano mercado-pago-production-deployment --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (7 já concluída(s): T-146, T-147, T-148, T-150, T-151, T-152, T-153)
+- **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (7 já concluída(s): T-146, T-147, T-148, T-150, T-151, T-152, T-153)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/mercado-pago-production-deployment`; levar para a main é decisão sua
+
+### Avisos
+
+- ⚠ T-154 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar
 
 ## Ordem de execução (uma tarefa após a outra)
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
 | T-149 | Deploy the approved stage and run release smoke tests | `gpt-5.6-sol` | high |
+| T-154 | Use real WooCommerce orders in sandbox verification | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits
 

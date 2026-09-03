@@ -58,15 +58,18 @@ test('AC-188: the payment-critical gate covers Card, Pix, webhook, recovery, ref
 });
 
 test('AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spec:AC-189', async () => {
-  const [project, verifier, verifierTest, runbook, compose] = await Promise.all(
-    [
+  const [project, verifier, verifierTest, runbook, compose, paymentConfig] =
+    await Promise.all([
       readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
       readFile('apps/e2e/src/mercado-pago-sandbox.ts', 'utf8'),
       readFile('apps/e2e/src/mercado-pago-sandbox.test.ts', 'utf8'),
       readFile('docs/runbooks/mercado-pago-sandbox.md', 'utf8'),
       readFile('compose.yaml', 'utf8'),
-    ],
-  );
+      readFile(
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java',
+        'utf8',
+      ),
+    ]);
 
   assert.equal(
     project.targets['mercado-pago-sandbox'].options.command,
@@ -74,6 +77,9 @@ test('AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spe
   );
   assert.equal(project.targets['mercado-pago-sandbox'].cache, false);
   assert.match(verifier, /MERCADO_PAGO_SANDBOX_CONFIRM/);
+  assert.match(verifier, /MERCADO_PAGO_SANDBOX_CARD_ORDER_ID/);
+  assert.match(verifier, /MERCADO_PAGO_SANDBOX_PIX_ORDER_ID/);
+  assert.match(verifier, /Sandbox Card and Pix orders must be different/);
   assert.match(verifier, /CREATE_AND_REFUND_TEST_PAYMENTS/);
   assert.match(verifier, /randomUUID/);
   assert.match(verifier, /SHA-256|sha256/);
@@ -94,6 +100,11 @@ test('AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spe
     assert.match(compose, new RegExp(`${variable}: \\$\\{${variable}`));
   }
   assert.match(runbook, /docker compose port payment-federation 8080/);
+  assert.match(paymentConfig, /jwsAlgorithm\(SignatureAlgorithm\.ES256\)/);
+  assert.match(paymentConfig, /new JOSEObjectType\("at\+jwt"\)/);
+  assert.match(paymentConfig, /createDefaultWithIssuer\(issuer\)/);
+  assert.match(paymentConfig, /"aud"/);
+  assert.match(paymentConfig, /"client_id"/);
 });
 
 test('AC-190: sandbox webhooks and repeated refunds converge authoritatively @spec:AC-190', async () => {

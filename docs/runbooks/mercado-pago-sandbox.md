@@ -98,6 +98,8 @@ MERCADO_PAGO_SANDBOX_CARD_TOKEN=<client-tokenized approved test Card>
 MERCADO_PAGO_SANDBOX_PAYMENT_METHOD_ID=<test Card payment method>
 MERCADO_PAGO_SANDBOX_PAYER_EMAIL=<test payer email>
 MERCADO_PAGO_SANDBOX_AMOUNT=<approved BRL test amount>
+MERCADO_PAGO_SANDBOX_CARD_ORDER_ID=<unused WooCommerce test order database ID>
+MERCADO_PAGO_SANDBOX_PIX_ORDER_ID=<different unused WooCommerce test order database ID>
 MERCADO_PAGO_SANDBOX_GRAPHQL_URL=https://<stage-host>/graphql
 MERCADO_PAGO_SANDBOX_WEBHOOK_URL=https://<stage-host>/webhooks/mercado-pago
 ```
@@ -109,6 +111,11 @@ location:
 corepack pnpm exec nx run @desafio-dev-backend-senior/e2e:mercado-pago-sandbox \
   > "$APPROVED_REDACTED_EVIDENCE_PATH"
 ```
+
+The two order IDs must be positive integers for existing, distinct WooCommerce
+test orders. The verifier derives stable Card and Pix operation keys from these
+IDs, so rerunning after a partial failure resumes the same provider operations
+instead of creating replacements. Use fresh orders for a new completed run.
 
 The target refuses to start without the exact confirmation and every input. It
 always calls the official `https://api.mercadopago.com` API, requires HTTPS for

@@ -3,7 +3,10 @@ package dev.desafio.transaction.payment.adapter.mercadopago;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.payment.PaymentCreateRequest;
 import com.mercadopago.core.MPRequestOptions;
+import com.mercadopago.exceptions.MPException;
 import com.mercadopago.net.Headers;
+import com.mercadopago.net.MPResultsResourcesPage;
+import com.mercadopago.net.MPSearchRequest;
 import com.mercadopago.resources.payment.PaymentPointOfInteraction;
 import com.mercadopago.resources.payment.PaymentTransactionData;
 import dev.desafio.transaction.payment.configuration.MercadoPagoProperties;
@@ -97,6 +100,30 @@ class MercadoPagoPaymentProviderTest {
                 .map(value -> value.getCustomHeaders().get(Headers.IDEMPOTENCY_KEY))
                 .toList()
         );
+    }
+
+    @Test
+    @DisplayName("AC-165: ambiguous creation recovers the existing provider payment @spec:AC-165")
+    void ambiguousCreationRecoversTheExistingPayment() throws Exception {
+        var client = mock(PaymentClient.class);
+        var payment = providerPayment(84L, "pending", "provider-pix-code");
+        when(payment.getExternalReference()).thenReturn("payment-pix");
+        when(payment.getMetadata()).thenReturn(java.util.Map.of("operation_key", "operation-pix"));
+        var page = mock(MPResultsResourcesPage.class);
+        when(page.getResults()).thenReturn(java.util.List.of(payment));
+        when(client.create(any(), any())).thenThrow(new MPException("timeout"));
+        when(client.search(any(), any())).thenReturn(page);
+        var provider = new MercadoPagoPaymentProvider(client, properties());
+
+        var result = provider.execute(pixRequest());
+
+        assertEquals("84", result.providerReference());
+        assertEquals(Payment.Status.PIX_GENERATED, result.status());
+        var search = ArgumentCaptor.forClass(MPSearchRequest.class);
+        verify(client).search(search.capture(), any());
+        assertEquals(2, search.getValue().getLimit());
+        assertEquals(0, search.getValue().getOffset());
+        assertEquals("payment-pix", search.getValue().getFilters().get("external_reference"));
     }
 
     @Test

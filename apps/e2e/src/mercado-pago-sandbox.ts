@@ -65,6 +65,8 @@ export type SandboxConfig = {
   payerEmail: string;
   paymentMethodId: string;
   amount: number;
+  cardOrderId: string;
+  pixOrderId: string;
 };
 
 export type EvidenceRecord = {
@@ -91,6 +93,12 @@ export function sandboxConfigFromEnvironment(
     throw new Error('MERCADO_PAGO_SANDBOX_AMOUNT must be a positive number');
   }
 
+  const cardOrderId = orderId(environment, 'MERCADO_PAGO_SANDBOX_CARD_ORDER_ID');
+  const pixOrderId = orderId(environment, 'MERCADO_PAGO_SANDBOX_PIX_ORDER_ID');
+  if (cardOrderId === pixOrderId) {
+    throw new Error('Sandbox Card and Pix orders must be different');
+  }
+
   return {
     accessToken: required(environment, 'MERCADO_PAGO_ACCESS_TOKEN'),
     bearerToken: required(environment, 'MERCADO_PAGO_SANDBOX_BEARER_TOKEN'),
@@ -104,6 +112,8 @@ export function sandboxConfigFromEnvironment(
       'MERCADO_PAGO_SANDBOX_PAYMENT_METHOD_ID',
     ),
     amount,
+    cardOrderId,
+    pixOrderId,
   };
 }
 
@@ -112,13 +122,13 @@ export async function verifyMercadoPagoSandbox(
   driver: SandboxDriver = new HttpSandboxDriver(config),
   operationId: () => string = randomUUID,
 ): Promise<SandboxEvidence> {
-  const cardKey = operationKey('card', operationId());
-  const pixKey = operationKey('pix', operationId());
-  const refundKey = operationKey('refund', operationId());
+  const cardKey = operationKey('card', config.cardOrderId);
+  const pixKey = operationKey('pix', config.pixOrderId);
+  const refundKey = operationKey('refund', config.cardOrderId);
   const cardInput: PaymentInput = {
     operationKey: cardKey,
     paymentId: `payment-${cardKey}`,
-    orderId: `order-${cardKey}`,
+    orderId: config.cardOrderId,
     method: 'CARD',
     amount: config.amount,
     currency: 'BRL',
@@ -129,7 +139,7 @@ export async function verifyMercadoPagoSandbox(
   const pixInput: PaymentInput = {
     operationKey: pixKey,
     paymentId: `payment-${pixKey}`,
-    orderId: `order-${pixKey}`,
+    orderId: config.pixOrderId,
     method: 'PIX',
     amount: config.amount,
     currency: 'BRL',
@@ -138,13 +148,15 @@ export async function verifyMercadoPagoSandbox(
 
   const card = await driver.authorize(cardInput);
   const repeatedCard = await driver.authorize(cardInput);
-  assertEqual(card.status, 'AUTHORIZED', 'Card test payment was not approved');
+  if (card.status !== 'AUTHORIZED' && card.status !== 'REFUNDED') {
+    throw new Error('Card test payment was neither approved nor already refunded');
+  }
   assertEqual(
     repeatedCard.providerReference,
     card.providerReference,
     'Repeated Card operation returned a different provider payment',
   );
-  await assertOneProviderPayment(driver, cardInput);
+  await assertOneProviderPayment(driver, cardInput, card.providerReference);
 
   const pix = await driver.authorize(pixInput);
   const repeatedPix = await driver.authorize(pixInput);
@@ -154,7 +166,7 @@ export async function verifyMercadoPagoSandbox(
     pix.providerReference,
     'Repeated Pix operation returned a different provider payment',
   );
-  await assertOneProviderPayment(driver, pixInput);
+  await assertOneProviderPayment(driver, pixInput, pix.providerReference);
 
   const beforeInvalid = await driver.readPayment(card.id);
   const invalidStatus = await driver.notify(
@@ -169,8 +181,10 @@ export async function verifyMercadoPagoSandbox(
     'Invalid webhook changed local payment state',
   );
 
-  await driver.refund(card.providerReference, refundKey);
-  await driver.refund(card.providerReference, refundKey);
+  if (card.status !== 'REFUNDED') {
+    await driver.refund(card.providerReference, refundKey);
+    await driver.refund(card.providerReference, refundKey);
+  }
   const providerRefund = await eventually(
     () => driver.readProviderPayment(card.providerReference),
     (payment) =>
@@ -221,11 +235,18 @@ export async function verifyMercadoPagoSandbox(
   };
 }
 
+function orderId(environment: NodeJS.ProcessEnv, name: string): string {
+  const value = required(environment, name);
+  if (!/^[1-9]\d*$/.test(value))
+    throw new Error(`${name} must be a positive integer`);
+  return value;
+}
+
 export function webhookSignature(
   providerReference: string,
   requestId: string,
   secret: string,
-  timestamp = Math.floor(Date.now() / 1_000).toString(),
+  timestamp = Date.now().toString(),
 ): string {
   const manifest = `id:${providerReference.toLowerCase()};request-id:${requestId};ts:${timestamp};`;
   const digest = createHmac('sha256', secret).update(manifest).digest('hex');
@@ -354,16 +375,28 @@ class HttpSandboxDriver implements SandboxDriver {
 async function assertOneProviderPayment(
   driver: SandboxDriver,
   input: PaymentInput,
+  providerReference: string,
 ) {
-  const payments = await eventually(
-    () => driver.findProviderPayments(input.paymentId, input.operationKey),
-    (matches) => matches.length > 0,
-    'Provider payment was not found by its operation key',
+  const payments = await driver.findProviderPayments(
+    input.paymentId,
+    input.operationKey,
   );
   assertEqual(
-    payments.length,
-    1,
+    payments.length <= 1,
+    true,
     'Operation key resolved to more than one provider payment',
+  );
+  const payment =
+    payments[0] ?? (await driver.readProviderPayment(providerReference));
+  assertEqual(
+    payment.externalReference,
+    input.paymentId,
+    'Provider payment has a different external reference',
+  );
+  assertEqual(
+    payment.operationKey,
+    input.operationKey,
+    'Provider payment has a different operation key',
   );
 }
 
@@ -448,9 +481,10 @@ if (
   Promise.resolve()
     .then(() => verifyMercadoPagoSandbox(sandboxConfigFromEnvironment()))
     .then((proof) => console.log(JSON.stringify(proof, null, 2)))
-    .catch(() => {
+    .catch((error: unknown) => {
+      const reason = error instanceof Error ? error.message : 'unknown failure';
       console.error(
-        'Mercado Pago sandbox verification failed; remote payloads and secrets were not logged.',
+        `Mercado Pago sandbox verification failed: ${reason}. Remote payloads and secrets were not logged.`,
       );
       process.exitCode = 1;
     });

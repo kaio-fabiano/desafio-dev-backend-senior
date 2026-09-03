@@ -7,6 +7,7 @@ import com.mercadopago.core.MPRequestOptions;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.net.Headers;
+import com.mercadopago.net.MPSearchRequest;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.configuration.MercadoPagoProperties;
 import dev.desafio.transaction.payment.domain.Payment;
@@ -51,8 +52,28 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
             var payment = client.create(request, requestOptions(command.operationKey()));
             return result(payment);
         } catch (MPException | MPApiException exception) {
-            throw new IllegalStateException("Mercado Pago payment creation failed", exception);
+            return recoverCreation(command, exception);
         }
+    }
+
+    private Result recoverCreation(Payment.PaymentRequested command, Exception creationFailure) {
+        try {
+            var matches = client.search(
+                MPSearchRequest.builder()
+                    .limit(2)
+                    .offset(0)
+                    .filters(Map.of("external_reference", command.paymentId()))
+                    .build(),
+                requestOptions(null)
+            ).getResults().stream()
+                .filter(payment -> command.paymentId().equals(payment.getExternalReference()))
+                .filter(payment -> command.operationKey().equals(payment.getMetadata().get("operation_key")))
+                .toList();
+            if (matches.size() == 1) return result(matches.getFirst());
+        } catch (MPException | MPApiException recoveryFailure) {
+            creationFailure.addSuppressed(recoveryFailure);
+        }
+        throw new IllegalStateException("Mercado Pago payment creation failed", creationFailure);
     }
 
     private Result refund(Payment.RefundRequested command) {

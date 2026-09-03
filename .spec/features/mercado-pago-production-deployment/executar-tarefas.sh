@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-03 09:22
+# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-03 09:55
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtlbhg8w'
+RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtlcnr4e'
 FEATURE='mercado-pago-production-deployment'
 BASE_BRANCH='spec/mercado-pago-production-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -200,6 +200,38 @@ Regras inegociáveis:
   return 1
 }
 
+# ── sequencial T-154 (ordem do tasks.md) ──
+executar_seq_T_154() {
+  info 'sequencial T-154 — Use real WooCommerce orders in sandbox verification'
+  if rodar_tarefa seq 'T-154' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-154 — "Use real WooCommerce orders in sandbox verification"
+  critérios/refs: AC-189 (Real test payments are idempotent and redacted), AC-190 (Webhook and refund convergence is verified)
+  arquivos permitidos (e seus testes): apps/e2e/src/mercado-pago-sandbox.ts, apps/e2e/src/mercado-pago-sandbox.test.ts, docs/runbooks/mercado-pago-sandbox.md, test/mercado-pago-production-deployment.test.mjs
+  mensagem de commit: "T-154 mercado-pago-production-deployment: Use real WooCommerce orders in sandbox verification"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-154 mercado-pago-production-deployment: Use real WooCommerce orders in sandbox verification (auto-commit do plano)'
+    fi
+    marcar_concluidas T-154
+    verde "✔ T-154 concluída"
+    return 0
+  fi
+  vermelho "✘ T-154 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh --seq T-154"
+  FALHAS="$FALHAS T-154"
+  return 1
+}
+
 # ── gate: quem decide é a máquina ────────────────────────────────────
 rodar_gate() {
   echo
@@ -254,12 +286,14 @@ executar_tudo() {
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
   executar_seq_T_149 || true
+  executar_seq_T_154 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
   echo "  seq       T-149 (sequencial)"
+  echo "  seq       T-154 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -295,6 +329,7 @@ case "$MODO" in
   seq)
     case "$ALVO" in
       T-149) evento --tipo inicio --escopo "seq:T-149"; iniciar_resumos; executar_seq_T_149 || true; encerrar "seq:T-149" ;;
+      T-154) evento --tipo inicio --escopo "seq:T-154"; iniciar_resumos; executar_seq_T_154 || true; encerrar "seq:T-154" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

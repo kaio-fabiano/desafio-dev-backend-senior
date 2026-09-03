@@ -19,6 +19,8 @@ const config: SandboxConfig = {
   payerEmail: 'buyer@example.test',
   paymentMethodId: 'visa',
   amount: 10,
+  cardOrderId: '1004',
+  pixOrderId: '1003',
 };
 
 describe('Mercado Pago sandbox verifier', () => {
@@ -44,6 +46,8 @@ describe('Mercado Pago sandbox verifier', () => {
       driver.authorizations[2].operationKey,
     );
     expect(driver.providerPayments).toHaveLength(2);
+    expect(driver.authorizations[0].orderId).toBe(config.cardOrderId);
+    expect(driver.authorizations[2].orderId).toBe(config.pixOrderId);
 
     const serialized = JSON.stringify(proof);
     for (const secret of [
@@ -69,6 +73,33 @@ describe('Mercado Pago sandbox verifier', () => {
     }
   });
 
+  it('requires two distinct numeric WooCommerce orders', () => {
+    const environment = {
+      MERCADO_PAGO_SANDBOX_CONFIRM: 'CREATE_AND_REFUND_TEST_PAYMENTS',
+      MERCADO_PAGO_ACCESS_TOKEN: 'access',
+      MERCADO_PAGO_SANDBOX_BEARER_TOKEN: 'bearer',
+      MERCADO_PAGO_SANDBOX_CARD_TOKEN: 'card',
+      MERCADO_PAGO_SANDBOX_GRAPHQL_URL: 'https://gateway.example.test/graphql',
+      MERCADO_PAGO_SANDBOX_WEBHOOK_URL: 'https://payment.example.test/webhooks/mercado-pago',
+      MERCADO_PAGO_WEBHOOK_SECRET: 'secret',
+      MERCADO_PAGO_SANDBOX_PAYER_EMAIL: 'buyer@example.test',
+      MERCADO_PAGO_SANDBOX_PAYMENT_METHOD_ID: 'visa',
+      MERCADO_PAGO_SANDBOX_AMOUNT: '10',
+      MERCADO_PAGO_SANDBOX_CARD_ORDER_ID: '1004',
+      MERCADO_PAGO_SANDBOX_PIX_ORDER_ID: '1004',
+    };
+
+    expect(() => sandboxConfigFromEnvironment(environment)).toThrow(
+      /must be different/,
+    );
+    expect(() =>
+      sandboxConfigFromEnvironment({
+        ...environment,
+        MERCADO_PAGO_SANDBOX_PIX_ORDER_ID: 'order-1003',
+      }),
+    ).toThrow(/positive integer/);
+  });
+
   it('rejects an invalid webhook and converges one replayed refund to local state @spec:AC-190', async () => {
     const driver = new FakeDriver();
     const proof = await verifyMercadoPagoSandbox(
@@ -86,12 +117,48 @@ describe('Mercado Pago sandbox verifier', () => {
     expect(driver.refundKeys).toHaveLength(2);
     expect(new Set(driver.refundKeys).size).toBe(1);
     expect(driver.providerPayments[0].refundIds).toHaveLength(1);
-    expect(driver.localPayments.get('payment-mp-sandbox-card-id-1')?.status).toBe(
+    expect(
+      driver.localPayments.get(`payment-mp-sandbox-card-${config.cardOrderId}`)
+        ?.status,
+    ).toBe(
       'REFUNDED',
     );
     expect(proof.records.map(({ status }) => status)).toContain(
       'WEBHOOK_REPLAY_CONVERGED',
     );
+  });
+
+  it('resumes an already-refunded Card without issuing another refund', async () => {
+    const driver = new FakeDriver();
+    const paymentId = `payment-mp-sandbox-card-${config.cardOrderId}`;
+    driver.localPayments.set(paymentId, {
+      id: paymentId,
+      operationKey: `mp-sandbox-card-${config.cardOrderId}`,
+      status: 'REFUNDED',
+      providerReference: 'provider-card',
+    });
+    driver.providerPayments.push({
+      id: 'provider-card',
+      status: 'refunded',
+      externalReference: paymentId,
+      operationKey: `mp-sandbox-card-${config.cardOrderId}`,
+      refundIds: ['refund-1'],
+    });
+
+    await verifyMercadoPagoSandbox(config, driver, sequentialIds());
+
+    expect(driver.refundKeys).toHaveLength(0);
+    expect(driver.providerPayments).toHaveLength(2);
+  });
+
+  it('uses the authoritative payment lookup while the search index is empty', async () => {
+    const driver = new FakeDriver();
+    driver.findProviderPayments = async () => [];
+
+    await expect(
+      verifyMercadoPagoSandbox(config, driver, sequentialIds()),
+    ).resolves.toBeDefined();
+    expect(driver.providerPayments).toHaveLength(2);
   });
 });
 
@@ -99,6 +166,7 @@ class FakeDriver implements SandboxDriver {
   readonly authorizations: Array<{
     operationKey: string;
     paymentId: string;
+    orderId: string;
     method: 'CARD' | 'PIX';
   }> = [];
   readonly providerPayments: ProviderPayment[] = [];
@@ -109,6 +177,7 @@ class FakeDriver implements SandboxDriver {
   async authorize(input: {
     operationKey: string;
     paymentId: string;
+    orderId: string;
     method: 'CARD' | 'PIX';
   }) {
     this.authorizations.push(input);

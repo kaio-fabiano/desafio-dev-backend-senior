@@ -38,13 +38,13 @@
 </style>
 <main>
   <h1>Plano de execução — mercado-pago-production-deployment</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 09:22 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 09:55 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>1</b> tarefa(s), uma após a outra</div>
+    <div><b>2</b> tarefa(s), uma após a outra</div>
     <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/mercado-pago-production-deployment</code></div>
   </div>
-  
+  <div class="avisos"><div>⚠ T-154 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar</div></div>
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
@@ -65,6 +65,12 @@
           <span class="ttitulo">Deploy the approved stage and run release smoke tests</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
           <span class="arquivos"><code>docs/evidence/mercado-pago-production-deployment/deployment.json</code> <code>docs/evidence/mercado-pago-production-deployment/provider-sandbox.json</code> <code>docs/evidence/mercado-pago-production-deployment/smoke-test.md</code></span>
+        </div>
+        <div class="tarefa">
+          <span class="tid">T-154</span>
+          <span class="ttitulo">Use real WooCommerce orders in sandbox verification</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/e2e/src/mercado-pago-sandbox.ts</code> <code>apps/e2e/src/mercado-pago-sandbox.test.ts</code> <code>docs/runbooks/mercado-pago-sandbox.md</code> <code>test/mercado-pago-production-deployment.test.mjs</code></span>
         </div></div></div>
     </section>
   <section class="onda">

@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtlbhg8w",
+  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtlcnr4e",
   "feature": "mercado-pago-production-deployment",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-03 09:22",
+  "geradoEm": "2026-09-03 09:55",
   "branchTrabalho": "spec/mercado-pago-production-deployment",
   "baseDir": ".spec/features/mercado-pago-production-deployment",
   "specDir": ".spec",
@@ -33,6 +33,23 @@
         "AC-192",
         "AC-193"
       ]
+    },
+    {
+      "id": "T-154",
+      "titulo": "Use real WooCommerce orders in sandbox verification",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/e2e/src/mercado-pago-sandbox.ts",
+        "apps/e2e/src/mercado-pago-sandbox.test.ts",
+        "docs/runbooks/mercado-pago-sandbox.md",
+        "test/mercado-pago-production-deployment.test.mjs"
+      ],
+      "refs": [
+        "US-095",
+        "AC-189",
+        "AC-190"
+      ]
     }
   ],
   "concluidas": [
@@ -44,5 +61,7 @@
     "T-152",
     "T-153"
   ],
-  "avisos": []
+  "avisos": [
+    "T-154 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
 }
