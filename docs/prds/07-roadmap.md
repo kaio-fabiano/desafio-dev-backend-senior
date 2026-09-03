@@ -123,6 +123,11 @@ replay-safe webhooks, authoritative state lookup, timeout reconciliation, and
 refunds. The deterministic adapter remains limited to explicit local and test
 profiles.
 
+The credential-free integration boundary is complete and audited. Provider
+requests and responses are exercised through the official SDK types with the
+remote client isolated; this closes the repository delivery task without
+claiming external sandbox or production evidence.
+
 Sandbox activation is a separate opt-in operational gate because credentials,
 the public HTTPS callback, and test-account state live outside the repository.
 Follow [ADR 010](../adrs/010-mercado-pago-payment-provider.md) and the

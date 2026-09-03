@@ -19,7 +19,7 @@ The journey covers:
 1. Better Auth registration and WordPress account linkage;
 2. scoped access through Gateway and Apollo MCP using the same short-lived
    bearer token;
-3. WooCommerce-authoritative catalog plus durable Commerce checkout/outbox;
+3. WooCommerce-authoritative catalog plus durable Order Workflow checkout/outbox;
 4. RabbitMQ payment and inventory reactions inside Payment Federation, including
    idempotent Card, stable Pix, and failed-stock compensation;
 5. an authenticated order stream opened at Gateway's `/graphql/stream`
@@ -33,11 +33,11 @@ plugin-federated `/graphql` endpoint and that
 installed plugins already expose the required capabilities.
 
 Gateway serves federated queries, mutations, and the authenticated SSE edge;
-Commerce is the sole owner and publisher of the order-event stream.
+Order Workflow is the sole owner and publisher of the order-event stream.
 Compare the terminal stream event with the federated order/payment view
 and the corresponding MCP operation before accepting the run.
 
-The final delivery-closure execution on 2026-08-31 passed all six scenarios.
+The final delivery-closure execution on 2026-09-02 passed all six scenarios.
 It proved both Card and Pix journeys, compensation, authenticated SSE,
 persistent order/payment reads after the write, and MCP parity. A skipped
 scenario is not a pass and must keep the gate red.

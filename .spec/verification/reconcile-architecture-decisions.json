@@ -1,0 +1,22 @@
+{
+  "feature": "reconcile-architecture-decisions",
+  "timestamp": "2026-09-03T00:59:21.213Z",
+  "gitRev": "ee04675",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 171,
+  "results": {
+    "AC-185": {
+      "status": "pass",
+      "testName": "AC-185: completed architecture decisions cite executable evidence @spec:AC-185",
+      "method": "tap"
+    },
+    "AC-186": {
+      "status": "pass",
+      "testName": "AC-186: decision closure preserves external production gaps @spec:AC-186",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

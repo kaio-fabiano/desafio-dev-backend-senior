@@ -6,17 +6,17 @@
 
 | ID    | Risk/question                                                               | Impact                                                                                                             | Recommendation                                                                                                          | Closing gate                                                                                                                | Status                      |
 | ----- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| D-001 | `graphql-sse` is not the Apollo Router multipart protocol                   | gateway architecture may fail the core requirement                                                                 | end-to-end PoC before final apps; consider a custom NestJS gateway with a separate subscriptions pipeline               | client→gateway→subgraph `text/event-stream` test and federated query over the payload                                       | open                        |
-| D-002 | Multi-resource token interoperability between Better Auth, gateway, and MCP | version/configuration regression may cause a resource to reject the token                                          | request the gateway and MCP through repeated RFC 8707 `resource` parameters; keep strict validation in both             | positive test on both resources and negative test for an unlisted audience                                                  | decided; PoC pending        |
-| D-003 | Compatibility of the indicated plugin with WooCommerce and Federation v2    | the direct plugin may not cover Woo entities, composition, batching, or ownership                                  | try `wp-graphql-federations` first and add only the smallest necessary fallback                                         | `Product`/`Order @key`, Relay Connections, ID batching, mutations with ownership, and clean composition through the gateway | decided; PoC pending        |
-| D-004 | Payment processor language and provider                                     | affects runtime ownership, financial semantics, and operational support                                            | Java 21 in Payment Federation with Mercado Pago behind the existing provider port                                       | credential-free provider contracts plus the opt-in sandbox runbook                                                          | decided; sandbox pending    |
+| D-001 | `graphql-sse` is not the Apollo Router multipart protocol                   | gateway architecture may fail the core requirement                                                                 | end-to-end PoC before final apps; consider a custom NestJS gateway with a separate subscriptions pipeline               | client→gateway→subgraph `text/event-stream` test and federated query over the payload                                       | closed; executable proof complete |
+| D-002 | Multi-resource token interoperability between Better Auth, gateway, and MCP | version/configuration regression may cause a resource to reject the token                                          | request the gateway and MCP through repeated RFC 8707 `resource` parameters; keep strict validation in both             | positive test on both resources and negative test for an unlisted audience                                                  | decided; executable evidence proved |
+| D-003 | Compatibility of the indicated plugin with WooCommerce and Federation v2    | the direct plugin may not cover Woo entities, composition, batching, or ownership                                  | try `wp-graphql-federations` first and add only the smallest necessary fallback                                         | `Product`/`Order @key`, Relay Connections, ID batching, mutations with ownership, and clean composition through the gateway | decided; executable evidence proved |
+| D-004 | Payment processor language and provider                                     | affects runtime ownership, financial semantics, and operational support                                            | Java 21 in Payment Federation with Mercado Pago behind the existing provider port                                       | credential-free provider contracts plus the opt-in sandbox runbook                                                          | decided; local proof complete; sandbox pending |
 | D-005 | A Pix terminal state does not imply confirmed payment                       | inventory may remain reserved without payment                                                                      | end Milestone 4 in `PIX_GENERATED` without reserving inventory; payment confirmation and expiration remain future scope | Card reservation tests plus a Pix test proving no stock command                                                             | decided for Milestone 4     |
 | D-006 | Idempotency-key scope                                                       | collision between users or enumeration leak                                                                        | `(userId, operationKey)` constraint and indistinguishable authorization                                                 | tests between two users and divergent payloads                                                                              | proposed                    |
 | D-007 | Registration rollback if WordPress fails                                    | partially created identity                                                                                         | compensate if the API allows it; otherwise, pending state + reconciler                                                  | fault injection in the WordPress adapter                                                                                    | open                        |
 | D-008 | SST version                                                                 | README requires v3; current docs are on a later generation                                                         | keep SST on v3 until explicit approval to migrate                                                                       | ADR 004 records the constraint                                                                                              | decided                     |
 | D-009 | `08/07/2026 12:00 BRT` deadline                                             | the historical date has expired                                                                                    | use the owner-confirmed date-only deadline `2026-09-03`; do not carry over the old time or timezone                     | ADR 004 and owner response                                                                                                  | closed; date only           |
 | D-010 | General `users` list                                                        | risk of PII exposure                                                                                               | require an administrative role/scope and limit fields                                                                   | authorization test and approved policy                                                                                      | proposed                    |
-| D-011 | WooCommerce order integration with local idempotency and saga               | duplicating the order would create two sources of truth; remote writes are not transactional with the local outbox | WooCommerce is the commercial system of record; commerce stores only the operation/workflow and `wooOrderId` reference  | idempotent checkout PoC + failure between Woo and local persistence + reconciliation                                        | decided; PoC design pending |
+| D-011 | WooCommerce order integration with local idempotency and saga               | duplicating the order would create two sources of truth; remote writes are not transactional with the local outbox | WooCommerce is the commercial system of record; commerce stores only the operation/workflow and `wooOrderId` reference  | idempotent checkout PoC + failure between Woo and local persistence + reconciliation                                        | decided; reconciliation proved |
 | D-012 | Licensing/use of GraphOS Router and Apollo MCP                              | may affect local execution and deployment                                                                          | pin the official self-hosted Apollo MCP image and keep schema/operations local                                          | the pinned image starts in CI without GraphOS credentials                                                                   | decided                     |
 
 ## Production-readiness gap register
@@ -70,6 +70,12 @@ would violate the observable requirement.
 5. cancellation closes resources;
 6. test proves WebSocket is not used.
 
+Outcome: the hybrid GraphQL-over-SSE edge is implemented and the transport,
+federated hydration, authentication, and cancellation behavior are executable
+in `test/marco-0-sse.test.mjs` and the complete journey in
+`apps/e2e/src/milestone-7.e2e.test.ts`. This closes the challenge decision; it
+does not establish production capacity or availability.
+
 ## D-002 — Audience and the “same token”
 
 Decision: issue a single JWT access token for the gateway and MCP, requesting
@@ -78,9 +84,11 @@ repeated `resource` parameters, and applies the policies of the selected
 resources. The gateway accepts only its audience; the MCP accepts only its own
 and keeps `allow_any_audience: false`; any third resource rejects the token.
 
-No claims callback will be used to override `aud`. The automated PoC must
-confirm the exact JWT format and passthrough in the version set pinned by the
-lockfile.
+No claims callback overrides `aud`. The exact JWT format, positive resource
+acceptance, rejected audiences, and bearer passthrough are proved by
+`test/oauth-resource-server-auth.spec.test.mjs` and the complete E2E journey.
+External issuer operations and production credential rotation remain covered
+by the production gap register.
 
 ## D-003 — WordPress plugin-first
 
@@ -94,17 +102,25 @@ If the PoC fails, the response will be incremental: plugin configuration/filter,
 a minimal fork, and, only as a last resort, a NestJS adapter/subgraph for the
 gap. A general wrapper replicating the entire WooCommerce schema is not allowed.
 
+The plugin-first proof passed. Pinned installation, clean Rover composition,
+native Woo capabilities, and the absence of a redundant WordPress NestJS
+runtime are exercised by `test/marco-0-wordpress.test.mjs` and
+`test/remove-wordpress-federation-runtime.spec.test.mjs`. Production plugin
+release, hosting, backup, and upgrade controls remain G-003.
+
 ## D-011 — Who owns the order
 
-WooCommerce will be the authoritative source for the commercial order. The
-commerce subgraph contains only a cart when the existing one cannot be reused,
-idempotency, `OrderWorkflow`, outbox, and stream. The supergraph associates this
-workflow with the WooCommerce `Order` through `wooOrderId`.
+WooCommerce is the authoritative source for the commercial order and native
+cart operations. Order Workflow stores only idempotency, distributed workflow
+state, the outbox, the stream, and the `wooOrderId` reference. The supergraph
+associates that workflow with the WooCommerce `Order`.
 
-The PoC still needs to resolve the failure window between creating the remote
-order and confirming the local operation. The solution must use an idempotent
-reference and reconciliation, without creating a competing authoritative copy of
-the order.
+The failure window is resolved through an idempotent WooCommerce reference and
+durable reconciliation without creating a competing commercial order. Failure,
+retry, and session-independent reconciliation are proved by
+`test/production-happy-path-hardening.spec.test.js` and the complete E2E
+journey. Production recovery drills and hosting controls remain open in G-005
+and G-003.
 
 ## D-012 — Self-hosted Apollo MCP
 

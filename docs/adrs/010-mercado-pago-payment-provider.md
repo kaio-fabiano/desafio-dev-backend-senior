@@ -52,6 +52,12 @@ callback endpoint are external secrets. The procedure and sanitization rules
 are defined in the [Mercado Pago sandbox runbook](../runbooks/mercado-pago-sandbox.md).
 Pix code generation is not settlement and does not reserve inventory.
 
+The local suite executes the adapter against the SDK request and response
+types while replacing only the remote client, and exercises webhook rejection,
+notification correlation, repeated operation keys, and refund lookup. Package
+dependency tests enforce the architectural boundary separately. Source-text
+assertions are not accepted as substitutes for these behavioral checks.
+
 ## Alternatives considered
 
 - Keep the deterministic adapter in production: rejected because it reports

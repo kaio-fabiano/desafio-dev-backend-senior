@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plano de execução — milestone-7-e2e-deployment</title>
+<title>Plano de execução — reconcile-architecture-decisions</title>
 <style>
   :root { --bg:#fafafa; --fg:#1a1a1a; --card:#fff; --borda:#e2e2e2; --sub:#666;
           --acc:#0a7c42; --acc-fg:#fff; --aviso:#8a6d00; --aviso-bg:#fff8e1; }
@@ -37,23 +37,23 @@
   ol li { margin:.25rem 0 }
 </style>
 <main>
-  <h1>Plano de execução — milestone-7-e2e-deployment</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 01:10 · regenere após mudar tasks.md</p>
+  <h1>Plano de execução — reconcile-architecture-decisions</h1>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 00:47 · regenere após mudar tasks.md</p>
   <div class="resumo">
     <div><b>1</b> tarefa(s), uma após a outra</div>
     <div>modo <b>sequencial</b> (escolha do usuário)</div>
-    <div>branch <code>spec/milestone-7-e2e-deployment</code></div>
+    <div>branch <code>spec/reconcile-architecture-decisions</code></div>
   </div>
-  
+
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
-    <div><code id="cmd">bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh</code></div>
+    <div><code id="cmd">bash .spec/features/reconcile-architecture-decisions/executar-tarefas.sh</code></div>
     <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
-    (<code>onp-spec resumo milestone-7-e2e-deployment --tabela</code>) e o
-    <b>resumo geral de andamento</b> (<code>onp-spec resumo milestone-7-e2e-deployment</code>).</p>
+    (<code>onp-spec resumo reconcile-architecture-decisions --tabela</code>) e o
+    <b>resumo geral de andamento</b> (<code>onp-spec resumo reconcile-architecture-decisions</code>).</p>
   </div>
 
 
@@ -61,18 +61,18 @@
       <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
       <div class="grade"><div class="faixa">
         <div class="tarefa">
-          <span class="tid">T-145</span>
-          <span class="ttitulo">Execute the final challenge handoff</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>README.md</code> <code>docs/evidence/challenge-compliance.md</code> <code>docs/runbooks/e2e.md</code> <code>.spec/features/milestone-7-e2e-deployment/tasks.md</code> <code>.spec/verification/milestone-7-e2e-deployment.json</code> <code>graphify-out</code></span>
+          <span class="tid">T-144</span>
+          <span class="ttitulo">Align decision statuses with executable evidence</span>
+          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
+          <span class="arquivos"><code>docs/prds/08-riscos-e-decisoes-pendentes.md</code> <code>test/reconcile-architecture-decisions.spec.test.mjs</code> <code>.spec/features/reconcile-architecture-decisions/spec.md</code> <code>.spec/features/reconcile-architecture-decisions/tasks.md</code></span>
         </div></div></div>
     </section>
   <section class="onda">
     <h3>Branches e commits</h3>
     <ol>
-      <li>tudo parte da branch de trabalho <code>spec/milestone-7-e2e-deployment</code></li>
-      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx milestone-7-e2e-deployment: título</code></li>
-      <li>gate final: <code>onp-spec verify milestone-7-e2e-deployment</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
+      <li>tudo parte da branch de trabalho <code>spec/reconcile-architecture-decisions</code></li>
+      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx reconcile-architecture-decisions: título</code></li>
+      <li>gate final: <code>onp-spec verify reconcile-architecture-decisions</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>
 </main>

@@ -1,0 +1,38 @@
+{
+  "runId": "desafio-dev-backend-senior-reconcile-architecture-decisions-mtkt2v4p",
+  "feature": "reconcile-architecture-decisions",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-03 00:47",
+  "branchTrabalho": "spec/reconcile-architecture-decisions",
+  "baseDir": ".spec/features/reconcile-architecture-decisions",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-reconcile-architecture-decisions-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-144",
+      "titulo": "Align decision statuses with executable evidence",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "docs/prds/08-riscos-e-decisoes-pendentes.md",
+        "test/reconcile-architecture-decisions.spec.test.mjs",
+        ".spec/features/reconcile-architecture-decisions/spec.md",
+        ".spec/features/reconcile-architecture-decisions/tasks.md"
+      ],
+      "refs": [
+        "US-093",
+        "AC-185",
+        "AC-186"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

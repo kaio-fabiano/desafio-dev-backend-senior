@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-7-e2e-deployment` em 2026-09-03 01:10
+# executar-tarefas.sh — gerado por `onp-spec plano reconcile-architecture-decisions` em 2026-09-03 00:47
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -10,13 +10,13 @@
 #   bash executar-tarefas.sh --listar         mostra faixas, tarefas e estados
 #   (acrescente --sem-gate para não rodar o gate ao final)
 #
-# resumo do que está rolando, a qualquer momento: onp-spec resumo milestone-7-e2e-deployment
+# resumo do que está rolando, a qualquer momento: onp-spec resumo reconcile-architecture-decisions
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-7-e2e-deployment-mtktweue'
-FEATURE='milestone-7-e2e-deployment'
-BASE_BRANCH='spec/milestone-7-e2e-deployment'
+RUN_ID='desafio-dev-backend-senior-reconcile-architecture-decisions-mtkt2v4p'
+FEATURE='reconcile-architecture-decisions'
+BASE_BRANCH='spec/reconcile-architecture-decisions'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
 CODEX_FLAGS=(--sandbox 'danger-full-access')
 STREAM_FLAGS=(--json)
@@ -53,7 +53,7 @@ preparar_ambiente() {
       falhar "árvore suja além dos artefatos do plano — commite ou faça git stash antes (os worktrees partem do último commit)"
     fi
   fi
-  git ls-files --error-unmatch -- '.spec/features/milestone-7-e2e-deployment/spec.md' >/dev/null 2>&1 || falhar "spec.md não está commitada — os worktrees das faixas precisam dela no git"
+  git ls-files --error-unmatch -- '.spec/features/reconcile-architecture-decisions/spec.md' >/dev/null 2>&1 || falhar "spec.md não está commitada — os worktrees das faixas precisam dela no git"
   ATUAL=$(git rev-parse --abbrev-ref HEAD)
   [ "$ATUAL" != "HEAD" ] || falhar "HEAD destacado — troque para uma branch"
   if [ "$ATUAL" != "$BASE_BRANCH" ]; then
@@ -65,8 +65,8 @@ preparar_ambiente() {
     info "branch de trabalho: $BASE_BRANCH (a partir de $ATUAL)"
   fi
   git worktree prune
-  LOG_DIR="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-milestone-7-e2e-deployment-logs"
-  WT_BASE="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-milestone-7-e2e-deployment"
+  LOG_DIR="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-reconcile-architecture-decisions-logs"
+  WT_BASE="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-reconcile-architecture-decisions"
   STREAMS_DIR="${ONP_SPEC_HOME:-$HOME/.onp-spec}/painel/streams/$RUN_ID"
   mkdir -p "$LOG_DIR" "$STREAMS_DIR"
 }
@@ -110,7 +110,7 @@ mesclar_faixa() { # $1=faixa $2=branch $3=worktree $4=exit-da-faixa
   if [ "$4" -ne 0 ]; then
     evento --tipo faixa --faixa "$1" --estado falhou
     vermelho "✘ $1 falhou (log: $LOG_DIR/$1.log) — worktree mantido para inspeção: $3"
-    amarelo "  reexecute só ela: bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh --faixa $1"
+    amarelo "  reexecute só ela: bash .spec/features/reconcile-architecture-decisions/executar-tarefas.sh --faixa $1"
     FALHAS="$FALHAS $1"; return 1
   fi
   evento --tipo faixa --faixa "$1" --estado mesclando
@@ -168,35 +168,35 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-145 (ordem do tasks.md) ──
-executar_seq_T_145() {
-  info 'sequencial T-145 — Execute the final challenge handoff'
-  if rodar_tarefa seq 'T-145' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
+# ── sequencial T-144 (ordem do tasks.md) ──
+executar_seq_T_144() {
+  info 'sequencial T-144 — Align decision statuses with executable evidence'
+  if rodar_tarefa seq 'T-144' 'Você executa UMA tarefa da feature "reconcile-architecture-decisions" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/reconcile-architecture-decisions/spec.md, .spec/features/reconcile-architecture-decisions/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-145 — "Execute the final challenge handoff"
-  critérios/refs: AC-067 (The complete environment and journey run from one command), AC-068 (Registration and OAuth identity are proven end to end), AC-069 (Card checkout reaches the same terminal state everywhere), AC-070 (Pix checkout reaches the same terminal state everywhere), AC-071 (MCP parity and rejection are proven through the protocol), AC-072 (Critical domains meet the coverage floor), AC-073 (Gateway latency and batching meet their budgets), AC-074 (Nx provides one cached cross-language task graph), AC-075 (Production containers are complete and operable), AC-076 (SST changes are reproducible and secret-safe), AC-077 (Every required deliverable has executable evidence)
-  arquivos permitidos (e seus testes): README.md, docs/evidence/challenge-compliance.md, docs/runbooks/e2e.md, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json, graphify-out
-  mensagem de commit: "T-145 milestone-7-e2e-deployment: Execute the final challenge handoff"
+T-144 — "Align decision statuses with executable evidence"
+  critérios/refs: AC-185 (Completed proofs close their architecture decisions), AC-186 (Production activation remains explicitly separate)
+  arquivos permitidos (e seus testes): docs/prds/08-riscos-e-decisoes-pendentes.md, test/reconcile-architecture-decisions.spec.test.mjs, .spec/features/reconcile-architecture-decisions/spec.md, .spec/features/reconcile-architecture-decisions/tasks.md
+  mensagem de commit: "T-144 reconcile-architecture-decisions: Align decision statuses with executable evidence"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-145 milestone-7-e2e-deployment: Execute the final challenge handoff (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-144 reconcile-architecture-decisions: Align decision statuses with executable evidence (auto-commit do plano)'
     fi
-    marcar_concluidas T-145
-    verde "✔ T-145 concluída"
+    marcar_concluidas T-144
+    verde "✔ T-144 concluída"
     return 0
   fi
-  vermelho "✘ T-145 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh --seq T-145"
-  FALHAS="$FALHAS T-145"
+  vermelho "✘ T-144 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/reconcile-architecture-decisions/executar-tarefas.sh --seq T-144"
+  FALHAS="$FALHAS T-144"
   return 1
 }
 
@@ -228,7 +228,7 @@ encerrar() { # $1=escopo
     evento --tipo fim --exit 1 --escopo "$1"
     if [ -z "$FALHAS" ]; then
       amarelo "○ trabalho de '$1' terminou SEM o gate (--sem-gate) — isto NÃO é prova de nada"
-      amarelo "  para o veredito: bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh --gate"
+      amarelo "  para o veredito: bash .spec/features/reconcile-architecture-decisions/executar-tarefas.sh --gate"
       exit 0
     fi
     vermelho "e ainda há falhas — conserte e rode o gate"
@@ -253,13 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_145 || true
+  executar_seq_T_144 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-145 (sequencial)"
+  echo "  seq       T-144 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -294,7 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-145) evento --tipo inicio --escopo "seq:T-145"; iniciar_resumos; executar_seq_T_145 || true; encerrar "seq:T-145" ;;
+      T-144) evento --tipo inicio --escopo "seq:T-144"; iniciar_resumos; executar_seq_T_144 || true; encerrar "seq:T-144" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

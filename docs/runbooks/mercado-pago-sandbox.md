@@ -46,7 +46,10 @@ corepack pnpm exec nx run @desafio-dev-backend-senior/payment-federation:test
 ```
 
 No skipped or todo test is acceptable. The Java target runs through the pinned
-Gradle container, so a host Gradle installation is not required.
+Gradle container, so a host Gradle installation is not required. These tests
+execute provider request mapping, idempotency headers, webhook rejection,
+authoritative correlation, and refund behavior with the remote Mercado Pago
+client isolated; they do not claim that a sandbox transaction occurred.
 
 ## Sandbox verification
 

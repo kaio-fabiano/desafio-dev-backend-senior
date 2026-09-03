@@ -1,7 +1,7 @@
 {
   "feature": "milestone-8-compliance-hardening",
-  "timestamp": "2026-09-02T23:27:21.917Z",
-  "gitRev": "a3545b4",
+  "timestamp": "2026-09-03T00:25:33.864Z",
+  "gitRev": "a70e6c5",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
