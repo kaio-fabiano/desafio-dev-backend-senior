@@ -5130,6 +5130,96 @@
       "primeiraVez": "2026-09-03T00:18:19.513Z",
       "ultimaVez": "2026-09-03T00:18:19.513Z",
       "gitRev": "a70e6c5"
+    },
+    "STATUS_INVALIDO::reconcile-architecture-decisions::.spec/features/reconcile-architecture-decisions/spec.md": {
+      "codigo": "STATUS_INVALIDO",
+      "feature": "reconcile-architecture-decisions",
+      "ref": ".spec/features/reconcile-architecture-decisions/spec.md",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:47:43.996Z",
+      "ultimaVez": "2026-09-03T00:47:43.996Z",
+      "gitRev": "ee04675"
+    },
+    "SECAO_AUSENTE::reconcile-architecture-decisions::.spec/features/reconcile-architecture-decisions/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "reconcile-architecture-decisions",
+      "ref": ".spec/features/reconcile-architecture-decisions/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-03T00:47:43.996Z",
+      "ultimaVez": "2026-09-03T00:47:43.996Z",
+      "gitRev": "ee04675"
+    },
+    "AC_INCOMPLETO::reconcile-architecture-decisions::AC-185": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "AC-185",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:47:43.996Z",
+      "ultimaVez": "2026-09-03T00:47:43.996Z",
+      "gitRev": "ee04675"
+    },
+    "AC_INCOMPLETO::reconcile-architecture-decisions::AC-186": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "AC-186",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:47:43.996Z",
+      "ultimaVez": "2026-09-03T00:47:43.996Z",
+      "gitRev": "ee04675"
+    },
+    "ARQUIVO_INEXISTENTE::reconcile-architecture-decisions::T-144": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "T-144",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:47:43.996Z",
+      "ultimaVez": "2026-09-03T00:47:43.996Z",
+      "gitRev": "ee04675"
+    },
+    "AC_SEM_TESTE::reconcile-architecture-decisions::AC-185": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "AC-185",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:47:43.996Z",
+      "ultimaVez": "2026-09-03T00:47:43.996Z",
+      "gitRev": "ee04675"
+    },
+    "AC_SEM_TESTE::reconcile-architecture-decisions::AC-186": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "AC-186",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:47:43.996Z",
+      "ultimaVez": "2026-09-03T00:47:43.996Z",
+      "gitRev": "ee04675"
+    },
+    "VERIFY_FALHOU::reconcile-architecture-decisions::AC-185": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "AC-185",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:50:20.860Z",
+      "ultimaVez": "2026-09-03T00:50:20.860Z",
+      "gitRev": "ee04675"
+    },
+    "ID_DUPLICADO::reconcile-architecture-decisions::ASM-061": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "ASM-061",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:57:28.335Z",
+      "ultimaVez": "2026-09-03T00:57:28.336Z",
+      "gitRev": "ee04675"
+    },
+    "ASM_STATUS_INVALIDO::reconcile-architecture-decisions::ASM-061": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "ASM-061",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:57:28.336Z",
+      "ultimaVez": "2026-09-03T00:57:28.336Z",
+      "gitRev": "ee04675"
     }
   }
 }
