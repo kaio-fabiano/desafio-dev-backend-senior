@@ -67,3 +67,18 @@
 - Esforço: alto
 - Arquivos: .env.example, apps/e2e/src/mercado-pago-sandbox.ts, apps/e2e/src/mercado-pago-sandbox.test.ts, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProvider.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java, docs/runbooks/mercado-pago-sandbox.md, test/mercado-pago-production-deployment.test.mjs
 - Notas: Resolve valid WooCommerce order identifiers before provider authorization, preserve operation idempotency across retries, avoid duplicate provider payments after partial failures, and keep all evidence redacted.
+
+## T-156 — Build an immutable production WordPress runtime [concluida]
+- Refs: US-096, AC-191
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/wordpress-integration/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, infra/sst.config.ts, test/mercado-pago-production-deployment.test.mjs
+- Notas: Reuse the pinned local plugin set, bootstrap WordPress idempotently, create only service credentials supplied through SST secrets, and make readiness depend on completed setup.
+
+## T-157 — Synchronize sandbox secrets and generate the reviewed SST diff [pendente]
+
+- Refs: US-096, AC-191, AC-192
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: docs/evidence/mercado-pago-production-deployment/predeploy.md
+- Notas: Generate missing non-provider secrets locally, keep values out of files and logs, set every secret for stage sandbox, validate the clean revision, and record the redacted diff digest and cost surface for explicit approval.

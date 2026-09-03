@@ -206,6 +206,26 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
   );
 });
 
+test('AC-191: production WordPress is immutable and secret-backed @spec:AC-191', async () => {
+  const [stack, dockerfile, entrypoint] = await Promise.all([
+    readFile('infra/sst.config.ts', 'utf8'),
+    readFile('apps/wordpress-integration/Dockerfile', 'utf8'),
+    readFile(
+      'apps/wordpress-integration/scripts/production-entrypoint.sh',
+      'utf8',
+    ),
+  ]);
+
+  assert.match(stack, /dockerfile: 'apps\/wordpress-integration\/Dockerfile'/);
+  assert.match(stack, /IdentitySeedAdminPassword/);
+  assert.match(stack, /WordPressAdminPassword/);
+  assert.match(stack, /\.marketplace-ready/);
+  assert.match(dockerfile, /woocommerce\.10\.4\.3\.zip/);
+  assert.match(dockerfile, /wp-graphql\.2\.20\.0\.zip/);
+  assert.match(entrypoint, /core install/);
+  assert.match(entrypoint, /woocommerce_api_keys/);
+});
+
 test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async () => {
   const [infraPackage, runbook, environmentTemplate, gitignore] =
     await Promise.all([

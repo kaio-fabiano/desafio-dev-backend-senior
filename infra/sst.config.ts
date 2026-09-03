@@ -44,6 +44,10 @@ export default $config({
     });
 
     const oauthSigningSecret = new sst.Secret('OAuthSigningSecret');
+    const identitySeedAdminPassword = new sst.Secret(
+      'IdentitySeedAdminPassword',
+    );
+    const wordpressAdminPassword = new sst.Secret('WordPressAdminPassword');
     const wordpressApplicationPassword = new sst.Secret(
       'WordPressApplicationPassword',
     );
@@ -71,15 +75,29 @@ export default $config({
         WORDPRESS_DB_NAME: wordpressDatabase.database,
         WORDPRESS_DB_PASSWORD: wordpressDatabase.password,
         WORDPRESS_DB_USER: wordpressDatabase.username,
+        WORDPRESS_ADMIN_PASSWORD: wordpressAdminPassword.value,
+        WORDPRESS_URL: serviceHost('WordPress', 80),
+        WOO_CONSUMER_KEY: wordpressConsumerKey.value,
+        WOO_CONSUMER_SECRET: wordpressConsumerSecret.value,
+        WPGRAPHQL_SITE_TOKEN: wordpressApplicationPassword.value,
       },
       health: {
         command: [
           'CMD-SHELL',
-          'curl --fail --silent http://127.0.0.1/readme.html',
+          'test -f /var/www/html/.marketplace-ready && curl --fail --silent http://127.0.0.1/graphql',
         ],
       },
-      image: 'wordpress:6.8.2-php8.3-apache',
-      link: [wordpressDatabase],
+      image: {
+        context: '..',
+        dockerfile: 'apps/wordpress-integration/Dockerfile',
+      },
+      link: [
+        wordpressDatabase,
+        wordpressAdminPassword,
+        wordpressApplicationPassword,
+        wordpressConsumerKey,
+        wordpressConsumerSecret,
+      ],
       serviceRegistry: { port: 80 },
     });
 
@@ -93,6 +111,7 @@ export default $config({
         NODE_ENV: 'production',
         OAUTH_ISSUER: `${serviceHost('IdentitySubgraph', 3001)}/api/auth`,
         PORT: '3001',
+        SEED_ADMIN_PASSWORD: identitySeedAdminPassword.value,
         WOO_CONSUMER_KEY: wordpressConsumerKey.value,
         WOO_CONSUMER_SECRET: wordpressConsumerSecret.value,
         WORDPRESS_URL: serviceHost('WordPress', 80),
@@ -112,6 +131,7 @@ export default $config({
       link: [
         identityDatabase,
         oauthSigningSecret,
+        identitySeedAdminPassword,
         wordpressConsumerKey,
         wordpressConsumerSecret,
       ],
