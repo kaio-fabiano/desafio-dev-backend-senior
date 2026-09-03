@@ -408,14 +408,14 @@
     "semantic_hash": "39b9b49f862ad2b17304632f9056c850"
   },
   ".spec/features/milestone-7-e2e-deployment/executar-tarefas.sh": {
-    "mtime": 1788397842.4704413,
-    "seen": 1788398354.851962,
+    "mtime": 1788399189.1896424,
+    "seen": 1788399918.3993108,
     "ast_hash": "4aff4ebac1dcf26ad7e13f67a0bce710",
     "semantic_hash": "4aff4ebac1dcf26ad7e13f67a0bce710"
   },
   ".spec/features/milestone-7-e2e-deployment/plano.json": {
-    "mtime": 1788397842.4704413,
-    "seen": 1788398354.8519695,
+    "mtime": 1788399189.1896424,
+    "seen": 1788399918.3993132,
     "ast_hash": "3313b0341f72c2054e10b088f8c6a401",
     "semantic_hash": "3313b0341f72c2054e10b088f8c6a401"
   },
@@ -474,14 +474,14 @@
     "semantic_hash": "17467eec7b7b97a06de32be110b24560"
   },
   ".spec/verification/delivery-closure.json": {
-    "mtime": 1788394878.7713132,
-    "seen": 1788396833.6607614,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.400274,
     "ast_hash": "a84d4fa4b8c4f597c05fa7b1ba05bfe9",
     "semantic_hash": "a84d4fa4b8c4f597c05fa7b1ba05bfe9"
   },
   ".spec/verification/federated-platform-architecture-refactor.json": {
-    "mtime": 1788394961.759108,
-    "seen": 1788396833.660762,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4002757,
     "ast_hash": "1c5cc3f3f6144c37929e2f71c5d0408c",
     "semantic_hash": "1c5cc3f3f6144c37929e2f71c5d0408c"
   },
@@ -498,20 +498,20 @@
     "semantic_hash": "4e49335acabce3aeba0891794ca41e11"
   },
   ".spec/verification/milestone-6-apollo-mcp.json": {
-    "mtime": 1788395045.256886,
-    "seen": 1788396833.660767,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4004662,
     "ast_hash": "7e2ed8fc103e6a4923b4c9c957cf9578",
     "semantic_hash": "7e2ed8fc103e6a4923b4c9c957cf9578"
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
-    "mtime": 1788398543.0966127,
-    "seen": 1788398557.2036717,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4004674,
     "ast_hash": "15df55c1a8c8cdc7391a7bb537e95787",
     "semantic_hash": "15df55c1a8c8cdc7391a7bb537e95787"
   },
   ".spec/verification/milestone-8-compliance-hardening.json": {
-    "mtime": 1788395133.8686917,
-    "seen": 1788396833.6607685,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4004693,
     "ast_hash": "1c897588457807a9627b122da5d17fa5",
     "semantic_hash": "1c897588457807a9627b122da5d17fa5"
   },
@@ -534,10 +534,10 @@
     "semantic_hash": "855a8838c0657e9bfc293202d7b72917"
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788397048.3382215,
-    "seen": 1788398354.8549197,
-    "ast_hash": "ad0948a0caf0fc22994a1ef49b104984",
-    "semantic_hash": "ad0948a0caf0fc22994a1ef49b104984"
+    "mtime": 1788399793.9801424,
+    "seen": 1788399918.4006436,
+    "ast_hash": "fdd9a60ff1de76adec76f9b60a2d4aeb",
+    "semantic_hash": "fdd9a60ff1de76adec76f9b60a2d4aeb"
   },
   ".spec/verification/stabilize-typescript-editor.json": {
     "mtime": 1788393054.502068,
@@ -1356,8 +1356,8 @@
     "semantic_hash": "9497c8f9ee13436f0a1cbff9446e579c"
   },
   ".spec/verification/structural-improvement-program.json": {
-    "mtime": 1788395466.805584,
-    "seen": 1788396833.6607835,
+    "mtime": 1788399189.1912885,
+    "seen": 1788399918.4006855,
     "ast_hash": "5c787342f51ee61d1de065ec8598390e",
     "semantic_hash": "5c787342f51ee61d1de065ec8598390e"
   },
@@ -1998,8 +1998,8 @@
     "semantic_hash": "b14f52797030a60ac066cebacbd99420"
   },
   ".spec/verification/production-happy-path-hardening.json": {
-    "mtime": 1788395383.821879,
-    "seen": 1788396833.6607752,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4004734,
     "ast_hash": "a38338a512c4cff18af191757073a3c6",
     "semantic_hash": "a38338a512c4cff18af191757073a3c6"
   },
@@ -2028,8 +2028,8 @@
     "semantic_hash": "7fc41232d71b6ecf6bad150fa98cf4fc"
   },
   ".spec/verification/transaction-federation-refactor.json": {
-    "mtime": 1788395549.1192753,
-    "seen": 1788396833.6607847,
+    "mtime": 1788399189.1912885,
+    "seen": 1788399918.4006875,
     "ast_hash": "235a2aa5ac4d9adb958433a56ebb0c16",
     "semantic_hash": "235a2aa5ac4d9adb958433a56ebb0c16"
   },
@@ -2322,8 +2322,8 @@
     "semantic_hash": "487d9cef52e720dbcd1a56aac859b333"
   },
   ".spec/verification/align-payment-federation-naming.json": {
-    "mtime": 1788394790.1274362,
-    "seen": 1788396833.6607604,
+    "mtime": 1788399189.1901126,
+    "seen": 1788399918.400272,
     "ast_hash": "f97c045e1b90c4835ff2d663622093e4",
     "semantic_hash": "f97c045e1b90c4835ff2d663622093e4"
   },
@@ -2496,16 +2496,16 @@
     "semantic_hash": "7fe47b0994f0bf01e0b24e4fe3f5d09e"
   },
   ".spec/verification/production-readiness-gap-register.json": {
-    "mtime": 1788393054.502068,
-    "seen": 1788396833.6607764,
-    "ast_hash": "037672976cceb680b0fe450128de8580",
-    "semantic_hash": "037672976cceb680b0fe450128de8580"
+    "mtime": 1788399790.7121184,
+    "seen": 1788399918.400475,
+    "ast_hash": "8c8316fc824c96a0892d228e6feebdcd",
+    "semantic_hash": "8c8316fc824c96a0892d228e6feebdcd"
   },
   "test/production-readiness-gap-register.spec.test.mjs": {
-    "mtime": 1788363947.2863505,
-    "seen": 1788364144.3396564,
-    "ast_hash": "50fa1f911ca52df2a85e5baff33f75c2",
-    "semantic_hash": "50fa1f911ca52df2a85e5baff33f75c2"
+    "mtime": 1788399699.3934472,
+    "seen": 1788399918.4127653,
+    "ast_hash": "fc4077236d3e26727d7f718ed3f89284",
+    "semantic_hash": "fc4077236d3e26727d7f718ed3f89284"
   },
   ".spec/features/production-readiness-gap-register/spec.md": {
     "mtime": 1788334860.5598345,
@@ -2550,14 +2550,14 @@
     "semantic_hash": "8bf33831cd2620fab789139cf026e1da"
   },
   ".spec/verification/mercado-pago-payment-provider.json": {
-    "mtime": 1788394699.4255033,
-    "seen": 1788396833.6607661,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4004643,
     "ast_hash": "f6d6251792cf3c532d166078df014791",
     "semantic_hash": "f6d6251792cf3c532d166078df014791"
   },
   ".spec/verification/payment-federation-clean-architecture.json": {
-    "mtime": 1788395303.9141912,
-    "seen": 1788396833.6607742,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4004722,
     "ast_hash": "cf2d80dbaea90ef80f5b59112bb75ee7",
     "semantic_hash": "cf2d80dbaea90ef80f5b59112bb75ee7"
   },
@@ -2778,20 +2778,20 @@
     "semantic_hash": "e7b8d04028a1ee8907754417ae7d1ade"
   },
   "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java": {
-    "mtime": 1788394293.7738261,
-    "seen": 1788396833.6627126,
+    "mtime": 1788399189.1912885,
+    "seen": 1788399918.4086869,
     "ast_hash": "b74ec1d1d37e4a298b7e5715443e9136",
     "semantic_hash": "b74ec1d1d37e4a298b7e5715443e9136"
   },
   "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java": {
-    "mtime": 1788394153.1538322,
-    "seen": 1788396833.6627135,
+    "mtime": 1788399189.1912885,
+    "seen": 1788399918.4086883,
     "ast_hash": "f6c6e755a95648e4761c88a57283826e",
     "semantic_hash": "f6c6e755a95648e4761c88a57283826e"
   },
   "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ProviderNotificationHandlerTest.java": {
-    "mtime": 1788394217.0162833,
-    "seen": 1788396833.6627164,
+    "mtime": 1788399189.1912885,
+    "seen": 1788399918.4087605,
     "ast_hash": "e0de5ca4e2aef5cabbb6d7597e385eac",
     "semantic_hash": "e0de5ca4e2aef5cabbb6d7597e385eac"
   },
@@ -2826,8 +2826,8 @@
     "semantic_hash": "1a3d9b501a888f9eeefef7a1c0d3fdea"
   },
   ".spec/verification/oauth-resource-server-auth.json": {
-    "mtime": 1788395216.3854263,
-    "seen": 1788396833.6607733,
+    "mtime": 1788399189.190509,
+    "seen": 1788399918.4004707,
     "ast_hash": "519880b33a77b9926a6fd71c0a4ee34b",
     "semantic_hash": "519880b33a77b9926a6fd71c0a4ee34b"
   },
@@ -2970,26 +2970,26 @@
     "semantic_hash": "78cca3904015f536d5f3273679a47f66"
   },
   ".spec/features/reconcile-architecture-decisions/executar-tarefas.sh": {
-    "mtime": 1788396463.8976574,
-    "seen": 1788396833.6604066,
+    "mtime": 1788399189.1899521,
+    "seen": 1788399918.3996608,
     "ast_hash": "c026f163f395e0ac9278a166c2cf8495",
     "semantic_hash": "c026f163f395e0ac9278a166c2cf8495"
   },
   ".spec/features/reconcile-architecture-decisions/plano.json": {
-    "mtime": 1788396463.8976574,
-    "seen": 1788396833.6604075,
+    "mtime": 1788399189.1901126,
+    "seen": 1788399918.3996627,
     "ast_hash": "d8a5d77f13dfd10ace8bbad145903414",
     "semantic_hash": "d8a5d77f13dfd10ace8bbad145903414"
   },
   ".spec/verification/reconcile-architecture-decisions.json": {
-    "mtime": 1788397161.2181048,
-    "seen": 1788398354.854788,
-    "ast_hash": "192da6fb925ea0457953115a9aaea929",
-    "semantic_hash": "192da6fb925ea0457953115a9aaea929"
+    "mtime": 1788399882.0567925,
+    "seen": 1788399918.4005194,
+    "ast_hash": "79021f78255ef7b5b6f9c98ef5a4636d",
+    "semantic_hash": "79021f78255ef7b5b6f9c98ef5a4636d"
   },
   "test/reconcile-architecture-decisions.spec.test.mjs": {
-    "mtime": 1788396484.8428204,
-    "seen": 1788396833.6648262,
+    "mtime": 1788399189.1980815,
+    "seen": 1788399918.4127905,
     "ast_hash": "43451df9cd0570f8cab212269d7d5bf4",
     "semantic_hash": "43451df9cd0570f8cab212269d7d5bf4"
   }

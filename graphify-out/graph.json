@@ -28468,7 +28468,6 @@
       "label": "production-readiness-gap-register.spec.test.mjs",
       "_origin": "ast",
       "community": 325,
-      "community_name": "production-readiness-gap-register.spec.test.mjs",
       "file_type": "code",
       "norm_label": "production-readiness-gap-register.spec.test.mjs",
       "source_file": "test/production-readiness-gap-register.spec.test.mjs",
@@ -118235,5 +118234,5 @@
       "source_file": ".agents/skills/onp-spec-driven/SKILL.md"
     }
   ],
-  "built_at_commit": "a6020cebbb4ac4b0de497980ebc3ffb2e2c10143"
+  "built_at_commit": "2e3bbad9c77e12974c8064ecab99463a5af3dded"
 }
