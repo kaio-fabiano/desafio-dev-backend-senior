@@ -53,6 +53,7 @@ Thumbs.db
 /apps/payment-federation/.gradle/
 /apps/payment-federation/build/
 /infra/.sst/
+/infra/sst-env.d.ts
 
 # Graphify publishes only portable, clone-ready outputs.
 /graphify-out/**
