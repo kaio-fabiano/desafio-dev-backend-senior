@@ -1,15 +1,20 @@
 {
   "feature": "production-readiness-gap-register",
-  "timestamp": "2026-09-02T23:31:45.684Z",
-  "gitRev": "a3545b4",
+  "timestamp": "2026-09-03T01:43:10.709Z",
+  "gitRev": "80006d8",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 169,
+  "testsParsed": 172,
   "results": {
     "AC-159": {
       "status": "pass",
       "testName": "AC-159: every production gap has an actionable closure contract @spec:AC-159",
+      "method": "tap"
+    },
+    "AC-187": {
+      "status": "pass",
+      "testName": "AC-187: the next session resumes from the canonical production backlog @spec:AC-187",
       "method": "tap"
     }
   },

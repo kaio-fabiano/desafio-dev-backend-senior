@@ -41,3 +41,14 @@ test('AC-159: every production gap has an actionable closure contract @spec:AC-1
   assert.match(roadmap, /production-readiness gap register/);
   assert.match(index, /authoritative backlog after challenge acceptance/);
 });
+
+test('AC-187: the next session resumes from the canonical production backlog @spec:AC-187', async () => {
+  const handoff = await readFile('docs/handoffs/next-session.md', 'utf8');
+
+  assert.match(handoff, /80006d8/);
+  assert.match(handoff, /G-001[\s\S]*G-002[\s\S]*G-003/);
+  assert.match(handoff, /production-readiness gap register/);
+  assert.match(handoff, /Mercado Pago sandbox runbook/);
+  assert.match(handoff, /credentials[\s\S]*public HTTPS webhook/i);
+  assert.match(handoff, /must not be reported\s+as closed/i);
+});

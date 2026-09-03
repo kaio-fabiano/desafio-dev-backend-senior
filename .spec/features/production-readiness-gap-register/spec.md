@@ -24,11 +24,24 @@ mistaken for a delivered capability.
 - **Quando** maintainers inspect the roadmap and risk register
 - **Então** every gap has priority, current evidence, target state, dependencies, acceptance evidence, and an explicit ADR trigger
 
+### US-094 — Resume production work without reconstructing context
+
+As a maintainer, I want a concise next-session handoff anchored to the canonical
+gap register, so that work resumes in priority order without duplicating or
+silently changing production scope.
+
+#### AC-187 — The next session has an explicit and honest starting point
+
+- **Dado** that challenge delivery is complete and production gaps remain open
+- **Quando** a maintainer opens the next-session handoff
+- **Então** it identifies the merged baseline, orders G-001 through G-003, states their external dependencies, and links back to the authoritative register and runbooks
+
 ## Fora de escopo
 
 - Implementing any production-readiness gap.
 - Selecting a payment provider or cloud account.
 - Changing the runtime topology.
+- Implementing any item described by the next-session handoff.
 
 ## Suposições
 

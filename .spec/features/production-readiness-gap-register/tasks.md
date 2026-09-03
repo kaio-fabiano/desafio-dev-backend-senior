@@ -8,3 +8,10 @@
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notes: Documentation only; do not implement or silently close any gap.
+
+## T-146 — Record the next-session handoff [concluida]
+- Refs: US-094, AC-187
+- Arquivos: docs/handoffs/next-session.md, .spec/features/production-readiness-gap-register/spec.md, .spec/features/production-readiness-gap-register/tasks.md, test/production-readiness-gap-register.spec.test.mjs, graphify-out
+- Modelo: gpt-5.6-luna
+- Esforço: baixo
+- Notes: Point to the canonical gap register instead of copying it. Do not claim sandbox or production evidence and do not implement a production gap.

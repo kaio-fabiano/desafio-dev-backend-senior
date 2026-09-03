@@ -5220,6 +5220,15 @@
       "primeiraVez": "2026-09-03T00:57:28.336Z",
       "ultimaVez": "2026-09-03T00:57:28.336Z",
       "gitRev": "ee04675"
+    },
+    "VERIFY_OBSOLETO::reconcile-architecture-decisions::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "reconcile-architecture-decisions",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T01:43:13.978Z",
+      "ultimaVez": "2026-09-03T01:43:13.978Z",
+      "gitRev": "80006d8"
     }
   }
 }
