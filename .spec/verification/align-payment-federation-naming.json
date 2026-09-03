@@ -1,7 +1,7 @@
 {
   "feature": "align-payment-federation-naming",
-  "timestamp": "2026-09-02T23:14:44.062Z",
-  "gitRev": "a3545b4",
+  "timestamp": "2026-09-03T00:19:50.123Z",
+  "gitRev": "a70e6c5",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,

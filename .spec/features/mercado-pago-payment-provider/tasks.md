@@ -30,7 +30,7 @@
 - Arquivos: libs/contracts/events/payment-requested.v1.schema.json, libs/contracts/events/payment-authorized.v1.schema.json, libs/contracts/events/payment-pix-generated.v1.schema.json, libs/contracts/graphql/payment/schema.graphql, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/command/AuthorizePayment.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentConsumer.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java, apps/order-workflow-subgraph/src/messaging/rabbitmq.ts, apps/order-workflow-subgraph/src/saga/order-saga.ts
 - Notas: Carry only provider tokens and minimum payer data; preserve Card-approved and Pix-generated challenge outcomes.
 
-## T-128 — Prove the boundary and document operation [pendente]
+## T-128 — Prove the boundary and document operation [concluida]
 - Refs: US-079, US-080, US-081, US-082, US-083, AC-160, AC-161, AC-162, AC-163, AC-164, AC-165, AC-166, AC-167, AC-168, AC-169
 - Modelo: gpt-5.6-sol
 - Esforço: alto

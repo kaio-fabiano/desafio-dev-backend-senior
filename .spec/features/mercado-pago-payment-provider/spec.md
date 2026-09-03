@@ -1,7 +1,7 @@
 # Spec: Mercado Pago payment provider
 
 > feature: mercado-pago-payment-provider
-> status: rascunho
+> status: auditada
 
 ## Contexto
 

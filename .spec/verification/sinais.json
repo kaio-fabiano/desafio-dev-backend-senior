@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 39,
+      "ocorrencias": 40,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2552,10 +2552,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 35,
+      "ocorrencias": 36,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 29,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 18,
+      "ocorrencias": 19,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -4208,10 +4208,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "structural-improvement-program",
       "ref": "—",
-      "ocorrencias": 14,
+      "ocorrencias": 15,
       "primeiraVez": "2026-09-01T03:06:54.499Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "VERIFY_OBSOLETO::keep-graphify-current::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -4298,10 +4298,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "production-happy-path-hardening",
       "ref": "—",
-      "ocorrencias": 10,
+      "ocorrencias": 11,
       "primeiraVez": "2026-09-01T21:13:57.059Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "ID_DUPLICADO::transaction-federation-refactor::ASM-001": {
       "codigo": "ID_DUPLICADO",
@@ -4676,10 +4676,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "transaction-federation-refactor",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-01T22:40:14.199Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "ID_DUPLICADO::production-readiness-gap-register::US-077": {
       "codigo": "ID_DUPLICADO",
@@ -4694,10 +4694,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "align-payment-federation-naming",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 4,
       "primeiraVez": "2026-09-02T07:40:08.793Z",
-      "ultimaVez": "2026-09-02T23:12:59.507Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     },
     "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-124": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -5117,10 +5117,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "payment-federation-clean-architecture",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-02T23:12:59.508Z",
-      "ultimaVez": "2026-09-02T23:12:59.508Z",
-      "gitRev": "a3545b4"
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
+    },
+    "VERIFY_OBSOLETO::oauth-resource-server-auth::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "oauth-resource-server-auth",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-03T00:18:19.513Z",
+      "ultimaVez": "2026-09-03T00:18:19.513Z",
+      "gitRev": "a70e6c5"
     }
   }
 }
