@@ -85,6 +85,7 @@ export class BetterAuthFactory implements OnModuleDestroy {
         jwt({
           disableSettingJwtHeader: true,
           jwt: { issuer },
+          jwks: { keyPairConfig: { alg: 'ES256' } },
         }),
         oauthProvider({
           loginPage: '/sign-in',
@@ -93,6 +94,7 @@ export class BetterAuthFactory implements OnModuleDestroy {
           resources: Object.values(OAUTH_RESOURCES).map((identifier) => ({
             identifier,
             allowedScopes: [...OAUTH_RESOURCE_SCOPES[identifier]],
+            signingAlgorithm: 'ES256' as const,
           })),
           clientRegistrationDefaultResources: Object.values(OAUTH_RESOURCES),
           clientPrivileges: async ({ user }) => user?.email === seedAdminEmail,
@@ -135,7 +137,15 @@ export class IdentityAuthBootstrap implements OnApplicationBootstrap {
       email: process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
       password: seedPassword,
     };
-    await (await this.auth.instance.$context).runMigrations();
+    const context = await this.auth.instance.$context;
+    await context.runMigrations();
+    for (const identifier of Object.values(OAUTH_RESOURCES)) {
+      await context.adapter.update({
+        model: 'oauthResource',
+        where: [{ field: 'identifier', value: identifier }],
+        update: { signingAlgorithm: 'ES256', updatedAt: new Date() },
+      });
+    }
     this.clients = {
       gateway: await this.seedClient(credentials, {
         name: 'Marketplace gateway',

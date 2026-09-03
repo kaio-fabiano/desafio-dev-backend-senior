@@ -50,6 +50,7 @@ export function createIdentityAuth(
       jwt({
         disableSettingJwtHeader: true,
         jwt: options.issuer ? { issuer: options.issuer } : undefined,
+        jwks: { keyPairConfig: { alg: 'ES256' } },
       }),
       oauthProvider({
         loginPage: '/sign-in',
@@ -59,22 +60,27 @@ export function createIdentityAuth(
           {
             identifier: GATEWAY_AUDIENCE,
             allowedScopes: MCP_TOOL_SCOPES,
+            signingAlgorithm: 'ES256',
           },
           {
             identifier: IDENTITY_AUDIENCE,
             allowedScopes: MCP_TOOL_SCOPES,
+            signingAlgorithm: 'ES256',
           },
           {
             identifier: MCP_AUDIENCE,
             allowedScopes: MCP_TOOL_SCOPES,
+            signingAlgorithm: 'ES256',
           },
           {
             identifier: ORDER_WORKFLOW_AUDIENCE,
             allowedScopes: MCP_TOOL_SCOPES,
+            signingAlgorithm: 'ES256',
           },
           {
             identifier: PAYMENT_AUDIENCE,
             allowedScopes: MCP_TOOL_SCOPES,
+            signingAlgorithm: 'ES256',
           },
         ],
         clientRegistrationDefaultResources: [
