@@ -38,12 +38,12 @@
 </style>
 <main>
   <h1>Plano de execução — mercado-pago-production-deployment</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 07:00 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 08:44 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>3</b> tarefa(s) em paralelo</div>
+    <div><b>1</b> tarefa(s) em paralelo</div>
     <div><b>1</b> faixa(s) · <b>1</b> onda(s)</div>
     <div><b>1</b> sequencial(is)</div>
-    <div>seleção do usuário: <b>T-146, T-147, T-148</b></div>
+    <div>seleção do usuário: <b>T-151</b></div>
     <div>branch <code>spec/mercado-pago-production-deployment</code></div>
   </div>
   
@@ -65,22 +65,10 @@
         <h4>faixa-1 <small>branch <code>spec/mercado-pago-production-deployment-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-mercado-pago-production-deployment-faixa-1</code></small></h4>
         
         <div class="tarefa">
-          <span class="tid">T-146</span>
-          <span class="ttitulo">Run and repair the complete credential-free quality gate</span>
+          <span class="tid">T-151</span>
+          <span class="ttitulo">Enable real Mercado Pago mode in local Compose</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>package.json</code> <code>apps/e2e/project.json</code> <code>test/mercado-pago-production-deployment.test.mjs</code> <code>docs/evidence/mercado-pago-production-deployment/credential-free-gate.md</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-147</span>
-          <span class="ttitulo">Automate redacted Mercado Pago test-environment verification</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/e2e/src/mercado-pago-sandbox.test.ts</code> <code>apps/e2e/src/mercado-pago-sandbox.ts</code> <code>apps/e2e/project.json</code> <code>docs/runbooks/mercado-pago-sandbox.md</code> <code>test/mercado-pago-production-deployment.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-148</span>
-          <span class="ttitulo">Complete secret-backed SST runtime and deployment checks</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>infra/sst.config.ts</code> <code>infra/package.json</code> <code>apps/payment-federation/Dockerfile</code> <code>apps/order-workflow-subgraph/Dockerfile</code> <code>apps/gateway/Dockerfile</code> <code>apps/identity-subgraph/Dockerfile</code> <code>apps/apollo-mcp/Dockerfile</code> <code>test/mercado-pago-production-deployment.test.mjs</code> <code>docs/runbooks/deployment.md</code></span>
+          <span class="arquivos"><code>compose.yaml</code> <code>test/mercado-pago-production-deployment.test.mjs</code> <code>docs/runbooks/mercado-pago-sandbox.md</code></span>
         </div>
       </div></div>
     </section>

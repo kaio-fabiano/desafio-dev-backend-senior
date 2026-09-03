@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-03 07:00
+# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-03 08:44
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtl6dqkt'
+RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtla3o0o'
 FEATURE='mercado-pago-production-deployment'
 BASE_BRANCH='spec/mercado-pago-production-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,7 +168,7 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-146 T-147 T-148 ──
+# ── faixa-1: T-151 ──
 executar_faixa_1() {
   local WT="$WT_BASE-faixa-1"
   preparar_worktree 'faixa-1' 'spec/mercado-pago-production-deployment-faixa-1' "$WT" || return 1
@@ -176,44 +176,14 @@ executar_faixa_1() {
   : > "$LOG_DIR/faixa-1.log"
   (
     cd "$WT" || exit 9
-    rodar_tarefa 'faixa-1' 'T-146' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
+    rodar_tarefa 'faixa-1' 'T-151' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-146 — "Run and repair the complete credential-free quality gate"
-  critérios/refs: AC-187 (The complete credential-free gate passes), AC-188 (Payment-critical behavior remains covered)
-  arquivos permitidos (e seus testes): package.json, apps/e2e/project.json, test/mercado-pago-production-deployment.test.mjs, docs/evidence/mercado-pago-production-deployment/credential-free-gate.md
-  mensagem de commit: "T-146 mercado-pago-production-deployment: Run and repair the complete credential-free quality gate"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high &&
-    rodar_tarefa 'faixa-1' 'T-147' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-147 — "Automate redacted Mercado Pago test-environment verification"
+T-151 — "Enable real Mercado Pago mode in local Compose"
   critérios/refs: AC-189 (Real test payments are idempotent and redacted), AC-190 (Webhook and refund convergence is verified)
-  arquivos permitidos (e seus testes): apps/e2e/src/mercado-pago-sandbox.test.ts, apps/e2e/src/mercado-pago-sandbox.ts, apps/e2e/project.json, docs/runbooks/mercado-pago-sandbox.md, test/mercado-pago-production-deployment.test.mjs
-  mensagem de commit: "T-147 mercado-pago-production-deployment: Automate redacted Mercado Pago test-environment verification"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high &&
-    rodar_tarefa 'faixa-1' 'T-148' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-148 — "Complete secret-backed SST runtime and deployment checks"
-  critérios/refs: AC-191 (Infrastructure fails closed and contains the complete runtime), AC-192 (Deployment is reviewed before provisioning)
-  arquivos permitidos (e seus testes): infra/sst.config.ts, infra/package.json, apps/payment-federation/Dockerfile, apps/order-workflow-subgraph/Dockerfile, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/apollo-mcp/Dockerfile, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
-  mensagem de commit: "T-148 mercado-pago-production-deployment: Complete secret-backed SST runtime and deployment checks"
+  arquivos permitidos (e seus testes): compose.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/mercado-pago-sandbox.md
+  mensagem de commit: "T-151 mercado-pago-production-deployment: Enable real Mercado Pago mode in local Compose"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -224,7 +194,7 @@ Regras inegociáveis:
   ) >> "$LOG_DIR/faixa-1.log" 2>&1
   local st=$?
   mesclar_faixa 'faixa-1' 'spec/mercado-pago-production-deployment-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-146 T-147 T-148
+  marcar_concluidas T-151
   return 0
 }
 
@@ -323,7 +293,7 @@ executar_tudo() {
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-146, T-147, T-148"
+  echo "  faixa-1  onda 1  T-151"
   echo "  seq       T-149 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"

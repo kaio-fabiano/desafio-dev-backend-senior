@@ -1,16 +1,14 @@
 {
-  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtl6dqkt",
+  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtla3o0o",
   "feature": "mercado-pago-production-deployment",
   "agent": "codex",
   "modo": "paralelo",
   "paralelizar": [
-    "T-146",
-    "T-147",
-    "T-148"
+    "T-151"
   ],
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-03 07:00",
+  "geradoEm": "2026-09-03 08:44",
   "branchTrabalho": "spec/mercado-pago-production-deployment",
   "baseDir": ".spec/features/mercado-pago-production-deployment",
   "specDir": ".spec",
@@ -28,60 +26,19 @@
       "worktree": "../onp-worktrees/desafio-dev-backend-senior-mercado-pago-production-deployment-faixa-1",
       "tarefas": [
         {
-          "id": "T-146",
-          "titulo": "Run and repair the complete credential-free quality gate",
+          "id": "T-151",
+          "titulo": "Enable real Mercado Pago mode in local Compose",
           "modelo": "gpt-5.6-sol",
           "esforco": "high",
           "arquivos": [
-            "package.json",
-            "apps/e2e/project.json",
+            "compose.yaml",
             "test/mercado-pago-production-deployment.test.mjs",
-            "docs/evidence/mercado-pago-production-deployment/credential-free-gate.md"
-          ],
-          "refs": [
-            "US-094",
-            "AC-187",
-            "AC-188"
-          ]
-        },
-        {
-          "id": "T-147",
-          "titulo": "Automate redacted Mercado Pago test-environment verification",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/e2e/src/mercado-pago-sandbox.test.ts",
-            "apps/e2e/src/mercado-pago-sandbox.ts",
-            "apps/e2e/project.json",
-            "docs/runbooks/mercado-pago-sandbox.md",
-            "test/mercado-pago-production-deployment.test.mjs"
+            "docs/runbooks/mercado-pago-sandbox.md"
           ],
           "refs": [
             "US-095",
             "AC-189",
             "AC-190"
-          ]
-        },
-        {
-          "id": "T-148",
-          "titulo": "Complete secret-backed SST runtime and deployment checks",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "infra/sst.config.ts",
-            "infra/package.json",
-            "apps/payment-federation/Dockerfile",
-            "apps/order-workflow-subgraph/Dockerfile",
-            "apps/gateway/Dockerfile",
-            "apps/identity-subgraph/Dockerfile",
-            "apps/apollo-mcp/Dockerfile",
-            "test/mercado-pago-production-deployment.test.mjs",
-            "docs/runbooks/deployment.md"
-          ],
-          "refs": [
-            "US-096",
-            "AC-191",
-            "AC-192"
           ]
         }
       ]
@@ -108,6 +65,11 @@
       ]
     }
   ],
-  "concluidas": [],
+  "concluidas": [
+    "T-146",
+    "T-147",
+    "T-148",
+    "T-150"
+  ],
   "avisos": []
 }

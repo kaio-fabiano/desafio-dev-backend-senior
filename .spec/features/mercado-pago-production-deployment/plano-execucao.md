@@ -1,12 +1,12 @@
 # Plano de execução — mercado-pago-production-deployment
 
-> gerado por `onp-spec plano` em 2026-09-03 07:00 — NÃO edite à mão;
-> mudou tasks.md ou a config? Regenere: `onp-spec plano mercado-pago-production-deployment --paralelizar T-146,T-147,T-148`
+> gerado por `onp-spec plano` em 2026-09-03 08:44 — NÃO edite à mão;
+> mudou tasks.md ou a config? Regenere: `onp-spec plano mercado-pago-production-deployment --paralelizar T-151`
 
 ## Resumo — o que vai acontecer
 
-- **4 tarefa(s) pendente(s)**: 3 em 1 faixa(s) paralela(s) + 1 sequencial(is)
-- **seleção do usuário**: paralelizar só T-146, T-147, T-148 — as demais rodam uma após a outra, ao final
+- **2 tarefa(s) pendente(s)**: 1 em 1 faixa(s) paralela(s) + 1 sequencial(is) (4 já concluída(s): T-146, T-147, T-148, T-150)
+- **seleção do usuário**: paralelizar só T-151 — as demais rodam uma após a outra, ao final
 - **1 faixa = 1 worktree + 1 branch + 1 janela de contexto limpa** — faixas não compartilham nenhum arquivo entre si
 - prefere outra seleção ou uma após a outra? Regenere com `onp-spec plano mercado-pago-production-deployment --paralelizar T-xxx,T-yyy` ou `--sequencial`
 - tudo acontece na branch de trabalho `spec/mercado-pago-production-deployment`; levar para a main é decisão sua
@@ -19,9 +19,7 @@
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
-| T-146 | Run and repair the complete credential-free quality gate | `gpt-5.6-sol` | high | `package.json`, `apps/e2e/project.json`, `test/mercado-pago-production-deployment.test.mjs`, `docs/evidence/mercado-pago-production-deployment/credential-free-gate.md` |
-| T-147 | Automate redacted Mercado Pago test-environment verification | `gpt-5.6-sol` | high | `apps/e2e/src/mercado-pago-sandbox.test.ts`, `apps/e2e/src/mercado-pago-sandbox.ts`, `apps/e2e/project.json`, `docs/runbooks/mercado-pago-sandbox.md`, `test/mercado-pago-production-deployment.test.mjs` |
-| T-148 | Complete secret-backed SST runtime and deployment checks | `gpt-5.6-sol` | high | `infra/sst.config.ts`, `infra/package.json`, `apps/payment-federation/Dockerfile`, `apps/order-workflow-subgraph/Dockerfile`, `apps/gateway/Dockerfile`, `apps/identity-subgraph/Dockerfile`, `apps/apollo-mcp/Dockerfile`, `test/mercado-pago-production-deployment.test.mjs`, `docs/runbooks/deployment.md` |
+| T-151 | Enable real Mercado Pago mode in local Compose | `gpt-5.6-sol` | high | `compose.yaml`, `test/mercado-pago-production-deployment.test.mjs`, `docs/runbooks/mercado-pago-sandbox.md` |
 
 ## Tarefas sequenciais (após as ondas, na árvore principal)
 
