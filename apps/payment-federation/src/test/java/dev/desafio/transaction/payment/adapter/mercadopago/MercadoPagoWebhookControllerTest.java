@@ -1,19 +1,19 @@
 package dev.desafio.transaction.payment.adapter.mercadopago;
 
-import com.mercadopago.exceptions.MPInvalidWebhookSignatureException;
-import com.mercadopago.exceptions.SignatureFailureReason;
-import com.mercadopago.webhook.WebhookSignatureValidator;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
@@ -34,31 +34,57 @@ class MercadoPagoWebhookControllerTest {
     void rejectsInvalidSignatureBeforeHandling() {
         var handler = mock(ProviderNotificationHandler.class);
         var controller = new MercadoPagoWebhookController(handler, "webhook-secret");
-        try (var validator = mockStatic(WebhookSignatureValidator.class)) {
-            validator.when(() -> WebhookSignatureValidator.validate(
-                "invalid", "request-1", "42", "webhook-secret", java.time.Duration.ofMinutes(5)
-            )).thenThrow(new MPInvalidWebhookSignatureException(
-                SignatureFailureReason.SIGNATURE_MISMATCH,
-                "request-1",
-                "123"
-            ));
+        var response = controller.receive("ts=123,v1=invalid", "request-1", "42");
 
-            var response = controller.receive("invalid", "request-1", "42");
-
-            assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-            verifyNoInteractions(handler);
-        }
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        verifyNoInteractions(handler);
     }
 
     @Test
-    void forwardsAnAuthenticatedNotification() {
+    @DisplayName("AC-163: legacy epoch-second signatures remain fresh and authenticated @spec:AC-163")
+    void forwardsAnAuthenticatedLegacyNotification() throws Exception {
         var handler = mock(ProviderNotificationHandler.class);
         var controller = new MercadoPagoWebhookController(handler, "webhook-secret");
-        try (var ignored = mockStatic(WebhookSignatureValidator.class)) {
-            var response = controller.receive("valid", "request-1", "42");
+        String timestamp = Long.toString(Instant.now().getEpochSecond());
+        String signature = signature(timestamp, "request-1", "42");
 
-            assertEquals(HttpStatus.OK, response.getStatusCode());
-            verify(handler).handle(new ProviderNotificationHandler.Notification("request-1", "42"));
-        }
+        var response = controller.receive(signature, "request-1", "42");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(handler).handle(new ProviderNotificationHandler.Notification("request-1", "42"));
+    }
+
+    @Test
+    void forwardsAnAuthenticatedMillisecondNotification() throws Exception {
+        var handler = mock(ProviderNotificationHandler.class);
+        var controller = new MercadoPagoWebhookController(handler, "webhook-secret");
+        String timestamp = Long.toString(Instant.now().toEpochMilli());
+
+        var response = controller.receive(signature(timestamp, "request-1", "42"), "request-1", "42");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(handler).handle(new ProviderNotificationHandler.Notification("request-1", "42"));
+    }
+
+    @Test
+    void rejectsAStaleLegacySignature() throws Exception {
+        var handler = mock(ProviderNotificationHandler.class);
+        var controller = new MercadoPagoWebhookController(handler, "webhook-secret");
+        String timestamp = Long.toString(Instant.now().minusSeconds(301).getEpochSecond());
+
+        var response = controller.receive(signature(timestamp, "request-1", "42"), "request-1", "42");
+
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+        verifyNoInteractions(handler);
+    }
+
+    private static String signature(String timestamp, String requestId, String reference) throws Exception {
+        var mac = Mac.getInstance("HmacSHA256");
+        mac.init(new SecretKeySpec("webhook-secret".getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+        byte[] digest = mac.doFinal(
+            ("id:" + reference + ";request-id:" + requestId + ";ts:" + timestamp + ";")
+                .getBytes(StandardCharsets.UTF_8)
+        );
+        return "ts=" + timestamp + ",v1=" + java.util.HexFormat.of().formatHex(digest);
     }
 }
