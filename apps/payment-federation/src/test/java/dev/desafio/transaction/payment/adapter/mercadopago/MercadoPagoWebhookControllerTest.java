@@ -6,7 +6,10 @@ import com.mercadopago.webhook.WebhookSignatureValidator;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -15,6 +18,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 class MercadoPagoWebhookControllerTest {
+    @Test
+    @DisplayName("AC-189: Spring has an explicit constructor for real-provider webhook injection @spec:AC-189")
+    void declaresTheProductionConstructorAsTheInjectionPoint() {
+        var injectionConstructor = Arrays.stream(MercadoPagoWebhookController.class.getConstructors())
+            .filter(constructor -> constructor.isAnnotationPresent(Autowired.class))
+            .findFirst()
+            .orElseThrow();
+
+        assertEquals(3, injectionConstructor.getParameterCount());
+    }
+
     @Test
     @DisplayName("AC-163: invalid signatures are rejected before replay-safe handling @spec:AC-163")
     void rejectsInvalidSignatureBeforeHandling() {

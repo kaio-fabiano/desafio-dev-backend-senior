@@ -1,49 +1,19 @@
 {
-  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtla3o0o",
+  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtlargup",
   "feature": "mercado-pago-production-deployment",
   "agent": "codex",
-  "modo": "paralelo",
-  "paralelizar": [
-    "T-151"
-  ],
+  "modo": "sequencial",
+  "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-03 08:44",
+  "geradoEm": "2026-09-03 09:02",
   "branchTrabalho": "spec/mercado-pago-production-deployment",
   "baseDir": ".spec/features/mercado-pago-production-deployment",
   "specDir": ".spec",
   "repoName": "desafio-dev-backend-senior",
   "logsDir": "../onp-worktrees/desafio-dev-backend-senior-mercado-pago-production-deployment-logs",
-  "ondas": [
-    [
-      "faixa-1"
-    ]
-  ],
-  "faixas": [
-    {
-      "id": "faixa-1",
-      "branch": "spec/mercado-pago-production-deployment-faixa-1",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-mercado-pago-production-deployment-faixa-1",
-      "tarefas": [
-        {
-          "id": "T-151",
-          "titulo": "Enable real Mercado Pago mode in local Compose",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "compose.yaml",
-            "test/mercado-pago-production-deployment.test.mjs",
-            "docs/runbooks/mercado-pago-sandbox.md"
-          ],
-          "refs": [
-            "US-095",
-            "AC-189",
-            "AC-190"
-          ]
-        }
-      ]
-    }
-  ],
+  "ondas": [],
+  "faixas": [],
   "sequenciais": [
     {
       "id": "T-149",
@@ -69,7 +39,9 @@
     "T-146",
     "T-147",
     "T-148",
-    "T-150"
+    "T-150",
+    "T-151",
+    "T-152"
   ],
   "avisos": []
 }

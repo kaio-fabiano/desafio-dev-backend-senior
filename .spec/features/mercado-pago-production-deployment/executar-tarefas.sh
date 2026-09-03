@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-03 08:44
+# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-03 09:02
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtla3o0o'
+RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtlargup'
 FEATURE='mercado-pago-production-deployment'
 BASE_BRANCH='spec/mercado-pago-production-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,37 +168,7 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-151 ──
-executar_faixa_1() {
-  local WT="$WT_BASE-faixa-1"
-  preparar_worktree 'faixa-1' 'spec/mercado-pago-production-deployment-faixa-1' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-1' --estado executando --tentativa "$(tentativa 'faixa-1')"
-  : > "$LOG_DIR/faixa-1.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-1' 'T-151' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-151 — "Enable real Mercado Pago mode in local Compose"
-  critérios/refs: AC-189 (Real test payments are idempotent and redacted), AC-190 (Webhook and refund convergence is verified)
-  arquivos permitidos (e seus testes): compose.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/mercado-pago-sandbox.md
-  mensagem de commit: "T-151 mercado-pago-production-deployment: Enable real Mercado Pago mode in local Compose"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
-  ) >> "$LOG_DIR/faixa-1.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-1' 'spec/mercado-pago-production-deployment-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-151
-  return 0
-}
-
-# ── sequencial T-149 (fora da seleção do usuário) ──
+# ── sequencial T-149 (ordem do tasks.md) ──
 executar_seq_T_149() {
   info 'sequencial T-149 — Deploy the approved stage and run release smoke tests'
   if rodar_tarefa seq 'T-149' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
@@ -283,17 +253,12 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  # onda 1: faixa-1
-  info "onda 1: faixa-1 — janelas limpas em paralelo"
-  executar_faixa_1 & PID_FAIXA_1=$!
-  wait "$PID_FAIXA_1" || true
   executar_seq_T_149 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-151"
   echo "  seq       T-149 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
@@ -325,7 +290,6 @@ case "$MODO" in
   gate) COM_GATE=1; iniciar_resumos; encerrar gate ;;
   faixa)
     case "$ALVO" in
-      faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)

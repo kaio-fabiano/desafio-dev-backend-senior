@@ -32,7 +32,7 @@
 - Notas: This task starts only after the owner approves the exact stage and reviewed SST diff. Store redacted evidence, execute the credentialed provider checks, and roll back on a critical smoke failure.
 
 ## T-150 — Add a safe local environment template [concluida]
-- Refs: US-095, US-096, AC-189, AC-192, AC-193
+- Refs: US-095, US-096, AC-189, AC-192
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Arquivos: .gitignore, .env.example, docs/runbooks/deployment.md
@@ -44,3 +44,11 @@
 - Esforço: alto
 - Arquivos: compose.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/mercado-pago-sandbox.md
 - Notas: Forward only the required provider configuration from the ignored local environment into Payment Federation, preserve deterministic defaults when explicitly selected, document discovery of the random host port for an HTTPS tunnel, and prove missing real-provider inputs fail closed.
+
+## T-152 — Fix Mercado Pago webhook controller injection [concluida]
+
+- Refs: US-095, AC-189
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookController.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java
+- Notas: Mark the production constructor as the Spring injection point, add a regression test that starts the controller in real-provider mode, and rebuild Payment Federation before resuming the local sandbox verification.

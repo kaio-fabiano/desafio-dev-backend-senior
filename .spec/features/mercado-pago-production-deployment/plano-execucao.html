@@ -38,12 +38,10 @@
 </style>
 <main>
   <h1>Plano de execução — mercado-pago-production-deployment</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 08:44 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-03 09:02 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>1</b> tarefa(s) em paralelo</div>
-    <div><b>1</b> faixa(s) · <b>1</b> onda(s)</div>
-    <div><b>1</b> sequencial(is)</div>
-    <div>seleção do usuário: <b>T-151</b></div>
+    <div><b>1</b> tarefa(s), uma após a outra</div>
+    <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/mercado-pago-production-deployment</code></div>
   </div>
   
@@ -51,30 +49,16 @@
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
     <div><code id="cmd">bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh</code></div>
-    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
+    <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
     (<code>onp-spec resumo mercado-pago-production-deployment --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo mercado-pago-production-deployment</code>).</p>
   </div>
   
-    <section class="onda">
-      <h3>Onda 1 <small>faixa-1 — em paralelo, janelas limpas</small></h3>
-      <div class="grade">
-      <div class="faixa">
-        <h4>faixa-1 <small>branch <code>spec/mercado-pago-production-deployment-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-mercado-pago-production-deployment-faixa-1</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-151</span>
-          <span class="ttitulo">Enable real Mercado Pago mode in local Compose</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>compose.yaml</code> <code>test/mercado-pago-production-deployment.test.mjs</code> <code>docs/runbooks/mercado-pago-sandbox.md</code></span>
-        </div>
-      </div></div>
-    </section>
   
     <section class="onda">
-      <h3>Sequenciais <small>após as ondas, na árvore principal</small></h3>
+      <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
       <div class="grade"><div class="faixa">
         <div class="tarefa">
           <span class="tid">T-149</span>
@@ -87,8 +71,7 @@
     <h3>Branches e commits</h3>
     <ol>
       <li>tudo parte da branch de trabalho <code>spec/mercado-pago-production-deployment</code></li>
-      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx mercado-pago-production-deployment: título</code></li>
-      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
+      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx mercado-pago-production-deployment: título</code></li>
       <li>gate final: <code>onp-spec verify mercado-pago-production-deployment</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>

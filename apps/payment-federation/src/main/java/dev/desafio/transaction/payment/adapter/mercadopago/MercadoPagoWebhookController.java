@@ -5,6 +5,7 @@ import com.mercadopago.webhook.WebhookSignatureValidator;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import dev.desafio.transaction.payment.configuration.MercadoPagoProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public final class MercadoPagoWebhookController {
     private final ProviderNotificationHandler handler;
     private final String webhookSecret;
 
+    @Autowired
     public MercadoPagoWebhookController(
         PaymentProvider provider,
         ProviderNotificationHandler.Repository repository,
