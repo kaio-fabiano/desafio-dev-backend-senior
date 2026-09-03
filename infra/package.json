@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.13.0",
+  "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "validate": "sst install --stage validation && tsc --noEmit",
     "diff": "sst diff",
-    "deploy": "sst deploy"
+    "review": "bash -o pipefail -c 'test -n \"$SST_STAGE\" && test \"$SST_STAGE\" != \"production\" && diff_file=$(mktemp) && trap '\"'\"'rm -f \"$diff_file\"'\"'\"' EXIT && sst diff --stage \"$SST_STAGE\" > \"$diff_file\" && cat \"$diff_file\" >&2 && sha256sum \"$diff_file\" | cut -d \" \" -f 1'",
+    "deploy": "bash -o pipefail -c 'test \"$SST_DEPLOY_APPROVAL\" = \"DEPLOY\" && test -n \"$SST_STAGE\" && test \"$SST_STAGE\" != \"production\" && test \"$SST_APPROVED_STAGE\" = \"$SST_STAGE\" && test -n \"$SST_APPROVED_MONTHLY_COST_USD\" && test -n \"$SST_APPROVED_DIFF_SHA256\" && pnpm run validate && diff_file=$(mktemp) && trap '\"'\"'rm -f \"$diff_file\"'\"'\"' EXIT && sst diff --stage \"$SST_STAGE\" > \"$diff_file\" && cat \"$diff_file\" >&2 && current_diff_sha256=$(sha256sum \"$diff_file\" | cut -d \" \" -f 1) && test \"$SST_APPROVED_DIFF_SHA256\" = \"$current_diff_sha256\" && sst deploy --stage \"$SST_STAGE\"'"
   },
   "devDependencies": {
     "sst": "3.17.37",

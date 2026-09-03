@@ -9,4 +9,5 @@ WORKDIR /app
 RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home app
 COPY --from=build --chown=app:app /workspace/build/libs/*.jar app.jar
 USER app
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 CMD curl --fail --silent http://127.0.0.1:8080/actuator/health || exit 1
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

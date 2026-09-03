@@ -16,4 +16,5 @@ COPY --chown=app:app apps/order-workflow-subgraph ./apps/order-workflow-subgraph
 COPY --chown=app:app libs/contracts/graphql/order-workflow/schema.graphql ./libs/contracts/graphql/order-workflow/schema.graphql
 COPY --chown=app:app libs/platform/nest ./libs/platform/nest
 USER app
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 CMD node -e "fetch('http://127.0.0.1:3003/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
 CMD ["node", "--import", "tsx", "apps/order-workflow-subgraph/src/main.ts"]

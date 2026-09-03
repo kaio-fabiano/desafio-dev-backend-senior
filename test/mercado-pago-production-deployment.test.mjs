@@ -1,0 +1,235 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import test from 'node:test';
+
+test('AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spec:AC-189', async () => {
+  const [project, verifier, verifierTest, runbook] = await Promise.all([
+    readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
+    readFile('apps/e2e/src/mercado-pago-sandbox.ts', 'utf8'),
+    readFile('apps/e2e/src/mercado-pago-sandbox.test.ts', 'utf8'),
+    readFile('docs/runbooks/mercado-pago-sandbox.md', 'utf8'),
+  ]);
+
+  assert.equal(
+    project.targets['mercado-pago-sandbox'].options.command,
+    'node --import tsx apps/e2e/src/mercado-pago-sandbox.ts',
+  );
+  assert.equal(project.targets['mercado-pago-sandbox'].cache, false);
+  assert.match(verifier, /MERCADO_PAGO_SANDBOX_CONFIRM/);
+  assert.match(verifier, /CREATE_AND_REFUND_TEST_PAYMENTS/);
+  assert.match(verifier, /randomUUID/);
+  assert.match(verifier, /SHA-256|sha256/);
+  assert.match(verifierTest, /authorizations\)\.toHaveLength\(4\)/);
+  assert.match(verifierTest, /serialized\)\.not\.toContain\(secret\)/);
+  assert.match(runbook, /only timestamps, unique operation keys, SHA-256/);
+});
+
+test('AC-190: sandbox webhooks and repeated refunds converge authoritatively @spec:AC-190', async () => {
+  const [verifier, verifierTest, runbook] = await Promise.all([
+    readFile('apps/e2e/src/mercado-pago-sandbox.ts', 'utf8'),
+    readFile('apps/e2e/src/mercado-pago-sandbox.test.ts', 'utf8'),
+    readFile('docs/runbooks/mercado-pago-sandbox.md', 'utf8'),
+  ]);
+
+  assert.match(verifier, /createHmac\('sha256'/);
+  assert.match(verifier, /'ts=0,v1=invalid'/);
+  assert.match(verifier, /providerRefund\.refundIds\.length/);
+  assert.match(verifier, /payment\.status === 'REFUNDED'/);
+  assert.match(verifierTest, /\[\s*401, 200, 200,?\s*\]/);
+  assert.match(verifierTest, /new Set\(driver\.refundKeys\)\.size/);
+  assert.match(runbook, /Replay the same `x-request-id`/);
+  assert.doesNotMatch(verifier, /console\.(?:log|error)\([^)]*(?:accessToken|webhookSecret|cardToken|bearerToken)/);
+});
+
+test('AC-191: infrastructure fails closed and contains the complete runtime @spec:AC-191', async () => {
+  const config = await readFile('infra/sst.config.ts', 'utf8');
+  const applications = [
+    ['ApolloMcp', 'apps/apollo-mcp/Dockerfile'],
+    ['Gateway', 'apps/gateway/Dockerfile'],
+    ['IdentitySubgraph', 'apps/identity-subgraph/Dockerfile'],
+    ['OrderWorkflowSubgraph', 'apps/order-workflow-subgraph/Dockerfile'],
+    ['PaymentFederation', 'apps/payment-federation/Dockerfile'],
+  ];
+
+  for (const [name, dockerfilePath] of applications) {
+    assert.match(
+      config,
+      new RegExp(`new sst\\.aws\\.Service\\(['"]${name}['"]`),
+    );
+    assert.match(config, new RegExp(`dockerfile: ['"]${dockerfilePath}['"]`));
+    assert.match(await readFile(dockerfilePath, 'utf8'), /^HEALTHCHECK /m);
+  }
+
+  for (const database of [
+    'IdentityDatabase',
+    'OrderWorkflowDatabase',
+    'PaymentDatabase',
+  ]) {
+    assert.match(
+      config,
+      new RegExp(
+        `new sst\\.aws\\.(?:Aurora|Postgres)\\(\\s*['"]${database}['"]`,
+      ),
+    );
+  }
+  assert.match(config, /new sst\.aws\.Aurora\(['"]WordPressDatabase['"]/);
+  assert.match(config, /new sst\.aws\.Service\(['"]RabbitMq['"]/);
+  assert.match(config, /new sst\.aws\.Service\(['"]WordPress['"]/);
+
+  assert.match(
+    config,
+    /new sst\.Secret\(\s*['"]MercadoPagoAccessToken['"]\s*,?\s*\)/,
+  );
+  assert.match(
+    config,
+    /new sst\.Secret\(\s*['"]MercadoPagoWebhookSecret['"]\s*,?\s*\)/,
+  );
+  assert.match(config, /PAYMENT_PROVIDER_MODE: ['"]mercado-pago['"]/);
+  assert.match(
+    config,
+    /MERCADO_PAGO_ACCESS_TOKEN: mercadoPagoAccessToken\.value/,
+  );
+  assert.match(
+    config,
+    /MERCADO_PAGO_WEBHOOK_SECRET: mercadoPagoWebhookSecret\.value/,
+  );
+  assert.match(
+    config,
+    /MERCADO_PAGO_API_BASE_URL: ['"]https:\/\/api\.mercadopago\.com['"]/,
+  );
+  assert.match(
+    config,
+    /GATEWAY_GRAPHQL_URL:.*serviceHost\(['"]Gateway['"]/,
+  );
+  assert.match(
+    config,
+    /IDENTITY_OAUTH_URL:.*serviceHost\(['"]IdentitySubgraph['"]/,
+  );
+  assert.match(
+    config,
+    /entrypoint: \[['"]\/bin\/busybox['"], ['"]sh['"], ['"]-ec['"]\]/,
+  );
+  assert.match(config, /\/actuator\/health/);
+  assert.ok((config.match(/health: \{/g) ?? []).length >= applications.length);
+
+  assert.equal((config.match(/loadBalancer: \{/g) ?? []).length, 3);
+  assert.match(
+    config,
+    /conditions: \{ path: ['"]\/webhooks\/mercado-pago\*['"] \}/,
+  );
+  assert.doesNotMatch(
+    config,
+    /MERCADO_PAGO_(?:ACCESS_TOKEN|WEBHOOK_SECRET): ['"][^'"$]+['"]/,
+  );
+});
+
+test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async () => {
+  const [infraPackage, runbook] = await Promise.all([
+    readFile('infra/package.json', 'utf8').then(JSON.parse),
+    readFile('docs/runbooks/deployment.md', 'utf8'),
+  ]);
+
+  const review = infraPackage.scripts.review;
+  const deploy = infraPackage.scripts.deploy;
+  assert.match(review, /sst diff --stage/);
+  assert.match(review, /sha256sum/);
+  assert.match(deploy, /SST_DEPLOY_APPROVAL/);
+  assert.match(deploy, /SST_APPROVED_STAGE/);
+  assert.match(deploy, /SST_APPROVED_DIFF_SHA256/);
+  assert.match(deploy, /SST_APPROVED_MONTHLY_COST_USD/);
+  assert.match(deploy, /pnpm run validate/);
+  assert.match(deploy, /sst diff --stage/);
+  assert.match(deploy, /sha256sum/);
+  assert.match(deploy, /sst deploy --stage/);
+  assert.ok(deploy.indexOf('pnpm run validate') < deploy.indexOf('sst diff'));
+  assert.ok(deploy.indexOf('sst diff') < deploy.indexOf('sst deploy'));
+
+  const { spawnSync } = await import('node:child_process');
+  for (const environment of [
+    { SST_STAGE: 'sandbox' },
+    {
+      SST_APPROVED_DIFF_SHA256: '0'.repeat(64),
+      SST_APPROVED_MONTHLY_COST_USD: '100',
+      SST_APPROVED_STAGE: 'production',
+      SST_DEPLOY_APPROVAL: 'DEPLOY',
+      SST_STAGE: 'production',
+    },
+  ]) {
+    const attempt = spawnSync('bash', ['-o', 'pipefail', '-c', deploy], {
+      env: { PATH: process.env.PATH, ...environment },
+    });
+    assert.notEqual(attempt.status, 0);
+    assert.doesNotMatch(attempt.stderr.toString(), /sst:/);
+  }
+
+  const { chmod, mkdtemp, rm, writeFile } = await import('node:fs/promises');
+  const { createHash } = await import('node:crypto');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const fakeBin = await mkdtemp(join(tmpdir(), 'sst-deploy-guard-'));
+  const fakeLog = join(fakeBin, 'commands.log');
+  await Promise.all([
+    writeFile(
+      join(fakeBin, 'pnpm'),
+      '#!/bin/sh\nprintf "pnpm %s\\n" "$*" >> "$FAKE_LOG"\n',
+      { mode: 0o755 },
+    ),
+    writeFile(
+      join(fakeBin, 'sst'),
+      '#!/bin/sh\nprintf "sst %s\\n" "$*" >> "$FAKE_LOG"\n[ "$1" != diff ] || printf "reviewed diff\\n"\n',
+      { mode: 0o755 },
+    ),
+  ]);
+  await Promise.all([
+    chmod(join(fakeBin, 'pnpm'), 0o755),
+    chmod(join(fakeBin, 'sst'), 0o755),
+  ]);
+
+  const reviewedHash = createHash('sha256')
+    .update('reviewed diff\n')
+    .digest('hex');
+  const approvedEnvironment = {
+    FAKE_LOG: fakeLog,
+    PATH: `${fakeBin}:${process.env.PATH}`,
+    SST_APPROVED_MONTHLY_COST_USD: '100',
+    SST_APPROVED_STAGE: 'sandbox',
+    SST_DEPLOY_APPROVAL: 'DEPLOY',
+    SST_STAGE: 'sandbox',
+  };
+
+  try {
+    const mismatch = spawnSync('bash', ['-o', 'pipefail', '-c', deploy], {
+      env: { ...approvedEnvironment, SST_APPROVED_DIFF_SHA256: '0'.repeat(64) },
+    });
+    assert.notEqual(mismatch.status, 0);
+    assert.doesNotMatch(await readFile(fakeLog, 'utf8'), /sst deploy/);
+
+    const approved = spawnSync('bash', ['-o', 'pipefail', '-c', deploy], {
+      env: { ...approvedEnvironment, SST_APPROVED_DIFF_SHA256: reviewedHash },
+    });
+    assert.equal(approved.status, 0, approved.stderr.toString());
+    assert.match(
+      await readFile(fakeLog, 'utf8'),
+      /pnpm run validate[\s\S]*sst diff --stage sandbox[\s\S]*sst deploy --stage sandbox/,
+    );
+  } finally {
+    await rm(fakeBin, { force: true, recursive: true });
+  }
+
+  for (const item of [
+    'exact stage',
+    'SHA-256',
+    'estimated monthly cost',
+    'public endpoints',
+    'secret bindings',
+    'explicit approval',
+  ]) {
+    assert.match(runbook, new RegExp(item, 'i'));
+  }
+  assert.match(runbook, /sandbox/);
+  assert.match(runbook, /must not be `production`/);
+  assert.doesNotMatch(
+    runbook,
+    /MERCADO_PAGO_(?:ACCESS_TOKEN|WEBHOOK_SECRET)=\S+/,
+  );
+});
