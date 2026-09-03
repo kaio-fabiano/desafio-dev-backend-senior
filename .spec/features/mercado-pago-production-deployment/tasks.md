@@ -30,3 +30,18 @@
 - Esforço: alto
 - Arquivos: docs/evidence/mercado-pago-production-deployment/deployment.json, docs/evidence/mercado-pago-production-deployment/provider-sandbox.json, docs/evidence/mercado-pago-production-deployment/smoke-test.md
 - Notas: This task starts only after the owner approves the exact stage and reviewed SST diff. Store redacted evidence, execute the credentialed provider checks, and roll back on a critical smoke failure.
+
+## T-150 — Add a safe local environment template [concluida]
+- Refs: US-095, US-096, AC-189, AC-192, AC-193
+- Modelo: gpt-5.6-luna
+- Esforço: baixo
+- Arquivos: .gitignore, .env.example, docs/runbooks/deployment.md
+- Notas: Ignore every local `.env` file, version placeholders only, default the documented stage to `sandbox`, and document loading the configured AWS profile plus syncing secrets to the SST secret store without printing values.
+
+## T-151 — Enable real Mercado Pago mode in local Compose [pendente]
+
+- Refs: US-095, AC-189, AC-190
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: compose.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/mercado-pago-sandbox.md
+- Notas: Forward only the required provider configuration from the ignored local environment into Payment Federation, preserve deterministic defaults when explicitly selected, document discovery of the random host port for an HTTPS tunnel, and prove missing real-provider inputs fail closed.

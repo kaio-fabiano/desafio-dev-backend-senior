@@ -179,10 +179,21 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
 });
 
 test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async () => {
-  const [infraPackage, runbook] = await Promise.all([
-    readFile('infra/package.json', 'utf8').then(JSON.parse),
-    readFile('docs/runbooks/deployment.md', 'utf8'),
-  ]);
+  const [infraPackage, runbook, environmentTemplate, gitignore] =
+    await Promise.all([
+      readFile('infra/package.json', 'utf8').then(JSON.parse),
+      readFile('docs/runbooks/deployment.md', 'utf8'),
+      readFile('.env.example', 'utf8'),
+      readFile('.gitignore', 'utf8'),
+    ]);
+
+  assert.match(gitignore, /^\.env$/m);
+  assert.match(gitignore, /^\.env\.\*$/m);
+  assert.match(gitignore, /^!\.env\.example$/m);
+  assert.match(environmentTemplate, /^AWS_PROFILE=kaio-silva$/m);
+  assert.match(environmentTemplate, /^SST_STAGE=sandbox$/m);
+  assert.match(environmentTemplate, /^MERCADO_PAGO_ACCESS_TOKEN=$/m);
+  assert.doesNotMatch(environmentTemplate, /APP_USR-|TEST-/);
 
   const review = infraPackage.scripts.review;
   const deploy = infraPackage.scripts.deploy;

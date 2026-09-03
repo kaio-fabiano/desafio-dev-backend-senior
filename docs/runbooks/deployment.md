@@ -20,6 +20,21 @@ script is the only approved provisioning entry point.
 - Record the AWS account ID separately from public evidence. The account ID and
   credentials are not approval tokens.
 
+Copy `.env.example` to the ignored root `.env` and fill it locally. Load it in
+the shell that will run SST; Fish users should invoke the Bash subshell form so
+the dotenv assignments are interpreted correctly. Never print the resulting
+environment.
+
+```sh
+# Bash
+set -a
+source ../.env
+set +a
+
+# Fish terminal: run the SST command inside a Bash subshell
+bash -lc 'set -a; source ../.env; set +a; corepack pnpm run validate'
+```
+
 ```sh
 cd infra
 export SST_STAGE=sandbox
