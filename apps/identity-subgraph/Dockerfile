@@ -15,4 +15,5 @@ COPY --chown=app:app libs/contracts/graphql/identity/schema.graphql ./libs/contr
 COPY --chown=app:app libs/identity/nest ./libs/identity/nest
 COPY --chown=app:app libs/platform/nest ./libs/platform/nest
 USER app
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 CMD node -e "fetch('http://127.0.0.1:3001/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
 CMD ["node", "--experimental-transform-types", "apps/identity-subgraph/src/main.ts"]
