@@ -35,8 +35,8 @@ export function validateSandboxClaims(claims: Record<string, unknown>) {
 async function main() {
   const identityUrl = process.argv[2];
   const environmentPath = process.argv[3] ?? '.env';
-  if (!identityUrl?.startsWith('http://127.0.0.1:')) {
-    throw new Error('Expected the local Identity URL as the first argument');
+  if (!identityUrl || !isApprovedIdentityUrl(identityUrl)) {
+    throw new Error('Expected an HTTPS or loopback Identity URL as the first argument');
   }
   const grant = await issueSandboxBearer(identityUrl);
   validateSandboxClaims(grant.claims);
@@ -52,6 +52,11 @@ async function main() {
   process.stdout.write(
     'Sandbox bearer generated and stored without disclosure.\n',
   );
+}
+
+export function isApprovedIdentityUrl(value: string) {
+  const url = new URL(value);
+  return url.protocol === 'https:' || url.hostname === '127.0.0.1';
 }
 
 if (

@@ -119,6 +119,7 @@ async function issueToken(
   scopes: string[],
   cookie: string,
 ) {
+  const origin = new URL(environment.identityUrl).origin;
   let sessionCookie = cookie;
   const clients = await fetch(`${environment.identityUrl}/oauth/clients`).then(
     (response) => response.json() as Promise<{ gateway: string }>,
@@ -163,7 +164,7 @@ async function issueToken(
         headers: {
           'content-type': 'application/json',
           cookie: sessionCookie,
-          origin: 'http://identity.localhost:3001',
+          origin,
         },
         body: JSON.stringify({ accept: true, oauth_query: next.oauthQuery }),
       },
@@ -254,13 +255,14 @@ export function mergeResponseCookies(
 async function registerBuyer(
   environment: Pick<Milestone7Environment, 'identityUrl'>,
 ) {
+  const origin = new URL(environment.identityUrl).origin;
   let response = await fetch(
     `${environment.identityUrl}/api/auth/sign-up/email`,
     {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        origin: 'http://identity.localhost:3001',
+        origin,
       },
       body: JSON.stringify({
         email: BUYER_EMAIL,
@@ -276,7 +278,7 @@ async function registerBuyer(
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          origin: 'http://identity.localhost:3001',
+          origin,
         },
         body: JSON.stringify({ email: BUYER_EMAIL, password: BUYER_PASSWORD }),
       },
