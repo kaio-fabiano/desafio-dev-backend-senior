@@ -429,6 +429,7 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
     ]);
 
   assert.match(mcpImage, /COPY --from=healthcheck \/bin\/busybox \/bin\/busybox/);
+  assert.match(mcpImage, /USER 0:0[\s\S]*RUN \["\/bin\/busybox", "ln"[\s\S]*USER 1000:1000/);
   assert.match(wordpressEntrypoint, /-f \/var\/www\/html\/wp-config\.php/);
   assert.match(stack, /gosu rabbitmq rabbitmq-diagnostics -q ping/);
   assert.match(orm, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
