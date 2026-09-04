@@ -47,7 +47,7 @@ export type AcceptanceProof = {
 };
 
 async function graphql(
-  environment: Milestone7Environment,
+  environment: Pick<Milestone7Environment, 'gatewayUrl'>,
   operationName: string,
   variables: JsonObject = {},
   accessToken?: string,
@@ -312,14 +312,84 @@ export async function issueSandboxBearer(identityUrl: string) {
   const registration = await registerBuyer({ identityUrl });
   return issueToken(
     { identityUrl },
-    [GATEWAY_AUDIENCE, ORDER_WORKFLOW_AUDIENCE, PAYMENT_AUDIENCE],
-    ['cart:write', 'orders:read'],
+    [
+      GATEWAY_AUDIENCE,
+      IDENTITY_AUDIENCE,
+      MCP_AUDIENCE,
+      ORDER_WORKFLOW_AUDIENCE,
+      PAYMENT_AUDIENCE,
+    ],
+    ['marketplace:read', 'mcp:tools', 'cart:write', 'orders:read'],
     registration.cookie,
   );
 }
 
+export async function proveSandboxMcpAccess(
+  identityUrl: string,
+  publicApiUrl: string,
+  grant: Awaited<ReturnType<typeof issueSandboxBearer>>,
+) {
+  const environment = {
+    gatewayUrl: publicApiUrl.replace(/\/$/, ''),
+    identityUrl,
+    mcpUrl: `${publicApiUrl.replace(/\/$/, '')}/mcp`,
+  };
+  const gatewayIdentity = await graphql(
+    environment,
+    'me',
+    {},
+    grant.accessToken,
+  );
+  const mcpIdentity = await invokeMe(environment, grant.accessToken);
+  const gatewayOnly = await issueToken(
+    environment,
+    [GATEWAY_AUDIENCE],
+    SCOPES,
+    grant.cookie,
+  );
+  const invalidAudience = await mcpRequest(
+    environment,
+    gatewayOnly.accessToken,
+    {
+      jsonrpc: '2.0',
+      id: 6,
+      method: 'initialize',
+      params: {
+        protocolVersion: '2025-06-18',
+        capabilities: {},
+        clientInfo: { name: 'sandbox-mcp-proof', version: '1.0.0' },
+      },
+    },
+  );
+  const underScoped = await issueToken(
+    environment,
+    [GATEWAY_AUDIENCE, MCP_AUDIENCE],
+    ['mcp:tools'],
+    gatewayOnly.cookie,
+  );
+  const underScopedResponse = await mcpRequest(
+    environment,
+    underScoped.accessToken,
+    {
+      jsonrpc: '2.0',
+      id: 7,
+      method: 'tools/call',
+      params: { name: 'me', arguments: {} },
+    },
+  );
+
+  return {
+    gatewayStatus: 200,
+    mcpStatus: 200,
+    sameIdentity: gatewayIdentity.id === mcpIdentity.id,
+    invalidAudienceStatus: invalidAudience.status,
+    invalidAudienceChallenge: invalidAudience.headers.has('www-authenticate'),
+    underScopedStatus: underScopedResponse.status,
+  };
+}
+
 async function mcpRequest(
-  environment: Milestone7Environment,
+  environment: Pick<Milestone7Environment, 'mcpUrl'>,
   accessToken: string | undefined,
   body: JsonObject,
   sessionId?: string,
@@ -337,7 +407,7 @@ async function mcpRequest(
 }
 
 async function invokeMe(
-  environment: Milestone7Environment,
+  environment: Pick<Milestone7Environment, 'mcpUrl'>,
   accessToken: string,
 ) {
   const initialize = await mcpRequest(environment, accessToken, {

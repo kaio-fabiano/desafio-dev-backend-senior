@@ -1,6 +1,6 @@
 # Sandbox release smoke test
 
-- Executed: `2026-09-04T10:20:24Z`
+- Executed: `2026-09-04T16:16:01Z`
 - Git revision: `9c341b30c17bc42e2df99279b9f1a853b67b64a4`
 - Stage: `sandbox`
 - Public endpoint: `https://zvc13ty1m4.execute-api.us-east-1.amazonaws.com`
@@ -10,6 +10,9 @@
 - Authenticated GraphQL request: HTTP 200 with the renewed OAuth PKCE bearer
 - Anonymous GraphQL request: HTTP 401
 - Anonymous MCP initialization: HTTP 401
+- Authenticated MCP `me` with the same multi-resource bearer: HTTP 200 with the same buyer as GraphQL
+- Invalid-audience MCP initialization: HTTP 401 with a `WWW-Authenticate` challenge
+- Under-scoped MCP `me`: HTTP 403
 - Unsigned Mercado Pago webhook: HTTP 400 without a state transition
 - Mercado Pago provider verification: Card and Pix retries resolved to one provider payment per operation key
 - Invalid signed webhook: HTTP 401 without a local state transition

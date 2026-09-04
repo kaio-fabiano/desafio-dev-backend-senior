@@ -12,6 +12,13 @@
         "command": "node --import tsx apps/e2e/src/sandbox-bearer.ts"
       }
     },
+    "mercado-pago-sandbox-mcp": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "command": "MERCADO_PAGO_SANDBOX_MCP_PROOF=1 node --import tsx apps/e2e/src/sandbox-bearer.ts"
+      }
+    },
     "mercado-pago-sandbox": {
       "executor": "nx:run-commands",
       "cache": false,

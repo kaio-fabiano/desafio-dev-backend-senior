@@ -232,6 +232,84 @@ test('AC-193: operational smoke evidence identifies the release and preserves ro
   assert.doesNotMatch(smoke, /(?:APP_USR|TEST)-[A-Za-z0-9_-]+/);
 });
 
+test('AC-062: invalid deployed MCP authentication is rejected with a challenge @spec:AC-062', async () => {
+  const [journey, smoke] = await Promise.all([
+    readFile('apps/e2e/src/journey.ts', 'utf8'),
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/smoke-test.md',
+      'utf8',
+    ),
+  ]);
+
+  assert.match(journey, /\[GATEWAY_AUDIENCE\][\s\S]*invalidAudience/);
+  assert.match(journey, /headers\.has\('www-authenticate'\)/);
+  assert.match(
+    smoke,
+    /Invalid-audience MCP initialization: HTTP 401 with a `WWW-Authenticate` challenge/,
+  );
+});
+
+test('AC-063: deployed MCP tool scopes are enforced @spec:AC-063', async () => {
+  const [journey, mcpConfig, smoke] = await Promise.all([
+    readFile('apps/e2e/src/journey.ts', 'utf8'),
+    readFile('apps/apollo-mcp/mcp.yaml', 'utf8'),
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/smoke-test.md',
+      'utf8',
+    ),
+  ]);
+
+  assert.match(journey, /\['mcp:tools'\][\s\S]*underScopedResponse/);
+  assert.match(
+    mcpConfig,
+    /required_scopes:\n    me:\n      - marketplace:read/,
+  );
+  assert.match(smoke, /Under-scoped MCP `me`: HTTP 403/);
+});
+
+test('AC-064: the unchanged multi-resource bearer reaches Gateway through MCP @spec:AC-064', async () => {
+  const [journey, mcpConfig, smoke] = await Promise.all([
+    readFile('apps/e2e/src/journey.ts', 'utf8'),
+    readFile('apps/apollo-mcp/mcp.yaml', 'utf8'),
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/smoke-test.md',
+      'utf8',
+    ),
+  ]);
+
+  assert.match(
+    journey,
+    /graphql\([\s\S]*grant\.accessToken[\s\S]*invokeMe\(environment, grant\.accessToken\)/,
+  );
+  assert.match(mcpConfig, /disable_auth_token_passthrough: false/);
+  assert.match(
+    smoke,
+    /Authenticated MCP `me` with the same multi-resource bearer: HTTP 200 with the same buyer as GraphQL/,
+  );
+});
+
+test('AC-196: the deployed MCP accepts the same redacted multi-resource bearer @spec:AC-196', async () => {
+  const [project, bearer, smoke] = await Promise.all([
+    readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
+    readFile('apps/e2e/src/sandbox-bearer.ts', 'utf8'),
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/smoke-test.md',
+      'utf8',
+    ),
+  ]);
+
+  assert.equal(project.targets['mercado-pago-sandbox-mcp'].cache, false);
+  assert.match(
+    project.targets['mercado-pago-sandbox-mcp'].options.command,
+    /^MERCADO_PAGO_SANDBOX_MCP_PROOF=1 /,
+  );
+  assert.match(bearer, /proof\.gatewayStatus !== 200/);
+  assert.match(bearer, /proof\.mcpStatus !== 200/);
+  assert.match(bearer, /proof\.invalidAudienceStatus !== 401/);
+  assert.match(bearer, /proof\.underScopedStatus !== 403/);
+  assert.doesNotMatch(smoke, /Bearer [A-Za-z0-9._~-]+/);
+});
+
 test('AC-191: infrastructure fails closed and contains the complete runtime @spec:AC-191', async () => {
   const config = await readFile('infra/sst.config.ts', 'utf8');
   const applications = [
