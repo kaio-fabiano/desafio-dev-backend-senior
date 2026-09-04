@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano delivery-closure` em 2026-08-31 15:29
+# executar-tarefas.sh — gerado por `onp-spec plano delivery-closure` em 2026-09-04 16:59
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-delivery-closure-mthe9061'
+RUN_ID='desafio-dev-backend-senior-delivery-closure-mtn77y9i'
 FEATURE='delivery-closure'
 BASE_BRANCH='spec/delivery-closure'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,227 +168,35 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-085 (ordem do tasks.md) ──
-executar_seq_T_085() {
-  info 'sequencial T-085 — Encode the immutable challenge compliance gate'
-  if rodar_tarefa seq 'T-085' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-151 (ordem do tasks.md) ──
+executar_seq_T_151() {
+  info 'sequencial T-151 — Provision the pull-request SST diff identity'
+  if rodar_tarefa seq 'T-151' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-085 — "Encode the immutable challenge compliance gate"
-  critérios/refs: AC-109 (Compliance evidence uses the challenge as source of truth)
-  arquivos permitidos (e seus testes): docs/evidence/challenge-compliance.md, test/challenge-compliance-contract.test.mjs, test/five-app-topology.test.mjs, test/milestone-8-real-e2e.test.mjs
-  mensagem de commit: "T-085 delivery-closure: Encode the immutable challenge compliance gate"
+T-151 — "Provision the pull-request SST diff identity"
+  critérios/refs: AC-076 (SST changes are reproducible and secret-safe), AC-116 (Final records and gates agree)
+  arquivos permitidos (e seus testes): .github/workflows/infra-diff.yml, docs/runbooks/deployment.md, .spec/features/delivery-closure/tasks.md
+  mensagem de commit: "T-151 delivery-closure: Provision the pull-request SST diff identity"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-085 delivery-closure: Encode the immutable challenge compliance gate (auto-commit do plano)'
-    fi
-    marcar_concluidas T-085
-    verde "✔ T-085 concluída"
-    return 0
-  fi
-  vermelho "✘ T-085 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-085"
-  FALHAS="$FALHAS T-085"
-  return 1
-}
-
-# ── sequencial T-086 (ordem do tasks.md) ──
-executar_seq_T_086() {
-  info 'sequencial T-086 — Restore durable checkout and RabbitMQ choreography'
-  if rodar_tarefa seq 'T-086' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-086 — "Restore durable checkout and RabbitMQ choreography"
-  critérios/refs: AC-110 (RabbitMQ choreography is active)
-  arquivos permitidos (e seus testes): apps/commerce-subgraph, libs/contracts/graphql/commerce/schema.graphql, libs/contracts/events, compose.yaml, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, nx.json, test/delivery-closure-rabbitmq.test.mjs
-  mensagem de commit: "T-086 delivery-closure: Restore durable checkout and RabbitMQ choreography"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-086 delivery-closure: Restore durable checkout and RabbitMQ choreography (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-151 delivery-closure: Provision the pull-request SST diff identity (auto-commit do plano)'
     fi
-    marcar_concluidas T-086
-    verde "✔ T-086 concluída"
+    marcar_concluidas T-151
+    verde "✔ T-151 concluída"
     return 0
   fi
-  vermelho "✘ T-086 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-086"
-  FALHAS="$FALHAS T-086"
-  return 1
-}
-
-# ── sequencial T-087 (ordem do tasks.md) ──
-executar_seq_T_087() {
-  info 'sequencial T-087 — Reactivate the Java Payment Federation event runtime'
-  if rodar_tarefa seq 'T-087' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-087 — "Reactivate the Java Payment Federation event runtime"
-  critérios/refs: AC-111 (Payment delivery is reliable and idempotent)
-  arquivos permitidos (e seus testes): apps/payment-processor/build.gradle.kts, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-processor/src/main/resources, apps/payment-processor/src/test, test/delivery-closure-payment-runtime.test.mjs
-  mensagem de commit: "T-087 delivery-closure: Reactivate the Java Payment Federation event runtime"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-087 delivery-closure: Reactivate the Java Payment Federation event runtime (auto-commit do plano)'
-    fi
-    marcar_concluidas T-087
-    verde "✔ T-087 concluída"
-    return 0
-  fi
-  vermelho "✘ T-087 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-087"
-  FALHAS="$FALHAS T-087"
-  return 1
-}
-
-# ── sequencial T-088 (ordem do tasks.md) ──
-executar_seq_T_088() {
-  info 'sequencial T-088 — Add inventory reaction and compensation to Payment Federation'
-  if rodar_tarefa seq 'T-088' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-088 — "Add inventory reaction and compensation to Payment Federation"
-  critérios/refs: AC-112 (Payment Federation compensates inventory failure)
-  arquivos permitidos (e seus testes): apps/payment-processor/src/main/java/dev/desafio/payment/inventory, apps/payment-processor/src/main/java/dev/desafio/payment/adapter/messaging, apps/payment-processor/src/test, apps/wordpress-integration, libs/contracts/events, compose.yaml, test/delivery-closure-inventory-saga.test.mjs
-  mensagem de commit: "T-088 delivery-closure: Add inventory reaction and compensation to Payment Federation"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-088 delivery-closure: Add inventory reaction and compensation to Payment Federation (auto-commit do plano)'
-    fi
-    marcar_concluidas T-088
-    verde "✔ T-088 concluída"
-    return 0
-  fi
-  vermelho "✘ T-088 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-088"
-  FALHAS="$FALHAS T-088"
-  return 1
-}
-
-# ── sequencial T-089 (ordem do tasks.md) ──
-executar_seq_T_089() {
-  info 'sequencial T-089 — Repair the complete Testcontainers acceptance journey'
-  if rodar_tarefa seq 'T-089' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-089 — "Repair the complete Testcontainers acceptance journey"
-  critérios/refs: AC-113 (E2E starts every mandatory component), AC-114 (E2E proves the complete buyer contract)
-  arquivos permitidos (e seus testes): apps/e2e/src/environment.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, apps/e2e/project.json, libs/contracts/graphql/supergraph.yaml, test/milestone-7-e2e-contract.test.mjs, test/milestone-8-real-e2e.test.mjs
-  mensagem de commit: "T-089 delivery-closure: Repair the complete Testcontainers acceptance journey"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-089 delivery-closure: Repair the complete Testcontainers acceptance journey (auto-commit do plano)'
-    fi
-    marcar_concluidas T-089
-    verde "✔ T-089 concluída"
-    return 0
-  fi
-  vermelho "✘ T-089 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-089"
-  FALHAS="$FALHAS T-089"
-  return 1
-}
-
-# ── sequencial T-090 (ordem do tasks.md) ──
-executar_seq_T_090() {
-  info 'sequencial T-090 — Add optional end-to-end observability'
-  if rodar_tarefa seq 'T-090' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-090 — "Add optional end-to-end observability"
-  critérios/refs: AC-115 (Telemetry crosses RabbitMQ and Payment Federation)
-  arquivos permitidos (e seus testes): package.json, pnpm-lock.yaml, libs/platform/nest/src, apps/gateway/src/main.ts, apps/identity-subgraph/src/main.ts, apps/commerce-subgraph/src, apps/wordpress-federation/src/main.ts, apps/payment-processor, compose.yaml, infra/observability/otel-collector.yaml, docs/runbooks/observability.md, test/delivery-closure-observability.test.mjs
-  mensagem de commit: "T-090 delivery-closure: Add optional end-to-end observability"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-090 delivery-closure: Add optional end-to-end observability (auto-commit do plano)'
-    fi
-    marcar_concluidas T-090
-    verde "✔ T-090 concluída"
-    return 0
-  fi
-  vermelho "✘ T-090 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-090"
-  FALHAS="$FALHAS T-090"
-  return 1
-}
-
-# ── sequencial T-091 (ordem do tasks.md) ──
-executar_seq_T_091() {
-  info 'sequencial T-091 — Reconcile documentation and close every gate'
-  if rodar_tarefa seq 'T-091' 'Você executa UMA tarefa da feature "delivery-closure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-091 — "Reconcile documentation and close every gate"
-  critérios/refs: AC-116 (Final records and gates agree)
-  arquivos permitidos (e seus testes): README.md, docs/evidence/challenge-compliance.md, docs/evidence/milestone-8/requirements.md, docs/prds/08-riscos-e-decisoes-pendentes.md, docs/adrs/004-restricoes-de-entrega.md, docs/adrs/007-federated-platform-boundaries.md, docs/runbooks, .spec/features/milestone-6-apollo-mcp/spec.md, .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/delivery-closure/spec.md, .spec/features/delivery-closure/tasks.md, .spec/verification/delivery-closure.json, libs/wordpress/nest/src/federation/wordpress-federation.module.ts
-  mensagem de commit: "T-091 delivery-closure: Reconcile documentation and close every gate"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `pnpm test:spec && corepack pnpm@10.17.1 exec vitest run apps/e2e/src/milestone-7.e2e.test.ts --reporter=tap --hookTimeout=600000 --testTimeout=600000` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-091 delivery-closure: Reconcile documentation and close every gate (auto-commit do plano)'
-    fi
-    marcar_concluidas T-091
-    verde "✔ T-091 concluída"
-    return 0
-  fi
-  vermelho "✘ T-091 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-091"
-  FALHAS="$FALHAS T-091"
+  vermelho "✘ T-151 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/delivery-closure/executar-tarefas.sh --seq T-151"
+  FALHAS="$FALHAS T-151"
   return 1
 }
 
@@ -445,25 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_085 || true
-  executar_seq_T_086 || true
-  executar_seq_T_087 || true
-  executar_seq_T_088 || true
-  executar_seq_T_089 || true
-  executar_seq_T_090 || true
-  executar_seq_T_091 || true
+  executar_seq_T_151 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-085 (sequencial)"
-  echo "  seq       T-086 (sequencial)"
-  echo "  seq       T-087 (sequencial)"
-  echo "  seq       T-088 (sequencial)"
-  echo "  seq       T-089 (sequencial)"
-  echo "  seq       T-090 (sequencial)"
-  echo "  seq       T-091 (sequencial)"
+  echo "  seq       T-151 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -498,13 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-085) evento --tipo inicio --escopo "seq:T-085"; iniciar_resumos; executar_seq_T_085 || true; encerrar "seq:T-085" ;;
-      T-086) evento --tipo inicio --escopo "seq:T-086"; iniciar_resumos; executar_seq_T_086 || true; encerrar "seq:T-086" ;;
-      T-087) evento --tipo inicio --escopo "seq:T-087"; iniciar_resumos; executar_seq_T_087 || true; encerrar "seq:T-087" ;;
-      T-088) evento --tipo inicio --escopo "seq:T-088"; iniciar_resumos; executar_seq_T_088 || true; encerrar "seq:T-088" ;;
-      T-089) evento --tipo inicio --escopo "seq:T-089"; iniciar_resumos; executar_seq_T_089 || true; encerrar "seq:T-089" ;;
-      T-090) evento --tipo inicio --escopo "seq:T-090"; iniciar_resumos; executar_seq_T_090 || true; encerrar "seq:T-090" ;;
-      T-091) evento --tipo inicio --escopo "seq:T-091"; iniciar_resumos; executar_seq_T_091 || true; encerrar "seq:T-091" ;;
+      T-151) evento --tipo inicio --escopo "seq:T-151"; iniciar_resumos; executar_seq_T_151 || true; encerrar "seq:T-151" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

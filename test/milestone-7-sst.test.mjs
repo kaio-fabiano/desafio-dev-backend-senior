@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [config, infraPackage, ci, deploy, wordpressDockerfile] = await Promise.all([
+const [config, infraPackage, ci, diff, deploy, wordpressDockerfile] = await Promise.all([
   readFile('infra/sst.config.ts', 'utf8'),
   readFile('infra/package.json', 'utf8').then(JSON.parse),
   readFile('.github/workflows/ci.yml', 'utf8'),
+  readFile('.github/workflows/infra-diff.yml', 'utf8'),
   readFile('.github/workflows/deploy.yml', 'utf8'),
   readFile('apps/wordpress-integration/Dockerfile', 'utf8'),
 ]);
@@ -17,6 +18,7 @@ test('AC-076: SST v3 and its AWS provider are pinned exactly @spec:AC-076', () =
   assert.match(config, /providers:[\s\S]*aws:[\s\S]*version: ["']\d+\.\d+\.\d+["']/);
   assert.equal(infraPackage.scripts.validate, 'sst install --stage validation && tsc --noEmit');
   assert.equal(infraPackage.scripts.diff, 'sst diff');
+  assert.match(infraPackage.scripts.review, /sst diff --stage [^&]+ --print-logs/);
 });
 
 test('AC-076: the stack models protected application resources without inline secrets @spec:AC-076', () => {
@@ -41,6 +43,16 @@ test('AC-076: CI validates offline and deploy remains manual, OIDC credentialed,
   assert.match(ci, /pnpm run validate/);
   assert.doesNotMatch(ci, /dangerouslyAllowAllBuilds/);
   assert.doesNotMatch(ci, /infra-diff:|configure-aws-credentials|sst (?:diff|deploy)|pnpm run (?:diff|deploy)/);
+
+  assert.match(diff, /pull_request:/);
+  assert.match(diff, /head\.repo\.full_name == github\.repository/);
+  assert.match(diff, /AWS_INFRASTRUCTURE_DIFF_ROLE_ARN != ''/);
+  assert.match(diff, /id-token: write/);
+  assert.match(diff, /configure-aws-credentials@v6/);
+  assert.match(diff, /role-to-assume: \$\{\{ vars\.AWS_INFRASTRUCTURE_DIFF_ROLE_ARN \}\}/);
+  assert.match(diff, /SST_STAGE: sandbox/);
+  assert.match(diff, /pnpm run review/);
+  assert.doesNotMatch(diff, /sst deploy|pnpm run deploy/);
 
   assert.match(deploy, /workflow_dispatch:/);
   assert.match(deploy, /environment:\s*\n\s+name: production/);

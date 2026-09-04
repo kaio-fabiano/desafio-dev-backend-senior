@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 53,
+      "ocorrencias": 54,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-04T16:32:22.372Z",
-      "gitRev": "f83c506"
+      "ultimaVez": "2026-09-04T16:53:40.649Z",
+      "gitRev": "e29deec"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 52,
+      "ocorrencias": 53,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-09-04T10:31:04.630Z",
-      "gitRev": "192b59b"
+      "ultimaVez": "2026-09-04T16:53:40.649Z",
+      "gitRev": "e29deec"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -5418,6 +5418,15 @@
       "primeiraVez": "2026-09-04T10:31:04.630Z",
       "ultimaVez": "2026-09-04T10:31:04.630Z",
       "gitRev": "192b59b"
+    },
+    "TASK_STATUS_INVALIDO::delivery-closure::T-150": {
+      "codigo": "TASK_STATUS_INVALIDO",
+      "feature": "delivery-closure",
+      "ref": "T-150",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T16:53:40.649Z",
+      "ultimaVez": "2026-09-04T16:53:40.649Z",
+      "gitRev": "e29deec"
     }
   }
 }

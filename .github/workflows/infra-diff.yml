@@ -1,0 +1,42 @@
+name: Review sandbox infrastructure diff
+
+on:
+  pull_request:
+    paths:
+      - 'infra/**'
+      - '.github/workflows/infra-diff.yml'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  infra-diff:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && vars.AWS_INFRASTRUCTURE_DIFF_ROLE_ARN != '' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    env:
+      SST_STAGE: sandbox
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - run: pnpm install --ignore-workspace --lockfile=false --ignore-scripts
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ vars.AWS_INFRASTRUCTURE_DIFF_ROLE_ARN }}
+          mask-aws-account-id: true
+
+      - name: Review SST diff
+        run: pnpm run review

@@ -57,3 +57,35 @@
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Preserve the staged import-order correction, incorporate the owner deadline answer, run all quality and acceptance gates, verify, audit, and remove generated Graphify query state from the delivery.
+
+## T-148 — Refresh challenge compliance and MCP evidence [concluida]
+
+- Refs: US-055, AC-066, AC-109, AC-116
+- Arquivos: docs/evidence/challenge-compliance.md, docs/evidence/mcp/README.md, docs/evidence/mcp/inspector-summary.md, test/challenge-compliance-contract.test.mjs
+- Modelo: gpt-5.6-luna
+- Esforço: baixo
+- Notes: Remove stale deployment gaps and record redacted MCP protocol evidence without storing credentials or claiming an unperformed UI capture.
+
+## T-149 — Run SST diff for trusted pull requests [concluida]
+
+- Refs: US-058, AC-076, AC-116
+- Arquivos: .github/workflows/infra-diff.yml, test/milestone-7-sst.test.mjs
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Notes: Use short-lived OIDC credentials for same-repository pull requests and keep forked or unconfigured pull requests fail-closed.
+
+## T-150 — Verify the final challenge delivery [concluida]
+
+- Refs: US-055, US-058, AC-109, AC-116
+- Arquivos: .spec/features/delivery-closure/tasks.md, .spec/verification/delivery-closure.json
+- Modelo: gpt-5.6-terra
+- Esforço: medio
+- Notes: Run focused tests, workspace quality gates, onp-spec verify, and onp-spec audit --ci before marking the delivery complete.
+
+## T-151 — Provision the pull-request SST diff identity [concluida]
+
+- Refs: US-058, AC-076, AC-116
+- Arquivos: .github/workflows/infra-diff.yml, docs/runbooks/deployment.md, .spec/features/delivery-closure/tasks.md
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Notes: Create a least-privilege GitHub OIDC IAM role restricted to trusted pull requests in the fork, register its ARN as AWS_INFRASTRUCTURE_DIFF_ROLE_ARN, and validate the integration without long-lived AWS credentials.

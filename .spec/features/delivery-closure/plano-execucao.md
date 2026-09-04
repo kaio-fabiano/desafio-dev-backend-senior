@@ -1,25 +1,23 @@
 # Plano de execução — delivery-closure
 
-> gerado por `onp-spec plano` em 2026-08-31 15:29 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-04 16:59 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano delivery-closure --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 7 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (10 já concluída(s): T-085, T-086, T-087, T-088, T-089, T-090, T-091, T-148, T-149, T-150)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/delivery-closure`; levar para a main é decisão sua
 
+### Avisos
+
+- ⚠ T-151 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar
+
 ## Ordem de execução (uma tarefa após a outra)
 
-| tarefa | título                                                        | modelo          | esforço |
-| ------ | ------------------------------------------------------------- | --------------- | ------- |
-| T-085  | Encode the immutable challenge compliance gate                | `gpt-5.6-luna`  | low     |
-| T-086  | Restore durable checkout and RabbitMQ choreography            | `gpt-5.6-sol`   | high    |
-| T-087  | Reactivate the Java Payment Federation event runtime          | `gpt-5.6-sol`   | high    |
-| T-088  | Add inventory reaction and compensation to Payment Federation | `gpt-5.6-sol`   | high    |
-| T-089  | Repair the complete Testcontainers acceptance journey         | `gpt-5.6-sol`   | high    |
-| T-090  | Add optional end-to-end observability                         | `gpt-5.6-sol`   | high    |
-| T-091  | Reconcile documentation and close every gate                  | `gpt-5.6-terra` | medium  |
+| tarefa | título | modelo | esforço |
+|---|---|---|---|
+| T-151 | Provision the pull-request SST diff identity | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits
 

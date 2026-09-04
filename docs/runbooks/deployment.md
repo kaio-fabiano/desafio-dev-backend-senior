@@ -48,6 +48,14 @@ application from starting.
 
 ## Generate and review the exact diff
 
+Pull requests that change `infra/**` run the same sandbox review through
+`.github/workflows/infra-diff.yml`. Configure the repository variable
+`AWS_INFRASTRUCTURE_DIFF_ROLE_ARN` with a read-only infrastructure review role.
+The job uses GitHub OIDC, runs only for branches in this repository, and is
+skipped for forks or when the role is not configured; it never deploys.
+The sandbox account uses the tagged `GitHubActionsSstDiff` role; its
+account-specific ARN lives only in the repository variable.
+
 The review command runs `sst diff` for `SST_STAGE`, writes the complete diff to
 the terminal, and prints its canonical SHA-256 digest as the final line. The
 digest ignores only volatile SST permalinks, elapsed times, blank lines, and

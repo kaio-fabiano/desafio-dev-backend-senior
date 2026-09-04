@@ -1,11 +1,11 @@
 {
   "feature": "milestone-6-apollo-mcp",
-  "timestamp": "2026-09-04T16:35:55.282Z",
-  "gitRev": "f83c506",
+  "timestamp": "2026-09-04T16:55:26.860Z",
+  "gitRev": "e29deec",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 188,
+  "testsParsed": 189,
   "results": {
     "AC-060": {
       "status": "pass",
@@ -44,7 +44,7 @@
     },
     "AC-066": {
       "status": "pass",
-      "testName": "AC-066: Milestone acceptance is reproducible @spec:AC-066",
+      "testName": "AC-066: redacted MCP Inspector evidence names the delivered tools @spec:AC-066",
       "method": "tap"
     }
   },

@@ -4,6 +4,10 @@ import test from 'node:test';
 
 const matrix = await readFile('docs/evidence/challenge-compliance.md', 'utf8');
 const readme = await readFile('README.md', 'utf8');
+const inspector = await readFile(
+  'docs/evidence/mcp/inspector-summary.md',
+  'utf8',
+);
 
 test('AC-109: compliance evidence is anchored to the challenge README @spec:AC-109', async () => {
   const rows = [
@@ -50,4 +54,20 @@ test('AC-109: compliance evidence is anchored to the challenge README @spec:AC-1
       ['proven', 'partially proven', 'not proven', 'optional'].includes(status),
     );
   }
+});
+
+test('AC-066: redacted MCP Inspector evidence names the delivered tools @spec:AC-066', () => {
+  assert.match(inspector, /@modelcontextprotocol\/inspector/);
+  assert.match(inspector, /authenticated `tools\/list`/);
+  for (const tool of [
+    'me',
+    'searchProducts',
+    'getProduct',
+    'getMyCart',
+    'getMyOrders',
+    'addToCart',
+  ]) {
+    assert.match(inspector, new RegExp(`\\b${tool}\\b`));
+  }
+  assert.doesNotMatch(inspector, /Bearer\s+[A-Za-z0-9._~-]+/i);
 });
