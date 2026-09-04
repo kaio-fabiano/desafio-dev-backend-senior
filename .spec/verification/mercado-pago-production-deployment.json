@@ -1,10 +1,10 @@
 {
   "feature": "mercado-pago-production-deployment",
-  "timestamp": "2026-09-04T16:24:09.505Z",
-  "gitRev": "7429a4b",
+  "timestamp": "2026-09-04T16:34:14.669Z",
+  "gitRev": "f83c506",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
-  "exitCode": 123,
+  "exitCode": 0,
   "testsParsed": 188,
   "results": {
     "AC-187": {
