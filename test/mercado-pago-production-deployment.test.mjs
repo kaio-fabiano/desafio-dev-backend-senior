@@ -432,7 +432,8 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
   assert.match(mcpImage, /USER 0:0[\s\S]*RUN \["\/bin\/busybox", "ln"[\s\S]*USER 1000:1000/);
   assert.match(wordpressEntrypoint, /-f \/var\/www\/html\/wp-config\.php/);
   assert.match(stack, /gosu rabbitmq rabbitmq-diagnostics -q ping/);
-  assert.match(stack, /\/bin\/busybox sed -i/);
+  assert.match(stack, /\/bin\/busybox cp \/data\/mcp\.yaml \/tmp\/mcp\.yaml/);
+  assert.match(stack, /\/bin\/busybox sed -i[\s\S]*\/tmp\/mcp\.yaml/);
   assert.match(orm, /driverOptions:[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/);
   assert.match(relay, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
   assert.match(identity, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
