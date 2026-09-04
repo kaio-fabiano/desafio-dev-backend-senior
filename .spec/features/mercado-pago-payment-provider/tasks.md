@@ -36,3 +36,10 @@
 - Esforço: alto
 - Arquivos: apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ProviderNotificationHandlerTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/e2e/src/journey.ts, test/mercado-pago-payment-provider.spec.test.mjs, docs/adrs/010-mercado-pago-payment-provider.md, docs/runbooks/mercado-pago-sandbox.md, docs/prds/07-roadmap.md, docs/prds/08-riscos-e-decisoes-pendentes.md
 - Notas: Review correctness, security, concurrency, architecture, and unnecessary abstractions; run Java/TypeScript tests, coverage, ESLint, verify, and audit. Sandbox verification is opt-in because credentials are external secrets.
+
+## T-161 — Align provider resilience contracts with extracted methods [concluida]
+- Refs: AC-163, AC-165
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: test/mercado-pago-payment-provider.spec.test.mjs
+- Notas: Replace brittle whole-file position and exact variable-name assertions with structural checks for the extracted signature-validation and ambiguous-creation recovery flows, without weakening the behavioral Java tests.
