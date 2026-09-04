@@ -114,8 +114,7 @@
 - Arquivos: infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts, libs/identity/nest/src/auth/better-auth.factory.ts, apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, test/mercado-pago-production-deployment.test.mjs
 - Notas: Fix the observed ECS startup failures at their source, preserve non-root containers where supported, prove database credentials are passed without stringifying secret outputs, keep durable broker data writable, permit sandbox bearer issuance only through HTTPS or loopback Identity endpoints, and require public health checks to succeed before release evidence is accepted.
 
-## T-161 — Validate the merged sandbox release operationally [pendente]
-
+## T-161 — Validate the merged sandbox release operationally [concluida]
 - Refs: US-095, US-096, AC-189, AC-190, AC-193
 - Modelo: gpt-5.6-sol
 - Esforço: alto

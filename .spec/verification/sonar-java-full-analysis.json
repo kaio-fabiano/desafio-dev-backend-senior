@@ -1,11 +1,11 @@
 {
   "feature": "sonar-java-full-analysis",
-  "timestamp": "2026-09-03T11:15:35.754Z",
-  "gitRev": "2a34b4e",
+  "timestamp": "2026-09-04T10:39:37.565Z",
+  "gitRev": "e0a2ede",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 178,
+  "testsParsed": 184,
   "results": {
     "AC-194": {
       "status": "pass",
