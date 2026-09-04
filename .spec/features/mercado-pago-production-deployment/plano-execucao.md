@@ -1,11 +1,11 @@
 # Plano de execução — mercado-pago-production-deployment
 
-> gerado por `onp-spec plano` em 2026-09-04 10:12 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-04 16:08 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano mercado-pago-production-deployment --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (14 já concluída(s): T-146, T-147, T-148, T-149, T-150, T-151, T-152, T-153, T-154, T-156, T-157, T-158, T-159, T-160)
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (15 já concluída(s): T-146, T-147, T-148, T-149, T-150, T-151, T-152, T-153, T-154, T-156, T-157, T-158, T-159, T-160, T-161)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/mercado-pago-production-deployment`; levar para a main é decisão sua
 
@@ -13,7 +13,7 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-161 | Validate the merged sandbox release operationally | `gpt-5.6-sol` | high |
+| T-162 | Prove authenticated MCP multi-resource access | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits
 

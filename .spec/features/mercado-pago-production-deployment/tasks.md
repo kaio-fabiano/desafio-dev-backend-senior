@@ -120,3 +120,11 @@
 - Esforço: alto
 - Arquivos: docs/evidence/mercado-pago-production-deployment/deployment.json, docs/evidence/mercado-pago-production-deployment/provider-sandbox.json, docs/evidence/mercado-pago-production-deployment/smoke-test.md, .spec/features/mercado-pago-production-deployment/tasks.md, .spec/verification/mercado-pago-production-deployment.json
 - Notas: Synchronize the local checkout with the merged fork main, verify the deployed AWS sandbox health, execute one uniquely keyed Mercado Pago test payment through the public application, confirm signed webhook and WooCommerce order convergence, keep every credential and provider payload redacted, and update release evidence only from observed results.
+
+## T-162 — Prove authenticated MCP multi-resource access [pendente]
+
+- Refs: US-099, AC-062, AC-063, AC-064, AC-196
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/journey.ts, apps/e2e/project.json, apps/apollo-mcp/mcp.yaml, infra/sst.config.ts, docs/evidence/mercado-pago-production-deployment/smoke-test.md, test/mercado-pago-production-deployment.test.mjs, .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md, .spec/verification/mercado-pago-production-deployment.json
+- Notas: Diagnose the observed authenticated MCP 401, issue one OAuth PKCE bearer containing both Gateway and MCP audiences, prove the exact same bearer succeeds against GraphQL and MCP while an invalid audience fails, change runtime configuration only if the correct multi-resource token still fails, and never print or persist bearer values in versioned evidence.

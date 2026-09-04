@@ -87,6 +87,16 @@ permanent load-balancer costs or a purchased DNS name.
 - **Quando** the SST sandbox infrastructure is evaluated
 - **Então** one API Gateway HTTP API routes OAuth, Gateway, MCP, health, and the exact Mercado Pago webhook path over its managed HTTPS URL without service-owned load balancers
 
+### US-099 — Prove authenticated MCP access after deployment
+
+As an operator, I want the deployed MCP endpoint exercised with a resource-bound OAuth token, so that a successful release proves both authentication and audience isolation rather than only anonymous rejection.
+
+#### AC-196 — The deployed MCP accepts the same multi-resource bearer
+
+- **Dado** the deployed sandbox OAuth issuer and public MCP endpoint
+- **Quando** the client initializes MCP with the same bearer already accepted by the federated GraphQL Gateway and then retries with an invalid audience
+- **Então** the multi-resource bearer is accepted by both resource servers, the invalid-audience bearer is rejected, and the redacted evidence records both outcomes without storing either token
+
 ## Out of scope
 
 - Production customer traffic or live customer cards.
@@ -102,6 +112,7 @@ permanent load-balancer costs or a purchased DNS name.
 | ASM-068 | AWS remains the deployment target because the repository already contains an SST v3 AWS stack.                                                   | confirmada | The owner approved the recommended SST/AWS deployment path.                     |
 | ASM-069 | Provider test payments may be created and refunded as part of verification, provided every operation is uniquely keyed and evidence is redacted. | confirmada | The owner authorized test transactions, refunds, and a temporary HTTPS webhook. |
 | ASM-070 | A managed AWS HTTPS endpoint is preferable to purchasing and operating a custom domain for the sandbox.                                            | confirmada | The owner declined a domain and approved the API Gateway design.                                                   |
+| ASM-071 | One OAuth access token must carry both Gateway and MCP audiences while each resource server validates its own exact audience and required scopes.   | confirmada | The mandatory E2E script requires the MCP client to reuse the same token, and ADR 002 adopts a multi-resource JWT.  |
 
 ## Perguntas em aberto
 

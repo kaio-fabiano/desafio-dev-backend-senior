@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-04 10:12
+# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-04 16:08
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtmsosal'
+RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtn5ee5a'
 FEATURE='mercado-pago-production-deployment'
 BASE_BRANCH='spec/mercado-pago-production-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,17 +168,17 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-161 (ordem do tasks.md) ──
-executar_seq_T_161() {
-  info 'sequencial T-161 — Validate the merged sandbox release operationally'
-  if rodar_tarefa seq 'T-161' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-162 (ordem do tasks.md) ──
+executar_seq_T_162() {
+  info 'sequencial T-162 — Prove authenticated MCP multi-resource access'
+  if rodar_tarefa seq 'T-162' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-161 — "Validate the merged sandbox release operationally"
-  critérios/refs: AC-189 (Real test payments are idempotent and redacted), AC-190 (Webhook and refund convergence is verified), AC-193 (Post-deploy smoke tests prove and preserve the release)
-  arquivos permitidos (e seus testes): docs/evidence/mercado-pago-production-deployment/deployment.json, docs/evidence/mercado-pago-production-deployment/provider-sandbox.json, docs/evidence/mercado-pago-production-deployment/smoke-test.md, .spec/features/mercado-pago-production-deployment/tasks.md, .spec/verification/mercado-pago-production-deployment.json
-  mensagem de commit: "T-161 mercado-pago-production-deployment: Validate the merged sandbox release operationally"
+T-162 — "Prove authenticated MCP multi-resource access"
+  critérios/refs: AC-062 (Invalid MCP authentication is rejected), AC-063 (Tool scopes are enforced), AC-064 (The same bearer token reaches the gateway), AC-196 (The deployed MCP accepts the same multi-resource bearer)
+  arquivos permitidos (e seus testes): apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/journey.ts, apps/e2e/project.json, apps/apollo-mcp/mcp.yaml, infra/sst.config.ts, docs/evidence/mercado-pago-production-deployment/smoke-test.md, test/mercado-pago-production-deployment.test.mjs, .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md, .spec/verification/mercado-pago-production-deployment.json
+  mensagem de commit: "T-162 mercado-pago-production-deployment: Prove authenticated MCP multi-resource access"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -188,15 +188,15 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-161 mercado-pago-production-deployment: Validate the merged sandbox release operationally (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-162 mercado-pago-production-deployment: Prove authenticated MCP multi-resource access (auto-commit do plano)'
     fi
-    marcar_concluidas T-161
-    verde "✔ T-161 concluída"
+    marcar_concluidas T-162
+    verde "✔ T-162 concluída"
     return 0
   fi
-  vermelho "✘ T-161 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh --seq T-161"
-  FALHAS="$FALHAS T-161"
+  vermelho "✘ T-162 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh --seq T-162"
+  FALHAS="$FALHAS T-162"
   return 1
 }
 
@@ -253,13 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_161 || true
+  executar_seq_T_162 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-161 (sequencial)"
+  echo "  seq       T-162 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -294,7 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-161) evento --tipo inicio --escopo "seq:T-161"; iniciar_resumos; executar_seq_T_161 || true; encerrar "seq:T-161" ;;
+      T-162) evento --tipo inicio --escopo "seq:T-162"; iniciar_resumos; executar_seq_T_162 || true; encerrar "seq:T-162" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

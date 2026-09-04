@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtmsosal",
+  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtn5ee5a",
   "feature": "mercado-pago-production-deployment",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-04 10:12",
+  "geradoEm": "2026-09-04 16:08",
   "branchTrabalho": "spec/mercado-pago-production-deployment",
   "baseDir": ".spec/features/mercado-pago-production-deployment",
   "specDir": ".spec",
@@ -16,23 +16,28 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-161",
-      "titulo": "Validate the merged sandbox release operationally",
+      "id": "T-162",
+      "titulo": "Prove authenticated MCP multi-resource access",
       "modelo": "gpt-5.6-sol",
       "esforco": "high",
       "arquivos": [
-        "docs/evidence/mercado-pago-production-deployment/deployment.json",
-        "docs/evidence/mercado-pago-production-deployment/provider-sandbox.json",
+        "apps/e2e/src/sandbox-bearer.ts",
+        "apps/e2e/src/journey.ts",
+        "apps/e2e/project.json",
+        "apps/apollo-mcp/mcp.yaml",
+        "infra/sst.config.ts",
         "docs/evidence/mercado-pago-production-deployment/smoke-test.md",
+        "test/mercado-pago-production-deployment.test.mjs",
+        ".spec/features/mercado-pago-production-deployment/spec.md",
         ".spec/features/mercado-pago-production-deployment/tasks.md",
         ".spec/verification/mercado-pago-production-deployment.json"
       ],
       "refs": [
-        "US-095",
-        "US-096",
-        "AC-189",
-        "AC-190",
-        "AC-193"
+        "US-099",
+        "AC-062",
+        "AC-063",
+        "AC-064",
+        "AC-196"
       ]
     }
   ],
@@ -50,7 +55,8 @@
     "T-157",
     "T-158",
     "T-159",
-    "T-160"
+    "T-160",
+    "T-161"
   ],
   "avisos": []
 }
