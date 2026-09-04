@@ -121,8 +121,7 @@
 - Arquivos: docs/evidence/mercado-pago-production-deployment/deployment.json, docs/evidence/mercado-pago-production-deployment/provider-sandbox.json, docs/evidence/mercado-pago-production-deployment/smoke-test.md, .spec/features/mercado-pago-production-deployment/tasks.md, .spec/verification/mercado-pago-production-deployment.json
 - Notas: Synchronize the local checkout with the merged fork main, verify the deployed AWS sandbox health, execute one uniquely keyed Mercado Pago test payment through the public application, confirm signed webhook and WooCommerce order convergence, keep every credential and provider payload redacted, and update release evidence only from observed results.
 
-## T-162 — Prove authenticated MCP multi-resource access [pendente]
-
+## T-162 — Prove authenticated MCP multi-resource access [concluida]
 - Refs: US-099, AC-062, AC-063, AC-064, AC-196
 - Modelo: gpt-5.6-sol
 - Esforço: alto

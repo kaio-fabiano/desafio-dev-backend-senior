@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 51,
+      "ocorrencias": 52,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-04T10:31:04.630Z",
-      "gitRev": "192b59b"
+      "ultimaVez": "2026-09-04T16:24:09.669Z",
+      "gitRev": "7429a4b"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",

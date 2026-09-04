@@ -1,11 +1,11 @@
 {
   "feature": "mercado-pago-production-deployment",
-  "timestamp": "2026-09-04T10:41:22.363Z",
-  "gitRev": "e0a2ede",
+  "timestamp": "2026-09-04T16:24:09.505Z",
+  "gitRev": "7429a4b",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 184,
+  "testsParsed": 188,
   "results": {
     "AC-187": {
       "status": "pass",
@@ -45,6 +45,11 @@
     "AC-195": {
       "status": "pass",
       "testName": "AC-195: one managed HTTPS API exposes only approved private routes @spec:AC-195",
+      "method": "tap"
+    },
+    "AC-196": {
+      "status": "pass",
+      "testName": "AC-196: the deployed MCP accepts the same redacted multi-resource bearer @spec:AC-196",
       "method": "tap"
     }
   },
