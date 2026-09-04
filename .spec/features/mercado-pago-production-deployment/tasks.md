@@ -113,3 +113,11 @@
 - Esforço: alto
 - Arquivos: infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts, libs/identity/nest/src/auth/better-auth.factory.ts, apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, test/mercado-pago-production-deployment.test.mjs
 - Notas: Fix the observed ECS startup failures at their source, preserve non-root containers where supported, prove database credentials are passed without stringifying secret outputs, keep durable broker data writable, permit sandbox bearer issuance only through HTTPS or loopback Identity endpoints, and require public health checks to succeed before release evidence is accepted.
+
+## T-161 — Validate the merged sandbox release operationally [pendente]
+
+- Refs: US-095, US-096, AC-189, AC-190, AC-193
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: docs/evidence/mercado-pago-production-deployment/deployment.json, docs/evidence/mercado-pago-production-deployment/provider-sandbox.json, docs/evidence/mercado-pago-production-deployment/smoke-test.md, .spec/features/mercado-pago-production-deployment/tasks.md, .spec/verification/mercado-pago-production-deployment.json
+- Notas: Synchronize the local checkout with the merged fork main, verify the deployed AWS sandbox health, execute one uniquely keyed Mercado Pago test payment through the public application, confirm signed webhook and WooCommerce order convergence, keep every credential and provider payload redacted, and update release evidence only from observed results.

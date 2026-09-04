@@ -38,13 +38,13 @@
 </style>
 <main>
   <h1>Plano de execução — mercado-pago-production-deployment</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-04 04:01 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-04 10:12 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>4</b> tarefa(s), uma após a outra</div>
+    <div><b>1</b> tarefa(s), uma após a outra</div>
     <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/mercado-pago-production-deployment</code></div>
   </div>
-  <div class="avisos"><div>⚠ T-159 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar</div></div>
+
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
@@ -61,28 +61,10 @@
       <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
       <div class="grade"><div class="faixa">
         <div class="tarefa">
-          <span class="tid">T-149</span>
-          <span class="ttitulo">Deploy the approved stage and run release smoke tests</span>
+          <span class="tid">T-161</span>
+          <span class="ttitulo">Validate the merged sandbox release operationally</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>docs/evidence/mercado-pago-production-deployment/deployment.json</code> <code>docs/evidence/mercado-pago-production-deployment/provider-sandbox.json</code> <code>docs/evidence/mercado-pago-production-deployment/smoke-test.md</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-157</span>
-          <span class="ttitulo">Synchronize sandbox secrets and generate the reviewed SST diff</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>docs/evidence/mercado-pago-production-deployment/predeploy.md</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-159</span>
-          <span class="ttitulo">Replace public load balancers with managed HTTPS routing</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>infra/sst.config.ts</code> <code>infra/package.json</code> <code>apps/apollo-mcp/mcp.yaml</code> <code>test/mercado-pago-production-deployment.test.mjs</code> <code>docs/runbooks/deployment.md</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-160</span>
-          <span class="ttitulo">Repair sandbox container startup and readiness</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>infra/sst.config.ts</code> <code>apps/apollo-mcp/Dockerfile</code> <code>apps/wordpress-integration/scripts/production-entrypoint.sh</code> <code>test/mercado-pago-production-deployment.test.mjs</code></span>
+          <span class="arquivos"><code>docs/evidence/mercado-pago-production-deployment/deployment.json</code> <code>docs/evidence/mercado-pago-production-deployment/provider-sandbox.json</code> <code>docs/evidence/mercado-pago-production-deployment/smoke-test.md</code> <code>.spec/features/mercado-pago-production-deployment/tasks.md</code> <code>.spec/verification/mercado-pago-production-deployment.json</code></span>
         </div></div></div>
     </section>
   <section class="onda">
