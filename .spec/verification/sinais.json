@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 54,
+      "ocorrencias": 56,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-04T16:53:40.649Z",
-      "gitRev": "e29deec"
+      "ultimaVez": "2026-09-04T17:58:52.629Z",
+      "gitRev": "0f65735"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 53,
+      "ocorrencias": 55,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-09-04T16:53:40.649Z",
-      "gitRev": "e29deec"
+      "ultimaVez": "2026-09-04T17:58:52.629Z",
+      "gitRev": "0f65735"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 39,
+      "ocorrencias": 40,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-09-04T06:29:11.739Z",
-      "gitRev": "09d52c5"
+      "ultimaVez": "2026-09-04T17:58:52.629Z",
+      "gitRev": "0f65735"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 31,
+      "ocorrencias": 33,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-04T10:31:04.629Z",
-      "gitRev": "192b59b"
+      "ultimaVez": "2026-09-04T17:58:52.628Z",
+      "gitRev": "0f65735"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -5427,6 +5427,60 @@
       "primeiraVez": "2026-09-04T16:53:40.649Z",
       "ultimaVez": "2026-09-04T16:53:40.649Z",
       "gitRev": "e29deec"
+    },
+    "ARQUIVO_INEXISTENTE::graphql-relay-dataloader-closure::T-163": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "graphql-relay-dataloader-closure",
+      "ref": "T-163",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T17:46:10.175Z",
+      "ultimaVez": "2026-09-04T17:46:10.175Z",
+      "gitRev": "0f65735"
+    },
+    "ARQUIVO_INEXISTENTE::graphql-relay-dataloader-closure::T-164": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "graphql-relay-dataloader-closure",
+      "ref": "T-164",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-04T17:46:10.175Z",
+      "ultimaVez": "2026-09-04T17:46:10.175Z",
+      "gitRev": "0f65735"
+    },
+    "ARQUIVO_INEXISTENTE::graphql-relay-dataloader-closure::T-165": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "graphql-relay-dataloader-closure",
+      "ref": "T-165",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T17:46:10.175Z",
+      "ultimaVez": "2026-09-04T17:46:10.175Z",
+      "gitRev": "0f65735"
+    },
+    "AC_SEM_TESTE::graphql-relay-dataloader-closure::AC-197": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "graphql-relay-dataloader-closure",
+      "ref": "AC-197",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T17:46:10.175Z",
+      "ultimaVez": "2026-09-04T17:46:10.175Z",
+      "gitRev": "0f65735"
+    },
+    "AC_SEM_TESTE::graphql-relay-dataloader-closure::AC-198": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "graphql-relay-dataloader-closure",
+      "ref": "AC-198",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T17:46:10.175Z",
+      "ultimaVez": "2026-09-04T17:46:10.175Z",
+      "gitRev": "0f65735"
+    },
+    "AC_SEM_TESTE::graphql-relay-dataloader-closure::AC-199": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "graphql-relay-dataloader-closure",
+      "ref": "AC-199",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T17:46:10.175Z",
+      "ultimaVez": "2026-09-04T17:46:10.175Z",
+      "gitRev": "0f65735"
     }
   }
 }

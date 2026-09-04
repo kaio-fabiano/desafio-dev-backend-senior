@@ -41,7 +41,10 @@ test('AC-109: compliance evidence is anchored to the challenge README @spec:AC-1
   ] of rows) {
     assert.ok(requirement && sourceLabel && evidenceLabel);
     assert.match(sourceLink, /^\.\.\/\.\.\/README\.md#/);
-    assert.match(evidenceLink, /^\.\.\/\.\.\/test\/[^)]+\.mjs$/);
+    assert.match(
+      evidenceLink,
+      /^\.\.\/\.\.\/(?:test\/[^)]+\.mjs|apps\/e2e\/src\/[^)]+\.e2e\.test\.ts)$/,
+    );
     await access(
       new URL(sourceLink, 'file://' + process.cwd() + '/docs/evidence/')
         .pathname,
