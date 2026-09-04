@@ -1,11 +1,11 @@
 {
   "feature": "milestone-6-apollo-mcp",
-  "timestamp": "2026-09-04T10:36:21.334Z",
-  "gitRev": "e0a2ede",
+  "timestamp": "2026-09-04T16:26:02.703Z",
+  "gitRev": "52f20a9",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 184,
+  "testsParsed": 188,
   "results": {
     "AC-060": {
       "status": "pass",
@@ -24,17 +24,17 @@
     },
     "AC-062": {
       "status": "pass",
-      "testName": "AC-062: Invalid MCP authentication is rejected @spec:AC-062",
+      "testName": "AC-062: invalid deployed MCP authentication is rejected with a challenge @spec:AC-062",
       "method": "tap"
     },
     "AC-063": {
       "status": "pass",
-      "testName": "AC-063: Tool scopes are enforced @spec:AC-063",
+      "testName": "AC-063: deployed MCP tool scopes are enforced @spec:AC-063",
       "method": "tap"
     },
     "AC-064": {
       "status": "pass",
-      "testName": "AC-064: The same bearer token reaches the gateway @spec:AC-064",
+      "testName": "AC-064: the unchanged multi-resource bearer reaches Gateway through MCP @spec:AC-064",
       "method": "tap"
     },
     "AC-065": {
