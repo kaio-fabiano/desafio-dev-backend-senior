@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-03 09:55
+# executar-tarefas.sh — gerado por `onp-spec plano mercado-pago-production-deployment` em 2026-09-04 04:01
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtlcnr4e'
+RUN_ID='desafio-dev-backend-senior-mercado-pago-production-deployment-mtmfftuj'
 FEATURE='mercado-pago-production-deployment'
 BASE_BRANCH='spec/mercado-pago-production-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -200,17 +200,17 @@ Regras inegociáveis:
   return 1
 }
 
-# ── sequencial T-154 (ordem do tasks.md) ──
-executar_seq_T_154() {
-  info 'sequencial T-154 — Use real WooCommerce orders in sandbox verification'
-  if rodar_tarefa seq 'T-154' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-157 (ordem do tasks.md) ──
+executar_seq_T_157() {
+  info 'sequencial T-157 — Synchronize sandbox secrets and generate the reviewed SST diff'
+  if rodar_tarefa seq 'T-157' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-154 — "Use real WooCommerce orders in sandbox verification"
-  critérios/refs: AC-189 (Real test payments are idempotent and redacted), AC-190 (Webhook and refund convergence is verified)
-  arquivos permitidos (e seus testes): apps/e2e/src/mercado-pago-sandbox.ts, apps/e2e/src/mercado-pago-sandbox.test.ts, docs/runbooks/mercado-pago-sandbox.md, test/mercado-pago-production-deployment.test.mjs
-  mensagem de commit: "T-154 mercado-pago-production-deployment: Use real WooCommerce orders in sandbox verification"
+T-157 — "Synchronize sandbox secrets and generate the reviewed SST diff"
+  critérios/refs: AC-191 (Infrastructure fails closed and contains the complete runtime), AC-192 (Deployment is reviewed before provisioning)
+  arquivos permitidos (e seus testes): docs/evidence/mercado-pago-production-deployment/predeploy.md
+  mensagem de commit: "T-157 mercado-pago-production-deployment: Synchronize sandbox secrets and generate the reviewed SST diff"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -220,15 +220,79 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-154 mercado-pago-production-deployment: Use real WooCommerce orders in sandbox verification (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-157 mercado-pago-production-deployment: Synchronize sandbox secrets and generate the reviewed SST diff (auto-commit do plano)'
     fi
-    marcar_concluidas T-154
-    verde "✔ T-154 concluída"
+    marcar_concluidas T-157
+    verde "✔ T-157 concluída"
     return 0
   fi
-  vermelho "✘ T-154 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh --seq T-154"
-  FALHAS="$FALHAS T-154"
+  vermelho "✘ T-157 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh --seq T-157"
+  FALHAS="$FALHAS T-157"
+  return 1
+}
+
+# ── sequencial T-159 (ordem do tasks.md) ──
+executar_seq_T_159() {
+  info 'sequencial T-159 — Replace public load balancers with managed HTTPS routing'
+  if rodar_tarefa seq 'T-159' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-159 — "Replace public load balancers with managed HTTPS routing"
+  critérios/refs: AC-195 (One API Gateway exposes only the approved public routes), AC-192 (Deployment is reviewed before provisioning), AC-193 (Post-deploy smoke tests prove and preserve the release)
+  arquivos permitidos (e seus testes): infra/sst.config.ts, infra/package.json, apps/apollo-mcp/mcp.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
+  mensagem de commit: "T-159 mercado-pago-production-deployment: Replace public load balancers with managed HTTPS routing"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-159 mercado-pago-production-deployment: Replace public load balancers with managed HTTPS routing (auto-commit do plano)'
+    fi
+    marcar_concluidas T-159
+    verde "✔ T-159 concluída"
+    return 0
+  fi
+  vermelho "✘ T-159 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh --seq T-159"
+  FALHAS="$FALHAS T-159"
+  return 1
+}
+
+# ── sequencial T-160 (ordem do tasks.md) ──
+executar_seq_T_160() {
+  info 'sequencial T-160 — Repair sandbox container startup and readiness'
+  if rodar_tarefa seq 'T-160' 'Você executa UMA tarefa da feature "mercado-pago-production-deployment" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/mercado-pago-production-deployment/spec.md, .spec/features/mercado-pago-production-deployment/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-160 — "Repair sandbox container startup and readiness"
+  critérios/refs: AC-191 (Infrastructure fails closed and contains the complete runtime), AC-192 (Deployment is reviewed before provisioning), AC-193 (Post-deploy smoke tests prove and preserve the release)
+  arquivos permitidos (e seus testes): infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, test/mercado-pago-production-deployment.test.mjs
+  mensagem de commit: "T-160 mercado-pago-production-deployment: Repair sandbox container startup and readiness"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-160 mercado-pago-production-deployment: Repair sandbox container startup and readiness (auto-commit do plano)'
+    fi
+    marcar_concluidas T-160
+    verde "✔ T-160 concluída"
+    return 0
+  fi
+  vermelho "✘ T-160 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/mercado-pago-production-deployment/executar-tarefas.sh --seq T-160"
+  FALHAS="$FALHAS T-160"
   return 1
 }
 
@@ -286,14 +350,18 @@ executar_tudo() {
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
   executar_seq_T_149 || true
-  executar_seq_T_154 || true
+  executar_seq_T_157 || true
+  executar_seq_T_159 || true
+  executar_seq_T_160 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
   echo "  seq       T-149 (sequencial)"
-  echo "  seq       T-154 (sequencial)"
+  echo "  seq       T-157 (sequencial)"
+  echo "  seq       T-159 (sequencial)"
+  echo "  seq       T-160 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -329,7 +397,9 @@ case "$MODO" in
   seq)
     case "$ALVO" in
       T-149) evento --tipo inicio --escopo "seq:T-149"; iniciar_resumos; executar_seq_T_149 || true; encerrar "seq:T-149" ;;
-      T-154) evento --tipo inicio --escopo "seq:T-154"; iniciar_resumos; executar_seq_T_154 || true; encerrar "seq:T-154" ;;
+      T-157) evento --tipo inicio --escopo "seq:T-157"; iniciar_resumos; executar_seq_T_157 || true; encerrar "seq:T-157" ;;
+      T-159) evento --tipo inicio --escopo "seq:T-159"; iniciar_resumos; executar_seq_T_159 || true; encerrar "seq:T-159" ;;
+      T-160) evento --tipo inicio --escopo "seq:T-160"; iniciar_resumos; executar_seq_T_160 || true; encerrar "seq:T-160" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

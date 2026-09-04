@@ -12,7 +12,7 @@ trap 'kill -TERM "$wordpress_pid" 2>/dev/null || true' TERM INT
 
 wp=(wp --allow-root --path=/var/www/html)
 for attempt in $(seq 1 90); do
-  "${wp[@]}" core version >/dev/null 2>&1 && break
+  [[ -f /var/www/html/wp-config.php ]] && "${wp[@]}" core version >/dev/null 2>&1 && break
   [[ "$attempt" != 90 ]] || { echo 'WordPress did not become ready' >&2; exit 1; }
   sleep 2
 done

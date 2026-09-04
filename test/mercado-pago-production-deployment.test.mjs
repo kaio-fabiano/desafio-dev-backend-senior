@@ -416,3 +416,22 @@ test('AC-195: one managed HTTPS API exposes only approved private routes @spec:A
   assert.match(stack, /PUBLIC_API_HOST: publicApi\.url\.apply/);
   assert.match(mcpConfig, /- public-api\.invalid/);
 });
+
+test('AC-193: deployed containers use production-safe startup dependencies @spec:AC-193', async () => {
+  const [stack, mcpImage, wordpressEntrypoint, orm, relay, identity] =
+    await Promise.all([
+      readFile('infra/sst.config.ts', 'utf8'),
+      readFile('apps/apollo-mcp/Dockerfile', 'utf8'),
+      readFile('apps/wordpress-integration/scripts/production-entrypoint.sh', 'utf8'),
+      readFile('apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts', 'utf8'),
+      readFile('apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts', 'utf8'),
+      readFile('libs/identity/nest/src/auth/better-auth.factory.ts', 'utf8'),
+    ]);
+
+  assert.match(mcpImage, /COPY --from=healthcheck \/bin\/busybox \/bin\/busybox/);
+  assert.match(wordpressEntrypoint, /-f \/var\/www\/html\/wp-config\.php/);
+  assert.match(stack, /gosu rabbitmq rabbitmq-diagnostics -q ping/);
+  assert.match(orm, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
+  assert.match(relay, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
+  assert.match(identity, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
+});

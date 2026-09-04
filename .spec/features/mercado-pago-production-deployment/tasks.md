@@ -98,3 +98,10 @@
 - Esforço: alto
 - Arquivos: infra/sst.config.ts, infra/package.json, apps/apollo-mcp/mcp.yaml, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
 - Notas: Use one API Gateway HTTP API with a VPC link and exact private routes, keep every ECS service on Cloud Map, publish the real OAuth issuer and MCP resource URL, remove service-owned ALBs, and retain the SST v3 approval gate.
+
+## T-160 — Repair sandbox container startup and readiness [em-andamento]
+- Refs: US-096, AC-191, AC-192, AC-193
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts, libs/identity/nest/src/auth/better-auth.factory.ts, test/mercado-pago-production-deployment.test.mjs
+- Notas: Fix the observed ECS startup failures at their source, preserve non-root containers where supported, prove database credentials are passed without stringifying secret outputs, keep durable broker data writable, and require public health checks to succeed before release evidence is accepted.

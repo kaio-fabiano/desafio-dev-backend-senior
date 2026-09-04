@@ -66,7 +66,10 @@ export default $config({
     const rabbitMq = new sst.aws.Service('RabbitMq', {
       cluster,
       health: {
-        command: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping'],
+        command: [
+          'CMD-SHELL',
+          'gosu rabbitmq rabbitmq-diagnostics -q ping',
+        ],
       },
       image: 'rabbitmq:4.1.3-management',
       serviceRegistry: { port: 5672 },
