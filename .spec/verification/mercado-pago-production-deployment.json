@@ -1,11 +1,11 @@
 {
   "feature": "mercado-pago-production-deployment",
-  "timestamp": "2026-09-03T13:31:30.682Z",
-  "gitRev": "008195e",
+  "timestamp": "2026-09-04T05:48:37.103Z",
+  "gitRev": "d43da89",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 180,
+  "testsParsed": 181,
   "results": {
     "AC-187": {
       "status": "pass",
@@ -35,6 +35,11 @@
     "AC-192": {
       "status": "pass",
       "testName": "AC-192: deployment is reviewed before provisioning @spec:AC-192",
+      "method": "tap"
+    },
+    "AC-193": {
+      "status": "pass",
+      "testName": "AC-193: deployed containers use production-safe startup dependencies @spec:AC-193",
       "method": "tap"
     },
     "AC-195": {
