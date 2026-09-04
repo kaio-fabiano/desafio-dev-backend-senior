@@ -28,8 +28,14 @@ type Product {
 }
 
 type ProductConnection {
+  edges: [ProductEdge!]!
   nodes: [Product!]!
   pageInfo: PageInfo!
+}
+
+type ProductEdge {
+  cursor: String!
+  node: Product!
 }
 
 type Cart {
@@ -43,8 +49,14 @@ type CartItem {
 }
 
 type CartItemConnection {
+  edges: [CartItemEdge!]!
   nodes: [CartItem!]!
   pageInfo: PageInfo!
+}
+
+type CartItemEdge {
+  cursor: String!
+  node: CartItem!
 }
 
 input AddToCartInput {
@@ -65,14 +77,21 @@ type Order {
   transactionId: String
   total: String
   currency: String
-  lineItems: OrderLineItemConnection
+  lineItems(first: Int, after: String): OrderLineItemConnection
   paymentMethod: PaymentMethod!
   workflow: OrderWorkflow!
   pixCode: String
 }
 
 type OrderLineItemConnection {
+  edges: [OrderLineItemEdge!]!
   nodes: [OrderLineItem!]!
+  pageInfo: PageInfo!
+}
+
+type OrderLineItemEdge {
+  cursor: String!
+  node: OrderLineItem!
 }
 
 type OrderLineItem {
@@ -86,12 +105,20 @@ type Customer {
 }
 
 type OrderConnection {
+  edges: [OrderEdge!]!
   nodes: [Order!]!
   pageInfo: PageInfo!
 }
 
+type OrderEdge {
+  cursor: String!
+  node: Order!
+}
+
 type PageInfo {
   hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
   endCursor: String
 }
 

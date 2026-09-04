@@ -57,7 +57,7 @@ async function graphql(
     me: { query: 'query me { me { id email } }', responseField: 'me' },
     meAndProducts: {
       query:
-        'query meAndProducts { me { id email } products(first: 20) { nodes { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } }',
+        'query meAndProducts { me { id email } products(first: 20) { edges { cursor node { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } } }',
       responseField: undefined,
     },
     addToCart: {
@@ -742,14 +742,14 @@ export async function runAcceptanceJourney(
       retry: cardRetry,
       event: card.event,
       meOrder: cardRetry,
-      products: meAfterCard.products.nodes,
+      products: meAfterCard.products.edges.map(({ node }) => node),
     },
     pix: {
       subscriptionOpenedBeforeCheckout: pix.subscriptionOpenedBeforeCheckout,
       checkout: pix.checkout,
       event: pix.event,
       meOrder: pixRetry,
-      products: meAfterPix.products.nodes,
+      products: meAfterPix.products.edges.map(({ node }) => node),
     },
     compensation: {
       checkout: compensation.checkout,
