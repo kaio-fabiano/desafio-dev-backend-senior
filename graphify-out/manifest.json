@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/milestone-6-apollo-mcp.json": {
-    "mtime": 1788539187.3951545,
-    "seen": 1788539198.066959,
-    "ast_hash": "b9988049f977f153e0a44d772cbf579a",
+    "mtime": 1788539755.2866123,
+    "seen": 1788539780.3122358,
+    "ast_hash": "ec7801ee23d7df8aa2712f6cf0c9af76",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788539187.395419,
-    "seen": 1788539198.0671496,
-    "ast_hash": "239776b3a70ee006aff40d0fb83314ff",
+    "mtime": 1788539542.3751621,
+    "seen": 1788539780.3126535,
+    "ast_hash": "118fc94f00d3929be9b1528385d68e74",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -3006,9 +3006,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/mercado-pago-production-deployment.json": {
-    "mtime": 1788539187.3951545,
-    "seen": 1788539198.0669572,
-    "ast_hash": "dfa3f0522227feb514605bd2a9290789",
+    "mtime": 1788539654.671925,
+    "seen": 1788539780.3122325,
+    "ast_hash": "5e9c7d26137f62b764deca9190e70fff",
     "semantic_hash": ""
   },
   ".spec/verification/sonar-java-full-analysis.json": {
