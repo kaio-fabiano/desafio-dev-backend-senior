@@ -1,0 +1,104 @@
+{
+  "runId": "desafio-dev-backend-senior-mercado-pago-production-deployment-mtmfftuj",
+  "feature": "mercado-pago-production-deployment",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-04 04:01",
+  "branchTrabalho": "spec/mercado-pago-production-deployment",
+  "baseDir": ".spec/features/mercado-pago-production-deployment",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-mercado-pago-production-deployment-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-149",
+      "titulo": "Deploy the approved stage and run release smoke tests",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "docs/evidence/mercado-pago-production-deployment/deployment.json",
+        "docs/evidence/mercado-pago-production-deployment/provider-sandbox.json",
+        "docs/evidence/mercado-pago-production-deployment/smoke-test.md"
+      ],
+      "refs": [
+        "US-095",
+        "US-096",
+        "AC-189",
+        "AC-190",
+        "AC-192",
+        "AC-193"
+      ]
+    },
+    {
+      "id": "T-157",
+      "titulo": "Synchronize sandbox secrets and generate the reviewed SST diff",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "docs/evidence/mercado-pago-production-deployment/predeploy.md"
+      ],
+      "refs": [
+        "US-096",
+        "AC-191",
+        "AC-192"
+      ]
+    },
+    {
+      "id": "T-159",
+      "titulo": "Replace public load balancers with managed HTTPS routing",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "infra/sst.config.ts",
+        "infra/package.json",
+        "apps/apollo-mcp/mcp.yaml",
+        "test/mercado-pago-production-deployment.test.mjs",
+        "docs/runbooks/deployment.md"
+      ],
+      "refs": [
+        "US-098",
+        "AC-195",
+        "AC-192",
+        "AC-193"
+      ]
+    },
+    {
+      "id": "T-160",
+      "titulo": "Repair sandbox container startup and readiness",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "infra/sst.config.ts",
+        "apps/apollo-mcp/Dockerfile",
+        "apps/wordpress-integration/scripts/production-entrypoint.sh",
+        "test/mercado-pago-production-deployment.test.mjs"
+      ],
+      "refs": [
+        "US-096",
+        "AC-191",
+        "AC-192",
+        "AC-193"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-146",
+    "T-147",
+    "T-148",
+    "T-150",
+    "T-151",
+    "T-152",
+    "T-153",
+    "T-154",
+    "T-156",
+    "T-158"
+  ],
+  "avisos": [
+    "T-159 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
+}

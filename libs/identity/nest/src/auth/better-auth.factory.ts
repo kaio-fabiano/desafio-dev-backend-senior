@@ -66,6 +66,9 @@ export class BetterAuthFactory implements OnModuleDestroy {
       process.env.OAUTH_ISSUER ??
       'https://identity-subgraph:3001/api/auth';
     const secret = options.secret ?? process.env.BETTER_AUTH_SECRET;
+    const trustedOrigins = process.env.IDENTITY_TRUSTED_ORIGINS?.split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean);
     if (process.env.NODE_ENV === 'production' && !secret) {
       throw new Error('BETTER_AUTH_SECRET is required in production');
     }
@@ -78,6 +81,7 @@ export class BetterAuthFactory implements OnModuleDestroy {
       basePath: '/api/auth',
       database: options.database ?? this.getDatabase(),
       secret,
+      trustedOrigins,
       emailAndPassword: { enabled: true },
       disabledPaths: ['/token'],
       hooks: {},
@@ -85,6 +89,7 @@ export class BetterAuthFactory implements OnModuleDestroy {
         jwt({
           disableSettingJwtHeader: true,
           jwt: { issuer },
+          jwks: { keyPairConfig: { alg: 'ES256' } },
         }),
         oauthProvider({
           loginPage: '/sign-in',
@@ -93,6 +98,7 @@ export class BetterAuthFactory implements OnModuleDestroy {
           resources: Object.values(OAUTH_RESOURCES).map((identifier) => ({
             identifier,
             allowedScopes: [...OAUTH_RESOURCE_SCOPES[identifier]],
+            signingAlgorithm: 'ES256' as const,
           })),
           clientRegistrationDefaultResources: Object.values(OAUTH_RESOURCES),
           clientPrivileges: async ({ user }) => user?.email === seedAdminEmail,
@@ -106,7 +112,14 @@ export class BetterAuthFactory implements OnModuleDestroy {
   }
 
   private getDatabase() {
-    this.database ??= new Pool({ connectionString: process.env.DATABASE_URL });
+    this.database ??= new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl:
+        process.env.NODE_ENV === 'production' &&
+        process.env.DATABASE_SSL !== 'false'
+          ? { rejectUnauthorized: false }
+          : undefined,
+    });
     return this.database;
   }
 }
@@ -135,7 +148,15 @@ export class IdentityAuthBootstrap implements OnApplicationBootstrap {
       email: process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
       password: seedPassword,
     };
-    await (await this.auth.instance.$context).runMigrations();
+    const context = await this.auth.instance.$context;
+    await context.runMigrations();
+    for (const identifier of Object.values(OAUTH_RESOURCES)) {
+      await context.adapter.update({
+        model: 'oauthResource',
+        where: [{ field: 'identifier', value: identifier }],
+        update: { signingAlgorithm: 'ES256', updatedAt: new Date() },
+      });
+    }
     this.clients = {
       gateway: await this.seedClient(credentials, {
         name: 'Marketplace gateway',
@@ -167,7 +188,27 @@ export class IdentityAuthBootstrap implements OnApplicationBootstrap {
       model: 'oauthClient',
       where: [{ field: 'softwareId', value: seed.softwareId }],
     });
-    if (existing) return { clientId: existing.clientId, created: false };
+    if (existing) {
+      const links = await context.adapter.findMany<{ resourceId: string }>({
+        model: 'oauthClientResource',
+        where: [{ field: 'clientId', value: existing.clientId }],
+      });
+      const linkedResources = new Set(
+        links.map(({ resourceId }) => resourceId),
+      );
+      for (const resourceId of Object.values(OAUTH_RESOURCES)) {
+        if (linkedResources.has(resourceId)) continue;
+        await context.adapter.create({
+          model: 'oauthClientResource',
+          data: {
+            clientId: existing.clientId,
+            resourceId,
+            createdAt: new Date(),
+          },
+        });
+      }
+      return { clientId: existing.clientId, created: false };
+    }
 
     const administrator = await context.adapter.findOne<{ id: string }>({
       model: 'user',

@@ -28,6 +28,11 @@ export class PostgresOrderEventRelay
         port: Number(process.env.ORDER_WORKFLOW_DB_PORT ?? 5432),
         user: process.env.ORDER_WORKFLOW_DB_USER ?? 'postgres',
         password: process.env.ORDER_WORKFLOW_DB_PASSWORD,
+        ssl:
+          process.env.NODE_ENV === 'production' &&
+          process.env.ORDER_WORKFLOW_DB_SSL !== 'false'
+            ? { rejectUnauthorized: false }
+            : undefined,
       }),
   ) {}
 

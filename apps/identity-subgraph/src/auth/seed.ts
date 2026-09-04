@@ -23,7 +23,28 @@ async function seedClient(
     model: 'oauthClient',
     where: [{ field: 'softwareId', value: seed.softwareId }],
   });
-  if (existing) return { clientId: existing.clientId, created: false };
+  if (existing) {
+    const resources = await context.adapter.findMany<{ identifier: string }>({
+      model: 'oauthResource',
+    });
+    const links = await context.adapter.findMany<{ resourceId: string }>({
+      model: 'oauthClientResource',
+      where: [{ field: 'clientId', value: existing.clientId }],
+    });
+    const linkedResources = new Set(links.map(({ resourceId }) => resourceId));
+    for (const { identifier } of resources) {
+      if (linkedResources.has(identifier)) continue;
+      await context.adapter.create({
+        model: 'oauthClientResource',
+        data: {
+          clientId: existing.clientId,
+          resourceId: identifier,
+          createdAt: new Date(),
+        },
+      });
+    }
+    return { clientId: existing.clientId, created: false };
+  }
 
   const administrator = await context.adapter.findOne({
     model: 'user',

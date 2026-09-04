@@ -9,6 +9,7 @@ transport:
     allowed_hosts:
       - apollo-mcp
       - 172.17.0.1
+      - public-api.invalid
   auth:
     servers:
       - http://identity.localhost:3001/api/auth

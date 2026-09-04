@@ -114,11 +114,12 @@ async function graphql(
 }
 
 async function issueToken(
-  environment: Milestone7Environment,
+  environment: Pick<Milestone7Environment, 'identityUrl'>,
   audiences: string[],
   scopes: string[],
   cookie: string,
 ) {
+  const origin = new URL(environment.identityUrl).origin;
   let sessionCookie = cookie;
   const clients = await fetch(`${environment.identityUrl}/oauth/clients`).then(
     (response) => response.json() as Promise<{ gateway: string }>,
@@ -163,7 +164,7 @@ async function issueToken(
         headers: {
           'content-type': 'application/json',
           cookie: sessionCookie,
-          origin: 'http://identity.localhost:3001',
+          origin,
         },
         body: JSON.stringify({ accept: true, oauth_query: next.oauthQuery }),
       },
@@ -171,7 +172,10 @@ async function issueToken(
     sessionCookie = mergeResponseCookies(sessionCookie, consentResponse);
     const consent = (await consentResponse.json()) as { url?: string };
     if (!consentResponse.ok || !consent.url) {
-      throw new Error(`OAuth consent failed: ${JSON.stringify(consent)}`);
+      const names = [...new URLSearchParams(next.oauthQuery).keys()];
+      throw new Error(
+        `OAuth consent failed (${consentResponse.status}; query keys: ${names.join(',')}): ${JSON.stringify(consent)}`,
+      );
     }
     const consentCode = new URL(consent.url).searchParams.get('code');
     if (!consentCode) {
@@ -210,6 +214,13 @@ export function classifyAuthorizationResult(
   baseUrl: string,
 ): { kind: 'code'; code: string } | { kind: 'consent'; oauthQuery: string } {
   const result = new URL(url, baseUrl);
+  const oauthError = result.searchParams.get('error');
+  if (oauthError) {
+    const description = result.searchParams.get('error_description');
+    throw new Error(
+      `OAuth authorization was rejected: ${oauthError}${description ? ` (${description})` : ''}`,
+    );
+  }
   const code = result.searchParams.get('code');
   if (code) return { kind: 'code', code };
   const oauthQuery = result.search.slice(1);
@@ -251,14 +262,17 @@ export function mergeResponseCookies(
   return [...values].map(([name, value]) => `${name}=${value}`).join('; ');
 }
 
-async function registerBuyer(environment: Milestone7Environment) {
-  const response = await fetch(
+async function registerBuyer(
+  environment: Pick<Milestone7Environment, 'identityUrl'>,
+) {
+  const origin = new URL(environment.identityUrl).origin;
+  let response = await fetch(
     `${environment.identityUrl}/api/auth/sign-up/email`,
     {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        origin: 'http://identity.localhost:3001',
+        origin,
       },
       body: JSON.stringify({
         email: BUYER_EMAIL,
@@ -267,9 +281,24 @@ async function registerBuyer(environment: Milestone7Environment) {
       }),
     },
   );
+  if (!response.ok) {
+    response = await fetch(
+      `${environment.identityUrl}/api/auth/sign-in/email`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          origin,
+        },
+        body: JSON.stringify({ email: BUYER_EMAIL, password: BUYER_PASSWORD }),
+      },
+    );
+  }
   const payload = (await response.json()) as { user: JsonObject };
   if (!response.ok)
-    throw new Error(`Better Auth sign-up failed: ${JSON.stringify(payload)}`);
+    throw new Error(
+      `Better Auth buyer authentication failed with ${response.status}`,
+    );
   return {
     buyer: payload.user,
     cookie: response.headers
@@ -277,6 +306,16 @@ async function registerBuyer(environment: Milestone7Environment) {
       .map((value) => value.split(';', 1)[0])
       .join('; '),
   };
+}
+
+export async function issueSandboxBearer(identityUrl: string) {
+  const registration = await registerBuyer({ identityUrl });
+  return issueToken(
+    { identityUrl },
+    [GATEWAY_AUDIENCE, ORDER_WORKFLOW_AUDIENCE, PAYMENT_AUDIENCE],
+    ['cart:write', 'orders:read'],
+    registration.cookie,
+  );
 }
 
 async function mcpRequest(

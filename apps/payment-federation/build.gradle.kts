@@ -1,5 +1,7 @@
 plugins {
     java
+    jacoco
+    id("org.sonarqube") version "7.0.1.6134"
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -38,4 +40,16 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required = true
+    }
+}
+
+tasks.named("sonar") {
+    dependsOn(tasks.named("check"), tasks.jacocoTestReport)
 }

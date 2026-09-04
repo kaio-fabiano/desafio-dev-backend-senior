@@ -57,3 +57,10 @@
 - Esforço: alto
 - Arquivos: README.md, docs/evidence/challenge-compliance.md, docs/runbooks/e2e.md, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json, graphify-out
 - Notes: Run the complete public-protocol Testcontainers journey and every repository quality gate before changing delivery evidence. Preserve all production-readiness gaps, push only to the user fork, open the pull request against the fork main branch, wait for CI, and merge only when required checks pass.
+
+## T-146 — Stabilize the CI acceptance environment [concluida]
+- Refs: AC-067, AC-068, AC-069, AC-070, AC-071, AC-075
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/e2e/src/environment.ts, compose.yaml, apps/wordpress-integration/scripts/production-entrypoint.sh, libs/identity/nest/src/auth/better-auth.factory.ts, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts, test/milestone-7-e2e-contract.test.mjs, test/mercado-pago-production-deployment.test.mjs, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json, graphify-out
+- Notes: Diagnose the repeatable CI-only startup failure, preserve production-equivalent service behavior, emit actionable container diagnostics, and merge the fork pull request only after all required checks pass.

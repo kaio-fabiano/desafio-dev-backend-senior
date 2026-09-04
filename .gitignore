@@ -34,6 +34,11 @@ yarn-error.log
 testem.log
 /typings
 
+# local environment and credentials
+.env
+.env.*
+!.env.example
+
 # System Files
 .DS_Store
 Thumbs.db
@@ -47,6 +52,8 @@ Thumbs.db
 # local Gradle state and compiled Payment artifacts
 /apps/payment-federation/.gradle/
 /apps/payment-federation/build/
+/infra/.sst/
+/infra/sst-env.d.ts
 
 # Graphify publishes only portable, clone-ready outputs.
 /graphify-out/**

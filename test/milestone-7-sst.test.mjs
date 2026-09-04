@@ -2,11 +2,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const [config, infraPackage, ci, deploy] = await Promise.all([
+const [config, infraPackage, ci, deploy, wordpressDockerfile] = await Promise.all([
   readFile('infra/sst.config.ts', 'utf8'),
   readFile('infra/package.json', 'utf8').then(JSON.parse),
   readFile('.github/workflows/ci.yml', 'utf8'),
   readFile('.github/workflows/deploy.yml', 'utf8'),
+  readFile('apps/wordpress-integration/Dockerfile', 'utf8'),
 ]);
 
 test('AC-076: SST v3 and its AWS provider are pinned exactly @spec:AC-076', () => {
@@ -27,7 +28,7 @@ test('AC-076: the stack models protected application resources without inline se
   assert.equal((config.match(/new sst\.aws\.Postgres\(/g) ?? []).length, 1);
   assert.ok((config.match(/new sst\.aws\.Service\(/g) ?? []).length >= 6);
   assert.ok((config.match(/new sst\.Secret\(/g) ?? []).length >= 2);
-  assert.match(config, /wordpress:6\.8\.2-php8\.3-apache/);
+  assert.match(wordpressDockerfile, /FROM wordpress:6\.8\.2-php8\.3-apache/);
 
   const deliveryFiles = `${config}\n${ci}\n${deploy}`;
   assert.doesNotMatch(deliveryFiles, /AKIA[0-9A-Z]{16}/);

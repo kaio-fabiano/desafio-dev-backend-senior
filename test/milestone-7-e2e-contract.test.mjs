@@ -30,6 +30,10 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
   );
   assert.match(environment, /DockerComposeEnvironment/);
   assert.match(environment, /\.withBuild\(\)/);
+  assert.match(
+    environment,
+    /PAYMENT_PROVIDER_MODE: 'deterministic'/,
+  );
   assert.doesNotMatch(
     environment,
     /SERVICE_SOURCE|node', '-e'|createServer|ROLE/,

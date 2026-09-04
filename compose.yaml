@@ -166,6 +166,7 @@ services:
         install -d /var/www/html/wp-content/plugins/order-workflow-reconciliation
         cp /integration/plugins/order-workflow-reconciliation/order-workflow-reconciliation.php /var/www/html/wp-content/plugins/order-workflow-reconciliation/order-workflow-reconciliation.php
         wp plugin activate order-workflow-reconciliation
+        wp option update woocommerce_currency BRL
         wp option update woocommerce_cod_settings '{"enabled":"yes","title":"Cash on delivery"}' --format=json
         wp option update wpgraphql_federation_settings '{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}' --format=json
         wp option update wpgraphql_login_provider_siteToken "{\"isEnabled\":true,\"clientOptions\":{\"headerKey\":\"X-WPGraphQL-Site-Token\",\"secretKey\":\"$${WPGRAPHQL_SITE_TOKEN}\"},\"loginOptions\":{\"metaKey\":\"better_auth_user_id\"}}" --format=json
@@ -290,7 +291,9 @@ services:
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       IDENTITY_OAUTH_AUDIENCE: https://identity.marketplace.local
       DATABASE_URL: postgresql://postgres:postgres@identity-database:5432/identity
+      DATABASE_SSL: 'false'
       IDENTITY_BASE_URL: http://identity.localhost:3001
+      IDENTITY_TRUSTED_ORIGINS: http://127.0.0.1:*,http://localhost:*
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PORT: 3001
       SEED_ADMIN_EMAIL: admin@marketplace.local
@@ -332,6 +335,7 @@ services:
       ORDER_WORKFLOW_DB_HOST: order-workflow-database
       ORDER_WORKFLOW_DB_NAME: order_workflow
       ORDER_WORKFLOW_DB_PASSWORD: postgres
+      ORDER_WORKFLOW_DB_SSL: 'false'
       ORDER_WORKFLOW_DB_USER: postgres
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
@@ -376,6 +380,12 @@ services:
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
       PAYMENT_OAUTH_AUDIENCE: https://payment.marketplace.local
+      PAYMENT_PROVIDER_MODE: ${PAYMENT_PROVIDER_MODE:-deterministic}
+      MERCADO_PAGO_ACCESS_TOKEN: ${MERCADO_PAGO_ACCESS_TOKEN:-}
+      MERCADO_PAGO_WEBHOOK_SECRET: ${MERCADO_PAGO_WEBHOOK_SECRET:-}
+      MERCADO_PAGO_API_BASE_URL: ${MERCADO_PAGO_API_BASE_URL:-https://api.mercadopago.com}
+      MERCADO_PAGO_CONNECTION_TIMEOUT: ${MERCADO_PAGO_CONNECTION_TIMEOUT:-5s}
+      MERCADO_PAGO_READ_TIMEOUT: ${MERCADO_PAGO_READ_TIMEOUT:-15s}
       SERVER_PORT: 8080
       RABBITMQ_URL: amqp://rabbitmq:5672
       SPRING_PROFILES_ACTIVE: local

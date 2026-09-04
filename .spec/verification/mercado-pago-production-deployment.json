@@ -1,0 +1,52 @@
+{
+  "feature": "mercado-pago-production-deployment",
+  "timestamp": "2026-09-04T09:28:33.135Z",
+  "gitRev": "2c15d79",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 181,
+  "results": {
+    "AC-187": {
+      "status": "pass",
+      "testName": "AC-187: the complete credential-free gate records every required check without skips @spec:AC-187",
+      "method": "tap"
+    },
+    "AC-188": {
+      "status": "pass",
+      "testName": "AC-188: the payment-critical gate covers Card, Pix, webhook, recovery, refund, and raw-card exclusion @spec:AC-188",
+      "method": "tap"
+    },
+    "AC-189": {
+      "status": "pass",
+      "testName": "AC-189: sandbox Card and Pix retries are opt-in, unique, and redacted @spec:AC-189",
+      "method": "tap"
+    },
+    "AC-190": {
+      "status": "pass",
+      "testName": "AC-190: sandbox webhooks and repeated refunds converge authoritatively @spec:AC-190",
+      "method": "tap"
+    },
+    "AC-191": {
+      "status": "pass",
+      "testName": "AC-191: infrastructure fails closed and contains the complete runtime @spec:AC-191",
+      "method": "tap"
+    },
+    "AC-192": {
+      "status": "pass",
+      "testName": "AC-192: deployment is reviewed before provisioning @spec:AC-192",
+      "method": "tap"
+    },
+    "AC-193": {
+      "status": "pass",
+      "testName": "AC-193: deployed containers use production-safe startup dependencies @spec:AC-193",
+      "method": "tap"
+    },
+    "AC-195": {
+      "status": "pass",
+      "testName": "AC-195: one managed HTTPS API exposes only approved private routes @spec:AC-195",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

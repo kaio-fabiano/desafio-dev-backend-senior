@@ -75,7 +75,11 @@ test('AC-165: ambiguous creation remains recoverable with the same key @spec:AC-
   assert.match(provider, /catch \(MPException \| MPApiException exception\)/);
   assert.match(
     provider,
-    /throw new IllegalStateException\("Mercado Pago payment creation failed", exception\)/,
+    /catch \(MPException \| MPApiException exception\) \{\s*return recoverCreation\(command, exception\);/,
+  );
+  assert.match(
+    provider,
+    /throw new IllegalStateException\("Mercado Pago payment creation failed", creationFailure\)/,
   );
   assert.match(provider, /requestOptions\(command\.operationKey\(\)\)/);
   assert.match(handler, /provider\.findByProviderReference/);
@@ -92,10 +96,9 @@ test('AC-163: signed webhooks are rejected or deduplicated before transition @sp
   assert.match(controller, /WebhookSignatureValidator\.validate\(/);
   assert.match(controller, /MPInvalidWebhookSignatureException/);
   assert.match(controller, /HttpStatus\.UNAUTHORIZED/);
-  assert.ok(
-    controller.indexOf('WebhookSignatureValidator.validate(') <
-      controller.indexOf('handler.handle('),
-    'signature validation must happen before notification handling',
+  assert.match(
+    controller,
+    /ResponseEntity<Void> receive\([\s\S]*?validateSignature\([\s\S]*?handler\.handle\(/,
   );
   assert.match(migration, /provider_request_id text primary key/);
   assert.match(repository, /on conflict \(provider_request_id\) do nothing/);

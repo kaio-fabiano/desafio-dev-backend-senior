@@ -1,0 +1,18 @@
+{
+  "executedAt": "2026-09-04T05:44:00Z",
+  "account": "945323157760",
+  "region": "us-east-1",
+  "stage": "sandbox",
+  "endpoint": "https://zvc13ty1m4.execute-api.us-east-1.amazonaws.com",
+  "providerMode": "mercado-pago",
+  "services": [
+    "ApolloMcp",
+    "Gateway",
+    "IdentitySubgraph",
+    "OrderWorkflowSubgraph",
+    "PaymentFederation",
+    "RabbitMq",
+    "WordPress"
+  ],
+  "result": "deployed"
+}

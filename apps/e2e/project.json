@@ -5,6 +5,20 @@
   "sourceRoot": "apps/e2e/src",
   "tags": ["type:e2e", "scope:delivery"],
   "targets": {
+    "mercado-pago-sandbox-bearer": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "command": "node --import tsx apps/e2e/src/sandbox-bearer.ts"
+      }
+    },
+    "mercado-pago-sandbox": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "command": "node --import tsx apps/e2e/src/mercado-pago-sandbox.ts"
+      }
+    },
     "acceptance": {
       "executor": "nx:run-commands",
       "cache": false,
