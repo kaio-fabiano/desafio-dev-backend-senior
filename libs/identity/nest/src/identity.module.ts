@@ -16,6 +16,7 @@ import {
   wordpressIdentityProvider,
 } from './auth/registration.service.ts';
 import { IdentityResolver } from './graphql/identity.resolver.ts';
+import { UserLoader } from './graphql/user.loader.ts';
 
 export class IdentityModule {}
 
@@ -45,6 +46,7 @@ Module({
   ],
   providers: [
     IdentityResolver,
+    UserLoader,
     RegistrationService,
     wordpressIdentityProvider,
     { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },

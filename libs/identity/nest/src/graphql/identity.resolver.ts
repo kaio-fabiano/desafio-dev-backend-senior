@@ -8,11 +8,17 @@ import {
 } from '@desafio-dev-backend-senior/source/platform-nest';
 import type { IdentityAuth } from '../auth/better-auth.factory.ts';
 import { MARKETPLACE_READ_SCOPE } from '../auth/resource-audiences.ts';
+import { UserLoader } from './user.loader.ts';
 
 export type IdentityUser = { id: string; email: string };
 export type UserConnection = {
   edges: Array<{ cursor: string; node: IdentityUser }>;
-  pageInfo: { hasNextPage: boolean; endCursor: string | null };
+  pageInfo: {
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    startCursor: string | null;
+    endCursor: string | null;
+  };
 };
 
 function encodeCursor(id: string) {
@@ -24,7 +30,10 @@ function decodeCursor(cursor?: string) {
 }
 
 export class IdentityResolver {
-  constructor(private readonly auth: AuthService<IdentityAuth>) {}
+  constructor(
+    private readonly auth: AuthService<IdentityAuth>,
+    private readonly usersById: UserLoader,
+  ) {}
 
   async users(first = 20, after: string | undefined): Promise<UserConnection> {
     if (!Number.isInteger(first) || first < 1 || first > 100) {
@@ -43,11 +52,14 @@ export class IdentityResolver {
       sortBy: { field: 'id', direction: 'asc' },
     });
     const page = users.slice(0, first);
+    const firstUser = page.at(0);
     const last = page.at(-1);
     return {
       edges: page.map((node) => ({ cursor: encodeCursor(node.id), node })),
       pageInfo: {
         hasNextPage: users.length > first,
+        hasPreviousPage: afterId !== undefined,
+        startCursor: firstUser ? encodeCursor(firstUser.id) : null,
         endCursor: last ? encodeCursor(last.id) : null,
       },
     };
@@ -66,16 +78,13 @@ export class IdentityResolver {
   }
 
   private async findUser(id: string) {
-    return (await this.auth.instance.$context).adapter.findOne<IdentityUser>({
-      model: 'user',
-      where: [{ field: 'id', value: id }],
-      select: ['id', 'email'],
-    });
+    return this.usersById.load(id);
   }
 }
 
 Injectable()(IdentityResolver);
 Inject(AuthService)(IdentityResolver, undefined, 0);
+Inject(UserLoader)(IdentityResolver, undefined, 1);
 Resolver('User')(IdentityResolver);
 
 function resolverDescriptor(method: keyof IdentityResolver) {
@@ -99,22 +108,14 @@ RequireScopes(MARKETPLACE_READ_SCOPE)(
   'users',
   resolverDescriptor('users'),
 );
-Query('user')(
-  IdentityResolver.prototype,
-  'user',
-  resolverDescriptor('user'),
-);
+Query('user')(IdentityResolver.prototype, 'user', resolverDescriptor('user'));
 Args('id')(IdentityResolver.prototype, 'user', 0);
 RequireScopes(MARKETPLACE_READ_SCOPE)(
   IdentityResolver.prototype,
   'user',
   resolverDescriptor('user'),
 );
-Query('me')(
-  IdentityResolver.prototype,
-  'me',
-  resolverDescriptor('me'),
-);
+Query('me')(IdentityResolver.prototype, 'me', resolverDescriptor('me'));
 OAuthSubject()(IdentityResolver.prototype, 'me', 0);
 RequireScopes(MARKETPLACE_READ_SCOPE)(
   IdentityResolver.prototype,

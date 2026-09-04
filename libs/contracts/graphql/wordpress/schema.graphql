@@ -63,8 +63,14 @@ enum StockStatusEnum {
 }
 
 type ProductConnection {
+  edges: [ProductEdge!]!
   nodes: [Product!]!
   pageInfo: PageInfo!
+}
+
+type ProductEdge {
+  cursor: String!
+  node: Product!
 }
 
 type Cart {
@@ -72,8 +78,14 @@ type Cart {
 }
 
 type CartItemConnection {
+  edges: [CartItemEdge!]!
   nodes: [CartItem!]!
   pageInfo: PageInfo!
+}
+
+type CartItemEdge {
+  cursor: String!
+  node: CartItem!
 }
 
 type CartItem {
@@ -95,11 +107,18 @@ type Order @key(fields: "id") {
   metaData: [MetaData]
   total: String
   currency: String
-  lineItems: OrderLineItemConnection
+  lineItems(first: Int, after: String): OrderLineItemConnection
 }
 
 type OrderLineItemConnection {
+  edges: [OrderLineItemEdge!]!
   nodes: [OrderLineItem!]!
+  pageInfo: PageInfo!
+}
+
+type OrderLineItemEdge {
+  cursor: String!
+  node: OrderLineItem!
 }
 
 type OrderLineItem {
@@ -113,14 +132,20 @@ type MetaData {
 }
 
 type OrderConnection {
+  edges: [OrderEdge!]!
   nodes: [Order!]!
   pageInfo: PageInfo!
 }
 
+type OrderEdge {
+  cursor: String!
+  node: Order!
+}
+
 type PageInfo @shareable {
   hasNextPage: Boolean!
-  hasPreviousPage: Boolean! @inaccessible
-  startCursor: String @inaccessible
+  hasPreviousPage: Boolean!
+  startCursor: String
   endCursor: String
 }
 

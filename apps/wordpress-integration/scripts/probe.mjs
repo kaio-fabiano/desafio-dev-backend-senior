@@ -31,9 +31,7 @@ function addAbstractProductKey(sdl) {
 }
 
 function compose(sdl, label) {
-  const directory = mkdtempSync(
-    join(process.cwd(), '.wordpress-integration-'),
-  );
+  const directory = mkdtempSync(join(process.cwd(), '.wordpress-integration-'));
   try {
     chmodSync(directory, 0o755);
     writeFileSync(join(directory, 'wordpress.graphql'), sdl);
@@ -163,12 +161,15 @@ const pageOne = await graphql(
   `
     query ProductPage($first: Int!, $after: String) {
       products(first: $first, after: $after) {
-        nodes {
-          __typename
-          id
-          databaseId
-          name
-          sku
+        edges {
+          cursor
+          node {
+            __typename
+            id
+            databaseId
+            name
+            sku
+          }
         }
         pageInfo {
           hasNextPage
@@ -184,7 +185,8 @@ assert.equal(
   undefined,
   JSON.stringify(pageOne.body.errors),
 );
-assert.equal(pageOne.body.data.products.nodes.length, 2);
+assert.equal(pageOne.body.data.products.edges.length, 2);
+assert.ok(pageOne.body.data.products.edges.every(({ cursor }) => cursor));
 assert.equal(pageOne.body.data.products.pageInfo.hasNextPage, true);
 assert.ok(pageOne.body.data.products.pageInfo.endCursor);
 
@@ -192,12 +194,15 @@ const pageTwo = await graphql(
   `
     query ProductPage($first: Int!, $after: String) {
       products(first: $first, after: $after) {
-        nodes {
-          __typename
-          id
-          databaseId
-          name
-          sku
+        edges {
+          cursor
+          node {
+            __typename
+            id
+            databaseId
+            name
+            sku
+          }
         }
         pageInfo {
           hasPreviousPage
@@ -213,12 +218,12 @@ assert.equal(
   undefined,
   JSON.stringify(pageTwo.body.errors),
 );
-assert.ok(pageTwo.body.data.products.nodes.length >= 1);
+assert.ok(pageTwo.body.data.products.edges.length >= 1);
 assert.equal(pageTwo.body.data.products.pageInfo.hasPreviousPage, true);
 
 const products = [
-  ...pageOne.body.data.products.nodes,
-  ...pageTwo.body.data.products.nodes,
+  ...pageOne.body.data.products.edges.map(({ node }) => node),
+  ...pageTwo.body.data.products.edges.map(({ node }) => node),
 ];
 const representations = products
   .slice(0, 2)
@@ -330,8 +335,8 @@ const report = {
     ],
   },
   relay: {
-    firstPageCount: pageOne.body.data.products.nodes.length,
-    secondPageCount: pageTwo.body.data.products.nodes.length,
+    firstPageCount: pageOne.body.data.products.edges.length,
+    secondPageCount: pageTwo.body.data.products.edges.length,
     cursorAdvanced: true,
   },
   batching: {

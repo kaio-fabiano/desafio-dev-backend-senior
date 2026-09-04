@@ -1,0 +1,32 @@
+{
+  "feature": "graphql-relay-dataloader-closure",
+  "timestamp": "2026-09-04T18:21:12.459Z",
+  "gitRev": "0f65735",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 193,
+  "results": {
+    "AC-197": {
+      "status": "pass",
+      "testName": "AC-197: User pages expose complete Relay cursors and PageInfo @spec:AC-197",
+      "method": "tap"
+    },
+    "AC-198": {
+      "status": "pass",
+      "testName": "AC-198: User references batch and cache only within one request @spec:AC-198",
+      "method": "tap"
+    },
+    "AC-199": {
+      "status": "pass",
+      "testName": "AC-199: Production Identity references keep datasource calls constant @spec:AC-199",
+      "method": "tap"
+    },
+    "AC-200": {
+      "status": "pass",
+      "testName": "AC-200: Commercial connections preserve Relay edges through federation @spec:AC-200",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}
