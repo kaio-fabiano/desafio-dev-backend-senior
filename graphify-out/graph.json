@@ -23209,14 +23209,14 @@
       "source_location": "L33"
     },
     {
-      "id": "spec_features_mercado_pago_payment_provider_tasks_t_161_align_provider_resilience_contracts_with_extracted_methods_pendente",
-      "label": "T-161 \u2014 Align provider resilience contracts with extracted methods [pendente]",
+      "id": "spec_features_mercado_pago_payment_provider_tasks_t_161_align_provider_resilience_contracts_with_extracted_methods_concluida",
+      "label": "T-161 \u2014 Align provider resilience contracts with extracted methods [concluida]",
       "_origin": "ast",
       "community": 179,
       "community_name": "Tasks: Mercado Pago payment provider",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "t-161 \u2014 align provider resilience contracts with extracted methods [pendente]",
+      "norm_label": "t-161 \u2014 align provider resilience contracts with extracted methods [concluida]",
       "source_file": ".spec/features/mercado-pago-payment-provider/tasks.md",
       "source_location": "L40"
     },
@@ -103831,7 +103831,7 @@
     },
     {
       "source": "spec_features_mercado_pago_payment_provider_tasks_tasks_mercado_pago_payment_provider",
-      "target": "spec_features_mercado_pago_payment_provider_tasks_t_161_align_provider_resilience_contracts_with_extracted_methods_pendente",
+      "target": "spec_features_mercado_pago_payment_provider_tasks_t_161_align_provider_resilience_contracts_with_extracted_methods_concluida",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -125197,5 +125197,5 @@
       "source_file": ".agents/skills/onp-spec-driven/SKILL.md"
     }
   ],
-  "built_at_commit": "09d52c50e343071d9e10c6c67b2d67294ed0d1e2"
+  "built_at_commit": "52ec9cb7974cd3a8e6e63a3f5a8864ba571002ad"
 }

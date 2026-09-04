@@ -2550,9 +2550,9 @@
     "semantic_hash": "8bf33831cd2620fab789139cf026e1da"
   },
   ".spec/verification/mercado-pago-payment-provider.json": {
-    "mtime": 1788505325.4690886,
-    "seen": 1788509056.365064,
-    "ast_hash": "f31c3a3bede23f0013ed23f9bc0cb79a",
+    "mtime": 1788509213.7125006,
+    "seen": 1788509723.5097754,
+    "ast_hash": "bc704f8b127dd93722299176c00ea7be",
     "semantic_hash": ""
   },
   ".spec/verification/payment-federation-clean-architecture.json": {
@@ -2892,9 +2892,9 @@
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-payment-provider/tasks.md": {
-    "mtime": 1788508626.5969985,
-    "seen": 1788509056.372045,
-    "ast_hash": "ec9657e7384e0a199cfa7e43a332da5d",
+    "mtime": 1788509221.6615033,
+    "seen": 1788509723.517223,
+    "ast_hash": "78c23b0c562372d6c9cd462f5acacece",
     "semantic_hash": ""
   },
   ".spec/features/oauth-resource-server-auth/plano-execucao.html": {

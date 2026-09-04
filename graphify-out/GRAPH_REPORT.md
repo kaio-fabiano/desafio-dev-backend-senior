@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `09d52c50`
+- Built from commit: `52ec9cb7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -1035,7 +1035,7 @@ Nodes (6): T-003 — Prepare the minimum PoC harness [concluida], T-004 — Vali
 
 ### Community 179 - "Tasks: Mercado Pago payment provider"
 Cohesion: 0.25
-Nodes (7): T-124 — Establish bounded contexts and truthful payment states [concluida], T-125 — Integrate Mercado Pago through the outbound port [concluida], T-126 — Receive and deduplicate signed provider notifications [concluida], T-127 — Propagate secure inputs and truthful outcomes [concluida], T-128 — Prove the boundary and document operation [concluida], T-161 — Align provider resilience contracts with extracted methods [pendente], Tasks: Mercado Pago payment provider
+Nodes (7): T-124 — Establish bounded contexts and truthful payment states [concluida], T-125 — Integrate Mercado Pago through the outbound port [concluida], T-126 — Receive and deduplicate signed provider notifications [concluida], T-127 — Propagate secure inputs and truthful outcomes [concluida], T-128 — Prove the boundary and document operation [concluida], T-161 — Align provider resilience contracts with extracted methods [concluida], Tasks: Mercado Pago payment provider
 
 ### Community 180 - "Design: Milestone 8 — Challenge compliance and production hardening"
 Cohesion: 0.29
