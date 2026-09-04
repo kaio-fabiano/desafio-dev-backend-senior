@@ -280,6 +280,11 @@ export default $config({
       },
       link: [gateway, identity],
       serviceRegistry: { port: 8000 },
+      transform: {
+        image: (_args, options) => {
+          options.retainOnDelete = true;
+        },
+      },
     });
 
     publicApi.routePrivate('ANY /api/auth', identity.nodes.cloudmapService.arn);

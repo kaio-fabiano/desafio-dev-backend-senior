@@ -434,6 +434,7 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
   assert.match(stack, /gosu rabbitmq rabbitmq-diagnostics -q ping/);
   assert.match(stack, /\/bin\/busybox cp \/data\/mcp\.yaml \/tmp\/mcp\.yaml/);
   assert.match(stack, /\/bin\/busybox sed -i[\s\S]*\/tmp\/mcp\.yaml/);
+  assert.match(stack, /image: \(_args, options\)[\s\S]*options\.retainOnDelete = true/);
   assert.match(orm, /driverOptions:[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/);
   assert.match(relay, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
   assert.match(identity, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
