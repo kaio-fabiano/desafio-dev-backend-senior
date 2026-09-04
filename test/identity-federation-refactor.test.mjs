@@ -70,9 +70,11 @@ test('AC-093: Better Auth uses direct plugins and its NestJS integration @spec:A
 test('AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094', async () => {
   const [
     { IdentityResolver },
+    { UserLoader },
     { RegistrationService, identityBootstrapHeaders },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
+    import(`../${libraryRoot}/graphql/user.loader.ts`),
     import(`../${libraryRoot}/auth/registration.service.ts`),
   ]);
   const users = [
@@ -87,12 +89,17 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     },
     async findMany(input) {
       calls.push(input);
+      const ids = input.where?.find(({ operator }) => operator === 'in')?.value;
+      if (Array.isArray(ids)) {
+        return users.filter(({ id }) => ids.includes(id));
+      }
       return users.slice(0, input.limit);
     },
   };
-  const resolver = new IdentityResolver({
+  const auth = {
     instance: { $context: Promise.resolve({ adapter }) },
-  });
+  };
+  const resolver = new IdentityResolver(auth, new UserLoader(auth));
   const context = { subject: 'u-1', scopes: ['marketplace:read'] };
 
   assert.deepEqual(await resolver.me(context.subject), users[0]);
@@ -200,10 +207,15 @@ test('AC-096: Identity Federation rejects sensitive operations without propagate
   for (const operation of ['users', 'user', 'me', 'resolveReference']) {
     assert.match(
       resolver,
-      new RegExp(`RequireScopes\\(MARKETPLACE_READ_SCOPE\\)[\\s\\S]*'${operation}'`),
+      new RegExp(
+        `RequireScopes\\(MARKETPLACE_READ_SCOPE\\)[\\s\\S]*'${operation}'`,
+      ),
     );
   }
-  assert.match(guard, /this\.resources\.verify\(toOAuthRequest\(context\.req\)\)/);
+  assert.match(
+    guard,
+    /this\.resources\.verify\(toOAuthRequest\(context\.req\)\)/,
+  );
   assert.match(guard, /assertScopes\(auth, scopes\)/);
   assert.match(service, /verifyAccessTokenRequest/);
   assert.doesNotMatch(service, /requiredScopes/);
