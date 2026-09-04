@@ -127,6 +127,111 @@ test('AC-190: sandbox webhooks and repeated refunds converge authoritatively @sp
   );
 });
 
+test('AC-189: operational sandbox evidence proves idempotent redacted Card and Pix payments @spec:AC-189', async () => {
+  const evidence = JSON.parse(
+    await readFile(
+      'docs/evidence/mercado-pago-production-deployment/provider-sandbox.json',
+      'utf8',
+    ),
+  );
+  const records = evidence.records;
+
+  assert.equal(evidence.stage, 'sandbox');
+  assert.equal(evidence.result, 'passed');
+  assert.match(
+    evidence.executedAt,
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+  );
+  assert.deepEqual(
+    records.slice(0, 2).map(({ status }) => status),
+    ['CARD_AUTHORIZED_IDEMPOTENT', 'PIX_GENERATED_IDEMPOTENT'],
+  );
+  for (const record of records) {
+    assert.deepEqual(Object.keys(record).sort(), [
+      'exitResult',
+      'operationKey',
+      'sanitizedReference',
+      'status',
+      'timestamp',
+    ]);
+    assert.match(
+      record.timestamp,
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+    );
+    assert.match(record.sanitizedReference, /^sha256:[a-f0-9]{16}$/);
+    assert.equal(record.exitResult, 0);
+  }
+  assert.doesNotMatch(
+    JSON.stringify(evidence),
+    /accessToken|bearerToken|cardToken|webhookSecret|providerReference|rawPayload/,
+  );
+});
+
+test('AC-190: operational sandbox evidence records webhook and refund convergence @spec:AC-190', async () => {
+  const { records } = JSON.parse(
+    await readFile(
+      'docs/evidence/mercado-pago-production-deployment/provider-sandbox.json',
+      'utf8',
+    ),
+  );
+  const byStatus = Object.fromEntries(
+    records.map((record) => [record.status, record]),
+  );
+
+  for (const status of [
+    'INVALID_WEBHOOK_REJECTED',
+    'REFUND_IDEMPOTENT',
+    'WEBHOOK_REPLAY_CONVERGED',
+  ]) {
+    assert.equal(byStatus[status].exitResult, 0);
+  }
+  assert.equal(
+    byStatus.INVALID_WEBHOOK_REJECTED.sanitizedReference,
+    byStatus.WEBHOOK_REPLAY_CONVERGED.sanitizedReference,
+  );
+  assert.equal(
+    byStatus.REFUND_IDEMPOTENT.sanitizedReference,
+    byStatus.WEBHOOK_REPLAY_CONVERGED.sanitizedReference,
+  );
+});
+
+test('AC-193: operational smoke evidence identifies the release and preserves rollback @spec:AC-193', async () => {
+  const [deployment, smoke] = await Promise.all([
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/deployment.json',
+      'utf8',
+    ).then(JSON.parse),
+    readFile(
+      'docs/evidence/mercado-pago-production-deployment/smoke-test.md',
+      'utf8',
+    ),
+  ]);
+
+  assert.equal(deployment.stage, 'sandbox');
+  assert.equal(deployment.result, 'validated');
+  assert.match(deployment.gitRevision, /^[a-f0-9]{40}$/);
+  assert.match(
+    deployment.endpoint,
+    /^https:\/\/[^/]+\.execute-api\.us-east-1\.amazonaws\.com$/,
+  );
+  assert.equal(deployment.services.length, 7);
+  assert.match(smoke, new RegExp(deployment.gitRevision));
+  for (const result of [
+    /Public API health: HTTP 200/,
+    /Authenticated GraphQL request: HTTP 200/,
+    /Anonymous GraphQL request: HTTP 401/,
+    /Anonymous MCP initialization: HTTP 401/,
+    /Signed webhook replay: HTTP 200 twice/,
+    /desired 1, running 1, and pending 0/,
+    /git switch --detach "\$LAST_APPROVED_GIT_REV"/,
+    /corepack pnpm run review/,
+    /corepack pnpm run deploy/,
+  ]) {
+    assert.match(smoke, result);
+  }
+  assert.doesNotMatch(smoke, /(?:APP_USR|TEST)-[A-Za-z0-9_-]+/);
+});
+
 test('AC-191: infrastructure fails closed and contains the complete runtime @spec:AC-191', async () => {
   const config = await readFile('infra/sst.config.ts', 'utf8');
   const applications = [

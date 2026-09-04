@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 50,
+      "ocorrencias": 51,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-04T06:29:11.739Z",
-      "gitRev": "09d52c5"
+      "ultimaVez": "2026-09-04T10:31:04.630Z",
+      "gitRev": "192b59b"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 51,
+      "ocorrencias": 52,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-09-04T06:29:11.739Z",
-      "gitRev": "09d52c5"
+      "ultimaVez": "2026-09-04T10:31:04.630Z",
+      "gitRev": "192b59b"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 30,
+      "ocorrencias": 31,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-04T09:22:38.429Z",
-      "gitRev": "2c15d79"
+      "ultimaVez": "2026-09-04T10:31:04.629Z",
+      "gitRev": "192b59b"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -5108,10 +5108,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "mercado-pago-payment-provider",
       "ref": "—",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-02T21:59:31.241Z",
-      "ultimaVez": "2026-09-04T06:29:11.739Z",
-      "gitRev": "09d52c5"
+      "ultimaVez": "2026-09-04T10:31:04.630Z",
+      "gitRev": "192b59b"
     },
     "VERIFY_OBSOLETO::payment-federation-clean-architecture::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -5409,6 +5409,15 @@
       "primeiraVez": "2026-09-04T09:22:38.432Z",
       "ultimaVez": "2026-09-04T09:22:38.432Z",
       "gitRev": "2c15d79"
+    },
+    "VERIFY_OBSOLETO::sonar-java-full-analysis::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "sonar-java-full-analysis",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T10:31:04.630Z",
+      "ultimaVez": "2026-09-04T10:31:04.630Z",
+      "gitRev": "192b59b"
     }
   }
 }

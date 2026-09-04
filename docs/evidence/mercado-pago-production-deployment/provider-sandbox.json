@@ -1,33 +1,38 @@
 {
-  "executedAt": "2026-09-04T05:41:31.429Z",
+  "executedAt": "2026-09-04T10:19:18.453Z",
   "stage": "sandbox",
   "result": "passed",
   "records": [
     {
+      "timestamp": "2026-09-04T10:19:18.453Z",
       "operationKey": "mp-sandbox-card-10",
       "sanitizedReference": "sha256:45981fe8d0ad52cf",
       "status": "CARD_AUTHORIZED_IDEMPOTENT",
       "exitResult": 0
     },
     {
+      "timestamp": "2026-09-04T10:19:18.453Z",
       "operationKey": "mp-sandbox-pix-11",
       "sanitizedReference": "sha256:13493a9d9feb0b3b",
       "status": "PIX_GENERATED_IDEMPOTENT",
       "exitResult": 0
     },
     {
+      "timestamp": "2026-09-04T10:19:18.453Z",
       "operationKey": "mp-sandbox-card-10",
       "sanitizedReference": "sha256:45981fe8d0ad52cf",
       "status": "INVALID_WEBHOOK_REJECTED",
       "exitResult": 0
     },
     {
+      "timestamp": "2026-09-04T10:19:18.453Z",
       "operationKey": "mp-sandbox-refund-10",
       "sanitizedReference": "sha256:45981fe8d0ad52cf",
       "status": "REFUND_IDEMPOTENT",
       "exitResult": 0
     },
     {
+      "timestamp": "2026-09-04T10:19:18.453Z",
       "operationKey": "mp-sandbox-card-10",
       "sanitizedReference": "sha256:45981fe8d0ad52cf",
       "status": "WEBHOOK_REPLAY_CONVERGED",
