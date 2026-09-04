@@ -66,10 +66,7 @@ export default $config({
     const rabbitMq = new sst.aws.Service('RabbitMq', {
       cluster,
       health: {
-        command: [
-          'CMD-SHELL',
-          'gosu rabbitmq rabbitmq-diagnostics -q ping',
-        ],
+        command: ['CMD-SHELL', 'gosu rabbitmq rabbitmq-diagnostics -q ping'],
       },
       image: 'rabbitmq:4.1.3-management',
       serviceRegistry: { port: 5672 },
@@ -91,12 +88,17 @@ export default $config({
       health: {
         command: [
           'CMD-SHELL',
-          'test -f /var/www/html/.marketplace-ready && curl --fail --silent http://127.0.0.1/graphql',
+          'test -f /var/www/html/.marketplace-ready && curl --fail --silent --header "Origin: $WORDPRESS_URL" http://127.0.0.1/graphql',
         ],
       },
       image: {
         context: '..',
         dockerfile: 'apps/wordpress-integration/Dockerfile',
+      },
+      transform: {
+        image: (_args, options) => {
+          options.retainOnDelete = true;
+        },
       },
       link: [
         wordpressDatabase,
@@ -134,6 +136,11 @@ export default $config({
       image: {
         context: '..',
         dockerfile: 'apps/identity-subgraph/Dockerfile',
+      },
+      transform: {
+        image: (_args, options) => {
+          options.retainOnDelete = true;
+        },
       },
       link: [
         identityDatabase,
@@ -174,6 +181,11 @@ export default $config({
         context: '..',
         dockerfile: 'apps/order-workflow-subgraph/Dockerfile',
       },
+      transform: {
+        image: (_args, options) => {
+          options.retainOnDelete = true;
+        },
+      },
       link: [
         orderWorkflowDatabase,
         rabbitMq,
@@ -213,6 +225,11 @@ export default $config({
         context: '..',
         dockerfile: 'apps/payment-federation/Dockerfile',
       },
+      transform: {
+        image: (_args, options) => {
+          options.retainOnDelete = true;
+        },
+      },
       link: [
         paymentDatabase,
         rabbitMq,
@@ -248,6 +265,11 @@ export default $config({
       image: {
         context: '..',
         dockerfile: 'apps/gateway/Dockerfile',
+      },
+      transform: {
+        image: (_args, options) => {
+          options.retainOnDelete = true;
+        },
       },
       link: [identity, orderWorkflow, paymentFederation, wordpress],
       serviceRegistry: { port: 3000 },
@@ -290,6 +312,10 @@ export default $config({
     publicApi.routePrivate('ANY /api/auth', identity.nodes.cloudmapService.arn);
     publicApi.routePrivate(
       'ANY /api/auth/{proxy+}',
+      identity.nodes.cloudmapService.arn,
+    );
+    publicApi.routePrivate(
+      'GET /oauth/clients',
       identity.nodes.cloudmapService.arn,
     );
     publicApi.routePrivate(

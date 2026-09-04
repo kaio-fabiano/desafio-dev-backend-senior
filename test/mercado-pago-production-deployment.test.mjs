@@ -193,7 +193,11 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
   assert.ok((config.match(/health: \{/g) ?? []).length >= applications.length);
 
   assert.doesNotMatch(config, /loadBalancer:/);
-  assert.match(config, /routePrivate\(\s*['"]POST \/webhooks\/mercado-pago['"]/);
+  assert.match(
+    config,
+    /routePrivate\(\s*['"]POST \/webhooks\/mercado-pago['"]/,
+  );
+  assert.match(config, /routePrivate\(\s*['"]GET \/oauth\/clients['"]/);
   assert.doesNotMatch(
     config,
     /MERCADO_PAGO_(?:ACCESS_TOKEN|WEBHOOK_SECRET): ['"][^'"$]+['"]/,
@@ -214,10 +218,15 @@ test('AC-191: production WordPress is immutable and secret-backed @spec:AC-191',
   assert.match(stack, /IdentitySeedAdminPassword/);
   assert.match(stack, /WordPressAdminPassword/);
   assert.match(stack, /\.marketplace-ready/);
+  assert.match(stack, /Origin: \$WORDPRESS_URL/);
   assert.match(dockerfile, /woocommerce\.10\.4\.3\.zip/);
   assert.match(dockerfile, /wp-graphql\.2\.20\.0\.zip/);
   assert.match(entrypoint, /core install/);
   assert.match(entrypoint, /woocommerce_api_keys/);
+  assert.match(entrypoint, /wpgraphql_login_access_control/);
+  assert.match(entrypoint, /shouldBlockUnauthorizedDomains/);
+  assert.match(entrypoint, /user get payment-federation/);
+  assert.match(entrypoint, /better_auth_user_id payment-federation/);
 });
 
 test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async () => {
@@ -394,8 +403,14 @@ test('AC-195: one managed HTTPS API exposes only approved private routes @spec:A
   ]);
 
   assert.equal((stack.match(/new sst\.aws\.ApiGatewayV2\(/g) ?? []).length, 1);
-  assert.match(stack, /nat: \{ type: ['"]ec2['"], ec2: \{ instance: ['"]t4g\.micro['"] \} \}/);
-  assert.match(stack, /new sst\.aws\.ApiGatewayV2\(['"]PublicApi['"], \{ vpc \}\)/);
+  assert.match(
+    stack,
+    /nat: \{ type: ['"]ec2['"], ec2: \{ instance: ['"]t4g\.micro['"] \} \}/,
+  );
+  assert.match(
+    stack,
+    /new sst\.aws\.ApiGatewayV2\(['"]PublicApi['"], \{ vpc \}\)/,
+  );
   assert.doesNotMatch(stack, /loadBalancer:/);
   for (const route of [
     'ANY /api/auth',
@@ -422,20 +437,41 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
     await Promise.all([
       readFile('infra/sst.config.ts', 'utf8'),
       readFile('apps/apollo-mcp/Dockerfile', 'utf8'),
-      readFile('apps/wordpress-integration/scripts/production-entrypoint.sh', 'utf8'),
-      readFile('apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts', 'utf8'),
-      readFile('apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts', 'utf8'),
+      readFile(
+        'apps/wordpress-integration/scripts/production-entrypoint.sh',
+        'utf8',
+      ),
+      readFile(
+        'apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts',
+        'utf8',
+      ),
+      readFile(
+        'apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts',
+        'utf8',
+      ),
       readFile('libs/identity/nest/src/auth/better-auth.factory.ts', 'utf8'),
     ]);
 
-  assert.match(mcpImage, /COPY --from=healthcheck \/bin\/busybox \/bin\/busybox/);
-  assert.match(mcpImage, /USER 0:0[\s\S]*RUN \["\/bin\/busybox", "ln"[\s\S]*USER 1000:1000/);
+  assert.match(
+    mcpImage,
+    /COPY --from=healthcheck \/bin\/busybox \/bin\/busybox/,
+  );
+  assert.match(
+    mcpImage,
+    /USER 0:0[\s\S]*RUN \["\/bin\/busybox", "ln"[\s\S]*USER 1000:1000/,
+  );
   assert.match(wordpressEntrypoint, /-f \/var\/www\/html\/wp-config\.php/);
   assert.match(stack, /gosu rabbitmq rabbitmq-diagnostics -q ping/);
   assert.match(stack, /\/bin\/busybox cp \/data\/mcp\.yaml \/tmp\/mcp\.yaml/);
   assert.match(stack, /\/bin\/busybox sed -i[\s\S]*\/tmp\/mcp\.yaml/);
-  assert.match(stack, /image: \(_args, options\)[\s\S]*options\.retainOnDelete = true/);
-  assert.match(orm, /driverOptions:[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/);
+  assert.match(
+    stack,
+    /image: \(_args, options\)[\s\S]*options\.retainOnDelete = true/,
+  );
+  assert.match(
+    orm,
+    /driverOptions:[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/,
+  );
   assert.match(relay, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
   assert.match(identity, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
 });

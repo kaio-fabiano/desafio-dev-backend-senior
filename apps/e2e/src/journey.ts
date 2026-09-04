@@ -172,7 +172,10 @@ async function issueToken(
     sessionCookie = mergeResponseCookies(sessionCookie, consentResponse);
     const consent = (await consentResponse.json()) as { url?: string };
     if (!consentResponse.ok || !consent.url) {
-      throw new Error(`OAuth consent failed: ${JSON.stringify(consent)}`);
+      const names = [...new URLSearchParams(next.oauthQuery).keys()];
+      throw new Error(
+        `OAuth consent failed (${consentResponse.status}; query keys: ${names.join(',')}): ${JSON.stringify(consent)}`,
+      );
     }
     const consentCode = new URL(consent.url).searchParams.get('code');
     if (!consentCode) {
@@ -211,6 +214,13 @@ export function classifyAuthorizationResult(
   baseUrl: string,
 ): { kind: 'code'; code: string } | { kind: 'consent'; oauthQuery: string } {
   const result = new URL(url, baseUrl);
+  const oauthError = result.searchParams.get('error');
+  if (oauthError) {
+    const description = result.searchParams.get('error_description');
+    throw new Error(
+      `OAuth authorization was rejected: ${oauthError}${description ? ` (${description})` : ''}`,
+    );
+  }
   const code = result.searchParams.get('code');
   if (code) return { kind: 'code', code };
   const oauthQuery = result.search.slice(1);
