@@ -34,7 +34,8 @@ The matrix deliberately does not claim that a future task is evidence. No row
 contains a task reference; task status belongs to the delivery plan, while
 this record remains anchored to the challenge and executable artifacts.
 
-The successful local acceptance run proves the challenge contract against the
-isolated Testcontainers topology. It is not evidence of a deployed production
-environment or a credentialed Mercado Pago sandbox transaction; those remain
-explicitly tracked in the [production-readiness gap register](../prds/08-riscos-e-decisoes-pendentes.md#production-readiness-gap-register).
+The local acceptance run proves the challenge contract against the isolated
+Testcontainers topology. The separate [sandbox release smoke test](mercado-pago-production-deployment/smoke-test.md)
+proves the credentialed AWS deployment, authenticated GraphQL and MCP access,
+and idempotent Mercado Pago Card, Pix, webhook, and refund behavior. Production
+promotion remains protected and is not implied by sandbox evidence.
