@@ -1,5 +1,7 @@
 {
   "executedAt": "2026-09-04T05:44:00Z",
+  "validatedAt": "2026-09-04T10:20:24Z",
+  "gitRevision": "9c341b30c17bc42e2df99279b9f1a853b67b64a4",
   "account": "945323157760",
   "region": "us-east-1",
   "stage": "sandbox",
@@ -14,5 +16,5 @@
     "RabbitMq",
     "WordPress"
   ],
-  "result": "deployed"
+  "result": "validated"
 }
