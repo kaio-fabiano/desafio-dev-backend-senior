@@ -474,9 +474,9 @@
     "semantic_hash": "17467eec7b7b97a06de32be110b24560"
   },
   ".spec/verification/delivery-closure.json": {
-    "mtime": 1788504305.158139,
-    "seen": 1788504803.8605177,
-    "ast_hash": "5752827eeede243f010a160dc9b6416f",
+    "mtime": 1788513938.133841,
+    "seen": 1788514164.054859,
+    "ast_hash": "9fd954ed1afb3ee11f0ce34912daa573",
     "semantic_hash": ""
   },
   ".spec/verification/federated-platform-architecture-refactor.json": {
@@ -504,9 +504,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
-    "mtime": 1788505815.2389886,
-    "seen": 1788509056.3650873,
-    "ast_hash": "9fc78f2450e9107d74fb9ad9b1174894",
+    "mtime": 1788513691.9409332,
+    "seen": 1788513744.5428796,
+    "ast_hash": "85f2c5e7080e204d307f85c2d93cf2f6",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-8-compliance-hardening.json": {
@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788508548.8493314,
-    "seen": 1788509056.3651006,
-    "ast_hash": "51bc0285188f0272f95f8ee973756538",
+    "mtime": 1788513758.4353848,
+    "seen": 1788514164.0552862,
+    "ast_hash": "8cc09442404208835a4beb095a565549",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -558,10 +558,10 @@
     "semantic_hash": ""
   },
   "apps/e2e/src/environment.ts": {
-    "mtime": 1788417949.5992136,
-    "seen": 1788504803.8605733,
-    "ast_hash": "378df48ec5968b360dfd867a4a6e3d5b",
-    "semantic_hash": "378df48ec5968b360dfd867a4a6e3d5b"
+    "mtime": 1788513038.6864805,
+    "seen": 1788513744.5432222,
+    "ast_hash": "052ed35720ea6f25bf7b8181e252103b",
+    "semantic_hash": ""
   },
   "apps/e2e/src/journey.ts": {
     "mtime": 1788498748.9506521,
@@ -936,9 +936,9 @@
     "semantic_hash": "b2c8130ea933978e061bf6fbf3f088ae"
   },
   "libs/identity/nest/src/auth/better-auth.factory.ts": {
-    "mtime": 1788494585.8757691,
-    "seen": 1788504803.861526,
-    "ast_hash": "ca0d107261cfa418e976ff13614efcd3",
+    "mtime": 1788512277.5534532,
+    "seen": 1788513744.5472512,
+    "ast_hash": "dd0700033564b47e2241b508a72f8203",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/auth/better-auth.module.ts": {
@@ -1230,10 +1230,10 @@
     "semantic_hash": "86ccd0338faa69d87413f7c768fc0eb0"
   },
   "test/milestone-7-e2e-contract.test.mjs": {
-    "mtime": 1788417949.6202137,
-    "seen": 1788504803.8621912,
-    "ast_hash": "111d0c8b84f00af3c957e4157d3cdc20",
-    "semantic_hash": "111d0c8b84f00af3c957e4157d3cdc20"
+    "mtime": 1788513038.6864805,
+    "seen": 1788513744.5483186,
+    "ast_hash": "17c10a62eb30a011edb11000b9193a03",
+    "semantic_hash": ""
   },
   "test/milestone-7-load.test.mjs": {
     "mtime": 1788363947.2849386,
@@ -1584,9 +1584,9 @@
     "semantic_hash": ""
   },
   ".spec/features/milestone-7-e2e-deployment/tasks.md": {
-    "mtime": 1788417949.5952134,
-    "seen": 1788504803.8628318,
-    "ast_hash": "74ffca32d4d1d7e108fd7e9d97407ee4",
+    "mtime": 1788513540.9589298,
+    "seen": 1788513744.5499883,
+    "ast_hash": "0ba1901c326d60a94ec21ff1eeac60fa",
     "semantic_hash": ""
   },
   ".spec/features/milestone-8-compliance-hardening/design.md": {
@@ -1734,9 +1734,9 @@
     "semantic_hash": ""
   },
   "compose.yaml": {
-    "mtime": 1788425256.0355303,
-    "seen": 1788504803.8630207,
-    "ast_hash": "c4cc3ced36caf430254d3b7f5d37b24b",
+    "mtime": 1788512762.7283347,
+    "seen": 1788513744.551171,
+    "ast_hash": "524124e2e544cd89a8ffb81077e13f4d",
     "semantic_hash": ""
   },
   "docs/adrs/001-graphql-sse-federado.md": {
@@ -2226,9 +2226,9 @@
     "semantic_hash": "cf301a4234f48530d2fae0e6a91de3b2"
   },
   "apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts": {
-    "mtime": 1788495918.2765067,
-    "seen": 1788504803.8609312,
-    "ast_hash": "38d8dcd2a115a24fcedcfbb3a8a14092",
+    "mtime": 1788512022.6273065,
+    "seen": 1788513744.5448174,
+    "ast_hash": "60464a4a99d4c53ba1306c046f524432",
     "semantic_hash": ""
   },
   "apps/order-workflow-subgraph/src/saga/order-event.consumer.ts": {
@@ -2268,9 +2268,9 @@
     "semantic_hash": "b48fa30718c1463f0e7645fd16a9373a"
   },
   "apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts": {
-    "mtime": 1788494585.874769,
-    "seen": 1788504803.860939,
-    "ast_hash": "9741a0c0c3f1dae93df50367ea35dff0",
+    "mtime": 1788512022.6273065,
+    "seen": 1788513744.5449545,
+    "ast_hash": "bb8d2aa733e62d49af83decace7af2b2",
     "semantic_hash": ""
   },
   "apps/order-workflow-subgraph/src/subscriptions/sse-handler.ts": {
@@ -3006,9 +3006,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/mercado-pago-production-deployment.json": {
-    "mtime": 1788503343.7707112,
-    "seen": 1788504803.860524,
-    "ast_hash": "05b36fe1a15c7d438bed5f69990c8fb7",
+    "mtime": 1788514113.156863,
+    "seen": 1788514164.0549998,
+    "ast_hash": "b4ddd5ba1f10fabb528aa6f25f51c699",
     "semantic_hash": ""
   },
   ".spec/verification/sonar-java-full-analysis.json": {
@@ -3048,9 +3048,9 @@
     "semantic_hash": ""
   },
   "apps/wordpress-integration/scripts/production-entrypoint.sh": {
-    "mtime": 1788499529.0557044,
-    "seen": 1788504803.8610628,
-    "ast_hash": "a82142d75a33ff135cf96f035bef14c6",
+    "mtime": 1788512762.7303348,
+    "seen": 1788513744.5467086,
+    "ast_hash": "586560ac83b4341a4370167b76c97377",
     "semantic_hash": ""
   },
   "docs/evidence/mercado-pago-production-deployment/deployment.json": {
@@ -3066,9 +3066,9 @@
     "semantic_hash": ""
   },
   "test/mercado-pago-production-deployment.test.mjs": {
-    "mtime": 1788500712.3297079,
-    "seen": 1788504803.8621597,
-    "ast_hash": "9d1737af7475dcb4fa620dc3b79d4fcb",
+    "mtime": 1788512762.7313347,
+    "seen": 1788513744.5481582,
+    "ast_hash": "dcae87461195ed43c3ed830175153bf4",
     "semantic_hash": ""
   },
   "test/sonar-java-full-analysis.test.mjs": {
