@@ -1,11 +1,11 @@
 {
   "feature": "resolve-gateway-sse-todos",
-  "timestamp": "2026-09-02T23:37:40.321Z",
-  "gitRev": "a3545b4",
+  "timestamp": "2026-09-04T07:44:33.245Z",
+  "gitRev": "09d52c5",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
-  "exitCode": 0,
-  "testsParsed": 169,
+  "exitCode": 123,
+  "testsParsed": 181,
   "results": {
     "AC-130": {
       "status": "pass",

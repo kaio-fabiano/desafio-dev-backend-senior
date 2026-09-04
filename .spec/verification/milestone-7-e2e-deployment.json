@@ -1,11 +1,11 @@
 {
   "feature": "milestone-7-e2e-deployment",
-  "timestamp": "2026-09-03T01:22:23.094Z",
-  "gitRev": "da8d8f3",
+  "timestamp": "2026-09-04T07:10:15.225Z",
+  "gitRev": "09d52c5",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
-  "exitCode": 0,
-  "testsParsed": 171,
+  "exitCode": 123,
+  "testsParsed": 181,
   "results": {
     "AC-067": {
       "status": "pass",
