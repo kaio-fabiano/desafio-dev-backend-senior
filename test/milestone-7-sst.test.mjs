@@ -18,6 +18,7 @@ test('AC-076: SST v3 and its AWS provider are pinned exactly @spec:AC-076', () =
   assert.match(config, /providers:[\s\S]*aws:[\s\S]*version: ["']\d+\.\d+\.\d+["']/);
   assert.equal(infraPackage.scripts.validate, 'sst install --stage validation && tsc --noEmit');
   assert.equal(infraPackage.scripts.diff, 'sst diff');
+  assert.match(infraPackage.scripts.review, /sst diff --stage [^&]+ --print-logs/);
 });
 
 test('AC-076: the stack models protected application resources without inline secrets @spec:AC-076', () => {
