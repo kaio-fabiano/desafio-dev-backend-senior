@@ -256,7 +256,7 @@ export default $config({
     const apolloMcp = new sst.aws.Service('ApolloMcp', {
       cluster,
       command: [
-        'sed -i "s|http://gateway:3000/graphql|$GATEWAY_GRAPHQL_URL|; s|http://identity.localhost:3001/api/auth|$IDENTITY_OAUTH_URL|g; s|http://apollo-mcp:8000/mcp|$MCP_RESOURCE_URL|g; s|public-api.invalid|$PUBLIC_API_HOST|g" /data/mcp.yaml && exec apollo-mcp-server /data/mcp.yaml',
+        '/bin/busybox sed -i "s|http://gateway:3000/graphql|$GATEWAY_GRAPHQL_URL|; s|http://identity.localhost:3001/api/auth|$IDENTITY_OAUTH_URL|g; s|http://apollo-mcp:8000/mcp|$MCP_RESOURCE_URL|g; s|public-api.invalid|$PUBLIC_API_HOST|g" /data/mcp.yaml && exec apollo-mcp-server /data/mcp.yaml',
       ],
       entrypoint: ['/bin/busybox', 'sh', '-ec'],
       environment: {
