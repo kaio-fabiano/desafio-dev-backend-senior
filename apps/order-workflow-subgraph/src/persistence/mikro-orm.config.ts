@@ -14,7 +14,8 @@ export default defineConfig({
   user: process.env.ORDER_WORKFLOW_DB_USER ?? 'postgres',
   password: process.env.ORDER_WORKFLOW_DB_PASSWORD,
   driverOptions:
-    process.env.NODE_ENV === 'production'
+    process.env.NODE_ENV === 'production' &&
+    process.env.ORDER_WORKFLOW_DB_SSL !== 'false'
       ? { connection: { ssl: { rejectUnauthorized: false } } }
       : undefined,
   entities: [CheckoutOperation, InboxRecord, OrderWorkflow, OutboxEvent],

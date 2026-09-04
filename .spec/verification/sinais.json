@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 29,
+      "ocorrencias": 30,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-04T06:29:11.726Z",
-      "gitRev": "09d52c5"
+      "ultimaVez": "2026-09-04T09:22:38.429Z",
+      "gitRev": "2c15d79"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -5400,6 +5400,15 @@
       "primeiraVez": "2026-09-04T07:55:48.844Z",
       "ultimaVez": "2026-09-04T07:55:48.844Z",
       "gitRev": "09d52c5"
+    },
+    "VERIFY_OBSOLETO::mercado-pago-production-deployment::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "mercado-pago-production-deployment",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-04T09:22:38.432Z",
+      "ultimaVez": "2026-09-04T09:22:38.432Z",
+      "gitRev": "2c15d79"
     }
   }
 }

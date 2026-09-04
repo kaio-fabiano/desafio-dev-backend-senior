@@ -51,7 +51,7 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       'compose.yaml',
     )
       .withBuild()
-      .withEnvironment({ MCP_PORT: '0' })
+      .withEnvironment({ MCP_PORT: '0', PAYMENT_PROVIDER_MODE: 'deterministic' })
       .withDefaultWaitStrategy(Wait.forHealthCheck())
       .withStartupTimeout(STARTUP_TIMEOUT)
       .up(COMPOSE_SERVICES.filter((service) => service !== 'wordpress-setup'));

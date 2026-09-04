@@ -433,9 +433,10 @@ test('AC-195: one managed HTTPS API exposes only approved private routes @spec:A
 });
 
 test('AC-193: deployed containers use production-safe startup dependencies @spec:AC-193', async () => {
-  const [stack, mcpImage, wordpressEntrypoint, orm, relay, identity] =
+  const [stack, compose, mcpImage, wordpressEntrypoint, orm, relay, identity] =
     await Promise.all([
       readFile('infra/sst.config.ts', 'utf8'),
+      readFile('compose.yaml', 'utf8'),
       readFile('apps/apollo-mcp/Dockerfile', 'utf8'),
       readFile(
         'apps/wordpress-integration/scripts/production-entrypoint.sh',
@@ -461,6 +462,8 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
     /USER 0:0[\s\S]*RUN \["\/bin\/busybox", "ln"[\s\S]*USER 1000:1000/,
   );
   assert.match(wordpressEntrypoint, /-f \/var\/www\/html\/wp-config\.php/);
+  assert.match(wordpressEntrypoint, /option update woocommerce_currency BRL/);
+  assert.match(compose, /wp option update woocommerce_currency BRL/);
   assert.match(stack, /gosu rabbitmq rabbitmq-diagnostics -q ping/);
   assert.match(stack, /\/bin\/busybox cp \/data\/mcp\.yaml \/tmp\/mcp\.yaml/);
   assert.match(stack, /\/bin\/busybox sed -i[\s\S]*\/tmp\/mcp\.yaml/);
@@ -470,8 +473,15 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
   );
   assert.match(
     orm,
-    /driverOptions:[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/,
+    /ORDER_WORKFLOW_DB_SSL !== 'false'[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/,
   );
-  assert.match(relay, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
-  assert.match(identity, /ssl:\s*process\.env\.NODE_ENV === 'production'/);
+  assert.match(relay, /ORDER_WORKFLOW_DB_SSL !== 'false'/);
+  assert.match(identity, /DATABASE_SSL !== 'false'/);
+  assert.match(identity, /IDENTITY_TRUSTED_ORIGINS\?\.split\(','\)/);
+  assert.match(compose, /DATABASE_SSL: 'false'/);
+  assert.match(
+    compose,
+    /IDENTITY_TRUSTED_ORIGINS: http:\/\/127\.0\.0\.1:\*,http:\/\/localhost:\*/,
+  );
+  assert.match(compose, /ORDER_WORKFLOW_DB_SSL: 'false'/);
 });

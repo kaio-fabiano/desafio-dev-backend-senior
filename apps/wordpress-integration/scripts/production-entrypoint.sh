@@ -25,6 +25,7 @@ fi
 
 "${wp[@]}" plugin activate woocommerce wp-graphql wp-graphql-woocommerce \
   wp-graphql-headless-login wp-graphql-federations order-workflow-reconciliation
+"${wp[@]}" option update woocommerce_currency BRL
 "${wp[@]}" option update woocommerce_cod_settings '{"enabled":"yes","title":"Cash on delivery"}' --format=json
 "${wp[@]}" option update wpgraphql_federation_settings '{"Order":{"enabled":true,"key":"id","kind":"post_type","wp_name":"shop_order"},"SimpleProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"VariableProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"ExternalProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"},"GroupProduct":{"enabled":true,"key":"id","kind":"post_type","wp_name":"product"}}' --format=json
 "${wp[@]}" eval 'update_option("wpgraphql_login_access_control", ["shouldBlockUnauthorizedDomains" => true, "hasSiteAddressInOrigin" => true, "additionalAuthorizedDomains" => [rtrim(getenv("WORDPRESS_URL"), "/")], "customHeaders" => []]);'

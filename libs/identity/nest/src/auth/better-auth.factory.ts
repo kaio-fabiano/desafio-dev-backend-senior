@@ -66,6 +66,9 @@ export class BetterAuthFactory implements OnModuleDestroy {
       process.env.OAUTH_ISSUER ??
       'https://identity-subgraph:3001/api/auth';
     const secret = options.secret ?? process.env.BETTER_AUTH_SECRET;
+    const trustedOrigins = process.env.IDENTITY_TRUSTED_ORIGINS?.split(',')
+      .map((origin) => origin.trim())
+      .filter(Boolean);
     if (process.env.NODE_ENV === 'production' && !secret) {
       throw new Error('BETTER_AUTH_SECRET is required in production');
     }
@@ -78,6 +81,7 @@ export class BetterAuthFactory implements OnModuleDestroy {
       basePath: '/api/auth',
       database: options.database ?? this.getDatabase(),
       secret,
+      trustedOrigins,
       emailAndPassword: { enabled: true },
       disabledPaths: ['/token'],
       hooks: {},
@@ -111,7 +115,8 @@ export class BetterAuthFactory implements OnModuleDestroy {
     this.database ??= new Pool({
       connectionString: process.env.DATABASE_URL,
       ssl:
-        process.env.NODE_ENV === 'production'
+        process.env.NODE_ENV === 'production' &&
+        process.env.DATABASE_SSL !== 'false'
           ? { rejectUnauthorized: false }
           : undefined,
     });
