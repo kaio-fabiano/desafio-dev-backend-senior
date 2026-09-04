@@ -498,9 +498,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/milestone-6-apollo-mcp.json": {
-    "mtime": 1788518181.337675,
-    "seen": 1788518522.0381095,
-    "ast_hash": "9ae41b2a1e32b490933d5ef445e5034f",
+    "mtime": 1788539187.3951545,
+    "seen": 1788539198.066959,
+    "ast_hash": "b9988049f977f153e0a44d772cbf579a",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788517878.4988797,
-    "seen": 1788518522.038143,
-    "ast_hash": "ef70ea7e43fed9eef63ac6ecded8e2ff",
+    "mtime": 1788539187.395419,
+    "seen": 1788539198.0671496,
+    "ast_hash": "239776b3a70ee006aff40d0fb83314ff",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -552,9 +552,9 @@
     "semantic_hash": "79bacbf987cbaf74f2932f178257a420"
   },
   "apps/e2e/project.json": {
-    "mtime": 1788516678.6920846,
-    "seen": 1788518522.0382977,
-    "ast_hash": "d98cfd051e4c3c1edca1022a93861035",
+    "mtime": 1788539187.395419,
+    "seen": 1788539198.0672724,
+    "ast_hash": "24f630cd1e8e5e31294942a053435d07",
     "semantic_hash": ""
   },
   "apps/e2e/src/environment.ts": {
@@ -564,9 +564,9 @@
     "semantic_hash": ""
   },
   "apps/e2e/src/journey.ts": {
-    "mtime": 1788516678.692331,
-    "seen": 1788518522.0383005,
-    "ast_hash": "186a8e7556798bd90219ca44e1129867",
+    "mtime": 1788539187.395549,
+    "seen": 1788539198.0672941,
+    "ast_hash": "9166749f86585a0163433a014143ef36",
     "semantic_hash": ""
   },
   "apps/e2e/src/milestone-7.e2e.test.ts": {
@@ -2994,21 +2994,21 @@
     "semantic_hash": "43451df9cd0570f8cab212269d7d5bf4"
   },
   ".spec/features/mercado-pago-production-deployment/executar-tarefas.sh": {
-    "mtime": 1788517878.487473,
-    "seen": 1788518522.0367815,
-    "ast_hash": "1ab363be62a93d2ecbe3112a0c874519",
+    "mtime": 1788538089.5037606,
+    "seen": 1788539198.0656497,
+    "ast_hash": "de3b3c5884fb3289c39c4640fc073437",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-production-deployment/plano.json": {
-    "mtime": 1788517878.487473,
-    "seen": 1788518522.0367868,
-    "ast_hash": "65fdb45d62bc6c93874e0d43aeac0cee",
+    "mtime": 1788538089.5027606,
+    "seen": 1788539198.0656543,
+    "ast_hash": "76ffac3ac5642e42ad2fc5b67aff814f",
     "semantic_hash": ""
   },
   ".spec/verification/mercado-pago-production-deployment.json": {
-    "mtime": 1788518482.367037,
-    "seen": 1788518522.0381062,
-    "ast_hash": "a7408f083740efc15a98a29c8370190b",
+    "mtime": 1788539187.3951545,
+    "seen": 1788539198.0669572,
+    "ast_hash": "dfa3f0522227feb514605bd2a9290789",
     "semantic_hash": ""
   },
   ".spec/verification/sonar-java-full-analysis.json": {
@@ -3036,9 +3036,9 @@
     "semantic_hash": ""
   },
   "apps/e2e/src/sandbox-bearer.ts": {
-    "mtime": 1788516678.6926224,
-    "seen": 1788518522.0383294,
-    "ast_hash": "da85e722a3f531816afb21656fd9a5f8",
+    "mtime": 1788539187.395549,
+    "seen": 1788539198.0673685,
+    "ast_hash": "48fc771b467b2ade20988a2214fdb0ed",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/test/java/dev/desafio/payment/SonarConfigurationTest.java": {
@@ -3066,9 +3066,9 @@
     "semantic_hash": ""
   },
   "test/mercado-pago-production-deployment.test.mjs": {
-    "mtime": 1788517878.4988797,
-    "seen": 1788518522.0426474,
-    "ast_hash": "def6b3847183d88983e99789c7f7911b",
+    "mtime": 1788539187.395549,
+    "seen": 1788539198.0719242,
+    "ast_hash": "c738b2245038c0978348c82d4b7aa5ea",
     "semantic_hash": ""
   },
   "test/sonar-java-full-analysis.test.mjs": {
@@ -3078,27 +3078,27 @@
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-production-deployment/plano-execucao.html": {
-    "mtime": 1788517878.487473,
-    "seen": 1788518522.044205,
-    "ast_hash": "685a3daf294f25f71eb9f9afc51a8546",
+    "mtime": 1788538147.0209653,
+    "seen": 1788539198.0735395,
+    "ast_hash": "d9ea52c6fe4e469436a391fbc666a122",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-production-deployment/plano-execucao.md": {
-    "mtime": 1788517878.487473,
-    "seen": 1788518522.0442064,
-    "ast_hash": "b1f7dfebde606f073ff4d20b931d7b62",
+    "mtime": 1788538089.5027606,
+    "seen": 1788539198.0735414,
+    "ast_hash": "3511822368044819fbccd66bf383e279",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-production-deployment/spec.md": {
-    "mtime": 1788516678.688884,
-    "seen": 1788518522.0442073,
-    "ast_hash": "0a87c7fa39f8e24b86d115c3b46981b7",
+    "mtime": 1788538083.9607422,
+    "seen": 1788539198.0735424,
+    "ast_hash": "4ba6d8798c82683eb37c16ac741af1a9",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-production-deployment/tasks.md": {
-    "mtime": 1788517886.8283193,
-    "seen": 1788518522.0442085,
-    "ast_hash": "00818f2f9049560987e5087b0ea9713c",
+    "mtime": 1788539187.3951545,
+    "seen": 1788539198.073543,
+    "ast_hash": "24c8731e3f8b1319cbb127a1342634d6",
     "semantic_hash": ""
   },
   ".spec/features/reconcile-architecture-decisions/plano-execucao.html": {
@@ -3150,9 +3150,9 @@
     "semantic_hash": ""
   },
   "docs/evidence/mercado-pago-production-deployment/smoke-test.md": {
-    "mtime": 1788517878.4988797,
-    "seen": 1788518522.0456514,
-    "ast_hash": "b087c81d955ad15d7b8d9f91a96ba093",
+    "mtime": 1788539187.395549,
+    "seen": 1788539198.0750995,
+    "ast_hash": "8f9f409308f30464712a372397f18792",
     "semantic_hash": ""
   }
 }
