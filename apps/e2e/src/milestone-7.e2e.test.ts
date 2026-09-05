@@ -75,7 +75,7 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     });
   });
 
-  it('converges Card checkout across RabbitMQ, subscription, federation, and persistence exactly once @spec:AC-069 @spec:AC-083 @spec:AC-084', () => {
+  it('converges Card checkout across RabbitMQ, subscription, federation, and persistence exactly once @spec:AC-069 @spec:AC-084', () => {
     expect(proof.card.subscriptionOpenedBeforeCheckout).toBe(true);
     expect(proof.card.retry.wooOrderId).toBe(proof.card.checkout.wooOrderId);
     expect(proof.card.event).toMatchObject({

@@ -573,23 +573,49 @@ async function setProductStock(
   environment: Milestone7Environment,
   quantity: number,
 ) {
-  const credentials = Buffer.from(
-    'ck_3333333333333333333333333333333333333333:cs_3333333333333333333333333333333333333333',
-  ).toString('base64');
-  const response = await fetch(
-    `${environment.wordpressUrl}/wp-json/wc/v3/products/1001`,
-    {
-      method: 'PUT',
+  const request = async (
+    query: string,
+    variables: JsonObject,
+    authorization?: string,
+  ) => {
+    const response = await fetch(`${environment.wordpressUrl}/graphql`, {
+      method: 'POST',
       headers: {
-        authorization: `Basic ${credentials}`,
         'content-type': 'application/json',
-        'x-forwarded-proto': 'https',
+        origin: 'http://wordpress',
+        ...(authorization
+          ? { authorization: `Bearer ${authorization}` }
+          : { 'x-wpgraphql-site-token': environment.wordpressSiteToken }),
       },
-      body: JSON.stringify({ stock_quantity: quantity }),
-    },
+      body: JSON.stringify({ query, variables }),
+    });
+    const payload = (await response.json()) as {
+      data?: JsonObject;
+      errors?: unknown[];
+    };
+    if (!response.ok || payload.errors?.length || !payload.data) {
+      throw new Error(
+        `WooGraphQL stock setup failed: ${JSON.stringify(payload)}`,
+      );
+    }
+    return payload.data;
+  };
+  const authentication = await request(
+    `mutation LoginOrderWorkflow($input: LoginInput!) {
+      login(input: $input) { authToken }
+    }`,
+    { input: { identity: 'order-workflow', provider: 'SITETOKEN' } },
   );
-  if (!response.ok)
-    throw new Error(`WooCommerce stock setup failed with ${response.status}`);
+  const authToken = (authentication.login as { authToken?: string } | undefined)
+    ?.authToken;
+  if (!authToken) throw new Error('WooGraphQL stock setup login failed');
+  await request(
+    `mutation UpdateProductStock($input: UpdateProductInput!) {
+      updateProduct(input: $input) { product { databaseId } }
+    }`,
+    { input: { id: '1001', manageStock: true, stockQuantity: quantity } },
+    authToken,
+  );
 }
 
 export async function runAcceptanceJourney(

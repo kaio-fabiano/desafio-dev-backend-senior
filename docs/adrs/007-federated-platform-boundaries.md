@@ -56,7 +56,7 @@ A catalog fallback is not part of the target.
 | ------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | Apollo MCP                | Authenticated MCP tools backed by registered graph operations                       | MCP SDK configuration and a Gateway client                                   | Domain state, direct subgraph clients, or persistence                                |
 | Gateway                   | Verify identity, propagate safe context, execute the composed graph, and expose SSE | NestJS authentication, Apollo Gateway, and Order Workflow stream delegation  | Catalog/order loaders, repositories, or ownership of order events                    |
-| Identity Federation       | Identity, sessions, OAuth, registration, and identity-owned graph fields            | `NestJSBetterAuth`, injectable plugin factories, and Identity resolvers      | A second mapping or repository for Better Auth records                               |
+| Identity Federation       | Identity, sessions, OAuth, registration, and identity-owned graph fields            | `NestJSBetterAuth`, native WordPress GraphQL registration operations, and Identity resolvers | A second mapping or repository for Better Auth records or WooCommerce REST customer calls |
 | Order Workflow Federation | Checkout idempotency, workflow state, outbox/inbox, and order-event publication     | NestJS application services, PostgreSQL, and RabbitMQ adapters               | Authoritative product, cart, order, or inventory records                             |
 | Payment Federation        | Payment invariants plus internal payment and inventory event reactions              | Spring GraphQL Federation, AMQP listeners, and application services          | Authoritative WooCommerce product, cart, or order records                            |
 | External WordPress        | Product, cart, order, customer, and inventory capabilities                          | Native WPGraphQL/WooGraphQL `/graphql` federated by `wp-graphql-federations` | Node proxy, SDL-normalization runtime, subscriptions, or duplicate commercial models |
@@ -99,6 +99,10 @@ they do not assemble infrastructure graphs manually.
   endpoint delegates to the Order Workflow-owned stream without owning order events.
 - No custom WordPress commercial schema is built when WPGraphQL or WooGraphQL
   already supplies the capability.
+- Identity registration calls the native WordPress `/graphql` endpoint using
+  named customer and user mutations. Administrative registration operations
+  remain private service dependencies rather than fields published through the
+  normalized public supergraph contract.
 - No Identity MikroORM mapping mirrors Better Auth. Add first-party persistence
   only if a future identity-owned model is proved by a failing requirement.
 - RabbitMQ and the Order Workflow transactional outbox implement the specific

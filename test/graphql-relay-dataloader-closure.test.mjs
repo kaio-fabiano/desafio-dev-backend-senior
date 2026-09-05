@@ -13,29 +13,36 @@ const records = [
 
 function authWithCounter() {
   const calls = [];
-  const adapter = {
-    async findMany(input) {
-      calls.push(input);
-      const ids = input.where?.find(({ field }) => field === 'id')?.value;
-      if (Array.isArray(ids))
-        return records.filter(({ id }) => ids.includes(id));
-      const after = input.where?.find(
-        ({ operator }) => operator === 'gt',
-      )?.value;
-      return records
+  const repository = {
+    async findByIds(ids) {
+      calls.push({ ids });
+      return records.filter(({ id }) => ids.includes(id));
+    },
+    async findPage(first, after) {
+      calls.push({ after, first });
+      const page = records
         .filter(({ id }) => !after || id > after)
-        .slice(0, input.limit);
+        .slice(0, first);
+      return {
+        edges: page.map((node) => ({ cursor: Buffer.from(node.id).toString('base64url'), node })),
+        pageInfo: {
+          hasNextPage: records.length > page.length,
+          hasPreviousPage: after !== undefined,
+          startCursor: page[0] ? Buffer.from(page[0].id).toString('base64url') : null,
+          endCursor: page.at(-1) ? Buffer.from(page.at(-1).id).toString('base64url') : null,
+        },
+      };
     },
   };
   return {
-    auth: { instance: { $context: Promise.resolve({ adapter }) } },
+    repository,
     calls,
   };
 }
 
 test('AC-197: User pages expose complete Relay cursors and PageInfo @spec:AC-197', async () => {
-  const { auth } = authWithCounter();
-  const resolver = new IdentityResolver(auth, new UserLoader(auth));
+  const { repository } = authWithCounter();
+  const resolver = new IdentityResolver(repository, new UserLoader(repository));
   const first = await resolver.users(2, undefined);
   const second = await resolver.users(2, first.pageInfo.endCursor);
 
@@ -62,7 +69,7 @@ test('AC-197: User pages expose complete Relay cursors and PageInfo @spec:AC-197
 
 test('AC-198: User references batch and cache only within one request @spec:AC-198', async () => {
   const firstRequest = authWithCounter();
-  const firstLoader = new UserLoader(firstRequest.auth);
+  const firstLoader = new UserLoader(firstRequest.repository);
   const [one, two, repeated] = await Promise.all([
     firstLoader.load('user-1'),
     firstLoader.load('user-2'),
@@ -73,22 +80,18 @@ test('AC-198: User references batch and cache only within one request @spec:AC-1
   assert.equal(two?.id, 'user-2');
   assert.strictEqual(repeated, one);
   assert.equal(firstRequest.calls.length, 1);
-  assert.deepEqual(firstRequest.calls[0].where[0], {
-    field: 'id',
-    operator: 'in',
-    value: ['user-1', 'user-2'],
-  });
+  assert.deepEqual(firstRequest.calls[0].ids, ['user-1', 'user-2']);
 
   const secondRequest = authWithCounter();
-  await new UserLoader(secondRequest.auth).load('user-1');
+  await new UserLoader(secondRequest.repository).load('user-1');
   assert.equal(secondRequest.calls.length, 1);
 });
 
 test('AC-199: Production Identity references keep datasource calls constant @spec:AC-199', async () => {
   const request = authWithCounter();
   const resolver = new IdentityResolver(
-    request.auth,
-    new UserLoader(request.auth),
+    request.repository,
+    new UserLoader(request.repository),
   );
   const resolved = await Promise.all([
     resolver.resolveReference({ id: 'user-1' }),

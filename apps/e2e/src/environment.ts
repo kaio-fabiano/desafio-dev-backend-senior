@@ -28,6 +28,7 @@ export type Milestone7Environment = {
   gatewayUrl: string;
   mcpUrl: string;
   wordpressUrl: string;
+  wordpressSiteToken: string;
   commerceUrl: string;
   startedComponents: readonly string[];
   isStopped(): boolean;
@@ -51,7 +52,10 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
       'compose.yaml',
     )
       .withBuild()
-      .withEnvironment({ MCP_PORT: '0', PAYMENT_PROVIDER_MODE: 'deterministic' })
+      .withEnvironment({
+        MCP_PORT: '0',
+        PAYMENT_PROVIDER_MODE: 'deterministic',
+      })
       .withDefaultWaitStrategy(Wait.forHealthCheck())
       .withStartupTimeout(STARTUP_TIMEOUT)
       .up(COMPOSE_SERVICES.filter((service) => service !== 'wordpress-setup'));
@@ -60,12 +64,15 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
     const identity = startedEnvironment.getContainer('identity-subgraph-1');
     const mcp = startedEnvironment.getContainer('apollo-mcp-1');
     const wordpress = startedEnvironment.getContainer('wordpress-1');
-    const commerce = startedEnvironment.getContainer('order-workflow-subgraph-1');
+    const commerce = startedEnvironment.getContainer(
+      'order-workflow-subgraph-1',
+    );
     return {
       identityUrl: `http://${identity.getHost()}:${identity.getMappedPort(3001)}`,
       gatewayUrl: `http://${gateway.getHost()}:${gateway.getMappedPort(3000)}`,
       mcpUrl: `http://${mcp.getHost()}:${mcp.getMappedPort(8000)}/mcp`,
       wordpressUrl: `http://${wordpress.getHost()}:${wordpress.getMappedPort(80)}`,
+      wordpressSiteToken: 'wordpress-local-only',
       commerceUrl: `http://${commerce.getHost()}:${commerce.getMappedPort(3003)}`,
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,

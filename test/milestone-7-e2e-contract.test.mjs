@@ -8,13 +8,23 @@ import {
   readTerminalEvent,
 } from '../apps/e2e/src/journey.ts';
 
-const [packageJson, project, environment, journey, acceptance] =
+const [
+  packageJson,
+  project,
+  environment,
+  journey,
+  acceptance,
+  vitestConfig,
+  compose,
+] =
   await Promise.all([
     readFile('package.json', 'utf8').then(JSON.parse),
     readFile('apps/e2e/project.json', 'utf8').then(JSON.parse),
     readFile('apps/e2e/src/environment.ts', 'utf8'),
     readFile('apps/e2e/src/journey.ts', 'utf8'),
     readFile('apps/e2e/src/milestone-7.e2e.test.ts', 'utf8'),
+    readFile('vitest.config.ts', 'utf8'),
+    readFile('compose.yaml', 'utf8'),
   ]);
 
 test('AC-067: one Vitest target owns real Compose startup and unconditional teardown @spec:AC-067', () => {
@@ -62,6 +72,14 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
     acceptance,
     /afterAll\(async \(\) => \{[\s\S]*environment\?\.stop\(\)/,
   );
+  assert.match(
+    vitestConfig,
+    /apps\/e2e\/src\/milestone-7\.e2e\.test\.ts/,
+  );
+});
+
+test('AC-075: Compose preserves decorator-capable Node image commands @spec:AC-075', () => {
+  assert.doesNotMatch(compose, /--experimental-transform-types/);
 });
 
 test('AC-071: OAuth distinguishes direct redirects from consent challenges @spec:AC-071', () => {

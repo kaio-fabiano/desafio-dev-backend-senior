@@ -37,6 +37,6 @@
     "build": { "dependsOn": ["^build"], "cache": true },
     "lint": { "cache": true },
     "test": { "cache": true },
-    "typecheck": { "cache": true }
+    "typecheck": { "dependsOn": ["^build"], "cache": true }
   }
 }

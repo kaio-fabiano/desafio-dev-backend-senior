@@ -52,11 +52,9 @@ export default $config({
       'IdentitySeedAdminPassword',
     );
     const wordpressAdminPassword = new sst.Secret('WordPressAdminPassword');
-    const wordpressApplicationPassword = new sst.Secret(
-      'WordPressApplicationPassword',
+    const wordpressGraphQLSiteToken = new sst.Secret(
+      'WordPressGraphQLSiteToken',
     );
-    const wordpressConsumerKey = new sst.Secret('WordPressConsumerKey');
-    const wordpressConsumerSecret = new sst.Secret('WordPressConsumerSecret');
     const mercadoPagoAccessToken = new sst.Secret('MercadoPagoAccessToken');
     const mercadoPagoWebhookSecret = new sst.Secret('MercadoPagoWebhookSecret');
 
@@ -81,9 +79,7 @@ export default $config({
         WORDPRESS_DB_USER: wordpressDatabase.username,
         WORDPRESS_ADMIN_PASSWORD: wordpressAdminPassword.value,
         WORDPRESS_URL: serviceHost('WordPress', 80),
-        WOO_CONSUMER_KEY: wordpressConsumerKey.value,
-        WOO_CONSUMER_SECRET: wordpressConsumerSecret.value,
-        WPGRAPHQL_SITE_TOKEN: wordpressApplicationPassword.value,
+        WPGRAPHQL_SITE_TOKEN: wordpressGraphQLSiteToken.value,
       },
       health: {
         command: [
@@ -103,9 +99,7 @@ export default $config({
       link: [
         wordpressDatabase,
         wordpressAdminPassword,
-        wordpressApplicationPassword,
-        wordpressConsumerKey,
-        wordpressConsumerSecret,
+        wordpressGraphQLSiteToken,
       ],
       serviceRegistry: { port: 80 },
     });
@@ -121,8 +115,7 @@ export default $config({
         OAUTH_ISSUER: publicOAuthIssuer,
         PORT: '3001',
         SEED_ADMIN_PASSWORD: identitySeedAdminPassword.value,
-        WOO_CONSUMER_KEY: wordpressConsumerKey.value,
-        WOO_CONSUMER_SECRET: wordpressConsumerSecret.value,
+        WPGRAPHQL_SITE_TOKEN: wordpressGraphQLSiteToken.value,
         WORDPRESS_URL: serviceHost('WordPress', 80),
       },
       health: {
@@ -146,8 +139,7 @@ export default $config({
         identityDatabase,
         oauthSigningSecret,
         identitySeedAdminPassword,
-        wordpressConsumerKey,
-        wordpressConsumerSecret,
+        wordpressGraphQLSiteToken,
       ],
       serviceRegistry: { port: 3001 },
     });
@@ -165,8 +157,7 @@ export default $config({
         ORDER_WORKFLOW_DB_USER: orderWorkflowDatabase.username,
         PORT: '3003',
         RABBITMQ_URL: serviceHost('RabbitMq', 5672).replace('http', 'amqp'),
-        WOO_CONSUMER_KEY: wordpressConsumerKey.value,
-        WOO_CONSUMER_SECRET: wordpressConsumerSecret.value,
+        WPGRAPHQL_SITE_TOKEN: wordpressGraphQLSiteToken.value,
         WORDPRESS_URL: serviceHost('WordPress', 80),
       },
       health: {
@@ -186,12 +177,7 @@ export default $config({
           options.retainOnDelete = true;
         },
       },
-      link: [
-        orderWorkflowDatabase,
-        rabbitMq,
-        wordpressConsumerKey,
-        wordpressConsumerSecret,
-      ],
+      link: [orderWorkflowDatabase, rabbitMq, wordpressGraphQLSiteToken],
       serviceRegistry: { port: 3003 },
     });
 
@@ -212,7 +198,7 @@ export default $config({
         SPRING_DATASOURCE_URL: $interpolate`jdbc:postgresql://${paymentDatabase.host}:${paymentDatabase.port}/${paymentDatabase.database}`,
         SPRING_DATASOURCE_USERNAME: paymentDatabase.username,
         WORDPRESS_GRAPHQL_URL: `${serviceHost('WordPress', 80)}/graphql`,
-        WPGRAPHQL_SITE_TOKEN: wordpressApplicationPassword.value,
+        WPGRAPHQL_SITE_TOKEN: wordpressGraphQLSiteToken.value,
       },
       health: {
         command: [
@@ -233,7 +219,7 @@ export default $config({
       link: [
         paymentDatabase,
         rabbitMq,
-        wordpressApplicationPassword,
+        wordpressGraphQLSiteToken,
         mercadoPagoAccessToken,
         mercadoPagoWebhookSecret,
       ],

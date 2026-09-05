@@ -405,11 +405,12 @@ test('AC-191: production WordPress is immutable and secret-backed @spec:AC-191',
   assert.match(dockerfile, /woocommerce\.10\.4\.3\.zip/);
   assert.match(dockerfile, /wp-graphql\.2\.20\.0\.zip/);
   assert.match(entrypoint, /core install/);
-  assert.match(entrypoint, /woocommerce_api_keys/);
+  assert.doesNotMatch(entrypoint, /woocommerce_api_keys|WOO_CONSUMER/);
   assert.match(entrypoint, /wpgraphql_login_access_control/);
   assert.match(entrypoint, /shouldBlockUnauthorizedDomains/);
   assert.match(entrypoint, /user get payment-federation/);
   assert.match(entrypoint, /better_auth_user_id payment-federation/);
+  assert.match(entrypoint, /better_auth_user_id order-workflow/);
 });
 
 test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async () => {
@@ -630,10 +631,13 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
         'utf8',
       ),
       readFile(
-        'apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts',
+        'apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts',
         'utf8',
       ),
-      readFile('libs/identity/nest/src/auth/better-auth.factory.ts', 'utf8'),
+      readFile(
+        'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+        'utf8',
+      ),
     ]);
 
   assert.match(

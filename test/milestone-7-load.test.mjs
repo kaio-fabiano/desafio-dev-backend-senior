@@ -2,19 +2,29 @@ import assert from 'node:assert/strict';
 import { performance } from 'node:perf_hooks';
 import { test } from 'node:test';
 
-import { createOrderLoader } from '../apps/gateway/src/catalog/order-loader.ts';
-import { createProductLoader } from '../apps/gateway/src/catalog/product-loader.ts';
-import { createCatalogRequestMetrics } from '../apps/gateway/src/catalog/request-metrics.ts';
+import {
+  createCatalogRequestMetrics,
+  createOrderLoader,
+  createProductLoader,
+} from './fixtures/catalog-loaders.ts';
 
-const p95 = (samples) => [...samples].sort((a, b) => a - b)[Math.ceil(samples.length * 0.95) - 1];
+const p95 = (samples) =>
+  [...samples].sort((a, b) => a - b)[Math.ceil(samples.length * 0.95) - 1];
 
 test('AC-073: Warmed buyer probe stays under P95 budget with batched entity loads @spec:AC-073', async () => {
   const orderMetrics = createCatalogRequestMetrics();
   const productMetrics = createCatalogRequestMetrics();
-  const orders = createOrderLoader(async (requests) => requests.map(() => ({
-    edges: [{ node: { productIds: ['product-a', 'product-b'] } }],
-  })), orderMetrics);
-  const products = createProductLoader(async (ids) => ids.map((id) => ({ id })), productMetrics);
+  const orders = createOrderLoader(
+    async (requests) =>
+      requests.map(() => ({
+        edges: [{ node: { productIds: ['product-a', 'product-b'] } }],
+      })),
+    orderMetrics,
+  );
+  const products = createProductLoader(
+    async (ids) => ids.map((id) => ({ id })),
+    productMetrics,
+  );
   const elapsed = [];
 
   for (let iteration = 0; iteration < 20; iteration += 1) {
@@ -23,7 +33,11 @@ test('AC-073: Warmed buyer probe stays under P95 budget with batched entity load
       orders.load(`buyer-${iteration}`, { first: 2 }),
       orders.load(`buyer-${iteration}-related`, { first: 2 }),
     ]);
-    await Promise.all([...first.edges, ...second.edges].flatMap(({ node }) => node.productIds.map((id) => products.load(`${iteration}:${id}`))));
+    await Promise.all(
+      [...first.edges, ...second.edges].flatMap(({ node }) =>
+        node.productIds.map((id) => products.load(`${iteration}:${id}`)),
+      ),
+    );
     elapsed.push(performance.now() - started);
   }
 

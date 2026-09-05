@@ -11,8 +11,7 @@ script is the only approved provisioning entry point.
 - Use short-lived AWS credentials for the approved account in `us-east-1`.
 - Start from the Git revision that passed the credential-free quality gate and
   keep the working tree unchanged between review and deployment.
-- Set `OAuthSigningSecret`, `WordPressApplicationPassword`,
-  `WordPressConsumerKey`, `WordPressConsumerSecret`,
+- Set `OAuthSigningSecret`, `WordPressGraphQLSiteToken`,
   `MercadoPagoAccessToken`, and `MercadoPagoWebhookSecret` for the exact SST
   stage through the approved secret store and `sst secret set`. Do not place a
   secret value in this repository, command output, diff evidence, or approval.
