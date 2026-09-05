@@ -60,33 +60,50 @@ test('AC-131: Cart survives replica changes @spec:AC-131', async () => {
   const adapter = createWooCheckoutAdapter(
     'http://wordpress.test',
     {
-      consumerKey: 'commerce-key',
-      consumerSecret: 'commerce-secret',
+      serviceIdentity: 'order-workflow',
+      siteToken: 'site-token',
     },
     async (_, init) => {
       receivedHeaders.push(init.headers);
-      if (init.method === 'GET')
-        return Response.json(
-          orderCreated
-            ? [
-                {
-                  id: 7001,
-                  total: '19.90',
-                  currency: 'BRL',
-                  meta_data: [
-                    {
-                      key: '_order_workflow_operation_reference',
-                      value: 'replica-portable-operation',
-                    },
-                  ],
-                  line_items: [{ product_id: 1001, quantity: 1 }],
-                },
-              ]
-            : [],
-        );
       const operation = JSON.parse(String(init.body));
       receivedOperations.push(operation);
       const { query } = operation;
+      if (query.includes('mutation LoginOrderWorkflow')) {
+        return Response.json({
+          data: { login: { authToken: 'service-token' } },
+        });
+      }
+      if (query.includes('query FindOrderByWorkflowReference')) {
+        return Response.json({
+          data: {
+            orders: {
+              nodes: orderCreated
+                ? [
+                    {
+                      databaseId: 7001,
+                      total: '19.90',
+                      currency: 'BRL',
+                      metaData: [
+                        {
+                          key: '_order_workflow_operation_reference',
+                          value: 'replica-portable-operation',
+                        },
+                      ],
+                      lineItems: {
+                        nodes: [
+                          {
+                            quantity: 1,
+                            product: { node: { databaseId: 1001 } },
+                          },
+                        ],
+                      },
+                    },
+                  ]
+                : [],
+            },
+          },
+        });
+      }
       if (query.includes('mutation Checkout')) {
         orderCreated = true;
         return Response.json({
@@ -129,8 +146,8 @@ test('AC-131: Cart survives replica changes @spec:AC-131', async () => {
   const failing = createWooCheckoutAdapter(
     'http://wordpress.test',
     {
-      consumerKey: 'commerce-key',
-      consumerSecret: 'commerce-secret',
+      serviceIdentity: 'order-workflow',
+      siteToken: 'site-token',
     },
     async () => new Response(null, { status: 503 }),
   );
@@ -316,25 +333,44 @@ async function proveRecoverableCheckout() {
   const reconciliation = createWooCheckoutAdapter(
     'http://wordpress.test',
     {
-      consumerKey: 'commerce-key',
-      consumerSecret: 'commerce-secret',
+      serviceIdentity: 'order-workflow',
+      siteToken: 'site-token',
     },
     async (url, init) => {
-      reconciliationRequest = { url: new URL(url), init };
-      return Response.json([
-        {
-          id: 8123,
-          total: '19.90',
-          currency: 'BRL',
-          meta_data: [
-            {
-              key: '_order_workflow_operation_reference',
-              value: 'stable-operation-reference',
-            },
-          ],
-          line_items: [{ product_id: 1001, quantity: 1 }],
+      const operation = JSON.parse(String(init.body));
+      if (operation.query.includes('mutation LoginOrderWorkflow')) {
+        return Response.json({
+          data: { login: { authToken: 'service-token' } },
+        });
+      }
+      reconciliationRequest = { url: new URL(url), init, operation };
+      return Response.json({
+        data: {
+          orders: {
+            nodes: [
+              {
+                databaseId: 8123,
+                total: '19.90',
+                currency: 'BRL',
+                metaData: [
+                  {
+                    key: '_order_workflow_operation_reference',
+                    value: 'stable-operation-reference',
+                  },
+                ],
+                lineItems: {
+                  nodes: [
+                    {
+                      quantity: 1,
+                      product: { node: { databaseId: 1001 } },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
         },
-      ]);
+      });
     },
   );
   const found = await reconciliation.findByReference({
@@ -343,18 +379,15 @@ async function proveRecoverableCheckout() {
     subject: 'buyer-133',
   });
   assert.equal(found.id, '8123');
-  assert.equal(reconciliationRequest.url.pathname, '/wp-json/wc/v3/orders');
+  assert.equal(reconciliationRequest.url.pathname, '/graphql');
+  assert.match(reconciliationRequest.operation.query, /orders\s*\(/);
   assert.equal(
-    reconciliationRequest.url.searchParams.get('search'),
+    reconciliationRequest.operation.variables.reference,
     'stable-operation-reference',
   );
   assert.equal(
     reconciliationRequest.init.headers.authorization,
-    `Basic ${Buffer.from('commerce-key:commerce-secret').toString('base64')}`,
-  );
-  assert.equal(
-    reconciliationRequest.init.headers['x-forwarded-proto'],
-    'https',
+    'Bearer service-token',
   );
   assert.match(plugin, /woocommerce_shop_order_search_fields/);
   assert.match(plugin, /woocommerce_order_table_search_query_meta_keys/);
@@ -372,16 +405,16 @@ test('AC-135: Subscription state is replayable @spec:AC-135', async () => {
     consumerSource,
   ] = await Promise.all([
     import(
-      '../apps/order-workflow-subgraph/src/subscriptions/order-event-broker.ts'
+      '../apps/order-workflow-subgraph/src/order-events/order-event-broker.ts'
     ),
     import(
-      '../apps/order-workflow-subgraph/src/subscriptions/order-events.subscription.ts'
+      '../apps/order-workflow-subgraph/src/order-events/order-events.subscription.ts'
     ),
     import(
-      '../apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts'
+      '../apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts'
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/saga/order-event.consumer.ts',
+      'apps/order-workflow-subgraph/src/saga/postgres-order-event.notifier.ts',
       'utf8',
     ),
   ]);
@@ -427,7 +460,7 @@ test('AC-135: Subscription state is replayable @spec:AC-135', async () => {
   assert.match(consumerSource, /pg_notify/);
   assert.doesNotMatch(
     await readFile(
-      'apps/order-workflow-subgraph/src/subscriptions/order-event-broker.ts',
+      'apps/order-workflow-subgraph/src/order-events/order-event-broker.ts',
       'utf8',
     ),
     /latest\s*=\s*new Map/,
@@ -470,7 +503,7 @@ test('AC-137: Dependencies point toward application contracts @spec:AC-137', asy
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts',
+      'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
       'utf8',
     ),
     readFile(

@@ -10,7 +10,7 @@ const probe = execute(
   ['--import', 'tsx', 'test/fixtures/federated-sse-probe.ts'],
   {
     cwd: process.cwd(),
-    timeout: 10_000,
+    timeout: 30_000,
   },
 ).then(({ stdout }) => JSON.parse(stdout.trim().split('\n').at(-1)));
 

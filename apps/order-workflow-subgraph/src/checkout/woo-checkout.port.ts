@@ -1,3 +1,7 @@
+import type { PaymentMethod } from './checkout.types.ts';
+
+export type { PaymentMethod } from './checkout.types.ts';
+
 export type WooCheckoutSession = {
   cartToken?: string;
   wooSession?: string;
@@ -17,11 +21,10 @@ export type WooCheckoutOrder = {
   id: string;
   cartSnapshot: WooCartSnapshot;
 };
-
 export type WooCheckoutInput = {
   subject: string;
   reference: string;
-  paymentMethod: 'PIX' | 'CARD';
+  paymentMethod: PaymentMethod;
   session?: WooCheckoutSession;
 };
 

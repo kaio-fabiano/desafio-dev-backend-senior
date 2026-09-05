@@ -1,19 +1,16 @@
-import { Buffer } from 'node:buffer';
-
 import type {
   WooCartSnapshot,
   WooCheckoutInput,
   WooCheckoutOrder,
   WooCheckoutPort,
 } from './woo-checkout.port.ts';
-
 type Fetch = typeof fetch;
 
 const OPERATION_META_KEY = '_order_workflow_operation_reference';
 
-export type WooCheckoutServiceCredentials = {
-  consumerKey: string;
-  consumerSecret: string;
+export type WooGraphQLServiceCredentials = {
+  serviceIdentity: string;
+  siteToken: string;
 };
 
 export class WooCheckoutRequestError extends Error {
@@ -26,10 +23,9 @@ export class WooCheckoutRequestError extends Error {
     super(`${message}: ${status}`);
   }
 }
-
 export function createWooCheckoutAdapter(
   endpoint: string,
-  credentials: WooCheckoutServiceCredentials,
+  credentials: WooGraphQLServiceCredentials,
   request: Fetch = fetch,
 ): WooCheckoutPort {
   const pending = new Map<string, Promise<WooCheckoutOrder>>();
@@ -38,6 +34,7 @@ export function createWooCheckoutAdapter(
     input: WooCheckoutInput,
     query: string,
     variables: Record<string, unknown> = {},
+    serviceHeaders: Record<string, string> = {},
   ): Promise<T> {
     const graphqlEndpoint = new URL('/graphql', endpoint);
     const response = await request(graphqlEndpoint, {
@@ -52,6 +49,7 @@ export function createWooCheckoutAdapter(
           ? { 'woocommerce-session': input.session.wooSession }
           : {}),
         ...(input.session?.cookie ? { cookie: input.session.cookie } : {}),
+        ...serviceHeaders,
       },
       body: JSON.stringify({ query, variables }),
     });
@@ -92,37 +90,59 @@ export function createWooCheckoutAdapter(
       'BRL',
     );
   }
-
   async function findByReference(
     input: WooCheckoutInput,
   ): Promise<WooCheckoutOrder | null> {
-    const ordersEndpoint = new URL('/wp-json/wc/v3/orders', endpoint);
-    ordersEndpoint.searchParams.set('search', input.reference);
-    ordersEndpoint.searchParams.set('per_page', '2');
-    const authorization = Buffer.from(
-      `${credentials.consumerKey}:${credentials.consumerSecret}`,
-    ).toString('base64');
-    const response = await request(ordersEndpoint, {
-      method: 'GET',
-      headers: {
-        authorization: `Basic ${authorization}`,
-        ...(ordersEndpoint.protocol === 'http:'
-          ? { 'x-forwarded-proto': 'https' }
-          : {}),
+    const authentication = await execute<{
+      login?: { authToken?: string };
+    }>(
+      input,
+      `mutation LoginOrderWorkflow($input: LoginInput!) {
+        login(input: $input) { authToken }
+      }`,
+      {
+        input: {
+          identity: credentials.serviceIdentity,
+          provider: 'SITETOKEN',
+        },
       },
-    });
-    if (!response.ok) throw new WooCheckoutRequestError(response.status);
-    const payload = (await response.json()) as unknown;
-    if (!Array.isArray(payload)) {
+      { 'x-wpgraphql-site-token': credentials.siteToken },
+    );
+    const authToken = authentication.login?.authToken;
+    if (!authToken) {
+      throw new WooCheckoutRequestError(502, 'WooGraphQL login failed');
+    }
+    const data = await execute<{
+      orders?: { nodes?: WooGraphQLOrder[] };
+    }>(
+      input,
+      `query FindOrderByWorkflowReference($reference: String!) {
+        orders(first: 2, where: { search: $reference }) {
+          nodes {
+            databaseId
+            total(format: RAW)
+            currency
+            metaData { key value }
+            lineItems(first: 100) {
+              nodes { quantity product { node { databaseId } } }
+            }
+          }
+        }
+      }`,
+      { reference: input.reference },
+      { authorization: `Bearer ${authToken}` },
+    );
+    const orders = data.orders?.nodes;
+    if (!Array.isArray(orders)) {
       throw new WooCheckoutRequestError(502, 'WooCommerce orders are invalid');
     }
-    const matches = payload.filter(
-      (order): order is WooRestOrder =>
-        isWooRestOrder(order) &&
-        order.meta_data.some(
-        ({ key, value }) =>
-          key === OPERATION_META_KEY && value === input.reference,
-      ),
+    const matches = orders.filter(
+      (order): order is WooGraphQLOrder =>
+        isWooGraphQLOrder(order) &&
+        order.metaData.some(
+          ({ key, value }) =>
+            key === OPERATION_META_KEY && value === input.reference,
+        ),
     );
     if (matches.length > 1) {
       throw new WooCheckoutRequestError(
@@ -130,7 +150,7 @@ export function createWooCheckoutAdapter(
         'WooCommerce operation reference is not unique',
       );
     }
-    return matches[0] ? restOrder(matches[0]) : null;
+    return matches[0] ? graphqlOrder(matches[0]) : null;
   }
 
   async function create(input: WooCheckoutInput): Promise<WooCheckoutOrder> {
@@ -179,41 +199,41 @@ export function createWooCheckoutAdapter(
   return { findByReference, createOrFind };
 }
 
-type WooRestOrder = {
-  id: number;
+type WooGraphQLOrder = {
+  databaseId: number;
   total?: string;
   currency?: string;
-  meta_data: Array<{ key?: string; value?: string }>;
-  line_items: Array<{ quantity?: number; product_id?: number }>;
+  metaData: Array<{ key?: string; value?: string }>;
+  lineItems: {
+    nodes: Array<{
+      quantity?: number;
+      product?: { node?: { databaseId?: number } };
+    }>;
+  };
 };
 
-function isWooRestOrder(value: unknown): value is WooRestOrder {
+function isWooGraphQLOrder(value: unknown): value is WooGraphQLOrder {
   if (!value || typeof value !== 'object') return false;
-  const order = value as Partial<WooRestOrder>;
+  const order = value as Partial<WooGraphQLOrder>;
   return (
-    Number.isSafeInteger(order.id) &&
-    Array.isArray(order.meta_data) &&
-    Array.isArray(order.line_items)
+    Number.isSafeInteger(order.databaseId) &&
+    Array.isArray(order.metaData) &&
+    Array.isArray(order.lineItems?.nodes)
   );
 }
-
-function restOrder(order: WooRestOrder): WooCheckoutOrder {
-  if (!Number.isSafeInteger(order.id) || !order.id) {
+function graphqlOrder(order: WooGraphQLOrder): WooCheckoutOrder {
+  if (!Number.isSafeInteger(order.databaseId) || !order.databaseId) {
     throw new WooCheckoutRequestError(502, 'Stored order id is invalid');
   }
   return {
-    id: String(order.id),
+    id: String(order.databaseId),
     cartSnapshot: cartSnapshot(
-      order.line_items.map((item) => ({
-        quantity: item.quantity,
-        product: { databaseId: item.product_id },
-      })),
+      order.lineItems.nodes,
       order.total,
       order.currency ?? 'BRL',
     ),
   };
 }
-
 function cartSnapshot(
   items: Array<{
     quantity?: number;
@@ -222,18 +242,47 @@ function cartSnapshot(
   total: string | undefined,
   currency: string,
 ): WooCartSnapshot {
-  const amount = Number(total);
+  if (items.length === 0) {
+    throw new WooCheckoutRequestError(502, 'Cart items are invalid');
+  }
+  const normalizedItems = items.map((item) => {
+    const id = Number(
+      item.product?.node?.databaseId ?? item.product?.databaseId,
+    );
+    const quantity = Number(item.quantity);
+    if (
+      !Number.isSafeInteger(id) ||
+      id < 1 ||
+      !Number.isSafeInteger(quantity) ||
+      quantity < 1
+    ) {
+      throw new WooCheckoutRequestError(502, 'Cart item is invalid');
+    }
+    return { id, quantity };
+  });
+  if (!/^[A-Z]{3}$/.test(currency)) {
+    throw new WooCheckoutRequestError(502, 'Cart currency is invalid');
+  }
   return {
-    items: items.map((item) => ({
-      id: Number(item.product?.node?.databaseId ?? item.product?.databaseId),
-      quantity: Number(item.quantity),
-    })),
+    items: normalizedItems,
     totals: {
-      total_price: Number.isFinite(amount)
-        ? String(Math.round(amount * 100))
-        : '',
+      total_price: decimalMinorUnits(total, 2),
       currency_minor_unit: 2,
       currency_code: currency,
     },
   };
+}
+
+function decimalMinorUnits(value: string | undefined, scale: number): string {
+  const match = /^(0|[1-9]\d*)(?:\.(\d{1,2}))?$/.exec(value ?? '');
+  if (!match) {
+    throw new WooCheckoutRequestError(502, 'Cart total is invalid');
+  }
+  const amount =
+    BigInt(match[1]) * 10n ** BigInt(scale) +
+    BigInt((match[2] ?? '').padEnd(scale, '0'));
+  if (amount <= 0n || amount > BigInt(Number.MAX_SAFE_INTEGER)) {
+    throw new WooCheckoutRequestError(502, 'Cart total is invalid');
+  }
+  return String(amount);
 }

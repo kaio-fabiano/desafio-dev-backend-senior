@@ -1,42 +1,18 @@
-import { OAuthResourceService } from '@desafio-dev-backend-senior/source/platform-nest';
 import type { MikroORM } from '@mikro-orm/core';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { GraphQLSchemaHost } from '@nestjs/graphql';
-import { json, type NextFunction, type Request, type Response } from 'express';
 import 'reflect-metadata';
 
 import { AppModule } from './app.module.ts';
-import { ORDER_WORKFLOW_ORM } from './graphql/order-workflow.module.ts';
-import {
-  createOrderWorkflowSseHandler,
-  registerDeferredSseRoute,
-} from './subscriptions/sse-handler.ts';
+import { ORDER_WORKFLOW_ORM } from './persistence/persistence.tokens.ts';
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { bodyParser: false });
-  const parseJson = json();
-  app.use(
-    '/graphql',
-    (request: Request, response: Response, next: NextFunction) =>
-      request.path === '/stream' ? next() : parseJson(request, response, next),
-  );
-  const activateSse = registerDeferredSseRoute(
-    app.getHttpAdapter().getInstance(),
-    '/graphql/stream',
-  );
+  const app = await NestFactory.create(AppModule);
   const orm = app.get<MikroORM>(ORDER_WORKFLOW_ORM);
-  await orm.getMigrator().up();
+  await orm.migrator.up();
   app.enableShutdownHooks();
-  await app.init();
-  const oauth = app.get(OAuthResourceService);
-  activateSse(
-    createOrderWorkflowSseHandler(
-      app.get(GraphQLSchemaHost).schema,
-      (request) => oauth.verify(request),
-    ),
-  );
   const config = app.get(ConfigService);
   await app.listen(Number(config.get('PORT', '3000')));
 }
 
-void bootstrap();
+if (import.meta.main) void bootstrap();

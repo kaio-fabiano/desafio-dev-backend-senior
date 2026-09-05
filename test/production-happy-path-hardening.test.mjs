@@ -8,8 +8,9 @@ test('AC-131: cart state is portable across replicas @spec:AC-131', async () => 
   const dataSource = await source(
     'libs/gateway/nest/src/federation/authenticated-data-source.ts',
   );
-  assert.match(dataSource, /context\.sessionHeaders/);
-  assert.match(dataSource, /woocommerce-session/);
+  assert.match(dataSource, /COMMERCE_SESSION_REQUEST_HEADERS/);
+  assert.match(dataSource, /allowlistedCommerceCookies/);
+  assert.match(dataSource, /context\?\.sessionHeaders/);
   await assert.rejects(
     source('apps/order-workflow-subgraph/src/cart/woo-cart.adapter.ts'),
     /ENOENT/,
@@ -42,7 +43,7 @@ test('AC-133: checkout recovery has durable ownership @spec:AC-133', async () =>
 test('AC-134: inventory recovery is durable @spec:AC-134', async () => {
   const [migration, service, testSource] = await Promise.all([
     source(
-    'apps/payment-federation/src/main/resources/db/migration/V3__mercado_pago_payment_lifecycle.sql',
+      'apps/payment-federation/src/main/resources/db/migration/V3__mercado_pago_payment_lifecycle.sql',
     ),
     source(
       'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/InventoryService.java',
@@ -59,12 +60,14 @@ test('AC-134: inventory recovery is durable @spec:AC-134', async () => {
 test('AC-135: subscriptions replay durable state @spec:AC-135', async () => {
   const [relay, replay, consumer] = await Promise.all([
     source(
-      'apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts',
+      'apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts',
     ),
     source(
-      'apps/order-workflow-subgraph/src/subscriptions/mikro-orm-order-event.replay.ts',
+      'apps/order-workflow-subgraph/src/order-events/postgres/mikro-orm-order-event.replay.ts',
     ),
-    source('apps/order-workflow-subgraph/src/saga/order-event.consumer.ts'),
+    source(
+      'apps/order-workflow-subgraph/src/saga/postgres-order-event.notifier.ts',
+    ),
   ]);
   assert.match(relay, /listen \$\{ORDER_TRANSITION_CHANNEL\}/);
   assert.match(replay, /version/);
@@ -85,7 +88,9 @@ test('AC-137: dependencies point to application contracts @spec:AC-137', async (
     source(
       'apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts',
     ),
-    source('apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts'),
+    source(
+      'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
+    ),
     source('apps/order-workflow-subgraph/src/checkout/checkout.service.ts'),
   ]);
   assert.match(resolver, /@Inject\(ORDER_WORKFLOW_OPERATIONS\)/);

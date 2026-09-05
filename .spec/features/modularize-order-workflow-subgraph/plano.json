@@ -1,0 +1,125 @@
+{
+  "runId": "desafio-dev-backend-senior-modularize-order-workflow-subgraph-mtonahif",
+  "feature": "modularize-order-workflow-subgraph",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-05 17:16",
+  "branchTrabalho": "spec/modularize-order-workflow-subgraph",
+  "baseDir": ".spec/features/modularize-order-workflow-subgraph",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-modularize-order-workflow-subgraph-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-203",
+      "titulo": "Extract persistence and checkout modules",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/persistence/persistence.module.ts",
+        "apps/order-workflow-subgraph/src/persistence/persistence.tokens.ts",
+        "apps/order-workflow-subgraph/src/persistence/persistence.module.spec.ts",
+        "apps/order-workflow-subgraph/src/checkout/checkout.module.ts",
+        "apps/order-workflow-subgraph/src/checkout/checkout.tokens.ts",
+        "apps/order-workflow-subgraph/src/checkout/checkout.module.spec.ts",
+        "apps/order-workflow-subgraph/src/checkout/checkout.service.ts",
+        "apps/order-workflow-subgraph/src/checkout/checkout.repository.ts",
+        "apps/order-workflow-subgraph/src/outbox/outbox.repository.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.tokens.ts",
+        "apps/order-workflow-subgraph/src/main.ts",
+        "apps/order-workflow-subgraph/src/health.controller.ts"
+      ],
+      "refs": [
+        "US-117",
+        "AC-246",
+        "AC-247",
+        "AC-251"
+      ]
+    },
+    {
+      "id": "T-204",
+      "titulo": "Create the order-events module and align transport files",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/subscriptions",
+        "apps/order-workflow-subgraph/src/order-events",
+        "apps/order-workflow-subgraph/src/graphql/sse",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts",
+        "apps/order-workflow-subgraph/src/health.controller.ts",
+        "apps/order-workflow-subgraph/src/saga/order-event.consumer.ts",
+        "apps/order-workflow-subgraph/src/app.module.spec.ts",
+        "apps/order-workflow-subgraph/src/order-workflow-subgraph.integration.spec.ts"
+      ],
+      "refs": [
+        "US-117",
+        "AC-248",
+        "AC-251"
+      ]
+    },
+    {
+      "id": "T-205",
+      "titulo": "Extract messaging composition and saga collaborators",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/messaging/messaging.module.ts",
+        "apps/order-workflow-subgraph/src/messaging/messaging.module.spec.ts",
+        "apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts",
+        "apps/order-workflow-subgraph/src/saga/order-event.consumer.ts",
+        "apps/order-workflow-subgraph/src/saga/order-saga.repository.ts",
+        "apps/order-workflow-subgraph/src/saga/postgres-order-event.notifier.ts",
+        "apps/order-workflow-subgraph/src/saga/order-event.consumer.spec.ts",
+        "apps/order-workflow-subgraph/src/inbox/inbox.repository.ts",
+        "apps/order-workflow-subgraph/src/outbox/outbox.publisher.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts",
+        "apps/order-workflow-subgraph/src/health.controller.ts"
+      ],
+      "refs": [
+        "US-117",
+        "AC-249",
+        "AC-251"
+      ]
+    },
+    {
+      "id": "T-206",
+      "titulo": "Finalize the application composition root",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/app.module.ts",
+        "apps/order-workflow-subgraph/src/app.module.spec.ts",
+        "apps/order-workflow-subgraph/src/main.ts",
+        "apps/order-workflow-subgraph/src/health.controller.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.spec.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow.tokens.ts",
+        "apps/order-workflow-subgraph/src/graphql/order-workflow-operations.service.ts",
+        "apps/order-workflow-subgraph/src/checkout",
+        "apps/order-workflow-subgraph/src/persistence/entities",
+        "apps/order-workflow-subgraph/src/saga/order-workflow-state.ts",
+        "apps/order-workflow-subgraph/src/order-workflow-subgraph.integration.spec.ts",
+        ".spec/features/modularize-order-workflow-subgraph/evidence.md"
+      ],
+      "refs": [
+        "US-117",
+        "AC-246",
+        "AC-247",
+        "AC-248",
+        "AC-249",
+        "AC-250",
+        "AC-251"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

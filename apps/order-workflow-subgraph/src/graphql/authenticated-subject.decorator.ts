@@ -1,17 +1,12 @@
 import { createParamDecorator, type ExecutionContext } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-export type OrderWorkflowSessionContext = {
-  cartToken?: string;
-  wooSession?: string;
-  cookie?: string;
-};
+import type { WooCheckoutSession } from '../checkout/woo-checkout.port.ts';
+
+export type OrderWorkflowSessionContext = WooCheckoutSession;
 
 export const OrderWorkflowSession = createParamDecorator(
-  (
-    _: unknown,
-    context: ExecutionContext,
-  ): OrderWorkflowSessionContext => {
+  (_: unknown, context: ExecutionContext): OrderWorkflowSessionContext => {
     const auth =
       GqlExecutionContext.create(
         context,

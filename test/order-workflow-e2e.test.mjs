@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { OrderEventBroker } from '../apps/order-workflow-subgraph/src/subscriptions/order-event-broker.ts';
-import { OrderEventsSubscription } from '../apps/order-workflow-subgraph/src/subscriptions/order-events.subscription.ts';
+import { OrderEventBroker } from '../apps/order-workflow-subgraph/src/order-events/order-event-broker.ts';
+import { OrderEventsSubscription } from '../apps/order-workflow-subgraph/src/order-events/order-events.subscription.ts';
 
 const options = {
   heartbeatMs: 1_000,

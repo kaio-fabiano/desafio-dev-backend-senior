@@ -6,9 +6,9 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 
-import { ORDER_WORKFLOW_ORM } from './graphql/order-workflow.tokens.ts';
 import { OrderWorkflowRuntimeLifecycle } from './messaging/order-workflow-messaging.runtime.ts';
-import { PostgresOrderEventRelay } from './subscriptions/postgres-order-event.relay.ts';
+import { PostgresOrderEventRelay } from './order-events/postgres/postgres-order-event.relay.ts';
+import { ORDER_WORKFLOW_ORM } from './persistence/persistence.tokens.ts';
 
 @Controller()
 export class HealthController {
@@ -41,7 +41,8 @@ export class HealthController {
     ) {
       throw new ServiceUnavailableException();
     }
-    await this.orm.em.fork().getConnection().execute('select 1');
+    const database = await this.orm.checkConnection();
+    if (!database.ok) throw new ServiceUnavailableException();
     return { status: 'ready' };
   }
 }

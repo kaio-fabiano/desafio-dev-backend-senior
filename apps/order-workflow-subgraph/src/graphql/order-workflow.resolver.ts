@@ -1,6 +1,7 @@
 import { Inject } from '@nestjs/common';
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
@@ -13,42 +14,30 @@ import {
   OAuthSubject,
   RequireScopes,
 } from '@desafio-dev-backend-senior/source/platform-nest';
-import type { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
-import { OrderEventsSubscription } from '../subscriptions/order-events.subscription.ts';
+import { OrderEventsSubscription } from '../order-events/order-events.subscription.ts';
+import type { OrderWorkflow } from '../persistence/entities/order-workflow.entity.ts';
 import {
   OrderWorkflowSession,
   type OrderWorkflowSessionContext,
 } from './authenticated-subject.decorator.ts';
+import { ORDER_WORKFLOW_OPERATIONS } from './order-workflow-operations.token.ts';
+import type {
+  CheckoutInput,
+  CheckoutOperationView,
+  OrderWorkflowOperations,
+  OrderWorkflowOrder,
+} from './order-workflow.types.ts';
 
-export type CheckoutInput = {
-  operationKey: string;
-  paymentMethod: 'PIX' | 'CARD';
-  payerEmail: string;
-  providerToken?: string;
-  paymentMethodId?: string;
-};
-type OrderReference = { wooOrderId: string };
-export type CheckoutOperationView = Omit<CheckoutOperation, 'status'> & {
-  status: 'PENDING' | 'COMPLETED' | 'FAILED';
+type OrderReference = {
+  wooOrderId: string;
+  workflow?: OrderWorkflow;
 };
 
-@Resolver()
-export class OrderWorkflowResolver<Order, Workflow> {
+@Resolver('Order')
+export class OrderWorkflowResolver {
   constructor(
-    private readonly runCheckout: (
-      subject: string,
-      input: CheckoutInput,
-      session?: OrderWorkflowSessionContext,
-    ) => Promise<Order>,
-    private readonly findWorkflow: (
-      subject: string,
-      wooOrderId: string,
-    ) => Promise<Workflow | null>,
-    private readonly subscriptions?: OrderEventsSubscription,
-    private readonly findCheckout?: (
-      subject: string,
-      id: string,
-    ) => Promise<CheckoutOperationView | null>,
+    @Inject(ORDER_WORKFLOW_OPERATIONS)
+    private readonly operations: OrderWorkflowOperations,
   ) {}
 
   @Mutation('startCheckout')
@@ -57,17 +46,19 @@ export class OrderWorkflowResolver<Order, Workflow> {
     @OAuthSubject() subject: string,
     @Args('input') input: CheckoutInput,
     @OrderWorkflowSession() session: OrderWorkflowSessionContext,
-  ) {
-    return this.runCheckout(subject, input, session);
+  ): Promise<OrderWorkflowOrder> {
+    return this.operations.checkout(subject, input, session);
   }
 
   @ResolveField('workflow')
   @RequireScopes('orders:read')
   workflow(
-    @Parent() order: OrderReference & { workflow?: Workflow },
+    @Parent() order: OrderReference,
     @OAuthSubject() subject: string,
-  ) {
-    return order.workflow ?? this.findWorkflow(subject, order.wooOrderId);
+  ): OrderWorkflow | Promise<OrderWorkflow | null> {
+    return (
+      order.workflow ?? this.operations.findWorkflow(subject, order.wooOrderId)
+    );
   }
 
   @Query('checkout')
@@ -75,48 +66,8 @@ export class OrderWorkflowResolver<Order, Workflow> {
   checkoutOperation(
     @Args('id') id: string,
     @OAuthSubject() subject: string,
-  ) {
-    return this.findCheckout?.(subject, id) ?? null;
-  }
-
-  orderEvents(subject: string, operationKey: string, signal?: AbortSignal) {
-    if (!this.subscriptions) {
-      throw new Error('Order event subscriptions are not configured');
-    }
-    return this.subscriptions.subscribe(subject, operationKey, { signal });
-  }
-}
-
-export const ORDER_WORKFLOW_OPERATIONS = Symbol('ORDER_WORKFLOW_OPERATIONS');
-
-export type OrderWorkflowOperations<Order, Workflow> = {
-  checkout(
-    subject: string,
-    input: CheckoutInput,
-    session?: OrderWorkflowSessionContext,
-  ): Promise<Order>;
-  findWorkflow(subject: string, wooOrderId: string): Promise<Workflow | null>;
-  findCheckout(
-    subject: string,
-    id: string,
-  ): Promise<CheckoutOperationView | null>;
-};
-
-@Resolver('Order')
-export class OrderWorkflowRuntimeResolver<
-  Order,
-  Workflow,
-> extends OrderWorkflowResolver<Order, Workflow> {
-  constructor(
-    @Inject(ORDER_WORKFLOW_OPERATIONS)
-    operations: OrderWorkflowOperations<Order, Workflow>,
-  ) {
-    super(
-      operations.checkout.bind(operations),
-      operations.findWorkflow.bind(operations),
-      undefined,
-      operations.findCheckout.bind(operations),
-    );
+  ): Promise<CheckoutOperationView | null> {
+    return this.operations.findCheckout(subject, id);
   }
 }
 
@@ -132,7 +83,15 @@ export class OrderWorkflowSubscriptionResolver {
   orderEvents(
     @OAuthSubject() subject: string,
     @Args('operationKey') operationKey: string,
+    @Context('signal') signal: AbortSignal,
   ) {
-    return this.subscriptions.subscribe(subject, operationKey);
+    return this.subscriptions.subscribe(subject, operationKey, { signal });
   }
 }
+
+export { ORDER_WORKFLOW_OPERATIONS } from './order-workflow-operations.token.ts';
+export type {
+  CheckoutInput,
+  CheckoutOperationView,
+  OrderWorkflowOperations
+} from './order-workflow.types.ts';

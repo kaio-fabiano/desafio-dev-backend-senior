@@ -6,23 +6,20 @@ import {
   type OnApplicationShutdown,
 } from '@nestjs/common';
 
-import { ORDER_WORKFLOW_ORM } from '../graphql/order-workflow.tokens.ts';
 import { MikroOrmInboxRepository } from '../inbox/inbox.repository.ts';
 import { OutboxPublisher } from '../outbox/outbox.publisher.ts';
 import { MikroOrmOutboxRepository } from '../outbox/outbox.repository.ts';
-import {
-  MikroOrmOrderSagaRepository,
-  OrderEventConsumer,
-  PostgresTransactionalOrderEventNotifier,
-} from '../saga/order-event.consumer.ts';
+import { ORDER_WORKFLOW_ORM } from '../persistence/persistence.tokens.ts';
+import { OrderEventConsumer } from '../saga/order-event.consumer.ts';
+import { MikroOrmOrderSagaRepository } from '../saga/order-saga.repository.ts';
 import type { OrderSagaEvent } from '../saga/order-saga.ts';
+import { PostgresTransactionalOrderEventNotifier } from '../saga/postgres-order-event.notifier.ts';
 import {
   ConfirmedRabbitMqPublisher,
   connectRabbitMq,
   consumeWithRetry,
   declareConsumerQueue,
 } from './rabbitmq.ts';
-
 export const ORDER_WORKFLOW_QUEUE = 'order-workflow-subgraph.v1';
 export const ORDER_WORKFLOW_EVENT_ROUTING_KEYS = [
   'payment.authorized',
@@ -170,7 +167,6 @@ export async function startOrderWorkflowMessaging({
     },
   };
 }
-
 @Injectable()
 export class OrderWorkflowRuntimeLifecycle
   implements OnApplicationBootstrap, OnApplicationShutdown
@@ -268,6 +264,8 @@ function createOrderItemsLoader() {
       .execute(
         'select "stock_items" from "order_workflow_order_workflow" where "id" = ?',
         [workflowId],
+        'all',
+        transaction.getTransactionContext(),
       )) as Array<{
       stock_items: Array<{ productId: string; quantity: number }>;
     }>;

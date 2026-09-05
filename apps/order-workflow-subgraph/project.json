@@ -7,8 +7,16 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/pnpm-lock.yaml",
+        "{workspaceRoot}/tsconfig.base.json"
+      ],
+      "outputs": ["{workspaceRoot}/dist/out-tsc/apps/order-workflow-subgraph"],
       "options": {
-        "command": "tsc -p apps/order-workflow-subgraph/tsconfig.app.json --noEmit"
+        "command": "tsc -p apps/order-workflow-subgraph/tsconfig.app.json --emitDeclarationOnly false --rewriteRelativeImportExtensions"
       }
     },
     "typecheck": {
@@ -17,7 +25,15 @@
         "command": "tsc -p apps/order-workflow-subgraph/tsconfig.app.json --noEmit"
       }
     },
+    "test-typecheck": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
+      "options": {
+        "command": "tsc -p apps/order-workflow-subgraph/tsconfig.spec.json"
+      }
+    },
     "test": {
+      "dependsOn": ["test-typecheck"],
       "executor": "nx:run-commands",
       "inputs": [
         "default",
@@ -26,7 +42,7 @@
         "{workspaceRoot}/test/production-happy-path-hardening.spec.test.js"
       ],
       "options": {
-        "command": "TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap test/delivery-closure-rabbitmq.test.mjs test/structural-commerce-review.test.mjs && TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json vitest run test/production-happy-path-hardening.spec.test.js"
+        "command": "vitest run apps/order-workflow-subgraph test/production-happy-path-hardening.spec.test.js && TSX_TSCONFIG_PATH=tsconfig.base.json node --import tsx --test --test-reporter=tap test/delivery-closure-rabbitmq.test.mjs test/structural-commerce-review.test.mjs test/modularize-order-workflow-subgraph.test.mjs"
       }
     },
     "serve": {

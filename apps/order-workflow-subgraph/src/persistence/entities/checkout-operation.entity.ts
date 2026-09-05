@@ -5,7 +5,6 @@ export enum CheckoutOperationStatus {
   CreatingWoo = 'CREATING_WOO',
   Completed = 'COMPLETED',
 }
-
 @Entity({ tableName: 'order_workflow_checkout_operation' })
 export class CheckoutOperation {
   @PrimaryKey({ type: 'uuid' })

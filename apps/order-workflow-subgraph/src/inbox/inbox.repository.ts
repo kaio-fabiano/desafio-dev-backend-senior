@@ -1,9 +1,8 @@
 import type { EntityManager } from '@mikro-orm/core';
 
-export enum InboxDisposition {
-  Applied = 'APPLIED',
-  Ignored = 'IGNORED',
-}
+import { InboxDisposition } from './inbox.types.ts';
+
+export { InboxDisposition } from './inbox.types.ts';
 
 export interface InboxRepository {
   claim(
@@ -18,7 +17,6 @@ export interface InboxRepository {
     disposition: InboxDisposition,
   ): Promise<void>;
 }
-
 export class MikroOrmInboxRepository implements InboxRepository {
   async claim(
     transaction: EntityManager,
@@ -32,6 +30,8 @@ export class MikroOrmInboxRepository implements InboxRepository {
        on conflict ("event_id") do nothing
        returning "event_id"`,
       [eventId, eventType],
+      'all',
+      transaction.getTransactionContext(),
     )) as unknown[];
     return rows.length === 1;
   }
@@ -47,6 +47,8 @@ export class MikroOrmInboxRepository implements InboxRepository {
           set "workflow_id" = ?, "disposition" = ?, "processed_at" = current_timestamp
         where "event_id" = ?`,
       [workflowId, disposition, eventId],
+      'run',
+      transaction.getTransactionContext(),
     );
   }
 }

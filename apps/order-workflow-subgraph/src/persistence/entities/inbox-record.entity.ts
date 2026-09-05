@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 
-import { InboxDisposition } from '../../inbox/inbox.repository.ts';
+import { InboxDisposition } from '../../inbox/inbox.types.ts';
 
 @Entity({ tableName: 'order_workflow_inbox_record' })
 export class InboxRecord {

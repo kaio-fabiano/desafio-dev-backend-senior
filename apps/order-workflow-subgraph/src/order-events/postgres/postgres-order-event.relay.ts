@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { Client, type Notification } from 'pg';
 
-import { OrderEventBroker } from './order-event-broker.ts';
-import { ORDER_TRANSITION_CHANNEL } from './order-event.channel.ts';
-import type { OrderEventReplay } from './order-events.subscription.ts';
+import { OrderEventBroker } from '../order-event-broker.ts';
+import { ORDER_TRANSITION_CHANNEL } from '../order-event.channel.ts';
+import type { OrderEventReplay } from '../order-events.subscription.ts';
 
 /** Cross-replica live delivery; durable replay remains in PostgreSQL tables. */
 @Injectable()

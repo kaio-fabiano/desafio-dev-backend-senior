@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import type { ConfirmChannel, Message, Options } from 'amqplib';
 
 export const MARKETPLACE_EXCHANGE = 'marketplace.events.v1';
@@ -76,22 +78,38 @@ export interface RabbitMqRuntime {
 export async function connectRabbitMq(url: string): Promise<RabbitMqRuntime> {
   const { connect } = await import('amqplib');
   const connection = await connect(url);
-  const nativeChannel = await connection.createConfirmChannel();
+  // amqplib emits `error` before `close`; the runtime reconnects on `close`.
+  // An error listener is still mandatory because EventEmitter otherwise
+  // turns a transport failure into an uncaught process exception.
+  connection.on('error', () => undefined);
+  let nativeChannel: Awaited<
+    ReturnType<typeof connection.createConfirmChannel>
+  >;
+  try {
+    nativeChannel = await connection.createConfirmChannel();
+    nativeChannel.on('error', () => undefined);
+    await declareRabbitMqTopology(
+      nativeChannel as unknown as RabbitMqConfirmChannel,
+    );
+  } catch (error) {
+    await connection.close().catch(() => undefined);
+    throw error;
+  }
   const channel = nativeChannel as unknown as RabbitMqConfirmChannel;
-  await declareRabbitMqTopology(channel);
+  let closePromise: Promise<void> | undefined;
 
   return {
     channel,
     async close() {
-      const results = await Promise.allSettled([
-        nativeChannel.close(),
-        connection.close(),
-      ]);
-      const failure = results.find(
-        (result): result is PromiseRejectedResult =>
-          result.status === 'rejected',
-      );
-      if (failure) throw failure.reason;
+      closePromise ??= (async () => {
+        let channelFailure: unknown;
+        await nativeChannel.close().catch((error: unknown) => {
+          channelFailure = error;
+        });
+        await connection.close();
+        if (channelFailure) throw channelFailure;
+      })();
+      await closePromise;
     },
   };
 }
@@ -264,8 +282,14 @@ async function routeFailedDelivery(
   queue: string,
   message: RabbitMqMessage,
 ): Promise<void> {
-  const attempt = Number(message.properties.headers?.['x-retry-attempt'] ?? 0);
+  const attempt = retryAttempt(message.properties.headers?.['x-retry-attempt']);
   const nextAttempt = attempt + 1;
+  const eventId = deliveryIdentifier(message.properties.messageId, message);
+  const correlationId = deliveryIdentifier(
+    message.properties.correlationId,
+    message,
+    eventId,
+  );
 
   if (nextAttempt <= RETRY_DELAYS_MS.length) {
     await publishConfirmed(
@@ -279,17 +303,13 @@ async function routeFailedDelivery(
           ...message.properties.headers,
           'x-retry-attempt': nextAttempt,
         },
-        messageId: requiredIdentifier(message.properties.messageId, 'event'),
+        correlationId,
+        messageId: eventId,
       },
     );
     return;
   }
 
-  const eventId = requiredIdentifier(message.properties.messageId, 'event');
-  const correlationId = requiredIdentifier(
-    message.properties.correlationId,
-    'correlation',
-  );
   const deadLetter = Buffer.from(
     JSON.stringify({
       correlationId,
@@ -326,7 +346,23 @@ function retryReturnKey(queue: string): string {
   return `retry-return.${queue}`;
 }
 
-function requiredIdentifier(value: string | undefined, name: string): string {
-  if (!value) throw new Error(`RabbitMQ message is missing ${name} metadata`);
-  return value;
+function retryAttempt(value: unknown): number {
+  const attempt = Number(value ?? 0);
+  if (!Number.isInteger(attempt) || attempt < 0) return 0;
+  return Math.min(attempt, RETRY_DELAYS_MS.length);
+}
+
+function deliveryIdentifier(
+  value: string | undefined,
+  message: RabbitMqMessage,
+  fallback?: string,
+): string {
+  if (value?.trim()) return value;
+  if (fallback) return fallback;
+  return `malformed-${createHash('sha256')
+    .update(message.fields.routingKey)
+    .update('\0')
+    .update(message.content)
+    .digest('hex')
+    .slice(0, 32)}`;
 }

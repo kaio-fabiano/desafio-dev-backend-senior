@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import { LockMode, raw, type EntityManager } from '@mikro-orm/core';
 
+import type { PaymentMethod } from '../checkout/checkout.types.ts';
 import { OutboxEvent } from '../persistence/entities/outbox-event.entity.ts';
 
 export interface CheckoutRequestedEvent {
@@ -9,7 +10,7 @@ export interface CheckoutRequestedEvent {
   operationKey: string;
   paymentId: string;
   orderId: string;
-  method: string;
+  method: PaymentMethod;
   amount: number;
   currency: string;
   payerEmail: string;
@@ -24,7 +25,6 @@ export interface OutboxRepository {
     event: CheckoutRequestedEvent,
   ): Promise<void>;
 }
-
 export class MikroOrmOutboxRepository implements OutboxRepository {
   async enqueueCheckoutRequested(
     context: unknown,
@@ -72,7 +72,6 @@ export class MikroOrmOutboxRepository implements OutboxRepository {
       },
     );
   }
-
   async markSent(
     transaction: EntityManager,
     eventId: string,

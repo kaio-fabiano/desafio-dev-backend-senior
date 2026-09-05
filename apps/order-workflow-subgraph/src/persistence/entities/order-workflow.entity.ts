@@ -1,8 +1,9 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 
-import { OrderWorkflowState } from '../../saga/order-saga.ts';
+import type { PaymentMethod } from '../../checkout/checkout.types.ts';
+import { OrderWorkflowState } from '../../saga/order-workflow-state.ts';
 
-export { OrderWorkflowState } from '../../saga/order-saga.ts';
+export { OrderWorkflowState } from '../../saga/order-workflow-state.ts';
 
 @Entity({ tableName: 'order_workflow_order_workflow' })
 export class OrderWorkflow {
@@ -19,7 +20,7 @@ export class OrderWorkflow {
   stockItems!: Array<{ productId: string; quantity: number }>;
 
   @Property({ type: 'string', length: 8, nullable: true })
-  paymentMethod?: 'PIX' | 'CARD';
+  paymentMethod?: PaymentMethod;
 
   @Property({ type: 'string', length: 32 })
   state = OrderWorkflowState.Created;

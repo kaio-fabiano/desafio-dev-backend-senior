@@ -106,10 +106,17 @@ test('AC-110: checkout persists a durable RabbitMQ choreography command @spec:AC
   let wooOrderCreations = 0;
   const wooOrders = createWooCheckoutAdapter(
     'http://wordpress',
-    { consumerKey: 'commerce-key', consumerSecret: 'commerce-secret' },
+    { serviceIdentity: 'order-workflow', siteToken: 'site-token' },
     async (_url, init) => {
-      if (init?.method === 'GET') return Response.json([]);
       const body = JSON.parse(String(init?.body));
+      if (body.query.includes('mutation LoginOrderWorkflow')) {
+        return Response.json({
+          data: { login: { authToken: 'service-token' } },
+        });
+      }
+      if (body.query.includes('query FindOrderByWorkflowReference')) {
+        return Response.json({ data: { orders: { nodes: [] } } });
+      }
       if (body.query.includes('mutation Checkout')) {
         wooOrderCreations += 1;
         return Response.json({

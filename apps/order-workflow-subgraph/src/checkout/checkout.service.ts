@@ -1,17 +1,17 @@
 import { setTimeout as delay } from 'node:timers/promises';
 
+import type { OutboxRepository } from '../outbox/outbox.repository.ts';
+import { CheckoutOperationStatus } from '../persistence/entities/checkout-operation.entity.ts';
+import type { CheckoutRepository } from './checkout.repository.ts';
 import {
   checkoutCommandHash,
   checkoutWooReference,
   type CheckoutCommandData,
 } from './command-hash.ts';
-import type { CheckoutRepository } from './checkout.repository.ts';
 import type {
   WooCheckoutPort,
   WooCheckoutSession,
 } from './woo-checkout.port.ts';
-import type { OutboxRepository } from '../outbox/outbox.repository.ts';
-import { CheckoutOperationStatus } from '../persistence/entities/checkout-operation.entity.ts';
 
 export interface CheckoutCommand extends CheckoutCommandData {
   subject: string;
@@ -78,8 +78,9 @@ export class CheckoutService {
 
     const { operation } = claim;
     const ownerToken = claim.ownerToken;
-    if (!ownerToken)
+    if (!ownerToken) {
       throw new Error('Checkout creation lease was not acquired');
+    }
     let order;
     try {
       if (operation.status === CheckoutOperationStatus.PendingWoo) {
@@ -126,6 +127,7 @@ export class CheckoutService {
           currency,
         ),
       command.paymentMethod,
+      ownerToken,
     );
     return { operationId: operation.id, wooOrderId: workflow.wooOrderId };
   }
@@ -165,12 +167,18 @@ export class CheckoutService {
       command.paymentMethod,
       command.payerEmail,
     ]) {
-      if (!value.trim())
+      if (typeof value !== 'string' || !value.trim())
         throw new CheckoutInputError('Checkout fields are required');
+    }
+    if (command.paymentMethod !== 'PIX' && command.paymentMethod !== 'CARD') {
+      throw new CheckoutInputError('Checkout payment method is invalid');
     }
     if (
       command.paymentMethod === 'CARD' &&
-      (!command.providerToken?.trim() || !command.paymentMethodId?.trim())
+      (typeof command.providerToken !== 'string' ||
+        !command.providerToken.trim() ||
+        typeof command.paymentMethodId !== 'string' ||
+        !command.paymentMethodId.trim())
     ) {
       throw new CheckoutInputError(
         'Card checkout requires providerToken and paymentMethodId',
@@ -215,20 +223,13 @@ function cartItems(
     return { productId: String(productId), quantity };
   });
 }
-
 function cartAmount(snapshot: unknown): number {
-  const totals =
-    snapshot && typeof snapshot === 'object'
-      ? Reflect.get(snapshot, 'totals')
-      : undefined;
-  const total =
-    totals && typeof totals === 'object'
-      ? Number(Reflect.get(totals, 'total_price'))
-      : Number.NaN;
-  const minorUnit =
-    totals && typeof totals === 'object'
-      ? Number(Reflect.get(totals, 'currency_minor_unit'))
-      : 2;
+  const totals = Reflect.get(snapshot as object, 'totals');
+  if (!totals || typeof totals !== 'object') {
+    throw new CheckoutInputError('Cart total is invalid');
+  }
+  const total = Number(Reflect.get(totals, 'total_price'));
+  const minorUnit = Number(Reflect.get(totals, 'currency_minor_unit'));
   if (
     !Number.isSafeInteger(total) ||
     total <= 0 ||
@@ -242,14 +243,8 @@ function cartAmount(snapshot: unknown): number {
 }
 
 function cartCurrency(snapshot: unknown): string {
-  const totals =
-    snapshot && typeof snapshot === 'object'
-      ? Reflect.get(snapshot, 'totals')
-      : undefined;
-  const currency =
-    totals && typeof totals === 'object'
-      ? Reflect.get(totals, 'currency_code')
-      : undefined;
+  const totals = Reflect.get(snapshot as object, 'totals') as object;
+  const currency = Reflect.get(totals, 'currency_code');
   if (typeof currency !== 'string' || !/^[A-Z]{3}$/.test(currency)) {
     throw new CheckoutInputError('Cart currency is invalid');
   }

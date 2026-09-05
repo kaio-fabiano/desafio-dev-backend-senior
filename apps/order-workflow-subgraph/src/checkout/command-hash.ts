@@ -1,12 +1,13 @@
 import { createHash } from 'node:crypto';
 
+import type { PaymentMethod } from './checkout.types.ts';
+
 export interface CheckoutCommandData {
-  paymentMethod: 'PIX' | 'CARD';
+  paymentMethod: PaymentMethod;
   payerEmail: string;
   providerToken?: string;
   paymentMethodId?: string;
 }
-
 function canonicalize(value: unknown): unknown {
   if (
     value === null ||

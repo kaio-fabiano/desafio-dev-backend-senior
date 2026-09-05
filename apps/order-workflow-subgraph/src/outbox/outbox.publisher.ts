@@ -25,7 +25,6 @@ export interface OutboxPublicationRepository {
 export interface OutboxEventPublisher {
   publish(event: MarketplaceEvent): Promise<void>;
 }
-
 export class OutboxPublisher {
   constructor(
     private readonly entityManager: EntityManager,

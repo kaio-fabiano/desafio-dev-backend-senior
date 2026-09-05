@@ -2,29 +2,23 @@ import type { EntityManager } from '@mikro-orm/core';
 import { Inject, Injectable, Scope } from '@nestjs/common';
 
 import { CheckoutService } from '../checkout/checkout.service.ts';
-import { CheckoutOperation } from '../persistence/entities/checkout-operation.entity.ts';
+import type { PaymentMethod } from '../checkout/checkout.types.ts';
+import {
+  CheckoutOperation,
+  CheckoutOperationStatus,
+} from '../persistence/entities/checkout-operation.entity.ts';
 import { OrderWorkflow } from '../persistence/entities/order-workflow.entity.ts';
+import { ORDER_WORKFLOW_ENTITY_MANAGER } from '../persistence/persistence.tokens.ts';
 import type { OrderWorkflowSessionContext } from './authenticated-subject.decorator.ts';
 import type {
   CheckoutInput,
   CheckoutOperationView,
   OrderWorkflowOperations,
-} from './order-workflow.resolver.ts';
-import { ORDER_WORKFLOW_ENTITY_MANAGER } from './order-workflow.tokens.ts';
-
-type OrderWorkflowOrder = {
-  __typename: 'Order';
-  id: string;
-  wooOrderId: string;
-  paymentMethod: 'PIX' | 'CARD';
-  workflow: { state: string };
-  pixCode?: string;
-};
+  OrderWorkflowOrder,
+} from './order-workflow.types.ts';
 
 @Injectable({ scope: Scope.REQUEST })
-export class OrderWorkflowOperationsService
-  implements OrderWorkflowOperations<OrderWorkflowOrder, OrderWorkflow>
-{
+export class OrderWorkflowOperationsService implements OrderWorkflowOperations {
   constructor(
     @Inject(CheckoutService)
     private readonly checkoutService: CheckoutService,
@@ -75,8 +69,8 @@ export class OrderWorkflowOperationsService
     return {
       ...operation,
       status:
-        operation.status === 'PENDING_WOO' ||
-        operation.status === 'CREATING_WOO'
+        operation.status === CheckoutOperationStatus.PendingWoo ||
+        operation.status === CheckoutOperationStatus.CreatingWoo
           ? 'PENDING'
           : operation.status,
     };
@@ -85,7 +79,7 @@ export class OrderWorkflowOperationsService
 
 function orderView(
   wooOrderId: string,
-  paymentMethod: 'PIX' | 'CARD',
+  paymentMethod: PaymentMethod,
   workflow: OrderWorkflow,
 ): OrderWorkflowOrder {
   if (!/^[1-9]\d*$/.test(wooOrderId)) {

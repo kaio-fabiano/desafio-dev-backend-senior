@@ -11,23 +11,26 @@ stores only checkout operation and workflow metadata. A remote order can be
 created before the local transaction records its identifier. Retrying the
 remote create blindly would duplicate that order.
 
-The pinned WooCommerce REST orders endpoint accepts order metadata but does not
-offer a native exact filter for arbitrary metadata. The GraphQL plugins expose
-checkout and orders, but do not close this create-or-find gap either.
+The pinned WooGraphQL schema exposes checkout and authenticated root order
+search. WooCommerce does not search arbitrary order metadata by default, so the
+existing compatibility plugin adds the operation-reference key to its legacy
+and HPOS search hooks.
 
 ## Decision
 
 Commerce assigns every reserved checkout operation a unique `wooReference`.
 The adapter writes it to the order metadata key
-`_commerce_operation_reference`, scans paginated WooCommerce orders for an
-exact match before creation, and exposes the same lookup for reconciliation.
+`_order_workflow_operation_reference`, queries
+`orders(where: { search: reference })`, and validates the metadata value for an
+exact match before creation. It exposes the same lookup for reconciliation.
 Sequential retries therefore return the existing commercial order. The local
 unique operation constraint and checkout service remain responsible for
 preventing concurrent callers from reaching remote creation together.
 
 The reference is integration metadata, not a customer identity or a copy of
-the order. Credentials are supplied at runtime and the adapter uses the native
-WooCommerce REST API without another dependency.
+the order. The adapter obtains a short-lived service bearer token through
+WPGraphQL Headless Login's `SITETOKEN` provider and uses `/graphql` for both
+creation and reconciliation. No WooCommerce REST consumer key is provisioned.
 
 ## Evidence
 
@@ -50,7 +53,6 @@ and WordPress Application Password.
 
 ## Consequences
 
-Reconciliation scans pages because the pinned API cannot filter arbitrary
-metadata exactly. If production order volume makes that scan material, add a
-minimal WordPress endpoint that performs the same exact metadata lookup; keep
-the metadata key and adapter contract unchanged.
+Reconciliation delegates candidate filtering to the native root order search
+and then verifies the metadata value exactly. The compatibility plugin remains
+small and contains no endpoint or schema extension.

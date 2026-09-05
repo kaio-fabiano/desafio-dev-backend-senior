@@ -26,7 +26,8 @@ state, inbox/outbox, reconciliation, and order-event delivery.
 
 Order Workflow invokes WooGraphQL's native `checkout` mutation. It stores its
 operation reference in WooCommerce order metadata so a retry can reconcile an
-ambiguous response without creating another order. Its GraphQL contract extends
+ambiguous response through the authenticated native `orders` query without
+creating another order. Its GraphQL contract extends
 the federated `Order` only with workflow-owned fields; it does not republish
 product, cart, customer, order connection, or line-item models.
 

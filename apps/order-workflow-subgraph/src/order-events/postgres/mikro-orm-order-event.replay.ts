@@ -1,7 +1,7 @@
 import type { MikroORM } from '@mikro-orm/core';
 
-import type { OrderEventPayload } from './order-event-broker.ts';
-import type { OrderEventReplay } from './order-events.subscription.ts';
+import type { OrderEventPayload } from '../order-event-broker.ts';
+import type { OrderEventReplay } from '../order-events.subscription.ts';
 
 export class MikroOrmOrderEventReplay implements OrderEventReplay {
   constructor(private readonly orm: MikroORM) {}
