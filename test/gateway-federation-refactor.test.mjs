@@ -3,6 +3,13 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const libraryRoot = 'libs/gateway/nest/src';
+const config = {
+  get(name) {
+    return name === 'GATEWAY_ORIGIN'
+      ? 'https://gateway.marketplace.local'
+      : undefined;
+  },
+};
 
 test('AC-095: Gateway contains only authenticated federation edge responsibilities @spec:AC-095', async () => {
   const [
@@ -55,6 +62,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     'build',
     'lint',
     'test',
+    'test-typecheck',
     'typecheck',
   ]);
 
@@ -66,7 +74,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
       claims: {},
     }),
   });
-  const context = await new AuthContextFactory(tokens).create({
+  const context = await new AuthContextFactory(tokens, config).create({
     headers: {
       host: 'gateway.test',
       'woocommerce-session': 'session-token',
@@ -75,7 +83,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     method: 'POST',
     rawHeaders: [
       'authorization',
-      'Bearer signed-token',
+      'Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6InRlc3QifQ.e30.signature',
       'woocommerce-session',
       'session-token',
       'cart-token',
@@ -83,19 +91,23 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     ],
     url: '/graphql',
   });
-  assert.equal(context.subject, 'buyer-1');
-  assert.deepEqual(context.scopes, ['marketplace:read']);
+  assert.equal(context.principal.subject, 'buyer-1');
+  assert.deepEqual(context.principal.scopes, ['marketplace:read']);
   assert.deepEqual(context.sessionHeaders, {
     'woocommerce-session': 'session-token',
     'cart-token': 'cart-token',
   });
   await assert.rejects(
     () =>
-      new AuthContextFactory({
-        async verify() {
-          throw new Error('sensitive verifier detail');
+      new AuthContextFactory(
+        {
+          async verify() {
+            const { APIError } = await import('better-auth');
+            throw new APIError('UNAUTHORIZED');
+          },
         },
-      }).create({
+        config,
+      ).create({
         headers: { host: 'gateway.test' },
         method: 'POST',
         rawHeaders: [],
@@ -114,6 +126,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
     readFile(`${libraryRoot}/gateway.module.ts`, 'utf8'),
   ]);
   const source = new AuthenticatedDataSource({
+    capabilities: { bearer: true },
     url: 'http://identity-federation/graphql',
   });
   const headers = new Headers();
@@ -122,10 +135,12 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
     request: { http: { headers } },
     context: {
       authorization: 'Bearer access-token',
-      subject: 'supplier-user',
-      scopes: ['marketplace:read', 'payment:authorize'],
-      audience: ['https://gateway.marketplace.local'],
-      supplierCompanyId: 'supplier-company',
+      principal: {
+        subject: 'supplier-user',
+        scopes: ['marketplace:read', 'payment:authorize'],
+        audience: ['https://gateway.marketplace.local'],
+        supplierCompanyId: 'supplier-company',
+      },
       requestId: 'request-1',
       sessionHeaders: {
         'woocommerce-session': 'session-token',
@@ -144,17 +159,19 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   assert.equal(headers.get('cart-token'), null);
 
   const orderWorkflow = new AuthenticatedDataSource({
+    capabilities: { bearer: true, requestSession: true },
     url: 'http://order-workflow-subgraph:3003/graphql',
-    kind: 'order-workflow',
   });
   const orderWorkflowHeaders = new Headers();
   orderWorkflow.willSendRequest({
     request: { http: { headers: orderWorkflowHeaders } },
     context: {
       authorization: 'Bearer workflow-token',
-      subject: 'buyer-1',
-      scopes: ['marketplace:read'],
-      audience: ['https://gateway.marketplace.local'],
+      principal: {
+        subject: 'buyer-1',
+        scopes: ['marketplace:read'],
+        audience: ['https://gateway.marketplace.local'],
+      },
       requestId: 'request-2',
       sessionHeaders: {
         'woocommerce-session': 'session-token',
@@ -184,26 +201,37 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
       },
     },
     context: {
-      subject: 'supplier-user',
-      scopes: ['marketplace:read'],
-      audience: ['https://gateway.marketplace.local'],
+      authorization: 'Bearer access-token',
+      principal: {
+        subject: 'supplier-user',
+        scopes: ['marketplace:read'],
+        audience: ['https://gateway.marketplace.local'],
+      },
       requestId: 'request-1',
+      sessionHeaders: {},
       setResponseHeader: (name, value) => returnedHeaders.push([name, value]),
     },
   });
   assert.deepEqual(returnedHeaders, []);
 
   const wordpress = new AuthenticatedDataSource({
+    capabilities: {
+      origin: 'http://wordpress',
+      requestSession: true,
+      responseSession: true,
+    },
     url: 'http://wordpress/graphql',
-    kind: 'wordpress',
   });
   const wordpressHeaders = new Headers();
   wordpress.willSendRequest({
     request: { http: { headers: wordpressHeaders } },
     context: {
-      subject: 'supplier-user',
-      scopes: ['marketplace:read'],
-      audience: ['https://gateway.marketplace.local'],
+      authorization: '',
+      principal: {
+        subject: 'supplier-user',
+        scopes: ['marketplace:read'],
+        audience: ['https://gateway.marketplace.local'],
+      },
       requestId: 'request-1',
       sessionHeaders: {
         'woocommerce-session': 'session-token',
@@ -225,17 +253,21 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
       },
     },
     context: {
-      subject: 'supplier-user',
-      scopes: ['marketplace:read'],
-      audience: ['https://gateway.marketplace.local'],
+      authorization: '',
+      principal: {
+        subject: 'supplier-user',
+        scopes: ['marketplace:read'],
+        audience: ['https://gateway.marketplace.local'],
+      },
       requestId: 'request-1',
+      sessionHeaders: {},
       setResponseHeader: (name, value) => returnedHeaders.push([name, value]),
     },
   });
   assert.deepEqual(returnedHeaders, [
     ['woocommerce-session', 'next-session-token'],
     ['cart-token', 'next-cart-token'],
-    ['set-cookie', 'wp_woocommerce_session=value; Path=/; HttpOnly'],
+    ['set-cookie', ['wp_woocommerce_session=value; Path=/; HttpOnly']],
   ]);
   assert.doesNotMatch(gatewayModule, /ForbiddenException|assertOwnership/);
 

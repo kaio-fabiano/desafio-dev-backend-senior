@@ -7,9 +7,17 @@ import { HealthController } from './health.controller.ts';
 import { GatewaySseMiddleware } from './subscriptions/sse.middleware.ts';
 
 /**
- * GatewayModule owns ApolloGatewayDriver, LocalCompose, contract('catalog'),
- * and IDENTITY_JWKS_URL configuration; this application is only its boundary.
+ * GatewayModule owns ApolloGatewayDriver, local federation contracts, and
+ * identity resource configuration; this application is only its boundary.
  */
+@Module({
+  imports: [
+    ConfigModule.forRoot({ cache: true, isGlobal: true }),
+    GatewayModule,
+  ],
+  controllers: [HealthController],
+  providers: [GatewaySseMiddleware],
+})
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
     consumer.apply(GatewaySseMiddleware).forRoutes({
@@ -18,12 +26,3 @@ export class AppModule implements NestModule {
     });
   }
 }
-
-Module({
-  imports: [
-    ConfigModule.forRoot({ cache: true, isGlobal: true }),
-    GatewayModule,
-  ],
-  controllers: [HealthController],
-  providers: [GatewaySseMiddleware],
-})(AppModule);

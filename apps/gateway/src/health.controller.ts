@@ -1,31 +1,26 @@
-import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  ServiceUnavailableException,
+  type OnApplicationBootstrap,
+} from '@nestjs/common';
 
-export class HealthController {
+@Controller()
+export class HealthController implements OnApplicationBootstrap {
   private initialized = false;
 
-  onApplicationBootstrap() {
+  onApplicationBootstrap(): void {
     this.initialized = true;
   }
 
-  health() {
+  @Get('health')
+  health(): { status: string } {
     return { status: 'ok' };
   }
 
-  ready() {
+  @Get('ready')
+  ready(): { status: string } {
     if (!this.initialized) throw new ServiceUnavailableException();
     return { status: 'ready' };
   }
 }
-
-function descriptorFor(method: 'health' | 'ready') {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HealthController.prototype,
-    method,
-  );
-  if (!descriptor) throw new Error(`Missing ${method} health handler`);
-  return descriptor;
-}
-
-Controller()(HealthController);
-Get('health')(HealthController.prototype, 'health', descriptorFor('health'));
-Get('ready')(HealthController.prototype, 'ready', descriptorFor('ready'));

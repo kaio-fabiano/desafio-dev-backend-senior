@@ -7,4 +7,8 @@ export {
   type OAuthResourceOptions,
 } from './oauth-resource/oauth-resource.types.ts';
 export { toOAuthRequest } from './oauth-resource/verification/oauth-request.adapter.ts';
+export {
+  isOAuthCredentialError,
+  OAuthCredentialError,
+} from './oauth-resource/verification/oauth-resource.errors.ts';
 export { OAuthResourceService } from './oauth-resource/verification/oauth-resource.service.ts';

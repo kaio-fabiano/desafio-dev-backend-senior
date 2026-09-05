@@ -6,14 +6,14 @@ import {
   type RequestParams,
 } from 'graphql-sse';
 
-import type { AuthContext } from '@desafio-dev-backend-senior/source/gateway-nest';
+import type { GatewayContext } from '@desafio-dev-backend-senior/source/gateway-nest';
 
 type DelegatedClient = Pick<Client, 'dispose' | 'iterate'>;
 
 export type OrderWorkflowSubscriptionClient = {
   subscribe(
     request: RequestParams,
-    context: AuthContext,
+    context: GatewayContext,
   ): AsyncGenerator<ExecutionResult>;
 };
 

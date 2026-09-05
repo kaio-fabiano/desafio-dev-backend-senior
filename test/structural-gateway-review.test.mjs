@@ -5,9 +5,12 @@ import test from 'node:test';
 import { AuthenticatedDataSource } from '../libs/gateway/nest/src/federation/authenticated-data-source.ts';
 
 const context = {
-  subject: 'buyer-1',
-  scopes: ['marketplace:read'],
-  audience: ['https://gateway.marketplace.local'],
+  authorization: 'Bearer access-token',
+  principal: {
+    subject: 'buyer-1',
+    scopes: ['marketplace:read'],
+    audience: ['https://gateway.marketplace.local'],
+  },
   requestId: 'request-1',
   sessionHeaders: {
     cookie: 'wordpress_logged_in_secret=value',
@@ -46,9 +49,14 @@ test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => 
   });
   assert.deepEqual(reflected, []);
 
-  const wordpress = new AuthenticatedDataSource(
-    { url: 'http://wordpress/graphql', kind: 'wordpress' },
-  );
+  const wordpress = new AuthenticatedDataSource({
+    url: 'http://wordpress/graphql',
+    capabilities: {
+      origin: 'http://wordpress',
+      requestSession: true,
+      responseSession: true,
+    },
+  });
   const wordpressHeaders = new Headers();
   wordpress.willSendRequest({
     request: { http: { headers: wordpressHeaders } },
@@ -62,6 +70,6 @@ test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => 
     readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
   ]);
   assert.match(handler, /source\/gateway-nest/);
-  assert.match(module, /name === 'wordpress'/);
+  assert.match(module, /case 'wordpress'/);
   await assert.rejects(readFile('apps/gateway/src/auth/token-verifier.ts'));
 });

@@ -1,40 +1,24 @@
+import { GraphQLError } from 'graphql';
 import { createHandler } from 'graphql-sse/lib/use/http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import type { AuthContext } from '@desafio-dev-backend-senior/source/gateway-nest';
+import type { GatewayContext } from '@desafio-dev-backend-senior/source/gateway-nest';
 import type { OrderWorkflowSubscriptionClient } from './order-workflow-subscription.client.ts';
 
 type GatewaySseOptions = {
   orderWorkflow: OrderWorkflowSubscriptionClient;
-  verify: (request: Request) => Promise<AuthContext>;
+  verify: (request: IncomingMessage) => Promise<GatewayContext>;
 };
-
-function toRequest(request: IncomingMessage) {
-  const host = request.headers.host ?? 'gateway.local';
-  const headers = new Headers();
-  for (let index = 0; index < request.rawHeaders.length; index += 2) {
-    const name = request.rawHeaders[index];
-    const value = request.rawHeaders[index + 1];
-    if (name && value !== undefined) headers.append(name, value);
-  }
-  return new Request(
-    new URL(request.url ?? '/graphql/stream', `http://${host}`),
-    {
-      method: request.method,
-      headers,
-    },
-  );
-}
 
 export function createGatewaySseHandler({
   orderWorkflow,
   verify,
 }: GatewaySseOptions) {
-  const authenticated = new WeakMap<IncomingMessage, AuthContext>();
+  const authenticated = new WeakMap<IncomingMessage, GatewayContext>();
   const active = new WeakMap<IncomingMessage, AsyncGenerator>();
-  const handler = createHandler<AuthContext>({
+  const handler = createHandler<GatewayContext>({
     authenticate: async ({ raw }) => {
-      authenticated.set(raw, await verify(toRequest(raw)));
+      authenticated.set(raw, await verify(raw));
       return null;
     },
     context: ({ raw }) => {
@@ -64,9 +48,14 @@ export function createGatewaySseHandler({
     response.once('close', closeSubscription);
     try {
       await handler(request, response);
-    } catch {
+    } catch (error) {
       if (!response.headersSent)
-        response.writeHead(authenticated.has(request) ? 502 : 401);
+        response.writeHead(
+          error instanceof GraphQLError &&
+            error.extensions.code === 'UNAUTHENTICATED'
+            ? 401
+            : 502,
+        );
       response.end();
     } finally {
       closeSubscription();

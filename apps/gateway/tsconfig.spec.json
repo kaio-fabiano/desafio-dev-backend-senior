@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "../..",
+    "tsBuildInfoFile": "../../.nx/cache/tsbuildinfo/gateway.spec.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../libs/gateway/nest/src/**/*.ts",
+    "../../libs/platform/nest/src/**/*.ts"
+  ],
+  "exclude": []
+}

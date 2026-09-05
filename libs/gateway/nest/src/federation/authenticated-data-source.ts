@@ -3,46 +3,47 @@ import {
   type GraphQLDataSourceProcessOptions,
 } from '@apollo/gateway';
 
-import type { AuthContext } from '../auth/auth-context.factory.ts';
+import {
+  allowlistedCommerceCookies,
+  COMMERCE_SESSION_REQUEST_HEADERS,
+  COMMERCE_SESSION_RESPONSE_HEADERS,
+  type GatewayContext,
+} from '../auth/gateway-context.ts';
 
-export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext> {
-  private readonly origin?: string;
-  private readonly capturesSession: boolean;
-  private readonly forwardsBearer: boolean;
-  private readonly forwardsSession: boolean;
+// Review: docs/reviews/gateway-auth-refactor.md
+export type FederationCapabilities = Readonly<{
+  bearer?: boolean;
+  origin?: string;
+  requestSession?: boolean;
+  responseSession?: boolean;
+}>;
 
-  constructor(config: {
-    url: string;
-    kind?: 'wordpress' | 'order-workflow' | 'other';
-  }) {
+export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayContext> {
+  private readonly capabilities: FederationCapabilities;
+
+  constructor(config: { url: string; capabilities?: FederationCapabilities }) {
     super({ url: config.url });
-    const kind = config.kind ?? 'other';
-    this.capturesSession = kind === 'wordpress';
-    this.forwardsBearer = kind !== 'wordpress';
-    this.forwardsSession = kind === 'wordpress' || kind === 'order-workflow';
-    this.origin = kind === 'wordpress' ? new URL(config.url).origin : undefined;
+    this.capabilities = { ...config.capabilities };
   }
 
   override willSendRequest({
     request,
     context,
-  }: GraphQLDataSourceProcessOptions<AuthContext>) {
-    if (this.origin) request.http?.headers.set('origin', this.origin);
-    if (!context || !('subject' in context) || !context.subject) return;
-
-    if (this.forwardsBearer) {
-      request.http?.headers.set('authorization', context.authorization);
+  }: GraphQLDataSourceProcessOptions<GatewayContext>) {
+    const headers = request.http?.headers;
+    if (!headers) return;
+    if (this.capabilities.origin) {
+      headers.set('origin', this.capabilities.origin);
     }
-    request.http?.headers.set('x-request-id', context.requestId);
-    if (this.forwardsSession) {
-      for (const name of [
-        'cookie',
-        'woocommerce-session',
-        'cart-token',
-      ] as const) {
-        const value = context.sessionHeaders?.[name];
-        if (typeof value === 'string') request.http?.headers.set(name, value);
-      }
+    if (context?.requestId) headers.set('x-request-id', context.requestId);
+    if (this.capabilities.bearer && context?.authorization) {
+      headers.set('authorization', context.authorization);
+    }
+    if (!this.capabilities.requestSession) return;
+    for (const name of COMMERCE_SESSION_REQUEST_HEADERS) {
+      const raw = context?.sessionHeaders?.[name];
+      const value = name === 'cookie' ? allowlistedCommerceCookies(raw) : raw;
+      if (value) headers.set(name, value);
     }
   }
 
@@ -50,21 +51,34 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<AuthContext
     response,
     context,
   }: Parameters<
-    NonNullable<RemoteGraphQLDataSource<AuthContext>['didReceiveResponse']>
+    NonNullable<RemoteGraphQLDataSource<GatewayContext>['didReceiveResponse']>
   >[0]): ReturnType<
-    NonNullable<RemoteGraphQLDataSource<AuthContext>['didReceiveResponse']>
+    NonNullable<RemoteGraphQLDataSource<GatewayContext>['didReceiveResponse']>
   > {
-    if (!this.capturesSession) return response;
-    for (const name of ['woocommerce-session', 'cart-token']) {
+    if (!this.capabilities.responseSession) return response;
+    for (const name of COMMERCE_SESSION_RESPONSE_HEADERS) {
       const value = response.http?.headers.get(name);
-      if (typeof value === 'string' && value) {
-        context.setResponseHeader?.(name, value);
-      }
+      if (value) context.setResponseHeader?.(name, value);
     }
-    const cookie = response.http?.headers.get('set-cookie');
-    if (typeof cookie === 'string' && cookie) {
-      context.setResponseHeader?.('set-cookie', cookie);
-    }
+    const cookies = response.http ? setCookieValues(response.http.headers) : [];
+    if (cookies.length > 0) context.setResponseHeader?.('set-cookie', cookies);
     return response;
   }
+}
+
+function setCookieValues(headers: {
+  get(name: string): string | null;
+}): string[] {
+  const raw = (
+    headers as typeof headers & {
+      raw?: () => Readonly<Record<string, readonly string[]>>;
+    }
+  ).raw?.()['set-cookie'];
+  if (raw) return [...raw];
+  const native = (
+    headers as typeof headers & { getSetCookie?: () => readonly string[] }
+  ).getSetCookie?.();
+  if (native) return [...native];
+  const value = headers.get('set-cookie');
+  return value ? [value] : [];
 }

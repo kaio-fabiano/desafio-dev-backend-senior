@@ -17,8 +17,11 @@ test('AC-130: NestJS owns the authenticated SSE route @spec:AC-130', async () =>
   assert.match(appModule, /path: 'graphql\/stream'/);
   assert.match(appModule, /providers: \[GatewaySseMiddleware\]/);
   assert.match(middleware, /implements NestMiddleware/);
-  assert.match(middleware, /this\.tokens\.verify\(request\)/);
+  assert.match(middleware, /this\.authContext\.create\(request\)/);
   assert.doesNotMatch(middleware, /verifyGatewayRequest|issuer|jwksUrl/);
-  assert.match(handler, /verify: \(request: Request\) => Promise<AuthContext>/);
-  assert.match(handler, /await verify\(toRequest\(raw\)\)/);
+  assert.match(
+    handler,
+    /verify: \(request: IncomingMessage\) => Promise<GatewayContext>/,
+  );
+  assert.match(handler, /await verify\(raw\)/);
 });

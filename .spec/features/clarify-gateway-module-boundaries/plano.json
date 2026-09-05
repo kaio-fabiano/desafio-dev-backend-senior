@@ -1,0 +1,45 @@
+{
+  "runId": "desafio-dev-backend-senior-clarify-gateway-module-boundaries-mtom8b21",
+  "feature": "clarify-gateway-module-boundaries",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-05 16:47",
+  "branchTrabalho": "spec/clarify-gateway-module-boundaries",
+  "baseDir": ".spec/features/clarify-gateway-module-boundaries",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-clarify-gateway-module-boundaries-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-202",
+      "titulo": "Extract the gateway authentication module",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "libs/gateway/nest/src/auth/gateway-auth.module.ts",
+        "libs/gateway/nest/src/auth/gateway-auth.module.spec.ts",
+        "libs/gateway/nest/src/gateway.module.ts",
+        "libs/gateway/nest/src/gateway.module.spec.ts",
+        "libs/gateway/nest/src/index.ts",
+        "test/clarify-gateway-module-boundaries.spec.test.mjs",
+        "test/milestone-8-identity-gateway.test.mjs",
+        "test/oauth-resource-server-auth.spec.test.mjs",
+        "test/structural-mcp-review.test.mjs",
+        "docs/evidence/clarify-gateway-module-boundaries/T-202.md"
+      ],
+      "refs": [
+        "US-116",
+        "AC-245"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": [
+    "T-202 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
+}

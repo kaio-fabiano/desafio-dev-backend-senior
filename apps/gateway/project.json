@@ -7,8 +7,16 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/pnpm-lock.yaml",
+        "{workspaceRoot}/tsconfig.base.json"
+      ],
+      "outputs": ["{workspaceRoot}/dist/out-tsc/apps/gateway"],
       "options": {
-        "command": "node --experimental-transform-types --check apps/gateway/src/main.ts"
+        "command": "tsc -p apps/gateway/tsconfig.app.json --emitDeclarationOnly false --rewriteRelativeImportExtensions"
       }
     },
     "typecheck": {
@@ -17,16 +25,22 @@
         "command": "tsc -p apps/gateway/tsconfig.app.json --noEmit"
       }
     },
+    "test-typecheck": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
+      "options": { "command": "tsc -p apps/gateway/tsconfig.spec.json" }
+    },
     "test": {
+      "dependsOn": ["test-typecheck"],
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/gateway-federation-refactor.test.mjs test/marco-0-sse.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-8-identity-gateway.test.mjs test/resolve-gateway-sse-todos.test.mjs test/structural-gateway-review.test.mjs"
+        "command": "vitest run apps/gateway && NODE_ENV=test TSX_TSCONFIG_PATH=tsconfig.base.json node --import tsx --test --test-reporter=tap test/gateway-federation-refactor.test.mjs test/marco-0-sse.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-8-identity-gateway.test.mjs test/resolve-gateway-sse-todos.test.mjs test/structural-gateway-review.test.mjs"
       }
     },
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types apps/gateway/src/main.ts"
+        "command": "TSX_TSCONFIG_PATH=tsconfig.base.json node --import tsx apps/gateway/src/main.ts"
       }
     }
   }

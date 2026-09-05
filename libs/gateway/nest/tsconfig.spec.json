@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": { "noEmit": true, "rootDir": "../../.." },
+  "include": ["src/**/*.ts", "../../../libs/platform/nest/src/**/*.ts"],
+  "exclude": []
+}

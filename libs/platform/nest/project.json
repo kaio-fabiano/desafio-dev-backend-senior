@@ -9,7 +9,15 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p libs/platform/nest/tsconfig.lib.json"
-      }
+      },
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/pnpm-lock.yaml",
+        "{workspaceRoot}/tsconfig.base.json"
+      ],
+      "outputs": ["{workspaceRoot}/dist/out-tsc/libs/platform/nest"]
     },
     "typecheck": {
       "executor": "nx:run-commands",

@@ -9,13 +9,26 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p libs/gateway/nest/tsconfig.lib.json"
-      }
+      },
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/pnpm-lock.yaml",
+        "{workspaceRoot}/tsconfig.base.json"
+      ],
+      "outputs": ["{workspaceRoot}/dist/out-tsc/libs/gateway/nest"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p libs/gateway/nest/tsconfig.lib.json --noEmit"
       }
+    },
+    "test-typecheck": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
+      "options": { "command": "tsc -p libs/gateway/nest/tsconfig.spec.json" }
     },
     "lint": {
       "executor": "nx:run-commands",
@@ -24,9 +37,10 @@
       }
     },
     "test": {
+      "dependsOn": ["test-typecheck"],
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/gateway-federation-refactor.test.mjs"
+        "command": "vitest run libs/gateway/nest && NODE_ENV=test TSX_TSCONFIG_PATH=tsconfig.base.json node --import tsx --test --test-reporter=tap test/gateway-federation-refactor.test.mjs"
       }
     }
   }

@@ -9,8 +9,11 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
   // Quando: a Gateway, MCP, Order Workflow, Identity, or Payment token is issued
   // Então: each owned protected resource has an explicit audience and allowed scopes, while WordPress session integration remains outside this OAuth trust model
   const [resources, factory, journey] = await Promise.all([
-    readFile('libs/identity/nest/src/auth/resource-audiences.ts', 'utf8'),
-    readFile('libs/identity/nest/src/auth/better-auth.factory.ts', 'utf8'),
+    readFile('libs/identity/nest/src/oauth-issuer/oauth-resources.ts', 'utf8'),
+    readFile(
+      'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+      'utf8',
+    ),
     readFile('apps/e2e/src/journey.ts', 'utf8'),
   ]);
   for (const resource of [
@@ -28,11 +31,20 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
   assert.equal(
     [
       ...resources.matchAll(
-        /\[OAUTH_RESOURCES\.[^\]]+\]: MARKETPLACE_OAUTH_SCOPES/g,
+        /\[OAUTH_RESOURCES\.[^\]]+\]: DELEGATED_OAUTH_SCOPES/g,
       ),
     ].length,
     5,
   );
+  for (const scope of [
+    'mcp:tools',
+    'marketplace:read',
+    'cart:read',
+    'orders:read',
+    'cart:write',
+  ]) {
+    assert.match(resources, new RegExp(`['"]${scope}['"]`));
+  }
   for (const audience of [
     'GATEWAY',
     'IDENTITY',
@@ -42,6 +54,7 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
   ]) {
     assert.match(journey, new RegExp(`${audience}_AUDIENCE,`));
   }
+  assert.match(journey, /underScoped/);
   assert.doesNotMatch(resources, /wordpress/i);
 });
 
@@ -100,7 +113,7 @@ test('AC-176: NestJS resource servers use Better Auth verification @spec:AC-176'
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts',
+      'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
       'utf8',
     ),
     readFile('libs/identity/nest/src/identity.module.ts', 'utf8'),
@@ -190,11 +203,12 @@ test('AC-178: SSE validates the same bearer token @spec:AC-178', async () => {
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/subscriptions/sse-handler.ts',
+      'apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts',
       'utf8',
     ),
   ]);
-  assert.match(gateway, /await verify\(toRequest\(raw\)\)/);
+  assert.match(gateway, /authenticated\.set\(raw, await verify\(raw\)\)/);
+  assert.match(gateway, /GatewayContext/);
   assert.match(downstream, /authorization: context\.authorization/);
   assert.match(orderWorkflow, /await verify\(toOAuthRequest\(raw\)\)/);
   assert.match(orderWorkflow, /auth,/);
@@ -212,7 +226,7 @@ test('AC-179: Native-first boundaries are documented and executable @spec:AC-179
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts',
+      'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
       'utf8',
     ),
   ]);
@@ -262,16 +276,16 @@ test('AC-181: Authentication and scope authorization have distinct outcomes @spe
 });
 
 test('AC-182: Gateway and subgraphs share one token verification policy @spec:AC-182', async () => {
-  const [gatewayVerifier, gatewayModule] = await Promise.all([
+  const [gatewayVerifier, gatewayAuthModule] = await Promise.all([
     readFile('libs/gateway/nest/src/auth/token-verifier.service.ts', 'utf8'),
-    readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
+    readFile('libs/gateway/nest/src/auth/gateway-auth.module.ts', 'utf8'),
   ]);
   assert.doesNotMatch(
     gatewayVerifier,
     /verifyAccessTokenRequest|requestToResourceInput/,
   );
   assert.match(gatewayVerifier, /OAuthResourceService/);
-  assert.match(gatewayModule, /OAuthResourceModule\.register/);
+  assert.match(gatewayAuthModule, /OAuthResourceModule\.register/);
 });
 
 test('AC-183: Authentication composition contains no redundant wrappers or context state @spec:AC-183', async () => {
@@ -284,8 +298,14 @@ test('AC-183: Authentication composition contains no redundant wrappers or conte
       'apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts',
       'utf8',
     ),
-    readFile('libs/identity/nest/src/auth/better-auth.factory.ts', 'utf8'),
-    readFile('libs/identity/nest/src/auth/better-auth.module.ts', 'utf8'),
+    readFile(
+      'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+      'utf8',
+    ),
+    readFile(
+      'libs/identity/nest/src/better-auth/better-auth.module.ts',
+      'utf8',
+    ),
   ]);
   assert.doesNotMatch(guard, /context\.subject\s*=/);
   assert.match(resolver, /OAuthSubject/);

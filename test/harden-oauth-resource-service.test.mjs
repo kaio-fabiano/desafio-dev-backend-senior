@@ -95,7 +95,10 @@ test('AC-215: Critical verifier coverage meets the project standard @spec:AC-215
   assert.match(config, /functions: 100/);
   assert.match(config, /lines: 100/);
   assert.match(config, /statements: 100/);
-  assert.match(config, /src\/\{auth,oauth-resource\}/);
+  assert.match(
+    config,
+    /src\/\{auth,better-auth,oauth,oauth-resource,registration,wordpress\}/,
+  );
 });
 
 test('AC-215: OAuth resource files are grouped by feature responsibility @spec:AC-215', async () => {
