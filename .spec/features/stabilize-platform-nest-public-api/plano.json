@@ -1,0 +1,37 @@
+{
+  "runId": "desafio-dev-backend-senior-stabilize-platform-nest-public-api-mtnqxjs6",
+  "feature": "stabilize-platform-nest-public-api",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": "gpt-5.6-sol",
+  "esforcoForcado": "high",
+  "geradoEm": "2026-09-05 02:10",
+  "branchTrabalho": "spec/stabilize-platform-nest-public-api",
+  "baseDir": ".spec/features/stabilize-platform-nest-public-api",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-stabilize-platform-nest-public-api-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-182",
+      "titulo": "Stabilize the platform NestJS public API",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/platform/nest/src/index.ts",
+        "test/platform-nest-public-api.test.mjs"
+      ],
+      "refs": [
+        "US-110",
+        "AC-224"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": [
+    "T-182 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
+}

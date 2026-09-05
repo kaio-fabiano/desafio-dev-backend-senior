@@ -2,25 +2,29 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const source = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
+const source = (path) =>
+  readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('@spec:AC-092 NestJS owns shared configuration and lifecycle resources through providers', async () => {
-  const [module, environment, resource, index] = await Promise.all([
-    source('libs/platform/nest/src/config/config.module.ts'),
-    source('libs/platform/nest/src/config/environment.factory.ts'),
-    source('libs/platform/nest/src/lifecycle/resource.provider.ts'),
-    source('libs/platform/nest/src/index.ts'),
+test('@spec:AC-092 NestJS owns shared configuration through providers', async () => {
+  const [gateway, identity, orderWorkflow] = await Promise.all([
+    source('apps/gateway/src/app.module.ts'),
+    source('apps/identity-subgraph/src/app.module.ts'),
+    source('apps/order-workflow-subgraph/src/app.module.ts'),
   ]);
 
-  assert.match(module, /Global\(\)\(PlatformConfigModule\)/);
-  assert.match(module, /provide: ENVIRONMENT, useFactory: environmentFactory/);
-  assert.match(module, /exports: \[ENVIRONMENT\]/);
-  assert.match(environment, /Object\.freeze\(\{ \.\.\.environment \}\)/);
-  assert.match(resource, /implements OnModuleInit, OnApplicationShutdown/);
-  assert.match(resource, /protected abstract create\(\): T \| Promise<T>/);
-  assert.match(resource, /await this\.resource\?\.close\(\)/);
-  assert.match(index, /PlatformConfigModule/);
-  assert.match(index, /ResourceProvider/);
+  for (const root of [gateway, identity, orderWorkflow]) {
+    assert.match(root, /ConfigModule\.forRoot/);
+  }
+});
+
+test('@spec:AC-219 unused lifecycle abstractions are absent from platform-nest', async () => {
+  const index = await source('libs/platform/nest/src/index.ts');
+
+  await assert.rejects(
+    source('libs/platform/nest/src/lifecycle/resource.provider.ts'),
+    { code: 'ENOENT' },
+  );
+  assert.doesNotMatch(index, /ResourceProvider|ManagedResource/);
 });
 
 test('@spec:AC-103 Nx quality gates enforce the reusable NestJS composition boundary', async () => {

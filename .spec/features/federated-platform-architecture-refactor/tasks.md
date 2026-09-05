@@ -19,7 +19,7 @@
 - Refs: US-047, AC-092, US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
-- Arquivos: libs/platform/nest/src/config/config.module.ts, libs/platform/nest/src/config/environment.factory.ts, libs/platform/nest/src/lifecycle/resource.provider.ts, libs/platform/nest/src/index.ts, libs/platform/nest/project.json, libs/platform/nest/tsconfig.json, libs/platform/nest/tsconfig.lib.json, test/nest-provider-composition.test.mjs
+- Arquivos: apps/gateway/src/app.module.ts, apps/identity-subgraph/src/app.module.ts, apps/order-workflow-subgraph/src/app.module.ts, libs/platform/nest/src/index.ts, libs/platform/nest/project.json, libs/platform/nest/tsconfig.json, libs/platform/nest/tsconfig.lib.json, test/nest-provider-composition.test.mjs
 - Notas: Add only providers shared by at least two NestJS applications. Do not create generic base services, repositories, or speculative factories.
 
 ## T-067 — Refactor Identity Federation around NestJSBetterAuth providers [concluida]

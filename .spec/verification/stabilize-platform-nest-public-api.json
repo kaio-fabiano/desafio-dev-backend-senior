@@ -1,0 +1,22 @@
+{
+  "feature": "stabilize-platform-nest-public-api",
+  "timestamp": "2026-09-05T02:12:41.364Z",
+  "gitRev": "5b44058",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 211,
+  "results": {
+    "AC-224": {
+      "status": "pass",
+      "testName": "AC-224: platform-nest keeps a minimal public entrypoint @spec:AC-224",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

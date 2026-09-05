@@ -1,0 +1,22 @@
+{
+  "feature": "remove-unused-resource-provider",
+  "timestamp": "2026-09-05T02:23:43.811Z",
+  "gitRev": "5b44058",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 211,
+  "results": {
+    "AC-219": {
+      "status": "pass",
+      "testName": "@spec:AC-219 unused lifecycle abstractions are absent from platform-nest",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}
