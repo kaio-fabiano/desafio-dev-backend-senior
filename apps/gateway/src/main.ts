@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { json, type NextFunction, type Request, type Response } from 'express';
 import 'reflect-metadata';
 
@@ -15,7 +16,8 @@ async function bootstrap() {
       request.path === '/stream' ? next() : parseJson(request, response, next),
   );
   app.enableShutdownHooks();
-  await app.listen(Number(process.env.PORT ?? 3000));
+  const config = app.get(ConfigService);
+  await app.listen(Number(config.get('PORT', '3000')));
 }
 
 if (import.meta.main) void bootstrap();

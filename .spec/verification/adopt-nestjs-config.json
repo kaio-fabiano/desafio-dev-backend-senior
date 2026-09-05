@@ -1,0 +1,32 @@
+{
+  "feature": "adopt-nestjs-config",
+  "timestamp": "2026-09-05T02:14:49.288Z",
+  "gitRev": "5b44058",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 211,
+  "results": {
+    "AC-216": {
+      "status": "pass",
+      "testName": "AC-216: official NestJS configuration is active in every application @spec:AC-216",
+      "method": "tap"
+    },
+    "AC-217": {
+      "status": "pass",
+      "testName": "AC-217: bootstrap ports preserve their environment contract through dependency injection @spec:AC-217",
+      "method": "tap"
+    },
+    "AC-218": {
+      "status": "pass",
+      "testName": "AC-218: custom environment plumbing is removed @spec:AC-218",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

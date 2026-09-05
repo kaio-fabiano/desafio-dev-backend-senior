@@ -1,0 +1,48 @@
+{
+  "runId": "desafio-dev-backend-senior-adopt-nestjs-config-mtnmx7pb",
+  "feature": "adopt-nestjs-config",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-05 00:18",
+  "branchTrabalho": "spec/adopt-nestjs-config",
+  "baseDir": ".spec/features/adopt-nestjs-config",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-adopt-nestjs-config-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-176",
+      "titulo": "Replace custom environment plumbing with NestJS Config",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "libs/platform/nest/src/config",
+        "libs/platform/nest/src/index.ts",
+        "libs/gateway/nest/src",
+        "libs/identity/nest/src",
+        "apps/gateway/src",
+        "apps/identity-subgraph/src",
+        "apps/order-workflow-subgraph/src",
+        "test/nest-provider-composition.test.mjs",
+        "test/adopt-nestjs-config.test.mjs",
+        "vitest.config.ts",
+        ".spec/features/adopt-nestjs-config/evidence/tdd.md"
+      ],
+      "refs": [
+        "US-106",
+        "AC-216",
+        "AC-217",
+        "AC-218"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

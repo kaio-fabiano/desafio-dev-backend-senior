@@ -1,5 +1,6 @@
 import type { MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { Module, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 import { GatewayModule } from '@desafio-dev-backend-senior/source/gateway-nest';
 import { HealthController } from './health.controller.ts';
@@ -19,7 +20,10 @@ export class AppModule implements NestModule {
 }
 
 Module({
-  imports: [GatewayModule],
+  imports: [
+    ConfigModule.forRoot({ cache: true, isGlobal: true }),
+    GatewayModule,
+  ],
   controllers: [HealthController],
   providers: [GatewaySseMiddleware],
 })(AppModule);

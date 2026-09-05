@@ -1,6 +1,7 @@
 import { OAuthResourceService } from '@desafio-dev-backend-senior/source/platform-nest';
 import type { MikroORM } from '@mikro-orm/core';
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { GraphQLSchemaHost } from '@nestjs/graphql';
 import { json, type NextFunction, type Request, type Response } from 'express';
 import 'reflect-metadata';
@@ -11,7 +12,6 @@ import {
   createOrderWorkflowSseHandler,
   registerDeferredSseRoute,
 } from './subscriptions/sse-handler.ts';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bodyParser: false });
   const parseJson = json();
@@ -35,7 +35,8 @@ async function bootstrap() {
       (request) => oauth.verify(request),
     ),
   );
-  await app.listen(Number(process.env.PORT ?? 3000));
+  const config = app.get(ConfigService);
+  await app.listen(Number(config.get('PORT', '3000')));
 }
 
 void bootstrap();

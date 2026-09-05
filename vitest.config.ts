@@ -19,7 +19,6 @@ export default defineConfig({
       include: [
         'libs/platform/nest/src/oauth-resource/graphql/*.ts',
         'libs/platform/nest/src/oauth-resource/verification/*.ts',
-        'libs/platform/nest/src/config/environment.factory.ts',
       ],
       reporter: ['text', 'json-summary', 'html'],
       excludeAfterRemap: true,
