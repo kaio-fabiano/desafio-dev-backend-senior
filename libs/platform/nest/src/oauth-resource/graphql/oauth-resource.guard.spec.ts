@@ -1,16 +1,34 @@
-import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  SetMetadata,
+  UnauthorizedException,
+  type Type,
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host.js';
 import { APIError } from 'better-auth';
 import { describe, expect, it, vi } from 'vitest';
 
-import type { OAuthClaims } from '../oauth-resource.types.ts';
-import { OAuthCredentialError } from '../verification/oauth-resource.errors.ts';
+import type {
+  OAuthClaims,
+} from '../oauth-resource.types.ts';
+import {
+  OAUTH_AUTHENTICATION_MESSAGES,
+  OAuthCredentialError,
+} from '../verification/oauth-resource.errors.ts';
 import { GraphqlOAuthResourceGuard } from './oauth-resource.guard.ts';
-import { oauthSubjectFactory } from './oauth-subject.decorator.ts';
-import { RequireScopes } from './require-scopes.decorator.ts';
+import { REQUIRED_SCOPES } from './require-scopes.decorator.ts';
 
-function graphqlExecution(context: object): ExecutionContextHost {
-  const execution = new ExecutionContextHost([{}, {}, context, {}]);
+function graphqlExecution(
+  context: object,
+  constructorRef?: Type,
+  handler?: (...args: never[]) => unknown,
+): ExecutionContextHost {
+  const execution = new ExecutionContextHost(
+    [{}, {}, context, {}],
+    constructorRef,
+    handler,
+  );
   execution.setType('graphql');
   return execution;
 }
@@ -59,8 +77,71 @@ describe('GraphqlOAuthResourceGuard', () => {
     await expect(guard.canActivate(graphqlExecution(context))).resolves.toBe(
       true,
     );
+    await expect(guard.canActivate(graphqlExecution(context))).resolves.toBe(
+      true,
+    );
     expect(verify).toHaveBeenCalledOnce();
     expect(context).toMatchObject({ auth });
+  });
+
+  it('AC-220: requires every scope with case-sensitive matching @spec:AC-220', async () => {
+    expect(OAUTH_AUTHENTICATION_MESSAGES.requiredScopeMissing).toBe(
+      'Required OAuth scope is missing',
+    );
+    const guard = new GraphqlOAuthResourceGuard(
+      { verify: vi.fn() } as never,
+      {
+        getAllAndOverride: () => ['orders:read', 'cart:write'],
+      } as never,
+    );
+    const context = {
+      auth: {
+        audience: ['resource'],
+        claims: {},
+        scopes: ['orders:read', 'CART:WRITE'],
+        subject: 'buyer-1',
+      },
+    };
+
+    await expect(guard.canActivate(graphqlExecution(context))).rejects.toThrow(
+      OAUTH_AUTHENTICATION_MESSAGES.requiredScopeMissing,
+    );
+  });
+
+  it('prefers method scope metadata over class scope metadata', async () => {
+    class Resolver {
+      operation(): boolean {
+        return true;
+      }
+    }
+    SetMetadata(REQUIRED_SCOPES, ['class:read'])(Resolver);
+    const descriptor = Object.getOwnPropertyDescriptor(
+      Resolver.prototype,
+      'operation',
+    );
+    SetMetadata(REQUIRED_SCOPES, ['method:read'])(
+      Resolver.prototype,
+      'operation',
+      descriptor as PropertyDescriptor,
+    );
+    const guard = new GraphqlOAuthResourceGuard(
+      { verify: vi.fn() } as never,
+      new Reflector(),
+    );
+    const context = {
+      auth: {
+        audience: ['resource'],
+        claims: {},
+        scopes: ['method:read'],
+        subject: 'buyer-1',
+      },
+    };
+
+    await expect(
+      guard.canActivate(
+        graphqlExecution(context, Resolver, Resolver.prototype.operation),
+      ),
+    ).resolves.toBe(true);
   });
 
   it('returns ForbiddenException when verified claims lack a required scope', async () => {
@@ -120,43 +201,5 @@ describe('GraphqlOAuthResourceGuard', () => {
     await expect(
       guard.canActivate(graphqlExecution({ req: { headers: {} } })),
     ).rejects.toBe(operationalFailure);
-  });
-});
-
-describe('OAuth GraphQL decorators', () => {
-  it('stores the required scopes as Nest metadata', () => {
-    class Resolver {
-      operation(): boolean {
-        return true;
-      }
-    }
-
-    const decorate = RequireScopes('orders:read', 'cart:write');
-    const descriptor = Object.getOwnPropertyDescriptor(
-      Resolver.prototype,
-      'operation',
-    );
-    expect(descriptor).toBeDefined();
-    decorate(Resolver.prototype, 'operation', descriptor as PropertyDescriptor);
-
-    const values = Reflect.getMetadataKeys(Resolver.prototype.operation).map(
-      (key) => Reflect.getMetadata(key, Resolver.prototype.operation),
-    );
-    expect(values).toContainEqual(['orders:read', 'cart:write']);
-  });
-
-  it('returns the authenticated subject from GraphQL context', () => {
-    expect(
-      oauthSubjectFactory(
-        undefined,
-        graphqlExecution({ auth: { subject: 'buyer-1' } }) as never,
-      ),
-    ).toBe('buyer-1');
-  });
-
-  it('rejects a GraphQL context without an authenticated subject', () => {
-    expect(() =>
-      oauthSubjectFactory(undefined, graphqlExecution({}) as never),
-    ).toThrow('Authenticated subject is required');
   });
 });

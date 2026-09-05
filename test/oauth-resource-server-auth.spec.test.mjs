@@ -324,8 +324,8 @@ test('AC-184: Authentication changes remain compatible with canonical CI runtime
     readFile('apps/order-workflow-subgraph/Dockerfile', 'utf8'),
   ]);
 
-  assert.doesNotMatch(nestModule, /@Module\s*\(/);
-  assert.match(nestModule, /Module\(\{\}\)\(OAuthResourceModule\)/);
+  assert.match(nestModule, /@Module\s*\(\{\}\)/);
+  assert.doesNotMatch(nestModule, /Module\(\{\}\)\(OAuthResourceModule\)/);
   assert.match(architectureTest, /class ArchitectureBoundariesTest/);
   assert.match(paymentHandlerTest, /class PaymentHandlerTest/);
   for (const containerDefinition of [compose, ...nodeDockerfiles]) {

@@ -1,11 +1,11 @@
 {
   "feature": "oauth-resource-server-auth",
-  "timestamp": "2026-09-04T23:55:08.428Z",
-  "gitRev": "382be0e",
+  "timestamp": "2026-09-05T02:00:20.209Z",
+  "gitRev": "5b44058",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 204,
+  "testsParsed": 210,
   "results": {
     "AC-174": {
       "status": "pass",

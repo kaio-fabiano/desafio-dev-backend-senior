@@ -29,5 +29,5 @@
 - Refs: US-104, AC-210, AC-211
 - Modelo: gpt-5.6-terra
 - Esforço: medio
-- Arquivos: package.json, pnpm-lock.yaml, vitest.config.ts, libs/platform/nest/project.json, libs/platform/nest/tsconfig.spec.json, libs/platform/nest/src/config/environment.factory.spec.ts, test/nest-provider-composition.test.mjs, test/nestjs-vitest-testing-standard.test.mjs, .spec/features/nestjs-vitest-testing-standard/evidence/tdd.md
+- Arquivos: package.json, pnpm-lock.yaml, vitest.config.ts, libs/platform/nest/project.json, libs/platform/nest/tsconfig.spec.json, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts, test/nest-provider-composition.test.mjs, test/nestjs-vitest-testing-standard.test.mjs, .spec/features/nestjs-vitest-testing-standard/evidence/tdd.md
 - Notas: Add version-aligned Nest testing and V8 coverage dependencies, configure isolated typed tests and the approved coverage floors, and expose Nx unit and coverage targets for the first reviewed library. Begin with a failing configuration contract and record Red, Green, and Refactor evidence.

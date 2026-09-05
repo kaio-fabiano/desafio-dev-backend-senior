@@ -7,8 +7,8 @@ import {
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { OAuthResourceService } from './oauth-resource.service.ts';
 import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
+import { OAuthResourceService } from './oauth-resource.service.ts';
 
 const options = {
   audience: 'https://gateway.marketplace.local',

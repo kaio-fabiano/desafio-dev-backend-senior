@@ -18,3 +18,8 @@ export type OAuthHttpRequest = {
   protocol?: string;
   url?: string;
 };
+
+export type OAuthGraphQLContext = {
+  auth?: OAuthClaims;
+  req?: OAuthHttpRequest;
+};

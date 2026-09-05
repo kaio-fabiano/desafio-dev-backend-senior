@@ -4,9 +4,9 @@ import {
 } from 'better-auth/oauth2';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
 import { toOAuthRequest } from './oauth-request.adapter.ts';
 import { OAuthResourceService } from './oauth-resource.service.ts';
-import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
 
 vi.mock('better-auth/oauth2', () => ({
   requestToResourceInput: vi.fn((request: Request) => ({

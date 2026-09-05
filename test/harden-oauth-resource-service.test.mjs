@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
+import { execFile } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import { promisify } from 'node:util';
+
+const execFileAsync = promisify(execFile);
 
 const source = (path) =>
   readFile(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -118,4 +122,40 @@ test('AC-215: OAuth resource files are grouped by feature responsibility @spec:A
   assert.match(subjectDecorator, /OAuthSubject/);
   assert.match(scopesDecorator, /RequireScopes/);
   assert.doesNotMatch(guard, /createParamDecorator|SetMetadata/);
+});
+
+test('AC-220/AC-221/AC-223: OAuth NestJS contracts pass in Vitest @spec:AC-220 @spec:AC-221 @spec:AC-223', async () => {
+  const { stdout } = await execFileAsync(
+    'pnpm',
+    [
+      'exec',
+      'vitest',
+      'run',
+      'libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts',
+      'libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.spec.ts',
+      'libs/platform/nest/src/oauth-resource/graphql/oauth-subject.decorator.spec.ts',
+      'libs/platform/nest/src/oauth-resource/graphql/require-scopes.decorator.spec.ts',
+    ],
+    { cwd: new URL('..', import.meta.url) },
+  );
+
+  assert.match(stdout, /16 passed/);
+});
+
+test('AC-222: GraphQL OAuth decorators have co-located unit specs @spec:AC-222', async () => {
+  const [guard, subject, scopes] = await Promise.all([
+    source(
+      'libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.spec.ts',
+    ),
+    source(
+      'libs/platform/nest/src/oauth-resource/graphql/oauth-subject.decorator.spec.ts',
+    ),
+    source(
+      'libs/platform/nest/src/oauth-resource/graphql/require-scopes.decorator.spec.ts',
+    ),
+  ]);
+
+  assert.doesNotMatch(guard, /OAuthSubject|RequireScopes/);
+  assert.match(subject, /OAuthSubject/);
+  assert.match(scopes, /RequireScopes/);
 });

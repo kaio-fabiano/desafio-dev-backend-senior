@@ -1,30 +1,25 @@
 {
-  "feature": "harden-oauth-resource-service",
-  "timestamp": "2026-09-05T02:21:55.511Z",
+  "feature": "harden-graphql-oauth-resource-guard",
+  "timestamp": "2026-09-05T02:18:19.842Z",
   "gitRev": "5b44058",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
   "testsParsed": 211,
   "results": {
-    "AC-212": {
+    "AC-220": {
       "status": "pass",
-      "testName": "AC-212: OAuth configuration and claims fail closed @spec:AC-212",
+      "testName": "AC-220/AC-221/AC-223: OAuth NestJS contracts pass in Vitest @spec:AC-220 @spec:AC-221 @spec:AC-223",
       "method": "tap"
     },
-    "AC-213": {
+    "AC-221": {
       "status": "pass",
-      "testName": "AC-213: Better Auth remains the cryptographic authority @spec:AC-213",
+      "testName": "AC-220/AC-221/AC-223: OAuth NestJS contracts pass in Vitest @spec:AC-220 @spec:AC-221 @spec:AC-223",
       "method": "tap"
     },
-    "AC-214": {
+    "AC-222": {
       "status": "pass",
-      "testName": "AC-214: OAuth request targets are reconstructed safely @spec:AC-214",
-      "method": "tap"
-    },
-    "AC-215": {
-      "status": "pass",
-      "testName": "AC-215: Critical verifier coverage meets the project standard @spec:AC-215",
+      "testName": "AC-222: GraphQL OAuth decorators have co-located unit specs @spec:AC-222",
       "method": "tap"
     }
   },
