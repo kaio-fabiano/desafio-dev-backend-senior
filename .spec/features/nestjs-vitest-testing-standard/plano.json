@@ -1,0 +1,63 @@
+{
+  "runId": "desafio-dev-backend-senior-nestjs-vitest-testing-standard-mtnjgx79",
+  "feature": "nestjs-vitest-testing-standard",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-04 22:42",
+  "branchTrabalho": "spec/nestjs-vitest-testing-standard",
+  "baseDir": ".spec/features/nestjs-vitest-testing-standard",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-nestjs-vitest-testing-standard-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-171",
+      "titulo": "Codify the NestJS Vitest and TDD contract",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "AGENTS.md",
+        ".spec/constituicao.md",
+        "docs/standards/nestjs-vitest-testing.md",
+        "test/nestjs-vitest-testing-standard.test.mjs",
+        ".spec/features/nestjs-vitest-testing-standard/evidence/tdd.md"
+      ],
+      "refs": [
+        "US-104",
+        "AC-208",
+        "AC-209",
+        "AC-210",
+        "AC-211"
+      ]
+    },
+    {
+      "id": "T-172",
+      "titulo": "Install and configure shared Vitest coverage tooling",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "vitest.config.ts",
+        "libs/platform/nest/project.json",
+        "libs/platform/nest/tsconfig.spec.json",
+        "libs/platform/nest/src/config/environment.factory.spec.ts",
+        "test/nest-provider-composition.test.mjs",
+        "test/nestjs-vitest-testing-standard.test.mjs",
+        ".spec/features/nestjs-vitest-testing-standard/evidence/tdd.md"
+      ],
+      "refs": [
+        "US-104",
+        "AC-210",
+        "AC-211"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

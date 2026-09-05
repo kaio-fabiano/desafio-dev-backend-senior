@@ -26,7 +26,37 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
+        "commands": [
+          "tsc -p libs/platform/nest/tsconfig.spec.json",
+          "vitest run libs/platform/nest",
+          "node --test --test-reporter=tap test/nest-provider-composition.test.mjs"
+        ]
+      }
+    },
+    "test-typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/platform/nest/tsconfig.spec.json"
+      }
+    },
+    "unit": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["test-typecheck"],
+      "options": {
+        "command": "vitest run libs/platform/nest"
+      }
+    },
+    "contract": {
+      "executor": "nx:run-commands",
+      "options": {
         "command": "node --test --test-reporter=tap test/nest-provider-composition.test.mjs"
+      }
+    },
+    "coverage": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["test-typecheck"],
+      "options": {
+        "command": "vitest run libs/platform/nest --coverage"
       }
     }
   }

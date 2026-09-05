@@ -12,7 +12,7 @@
   "scripts": {
     "acceptance:milestone-7": "nx run @desafio-dev-backend-senior/e2e:acceptance",
     "graphify:check": "node scripts/check-graphify-current.mjs",
-    "test:spec": "NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap test/*.test.mjs",
+    "test:spec": "NODE_ENV=test TSX_TSCONFIG_PATH=\"$PWD/tsconfig.base.json\" node --import tsx --test --test-reporter=tap test/*.test.mjs",
     "quality:nx": "nx run-many --target=build,typecheck,lint,test --all",
     "quality:affected": "nx affected --target=build,typecheck,lint,test",
     "quality:coverage": "nx run @desafio-dev-backend-senior/e2e:milestone-7-quality"
@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@modelcontextprotocol/sdk": "1.17.0",
+    "@nestjs/testing": "11.1.6",
     "@nx/eslint": "23.1.1",
     "@nx/eslint-plugin": "23.1.1",
     "@nx/gradle": "23.1.1",
@@ -57,6 +58,7 @@
     "@swc/helpers": "~0.5.18",
     "@types/express": "5.0.3",
     "@types/pg": "8.15.6",
+    "@vitest/coverage-v8": "3.2.4",
     "eslint": "9.39.1",
     "nx": "23.1.1",
     "prettier": "~3.6.2",

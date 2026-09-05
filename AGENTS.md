@@ -21,3 +21,16 @@
 - All project-authored code, identifiers, documentation, branch names, and
   commit messages must be written in English.
 - Only user-visible frontend copy may be written in Portuguese.
+
+## Test-Driven Development
+
+- Every task that changes production behavior must follow Red, Green, and
+  Refactor in that order.
+- Red must record a focused test failing for the expected behavioral reason
+  before production code changes.
+- Green must implement the minimum behavior required to pass the new test.
+- Refactor must preserve the complete relevant suite in a green state.
+- A task is not complete until its unit and integration tests, coverage,
+  typecheck, lint, `onp-spec verify`, and `onp-spec audit --ci` gates pass.
+- Follow `docs/standards/nestjs-vitest-testing.md` for NestJS and TypeScript
+  test classification, mocking, coverage, and file organization.

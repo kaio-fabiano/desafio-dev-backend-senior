@@ -25,3 +25,13 @@ AC_SEM_PROVA, TASK_CONCLUIDA_SEM_PROVA) — it requires no additional test.
 Keys and passwords come from environment variables, never hard-coded.
 
 - verificação(proibido): `(api[_-]?key|senha|password)\s*[:=]\s*['"][^'"]{8,}` em `apps/**/src/**/*.ts`
+
+## P-003 [DEVE] Production behavior is developed through TDD
+
+Every implementation task records an expected Red failure before production
+changes, reaches Green with the minimum implementation, and completes Refactor
+with the relevant test, coverage, typecheck, lint, verification, and audit gates
+green. Structural source inspection complements but never replaces behavioral
+unit, integration, contract, or end-to-end tests.
+
+- verificação(teste): @principle:P-003

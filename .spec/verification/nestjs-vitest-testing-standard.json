@@ -1,0 +1,37 @@
+{
+  "feature": "nestjs-vitest-testing-standard",
+  "timestamp": "2026-09-04T22:44:30.656Z",
+  "gitRev": "382be0e",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 199,
+  "results": {
+    "AC-208": {
+      "status": "pass",
+      "testName": "AC-208: the repository defines one official NestJS testing contract @spec:AC-208",
+      "method": "tap"
+    },
+    "AC-209": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003",
+      "method": "tap"
+    },
+    "AC-210": {
+      "status": "pass",
+      "testName": "AC-210: Vitest coverage fails below the agreed floor @spec:AC-210",
+      "method": "tap"
+    },
+    "AC-211": {
+      "status": "pass",
+      "testName": "AC-211: every reviewed NestJS library owns fast unit-test targets @spec:AC-211",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

@@ -33,13 +33,22 @@ test('@spec:AC-103 Nx quality gates enforce the reusable NestJS composition boun
   const parsedProject = JSON.parse(project);
   assert.equal(parsedProject.projectType, 'library');
   assert.deepEqual(parsedProject.tags, ['type:lib', 'scope:platform']);
-  assert.deepEqual(Object.keys(parsedProject.targets).sort(), [
+  for (const target of [
     'build',
+    'contract',
+    'coverage',
     'lint',
     'test',
+    'test-typecheck',
     'typecheck',
-  ]);
-  assert.match(parsedProject.targets.test.options.command, /nest-provider-composition/);
+    'unit',
+  ]) {
+    assert.ok(parsedProject.targets[target], `missing ${target} target`);
+  }
+  assert.match(
+    parsedProject.targets.test.options.commands.join('\n'),
+    /nest-provider-composition/,
+  );
   assert.match(tsconfig, /tsconfig\.lib\.json/);
   assert.match(libraryConfig, /src\/\*\*\/\*\.ts/);
 });
