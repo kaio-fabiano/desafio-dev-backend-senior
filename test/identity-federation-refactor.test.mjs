@@ -201,8 +201,14 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
 test('AC-096: Identity Federation rejects sensitive operations without propagated scope @spec:AC-096', async () => {
   const [resolver, guard, service] = await Promise.all([
     readFile(`${libraryRoot}/graphql/identity.resolver.ts`, 'utf8'),
-    readFile('libs/platform/nest/src/auth/oauth-resource.guard.ts', 'utf8'),
-    readFile('libs/platform/nest/src/auth/oauth-resource.service.ts', 'utf8'),
+    readFile(
+      'libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts',
+      'utf8',
+    ),
+    readFile(
+      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
+      'utf8',
+    ),
   ]);
   for (const operation of ['users', 'user', 'me', 'resolveReference']) {
     assert.match(

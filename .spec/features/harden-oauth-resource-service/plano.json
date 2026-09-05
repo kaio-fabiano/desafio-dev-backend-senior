@@ -1,0 +1,62 @@
+{
+  "runId": "desafio-dev-backend-senior-harden-oauth-resource-service-mtnlphrn",
+  "feature": "harden-oauth-resource-service",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-04 23:44",
+  "branchTrabalho": "spec/harden-oauth-resource-service",
+  "baseDir": ".spec/features/harden-oauth-resource-service",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-harden-oauth-resource-service-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-175",
+      "titulo": "Organize the OAuth resource feature by responsibility",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/platform/nest/src/auth/oauth-request.adapter.ts",
+        "libs/platform/nest/src/auth/oauth-resource.errors.ts",
+        "libs/platform/nest/src/auth/oauth-resource.guard.spec.ts",
+        "libs/platform/nest/src/auth/oauth-resource.guard.ts",
+        "libs/platform/nest/src/auth/oauth-resource.module.ts",
+        "libs/platform/nest/src/auth/oauth-resource.service.integration.spec.ts",
+        "libs/platform/nest/src/auth/oauth-resource.service.spec.ts",
+        "libs/platform/nest/src/auth/oauth-resource.service.ts",
+        "libs/platform/nest/src/auth/oauth-resource.tokens.ts",
+        "libs/platform/nest/src/auth/oauth-resource.types.ts",
+        "libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.spec.ts",
+        "libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts",
+        "libs/platform/nest/src/oauth-resource/graphql/oauth-subject.decorator.ts",
+        "libs/platform/nest/src/oauth-resource/graphql/require-scopes.decorator.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.integration.spec.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
+        "libs/platform/nest/src/index.ts",
+        "test/harden-oauth-resource-service.test.mjs",
+        "test/oauth-resource-server-auth.spec.test.mjs",
+        ".spec/features/harden-oauth-resource-service/evidence/tdd.md"
+      ],
+      "refs": [
+        "US-105",
+        "AC-215"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-173",
+    "T-174"
+  ],
+  "avisos": []
+}

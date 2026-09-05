@@ -13,7 +13,7 @@
 - Refs: US-088, AC-176
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/platform/nest/src/auth/oauth-resource.module.ts, libs/platform/nest/src/auth/oauth-resource.service.ts, libs/platform/nest/src/auth/oauth-resource.guard.ts, libs/platform/nest/src/index.ts, libs/identity/nest/src/identity.module.ts, test/oauth-resource-server-auth.spec.test.mjs
+- Arquivos: libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts, libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts, libs/platform/nest/src/index.ts, libs/identity/nest/src/identity.module.ts, test/oauth-resource-server-auth.spec.test.mjs
 - Notas: Wrap Better Auth verification with injectable options, execution-context extraction, typed claims, and metadata-based scopes; do not create a second token verifier.
 
 ## T-135 — Migrate Order Workflow GraphQL and SSE authentication [concluida]
@@ -48,7 +48,7 @@
 - Refs: US-092, AC-180, AC-181
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/platform/nest/src/auth/oauth-resource.service.ts, libs/platform/nest/src/auth/oauth-resource.guard.ts, libs/platform/nest/src/auth/oauth-resource.module.ts, libs/platform/nest/src/index.ts, test/oauth-resource-server-auth.spec.test.mjs
+- Arquivos: libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts, libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/platform/nest/src/index.ts, test/oauth-resource-server-auth.spec.test.mjs
 - Notas: Preserve the externally visible request method and URL for Better Auth DPoP verification, keep token verification in the service, enforce resolver scopes in the GraphQL guard, and distinguish unauthorized from forbidden outcomes.
 
 ## T-140 — Remove duplicated GraphQL authentication state and decorators [concluida]
@@ -62,7 +62,7 @@
 - Refs: US-092, AC-182
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/gateway/nest/src/auth/token-verifier.service.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, libs/gateway/nest/src/gateway.module.ts, libs/platform/nest/src/auth/oauth-resource.service.ts, test/gateway-federation-refactor.test.mjs, test/oauth-resource-server-auth.spec.test.mjs
+- Arquivos: libs/gateway/nest/src/auth/token-verifier.service.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, libs/gateway/nest/src/gateway.module.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts, test/gateway-federation-refactor.test.mjs, test/oauth-resource-server-auth.spec.test.mjs
 - Notas: Remove the second issuer/audience/lifetime verification policy while retaining Gateway correlation identifiers and typed custom-claim enrichment.
 
 ## T-142 — Simplify Better Auth composition and close quality gates [concluida]
@@ -76,5 +76,5 @@
 - Refs: US-092, AC-176, AC-179, AC-184
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/platform/nest/src/auth/oauth-resource.module.ts, libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/resource-audiences.ts, libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/Dockerfile, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/persistence/JdbcPaymentRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/order-workflow-subgraph/Dockerfile, apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/outbox/outbox.repository.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, compose.yaml, test/delivery-closure-rabbitmq.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs, test/production-happy-path-hardening.spec.test.js, test/structural-commerce-review.test.mjs, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
+- Arquivos: libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/resource-audiences.ts, libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/Dockerfile, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/persistence/JdbcPaymentRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/order-workflow-subgraph/Dockerfile, apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/outbox/outbox.repository.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, compose.yaml, test/delivery-closure-rabbitmq.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs, test/production-happy-path-hardening.spec.test.js, test/structural-commerce-review.test.mjs, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
 - Notas: Preserve NestJS module metadata without unsupported decorator syntax, give the structural Java test its actual unique name, run the exact failing Nx targets locally, refresh Graphify after commit, and require the fork PR CI to pass before merge.

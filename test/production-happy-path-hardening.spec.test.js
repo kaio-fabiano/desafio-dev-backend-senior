@@ -478,7 +478,7 @@ test('AC-137: Dependencies point toward application contracts @spec:AC-137', asy
       'utf8',
     ),
     readFile(
-      'libs/platform/nest/src/auth/oauth-resource.guard.ts',
+      'libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts',
       'utf8',
     ),
     readFile(

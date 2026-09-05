@@ -1,0 +1,37 @@
+{
+  "feature": "harden-oauth-resource-service",
+  "timestamp": "2026-09-04T23:50:29.047Z",
+  "gitRev": "382be0e",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 204,
+  "results": {
+    "AC-212": {
+      "status": "pass",
+      "testName": "AC-212: OAuth configuration and claims fail closed @spec:AC-212",
+      "method": "tap"
+    },
+    "AC-213": {
+      "status": "pass",
+      "testName": "AC-213: Better Auth remains the cryptographic authority @spec:AC-213",
+      "method": "tap"
+    },
+    "AC-214": {
+      "status": "pass",
+      "testName": "AC-214: OAuth request targets are reconstructed safely @spec:AC-214",
+      "method": "tap"
+    },
+    "AC-215": {
+      "status": "pass",
+      "testName": "AC-215: Critical verifier coverage meets the project standard @spec:AC-215",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}
