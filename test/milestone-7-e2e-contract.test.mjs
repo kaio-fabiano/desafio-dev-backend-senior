@@ -80,6 +80,7 @@ test('AC-067: one Vitest target owns real Compose startup and unconditional tear
 
 test('AC-075: Compose preserves decorator-capable Node image commands @spec:AC-075', () => {
   assert.doesNotMatch(compose, /--experimental-transform-types/);
+  assert.match(compose, /COPY --chown=app:app tsconfig\.base\.json/);
 });
 
 test('AC-071: OAuth distinguishes direct redirects from consent challenges @spec:AC-071', () => {

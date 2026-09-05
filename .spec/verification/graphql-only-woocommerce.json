@@ -1,0 +1,32 @@
+{
+  "feature": "graphql-only-woocommerce",
+  "timestamp": "2026-09-05T18:06:49.814Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 601,
+  "results": {
+    "AC-241": {
+      "status": "pass",
+      "testName": "AC-140: Order Workflow delegates order creation and reconciliation to WooGraphQL @spec:AC-140 @spec:AC-241 @spec:AC-242",
+      "method": "tap"
+    },
+    "AC-242": {
+      "status": "pass",
+      "testName": "AC-140: Order Workflow delegates order creation and reconciliation to WooGraphQL @spec:AC-140 @spec:AC-241 @spec:AC-242",
+      "method": "tap"
+    },
+    "AC-243": {
+      "status": "pass",
+      "testName": "finds and validates a WooCommerce order by its exact reference through GraphQL @spec:AC-229 @spec:AC-241 @spec:AC-243 # time=8.29ms",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

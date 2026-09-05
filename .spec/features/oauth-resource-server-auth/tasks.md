@@ -6,7 +6,7 @@
 - Refs: US-087, AC-174
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/resource-audiences.ts, test/oauth-resource-server-auth.spec.test.mjs
+- Arquivos: libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/oauth-issuer/oauth-resources.ts, test/oauth-resource-server-auth.spec.test.mjs
 - Notas: Add explicit owned-resource audiences and least-privilege scope ceilings without changing WordPress session authentication.
 
 ## T-134 — Build the shared NestJS OAuth resource module [concluida]
@@ -55,7 +55,7 @@
 - Refs: US-092, AC-181, AC-183
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/order-workflow-subgraph/src/graphql/authenticated-subject.decorator.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts, libs/identity/nest/src/identity.module.ts, test/oauth-resource-server-auth.spec.test.mjs
+- Arquivos: apps/order-workflow-subgraph/src/graphql/authenticated-subject.decorator.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts, libs/identity/nest/src/identity.module.ts, test/oauth-resource-server-auth.spec.test.mjs
 - Notas: Use the shared OAuth subject decorator, keep only workflow-session extraction locally, and make the GraphQL-only guard specialization explicit at every consumer.
 
 ## T-141 — Consolidate Gateway verification on the shared OAuth service [concluida]
@@ -69,12 +69,12 @@
 - Refs: US-092, AC-183
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/better-auth.module.ts, libs/identity/nest/src/auth/resource-audiences.ts, libs/identity/nest/src/graphql/identity.resolver.ts, libs/identity/nest/src/index.ts, test/identity-federation-refactor.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
+- Arquivos: libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/better-auth/better-auth.module.ts, libs/identity/nest/src/oauth-issuer/oauth-resources.ts, libs/identity/nest/src/graphql/identity.resolver.ts, libs/identity/nest/src/index.ts, test/identity-federation-refactor.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, .spec/features/federated-platform-architecture-refactor/spec.md, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
 - Notas: Call Better Auth plugin constructors directly, remove forwarding-only providers, run TypeScript, ESLint, focused and repository tests, the code-review loop, onp-spec verify, and onp-spec audit --ci.
 
 ## T-143 — Repair canonical CI compatibility [concluida]
 - Refs: US-092, AC-176, AC-179, AC-184
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/resource-audiences.ts, libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/Dockerfile, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/persistence/JdbcPaymentRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/order-workflow-subgraph/Dockerfile, apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/outbox/outbox.repository.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, compose.yaml, test/delivery-closure-rabbitmq.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs, test/production-happy-path-hardening.spec.test.js, test/structural-commerce-review.test.mjs, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
+- Arquivos: libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/oauth-issuer/oauth-resources.ts, libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/Dockerfile, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/persistence/JdbcPaymentRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/order-workflow-subgraph/Dockerfile, apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/outbox/outbox.repository.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, compose.yaml, test/delivery-closure-rabbitmq.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs, test/production-happy-path-hardening.spec.test.js, test/structural-commerce-review.test.mjs, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
 - Notas: Preserve NestJS module metadata without unsupported decorator syntax, give the structural Java test its actual unique name, run the exact failing Nx targets locally, refresh Graphify after commit, and require the fork PR CI to pass before merge.

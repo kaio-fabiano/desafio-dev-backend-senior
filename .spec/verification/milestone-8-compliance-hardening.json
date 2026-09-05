@@ -1,11 +1,11 @@
 {
   "feature": "milestone-8-compliance-hardening",
-  "timestamp": "2026-09-04T07:13:07.850Z",
-  "gitRev": "09d52c5",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-05T18:29:43.139Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 181,
+  "testsParsed": 222,
   "results": {
     "AC-078": {
       "status": "pass",
@@ -14,7 +14,7 @@
     },
     "AC-079": {
       "status": "pass",
-      "testName": "AC-079: Compose seeds one real Woo credential for delivered adapters @spec:AC-079",
+      "testName": "AC-079: Compose configures GraphQL service identities for delivered adapters @spec:AC-079",
       "method": "tap"
     },
     "AC-080": {
@@ -58,5 +58,10 @@
       "method": "tap"
     }
   },
-  "principles": {}
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
 }

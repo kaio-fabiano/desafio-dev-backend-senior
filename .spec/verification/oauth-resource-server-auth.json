@@ -1,11 +1,11 @@
 {
   "feature": "oauth-resource-server-auth",
-  "timestamp": "2026-09-05T02:00:20.209Z",
-  "gitRev": "5b44058",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-05T19:59:16.352Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 210,
+  "testsParsed": 601,
   "results": {
     "AC-174": {
       "status": "pass",

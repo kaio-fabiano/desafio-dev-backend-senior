@@ -1,0 +1,42 @@
+{
+  "runId": "desafio-dev-backend-senior-graphql-relay-dataloader-closure-mtn9qgak",
+  "feature": "graphql-relay-dataloader-closure",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-04 18:09",
+  "branchTrabalho": "spec/graphql-relay-dataloader-closure",
+  "baseDir": ".spec/features/graphql-relay-dataloader-closure",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-graphql-relay-dataloader-closure-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-166",
+      "titulo": "Preserve commercial Relay edges through federation",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/contracts/graphql/wordpress/schema.graphql",
+        "apps/apollo-mcp/schema.graphql",
+        "apps/e2e/src/journey.ts",
+        "apps/wordpress-integration/scripts/probe.mjs",
+        "test/graphql-relay-dataloader-closure.test.mjs"
+      ],
+      "refs": [
+        "US-100",
+        "AC-200"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-163",
+    "T-164",
+    "T-165"
+  ],
+  "avisos": []
+}

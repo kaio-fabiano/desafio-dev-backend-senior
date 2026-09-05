@@ -1,11 +1,11 @@
 {
   "feature": "harden-graphql-oauth-resource-guard",
-  "timestamp": "2026-09-05T02:18:19.842Z",
-  "gitRev": "5b44058",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-05T15:23:13.000Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 211,
+  "testsParsed": 573,
   "results": {
     "AC-220": {
       "status": "pass",

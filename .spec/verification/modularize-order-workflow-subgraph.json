@@ -1,0 +1,47 @@
+{
+  "feature": "modularize-order-workflow-subgraph",
+  "timestamp": "2026-09-05T19:48:43.592Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 601,
+  "results": {
+    "AC-246": {
+      "status": "pass",
+      "testName": "AC-246: persistence has its own module @spec:AC-246",
+      "method": "tap"
+    },
+    "AC-247": {
+      "status": "pass",
+      "testName": "AC-247: checkout has its own module @spec:AC-247",
+      "method": "tap"
+    },
+    "AC-248": {
+      "status": "pass",
+      "testName": "AC-248: order events have a coherent boundary @spec:AC-248",
+      "method": "tap"
+    },
+    "AC-249": {
+      "status": "pass",
+      "testName": "AC-249: messaging and saga processing are separated @spec:AC-249",
+      "method": "tap"
+    },
+    "AC-250": {
+      "status": "pass",
+      "testName": "AC-250: GraphQL is only the transport boundary @spec:AC-250",
+      "method": "tap"
+    },
+    "AC-251": {
+      "status": "pass",
+      "testName": "AC-251: public contracts retain executable coverage @spec:AC-251",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

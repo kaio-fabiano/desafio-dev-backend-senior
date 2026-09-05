@@ -27,7 +27,7 @@
 - Refs: US-047, AC-092, AC-093, AC-094, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/identity-subgraph/src/main.ts, apps/identity-subgraph/src/app.module.ts, libs/identity/nest/src/identity.module.ts, libs/identity/nest/src/auth/better-auth.factory.ts, libs/identity/nest/src/auth/better-auth.module.ts, libs/identity/nest/src/auth/resource-audiences.ts, libs/identity/nest/src/auth/registration.service.ts, libs/identity/nest/src/graphql/identity.resolver.ts, libs/identity/nest/src/index.ts, libs/identity/nest/project.json, libs/identity/nest/tsconfig.json, libs/identity/nest/tsconfig.lib.json, test/identity-federation-refactor.test.mjs
+- Arquivos: apps/identity-subgraph/src/main.ts, apps/identity-subgraph/src/app.module.ts, libs/identity/nest/src/identity.module.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/better-auth/better-auth.module.ts, libs/identity/nest/src/oauth-issuer/oauth-resources.ts, libs/identity/nest/src/registration/registration.service.ts, libs/identity/nest/src/graphql/identity.resolver.ts, libs/identity/nest/src/index.ts, libs/identity/nest/project.json, libs/identity/nest/tsconfig.json, libs/identity/nest/tsconfig.lib.json, test/identity-federation-refactor.test.mjs
 - Notas: Use the installed `@thallesp/nestjs-better-auth` integration and its documented handler. Remove direct Pool construction, manual HTTP bridging, closure-based adapters, and the custom PostgreSQL user repository only after equivalent tests exist.
 
 ## T-068 — Reduce Gateway to authenticated federation composition [concluida]
@@ -59,7 +59,7 @@
 - Refs: US-051, AC-102, US-048, AC-095
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/order-workflow-subscription.client.ts, apps/order-workflow-subgraph/src/subscriptions/sse-handler.ts, test/remove-wordpress-federation-runtime.spec.test.mjs
+- Arquivos: apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/order-workflow-subscription.client.ts, apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts, test/remove-wordpress-federation-runtime.spec.test.mjs
 - Notas: Preserve GraphQL-over-SSE at the authenticated gateway edge while Commerce remains the single owner of order-event publication and filtering.
 
 ## T-072 — Integrate the federated topology and retire the Stock runtime [concluida]
@@ -83,7 +83,7 @@
 - Refs: US-048, AC-096, US-049, AC-097
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, libs/identity/nest/src/auth/resource-audiences.ts, libs/identity/nest/src/auth/registration.service.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, test/identity-federation-refactor.test.mjs, test/gateway-federation-refactor.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs
+- Arquivos: apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, libs/identity/nest/src/oauth-issuer/oauth-resources.ts, libs/identity/nest/src/registration/registration.service.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, test/identity-federation-refactor.test.mjs, test/gateway-federation-refactor.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs
 - Notas: Install and pin WPGraphQL Headless Login, configure Better Auth as the sole OAuth/OIDC provider, and use the plugin-issued WordPress/WooCommerce session instead of custom HMAC identity headers. Preserve independent WordPress authorization and never expose the Site Token to clients.
 
 ## T-075 — Replace custom order and payment GraphQL operations with native owner APIs [concluida]

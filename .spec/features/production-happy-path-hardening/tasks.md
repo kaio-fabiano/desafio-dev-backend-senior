@@ -46,7 +46,7 @@
 
 ## T-123 — Reconcile checkout without a WordPress customer session [concluida]
 - Refs: US-064, AC-133, US-067, AC-136
-- Arquivos: apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.module.ts, apps/wordpress-integration/plugins/order-workflow-reconciliation, apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, docs/adrs/003-wordpress-federation.md, test/production-happy-path-hardening.spec.test.js, apps/e2e/src
+- Arquivos: apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts, apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts, apps/wordpress-integration/plugins/order-workflow-reconciliation, apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, docs/adrs/003-wordpress-federation.md, test/production-happy-path-hardening.spec.test.js, apps/e2e/src
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Preserve one-order idempotency by extending WooCommerce's native order search filters for both CPT and HPOS, then query the native REST collection with scoped service credentials instead of relying on an authenticated WordPress customer session. Document why the small private plugin is required.

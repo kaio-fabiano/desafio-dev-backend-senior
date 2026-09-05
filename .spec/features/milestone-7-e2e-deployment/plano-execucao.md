@@ -1,11 +1,11 @@
 # Plano de execução — milestone-7-e2e-deployment
 
-> gerado por `onp-spec plano` em 2026-09-03 01:10 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-05 20:24 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano milestone-7-e2e-deployment --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (7 já concluída(s): T-046, T-047, T-048, T-049, T-050, T-051, T-052)
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (9 já concluída(s): T-046, T-047, T-048, T-049, T-050, T-051, T-052, T-145, T-146)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/milestone-7-e2e-deployment`; levar para a main é decisão sua
 
@@ -13,7 +13,7 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-145 | Execute the final challenge handoff | `gpt-5.6-sol` | high |
+| T-207 | Restore executable E2E bootstrap | `gpt-5.6-terra` | medium |
 
 ## Gestão de branches e commits
 

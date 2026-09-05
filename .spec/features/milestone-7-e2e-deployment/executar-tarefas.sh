@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-7-e2e-deployment` em 2026-09-03 01:10
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-7-e2e-deployment` em 2026-09-05 20:24
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-7-e2e-deployment-mtktweue'
+RUN_ID='desafio-dev-backend-senior-milestone-7-e2e-deployment-mtou067r'
 FEATURE='milestone-7-e2e-deployment'
 BASE_BRANCH='spec/milestone-7-e2e-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,35 +168,35 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-145 (ordem do tasks.md) ──
-executar_seq_T_145() {
-  info 'sequencial T-145 — Execute the final challenge handoff'
-  if rodar_tarefa seq 'T-145' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-207 (ordem do tasks.md) ──
+executar_seq_T_207() {
+  info 'sequencial T-207 — Restore executable E2E bootstrap'
+  if rodar_tarefa seq 'T-207' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-145 — "Execute the final challenge handoff"
-  critérios/refs: AC-067 (The complete environment and journey run from one command), AC-068 (Registration and OAuth identity are proven end to end), AC-069 (Card checkout reaches the same terminal state everywhere), AC-070 (Pix checkout reaches the same terminal state everywhere), AC-071 (MCP parity and rejection are proven through the protocol), AC-072 (Critical domains meet the coverage floor), AC-073 (Gateway latency and batching meet their budgets), AC-074 (Nx provides one cached cross-language task graph), AC-075 (Production containers are complete and operable), AC-076 (SST changes are reproducible and secret-safe), AC-077 (Every required deliverable has executable evidence)
-  arquivos permitidos (e seus testes): README.md, docs/evidence/challenge-compliance.md, docs/runbooks/e2e.md, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json, graphify-out
-  mensagem de commit: "T-145 milestone-7-e2e-deployment: Execute the final challenge handoff"
+T-207 — "Restore executable E2E bootstrap"
+  critérios/refs: AC-067 (The complete environment and journey run from one command), AC-075 (Production containers are complete and operable)
+  arquivos permitidos (e seus testes): test/milestone-7-e2e-contract.test.mjs, vitest.config.ts, compose.yaml, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json
+  mensagem de commit: "T-207 milestone-7-e2e-deployment: Restore executable E2E bootstrap"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap` até passarem.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-145 milestone-7-e2e-deployment: Execute the final challenge handoff (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-207 milestone-7-e2e-deployment: Restore executable E2E bootstrap (auto-commit do plano)'
     fi
-    marcar_concluidas T-145
-    verde "✔ T-145 concluída"
+    marcar_concluidas T-207
+    verde "✔ T-207 concluída"
     return 0
   fi
-  vermelho "✘ T-145 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh --seq T-145"
-  FALHAS="$FALHAS T-145"
+  vermelho "✘ T-207 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh --seq T-207"
+  FALHAS="$FALHAS T-207"
   return 1
 }
 
@@ -253,13 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_145 || true
+  executar_seq_T_207 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-145 (sequencial)"
+  echo "  seq       T-207 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -294,7 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-145) evento --tipo inicio --escopo "seq:T-145"; iniciar_resumos; executar_seq_T_145 || true; encerrar "seq:T-145" ;;
+      T-207) evento --tipo inicio --escopo "seq:T-207"; iniciar_resumos; executar_seq_T_207 || true; encerrar "seq:T-207" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

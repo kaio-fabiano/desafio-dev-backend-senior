@@ -1,0 +1,57 @@
+{
+  "feature": "resolve-node-review-todos",
+  "timestamp": "2026-09-05T19:15:47.043Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 601,
+  "results": {
+    "AC-225": {
+      "status": "pass",
+      "testName": "loads Nest controller metadata @spec:AC-225 # time=9.23ms",
+      "method": "tap"
+    },
+    "AC-226": {
+      "status": "pass",
+      "testName": "AC-226: verifies claims, reuses rotated JWKS, and propagates the allowed edge context @spec:AC-226 # time=411.76ms",
+      "method": "tap"
+    },
+    "AC-227": {
+      "status": "pass",
+      "testName": "configures the supported Nest Better Auth instance and shared delegated resource scopes @spec:AC-227 # time=165.32ms",
+      "method": "tap"
+    },
+    "AC-228": {
+      "status": "pass",
+      "testName": "seeds idempotent PKCE clients with every delegated resource @spec:AC-063 @spec:AC-081 @spec:AC-228 # time=1004.37ms",
+      "method": "tap"
+    },
+    "AC-229": {
+      "status": "pass",
+      "testName": "grants one lease for concurrent claims of an operation key @spec:AC-229 # time=128.12ms",
+      "method": "tap"
+    },
+    "AC-230": {
+      "status": "pass",
+      "testName": "rolls back a claim when work after its insert fails @spec:AC-229 @spec:AC-230 # time=46.98ms",
+      "method": "tap"
+    },
+    "AC-231": {
+      "status": "pass",
+      "testName": "reports liveness independently and readiness after all dependencies connect @spec:AC-231 # time=15.98ms",
+      "method": "tap"
+    },
+    "AC-232": {
+      "status": "pass",
+      "testName": "@spec:AC-232 records a verifiable disposition for every original Node review marker",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

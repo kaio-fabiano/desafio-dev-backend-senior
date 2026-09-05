@@ -1,11 +1,11 @@
 {
   "feature": "graphql-relay-dataloader-closure",
-  "timestamp": "2026-09-04T18:21:12.459Z",
-  "gitRev": "0f65735",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=apps/order-workflow-subgraph/tsconfig.app.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-05T16:29:13.457Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 193,
+  "testsParsed": 574,
   "results": {
     "AC-197": {
       "status": "pass",
@@ -28,5 +28,10 @@
       "method": "tap"
     }
   },
-  "principles": {}
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
 }

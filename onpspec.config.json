@@ -1,15 +1,18 @@
 {
-  "testCommand": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "testCommand": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "testGlobs": [
     "test/**",
     "tests/**",
+    "apps/**/*.spec.ts",
+    "libs/**/*.spec.ts",
     "src/**/*.test.*",
     "src/**/*.spec.*",
     "__tests__/**"
   ],
   "srcGlobs": [
-    "src/**"
+    "apps/**/src/**/*.ts",
+    "libs/**/src/**/*.ts"
   ],
   "paralelo": {
     "model": "gpt-5.6-terra",

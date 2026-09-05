@@ -1,0 +1,22 @@
+{
+  "feature": "clarify-gateway-module-boundaries",
+  "timestamp": "2026-09-05T16:49:18.139Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 578,
+  "results": {
+    "AC-245": {
+      "status": "pass",
+      "testName": "AC-245: authentication has a focused NestJS module @spec:AC-245",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

@@ -21,10 +21,10 @@
 ## T-005 — Validate the Better Auth token at the gateway and MCP [concluida]
 
 - Refs: US-006, AC-011, AC-012
-- Arquivos: test/fixtures/auth-server.ts, apps/identity-subgraph/src/auth/config.ts, libs/gateway/nest/src/auth/token-verifier.service.ts, test/marco-0-auth.test.mjs, docs/adrs/002-oauth-multi-resource.md
+- Arquivos: test/fixtures/auth-server.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/gateway/nest/src/auth/token-verifier.service.ts, test/marco-0-auth.test.mjs, docs/adrs/002-oauth-multi-resource.md
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Notas: Execute after T-003; never accept audience or scope through a permissive fallback.
+- Notas: Execute after T-003; never accept audience or scope through a permissive fallback. The original app-local auth configuration was consolidated into the maintained Better Auth factory; the historical location remains in the feature evidence.
 
 ## T-006 — Validate WordPress plugin composition [concluida]
 

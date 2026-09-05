@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-milestone-7-e2e-deployment-mtktweue",
+  "runId": "desafio-dev-backend-senior-milestone-7-e2e-deployment-mtou067r",
   "feature": "milestone-7-e2e-deployment",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-03 01:10",
+  "geradoEm": "2026-09-05 20:24",
   "branchTrabalho": "spec/milestone-7-e2e-deployment",
   "baseDir": ".spec/features/milestone-7-e2e-deployment",
   "specDir": ".spec",
@@ -16,30 +16,20 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-145",
-      "titulo": "Execute the final challenge handoff",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
+      "id": "T-207",
+      "titulo": "Restore executable E2E bootstrap",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
       "arquivos": [
-        "README.md",
-        "docs/evidence/challenge-compliance.md",
-        "docs/runbooks/e2e.md",
+        "test/milestone-7-e2e-contract.test.mjs",
+        "vitest.config.ts",
+        "compose.yaml",
         ".spec/features/milestone-7-e2e-deployment/tasks.md",
-        ".spec/verification/milestone-7-e2e-deployment.json",
-        "graphify-out"
+        ".spec/verification/milestone-7-e2e-deployment.json"
       ],
       "refs": [
         "AC-067",
-        "AC-068",
-        "AC-069",
-        "AC-070",
-        "AC-071",
-        "AC-072",
-        "AC-073",
-        "AC-074",
-        "AC-075",
-        "AC-076",
-        "AC-077"
+        "AC-075"
       ]
     }
   ],
@@ -50,7 +40,9 @@
     "T-049",
     "T-050",
     "T-051",
-    "T-052"
+    "T-052",
+    "T-145",
+    "T-146"
   ],
   "avisos": []
 }

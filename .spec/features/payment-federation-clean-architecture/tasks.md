@@ -27,5 +27,5 @@
 - Refs: US-086, AC-173, AC-169, AC-172
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: .spec/features/payment-federation-clean-architecture, .spec/features/mercado-pago-payment-provider/tasks.md, .spec/verification/payment-federation-clean-architecture.json, .spec/verification/mercado-pago-payment-provider.json, libs/identity/nest/src/auth/better-auth.factory.ts, graphify-out
+- Arquivos: .spec/features/payment-federation-clean-architecture, .spec/features/mercado-pago-payment-provider/tasks.md, .spec/verification/payment-federation-clean-architecture.json, .spec/verification/mercado-pago-payment-provider.json, libs/identity/nest/src/better-auth/better-auth.factory.ts, graphify-out
 - Notas: Preserve Better Auth work as its own boundary, remove/consolidate failed generated commits before any push, refresh Graphify, run the code-review loop, ESLint, both feature verifies, and audit --ci.

@@ -1,11 +1,11 @@
 {
   "feature": "structural-improvement-program",
-  "timestamp": "2026-09-04T23:58:35.004Z",
-  "gitRev": "382be0e",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap",
+  "timestamp": "2026-09-05T19:40:22.050Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 204,
+  "testsParsed": 601,
   "results": {
     "AC-121": {
       "status": "pass",

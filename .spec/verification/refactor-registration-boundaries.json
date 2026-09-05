@@ -1,0 +1,62 @@
+{
+  "feature": "refactor-registration-boundaries",
+  "timestamp": "2026-09-05T18:42:14.103Z",
+  "gitRev": "9c421ee",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 601,
+  "results": {
+    "AC-233": {
+      "status": "pass",
+      "testName": "reads and validates GraphQL registration settings through ConfigService @spec:AC-233 @spec:AC-238 # time=17.65ms",
+      "method": "tap"
+    },
+    "AC-234": {
+      "status": "pass",
+      "testName": "maps an existing native customer to the registration conflict @spec:AC-234 # time=4.38ms",
+      "method": "tap"
+    },
+    "AC-235": {
+      "status": "pass",
+      "testName": "cleans only resources owned by the failed attempt @spec:AC-235 # time=19.85ms",
+      "method": "tap"
+    },
+    "AC-236": {
+      "status": "pass",
+      "testName": "composes focused authentication modules @spec:AC-236 # time=3.62ms",
+      "method": "tap"
+    },
+    "AC-237": {
+      "status": "pass",
+      "testName": "AC-237: pinned WordPress exposes the complete native GraphQL registration lifecycle @spec:AC-237",
+      "method": "tap"
+    },
+    "AC-238": {
+      "status": "pass",
+      "testName": "reads and validates GraphQL registration settings through ConfigService @spec:AC-233 @spec:AC-238 # time=17.65ms",
+      "method": "tap"
+    },
+    "AC-239": {
+      "status": "pass",
+      "testName": "AC-239: identity authentication uses sibling NestJS feature modules @spec:AC-239",
+      "method": "tap"
+    },
+    "AC-240": {
+      "status": "pass",
+      "testName": "AC-240/AC-244: OAuth issuer and resource verification have explicit ownership @spec:AC-240 @spec:AC-244",
+      "method": "tap"
+    },
+    "AC-244": {
+      "status": "pass",
+      "testName": "AC-240/AC-244: OAuth issuer and resource verification have explicit ownership @spec:AC-240 @spec:AC-244",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    }
+  }
+}

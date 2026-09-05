@@ -63,8 +63,8 @@
 - Refs: US-095, AC-189
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, apps/e2e/project.json, apps/identity-subgraph/src/auth/config.ts, apps/identity-subgraph/src/auth/seed.ts, libs/identity/nest/src/auth/better-auth.factory.ts, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java, apps/payment-federation/src/main/resources/application.yaml, test/milestone-6-mcp-oauth.test.mjs, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/mercado-pago-sandbox.md
-- Notas: Reuse the existing OAuth PKCE flow, request only the scopes required by sandbox payments, validate the JWT grant, and update the ignored local environment without printing the bearer token.
+- Arquivos: apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, apps/e2e/project.json, libs/identity/nest/src/better-auth/better-auth.factory.ts, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java, apps/payment-federation/src/main/resources/application.yaml, test/milestone-6-mcp-oauth.test.mjs, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/mercado-pago-sandbox.md
+- Notas: Reuse the existing OAuth PKCE flow, request only the scopes required by sandbox payments, validate the JWT grant, and update the ignored local environment without printing the bearer token. The retired app-local config and seed paths are now maintained by the Better Auth factory; their original ownership remains in the historical task record.
 
 ## T-154 — Use real WooCommerce orders in sandbox verification [concluida]
 
@@ -111,10 +111,11 @@
 - Refs: US-096, AC-191, AC-192, AC-193
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/subscriptions/postgres-order-event.relay.ts, libs/identity/nest/src/auth/better-auth.factory.ts, apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, test/mercado-pago-production-deployment.test.mjs
+- Arquivos: infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, test/mercado-pago-production-deployment.test.mjs
 - Notas: Fix the observed ECS startup failures at their source, preserve non-root containers where supported, prove database credentials are passed without stringifying secret outputs, keep durable broker data writable, permit sandbox bearer issuance only through HTTPS or loopback Identity endpoints, and require public health checks to succeed before release evidence is accepted.
 
 ## T-161 — Validate the merged sandbox release operationally [concluida]
+
 - Refs: US-095, US-096, AC-189, AC-190, AC-193
 - Modelo: gpt-5.6-sol
 - Esforço: alto
@@ -122,6 +123,7 @@
 - Notas: Synchronize the local checkout with the merged fork main, verify the deployed AWS sandbox health, execute one uniquely keyed Mercado Pago test payment through the public application, confirm signed webhook and WooCommerce order convergence, keep every credential and provider payload redacted, and update release evidence only from observed results.
 
 ## T-162 — Prove authenticated MCP multi-resource access [concluida]
+
 - Refs: US-099, AC-062, AC-063, AC-064, AC-196
 - Modelo: gpt-5.6-sol
 - Esforço: alto
