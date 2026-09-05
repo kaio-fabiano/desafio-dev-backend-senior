@@ -75,6 +75,21 @@ if ! wp user get payment-federation --field=ID >/dev/null 2>&1; then
   wp user create payment-federation payment-federation@example.test --role=shop_manager --user_pass=payment-federation-local-only
 fi
 wp user meta update payment-federation better_auth_user_id payment-federation
+if ! wp user get order-workflow --field=ID >/dev/null 2>&1; then
+  wp user create order-workflow order-workflow@example.test --role=shop_manager --user_pass=order-workflow-local-only
+fi
+wp user meta update order-workflow better_auth_user_id order-workflow
+
+wp role create identity_registrar "Identity Registrar" 2>/dev/null || true
+for capability in read list_users edit_users delete_users; do
+  wp cap add identity_registrar "$capability"
+done
+if ! wp user get identity-registrar --field=ID >/dev/null 2>&1; then
+  wp user create identity-registrar identity-registrar@example.test \
+    --role=identity_registrar --user_pass=identity-registrar-local-only
+fi
+wp user update identity-registrar --role=identity_registrar >/dev/null
+wp user meta update identity-registrar better_auth_user_id identity-registrar
 
 wp role create marketplace_vendor "Marketplace Vendor" 2>/dev/null || true
 for capability in read edit_products edit_published_products publish_products; do

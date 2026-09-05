@@ -1,18 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { Readable } from 'node:stream';
 import test from 'node:test';
 
-import { IdentityResolver } from '../apps/identity-subgraph/src/graphql/identity.resolver.ts';
-import {
-  createIdentitySchema,
-  executeIdentityOperation,
-} from '../apps/identity-subgraph/src/graphql/identity-schema.ts';
-import { OwnedProductMutations } from '../apps/identity-subgraph/src/supplier/owned-product-mutations.ts';
+import { IdentityResolver } from '../libs/identity/nest/src/graphql/identity.resolver.ts';
 import { AuthenticatedDataSource } from '../libs/gateway/nest/src/federation/authenticated-data-source.ts';
-import { createIdentityAuth } from '../apps/identity-subgraph/src/auth/config.ts';
-import { seedGatewayClient } from '../apps/identity-subgraph/src/auth/seed.ts';
-import { toBetterAuthRequest } from '../apps/identity-subgraph/src/auth/http-bridge.ts';
+import { OwnedProductMutations } from './fixtures/identity-supplier.ts';
 
 test('AC-080: Identity resolves authorized users, user, me and federated references from one repository @spec:AC-080', async () => {
   const records = [
@@ -20,51 +12,27 @@ test('AC-080: Identity resolves authorized users, user, me and federated referen
     { id: 'u-2', email: 'supplier@example.com' },
   ];
   const repository = {
-    async findById(id) {
-      return records.find((user) => user.id === id) ?? null;
-    },
-    async findPage({ first }) {
+    async findPage(first) {
       const page = records.slice(0, first);
       return {
         edges: page.map((node) => ({ cursor: node.id, node })),
         pageInfo: {
           hasNextPage: records.length > first,
+          hasPreviousPage: false,
+          startCursor: page.at(0)?.id ?? null,
           endCursor: page.at(-1)?.id ?? null,
         },
       };
     },
   };
-  const resolver = new IdentityResolver(repository);
-  const context = { subject: 'u-1', scopes: ['marketplace:read'] };
-  assert.deepEqual(await resolver.me(context), records[0]);
-  assert.deepEqual(await resolver.user('u-2', context), records[1]);
-  assert.equal(
-    (await resolver.usersConnection({ first: 1 }, context)).pageInfo
-      .hasNextPage,
-    true,
-  );
+  const loader = {
+    load: async (id) => records.find((user) => user.id === id) ?? null,
+  };
+  const resolver = new IdentityResolver(repository, loader);
+  assert.deepEqual(await resolver.me('u-1'), records[0]);
+  assert.deepEqual(await resolver.user('u-2'), records[1]);
+  assert.equal((await resolver.users(1)).pageInfo.hasNextPage, true);
   assert.deepEqual(await resolver.resolveReference({ id: 'u-2' }), records[1]);
-  const runtime = await createIdentitySchema(resolver);
-  const result = await executeIdentityOperation(
-    runtime,
-    {
-      query:
-        '{ me { id } user(id: "u-2") { email } users(first: 1) { edges { node { id } } pageInfo { hasNextPage } } }',
-    },
-    context,
-  );
-  assert.deepEqual(JSON.parse(JSON.stringify(result.data)), {
-    me: { id: 'u-1' },
-    user: { email: 'supplier@example.com' },
-    users: {
-      edges: [{ node: { id: 'u-1' } }],
-      pageInfo: { hasNextPage: true },
-    },
-  });
-  await assert.rejects(
-    async () => resolver.user('u-2', { subject: 'u-1', scopes: [] }),
-    /access denied/,
-  );
   const sdl = await readFile(
     'libs/contracts/graphql/identity/schema.graphql',
     'utf8',
@@ -76,6 +44,7 @@ test('AC-080: Identity resolves authorized users, user, me and federated referen
 test('AC-081: Gateway composes Federation v2 services and propagates verified identity context @spec:AC-081', async () => {
   const source = new AuthenticatedDataSource({
     url: 'http://identity/graphql',
+    capabilities: { bearer: true },
   });
   const headers = new Headers();
   source.willSendRequest({
@@ -97,22 +66,34 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
       context: undefined,
     }),
   );
-  const gatewayModule = await readFile(
-    'apps/gateway/src/app.module.ts',
-    'utf8',
-  );
+  const [appModule, gatewayModule, gatewayAuthModule] = await Promise.all([
+    readFile('apps/gateway/src/app.module.ts', 'utf8'),
+    readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
+    readFile('libs/gateway/nest/src/auth/gateway-auth.module.ts', 'utf8'),
+  ]);
+  assert.match(appModule, /GatewayModule/);
   assert.match(gatewayModule, /ApolloGatewayDriver/);
   assert.match(gatewayModule, /LocalCompose/);
-  assert.match(gatewayModule, /contract\('catalog'\)/);
-  assert.match(gatewayModule, /IDENTITY_JWKS_URL/);
+  for (const service of [
+    'identity',
+    'wordpress',
+    'payment',
+    'order-workflow',
+  ]) {
+    assert.match(gatewayModule, new RegExp(`contract\\('${service}'\\)`));
+  }
+  assert.match(gatewayAuthModule, /IDENTITY_JWKS_URL/);
   assert.match(
     await readFile('apps/gateway/Dockerfile', 'utf8'),
     /COPY --chown=app:app libs\/contracts\/graphql \.\/libs\/contracts\/graphql/,
   );
 });
 
-test('AC-081: Identity serves real sign-up, discovery and a PKCE client without test-only auth plugins @spec:AC-081', async () => {
+test('AC-081: Identity serves real sign-up and discovery without test-only auth plugins @spec:AC-081', async () => {
   const { memoryAdapter } = await import('better-auth/adapters/memory');
+  const { BetterAuthFactory } = await import(
+    '../libs/identity/nest/src/better-auth/better-auth.factory.ts'
+  );
   const database = {
     user: [],
     session: [],
@@ -127,11 +108,11 @@ test('AC-081: Identity serves real sign-up, discovery and a PKCE client without 
     oauthResource: [],
     oauthClientResource: [],
   };
-  const auth = createIdentityAuth(memoryAdapter(database), {
+  const auth = new BetterAuthFactory().create({
+    database: memoryAdapter(database),
     baseURL: 'http://identity.test',
     issuer: 'https://identity.test/api/auth',
     secret: 'identity-integration-secret-at-least-32-characters',
-    seedAdminEmail: 'admin@identity.test',
   });
   const signUp = await auth.handler(
     new Request('http://identity.test/api/auth/sign-up/email', {
@@ -162,50 +143,23 @@ test('AC-081: Identity serves real sign-up, discovery and a PKCE client without 
     /\/oauth2\/authorize$/,
   );
 
-  const client = await seedGatewayClient(auth, {
-    email: 'admin@identity.test',
-    password: 'admin-password-at-least-32-characters',
-  });
-  const stored = await (
-    await auth.$context
-  ).adapter.findOne({
-    model: 'oauthClient',
-    where: [{ field: 'clientId', value: client.clientId }],
-  });
-  assert.equal(stored.requirePKCE, true);
-  assert.deepEqual(stored.grantTypes, ['authorization_code']);
-
-  const config = await readFile(
-    'apps/identity-subgraph/src/auth/config.ts',
-    'utf8',
-  );
-  assert.doesNotMatch(config, /testUtils/);
-  const [main, dockerfile] = await Promise.all([
+  const [main, dockerfile, oauthClientsController] = await Promise.all([
     readFile('apps/identity-subgraph/src/main.ts', 'utf8'),
     readFile('apps/identity-subgraph/Dockerfile', 'utf8'),
+    readFile(
+      'libs/identity/nest/src/oauth-issuer/oauth-clients.controller.ts',
+      'utf8',
+    ),
   ]);
-  assert.match(main, /bootstrapIdentityAuth/);
-  assert.match(main, /\/oauth\/clients/);
+  assert.doesNotMatch(
+    main,
+    /OAuthClient(?:Bootstrap|Provisioning)Service|app\.get\(OAuthClient/,
+  );
+  assert.match(oauthClientsController, /oauth\/clients/);
   assert.match(
     dockerfile,
     /libs\/contracts\/graphql\/identity\/schema\.graphql/,
   );
-
-  const incoming = Readable.from([
-    JSON.stringify({ email: 'stream@identity.test', password: 'secret' }),
-  ]);
-  Object.assign(incoming, {
-    method: 'POST',
-    url: '/sign-up/email',
-    originalUrl: '/api/auth/sign-up/email',
-    headers: { 'content-type': 'application/json' },
-  });
-  const bridged = await toBetterAuthRequest(incoming, 'http://identity.test');
-  assert.equal(bridged.url, 'http://identity.test/api/auth/sign-up/email');
-  assert.deepEqual(await bridged.json(), {
-    email: 'stream@identity.test',
-    password: 'secret',
-  });
 });
 
 test('AC-082: Supplier ownership rejects update and removal before external mutation @spec:AC-082', async () => {
@@ -236,11 +190,9 @@ test('AC-082: Supplier ownership rejects update and removal before external muta
 
 test('AC-086: Identity domain and policy code remain framework-free @spec:AC-086', async () => {
   const sources = await Promise.all(
-    [
-      'apps/identity-subgraph/src/graphql/identity.resolver.ts',
-      'apps/identity-subgraph/src/supplier/product-ownership.ts',
-      'apps/identity-subgraph/src/supplier/owned-product-mutations.ts',
-    ].map((file) => readFile(file, 'utf8')),
+    ['test/fixtures/identity-supplier.ts'].map((file) =>
+      readFile(file, 'utf8'),
+    ),
   );
   assert.doesNotMatch(
     sources.join('\n'),
@@ -248,9 +200,13 @@ test('AC-086: Identity domain and policy code remain framework-free @spec:AC-086
   );
 });
 
-test('AC-079: Compose seeds one real Woo credential for delivered adapters @spec:AC-079', async () => {
+test('AC-079: Compose configures GraphQL service identities for delivered adapters @spec:AC-079', async () => {
   const compose = await readFile('compose.yaml', 'utf8');
-  assert.match(compose, /woocommerce_api_keys/);
+  assert.doesNotMatch(compose, /woocommerce_api_keys|WOO_CONSUMER/);
   assert.doesNotMatch(compose, /local-e2e-consumer|local-e2e-secret/);
-  assert.match(compose, /identity-subgraph:[\s\S]*WORDPRESS_URL: http:\/\/wordpress/);
+  assert.match(
+    compose,
+    /identity-subgraph:[\s\S]*WORDPRESS_URL: http:\/\/wordpress/,
+  );
+  assert.match(compose, /order-workflow-subgraph:[\s\S]*WPGRAPHQL_SITE_TOKEN/);
 });

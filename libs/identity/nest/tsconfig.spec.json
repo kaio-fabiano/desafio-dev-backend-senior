@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "../../..",
+    "tsBuildInfoFile": "../../../.nx/cache/tsbuildinfo/identity-nest.spec.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts", "../../../libs/platform/nest/src/**/*.ts"],
+  "exclude": []
+}

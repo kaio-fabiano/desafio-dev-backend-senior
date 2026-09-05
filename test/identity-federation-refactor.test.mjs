@@ -5,11 +5,14 @@ import test from 'node:test';
 const libraryRoot = 'libs/identity/nest/src';
 
 test('AC-092: NestJS owns Identity Federation runtime dependencies @spec:AC-092', async () => {
-  const [main, appModule, identityModule] = await Promise.all([
-    readFile('apps/identity-subgraph/src/main.ts', 'utf8'),
-    readFile('apps/identity-subgraph/src/app.module.ts', 'utf8'),
-    readFile(`${libraryRoot}/identity.module.ts`, 'utf8'),
-  ]);
+  const [main, appModule, identityModule, betterAuthModule] = await Promise.all(
+    [
+      readFile('apps/identity-subgraph/src/main.ts', 'utf8'),
+      readFile('apps/identity-subgraph/src/app.module.ts', 'utf8'),
+      readFile(`${libraryRoot}/identity.module.ts`, 'utf8'),
+      readFile(`${libraryRoot}/better-auth/better-auth.module.ts`, 'utf8'),
+    ],
+  );
 
   assert.match(
     main,
@@ -24,14 +27,16 @@ test('AC-092: NestJS owns Identity Federation runtime dependencies @spec:AC-092'
     /from ['"]@desafio-dev-backend-senior\/source\/identity-nest['"]/,
   );
   assert.match(identityModule, /providers:/);
-  assert.match(identityModule, /RegistrationService/);
+  assert.match(identityModule, /BetterAuthModule/);
+  assert.doesNotMatch(identityModule, /RegistrationService/);
+  assert.match(betterAuthModule, /RegistrationModule/);
   assert.match(identityModule, /IdentityResolver/);
 });
 
 test('AC-093: Better Auth uses direct plugins and its NestJS integration @spec:AC-093', async () => {
   const [moduleSource, { BetterAuthFactory }] = await Promise.all([
-    readFile(`${libraryRoot}/auth/better-auth.module.ts`, 'utf8'),
-    import(`../${libraryRoot}/auth/better-auth.factory.ts`),
+    readFile(`${libraryRoot}/better-auth/better-auth.module.ts`, 'utf8'),
+    import(`../${libraryRoot}/better-auth/better-auth.factory.ts`),
   ]);
   const { memoryAdapter } = await import('better-auth/adapters/memory');
   const database = {
@@ -72,50 +77,55 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     { IdentityResolver },
     { UserLoader },
     { RegistrationService, identityBootstrapHeaders },
+    { RegistrationCompensationService },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
     import(`../${libraryRoot}/graphql/user.loader.ts`),
-    import(`../${libraryRoot}/auth/registration.service.ts`),
+    import(`../${libraryRoot}/registration/registration.service.ts`),
+    import(
+      `../${libraryRoot}/registration/registration-compensation.service.ts`
+    ),
   ]);
   const users = [
     { id: 'u-1', email: 'buyer@example.test' },
     { id: 'u-2', email: 'supplier@example.test' },
   ];
-  const calls = [];
-  const adapter = {
-    async findOne(input) {
-      calls.push(input);
-      return users.find((user) => user.id === input.where[0].value) ?? null;
+  const repository = {
+    async findByIds(ids) {
+      return users.filter((user) => ids.includes(user.id));
     },
-    async findMany(input) {
-      calls.push(input);
-      const ids = input.where?.find(({ operator }) => operator === 'in')?.value;
-      if (Array.isArray(ids)) {
-        return users.filter(({ id }) => ids.includes(id));
-      }
-      return users.slice(0, input.limit);
+    async findPage(first) {
+      const page = users.slice(0, first);
+      return {
+        edges: page.map((node) => ({ cursor: node.id, node })),
+        pageInfo: {
+          hasNextPage: users.length > first,
+          hasPreviousPage: false,
+          startCursor: page.at(0)?.id ?? null,
+          endCursor: page.at(-1)?.id ?? null,
+        },
+      };
     },
   };
-  const auth = {
-    instance: { $context: Promise.resolve({ adapter }) },
-  };
-  const resolver = new IdentityResolver(auth, new UserLoader(auth));
+  const resolver = new IdentityResolver(repository, new UserLoader(repository));
   const context = { subject: 'u-1', scopes: ['marketplace:read'] };
 
   assert.deepEqual(await resolver.me(context.subject), users[0]);
   assert.deepEqual(await resolver.user('u-2', context), users[1]);
   assert.equal((await resolver.users(1, undefined, context)).edges.length, 1);
-  assert.deepEqual(
-    calls.map(({ model }) => model),
-    ['user', 'user', 'user'],
-  );
 
   const linked = [];
-  const registration = new RegistrationService({
-    async createOrLink() {
+  const wordpress = {
+    async createCustomer() {
       return { id: 'wp-44' };
     },
-  });
+    async deleteCustomer() {},
+    async linkSubject() {},
+  };
+  const registration = new RegistrationService(
+    wordpress,
+    new RegistrationCompensationService(wordpress),
+  );
   await registration.afterEmailSignUp({
     body: { email: 'buyer@example.test', name: 'Buyer', password: 'secret' },
     context: {
@@ -149,11 +159,17 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
   });
 
   const cleanup = [];
-  const failedRegistration = new RegistrationService({
-    async createOrLink() {
+  const unavailableWordPress = {
+    async createCustomer() {
       throw new Error('WordPress unavailable');
     },
-  });
+    async deleteCustomer() {},
+    async linkSubject() {},
+  };
+  const failedRegistration = new RegistrationService(
+    unavailableWordPress,
+    new RegistrationCompensationService(unavailableWordPress),
+  );
   await assert.rejects(
     () =>
       failedRegistration.afterEmailSignUp({
@@ -189,7 +205,7 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
   const sources = await Promise.all(
     [
       `${libraryRoot}/graphql/identity.resolver.ts`,
-      `${libraryRoot}/auth/registration.service.ts`,
+      `${libraryRoot}/registration/registration.service.ts`,
     ].map((file) => readFile(file, 'utf8')),
   );
   assert.doesNotMatch(
@@ -214,7 +230,7 @@ test('AC-096: Identity Federation rejects sensitive operations without propagate
     assert.match(
       resolver,
       new RegExp(
-        `RequireScopes\\(MARKETPLACE_READ_SCOPE\\)[\\s\\S]*'${operation}'`,
+        `@RequireScopes\\(MARKETPLACE_READ_SCOPE\\)[\\s\\S]*${operation}`,
       ),
     );
   }

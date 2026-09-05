@@ -1,20 +1,22 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
-import { AuthService } from '@thallesp/nestjs-better-auth';
 
-import type { IdentityAuth } from '../auth/better-auth.factory.ts';
 import type { IdentityUser } from './identity.resolver.ts';
+import { IdentityUserRepository } from './user.repository.ts';
 
 type PendingLoad = {
   id: string;
   resolve: (user: IdentityUser | null) => void;
   reject: (reason: unknown) => void;
 };
-
+@Injectable({ scope: Scope.REQUEST })
 export class UserLoader {
   private readonly cache = new Map<string, Promise<IdentityUser | null>>();
   private queue: PendingLoad[] = [];
 
-  constructor(private readonly auth: AuthService<IdentityAuth>) {}
+  constructor(
+    @Inject(IdentityUserRepository)
+    private readonly users: IdentityUserRepository,
+  ) {}
 
   load(id: string): Promise<IdentityUser | null> {
     const cached = this.cache.get(id);
@@ -34,14 +36,7 @@ export class UserLoader {
     const ids = pending.map(({ id }) => id);
 
     try {
-      const users = await (
-        await this.auth.instance.$context
-      ).adapter.findMany<IdentityUser>({
-        model: 'user',
-        where: [{ field: 'id', operator: 'in', value: ids }],
-        limit: ids.length,
-        select: ['id', 'email'],
-      });
+      const users = await this.users.findByIds(ids);
       const byId = new Map(users.map((user) => [user.id, user]));
       pending.forEach(({ id, resolve }) => resolve(byId.get(id) ?? null));
     } catch (error) {
@@ -49,6 +44,3 @@ export class UserLoader {
     }
   }
 }
-
-Injectable({ scope: Scope.REQUEST })(UserLoader);
-Inject(AuthService)(UserLoader, undefined, 0);

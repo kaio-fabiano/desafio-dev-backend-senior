@@ -10,5 +10,6 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"],
   "references": [{ "path": "../../platform/nest/tsconfig.lib.json" }]
 }

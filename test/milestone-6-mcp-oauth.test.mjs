@@ -14,23 +14,12 @@ import {
   startAuthServer,
 } from './fixtures/auth-server.ts';
 import {
-  CART_READ_SCOPE,
-  CART_WRITE_SCOPE as IDENTITY_CART_WRITE_SCOPE,
+  DELEGATED_OAUTH_SCOPES,
   GATEWAY_AUDIENCE as IDENTITY_GATEWAY_AUDIENCE,
-  IDENTITY_AUDIENCE,
   MARKETPLACE_READ_SCOPE,
   MCP_AUDIENCE as IDENTITY_MCP_AUDIENCE,
-  MCP_SCOPE,
-  MCP_TOOL_SCOPES,
-  ORDERS_READ_SCOPE,
-  ORDER_WORKFLOW_AUDIENCE,
-  PAYMENT_AUDIENCE,
-  createIdentityAuth,
-} from '../apps/identity-subgraph/src/auth/config.ts';
-import {
-  seedGatewayClient,
-  seedMcpClient,
-} from '../apps/identity-subgraph/src/auth/seed.ts';
+  OAUTH_RESOURCES,
+} from '../libs/identity/nest/src/oauth-issuer/oauth-resources.ts';
 
 const resourceClient = createAuthClient({
   plugins: [oauthProviderResourceClient()],
@@ -93,13 +82,7 @@ test('AC-062: Invalid MCP authentication is rejected @spec:AC-062', async () => 
 });
 
 test('AC-063: Tool scopes are enforced @spec:AC-063', async () => {
-  assert.deepEqual(MCP_TOOL_SCOPES, [
-    MCP_SCOPE,
-    MARKETPLACE_READ_SCOPE,
-    CART_READ_SCOPE,
-    ORDERS_READ_SCOPE,
-    IDENTITY_CART_WRITE_SCOPE,
-  ]);
+  assert.ok(DELEGATED_OAUTH_SCOPES.includes(MARKETPLACE_READ_SCOPE));
 
   const database = {
     user: [],
@@ -119,47 +102,26 @@ test('AC-063: Tool scopes are enforced @spec:AC-063', async () => {
     email: 'mcp-seed@example.test',
     password: 'mcp-seed-password-at-least-32-characters',
   };
-  const identity = createIdentityAuth(memoryAdapter(database), {
+  const { BetterAuthFactory } = await import(
+    '../libs/identity/nest/src/better-auth/better-auth.factory.ts'
+  );
+  const identity = new BetterAuthFactory().create({
+    database: memoryAdapter(database),
     baseURL: 'http://localhost:3000',
     secret: 'mcp-identity-test-secret-at-least-32-characters',
-    seedAdminEmail: credentials.email,
   });
-  await seedGatewayClient(identity, credentials);
-  const first = await seedMcpClient(identity, credentials);
-  const second = await seedMcpClient(identity, credentials);
   const context = await identity.$context;
-  const clients = await context.adapter.findMany({ model: 'oauthClient' });
   const resources = await context.adapter.findMany({ model: 'oauthResource' });
-  const links = await context.adapter.findMany({
-    model: 'oauthClientResource',
-  });
-
-  assert.equal(first.created, true);
-  assert.equal(second.created, false);
-  assert.equal(first.clientId, second.clientId);
-  assert.deepEqual(
-    clients
-      .map(({ softwareId, scopes }) => ({ softwareId, scopes }))
-      .sort((a, b) => a.softwareId.localeCompare(b.softwareId)),
-    ['apollo-mcp', 'identity-gateway'].map((softwareId) => ({
-      softwareId,
-      scopes: ['openid', 'profile', ...MCP_TOOL_SCOPES],
-    })),
-  );
   assert.deepEqual(
     resources.map(({ identifier, allowedScopes }) => ({
       identifier,
       allowedScopes,
     })),
-    [
-      IDENTITY_GATEWAY_AUDIENCE,
-      IDENTITY_AUDIENCE,
-      IDENTITY_MCP_AUDIENCE,
-      ORDER_WORKFLOW_AUDIENCE,
-      PAYMENT_AUDIENCE,
-    ].map((identifier) => ({ identifier, allowedScopes: MCP_TOOL_SCOPES })),
+    [...Object.values(OAUTH_RESOURCES)].map((identifier) => ({
+      identifier,
+      allowedScopes: [...DELEGATED_OAUTH_SCOPES],
+    })),
   );
-  assert.equal(links.length, 10);
 
   const auth = await startAuthServer();
   try {

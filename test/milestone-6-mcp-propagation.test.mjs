@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { test } from 'node:test';
 
-import { createGatewayAuthMiddleware } from '../apps/gateway/src/main.ts';
+import { AuthContextFactory } from '../libs/gateway/nest/src/auth/auth-context.factory.ts';
 
 const bearer = 'Bearer opaque-multi-audience-token';
 const issuer = 'https://identity.marketplace.test/api/auth';
@@ -18,13 +18,6 @@ const claims = {
   exp: now + 60,
   scope: 'marketplace:read',
 };
-const token = {
-  issuer,
-  audience,
-  requiredScopes: ['marketplace:read'],
-  now: () => now * 1000,
-};
-
 test('AC-064: The same bearer token reaches the gateway @spec:AC-064', async () => {
   const [config, compose, gatewayMain] = await Promise.all([
     readFile('apps/apollo-mcp/mcp.yaml', 'utf8'),
@@ -84,25 +77,34 @@ test('AC-065: MCP and GraphQL return the same buyer view @spec:AC-065', async ()
 async function gatewayHarness() {
   let verifications = 0;
   const authorizationHeaders = [];
-  const middleware = createGatewayAuthMiddleware(token, async (request) => {
-    verifications += 1;
-    authorizationHeaders.push(request.headers.get('authorization'));
-    if (request.headers.get('authorization') !== bearer) {
-      throw new Error('Invalid access token');
-    }
-    return {
-      authorization: bearer,
-      subject: claims.sub,
-      scopes: claims.scope.split(' '),
-      audience: [claims.aud],
-      requestId: 'mcp-test',
-    };
-  });
+  const authContext = new AuthContextFactory(
+    {
+      async verify(request) {
+        verifications += 1;
+        authorizationHeaders.push(request.headers.get('authorization'));
+        if (request.headers.get('authorization') !== bearer) {
+          throw new Error('Invalid access token');
+        }
+        return {
+          subject: claims.sub,
+          scopes: claims.scope.split(' '),
+          audience: claims.aud,
+        };
+      },
+    },
+    { get: () => audience },
+  );
   const server = createServer((request, response) => {
-    void middleware(request, response, () => {
-      response.writeHead(200, { 'content-type': 'application/json' });
-      response.end(JSON.stringify({ data: { me: buyer } }));
-    });
+    void authContext.create(request, response).then(
+      () => {
+        response.writeHead(200, { 'content-type': 'application/json' });
+        response.end(JSON.stringify({ data: { me: buyer } }));
+      },
+      () => {
+        response.writeHead(401, { 'content-type': 'application/json' });
+        response.end(JSON.stringify({ errors: [{ message: 'Unauthorized' }] }));
+      },
+    );
   });
   server.listen(0, '127.0.0.1');
   await once(server, 'listening');

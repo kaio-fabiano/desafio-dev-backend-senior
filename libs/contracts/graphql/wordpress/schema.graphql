@@ -4,8 +4,11 @@ extend schema
     import: ["@inaccessible", "@key", "@shareable"]
   )
 
-# Normalized publication contract. Runtime fields and resolvers remain owned by
-# WPGraphQL, WPGraphQL for WooCommerce, and wp-graphql-federations.
+# Normalized public publication contract. Runtime fields and resolvers remain
+# owned by WPGraphQL, WPGraphQL for WooCommerce, and wp-graphql-federations.
+# Identity registration calls native registerCustomer, updateCustomer,
+# deleteUser, and login operations directly on the private WordPress endpoint;
+# those administrative operations are deliberately not published here.
 interface Product @key(fields: "id") {
   id: ID!
   databaseId: Int!

@@ -1,5 +1,6 @@
 import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
 
+@Controller()
 export class HealthController {
   private initialized = false;
 
@@ -7,25 +8,14 @@ export class HealthController {
     this.initialized = true;
   }
 
+  @Get('health')
   health() {
     return { status: 'ok' };
   }
 
+  @Get('ready')
   ready() {
     if (!this.initialized) throw new ServiceUnavailableException();
     return { status: 'ready' };
   }
 }
-
-function descriptorFor(method: 'health' | 'ready') {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HealthController.prototype,
-    method,
-  );
-  if (!descriptor) throw new Error(`Missing ${method} health handler`);
-  return descriptor;
-}
-
-Controller()(HealthController);
-Get('health')(HealthController.prototype, 'health', descriptorFor('health'));
-Get('ready')(HealthController.prototype, 'ready', descriptorFor('ready'));

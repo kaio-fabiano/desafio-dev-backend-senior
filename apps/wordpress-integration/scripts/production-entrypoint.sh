@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-required=(WORDPRESS_URL WORDPRESS_ADMIN_PASSWORD WPGRAPHQL_SITE_TOKEN WOO_CONSUMER_KEY WOO_CONSUMER_SECRET)
+required=(WORDPRESS_URL WORDPRESS_ADMIN_PASSWORD WPGRAPHQL_SITE_TOKEN)
 for name in "${required[@]}"; do
   [[ -n "${!name:-}" ]] || { echo "$name is required" >&2; exit 1; }
 done
@@ -35,7 +35,21 @@ if ! "${wp[@]}" user get payment-federation --field=ID >/dev/null 2>&1; then
     --role=shop_manager --user_pass="$(openssl rand -hex 24)"
 fi
 "${wp[@]}" user meta update payment-federation better_auth_user_id payment-federation
-"${wp[@]}" eval 'global $wpdb; $table = $wpdb->prefix . "woocommerce_api_keys"; $key = getenv("WOO_CONSUMER_KEY"); if (!$wpdb->get_var($wpdb->prepare("SELECT key_id FROM {$table} WHERE consumer_key = %s", wc_api_hash($key)))) { $wpdb->insert($table, ["user_id" => 1, "description" => "Marketplace services", "permissions" => "read_write", "consumer_key" => wc_api_hash($key), "consumer_secret" => getenv("WOO_CONSUMER_SECRET"), "truncated_key" => substr($key, -7)]); }'
+if ! "${wp[@]}" user get order-workflow --field=ID >/dev/null 2>&1; then
+  "${wp[@]}" user create order-workflow order-workflow@example.test \
+    --role=shop_manager --user_pass="$(openssl rand -hex 24)"
+fi
+"${wp[@]}" user meta update order-workflow better_auth_user_id order-workflow
+"${wp[@]}" role create identity_registrar "Identity Registrar" 2>/dev/null || true
+for capability in read list_users edit_users delete_users; do
+  "${wp[@]}" cap add identity_registrar "$capability"
+done
+if ! "${wp[@]}" user get identity-registrar --field=ID >/dev/null 2>&1; then
+  "${wp[@]}" user create identity-registrar identity-registrar@marketplace.local \
+    --role=identity_registrar --user_pass="$(openssl rand -hex 24)"
+fi
+"${wp[@]}" user update identity-registrar --role=identity_registrar
+"${wp[@]}" user meta update identity-registrar better_auth_user_id identity-registrar
 "${wp[@]}" rewrite structure '/%postname%/' --hard
 "${wp[@]}" cache flush
 touch /var/www/html/.marketplace-ready

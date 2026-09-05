@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "../..",
+    "tsBuildInfoFile": "../../.nx/cache/tsbuildinfo/identity-subgraph.spec.tsbuildinfo"
+  },
+  "include": [
+    "src/**/*.ts",
+    "../../libs/identity/nest/src/**/*.ts",
+    "../../libs/platform/nest/src/**/*.ts"
+  ],
+  "exclude": []
+}

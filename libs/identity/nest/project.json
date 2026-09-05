@@ -9,12 +9,47 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p libs/identity/nest/tsconfig.lib.json"
+      },
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/pnpm-lock.yaml",
+        "{workspaceRoot}/tsconfig.base.json"
+      ],
+      "outputs": ["{workspaceRoot}/dist/out-tsc/libs/identity/nest"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/identity/nest/tsconfig.lib.json --noEmit"
+      }
+    },
+    "test-typecheck": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
+      "options": {
+        "command": "tsc -p libs/identity/nest/tsconfig.spec.json"
       }
     },
     "test": {
+      "dependsOn": ["test-typecheck"],
       "executor": "nx:run-commands",
+      "inputs": [
+        "default",
+        "{workspaceRoot}/package.json",
+        "{workspaceRoot}/pnpm-lock.yaml",
+        "{workspaceRoot}/tsconfig.base.json",
+        "{workspaceRoot}/vitest.config.ts",
+        "{workspaceRoot}/test/identity-federation-refactor.test.mjs",
+        "{workspaceRoot}/test/structural-identity-review.test.mjs",
+        "{workspaceRoot}/test/oauth-resource-server-auth.spec.test.mjs",
+        "{workspaceRoot}/test/graphql-relay-dataloader-closure.test.mjs",
+        "{workspaceRoot}/test/milestone-6-mcp-oauth.test.mjs",
+        "{workspaceRoot}/test/milestone-8-identity-gateway.test.mjs"
+      ],
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/identity-federation-refactor.test.mjs"
+        "command": "vitest run libs/identity/nest && NODE_ENV=test TSX_TSCONFIG_PATH=tsconfig.base.json node --import tsx --test --test-reporter=tap test/identity-federation-refactor.test.mjs test/structural-identity-review.test.mjs test/oauth-resource-server-auth.spec.test.mjs test/graphql-relay-dataloader-closure.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-8-identity-gateway.test.mjs"
       }
     }
   }

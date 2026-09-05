@@ -10,19 +10,16 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 
-import { BetterAuthModule } from './auth/better-auth.module.ts';
-import {
-  RegistrationService,
-  wordpressIdentityProvider,
-} from './auth/registration.service.ts';
+import { BetterAuthModule } from './better-auth/better-auth.module.ts';
 import { IdentityResolver } from './graphql/identity.resolver.ts';
 import { UserLoader } from './graphql/user.loader.ts';
+import { IdentityUserRepository } from './graphql/user.repository.ts';
+import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
 
-export class IdentityModule {}
-
-Module({
+@Module({
   imports: [
     BetterAuthModule,
+    OAuthIssuerModule,
     OAuthResourceModule.register({
       audience:
         process.env.IDENTITY_OAUTH_AUDIENCE ??
@@ -42,13 +39,14 @@ Module({
       }: {
         req: { headers: Record<string, string | string[] | undefined> };
       }) => ({ req }),
+      fieldResolverEnhancers: ['guards'],
     }),
   ],
   providers: [
+    IdentityUserRepository,
     IdentityResolver,
     UserLoader,
-    RegistrationService,
-    wordpressIdentityProvider,
     { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },
   ],
-})(IdentityModule);
+})
+export class IdentityModule {}
