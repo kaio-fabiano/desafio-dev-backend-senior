@@ -93,7 +93,7 @@
 - Esforço: medio
 - Notas: Follow Red, Green, Refactor for runtime tooling changes. Classify project-owned configuration and scripts, isolate environment and secret handling, remove mixed production TypeScript declarations where applicable, and keep acceptance helpers focused and deterministic. Do not create domain aggregates, repositories, or use cases for deployment and test tooling, and do not modify generated/cache/dependency paths.
 
-## T-224 — Close the repository-wide baseline and publish migration evidence [pendente]
+## T-224 — Close the repository-wide baseline and publish migration evidence [em-andamento]
 - Refs: US-121, US-122, US-126, AC-258, AC-259, AC-260, AC-261, AC-269
 - Arquivos: tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out, .spec/features/strict-nestjs-ddd-migration
 - Modelo: gpt-5.6-sol
