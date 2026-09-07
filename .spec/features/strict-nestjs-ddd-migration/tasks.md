@@ -16,8 +16,7 @@
 - Esforço: medio
 - Notas: Follow Red, Green, Refactor. Use the TypeScript compiler AST, report exact files/declarations, permit only dedicated-file exceptions, and reject any baseline growth. Scope the initial baseline to the stable Platform, Gateway, and Identity NestJS roots; explicitly reject Order Workflow files from this feature's task manifests.
 
-## T-211 — Migrate the shared NestJS platform library [pendente]
-
+## T-211 — Migrate the shared NestJS platform library [concluida]
 - Refs: US-120, US-121, AC-256, AC-257, AC-258
 - Arquivos: libs/platform/nest/src/oauth-resource, libs/platform/nest/src/index.ts, libs/platform/nest/src/**/*.spec.ts, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-terra
