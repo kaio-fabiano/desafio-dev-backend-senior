@@ -1,0 +1,147 @@
+{
+  "runId": "desafio-dev-backend-senior-strict-nestjs-ddd-migration-mtrfn4jj",
+  "feature": "strict-nestjs-ddd-migration",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-07 16:05",
+  "branchTrabalho": "spec/strict-nestjs-ddd-migration",
+  "baseDir": ".spec/features/strict-nestjs-ddd-migration",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-209",
+      "titulo": "Install the strict DDD governance contract",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "AGENTS.md",
+        ".spec/constituicao.md",
+        "docs/standards/strict-nestjs-ddd.md",
+        "docs/domain/context-map.md",
+        "docs/prds/01-arquitetura-e-dominio.md",
+        "test/strict-ddd-governance.test.mjs"
+      ],
+      "refs": [
+        "US-118",
+        "AC-252",
+        "AC-253"
+      ]
+    },
+    {
+      "id": "T-210",
+      "titulo": "Add the TypeScript AST architecture gate and legacy baseline",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "tools/architecture/strict-ddd-policy.mjs",
+        "tools/architecture/strict-ddd-scanner.mjs",
+        "tools/architecture/strict-ddd-legacy-baseline.json",
+        "test/strict-ddd-architecture.test.mjs",
+        "test/fixtures/strict-ddd/valid-use-case.ts",
+        "test/fixtures/strict-ddd/invalid-mixed-service.ts",
+        "test/fixtures/strict-ddd/valid-custom.decorator.ts",
+        "package.json"
+      ],
+      "refs": [
+        "US-119",
+        "US-120",
+        "AC-254",
+        "AC-255",
+        "AC-256",
+        "AC-257"
+      ]
+    },
+    {
+      "id": "T-211",
+      "titulo": "Migrate the shared NestJS platform library",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "libs/platform/nest/src/oauth-resource",
+        "libs/platform/nest/src/index.ts",
+        "libs/platform/nest/src/**/*.spec.ts",
+        "tools/architecture/strict-ddd-legacy-baseline.json"
+      ],
+      "refs": [
+        "US-120",
+        "US-121",
+        "AC-256",
+        "AC-257",
+        "AC-258"
+      ]
+    },
+    {
+      "id": "T-212",
+      "titulo": "Migrate the Gateway NestJS edge",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "libs/gateway/nest/src",
+        "apps/gateway/src",
+        "libs/gateway/nest/src/**/*.spec.ts",
+        "apps/gateway/src/**/*.spec.ts",
+        "test/oauth-resource-server-auth.spec.test.mjs",
+        "test/gateway-federation-refactor.test.mjs",
+        "tools/architecture/strict-ddd-legacy-baseline.json"
+      ],
+      "refs": [
+        "US-120",
+        "US-121",
+        "AC-256",
+        "AC-257",
+        "AC-258"
+      ]
+    },
+    {
+      "id": "T-213",
+      "titulo": "Migrate the Identity NestJS bounded context",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "libs/identity/nest/src",
+        "apps/identity-subgraph/src",
+        "libs/identity/nest/src/**/*.spec.ts",
+        "test/identity-federation-refactor.test.mjs",
+        "test/wordpress-registration-graphql.contract.test.mjs",
+        "tools/architecture/strict-ddd-legacy-baseline.json"
+      ],
+      "refs": [
+        "US-120",
+        "US-121",
+        "AC-256",
+        "AC-257",
+        "AC-258"
+      ]
+    },
+    {
+      "id": "T-216",
+      "titulo": "Remove the in-scope legacy baseline and close all migration gates",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "tools/architecture/strict-ddd-legacy-baseline.json",
+        "test/strict-ddd-architecture.test.mjs",
+        "docs/standards/strict-nestjs-ddd.md",
+        "docs/domain/context-map.md",
+        "docs/prds/01-arquitetura-e-dominio.md",
+        "graphify-out/graph.json",
+        "graphify-out/GRAPH_REPORT.md",
+        "graphify-out/graph.html"
+      ],
+      "refs": [
+        "US-121",
+        "AC-258",
+        "AC-259"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
