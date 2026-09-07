@@ -3,7 +3,7 @@ import { ROUTE_ARGS_METADATA } from '@nestjs/common/constants.js';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host.js';
 import { describe, expect, it } from 'vitest';
 
-import type { OAuthGraphQLContext } from '../oauth-graphql-context.ts';
+import type { OAuthGraphQLContext } from '../presentation/graphql/oauth-graphql-context.ts';
 import { OAuthSubject } from './oauth-subject.decorator.ts';
 
 function graphqlExecution(context: object): ExecutionContextHost {

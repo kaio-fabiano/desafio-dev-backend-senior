@@ -207,30 +207,6 @@
     {
       "code": "unclassified-production",
       "declaration": "missing approved layer",
-      "file": "libs/platform/nest/src/oauth-resource/graphql/required-scopes.metadata.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-claims.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-graphql-context.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-http-request.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
       "file": "libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts",
       "line": 1
     },
@@ -238,18 +214,6 @@
       "code": "unclassified-production",
       "declaration": "missing approved layer",
       "file": "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-authentication-messages.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
       "line": 1
     },
     {

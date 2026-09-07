@@ -1,7 +1,24 @@
 // Testes de spec da feature oauth-resource-server-auth — gerados por onp-spec scaffold
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
+
+const platformCoreFiles = async () => {
+  const roots = [
+    'libs/platform/nest/src/oauth-resource/application',
+    'libs/platform/nest/src/oauth-resource/domain',
+  ];
+  const files = [];
+  for (const root of roots) {
+    const entries = await readdir(root, { recursive: true }).catch(() => []);
+    files.push(
+      ...entries
+        .filter((entry) => entry.endsWith('.ts') && !entry.endsWith('.spec.ts'))
+        .map((entry) => `${root}/${entry}`),
+    );
+  }
+  return files;
+};
 
 // US-087 — Preserve OAuth proof across federation boundaries
 test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174', async () => {
@@ -211,10 +228,16 @@ test('AC-178: SSE validates the same bearer token @spec:AC-178', async () => {
       'utf8',
     ),
   ]);
-  assert.match(gateway, /this\.authenticated\.set\(raw, await this\.options\.verify\(raw\)\)/);
+  assert.match(
+    gateway,
+    /this\.authenticated\.set\(raw, await this\.options\.verify\(raw\)\)/,
+  );
   assert.match(gateway, /GatewayContext/);
   assert.match(downstream, /authorization: context\.authorization/);
-  assert.match(orderWorkflow, /await verify\(OAuthRequestAdapter\.toRequest\(raw\)\)/);
+  assert.match(
+    orderWorkflow,
+    /await verify\(OAuthRequestAdapter\.toRequest\(raw\)\)/,
+  );
   assert.match(orderWorkflow, /auth,/);
 });
 
@@ -361,4 +384,83 @@ test('AC-184: Authentication changes remain compatible with canonical CI runtime
   assert.match(compose, /SPRING_PROFILES_ACTIVE: local/);
   assert.match(nodeDockerfiles[2], /COPY .*package\.json .*package\.json/);
   assert.match(paymentDockerfile, /RUN gradle clean --no-daemon bootJar/);
+});
+
+test('AC-256: Platform authorization core dependencies point inward @spec:AC-256', async () => {
+  const files = await platformCoreFiles();
+
+  assert.ok(
+    files.length > 0,
+    'Platform authorization has no domain/application core',
+  );
+  for (const file of files) {
+    const source = await readFile(file, 'utf8');
+    assert.doesNotMatch(
+      source,
+      /from ['"](?:@nestjs|@apollo|@mikro-orm|better-auth|graphql|pg)(?:\/|['"])/,
+      `${file} imports an outer framework or vendor`,
+    );
+  }
+});
+
+test('AC-257: Platform authorization concepts use focused classes and abstract ports @spec:AC-257', async () => {
+  const files = await platformCoreFiles();
+  const sources = await Promise.all(
+    files.map(async (file) => [file, await readFile(file, 'utf8')]),
+  );
+
+  assert.ok(
+    sources.some(
+      ([file, source]) =>
+        file.endsWith('.port.ts') && /export abstract class/.test(source),
+    ),
+    'Platform authorization has no abstract application port',
+  );
+  for (const [file, source] of sources) {
+    assert.equal(
+      [...source.matchAll(/export (?:abstract )?class /g)].length,
+      1,
+      `${file} must export one focused class`,
+    );
+  }
+});
+
+test('AC-264: Platform policy and verification orchestration are framework-independent @spec:AC-264', async () => {
+  const files = await platformCoreFiles();
+
+  assert.ok(
+    files.some((file) => file.endsWith('required-scopes.policy.ts')),
+    'Required-scope policy still belongs to the GraphQL guard',
+  );
+  assert.ok(
+    files.some((file) => file.endsWith('verify-oauth-credential.use-case.ts')),
+    'Credential verification orchestration still belongs to the NestJS service',
+  );
+});
+
+test('AC-268: Platform migration keeps characterization evidence before boundary changes @spec:AC-268', async () => {
+  const [serviceSpec, guardSpec, integrationSpec] = await Promise.all([
+    readFile(
+      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts',
+      'utf8',
+    ),
+    readFile(
+      'libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.spec.ts',
+      'utf8',
+    ),
+    readFile(
+      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.integration.spec.ts',
+      'utf8',
+    ),
+  ]);
+
+  assert.match(
+    serviceSpec,
+    /normalizes a single audience and an absent scope claim/,
+  );
+  assert.match(guardSpec, /requires every scope with case-sensitive matching/);
+  assert.match(
+    integrationSpec,
+    /verifies signatures and standard claims through Better Auth/,
+  );
 });

@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 
-import { RequiredScopesMetadata } from './required-scopes.metadata.ts';
+import { RequiredScopesMetadata } from '../presentation/graphql/required-scopes.metadata.ts';
 
 export const RequireScopes = (...scopes: string[]) =>
   SetMetadata(RequiredScopesMetadata.key, scopes);
