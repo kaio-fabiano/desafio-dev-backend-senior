@@ -65,7 +65,7 @@
 - Esforço: alto
 - Notas: Follow Red, Green, Refactor. Extract framework-independent claims, required-scope policy, credential errors, verification orchestration, and abstract ports where they express stable access-control concepts. Keep decorators, guards, request conversion, vendor verification, providers, and modules in the NestJS adapter. Preserve the public package API where compatibility requires it and avoid inventing an aggregate for a stateless policy.
 
-## T-220 — Refactor the Gateway as a thin Clean Architecture edge [pendente]
+## T-220 — Refactor the Gateway as a thin Clean Architecture edge [concluida]
 - Refs: US-120, US-124, US-126, AC-256, AC-265, AC-268
 - Arquivos: libs/gateway, apps/gateway/src, test/gateway-federation-refactor.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-sol
