@@ -9,8 +9,7 @@
 - Esforço: baixo
 - Notas: Publish the canonical rules, add mandatory agent workflow clauses, assign new executable constitution principles, and record the strategic context map. This task changes governance only, not runtime behavior.
 
-## T-210 — Add the TypeScript AST architecture gate and legacy baseline [pendente]
-
+## T-210 — Add the TypeScript AST architecture gate and legacy baseline [concluida]
 - Refs: US-119, US-120, AC-254, AC-255, AC-256, AC-257
 - Arquivos: tools/architecture/strict-ddd-policy.mjs, tools/architecture/strict-ddd-scanner.mjs, tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, test/fixtures/strict-ddd/valid-use-case.ts, test/fixtures/strict-ddd/invalid-mixed-service.ts, test/fixtures/strict-ddd/valid-custom.decorator.ts, package.json
 - Modelo: gpt-5.6-terra
