@@ -1,27 +1,27 @@
-# Graph Report - desafio-dev-backend-senior  (2026-09-05)
+# Graph Report - desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential  (2026-09-07)
 
 ## Corpus Check
-- 625 files · ~318,478 words
+- 742 files · ~349,154 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4770 nodes · 8034 edges · 389 communities (264 shown, 73 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 111 edges (avg confidence: 0.83)
+- 5074 nodes · 8988 edges · 389 communities (289 shown, 53 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 110 edges (avg confidence: 0.83)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9c421ee9`
+- Built from commit: `fa9eb119`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- order-event.consumer.ts
+- order-saga.ts
 - Payment
 - dependencies
 - rabbitmq.ts
 - checkout.service.ts
 - order-workflow-subgraph/project.json
-- order-workflow.module.ts
+- checkout.module.ts
 - mercado-pago-sandbox.ts
 - PaymentView
 - gateway/tsconfig.spec.json
@@ -31,29 +31,30 @@
 - spec.js
 - org.junit.jupiter.api.Test
 - index.js
+- @nestjs/common
 - PaymentConfiguration.java
 - ADR 002 — OAuth multi-resource access token
 - ledger.js
 - Result
-- HealthController
+- @nestjs/config
 - Mapa do Projeto
 - onp-spec-driven
 - plano.js
-- authenticated-data-source.ts
-- order-workflow-subgraph/src/subscriptions/sse.middleware.ts
+- CommerceCookiePolicy
+- oauth-client-provisioning.service.ts
 - cli.js
 - Índice dos PRDs do marketplace
 - structural-improvement-program/executar-tarefas.sh
 - transaction-federation-refactor/executar-tarefas.sh
 - User stories
-- InventoryService
+- ReservationRequested
 - Gateway GraphQL federado
-- better-auth.factory.ts
+- modularize-order-workflow-subgraph/executar-tarefas.sh
 - mercado-pago-payment-provider/executar-tarefas.sh
 - production-happy-path-hardening/executar-tarefas.sh
 - Histórias
-- Q: porque existe essa federaćao do wordpress?
-- enum
+- Design: Strict NestJS DDD migration
+- schema.json
 - marco-0-pocs/executar-tarefas.sh
 - milestone-6-apollo-mcp/executar-tarefas.sh
 - oauth-resource-server-auth/executar-tarefas.sh
@@ -64,8 +65,8 @@
 - align-payment-federation-naming/executar-tarefas.sh
 - User stories
 - auth-server.ts
-- Q: Qual é o próximo passo depois do T-123?
-- ReservationRequested
+- clarify-gateway-module-boundaries/executar-tarefas.sh
+- java.sql.Connection
 - identity-subgraph/tsconfig.spec.json
 - compilerOptions
 - nestjs-vitest-testing-standard/executar-tarefas.sh
@@ -83,7 +84,7 @@
 - reconcile-architecture-decisions/executar-tarefas.sh
 - resolve-gateway-sse-todos/executar-tarefas.sh
 - stabilize-typescript-editor/executar-tarefas.sh
-- inputs
+- identity/nest/project.json
 - resolve-node-review-todos/executar-tarefas.sh
 - devDependencies
 - Spec: Milestone 0 — Compatibility proofs
@@ -95,14 +96,14 @@
 - Spec: Challenge compliance and delivery closure
 - Spec: Production happy path hardening
 - Plano de execução — structural-improvement-program
-- PostgresOrderEventRelay
+- OrderWorkflowRuntimeLifecycle
 - payment-federation/project.json
 - properties
 - identity.resolver.ts
 - Tasks: Federated platform architecture refactor
 - Tasks: Mercado Pago production deployment
 - Spec: Milestone 6 — Authenticated Apollo MCP
-- checkout.repository.ts
+- order-events.subscription.ts
 - properties
 - gateway/nest/tsconfig.json
 - registration.service.ts
@@ -110,12 +111,12 @@
 - Spec: Align Payment Federation naming
 - apollo-mcp/project.json
 - US-060 — Maintainable active platform structures
-- order-workflow-operations.service.ts
+- @mikro-orm/core
 - order-workflow-subgraph/tsconfig.spec.json
-- PaymentMigrationTest.java
+- refactor-registration-boundaries/executar-tarefas.sh
 - probe.mjs
-- required
-- federated-sse-gateway.ts
+- strict-nestjs-ddd-migration/executar-tarefas.sh
+- graphql
 - gateway/project.json
 - identity/nest/tsconfig.spec.json
 - properties
@@ -123,7 +124,7 @@
 - Plano de execução — milestone-6-apollo-mcp
 - Spec: Payment Federation clean architecture
 - stabilize-platform-nest-public-api/executar-tarefas.sh
-- better-auth.module.ts
+- Spec: Refactor registration boundaries
 - compilerOptions
 - Tasks: Challenge compliance and delivery closure
 - Plano de execução — marco-0-pocs
@@ -133,7 +134,7 @@
 - catalog-loaders.ts
 - MemoryRepository
 - US-111 — Close the Node review with verified corrections
-- enum
+- Spec: Strict NestJS DDD migration
 - Plano de execução — resolve-node-review-todos
 - Design: Federated platform architecture refactor
 - Tasks: Milestone 8 — Challenge compliance and production hardening
@@ -142,20 +143,20 @@
 - Candidatas — em observação, NÃO aplicar ainda
 - Spec: GraphQL Relay and DataLoader closure
 - HealthController
-- auth-context.factory.ts
+- AuthContextFactory
 - compilerOptions
 - package.json
 - Tasks: Milestone 7 — E2E, quality, and deployment
 - Spec: Remove retired applications
 - compilerOptions
-- traceContext
+- spanId
 - Design: Mercado Pago payment provider
 - Spec: Reconcile architecture decisions
 - Plano de execução — stabilize-typescript-editor
 - Spec: Stabilize TypeScript projects and editor behavior
 - Tasks: Structural improvement program
 - Tasks: Order workflow boundary refactor
-- architecture-boundaries.test.mjs
+- strict-ddd-scanner.mjs
 - Spec: Harden oauth resource service
 - scaffold.js
 - verify.js
@@ -208,17 +209,17 @@
 - ADR 009: Payment provider port and co-located Inventory participant
 - PRD 08 — Riscos e decisões pendentes
 - gateway/nest/tsconfig.lib.json
-- required
-- node-review-tooling.spec.ts
+- payload
+- vitest
 - Plano de execução — adopt-nestjs-config
 - Tasks: Milestone 0 — Compatibility proofs
 - Design: Milestone 8 — Challenge compliance and production hardening
 - Design: Native commerce and Order Workflow Federation
-- milestone-6-mcp-config.test.mjs
+- OrderWorkflowSubscriptionClient
 - ADR 0012: Native-first security boundaries
 - ADR 006: Reconcile WooCommerce checkout by a stable operation reference
 - ADR 008: Native commerce and a focused Order Workflow Federation
-- ADR 010: Mercado Pago payment provider
+- sse/sse.middleware.ts
 - Production happy path hardening review
 - Plano de execução — graphql-relay-dataloader-closure
 - Plano de execução — harden-oauth-resource-service
@@ -231,8 +232,8 @@
 - Tasks: Remove wordpress federation runtime
 - T-183 — Decorator runtime, test ownership, and coverage evidence
 - T-184 gateway authentication, federation, and loader evidence
-- Migration202609010003
-- AtomicRepository
+- @mikro-orm/migrations
+- PaymentConsumer
 - challenge-compliance.md
 - Deployment runbook
 - Local development runbook
@@ -254,13 +255,13 @@
 - T-188 evidence — inbox, outbox, messaging, and saga
 - T-189 evidence — workflow GraphQL, bootstrap, and SSE
 - T-190 — Node review integration
-- Migration202608270001
-- Migration202608270002
-- Migration202608280001
-- Migration202608280002
-- Migration202609010001
-- Migration202609010002
-- Migration202609010004
+- PaymentFederationTest
+- US-117 — Navigate and evolve the subgraph by responsibility
+- PRD 01 — Arquitetura e domínio
+- Tasks: Refactor registration boundaries
+- Spec: GraphQL-only WooCommerce integration
+- Plano de execução — clarify-gateway-module-boundaries
+- Spec: Clarify gateway module boundaries
 - order-workflow-reconciliation.php
 - install-plugins.sh
 - Milestone 4 payment and inventory saga
@@ -269,7 +270,7 @@
 - Tasks: Stabilize TypeScript projects and editor behavior
 - milestone-6-mcp-operations.test.mjs
 - index.mjs
-- gateway.module.ts
+- authenticated-data-source.ts
 - Tasks: GraphQL Relay and DataLoader closure
 - check-graphify-current.mjs
 - Tasks: Stable import ordering
@@ -306,12 +307,16 @@
 - TDD evidence
 - Tasks: Nestjs vitest testing standard
 - resolve-node-review-inventory.test.mjs
-- gateway-federation-refactor.test.mjs
+- scripts
+- better-auth.factory.ts
 - milestone-7-containers.test.mjs
+- Design: Modularize order workflow subgraph
 - typescript-editor-stability.test.mjs
 - vitest.config.ts
 - Template de constituição LGPD + Educação
+- Plano de execução — modularize-order-workflow-subgraph
 - delivery-closure-rabbitmq.test.mjs
+- Plano de execução — refactor-registration-boundaries
 - TDD evidence
 - Tasks: Adopt NestJS Config
 - Tasks: Document sse bootstrap simplification
@@ -319,63 +324,63 @@
 - Tasks: Harden oauth resource module
 - Tasks: Remove unused resource provider
 - Tasks: Stabilize platform nest public api
-- @apollo/subgraph
-- @as-integrations/express5
+- Plano de execução — strict-nestjs-ddd-migration
+- Tasks: Strict NestJS DDD migration
 - TODO.MD
-- @nestjs/common
-- @nestjs/config
-- @nestjs/core
-- @nestjs/graphql
-- @opentelemetry/api
-- @opentelemetry/auto-instrumentations-node
-- @opentelemetry/exporter-trace-otlp-http
-- better-auth
-- pg
-- reflect-metadata
-- @thallesp/nestjs-better-auth
-- TokenVerifierService
+- ADR 009: Use native WordPress GraphQL for identity registration
+- Registration boundary refactor review
+- Mercado Pago sandbox runbook
+- Design: GraphQL identity registration and NestJS feature modules
+- Tasks: Modularize order workflow subgraph
+- probe-registration.mjs
+- T-202 gateway module boundary evidence
+- Native WordPress GraphQL registration proof
+- Evidence: Modularize order workflow subgraph
+- traceContext
+- .constructor
+- exports
+- invalid-mixed-service.ts
+- operationKey
+- auth-context.factory.ts
+- subject
 - InventoryRabbitListener
 - gateway-path.integration.spec.ts
-- milestone-6-mcp-propagation.test.mjs
-- authenticated-data-source.spec.ts
+- Tasks: Clarify gateway module boundaries
+- Tasks: GraphQL-only WooCommerce integration
 - gateway/tsconfig.json
 - identity-subgraph/tsconfig.json
-- PaymentProvider
+- ProviderNotificationHandler
 - order-workflow-subgraph/tsconfig.json
 - com.fasterxml.jackson.databind.ObjectMapper
-- OrderWorkflowState
+- invalid-multi-export.config.ts
 - Inventory
-- outbox.publisher.ts
-- .consume
-- InventoryRepository
-- inbox.repository.ts
+- RegisterIdentityUseCase
+- harden-oauth-resource-service.test.mjs
 - WooInventoryAdapter
-- RedeliveryRepository
-- OAuthClientsController
 
 ## God Nodes (most connected - your core abstractions)
-1. `Payment` - 50 edges
-2. `PaymentProvider` - 26 edges
-3. `Result` - 26 edges
-4. `run()` - 25 edges
-5. `JdbcPaymentRepository` - 23 edges
-6. `PaymentView` - 23 edges
-7. `OrderWorkflow` - 20 edges
-8. `PaymentRepository` - 20 edges
-9. `compilerOptions` - 20 edges
-10. `ReservationRequested` - 19 edges
+1. `@nestjs/common` - 62 edges
+2. `vitest` - 61 edges
+3. `Payment` - 50 edges
+4. `PaymentProvider` - 26 edges
+5. `Result` - 26 edges
+6. `@mikro-orm/core` - 26 edges
+7. `run()` - 25 edges
+8. `JdbcPaymentRepository` - 23 edges
+9. `PaymentView` - 23 edges
+10. `OrderWorkflow` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Integração do gate com CI` --semantically_similar_to--> `Pipeline CI`  [INFERRED] [semantically similar]
   .agents/skills/onp-spec-driven/references/fluxo.md → .github/workflows/ci.yml
-- `Marketplace B2B federado com MCP e saga de pagamentos` --cites--> `@better-auth/oauth-provider`  [EXTRACTED]
-  README.md → package.json
 - `Template de constituição base` --semantically_similar_to--> `Constituição vigente do projeto`  [INFERRED] [semantically similar]
   .agents/skills/onp-spec-driven/scripts/lib/templates/constituicao-base.md → .spec/constituicao.md
 - `Segredos nunca em código` --semantically_similar_to--> `P-002 Segredos nunca em código`  [INFERRED] [semantically similar]
   .agents/skills/onp-spec-driven/scripts/lib/templates/constituicao-base.md → .spec/constituicao.md
 - `Todo requisito tem prova executável` --semantically_similar_to--> `P-001 Todo requisito tem prova executável`  [INFERRED] [semantically similar]
   .agents/skills/onp-spec-driven/scripts/lib/templates/constituicao-base.md → .spec/constituicao.md
+- `scanSource()` --indirect_call--> `visit()`  [INFERRED]
+  tools/architecture/strict-ddd-scanner.mjs → test/architecture-boundaries.test.mjs
 
 ## Import Cycles
 - None detected.
@@ -387,55 +392,55 @@
 - **Entrega orientada às PoCs de maior risco** — docs_prds_07_roadmap_critical_compatibility_pocs, docs_prds_08_riscos_e_decisoes_pendentes_sse_protocol_incompatibility, docs_prds_08_riscos_e_decisoes_pendentes_audience_same_token_risk, docs_prds_08_riscos_e_decisoes_pendentes_order_authority_risk [EXTRACTED 1.00]
 - **Fluxo de rastreabilidade da especificação à prova** — agents_skills_onp_spec_driven_skill_traceability_chain, agents_skills_onp_spec_driven_references_escrevendo_specs_auditable_acceptance_criteria, agents_skills_onp_spec_driven_scripts_lib_templates_tasks_feature_tasks_template, agents_skills_onp_spec_driven_references_fluxo_runner_evidence [EXTRACTED 1.00]
 
-## Communities (389 total, 73 thin omitted)
+## Communities (389 total, 53 thin omitted)
 
-### Community 0 - "order-event.consumer.ts"
-Cohesion: 0.11
-Nodes (20): ConsumeResult, OrderItemsLoader, OwnedOrderWorkflow, TransactionalOrderEventNotifier, AppliedSagaTransition, IgnoredSagaTransition, ORDER_SAGA_TRANSITIONS, OrderSaga (+12 more)
+### Community 0 - "order-saga.ts"
+Cohesion: 0.09
+Nodes (21): ORDER_SAGA_TRANSITIONS, OrderSaga, OrderSagaContext, OrderSagaEventType, OutOfOrderSagaEventError, requiredStockItems(), requiredString(), SagaTransition (+13 more)
 
 ### Community 1 - "Payment"
-Cohesion: 0.07
-Nodes (27): OutgoingEvent, Override, ProcessingResult, JdbcPaymentRepository, Override, Command, OutgoingEvent, Payment (+19 more)
+Cohesion: 0.05
+Nodes (32): OutgoingEvent, Override, ProcessingResult, JdbcPaymentRepository, Override, OutgoingEvent, PaymentRepository, ProcessingResult (+24 more)
 
 ### Community 2 - "dependencies"
-Cohesion: 0.06
-Nodes (31): ajv, @apollo/gateway, @apollo/server, express, graphql-sse, @mikro-orm/core, @mikro-orm/migrations, @mikro-orm/postgresql (+23 more)
+Cohesion: 0.07
+Nodes (30): dependencies, ajv, amqplib, @apollo/gateway, @apollo/server, @apollo/subgraph, @as-integrations/express5, better-auth (+22 more)
 
 ### Community 3 - "rabbitmq.ts"
 Cohesion: 0.08
-Nodes (27): rabbit, connectRabbitMq(), declareConsumerQueue(), declareRabbitMqTopology(), deliveryIdentifier(), handleDelivery(), runtime(), MARKETPLACE_DEAD_LETTER_EXCHANGE (+19 more)
+Nodes (28): rabbit, connectRabbitMq(), declareConsumerQueue(), declareRabbitMqTopology(), deliveryIdentifier(), handleDelivery(), runtime(), MARKETPLACE_DEAD_LETTER_EXCHANGE (+20 more)
 
 ### Community 4 - "checkout.service.ts"
-Cohesion: 0.08
-Nodes (18): CheckoutRepository, cartAmount(), cartCurrency(), cartItems(), CheckoutIdempotencyConflictError, CheckoutInputError, CheckoutReconciliationPendingError, CheckoutResult (+10 more)
+Cohesion: 0.05
+Nodes (21): CheckoutRepository, cartAmount(), cartCurrency(), cartItems(), CheckoutCommand, CheckoutIdempotencyConflictError, CheckoutInputError, CheckoutReconciliationPendingError (+13 more)
 
 ### Community 5 - "order-workflow-subgraph/project.json"
-Cohesion: 0.05
-Nodes (40): executor, inputs, options, outputs, ^build, default, ^production, test-typecheck (+32 more)
+Cohesion: 0.08
+Nodes (27): executor, inputs, options, outputs, name, command, projectType, $schema (+19 more)
 
-### Community 6 - "order-workflow.module.ts"
-Cohesion: 0.07
-Nodes (31): AppModule, Module, OrderWorkflowModule, orderWorkflowRequestContext(), Module, CHECKOUT_REPOSITORY, ORDER_WORKFLOW_ENTITY_MANAGER, ORDER_WORKFLOW_OPERATIONS (+23 more)
+### Community 6 - "checkout.module.ts"
+Cohesion: 0.10
+Nodes (21): AppModule, Module, CheckoutModule, Module, CHECKOUT_REPOSITORY, OUTBOX_REPOSITORY, WOO_CHECKOUT, OrderWorkflowGraphqlModule (+13 more)
 
 ### Community 7 - "mercado-pago-sandbox.ts"
 Cohesion: 0.08
 Nodes (23): assertEqual(), assertOneProviderPayment(), eventually(), evidence(), EvidenceRecord, HttpSandboxDriver, httpsUrl(), operationKey() (+15 more)
 
 ### Community 8 - "PaymentView"
-Cohesion: 0.09
-Nodes (20): PaymentController, AuthorizePayment, AuthorizePaymentHandler, OrderPaymentPort, FindPayment, FindPaymentHandler, PaymentView, PaymentFederationApplicationTest (+12 more)
+Cohesion: 0.12
+Nodes (13): PaymentController, AuthorizePayment, AuthorizePaymentHandler, OrderPaymentPort, PaymentHandler, FindPayment, FindPaymentHandler, PaymentView (+5 more)
 
 ### Community 9 - "gateway/tsconfig.spec.json"
-Cohesion: 0.17
-Nodes (11): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ../../libs/platform/nest/src/**/*.ts (+3 more)
+Cohesion: 0.22
+Nodes (8): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ./tsconfig.app.json
 
 ### Community 10 - "identity-subgraph/project.json"
-Cohesion: 0.06
-Nodes (36): executor, inputs, options, outputs, ^build, default, ^production, scope:identity (+28 more)
+Cohesion: 0.09
+Nodes (26): executor, inputs, options, outputs, name, command, projectType, $schema (+18 more)
 
 ### Community 11 - "JdbcProviderNotificationRepository"
-Cohesion: 0.17
-Nodes (8): Override, JdbcProviderNotificationRepository, StoredPayment, Outcome, APPLIED, DUPLICATE, IGNORED, NO_CHANGE
+Cohesion: 0.24
+Nodes (3): Override, JdbcProviderNotificationRepository, StoredPayment
 
 ### Community 12 - "journey.ts"
 Cohesion: 0.11
@@ -447,15 +452,19 @@ Nodes (30): auditProject(), CI_ESCALATES, finding(), latestMtime(), loadProject(
 
 ### Community 14 - "org.junit.jupiter.api.Test"
 Cohesion: 0.09
-Nodes (15): DeterministicPaymentProvider, Notification, Method, CARD, PIX, PaymentRequested, PaymentHandlerTest, SonarConfigurationTest (+7 more)
+Nodes (18): DeterministicPaymentProvider, Method, CARD, PIX, PaymentRequested, PaymentFederationApplication, PaymentRedeliveryTest, SimulatedCrash (+10 more)
 
 ### Community 15 - "index.js"
 Cohesion: 0.14
 Nodes (32): cmdLicoes(), linhaLicao(), DEFAULT_CONFIG, adicionarLicao(), agora(), caminhoRender(), caminhoStore(), campo() (+24 more)
 
+### Community 16 - "@nestjs/common"
+Cohesion: 0.09
+Nodes (18): RegistrationModule, Module, Inject, Injectable, WordPressConfiguration, WordPressErrorCode, WordPressError, configuration (+10 more)
+
 ### Community 17 - "PaymentConfiguration.java"
 Cohesion: 0.08
-Nodes (27): InventoryMessagingConfiguration, Declarables, PaymentHandler, PaymentRepository, PaymentConfiguration, PaymentGraphqlConfiguration, Declarables, PaymentMessagingConfiguration (+19 more)
+Nodes (28): InventoryConfiguration, InventoryMessagingConfiguration, Declarables, FunctionalInterface, PaymentProvider, PaymentConfiguration, PaymentGraphqlConfiguration, Declarables (+20 more)
 
 ### Community 18 - "ADR 002 — OAuth multi-resource access token"
 Cohesion: 0.06
@@ -466,12 +475,12 @@ Cohesion: 0.13
 Nodes (31): cmdResumo(), caminhos(), caminhoStream(), corta(), ESTADOS_FAIXA, homeOnp(), lerEventos(), lerStream() (+23 more)
 
 ### Community 20 - "Result"
-Cohesion: 0.12
+Cohesion: 0.13
 Nodes (12): Override, MercadoPagoPaymentProvider, Result, MercadoPagoProperties, Mode, DETERMINISTIC, MERCADO_PAGO, com.mercadopago.client.payment.PaymentClient (+4 more)
 
-### Community 21 - "HealthController"
-Cohesion: 0.10
-Nodes (14): AppModule, Module, HealthController, Controller, Get, createOrderWorkflowSubscriptionClient(), DelegatedClient, OrderWorkflowSubscriptionClient (+6 more)
+### Community 21 - "@nestjs/config"
+Cohesion: 0.13
+Nodes (9): AppModule, Module, HealthController, Controller, Get, AppModule, Module, @nestjs/config (+1 more)
 
 ### Community 22 - "Mapa do Projeto"
 Cohesion: 0.30
@@ -485,21 +494,17 @@ Nodes (31): Verificação executável de princípios, Preset LGPD + Educação, 
 Cohesion: 0.13
 Nodes (30): cmdPlano(), cmdTarefa(), definirCampoTarefa(), gerarArtefatosPlano(), AGENTES, allowedTools(), descreveTarefa(), ehModeloClaude() (+22 more)
 
-### Community 25 - "authenticated-data-source.ts"
-Cohesion: 0.20
-Nodes (11): allowlistedCommerceCookies(), AuthenticationPrincipal, COMMERCE_SESSION_REQUEST_HEADERS, COMMERCE_SESSION_RESPONSE_HEADERS, CommerceSessionHeaders, CommerceSessionRequestHeader, GatewayContext, WOOCOMMERCE_COOKIE_NAMES (+3 more)
-
-### Community 26 - "order-workflow-subgraph/src/subscriptions/sse.middleware.ts"
-Cohesion: 0.17
-Nodes (8): AuthenticatedRequest, createOrderWorkflowSseHandler(), applicationRequire, { buildSchema }, OrderWorkflowSseConnections, OrderWorkflowSseMiddleware, Inject, Injectable
+### Community 26 - "oauth-client-provisioning.service.ts"
+Cohesion: 0.10
+Nodes (16): BetterAuthModule, Module, OAuthClientProvisioningService, Inject, Injectable, OAuthClientBody, OAuthClientSeed, OAuthClientsController (+8 more)
 
 ### Community 27 - "cli.js"
 Cohesion: 0.14
 Nodes (25): cmdAssumptions(), cmdEvento(), cmdInit(), cmdNew(), cmdStatus(), cmdStreamResumo(), copyDirIfExists(), detectarAgente() (+17 more)
 
 ### Community 28 - "Índice dos PRDs do marketplace"
-Cohesion: 0.09
-Nodes (28): Jornada crítica E2E do marketplace, PRD 00 — Contexto, escopo e sucesso, PRD 01 — Arquitetura e domínio, Bounded contexts do marketplace, Consistência por Outbox e Inbox, PRD 02 — GraphQL Federation, Connections e DataLoader, Relay Cursor Connections com keyset pagination, Entidades federadas com @key resolvível (+20 more)
+Cohesion: 0.10
+Nodes (24): Jornada crítica E2E do marketplace, PRD 00 — Contexto, escopo e sucesso, PRD 02 — GraphQL Federation, Connections e DataLoader, Relay Cursor Connections com keyset pagination, Entidades federadas com @key resolvível, Gate de composição com Rover, Contrato schema-first com SDL versionado, Better Auth como Authorization Server OAuth 2.1/OIDC (+16 more)
 
 ### Community 29 - "structural-improvement-program/executar-tarefas.sh"
 Cohesion: 0.28
@@ -513,17 +518,17 @@ Nodes (26): amarelo(), encerrar(), evento(), executar_seq_T_108(), executar_seq_
 Cohesion: 0.07
 Nodes (27): AC-090 — Only the intended deployable applications remain, AC-091 — Architectural dependencies follow context boundaries, AC-092 — NestJS owns runtime dependencies, AC-093 — Better Auth uses its NestJS integration, AC-094 — Identity does not duplicate Better Auth persistence, AC-095 — Gateway contains only edge responsibilities, AC-096 — Subgraphs enforce sensitive authorization, AC-097 — WordPress plugins provide the commercial graph (+19 more)
 
-### Community 32 - "InventoryService"
-Cohesion: 0.13
-Nodes (11): InventoryService, OutgoingEvent, ProcessingResult, WorkInProgressException, FunctionalInterface, StockPort, InventoryConfiguration, StockState (+3 more)
+### Community 32 - "ReservationRequested"
+Cohesion: 0.22
+Nodes (7): InventoryService, OutgoingEvent, ProcessingResult, WorkInProgressException, FunctionalInterface, StockPort, ReservationRequested
 
 ### Community 33 - "Gateway GraphQL federado"
-Cohesion: 0.11
-Nodes (28): @better-auth/oauth-provider, @better-auth/oauth-provider, Apollo Federation v2, Apollo MCP Server autenticado, Saga coreografada de pagamento e estoque, DataLoader por requisição, DDD com portas e adapters, Ambiente completo em Docker Compose (+20 more)
-
-### Community 34 - "better-auth.factory.ts"
 Cohesion: 0.12
-Nodes (16): BaseIdentityAuth, IdentityAuth, IdentityAuthOptions, IdentityDatabase, OAuthClientInput, OAuthClientSeed, BootstrapAdapter, bootstrapWith() (+8 more)
+Nodes (24): Apollo Federation v2, Apollo MCP Server autenticado, Saga coreografada de pagamento e estoque, DataLoader por requisição, DDD com portas e adapters, Teste E2E com Vitest e Testcontainers, Gateway GraphQL federado, GraphQL Subscriptions sobre SSE (+16 more)
+
+### Community 34 - "modularize-order-workflow-subgraph/executar-tarefas.sh"
+Cohesion: 0.29
+Nodes (22): amarelo(), encerrar(), evento(), executar_seq_T_203(), executar_seq_T_204(), executar_seq_T_205(), executar_seq_T_206(), executar_tudo() (+14 more)
 
 ### Community 35 - "mercado-pago-payment-provider/executar-tarefas.sh"
 Cohesion: 0.30
@@ -537,13 +542,13 @@ Nodes (23): amarelo(), encerrar(), evento(), executar_faixa_1(), executar_faixa_
 Cohesion: 0.08
 Nodes (25): AC-139 — Operações comerciais pertencem ao WordPress, AC-140 — Workflow delega o checkout, AC-141 — Order Workflow é um serviço independente, AC-142 — Workflow não possui modelos comerciais, AC-143 — Idempotência concorrente ponta a ponta, AC-144 — Reutilização conflitante é recusada, AC-145 — Participantes comunicam-se por RabbitMQ, AC-146 — Subscription pode preceder o checkout (+17 more)
 
-### Community 38 - "Q: porque existe essa federaćao do wordpress?"
-Cohesion: 0.40
-Nodes (4): Answer, Outcome, Q: porque existe essa federaćao do wordpress?, Source Nodes
-
-### Community 39 - "enum"
+### Community 38 - "Design: Strict NestJS DDD migration"
 Cohesion: 0.08
-Nodes (24): app, commerce, contract, gateway, identity, lib, name, scope (+16 more)
+Nodes (23): Adapters and NestJS, Aggregates and entities, Application layer, Canonical bounded-context layout, Decision, Dedicated-file exceptions, Design: Strict NestJS DDD migration, Domain events and services (+15 more)
+
+### Community 39 - "schema.json"
+Cohesion: 0.12
+Nodes (15): minLength, pattern, type, properties, name, scope, type, required (+7 more)
 
 ### Community 40 - "marco-0-pocs/executar-tarefas.sh"
 Cohesion: 0.28
@@ -570,8 +575,8 @@ Cohesion: 0.07
 Nodes (29): Completed execution order, Constraints, Federation data source, Gateway Authentication Hardening Review, High priority, Medium priority, Purpose, Required tests (+21 more)
 
 ### Community 46 - "woo-checkout.adapter.ts"
-Cohesion: 0.20
-Nodes (17): cartSnapshot(), createWooCheckoutAdapter(), create(), createOrFind(), currentCart(), execute(), findByReference(), decimalMinorUnits() (+9 more)
+Cohesion: 0.16
+Nodes (18): cartSnapshot(), createWooCheckoutAdapter(), create(), createOrFind(), currentCart(), execute(), findByReference(), decimalMinorUnits() (+10 more)
 
 ### Community 47 - "align-payment-federation-naming/executar-tarefas.sh"
 Cohesion: 0.28
@@ -582,24 +587,24 @@ Cohesion: 0.08
 Nodes (23): AC-174 — Tokens are issued for every owned protected resource, AC-175 — Federation preserves the standard bearer credential, AC-176 — NestJS resource servers use Better Auth verification, AC-177 — Payment is a standard Spring OAuth resource server, AC-178 — SSE validates the same bearer token, AC-179 — Native-first boundaries are documented and executable, AC-180 — DPoP verification receives the original request target, AC-181 — Authentication and scope authorization have distinct outcomes (+15 more)
 
 ### Community 49 - "auth-server.ts"
-Cohesion: 0.12
-Nodes (28): expectAudienceRejection(), Rejection, runMultiResourceProbe(), AcceptedToken, validateAtGateway, validateAtMcp, AuthServerOptions, CART_READ_SCOPE (+20 more)
+Cohesion: 0.10
+Nodes (30): @better-auth/oauth-provider, expectAudienceRejection(), Rejection, runMultiResourceProbe(), AcceptedToken, validateAtGateway, validateAtMcp, AuthServerOptions (+22 more)
 
-### Community 50 - "Q: Qual é o próximo passo depois do T-123?"
-Cohesion: 0.40
-Nodes (4): Answer, Outcome, Q: Qual é o próximo passo depois do T-123?, Source Nodes
+### Community 50 - "clarify-gateway-module-boundaries/executar-tarefas.sh"
+Cohesion: 0.26
+Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_202(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
-### Community 51 - "ReservationRequested"
-Cohesion: 0.30
-Nodes (4): OutgoingEvent, Override, JdbcInventoryRepository, ReservationRequested
+### Community 51 - "java.sql.Connection"
+Cohesion: 0.20
+Nodes (11): OutgoingEvent, Override, JdbcInventoryRepository, Claim, ClaimStatus, ACQUIRED, BUSY, COMPLETED (+3 more)
 
 ### Community 52 - "identity-subgraph/tsconfig.spec.json"
-Cohesion: 0.17
-Nodes (11): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ../../libs/platform/nest/src/**/*.ts (+3 more)
+Cohesion: 0.22
+Nodes (8): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ./tsconfig.app.json
 
 ### Community 53 - "compilerOptions"
-Cohesion: 0.09
-Nodes (22): @desafio-dev-backend-senior/source, es2022, compilerOptions, composite, customConditions, declarationMap, emitDeclarationOnly, emitDecoratorMetadata (+14 more)
+Cohesion: 0.10
+Nodes (20): compilerOptions, composite, customConditions, declarationMap, emitDeclarationOnly, emitDecoratorMetadata, experimentalDecorators, importHelpers (+12 more)
 
 ### Community 54 - "nestjs-vitest-testing-standard/executar-tarefas.sh"
 Cohesion: 0.27
@@ -639,7 +644,7 @@ Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_162(), executar_tudo
 
 ### Community 63 - "milestone-7-e2e-deployment/executar-tarefas.sh"
 Cohesion: 0.26
-Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_145(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
+Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_207(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
 ### Community 64 - "milestone-8-compliance-hardening/executar-tarefas.sh"
 Cohesion: 0.26
@@ -661,17 +666,17 @@ Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_101(), executar_tudo
 Cohesion: 0.26
 Nodes (19): amarelo(), encerrar(), evento(), executar_faixa_1(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
-### Community 69 - "inputs"
-Cohesion: 0.05
-Nodes (42): executor, inputs, options, outputs, ^build, default, ^production, scope:identity (+34 more)
+### Community 69 - "identity/nest/project.json"
+Cohesion: 0.09
+Nodes (24): executor, inputs, options, outputs, name, command, projectType, $schema (+16 more)
 
 ### Community 70 - "resolve-node-review-todos/executar-tarefas.sh"
 Cohesion: 0.29
 Nodes (23): amarelo(), encerrar(), evento(), executar_faixa_1(), executar_faixa_2(), executar_faixa_3(), executar_seq_T_183(), executar_seq_T_190() (+15 more)
 
 ### Community 71 - "devDependencies"
-Cohesion: 0.05
-Nodes (37): eslint, @modelcontextprotocol/sdk, @nestjs/testing, @nx/eslint, @nx/eslint-plugin, @nx/gradle, @nx/js, devDependencies (+29 more)
+Cohesion: 0.11
+Nodes (19): devDependencies, eslint, @modelcontextprotocol/sdk, @nestjs/testing, nx, @nx/eslint, @nx/eslint-plugin, @nx/gradle (+11 more)
 
 ### Community 72 - "Spec: Milestone 0 — Compatibility proofs"
 Cohesion: 0.10
@@ -690,12 +695,12 @@ Cohesion: 0.16
 Nodes (10): MCP Inspector summary, MCP Inspector evidence, Milestone 7 quality gate, Milestone 7 evidence index, Milestone 7 requirement evidence matrix, Release policy, Deferred work, Structural improvement review (+2 more)
 
 ### Community 76 - "targets"
-Cohesion: 0.05
-Nodes (48): executor, inputs, options, outputs, executor, options, dependsOn, executor (+40 more)
+Cohesion: 0.06
+Nodes (36): executor, inputs, options, outputs, executor, options, dependsOn, executor (+28 more)
 
 ### Community 77 - "platform/nest/src/index.ts"
-Cohesion: 0.06
-Nodes (42): assertScopes(), GraphqlOAuthResourceGuard, Resolver, Inject, Injectable, OAuthSubject, subjectFactory(), REQUIRED_SCOPES (+34 more)
+Cohesion: 0.08
+Nodes (29): GraphqlOAuthResourceGuard, Resolver, Inject, Injectable, OAuthSubject, subjectFactory(), RequiredScopesMetadata, OAuthClaims (+21 more)
 
 ### Community 78 - "Spec: Challenge compliance and delivery closure"
 Cohesion: 0.11
@@ -709,21 +714,21 @@ Nodes (18): AC-131 — Cart survives replica changes, AC-132 — WordPress owns 
 Cohesion: 0.11
 Nodes (18): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), faixa-1 — branch `spec/structural-improvement-program-faixa-1` — worktree `../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-1`, faixa-2 — branch `spec/structural-improvement-program-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-2`, faixa-3 — branch `spec/structural-improvement-program-faixa-3` — worktree `../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-3`, faixa-4 — branch `spec/structural-improvement-program-faixa-4` — worktree `../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-4`, faixa-5 — branch `spec/structural-improvement-program-faixa-5` — worktree `../onp-worktrees/desafio-dev-backend-senior-structural-improvement-program-faixa-5` (+10 more)
 
-### Community 81 - "PostgresOrderEventRelay"
+### Community 81 - "OrderWorkflowRuntimeLifecycle"
 Cohesion: 0.09
 Nodes (11): HealthController, healthController(), Controller, Get, Inject, OrderWorkflowRuntimeLifecycle, Inject, Injectable (+3 more)
 
 ### Community 82 - "payment-federation/project.json"
-Cohesion: 0.12
-Nodes (17): executor, options, build, type:app, name, command, projectType, $schema (+9 more)
+Cohesion: 0.14
+Nodes (14): executor, options, name, command, projectType, $schema, sourceRoot, tags (+6 more)
 
 ### Community 83 - "properties"
-Cohesion: 0.05
-Nodes (42): additionalProperties, format, type, minLength, type, pattern, type, $id (+34 more)
+Cohesion: 0.06
+Nodes (35): additionalProperties, format, type, minLength, type, pattern, type, $id (+27 more)
 
 ### Community 84 - "identity.resolver.ts"
-Cohesion: 0.11
-Nodes (21): IdentityGraphqlTestModule, repository, Module, users, decodeCursor(), IdentityResolver, IdentityUser, Args (+13 more)
+Cohesion: 0.08
+Nodes (26): IdentityGraphqlTestModule, repository, Module, users, IdentityResolver, Args, Inject, Query (+18 more)
 
 ### Community 85 - "Tasks: Federated platform architecture refactor"
 Cohesion: 0.11
@@ -737,13 +742,13 @@ Nodes (17): T-146 — Run and repair the complete credential-free quality gate [
 Cohesion: 0.11
 Nodes (17): AC-060 — Only approved operations become tools, AC-061 — Forbidden mutations cannot be invoked, AC-062 — Invalid MCP authentication is rejected, AC-063 — Tool scopes are enforced, AC-064 — The same bearer token reaches the gateway, AC-065 — MCP and GraphQL return the same buyer view, AC-066 — Milestone acceptance is reproducible, AC-138 — Product discovery and lookup have distinct contracts (+9 more)
 
-### Community 88 - "checkout.repository.ts"
-Cohesion: 0.07
-Nodes (21): ClaimCheckoutInput, ClaimedCheckout, ConfirmCheckout, MikroOrmCheckoutRepository, claim(), CheckoutRequestedEvent, MikroOrmOutboxRepository, CheckoutOperation (+13 more)
+### Community 88 - "order-events.subscription.ts"
+Cohesion: 0.08
+Nodes (21): createApplication(), sseClient(), OrderEventBroker, OrderEventDisconnectListener, OrderEventListener, OrderEventPayload, RoutedOrderEvent, streamKey() (+13 more)
 
 ### Community 89 - "properties"
-Cohesion: 0.14
-Nodes (14): format, type, minLength, type, minLength, type, properties, minLength (+6 more)
+Cohesion: 0.17
+Nodes (12): format, type, minLength, type, properties, minLength, type, eventTime (+4 more)
 
 ### Community 90 - "gateway/nest/tsconfig.json"
 Cohesion: 0.40
@@ -751,59 +756,63 @@ Nodes (4): extends, files, ../../../tsconfig.base.json, references
 
 ### Community 91 - "registration.service.ts"
 Cohesion: 0.09
-Nodes (19): AfterHook, Hook, CompensationFailure, IdentityAuthError, IdentityAuthErrorCode, createWordPressIdentity(), findByEmail(), identityBootstrapToken (+11 more)
+Nodes (20): AfterHook, Hook, IdentityBootstrap, RegistrationCompensationService, Inject, Injectable, RegistrationError, RegistrationConsumer (+12 more)
 
 ### Community 92 - "nx.json"
-Cohesion: 0.09
-Nodes (23): analytics, cache, dependsOn, ^build, default, cache, namedInputs, default (+15 more)
+Cohesion: 0.11
+Nodes (18): analytics, cache, dependsOn, cache, namedInputs, default, production, sharedGlobals (+10 more)
 
 ### Community 93 - "Spec: Align Payment Federation naming"
 Cohesion: 0.12
 Nodes (16): AC-152 — Payment Federation has one canonical name, AC-153 — Payment and Inventory remain internal participants, AC-154 — Catalog contract is absent, AC-155 — Plugin bootstrap is idempotent and deployment remains immutable, AC-157 — Payment queue uses the canonical federation name, AC-158 — The rename migration handles fresh and legacy schemas, Context, Out of scope (+8 more)
 
 ### Community 94 - "apollo-mcp/project.json"
-Cohesion: 0.13
-Nodes (15): executor, options, type:app, name, command, projectType, root, $schema (+7 more)
+Cohesion: 0.15
+Nodes (13): executor, options, name, command, projectType, root, $schema, tags (+5 more)
 
 ### Community 95 - "US-060 — Maintainable active platform structures"
 Cohesion: 0.12
 Nodes (15): AC-121 — Gateway remains a thin and secure edge, AC-122 — Identity keeps one authorization authority, AC-123 — Commerce keeps deterministic workflow ownership, AC-124 — Payment keeps reliable isolated adapters, AC-125 — WordPress bootstrap stays minimal and reproducible, AC-126 — MCP exposes only least-privilege operations, AC-127 — Shared platform and infrastructure stay dependency-safe, AC-128 — End-to-end evidence matches the improved topology (+7 more)
 
-### Community 96 - "order-workflow-operations.service.ts"
-Cohesion: 0.09
-Nodes (28): CheckoutCommand, confirm(), CheckoutCommandData, PaymentMethod, WooCheckoutSession, OrderWorkflowSession, OrderWorkflowSessionContext, orderView() (+20 more)
+### Community 96 - "@mikro-orm/core"
+Cohesion: 0.06
+Nodes (44): ClaimCheckoutInput, ClaimedCheckout, ConfirmCheckout, MikroOrmCheckoutRepository, claim(), PaymentMethod, CheckoutCommandData, OrderWorkflowSession (+36 more)
 
 ### Community 97 - "order-workflow-subgraph/tsconfig.spec.json"
-Cohesion: 0.18
-Nodes (10): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ../../libs/platform/nest/src/**/*.ts (+2 more)
+Cohesion: 0.22
+Nodes (8): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ./tsconfig.app.json
+
+### Community 98 - "refactor-registration-boundaries/executar-tarefas.sh"
+Cohesion: 0.26
+Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_201(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
 ### Community 99 - "probe.mjs"
 Cohesion: 0.13
 Nodes (9): alpha, beta, composeFile, loginUrl, normalizedSdl, products, report, representations (+1 more)
 
-### Community 100 - "required"
-Cohesion: 0.25
-Nodes (8): eventId, eventType, eventVersion, occurredAt, traceContext, required, payload, subject
+### Community 100 - "strict-nestjs-ddd-migration/executar-tarefas.sh"
+Cohesion: 0.26
+Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_216(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
-### Community 101 - "federated-sse-gateway.ts"
-Cohesion: 0.20
-Nodes (11): listen(), QueueEntry, startGateway(), subscriptionIterator(), edgeContentTypes, subgraphContentTypes, federationTypeDefs, listen() (+3 more)
+### Community 101 - "graphql"
+Cohesion: 0.09
+Nodes (19): @apollo/subgraph, graphql, listen(), QueueEntry, startGateway(), subscriptionIterator(), edgeContentTypes, subgraphContentTypes (+11 more)
 
 ### Community 102 - "gateway/project.json"
-Cohesion: 0.06
-Nodes (36): executor, inputs, options, outputs, ^build, default, ^production, scope:gateway (+28 more)
+Cohesion: 0.09
+Nodes (26): executor, inputs, options, outputs, name, command, projectType, $schema (+18 more)
 
 ### Community 103 - "identity/nest/tsconfig.spec.json"
-Cohesion: 0.18
-Nodes (10): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ../../../libs/platform/nest/src/**/*.ts (+2 more)
+Cohesion: 0.22
+Nodes (8): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ./tsconfig.lib.json
 
 ### Community 104 - "properties"
-Cohesion: 0.14
-Nodes (14): format, type, const, const, format, type, properties, eventId (+6 more)
+Cohesion: 0.18
+Nodes (11): format, type, const, const, format, type, properties, eventId (+3 more)
 
 ### Community 105 - "gateway/nest/project.json"
-Cohesion: 0.06
-Nodes (36): executor, inputs, options, outputs, ^build, default, ^production, scope:gateway (+28 more)
+Cohesion: 0.09
+Nodes (26): executor, inputs, options, outputs, executor, options, name, command (+18 more)
 
 ### Community 106 - "Plano de execução — milestone-6-apollo-mcp"
 Cohesion: 0.14
@@ -817,13 +826,13 @@ Nodes (13): AC-170 — Payment and Inventory have consistent inward layers, AC-1
 Cohesion: 0.26
 Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_182(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
-### Community 109 - "better-auth.module.ts"
+### Community 109 - "Spec: Refactor registration boundaries"
 Cohesion: 0.10
-Nodes (14): BetterAuthFactory, IdentityAuthBootstrap, IdentityDatabasePool, Inject, Injectable, BetterAuthModule, IDENTITY_AUTH, identityAuthProvider (+6 more)
+Nodes (19): AC-233 — Separate registration concerns into focused NestJS providers, AC-234 — Preserve successful registration behavior, AC-235 — Preserve compensating cleanup behavior, AC-236 — Compose authentication through focused NestJS modules, AC-237 — Prove the native WordPress GraphQL registration contract, AC-238 — Use GraphQL for WordPress identity registration, AC-239 — Organize identity authentication by NestJS feature ownership, AC-240 — Keep errors and public providers owned by their feature (+11 more)
 
 ### Community 110 - "compilerOptions"
-Cohesion: 0.11
-Nodes (18): compilerOptions, allowImportingTsExtensions, noImplicitAny, outDir, rootDir, tsBuildInfoFile, typeRoots, types (+10 more)
+Cohesion: 0.14
+Nodes (13): compilerOptions, allowImportingTsExtensions, noImplicitAny, outDir, rootDir, tsBuildInfoFile, typeRoots, types (+5 more)
 
 ### Community 111 - "Tasks: Challenge compliance and delivery closure"
 Cohesion: 0.15
@@ -842,8 +851,8 @@ Cohesion: 0.15
 Nodes (12): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), faixa-1 — branch `spec/remove-wordpress-federation-runtime-faixa-1` — worktree `../onp-worktrees/desafio-dev-backend-senior-remove-wordpress-federation-runtime-faixa-1`, faixa-2 — branch `spec/remove-wordpress-federation-runtime-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-remove-wordpress-federation-runtime-faixa-2`, faixa-3 — branch `spec/remove-wordpress-federation-runtime-faixa-3` — worktree `../onp-worktrees/desafio-dev-backend-senior-remove-wordpress-federation-runtime-faixa-3`, Faixas e ondas, Gestão de branches e commits (+4 more)
 
 ### Community 115 - "targets"
-Cohesion: 0.07
-Nodes (31): cache, executor, options, scope:delivery, cache, executor, options, cache (+23 more)
+Cohesion: 0.08
+Nodes (29): cache, executor, options, cache, executor, options, cache, executor (+21 more)
 
 ### Community 116 - "catalog-loaders.ts"
 Cohesion: 0.27
@@ -857,9 +866,9 @@ Nodes (5): InventoryServiceTest, OutgoingEvent, Override, MemoryRepository, Stor
 Cohesion: 0.12
 Nodes (15): AC-225 — Prepare decorator runtime, test ownership and coverage, AC-226 — Resolve gateway authentication, federation and loader findings, AC-227 — Resolve Better Auth lifecycle, registration and resource scopes, AC-228 — Consolidate identity application, GraphQL and legacy consumers, AC-229 — Resolve checkout, command hashing and persistence findings, AC-230 — Resolve inbox, outbox, messaging and saga findings, AC-231 — Resolve workflow GraphQL, bootstrap and SSE findings, AC-232 — Integrate corrections and close every review finding with evidence (+7 more)
 
-### Community 119 - "enum"
-Cohesion: 0.17
-Nodes (12): enum, CANCELLED, COMPLETED, CREATED, PAYMENT_AUTHORIZED, PAYMENT_PENDING, PIX_GENERATED, PIX_PENDING (+4 more)
+### Community 119 - "Spec: Strict NestJS DDD migration"
+Cohesion: 0.11
+Nodes (18): AC-252 — The strict DDD contract is explicit, AC-253 — Agents cannot silently bypass the contract, AC-254 — Mixed production declarations fail mechanically, AC-255 — Framework exceptions are narrow and auditable, AC-256 — Dependency direction remains inward, AC-257 — Tactical DDD building blocks use focused classes, AC-258 — Every migration wave preserves contracts, AC-259 — The migration closes with zero legacy exceptions (+10 more)
 
 ### Community 120 - "Plano de execução — resolve-node-review-todos"
 Cohesion: 0.14
@@ -890,36 +899,36 @@ Cohesion: 0.17
 Nodes (11): AC-197 — User pagination exposes the complete Relay contract, AC-198 — Federated user references are batched per request, AC-199 — Runtime evidence rejects N+1 behavior, AC-200 — Commercial lists preserve Relay edges through federation, Context, Out of scope, Perguntas em aberto, Spec: GraphQL Relay and DataLoader closure (+3 more)
 
 ### Community 127 - "HealthController"
-Cohesion: 0.21
-Nodes (5): AppModule, Module, HealthController, Controller, Get
+Cohesion: 0.32
+Nodes (3): HealthController, Controller, Get
 
-### Community 128 - "auth-context.factory.ts"
-Cohesion: 0.25
-Nodes (8): AuthContextFactory, Inject, Injectable, unauthenticatedGraphqlError(), GatewayRequest, toGatewayRequest(), trustedGatewayOrigin(), gatewayHarness()
+### Community 128 - "AuthContextFactory"
+Cohesion: 0.12
+Nodes (11): AuthContextFactory, Inject, Injectable, GatewayRequestAdapter, GatewayRequest, GatewayUnauthenticatedError, buyer, claims (+3 more)
 
 ### Community 129 - "compilerOptions"
-Cohesion: 0.18
-Nodes (10): compilerOptions, module, moduleResolution, noEmit, skipLibCheck, strict, target, include (+2 more)
+Cohesion: 0.22
+Nodes (8): compilerOptions, module, moduleResolution, noEmit, skipLibCheck, strict, target, include
 
 ### Community 130 - "package.json"
-Cohesion: 0.11
-Nodes (17): exports, ./gateway-nest, ./identity-nest, ./platform-nest, license, name, packageManager, private (+9 more)
+Cohesion: 0.06
+Nodes (31): typescript, license, name, packageManager, private, type, version, ajv (+23 more)
 
 ### Community 131 - "Tasks: Milestone 7 — E2E, quality, and deployment"
-Cohesion: 0.18
-Nodes (10): T-046 — Trace mandatory delivery requirements [concluida], T-047 — Complete the cross-language Nx quality graph [concluida], T-048 — Harden final application images and Compose readiness [concluida], T-049 — Implement the complete Testcontainers acceptance journey [concluida], T-050 — Enforce coverage, P95, and N+1 budgets [concluida], T-051 — Add the pinned SST v3 stack and protected CI delivery path [concluida], T-052 — Publish final runbooks, operation collection, and evidence index [concluida], T-145 — Execute the final challenge handoff [concluida] (+2 more)
+Cohesion: 0.17
+Nodes (11): T-046 — Trace mandatory delivery requirements [concluida], T-047 — Complete the cross-language Nx quality graph [concluida], T-048 — Harden final application images and Compose readiness [concluida], T-049 — Implement the complete Testcontainers acceptance journey [concluida], T-050 — Enforce coverage, P95, and N+1 budgets [concluida], T-051 — Add the pinned SST v3 stack and protected CI delivery path [concluida], T-052 — Publish final runbooks, operation collection, and evidence index [concluida], T-145 — Execute the final challenge handoff [concluida] (+3 more)
 
 ### Community 132 - "Spec: Remove retired applications"
 Cohesion: 0.18
 Nodes (10): AC-104 — Retired application roots no longer exist, AC-105 — Active automation does not depend on retired sources, AC-106 — Supported project gates remain green, Contexto, Fora de escopo, Histórias, Perguntas em aberto, Spec: Remove retired applications (+2 more)
 
 ### Community 133 - "compilerOptions"
-Cohesion: 0.11
-Nodes (18): compilerOptions, allowImportingTsExtensions, module, moduleResolution, outDir, tsBuildInfoFile, typeRoots, types (+10 more)
+Cohesion: 0.14
+Nodes (13): compilerOptions, allowImportingTsExtensions, module, moduleResolution, outDir, tsBuildInfoFile, typeRoots, types (+5 more)
 
-### Community 134 - "traceContext"
-Cohesion: 0.17
-Nodes (12): traceId, spanId, traceContext, traceId, pattern, type, additionalProperties, properties (+4 more)
+### Community 134 - "spanId"
+Cohesion: 0.29
+Nodes (7): spanId, traceId, pattern, type, properties, pattern, type
 
 ### Community 135 - "Design: Mercado Pago payment provider"
 Cohesion: 0.20
@@ -945,9 +954,9 @@ Nodes (9): T-092 — Review and improve Gateway boundaries [concluida], T-093 �
 Cohesion: 0.20
 Nodes (9): T-108 — Provar capacidades nativas e fronteiras [concluida], T-109 — Renomear Commerce para Order Workflow [concluida], T-110 — Remover wrappers e delegar ao WooGraphQL [concluida], T-111 — Simplificar saga e preservar SSE no Order Workflow [concluida], T-112 — Isolar Payment, Inventory e porta de provedor [concluida], T-113 — Reconectar Gateway, MCP, compose e supergraph [concluida], T-114 — Registrar ADRs e plano do pagamento real [concluida], T-115 — Fechar E2E, ESLint, composição e auditoria [concluida] (+1 more)
 
-### Community 141 - "architecture-boundaries.test.mjs"
-Cohesion: 0.20
-Nodes (5): contexts, forbiddenDependencies, ignoredDirectories, sourceExtensions, sourceFiles()
+### Community 141 - "strict-ddd-scanner.mjs"
+Cohesion: 0.11
+Nodes (23): contexts, forbiddenDependencies, ignoredDirectories, sourceExtensions, sourceFiles(), visit(), forbiddenCoreDependencies, isConfigFile() (+15 more)
 
 ### Community 142 - "Spec: Harden oauth resource service"
 Cohesion: 0.17
@@ -974,8 +983,8 @@ Cohesion: 0.18
 Nodes (10): AC-220 — Guard authorization contracts are enforced, AC-221 — OAuth subject decorator keeps implementation details private, AC-222 — GraphQL OAuth decorators have focused unit tests, Contexto, Fora de escopo, Histórias, Perguntas em aberto, Spec: Harden graphql oauth resource guard (+2 more)
 
 ### Community 148 - "gateway/nest/tsconfig.spec.json"
-Cohesion: 0.20
-Nodes (9): compilerOptions, noEmit, rootDir, exclude, extends, include, ../../../libs/platform/nest/src/**/*.ts, src/**/*.ts (+1 more)
+Cohesion: 0.25
+Nodes (7): compilerOptions, noEmit, rootDir, exclude, extends, include, ./tsconfig.lib.json
 
 ### Community 149 - "wordpress-integration/package.json"
 Cohesion: 0.22
@@ -990,7 +999,7 @@ Cohesion: 0.20
 Nodes (9): Assertions and isolation, Choose the smallest useful test boundary, Coverage gates, Delivery report, GraphQL execution contexts, NestJS and Vitest testing standard, Test-driven development, Test taxonomy and names (+1 more)
 
 ### Community 152 - "milestone-8-identity-gateway.test.mjs"
-Cohesion: 0.19
+Cohesion: 0.10
 Nodes (4): assertSupplierProductOwnership(), OwnedProductMutations, SupplierOwnershipError, SupplierProductPort
 
 ### Community 153 - "Plano de execução — delivery-closure"
@@ -1030,16 +1039,16 @@ Cohesion: 0.20
 Nodes (9): T-183 — Prepare decorator runtime, test ownership and coverage [concluida], T-184 — Resolve gateway authentication, federation and loader findings [concluida], T-185 — Resolve Better Auth lifecycle, registration and resource scopes [concluida], T-186 — Consolidate identity application, GraphQL and legacy consumers [concluida], T-187 — Resolve checkout, command hashing and persistence findings [concluida], T-188 — Resolve inbox, outbox, messaging and saga findings [concluida], T-189 — Resolve workflow GraphQL, bootstrap and SSE findings [concluida], T-190 — Integrate corrections and close every review finding with evidence [concluida] (+1 more)
 
 ### Community 162 - "compilerOptions"
-Cohesion: 0.11
-Nodes (18): compilerOptions, allowImportingTsExtensions, module, moduleResolution, outDir, tsBuildInfoFile, typeRoots, types (+10 more)
+Cohesion: 0.14
+Nodes (13): compilerOptions, allowImportingTsExtensions, module, moduleResolution, outDir, tsBuildInfoFile, typeRoots, types (+5 more)
 
 ### Community 163 - "compilerOptions"
-Cohesion: 0.11
-Nodes (18): compilerOptions, allowImportingTsExtensions, module, moduleResolution, outDir, tsBuildInfoFile, typeRoots, types (+10 more)
+Cohesion: 0.14
+Nodes (13): compilerOptions, allowImportingTsExtensions, module, moduleResolution, outDir, tsBuildInfoFile, typeRoots, types (+5 more)
 
 ### Community 164 - "wordpress-integration/project.json"
-Cohesion: 0.13
-Nodes (15): type:tooling, name, command, executor, options, projectType, root, $schema (+7 more)
+Cohesion: 0.15
+Nodes (13): name, command, executor, options, projectType, root, $schema, tags (+5 more)
 
 ### Community 165 - "Federated platform architecture review"
 Cohesion: 0.25
@@ -1058,8 +1067,8 @@ Cohesion: 0.22
 Nodes (8): AC-201 — Nest-owned SSE route is active after startup, Contexto, Fora de escopo, Histórias, Perguntas em aberto, Spec: Document sse bootstrap simplification, Suposições, US-101 — Preserve the resolved SSE bootstrap behavior
 
 ### Community 169 - "platform/nest/tsconfig.spec.json"
-Cohesion: 0.25
-Nodes (7): compilerOptions, noEmit, exclude, extends, include, src/**/*.ts, ./tsconfig.lib.json
+Cohesion: 0.29
+Nodes (6): compilerOptions, noEmit, exclude, extends, include, ./tsconfig.lib.json
 
 ### Community 170 - "Plano de execução — align-payment-federation-naming"
 Cohesion: 0.25
@@ -1122,8 +1131,8 @@ Cohesion: 0.22
 Nodes (8): compileOnSave, compilerOptions, emitDecoratorMetadata, experimentalDecorators, extends, files, ./tsconfig.base.json, references
 
 ### Community 185 - "Template de constituição base"
-Cohesion: 0.47
-Nodes (6): Template de constituição base, Segredos nunca em código, Todo requisito tem prova executável, P-002 Segredos nunca em código, Constituição vigente do projeto, P-001 Todo requisito tem prova executável
+Cohesion: 0.32
+Nodes (8): Template de constituição base, Segredos nunca em código, Todo requisito tem prova executável, Ambiente completo em Docker Compose, Deploy com SST v3, P-002 Segredos nunca em código, Constituição vigente do projeto, P-001 Todo requisito tem prova executável
 
 ### Community 186 - "Spec: Gateway auth review ledger"
 Cohesion: 0.22
@@ -1150,20 +1159,20 @@ Cohesion: 0.29
 Nodes (6): ADR 009: Payment provider port and co-located Inventory participant, Alternatives considered, Consequences and removal condition, Context, Decision, Real-provider implementation gate
 
 ### Community 192 - "PRD 08 — Riscos e decisões pendentes"
-Cohesion: 0.12
-Nodes (16): PoC de compatibilidade graphql-sse e Federação, Token multi-audience para gateway e MCP, PoCs críticas de compatibilidade, PRD 07 — Roadmap de implementação, Marcos de entrega vertical, D-002 Audience distinta versus mesmo token, D-011 Origem autoritativa de pedidos, PRD 08 — Riscos e decisões pendentes (+8 more)
+Cohesion: 0.13
+Nodes (15): ADR 010: Mercado Pago payment provider, Alternatives considered, Consequences and replacement condition, Context, Decision, Operational boundary, PoC de compatibilidade graphql-sse e Federação, Token multi-audience para gateway e MCP (+7 more)
 
 ### Community 193 - "gateway/nest/tsconfig.lib.json"
-Cohesion: 0.12
-Nodes (15): compilerOptions, allowImportingTsExtensions, outDir, typeRoots, types, exclude, extends, include (+7 more)
+Cohesion: 0.18
+Nodes (10): compilerOptions, allowImportingTsExtensions, outDir, typeRoots, types, exclude, extends, include (+2 more)
 
-### Community 194 - "required"
-Cohesion: 0.25
-Nodes (8): operationKey, additionalProperties, required, type, payload, eventTime, orderId, state
+### Community 194 - "payload"
+Cohesion: 0.50
+Nodes (4): additionalProperties, required, type, payload
 
-### Community 195 - "node-review-tooling.spec.ts"
-Cohesion: 0.22
-Nodes (5): ./apps/order-workflow-subgraph/src/health.controller.ts, DecoratedProvider, execFileAsync, Inject, Injectable
+### Community 195 - "vitest"
+Cohesion: 0.10
+Nodes (11): ./apps/order-workflow-subgraph/src/health.controller.ts, DecoratedProvider, execFileAsync, Inject, Injectable, Resolver, encode(), issueToken() (+3 more)
 
 ### Community 196 - "Plano de execução — adopt-nestjs-config"
 Cohesion: 0.25
@@ -1181,9 +1190,9 @@ Nodes (6): AWS boundary, Dependency direction, Design: Milestone 8 — Challenge
 Cohesion: 0.29
 Nodes (6): Decision, Design: Native commerce and Order Workflow Federation, Existence test, Migration sequence, Ownership and dependency rules, Target topology
 
-### Community 200 - "milestone-6-mcp-config.test.mjs"
-Cohesion: 0.29
-Nodes (6): appDir, expectedTools, operationFiles, operationsDir, root, schema
+### Community 200 - "OrderWorkflowSubscriptionClient"
+Cohesion: 0.18
+Nodes (7): GatewaySseOptions, OrderWorkflowSubscriptionClient, GatewaySseHandler, GatewaySseMiddleware, Inject, Injectable, graphql-sse
 
 ### Community 201 - "ADR 0012: Native-first security boundaries"
 Cohesion: 0.33
@@ -1197,9 +1206,9 @@ Nodes (5): ADR 006: Reconcile WooCommerce checkout by a stable operation referen
 Cohesion: 0.33
 Nodes (5): ADR 008: Native commerce and a focused Order Workflow Federation, Alternatives considered, Consequences and removal condition, Context, Decision
 
-### Community 204 - "ADR 010: Mercado Pago payment provider"
-Cohesion: 0.33
-Nodes (6): ADR 010: Mercado Pago payment provider, Alternatives considered, Consequences and replacement condition, Context, Decision, Operational boundary
+### Community 204 - "sse/sse.middleware.ts"
+Cohesion: 0.16
+Nodes (9): AuthenticatedRequest, createOrderWorkflowSseHandler(), applicationRequire, { buildSchema }, OrderWorkflowSseConnections, OrderWorkflowSseMiddleware, Inject, Injectable (+1 more)
 
 ### Community 205 - "Production happy path hardening review"
 Cohesion: 0.33
@@ -1218,12 +1227,12 @@ Cohesion: 0.25
 Nodes (7): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — nestjs-vitest-testing-standard, Resumo — o que vai acontecer
 
 ### Community 209 - "order-workflow-transitioned.v1.schema.json"
-Cohesion: 0.33
-Nodes (5): additionalProperties, $id, $schema, title, type
+Cohesion: 0.29
+Nodes (6): additionalProperties, $id, required, $schema, title, type
 
 ### Community 210 - "platform/nest/tsconfig.lib.json"
-Cohesion: 0.13
-Nodes (14): compilerOptions, allowImportingTsExtensions, outDir, typeRoots, types, exclude, extends, include (+6 more)
+Cohesion: 0.20
+Nodes (9): compilerOptions, allowImportingTsExtensions, outDir, typeRoots, types, exclude, extends, include (+1 more)
 
 ### Community 211 - "Federated platform refactor handoff"
 Cohesion: 0.33
@@ -1249,9 +1258,13 @@ Nodes (6): Commands, Follow-up Red and Green, Green, Nx cache ownership, Red, T-
 Cohesion: 0.29
 Nodes (6): Detailed review dispositions, Green and refactor gates, Red, Scope and decisions, Source-marker dispositions, T-184 gateway authentication, federation, and loader evidence
 
-### Community 218 - "AtomicRepository"
-Cohesion: 0.11
-Nodes (9): Acknowledgement, Delivery, FunctionalInterface, ProcessingResult, PaymentConsumer, OutgoingEvent, ProcessingResult, AtomicRepository (+1 more)
+### Community 217 - "@mikro-orm/migrations"
+Cohesion: 0.06
+Nodes (9): Migration202608270001, Migration202608270002, Migration202608280001, Migration202608280002, Migration202609010001, Migration202609010002, Migration202609010003, Migration202609010004 (+1 more)
+
+### Community 218 - "PaymentConsumer"
+Cohesion: 0.25
+Nodes (5): Acknowledgement, Delivery, FunctionalInterface, ProcessingResult, PaymentConsumer
 
 ### Community 219 - "challenge-compliance.md"
 Cohesion: 0.40
@@ -1266,8 +1279,8 @@ Cohesion: 0.40
 Nodes (5): Local development runbook, Prerequisites, Quality gates, Spec-anchored completion gate, Start the five-application topology
 
 ### Community 222 - "infra/project.json"
-Cohesion: 0.25
-Nodes (7): scope:delivery, type:tooling, name, projectType, root, $schema, tags
+Cohesion: 0.33
+Nodes (5): name, projectType, root, $schema, tags
 
 ### Community 223 - "checkout-requested.v1.schema.json"
 Cohesion: 0.40
@@ -1310,16 +1323,16 @@ Cohesion: 0.40
 Nodes (4): allOf, $id, $schema, title
 
 ### Community 233 - "order-workflow-messaging.runtime.ts"
-Cohesion: 0.16
-Nodes (10): MikroOrmInboxRepository, createOrderItemsLoader(), startOrderWorkflowMessaging(), ConfirmedRabbitMqPublisher, consumeWithRetry(), OutboxPublisher, orderEventConsumer(), MikroOrmOrderSagaRepository (+2 more)
+Cohesion: 0.06
+Nodes (31): InboxRepository, MikroOrmInboxRepository, InboxDisposition, Applied, Ignored, createOrderItemsLoader(), startOrderWorkflowMessaging(), ConfirmedRabbitMqPublisher (+23 more)
 
 ### Community 234 - "T-187 checkout and persistence review evidence"
 Cohesion: 0.29
 Nodes (6): Finding dispositions, Marker closure, Red, Green, Refactor, Scope, Sources checked, T-187 checkout and persistence review evidence
 
 ### Community 236 - "Project Agent Instructions"
-Cohesion: 0.40
-Nodes (4): Project Agent Instructions, Project Language, Spec-Driven Execution, Test-Driven Development
+Cohesion: 0.33
+Nodes (5): Project Agent Instructions, Project Language, Spec-Driven Execution, Strict DDD governance, Test-Driven Development
 
 ### Community 237 - "T-188 evidence — inbox, outbox, messaging, and saga"
 Cohesion: 0.29
@@ -1332,6 +1345,34 @@ Nodes (6): Behavioral evidence, Gates, Marker dispositions, Red, Green, Refactor
 ### Community 239 - "T-190 — Node review integration"
 Cohesion: 0.06
 Nodes (30): Green and refactor, Investigation and decisions, Marker dispositions, Red, T-185 — Better Auth lifecycle, registration, and resource scopes, Verification, Green, Marker dispositions (+22 more)
+
+### Community 240 - "PaymentFederationTest"
+Cohesion: 0.21
+Nodes (7): PaymentFederationApplicationTest, BearerClaims, PaymentFederationTest, org.junit.jupiter.api.BeforeEach, org.springframework.boot.test.context.SpringBootTest, org.springframework.boot.test.web.client.TestRestTemplate, SuppressWarnings
+
+### Community 241 - "US-117 — Navigate and evolve the subgraph by responsibility"
+Cohesion: 0.14
+Nodes (13): AC-246 — Persistence has its own module, AC-247 — Checkout has its own module, AC-248 — Order events have a coherent boundary, AC-249 — Messaging and saga processing have separate responsibilities, AC-250 — GraphQL is only the transport boundary, AC-251 — Public behavior remains unchanged, Contexto, Fora de escopo (+5 more)
+
+### Community 242 - "PRD 01 — Arquitetura e domínio"
+Cohesion: 0.17
+Nodes (11): Bounded-context map, PRD 01 — Arquitetura e domínio, Bounded contexts do marketplace, Consistência por Outbox e Inbox, Idempotência ponta a ponta por operationKey, Dependency direction and file rules, Narrow exceptions, Required evidence (+3 more)
+
+### Community 243 - "Tasks: Refactor registration boundaries"
+Cohesion: 0.17
+Nodes (11): T-191 — Extract WordPress registration integration [concluida], T-192 — Extract compensating cleanup into a focused service [concluida], T-193 — Reduce registration to hook orchestration [concluida], T-194 — Establish focused NestJS authentication modules [concluida], T-195 — Prove the native WordPress GraphQL registration capabilities [concluida], T-196 — Establish the GraphQL-only WordPress identity decision [concluida], T-197 — Migrate WordPress identity registration to GraphQL [concluida], T-198 — Split identity authentication into sibling feature modules [concluida] (+3 more)
+
+### Community 244 - "Spec: GraphQL-only WooCommerce integration"
+Cohesion: 0.18
+Nodes (10): AC-241 — Reconcile checkout orders through GraphQL, AC-242 — Remove WooCommerce REST credentials and operational calls, AC-243 — Preserve idempotent checkout recovery, Context, Out of scope, Perguntas em aberto, Spec: GraphQL-only WooCommerce integration, Stories (+2 more)
+
+### Community 245 - "Plano de execução — clarify-gateway-module-boundaries"
+Cohesion: 0.22
+Nodes (8): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Avisos, Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — clarify-gateway-module-boundaries, Resumo — o que vai acontecer
+
+### Community 246 - "Spec: Clarify gateway module boundaries"
+Cohesion: 0.22
+Nodes (8): AC-245 — Authentication has a focused NestJS module, Contexto, Fora de escopo, Histórias, Perguntas em aberto, Spec: Clarify gateway module boundaries, Suposições, US-116 — Make gateway module ownership explicit
 
 ### Community 248 - "install-plugins.sh"
 Cohesion: 1.00
@@ -1357,9 +1398,9 @@ Nodes (3): T-083 — Add explicit application typecheck projects [concluida], T-
 Cohesion: 0.50
 Nodes (3): [name, scope, type = 'lib'], project, root
 
-### Community 255 - "gateway.module.ts"
-Cohesion: 0.24
-Nodes (9): AuthenticatedDataSource, contract(), federationCapabilities(), GatewayAuthProvidersModule, gatewayDriverConfig(), GatewayModule, SubgraphName, Module (+1 more)
+### Community 255 - "authenticated-data-source.ts"
+Cohesion: 0.14
+Nodes (9): CommerceSessionRequestHeaders, CommerceSessionResponseHeaders, AuthenticatedDataSource, context, FederationCapabilities, GatewayFederationConfiguration, SetCookieValues, @apollo/gateway (+1 more)
 
 ### Community 256 - "Tasks: GraphQL Relay and DataLoader closure"
 Cohesion: 0.33
@@ -1393,77 +1434,141 @@ Nodes (3): T-171 — Codify the NestJS Vitest and TDD contract, T-172 — Instal
 Cohesion: 0.50
 Nodes (3): T-171 — Codify the NestJS Vitest and TDD contract [concluida], T-172 — Install and configure shared Vitest coverage tooling [concluida], Tasks: Nestjs vitest testing standard
 
-### Community 369 - "TokenVerifierService"
-Cohesion: 0.20
-Nodes (4): assertGatewayJwtHeader(), TokenVerifierService, Inject, Injectable
+### Community 294 - "scripts"
+Cohesion: 0.25
+Nodes (8): scripts, acceptance:milestone-7, graphify:check, quality:affected, quality:coverage, quality:nx, test:architecture, test:spec
+
+### Community 300 - "better-auth.factory.ts"
+Cohesion: 0.08
+Nodes (22): BetterAuthError, BetterAuthFactory, BootstrapAdapter, bootstrapWith(), Inject, Injectable, IdentityAuthProvider, IdentityAuthProvidersModule (+14 more)
+
+### Community 306 - "Design: Modularize order workflow subgraph"
+Cohesion: 0.25
+Nodes (7): Compatibility, Dependency direction, Design: Modularize order workflow subgraph, Folder decisions, Objective, Target composition, Verification strategy
+
+### Community 315 - "Plano de execução — modularize-order-workflow-subgraph"
+Cohesion: 0.25
+Nodes (7): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — modularize-order-workflow-subgraph, Resumo — o que vai acontecer
+
+### Community 316 - "delivery-closure-rabbitmq.test.mjs"
+Cohesion: 0.07
+Nodes (9): ORDER_WORKFLOW_EVENT_ROUTING_KEYS, ORDER_WORKFLOW_QUEUE, OutboxEventPublisher, OutboxPublicationRepository, OutboxPublisher, OutboxEvent, Entity, PrimaryKey (+1 more)
+
+### Community 319 - "Plano de execução — refactor-registration-boundaries"
+Cohesion: 0.25
+Nodes (7): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — refactor-registration-boundaries, Resumo — o que vai acontecer
+
+### Community 351 - "Plano de execução — strict-nestjs-ddd-migration"
+Cohesion: 0.25
+Nodes (7): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — strict-nestjs-ddd-migration, Resumo — o que vai acontecer
+
+### Community 352 - "Tasks: Strict NestJS DDD migration"
+Cohesion: 0.25
+Nodes (7): T-209 — Install the strict DDD governance contract [concluida], T-210 — Add the TypeScript AST architecture gate and legacy baseline [concluida], T-211 — Migrate the shared NestJS platform library [concluida], T-212 — Migrate the Gateway NestJS edge [concluida], T-213 — Migrate the Identity NestJS bounded context [concluida], T-216 — Remove the in-scope legacy baseline and close all migration gates [pendente], Tasks: Strict NestJS DDD migration
+
+### Community 354 - "ADR 009: Use native WordPress GraphQL for identity registration"
+Cohesion: 0.29
+Nodes (6): ADR 009: Use native WordPress GraphQL for identity registration, Alternatives considered, Consequences, Context, Decision, Proof
+
+### Community 355 - "Registration boundary refactor review"
+Cohesion: 0.29
+Nodes (6): NestJS ownership, Outcome, Protocol decision, Registration boundary refactor review, TDD evidence, Verification
+
+### Community 356 - "Mercado Pago sandbox runbook"
+Cohesion: 0.29
+Nodes (7): Credential-free gate, Evidence and cleanup, Mercado Pago sandbox runbook, Preconditions, Recovery, Sandbox verification, Start the local real-provider runtime
+
+### Community 357 - "Design: GraphQL identity registration and NestJS feature modules"
+Cohesion: 0.29
+Nodes (6): Deliberate omissions, Design: GraphQL identity registration and NestJS feature modules, Responsibilities, Security, Target module graph, WordPress boundary
+
+### Community 358 - "Tasks: Modularize order workflow subgraph"
+Cohesion: 0.33
+Nodes (5): T-203 — Extract persistence and checkout modules [concluida], T-204 — Create the order-events module and align transport files [concluida], T-205 — Extract messaging composition and saga collaborators [concluida], T-206 — Finalize the application composition root [concluida], Tasks: Modularize order workflow subgraph
+
+### Community 359 - "probe-registration.mjs"
+Cohesion: 0.50
+Nodes (3): composeFile, ensureRegistrar(), wp()
+
+### Community 360 - "T-202 gateway module boundary evidence"
+Cohesion: 0.40
+Nodes (4): Green and refactor gates, Red, Result, T-202 gateway module boundary evidence
+
+### Community 361 - "Native WordPress GraphQL registration proof"
+Cohesion: 0.40
+Nodes (4): Decision input, Native WordPress GraphQL registration proof, Proven operations, Reproduction
+
+### Community 362 - "Evidence: Modularize order workflow subgraph"
+Cohesion: 0.40
+Nodes (4): Compatibility, Evidence: Modularize order workflow subgraph, Green and refactor, Red
+
+### Community 363 - "traceContext"
+Cohesion: 0.50
+Nodes (4): traceContext, additionalProperties, required, type
+
+### Community 364 - ".constructor"
+Cohesion: 0.50
+Nodes (3): AuthConsumer, Inject, Injectable
+
+### Community 366 - "exports"
+Cohesion: 0.50
+Nodes (4): exports, ./gateway-nest, ./identity-nest, ./platform-nest
+
+### Community 368 - "operationKey"
+Cohesion: 0.67
+Nodes (3): minLength, type, operationKey
+
+### Community 369 - "auth-context.factory.ts"
+Cohesion: 0.14
+Nodes (14): AuthenticationPrincipal, CommerceSessionHeaders, GatewayAuthModule, ConsumerModule, Module, Module, GatewayAuthenticationConfiguration, GatewayContext (+6 more)
+
+### Community 370 - "subject"
+Cohesion: 0.67
+Nodes (3): subject, minLength, type
 
 ### Community 371 - "InventoryRabbitListener"
-Cohesion: 0.17
-Nodes (13): Delivery, InventoryRabbitListener, OutgoingEvent, Delivery, ProcessingResult, PaymentRabbitListener, com.fasterxml.jackson.databind.JsonNode, com.rabbitmq.client.Channel (+5 more)
+Cohesion: 0.16
+Nodes (14): Delivery, InventoryRabbitListener, OutgoingEvent, StockItem, Delivery, ProcessingResult, PaymentRabbitListener, com.fasterxml.jackson.databind.JsonNode (+6 more)
 
 ### Community 372 - "gateway-path.integration.spec.ts"
 Cohesion: 0.40
 Nodes (3): encode(), SigningKey, token()
 
-### Community 373 - "milestone-6-mcp-propagation.test.mjs"
-Cohesion: 0.40
-Nodes (4): buyer, claims, graphql(), mcpHarness()
-
-### Community 377 - "PaymentProvider"
-Cohesion: 0.21
-Nodes (9): MercadoPagoWebhookController, FunctionalInterface, PaymentProvider, ProviderNotificationHandler, Repository, org.springframework.http.ResponseEntity, org.springframework.web.bind.annotation.PostMapping, org.springframework.web.bind.annotation.RequestMapping (+1 more)
+### Community 377 - "ProviderNotificationHandler"
+Cohesion: 0.10
+Nodes (16): MercadoPagoWebhookController, Notification, Outcome, APPLIED, DUPLICATE, IGNORED, NO_CHANGE, ProviderNotificationHandler (+8 more)
 
 ### Community 379 - "com.fasterxml.jackson.databind.ObjectMapper"
 Cohesion: 0.28
 Nodes (7): Override, WordPressOrderPaymentAdapter, WpGraphqlAuthentication, com.fasterxml.jackson.databind.ObjectMapper, java.net.http.HttpClient, java.net.http.HttpRequest, java.net.URI
 
-### Community 380 - "OrderWorkflowState"
-Cohesion: 0.13
-Nodes (12): OrderWorkflowState, Cancelled, Completed, Created, PaymentAuthorized, PaymentPending, PixGenerated, PixPending (+4 more)
-
 ### Community 381 - "Inventory"
-Cohesion: 0.18
-Nodes (6): InsufficientStockException, Inventory, InventoryConflictException, OutgoingEvent, ProcessingResult, StockItem
+Cohesion: 0.20
+Nodes (5): InsufficientStockException, Inventory, InventoryConflictException, OutgoingEvent, ProcessingResult
 
-### Community 383 - ".consume"
-Cohesion: 0.24
-Nodes (3): InboxRepository, OrderSagaRepository, requiredOrderId()
-
-### Community 384 - "InventoryRepository"
-Cohesion: 0.29
-Nodes (7): Claim, ClaimStatus, ACQUIRED, BUSY, COMPLETED, InventoryRepository, OutgoingEvent
-
-### Community 385 - "inbox.repository.ts"
-Cohesion: 0.28
-Nodes (7): InboxDisposition, Applied, Ignored, InboxRecord, Entity, PrimaryKey, Property
-
-### Community 387 - "RedeliveryRepository"
-Cohesion: 0.47
-Nodes (5): OutgoingEvent, ProcessingResult, PaymentRedeliveryTest, RedeliveryRepository, SimulatedCrash
-
-### Community 388 - "OAuthClientsController"
-Cohesion: 0.33
-Nodes (4): OAuthClientsController, Controller, Get, Inject
+### Community 386 - "WooInventoryAdapter"
+Cohesion: 0.27
+Nodes (6): Override, WooInventoryAdapter, StockState, AVAILABLE, INSUFFICIENT, RESERVED
 
 ## Knowledge Gaps
-- **1660 isolated node(s):** `__dirname`, `TEMPLATES_DIR`, `SKILL_DIR_POR_AGENTE`, `SKILLS_DIR_PROJETO`, `CI_ESCALATES` (+1655 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2238 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **73 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **1737 isolated node(s):** `__dirname`, `TEMPLATES_DIR`, `SKILL_DIR_POR_AGENTE`, `SKILLS_DIR_PROJETO`, `CI_ESCALATES` (+1732 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2382 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **53 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `RequireScopes()` connect `platform/nest/src/index.ts` to `order-workflow-operations.service.ts`, `identity.resolver.ts`?**
-  _High betweenness centrality (0.003) - this node is a cross-community bridge._
-- **Why does `IdentityResolver` connect `identity.resolver.ts` to `milestone-8-identity-gateway.test.mjs`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `OrderWorkflowRuntimeLifecycle` connect `PostgresOrderEventRelay` to `order-workflow-messaging.runtime.ts`, `rabbitmq.ts`, `order-workflow.module.ts`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Why does `vitest` connect `vitest` to `order-saga.ts`, `AuthContextFactory`, `package.json`, `rabbitmq.ts`, `checkout.service.ts`, `checkout.module.ts`, `mercado-pago-sandbox.ts`, `journey.ts`, `@nestjs/common`, `@nestjs/config`, `CommerceCookiePolicy`, `oauth-client-provisioning.service.ts`, `better-auth.factory.ts`, `woo-checkout.adapter.ts`, `delivery-closure-rabbitmq.test.mjs`, `sse/sse.middleware.ts`, `platform/nest/src/index.ts`, `OrderWorkflowRuntimeLifecycle`, `identity.resolver.ts`, `order-events.subscription.ts`, `registration.service.ts`, `@mikro-orm/core`, `order-workflow-messaging.runtime.ts`, `auth-context.factory.ts`, `gateway-path.integration.spec.ts`, `HealthController`, `authenticated-data-source.ts`?**
+  _High betweenness centrality (0.019) - this node is a cross-community bridge._
+- **Why does `@nestjs/common` connect `@nestjs/common` to `@mikro-orm/core`, `package.json`, `vitest`, `checkout.module.ts`, `OrderWorkflowSubscriptionClient`, `order-workflow-messaging.runtime.ts`, `sse/sse.middleware.ts`, `better-auth.factory.ts`, `platform/nest/src/index.ts`, `OrderWorkflowRuntimeLifecycle`, `auth-context.factory.ts`, `identity.resolver.ts`, `@nestjs/config`, `order-events.subscription.ts`, `oauth-client-provisioning.service.ts`, `registration.service.ts`, `HealthController`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `dependencies` connect `dependencies` to `package.json`?**
+  _High betweenness centrality (0.008) - this node is a cross-community bridge._
 - **What connects `__dirname`, `TEMPLATES_DIR`, `SKILL_DIR_POR_AGENTE` to the rest of the system?**
-  _1660 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `order-event.consumer.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.1053763440860215 - nodes in this community are weakly interconnected._
+  _1737 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `order-saga.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.08817204301075268 - nodes in this community are weakly interconnected._
 - **Should `Payment` be split into smaller, more focused modules?**
-  _Cohesion score 0.06956521739130435 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05198537095088819 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected._
