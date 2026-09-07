@@ -66,21 +66,30 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
       context: undefined,
     }),
   );
-  const [appModule, gatewayModule, gatewayAuthModule] = await Promise.all([
+  const [
+    appModule,
+    gatewayModule,
+    gatewayAuthModule,
+    gatewayFederationConfiguration,
+  ] = await Promise.all([
     readFile('apps/gateway/src/app.module.ts', 'utf8'),
     readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
     readFile('libs/gateway/nest/src/auth/gateway-auth.module.ts', 'utf8'),
+    readFile(
+      'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
+      'utf8',
+    ),
   ]);
   assert.match(appModule, /GatewayModule/);
   assert.match(gatewayModule, /ApolloGatewayDriver/);
-  assert.match(gatewayModule, /LocalCompose/);
+  assert.match(gatewayFederationConfiguration, /LocalCompose/);
   for (const service of [
     'identity',
     'wordpress',
     'payment',
     'order-workflow',
   ]) {
-    assert.match(gatewayModule, new RegExp(`contract\\('${service}'\\)`));
+    assert.match(gatewayFederationConfiguration, new RegExp(`'${service}'`));
   }
   assert.match(gatewayAuthModule, /IDENTITY_JWKS_URL/);
   assert.match(

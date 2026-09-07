@@ -122,9 +122,8 @@ describe('Node review tooling', () => {
       source('libs/identity/nest/project.json'),
     ]);
 
-    expect(config).toContain(
-      "include: ['apps/**/*.spec.ts', 'libs/**/*.spec.ts']",
-    );
+    expect(config).toContain("'apps/**/*.spec.ts'");
+    expect(config).toContain("'libs/**/*.spec.ts'");
     expect(identity).toContain(
       '{workspaceRoot}/test/identity-federation-refactor.test.mjs',
     );

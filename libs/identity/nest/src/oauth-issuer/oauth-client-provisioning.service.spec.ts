@@ -1,7 +1,7 @@
 import type { AuthService } from '@thallesp/nestjs-better-auth';
 import { describe, expect, it } from 'vitest';
 
-import type { IdentityAuth } from '../better-auth/better-auth.factory.ts';
+import type { IdentityAuth } from '../better-auth/identity-auth.types.d.ts';
 import { OAuthClientProvisioningService } from './oauth-client-provisioning.service.ts';
 
 describe('OAuthClientProvisioningService ownership', () => {
