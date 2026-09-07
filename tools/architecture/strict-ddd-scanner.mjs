@@ -227,12 +227,17 @@ export function baselineGrowth(violations, baseline) {
 }
 
 export function taskManifestScopeViolations(taskManifest) {
-  return taskManifest
-    .split('\n')
-    .filter((line) => line.startsWith('- Arquivos:'))
-    .filter((line) => /(?:apps\/)?order-workflow-subgraph\//.test(line))
-    .map((line) => ({
-      code: 'excluded-order-workflow',
-      declaration: line.slice('- Arquivos: '.length),
-    }));
+  const authorizedT216Path =
+    'apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts';
+  let task = '';
+  return taskManifest.split('\n').flatMap((line) => {
+    const heading = line.match(/^## (T-\d+)/);
+    if (heading) task = heading[1];
+    if (!line.startsWith('- Arquivos:')) return [];
+    const files = line.slice('- Arquivos: '.length).split(', ');
+    return files
+      .filter((file) => /(?:apps\/)?order-workflow-subgraph\//.test(file))
+      .filter((file) => task !== 'T-216' || file !== authorizedT216Path)
+      .map((file) => ({ code: 'excluded-order-workflow', declaration: file }));
+  });
 }

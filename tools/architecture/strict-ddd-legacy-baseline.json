@@ -1,16 +1,3 @@
 {
-  "violations": [
-    {
-      "code": "mixed-declaration",
-      "declaration": "toOAuthRequest",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts",
-      "line": 35
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "isOAuthCredentialError",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
-      "line": 27
-    }
-  ]
+  "violations": []
 }

@@ -93,7 +93,7 @@ test('Gateway has no remaining legacy declarations after its migration wave @spe
   assert.deepEqual(violations, []);
 });
 
-test('the stable NestJS baseline accepts only existing violations', async () => {
+test('the stable NestJS baseline is empty and the in-scope roots have zero violations @spec:AC-259', async () => {
   const baseline = JSON.parse(
     await readFile(
       'tools/architecture/strict-ddd-legacy-baseline.json',
@@ -101,6 +101,8 @@ test('the stable NestJS baseline accepts only existing violations', async () => 
     ),
   );
 
+  assert.deepEqual(baseline, { violations: [] });
+  assert.deepEqual(await scanRoots(strictDddRoots), []);
   assert.deepEqual(
     baselineGrowth(await scanRoots(strictDddRoots), baseline),
     [],
@@ -118,7 +120,7 @@ test('the stable NestJS baseline accepts only existing violations', async () => 
   );
 });
 
-test('the migration task manifest excludes Order Workflow', async () => {
+test('the migration task manifest permits only the authorized T-216 Order Workflow compatibility consumer', async () => {
   assert.deepEqual(
     taskManifestScopeViolations(
       await readFile(
@@ -130,12 +132,23 @@ test('the migration task manifest excludes Order Workflow', async () => {
   );
   assert.deepEqual(
     taskManifestScopeViolations(
-      '- Arquivos: apps/order-workflow-subgraph/src/main.ts',
+      '## T-216 — Close migration [pendente]\n- Arquivos: apps/order-workflow-subgraph/src/main.ts',
     ),
     [
       {
         code: 'excluded-order-workflow',
         declaration: 'apps/order-workflow-subgraph/src/main.ts',
+      },
+    ],
+  );
+  assert.deepEqual(
+    taskManifestScopeViolations(
+      '## T-999 — Unauthorized [pendente]\n- Arquivos: apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts',
+    ),
+    [
+      {
+        code: 'excluded-order-workflow',
+        declaration: 'apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts',
       },
     ],
   );

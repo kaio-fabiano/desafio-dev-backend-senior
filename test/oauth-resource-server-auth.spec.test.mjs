@@ -214,7 +214,7 @@ test('AC-178: SSE validates the same bearer token @spec:AC-178', async () => {
   assert.match(gateway, /this\.authenticated\.set\(raw, await this\.options\.verify\(raw\)\)/);
   assert.match(gateway, /GatewayContext/);
   assert.match(downstream, /authorization: context\.authorization/);
-  assert.match(orderWorkflow, /await verify\(toOAuthRequest\(raw\)\)/);
+  assert.match(orderWorkflow, /await verify\(OAuthRequestAdapter\.toRequest\(raw\)\)/);
   assert.match(orderWorkflow, /auth,/);
 });
 
@@ -244,10 +244,10 @@ test('AC-179: Native-first boundaries are documented and executable @spec:AC-179
 });
 
 test('AC-180: DPoP verification receives a non-spoofable request target @spec:AC-180', async () => {
-  const { toOAuthRequest } = await import(
+  const { OAuthRequestAdapter } = await import(
     '../libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts'
   );
-  const request = toOAuthRequest({
+  const request = OAuthRequestAdapter.toRequest({
     headers: {
       host: 'internal:3000',
       'x-forwarded-host': 'api.example.com',

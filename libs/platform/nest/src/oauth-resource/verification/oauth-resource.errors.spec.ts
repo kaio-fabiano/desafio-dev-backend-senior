@@ -1,17 +1,14 @@
 import { APIError } from 'better-auth';
 import { describe, expect, it } from 'vitest';
 
-import {
-  isOAuthCredentialError,
-  OAuthCredentialError,
-} from './oauth-resource.errors.ts';
+import { OAuthCredentialError } from './oauth-resource.errors.ts';
 
-describe('isOAuthCredentialError', () => {
+describe('OAuthCredentialError.isCredential', () => {
   it('classifies typed OAuth and token-validation failures as credentials', () => {
-    expect(isOAuthCredentialError(new OAuthCredentialError('invalid'))).toBe(
+    expect(OAuthCredentialError.isCredential(new OAuthCredentialError('invalid'))).toBe(
       true,
     );
-    expect(isOAuthCredentialError(new APIError('UNAUTHORIZED'))).toBe(true);
+    expect(OAuthCredentialError.isCredential(new APIError('UNAUTHORIZED'))).toBe(true);
     for (const code of [
       'ERR_JOSE_ALG_NOT_ALLOWED',
       'ERR_JWS_INVALID',
@@ -21,7 +18,7 @@ describe('isOAuthCredentialError', () => {
       'ERR_JWT_INVALID',
       'ERR_JWKS_NO_MATCHING_KEY',
     ]) {
-      expect(isOAuthCredentialError({ code })).toBe(true);
+      expect(OAuthCredentialError.isCredential({ code })).toBe(true);
     }
   });
 
@@ -31,9 +28,9 @@ describe('isOAuthCredentialError', () => {
       'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
       'ERR_JWKS_TIMEOUT',
     ]) {
-      expect(isOAuthCredentialError({ code })).toBe(false);
+      expect(OAuthCredentialError.isCredential({ code })).toBe(false);
     }
-    expect(isOAuthCredentialError(new Error('JWKS unavailable'))).toBe(false);
-    expect(isOAuthCredentialError(null)).toBe(false);
+    expect(OAuthCredentialError.isCredential(new Error('JWKS unavailable'))).toBe(false);
+    expect(OAuthCredentialError.isCredential(null)).toBe(false);
   });
 });

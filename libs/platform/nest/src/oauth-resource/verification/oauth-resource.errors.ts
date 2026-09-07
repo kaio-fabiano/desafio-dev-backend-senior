@@ -23,7 +23,3 @@ export class OAuthCredentialError extends Error {
     'ERR_JWKS_NO_MATCHING_KEY',
   ]);
 }
-
-export function isOAuthCredentialError(error: unknown): boolean {
-  return OAuthCredentialError.isCredential(error);
-}

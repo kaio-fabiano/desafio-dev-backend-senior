@@ -11,10 +11,8 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 
 import type { OAuthClaims } from '../oauth-claims.ts';
 import type { OAuthGraphQLContext } from '../oauth-graphql-context.ts';
-import { toOAuthRequest } from '../verification/oauth-request.adapter.ts';
-import {
-  isOAuthCredentialError,
-} from '../verification/oauth-resource.errors.ts';
+import { OAuthRequestAdapter } from '../verification/oauth-request.adapter.ts';
+import { OAuthCredentialError } from '../verification/oauth-resource.errors.ts';
 import { OAuthAuthenticationMessages } from '../verification/oauth-authentication-messages.ts';
 import { OAuthResourceService } from '../verification/oauth-resource.service.ts';
 import { RequiredScopesMetadata } from './required-scopes.metadata.ts';
@@ -55,9 +53,9 @@ export class GraphqlOAuthResourceGuard implements CanActivate {
     }
     let auth: OAuthClaims;
     try {
-      auth = await this.resources.verify(toOAuthRequest(context.req));
+      auth = await this.resources.verify(OAuthRequestAdapter.toRequest(context.req));
     } catch (error) {
-      if (!isOAuthCredentialError(error)) throw error;
+      if (!OAuthCredentialError.isCredential(error)) throw error;
       throw new UnauthorizedException(
         OAuthAuthenticationMessages.invalidBearerToken,
       );

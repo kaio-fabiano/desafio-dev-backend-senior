@@ -1,7 +1,7 @@
 import {
-  isOAuthCredentialError,
+  OAuthCredentialError,
+  OAuthRequestAdapter,
   type OAuthClaims,
-  toOAuthRequest,
 } from '@desafio-dev-backend-senior/source/platform-nest';
 import type { GraphQLSchema } from 'graphql';
 import { createHandler } from 'graphql-sse/lib/use/express';
@@ -22,10 +22,10 @@ export function createOrderWorkflowSseHandler(
     authenticate: async ({ raw }) => {
       try {
         authenticated.set(raw, {
-          auth: await verify(toOAuthRequest(raw)),
+          auth: await verify(OAuthRequestAdapter.toRequest(raw)),
         });
       } catch (error) {
-        if (!isOAuthCredentialError(error)) throw error;
+        if (!OAuthCredentialError.isCredential(error)) throw error;
         return [
           JSON.stringify({ errors: [{ message: 'Unauthorized' }] }),
           {

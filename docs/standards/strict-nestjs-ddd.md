@@ -52,6 +52,11 @@ migrations, and barrels. The exception is explicit and auditable; it never
 applies to domain, application, service, controller, resolver, provider, or
 module classes, and it never permits mixing architectural layers.
 
+The in-scope Platform, Gateway, and Identity baseline is zero. The migration
+scanner rejects every Order Workflow task file except the explicitly authorized
+T-216 SSE consumer, which may only replace the Platform callable OAuth APIs
+with `OAuthRequestAdapter.toRequest` and `OAuthCredentialError.isCredential`.
+
 ## Required evidence
 
 Every change follows Red, Green, Refactor when production behavior changes.

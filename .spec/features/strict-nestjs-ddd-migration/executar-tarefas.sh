@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano strict-nestjs-ddd-migration` em 2026-09-07 16:12
+# executar-tarefas.sh — gerado por `onp-spec plano strict-nestjs-ddd-migration` em 2026-09-07 18:12
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-mtrfw45s'
+RUN_ID='desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-mtrk5agj'
 FEATURE='strict-nestjs-ddd-migration'
 BASE_BRANCH='spec/strict-nestjs-ddd-migration'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,166 +168,6 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-209 (ordem do tasks.md) ──
-executar_seq_T_209() {
-  info 'sequencial T-209 — Install the strict DDD governance contract'
-  if rodar_tarefa seq 'T-209' 'Você executa UMA tarefa da feature "strict-nestjs-ddd-migration" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/strict-nestjs-ddd-migration/spec.md, .spec/features/strict-nestjs-ddd-migration/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-209 — "Install the strict DDD governance contract"
-  critérios/refs: AC-252 (The strict DDD contract is explicit), AC-253 (Agents cannot silently bypass the contract)
-  arquivos permitidos (e seus testes): AGENTS.md, .spec/constituicao.md, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, test/strict-ddd-governance.test.mjs
-  mensagem de commit: "T-209 strict-nestjs-ddd-migration: Install the strict DDD governance contract"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-209 strict-nestjs-ddd-migration: Install the strict DDD governance contract (auto-commit do plano)'
-    fi
-    marcar_concluidas T-209
-    verde "✔ T-209 concluída"
-    return 0
-  fi
-  vermelho "✘ T-209 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh --seq T-209"
-  FALHAS="$FALHAS T-209"
-  return 1
-}
-
-# ── sequencial T-210 (ordem do tasks.md) ──
-executar_seq_T_210() {
-  info 'sequencial T-210 — Add the TypeScript AST architecture gate and legacy baseline'
-  if rodar_tarefa seq 'T-210' 'Você executa UMA tarefa da feature "strict-nestjs-ddd-migration" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/strict-nestjs-ddd-migration/spec.md, .spec/features/strict-nestjs-ddd-migration/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-210 — "Add the TypeScript AST architecture gate and legacy baseline"
-  critérios/refs: AC-254 (Mixed production declarations fail mechanically), AC-255 (Framework exceptions are narrow and auditable), AC-256 (Dependency direction remains inward), AC-257 (Tactical DDD building blocks use focused classes)
-  arquivos permitidos (e seus testes): tools/architecture/strict-ddd-policy.mjs, tools/architecture/strict-ddd-scanner.mjs, tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, test/fixtures/strict-ddd/valid-use-case.ts, test/fixtures/strict-ddd/invalid-mixed-service.ts, test/fixtures/strict-ddd/valid-custom.decorator.ts, package.json
-  mensagem de commit: "T-210 strict-nestjs-ddd-migration: Add the TypeScript AST architecture gate and legacy baseline"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-210 strict-nestjs-ddd-migration: Add the TypeScript AST architecture gate and legacy baseline (auto-commit do plano)'
-    fi
-    marcar_concluidas T-210
-    verde "✔ T-210 concluída"
-    return 0
-  fi
-  vermelho "✘ T-210 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh --seq T-210"
-  FALHAS="$FALHAS T-210"
-  return 1
-}
-
-# ── sequencial T-211 (ordem do tasks.md) ──
-executar_seq_T_211() {
-  info 'sequencial T-211 — Migrate the shared NestJS platform library'
-  if rodar_tarefa seq 'T-211' 'Você executa UMA tarefa da feature "strict-nestjs-ddd-migration" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/strict-nestjs-ddd-migration/spec.md, .spec/features/strict-nestjs-ddd-migration/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-211 — "Migrate the shared NestJS platform library"
-  critérios/refs: AC-256 (Dependency direction remains inward), AC-257 (Tactical DDD building blocks use focused classes), AC-258 (Every migration wave preserves contracts)
-  arquivos permitidos (e seus testes): libs/platform/nest/src/oauth-resource, libs/platform/nest/src/index.ts, libs/platform/nest/src/**/*.spec.ts, tools/architecture/strict-ddd-legacy-baseline.json
-  mensagem de commit: "T-211 strict-nestjs-ddd-migration: Migrate the shared NestJS platform library"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-211 strict-nestjs-ddd-migration: Migrate the shared NestJS platform library (auto-commit do plano)'
-    fi
-    marcar_concluidas T-211
-    verde "✔ T-211 concluída"
-    return 0
-  fi
-  vermelho "✘ T-211 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh --seq T-211"
-  FALHAS="$FALHAS T-211"
-  return 1
-}
-
-# ── sequencial T-212 (ordem do tasks.md) ──
-executar_seq_T_212() {
-  info 'sequencial T-212 — Migrate the Gateway NestJS edge'
-  if rodar_tarefa seq 'T-212' 'Você executa UMA tarefa da feature "strict-nestjs-ddd-migration" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/strict-nestjs-ddd-migration/spec.md, .spec/features/strict-nestjs-ddd-migration/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-212 — "Migrate the Gateway NestJS edge"
-  critérios/refs: AC-256 (Dependency direction remains inward), AC-257 (Tactical DDD building blocks use focused classes), AC-258 (Every migration wave preserves contracts)
-  arquivos permitidos (e seus testes): libs/gateway/nest/src, apps/gateway/src, libs/gateway/nest/src/**/*.spec.ts, apps/gateway/src/**/*.spec.ts, test/oauth-resource-server-auth.spec.test.mjs, test/gateway-federation-refactor.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
-  mensagem de commit: "T-212 strict-nestjs-ddd-migration: Migrate the Gateway NestJS edge"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-212 strict-nestjs-ddd-migration: Migrate the Gateway NestJS edge (auto-commit do plano)'
-    fi
-    marcar_concluidas T-212
-    verde "✔ T-212 concluída"
-    return 0
-  fi
-  vermelho "✘ T-212 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh --seq T-212"
-  FALHAS="$FALHAS T-212"
-  return 1
-}
-
-# ── sequencial T-213 (ordem do tasks.md) ──
-executar_seq_T_213() {
-  info 'sequencial T-213 — Migrate the Identity NestJS bounded context'
-  if rodar_tarefa seq 'T-213' 'Você executa UMA tarefa da feature "strict-nestjs-ddd-migration" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/strict-nestjs-ddd-migration/spec.md, .spec/features/strict-nestjs-ddd-migration/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-213 — "Migrate the Identity NestJS bounded context"
-  critérios/refs: AC-256 (Dependency direction remains inward), AC-257 (Tactical DDD building blocks use focused classes), AC-258 (Every migration wave preserves contracts)
-  arquivos permitidos (e seus testes): libs/identity/nest/src, apps/identity-subgraph/src, libs/identity/nest/src/**/*.spec.ts, test/identity-federation-refactor.test.mjs, test/wordpress-registration-graphql.contract.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
-  mensagem de commit: "T-213 strict-nestjs-ddd-migration: Migrate the Identity NestJS bounded context"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-213 strict-nestjs-ddd-migration: Migrate the Identity NestJS bounded context (auto-commit do plano)'
-    fi
-    marcar_concluidas T-213
-    verde "✔ T-213 concluída"
-    return 0
-  fi
-  vermelho "✘ T-213 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh --seq T-213"
-  FALHAS="$FALHAS T-213"
-  return 1
-}
-
 # ── sequencial T-216 (ordem do tasks.md) ──
 executar_seq_T_216() {
   info 'sequencial T-216 — Remove the in-scope legacy baseline and close all migration gates'
@@ -337,7 +177,7 @@ Leia primeiro: .spec/features/strict-nestjs-ddd-migration/spec.md, .spec/feature
 Sua tarefa (somente ela):
 T-216 — "Remove the in-scope legacy baseline and close all migration gates"
   critérios/refs: AC-258 (Every migration wave preserves contracts), AC-259 (The migration closes with zero legacy exceptions)
-  arquivos permitidos (e seus testes): tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out/graph.json, graphify-out/GRAPH_REPORT.md, graphify-out/graph.html
+  arquivos permitidos (e seus testes): libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts, libs/platform/nest/src/index.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts, tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out/graph.json, graphify-out/GRAPH_REPORT.md, graphify-out/graph.html
   mensagem de commit: "T-216 strict-nestjs-ddd-migration: Remove the in-scope legacy baseline and close all migration gates"
 
 Regras inegociáveis:
@@ -413,22 +253,12 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_209 || true
-  executar_seq_T_210 || true
-  executar_seq_T_211 || true
-  executar_seq_T_212 || true
-  executar_seq_T_213 || true
   executar_seq_T_216 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-209 (sequencial)"
-  echo "  seq       T-210 (sequencial)"
-  echo "  seq       T-211 (sequencial)"
-  echo "  seq       T-212 (sequencial)"
-  echo "  seq       T-213 (sequencial)"
   echo "  seq       T-216 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
@@ -464,11 +294,6 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-209) evento --tipo inicio --escopo "seq:T-209"; iniciar_resumos; executar_seq_T_209 || true; encerrar "seq:T-209" ;;
-      T-210) evento --tipo inicio --escopo "seq:T-210"; iniciar_resumos; executar_seq_T_210 || true; encerrar "seq:T-210" ;;
-      T-211) evento --tipo inicio --escopo "seq:T-211"; iniciar_resumos; executar_seq_T_211 || true; encerrar "seq:T-211" ;;
-      T-212) evento --tipo inicio --escopo "seq:T-212"; iniciar_resumos; executar_seq_T_212 || true; encerrar "seq:T-212" ;;
-      T-213) evento --tipo inicio --escopo "seq:T-213"; iniciar_resumos; executar_seq_T_213 || true; encerrar "seq:T-213" ;;
       T-216) evento --tipo inicio --escopo "seq:T-216"; iniciar_resumos; executar_seq_T_216 || true; encerrar "seq:T-216" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;

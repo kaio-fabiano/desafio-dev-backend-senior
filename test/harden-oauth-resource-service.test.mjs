@@ -65,10 +65,10 @@ test('AC-213: Better Auth remains the cryptographic authority @spec:AC-213', asy
 });
 
 test('AC-214: OAuth request targets are reconstructed safely @spec:AC-214', async () => {
-  const { toOAuthRequest } = await import(
+  const { OAuthRequestAdapter } = await import(
     '../libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts'
   );
-  const request = toOAuthRequest({
+  const request = OAuthRequestAdapter.toRequest({
     headers: {
       host: 'internal:3000',
       'x-forwarded-host': 'api.example.com',
@@ -82,7 +82,7 @@ test('AC-214: OAuth request targets are reconstructed safely @spec:AC-214', asyn
   assert.equal(request.url, 'http://internal:3000/graphql?operation=checkout');
   assert.throws(
     () =>
-      toOAuthRequest({ headers: {}, originalUrl: 'https://attacker.example' }),
+      OAuthRequestAdapter.toRequest({ headers: {}, originalUrl: 'https://attacker.example' }),
     /absolute path/,
   );
 });

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'node:crypto';
 import type { ServerResponse } from 'node:http';
 
-import { isOAuthCredentialError } from '@desafio-dev-backend-senior/source/platform-nest';
+import { OAuthCredentialError } from '@desafio-dev-backend-senior/source/platform-nest';
 import { CommerceCookiePolicy } from './commerce-cookie-policy.ts';
 import { CommerceSessionRequestHeaders } from './commerce-session-request-headers.ts';
 import type { CommerceSessionHeaders } from './commerce-session-headers.ts';
@@ -40,7 +40,7 @@ export class AuthContextFactory {
     try {
       principal = await this.tokens.verify(authenticationRequest);
     } catch (error) {
-      if (isOAuthCredentialError(error)) throw GatewayUnauthenticatedError.create();
+      if (OAuthCredentialError.isCredential(error)) throw GatewayUnauthenticatedError.create();
       throw error;
     }
 

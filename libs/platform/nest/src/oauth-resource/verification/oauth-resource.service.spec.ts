@@ -5,7 +5,7 @@ import {
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
-import { toOAuthRequest } from './oauth-request.adapter.ts';
+import { OAuthRequestAdapter } from './oauth-request.adapter.ts';
 import { OAuthResourceService } from './oauth-resource.service.ts';
 
 vi.mock('better-auth/oauth2', () => ({
@@ -147,9 +147,9 @@ describe('OAuthResourceService', () => {
   });
 });
 
-describe('toOAuthRequest', () => {
+describe('OAuthRequestAdapter.toRequest', () => {
   it('AC-214: ignores untrusted forwarded headers @spec:AC-214', () => {
-    const request = toOAuthRequest({
+    const request = OAuthRequestAdapter.toRequest({
       headers: {
         authorization: 'DPoP token',
         host: 'internal:3000',
@@ -166,14 +166,14 @@ describe('toOAuthRequest', () => {
   });
 
   it('uses safe defaults for an internal request', () => {
-    const request = toOAuthRequest({ headers: {} });
+    const request = OAuthRequestAdapter.toRequest({ headers: {} });
 
     expect(request.method).toBe('GET');
     expect(request.url).toBe('http://resource.local/');
   });
 
   it('accepts array headers and the framework request URL', () => {
-    const request = toOAuthRequest({
+    const request = OAuthRequestAdapter.toRequest({
       headers: {
         host: 'api.example.com',
         'x-empty': undefined,
@@ -189,19 +189,19 @@ describe('toOAuthRequest', () => {
 
   it('rejects unsupported protocols and absolute request targets', () => {
     expect(() =>
-      toOAuthRequest({
+      OAuthRequestAdapter.toRequest({
         headers: { host: 'api.example.com' },
         protocol: 'ftp',
       }),
     ).toThrow('OAuth request protocol must be HTTP or HTTPS');
     expect(() =>
-      toOAuthRequest({
+      OAuthRequestAdapter.toRequest({
         headers: { host: 'api.example.com' },
         originalUrl: 'https://attacker.example/graphql',
       }),
     ).toThrow('OAuth request target must be an absolute path');
     expect(() =>
-      toOAuthRequest({
+      OAuthRequestAdapter.toRequest({
         headers: { host: 'api.example.com' },
         originalUrl: '//attacker.example/graphql',
       }),

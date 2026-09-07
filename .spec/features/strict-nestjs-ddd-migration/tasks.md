@@ -39,7 +39,7 @@
 
 ## T-216 — Remove the in-scope legacy baseline and close all migration gates [pendente]
 - Refs: US-121, AC-258, AC-259
-- Arquivos: tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out/graph.json, graphify-out/GRAPH_REPORT.md, graphify-out/graph.html
+- Arquivos: libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts, libs/platform/nest/src/index.ts, libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts, tools/architecture/strict-ddd-scanner.mjs, tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out/graph.json, graphify-out/GRAPH_REPORT.md, graphify-out/graph.html
 - Modelo: gpt-5.6-terra
 - Esforço: medio
-- Notas: Require an empty Platform, Gateway, and Identity baseline, prove that this migration did not modify Order Workflow, run build/typecheck/lint/unit/integration/contract/end-to-end/coverage gates, regenerate Graphify, run specification verification and CI audit, and publish the final migration evidence.
+- Notas: Require an empty Platform, Gateway, and Identity baseline. Order Workflow may receive only the explicitly authorized mechanical replacement of `toOAuthRequest` and `isOAuthCredentialError` calls with their class-based equivalents; its business behavior remains excluded. Run build/typecheck/lint/unit/integration/contract/end-to-end/coverage gates, regenerate Graphify, run specification verification and CI audit, and publish the final migration evidence.

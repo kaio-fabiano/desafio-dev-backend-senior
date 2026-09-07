@@ -30,8 +30,3 @@ export class OAuthRequestAdapter {
     return first?.trim() || undefined;
   }
 }
-
-// Compatibility facade for direct consumers while the focused adapter owns conversion.
-export function toOAuthRequest(request: OAuthHttpRequest): Request {
-  return OAuthRequestAdapter.toRequest(request);
-}

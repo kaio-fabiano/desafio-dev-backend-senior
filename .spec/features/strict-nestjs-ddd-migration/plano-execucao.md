@@ -1,11 +1,11 @@
 # Plano de execução — strict-nestjs-ddd-migration
 
-> gerado por `onp-spec plano` em 2026-09-07 16:12 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-07 18:12 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano strict-nestjs-ddd-migration --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 6 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (5 já concluída(s): T-209, T-210, T-211, T-212, T-213)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/strict-nestjs-ddd-migration`; levar para a main é decisão sua
 
@@ -13,11 +13,6 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-209 | Install the strict DDD governance contract | `gpt-5.6-luna` | low |
-| T-210 | Add the TypeScript AST architecture gate and legacy baseline | `gpt-5.6-terra` | medium |
-| T-211 | Migrate the shared NestJS platform library | `gpt-5.6-terra` | medium |
-| T-212 | Migrate the Gateway NestJS edge | `gpt-5.6-terra` | medium |
-| T-213 | Migrate the Identity NestJS bounded context | `gpt-5.6-terra` | medium |
 | T-216 | Remove the in-scope legacy baseline and close all migration gates | `gpt-5.6-terra` | medium |
 
 ## Gestão de branches e commits

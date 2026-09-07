@@ -24,6 +24,11 @@ roots. `apps/order-workflow-subgraph` is excluded completely: this plan must not
 refactor, repackage, or establish new domain abstractions around its current
 checkout, idempotency, saga, queue, persistence, or order-processing behavior.
 
+The sole authorized exception is a mechanical T-216 consumer migration from
+the two legacy callable Platform exports to their class-based equivalents. It
+must not change Order Workflow behavior or introduce architecture around that
+transitional implementation.
+
 That behavior is transitional. A separate future specification must redesign
 the flow around WooCommerce as the cart/order source of truth and place the
 remaining post-checkout business workflow in Java. The Java and WordPress
