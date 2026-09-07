@@ -37,7 +37,7 @@
 - Esforço: medio
 - Notas: Separate Better Auth configuration/factory responsibilities, OAuth resources, registration commands/results/errors, compensation, WordPress adapters, GraphQL DTOs, cursor behavior, and composition while preserving Better Auth as the identity source of truth.
 
-## T-216 — Replace the partial scanner with a truthful repository inventory [pendente]
+## T-216 — Replace the partial scanner with a truthful repository inventory [concluida]
 - Refs: US-122, AC-260, AC-261
 - Arquivos: tools/architecture, test/strict-ddd-architecture.test.mjs, test/fixtures/strict-ddd, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, .spec/constituicao.md, AGENTS.md
 - Modelo: gpt-5.6-sol
