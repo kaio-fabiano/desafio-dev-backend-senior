@@ -1,5 +1,9 @@
 # PRD 01 — Architecture and domain
 
+The mandatory implementation contract is
+[`Strict NestJS DDD`](../standards/strict-nestjs-ddd.md), with ownership
+boundaries recorded in [`the context map`](../domain/context-map.md).
+
 ## Expected outcome
 
 The platform converges on the five deployable applications fixed by
@@ -130,6 +134,9 @@ are not retained without a proven asynchronous requirement. These omissions
 reduce competing sources of truth and keep framework composition reviewable.
 
 ## Executable evidence
+
+- `test/strict-ddd-governance.test.mjs` proves the canonical contract is
+  explicit and that agent instructions require its workflow.
 
 - `test/federated-platform-refactor.test.mjs` locks the runtime inventory from
   ADR 007; the integration task later compares it with the Nx project graph.

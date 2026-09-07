@@ -34,3 +34,17 @@
   typecheck, lint, `onp-spec verify`, and `onp-spec audit --ci` gates pass.
 - Follow `docs/standards/nestjs-vitest-testing.md` for NestJS and TypeScript
   test classification, mocking, coverage, and file organization.
+
+## Strict DDD governance
+
+- Read `docs/standards/strict-nestjs-ddd.md` before designing or changing
+  production behavior; it is the canonical DDD contract.
+- Before changing production code, record the bounded context, use case,
+  aggregate (or explicitly state that none exists), invariants, consistency
+  boundary, and affected ports in the task or implementation notes.
+- Preserve strategic ownership and inward dependencies: domain and
+  application code remain framework-independent, and cross-context access
+  uses contracts or federated references only.
+- Do not silently bypass, weaken, or create exceptions to the contract. Any
+  exception must be narrow, dedicated to the documented outer-layer artifact,
+  and explicitly recorded in the contract and review evidence.

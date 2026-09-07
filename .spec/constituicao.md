@@ -35,3 +35,21 @@ green. Structural source inspection complements but never replaces behavioral
 unit, integration, contract, or end-to-end tests.
 
 - verificação(teste): @principle:P-003
+
+## P-004 [DEVE] Strict DDD decisions are explicit before implementation
+
+Every production change identifies its bounded context, use case, aggregate
+or explicit absence of one, invariants, consistency boundary, and affected
+ports. The canonical rules are maintained in
+`docs/standards/strict-nestjs-ddd.md` and must not be silently bypassed.
+
+- verificação(teste): @spec:AC-253
+
+## P-005 [DEVE] The strict DDD contract is the repository authority
+
+Strategic design, bounded-context ownership, aggregate boundaries, dependency
+direction, class and file rules, naming, allowed exceptions, and required test
+layers are defined in the canonical strict DDD standard and referenced by the
+agent instructions and architecture documentation.
+
+- verificação(teste): @spec:AC-252
