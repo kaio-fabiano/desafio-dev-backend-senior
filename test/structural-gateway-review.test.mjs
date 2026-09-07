@@ -65,11 +65,14 @@ test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => 
   assert.equal(wordpressHeaders.get('origin'), 'http://wordpress');
   assert.equal(wordpressHeaders.get('cart-token'), 'cart-token');
 
-  const [handler, module] = await Promise.all([
+  const [handler, federationConfiguration] = await Promise.all([
     readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
-    readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
+    readFile(
+      'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
+      'utf8',
+    ),
   ]);
   assert.match(handler, /source\/gateway-nest/);
-  assert.match(module, /case 'wordpress'/);
+  assert.match(federationConfiguration, /name === 'wordpress'/);
   await assert.rejects(readFile('apps/gateway/src/auth/token-verifier.ts'));
 });
