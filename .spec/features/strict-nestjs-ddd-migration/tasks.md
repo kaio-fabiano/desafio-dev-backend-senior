@@ -30,8 +30,7 @@
 - Esforço: medio
 - Notas: Separate context/request data, cookie policy, request conversion, federation configuration, subscription client/handler, resolvers or middleware, and module composition. Keep Gateway as an edge context with no business-domain persistence.
 
-## T-213 — Migrate the Identity NestJS bounded context [pendente]
-
+## T-213 — Migrate the Identity NestJS bounded context [concluida]
 - Refs: US-120, US-121, AC-256, AC-257, AC-258
 - Arquivos: libs/identity/nest/src, apps/identity-subgraph/src, libs/identity/nest/src/**/*.spec.ts, test/identity-federation-refactor.test.mjs, test/wordpress-registration-graphql.contract.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-terra
