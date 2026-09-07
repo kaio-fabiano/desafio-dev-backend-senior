@@ -52,10 +52,32 @@ migrations, and barrels. The exception is explicit and auditable; it never
 applies to domain, application, service, controller, resolver, provider, or
 module classes, and it never permits mixing architectural layers.
 
-The in-scope Platform, Gateway, and Identity baseline is zero. The migration
-scanner rejects every Order Workflow task file except the explicitly authorized
-T-216 SSE consumer, which may only replace the Platform callable OAuth APIs
-with `OAuthRequestAdapter.toRequest` and `OAuthCredentialError.isCredential`.
+The repository inventory covers every project-owned path. Only
+`apps/order-workflow-subgraph` and `apps/payment-federation` are excluded from
+this migration. Dependencies, caches, generated sources, and build outputs are
+ignored explicitly and are not counted as migrated source.
+
+The scanner classifies each in-scope production file by bounded context and by
+domain, application, infrastructure, presentation, composition, or an explicit
+technical boundary. A source file under a business context that has no approved
+layer is a violation; an absent `domain` or `application` directory can never
+turn that result into a false zero.
+
+### T-216 implementation record
+
+- Bounded context: repository architecture governance, a technical boundary.
+- Use case: inventory and classify every project-owned path before applying the
+  architecture rules.
+- Aggregate: none; this is deterministic repository analysis, not a business
+  state transition.
+- Invariants: exactly two application exclusions; ignored paths are never
+  source; every in-scope production file has a context and approved layer or
+  technical boundary.
+- Consistency boundary: one filesystem snapshot rooted at the repository.
+- Affected ports: none; the scanner reads the local filesystem directly.
+- Red evidence: the focused AC-260 and AC-261 tests failed because the previous
+  policy exposed neither a repository inventory nor an unclassified-production
+  violation, and it protected only Order Workflow in task manifests.
 
 ## Required evidence
 

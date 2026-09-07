@@ -53,3 +53,20 @@ layers are defined in the canonical strict DDD standard and referenced by the
 agent instructions and architecture documentation.
 
 - verificação(teste): @spec:AC-252
+
+## P-006 [DEVE] The architecture inventory covers the repository truthfully
+
+Every project-owned path is inventoried except
+`apps/order-workflow-subgraph` and `apps/payment-federation`. Dependencies,
+caches, generated sources, and build outputs are ignored as non-source rather
+than counted as migrated code.
+
+- verificação(teste): @principle:P-006
+
+## P-007 [DEVE] Missing architecture layers cannot report compliance
+
+Every in-scope production file belongs to an approved bounded context and
+layer or explicit technical boundary. The gate reports unclassified source
+instead of inferring compliance from absent `domain` or `application` folders.
+
+- verificação(teste): @principle:P-007

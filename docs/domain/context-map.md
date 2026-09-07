@@ -23,6 +23,8 @@ composition -> adapters -> application -> domain
 The canonical structural and testing rules are in
 [`strict-nestjs-ddd.md`](../standards/strict-nestjs-ddd.md).
 
-The Platform, Gateway, and Identity architecture baseline has no accepted
-violations. T-216 is the sole audited Workflow exception: its SSE adapter may
-consume the Platform OAuth classes directly, without changing workflow logic.
+Repository architecture governance inventories every project-owned path and
+classifies production source by context and layer or explicit technical
+boundary. The only migration exclusions are the complete
+`apps/order-workflow-subgraph` and `apps/payment-federation` application roots;
+their public contracts remain in scope from the provider and consumer sides.

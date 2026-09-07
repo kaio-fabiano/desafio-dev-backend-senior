@@ -1,18 +1,36 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 
-import { strictDddRoots } from '../tools/architecture/strict-ddd-policy.mjs';
+import { repositoryApplicationExclusions } from '../tools/architecture/strict-ddd-policy.mjs';
 import {
   baselineGrowth,
+  inventoryRepository,
   scanFiles,
+  scanRepository,
   scanRoots,
   taskManifestScopeViolations,
 } from '../tools/architecture/strict-ddd-scanner.mjs';
 
 const fixture = (name) =>
   fileURLToPath(new URL(`./fixtures/strict-ddd/${name}`, import.meta.url));
+
+async function withRepository(files, assertion) {
+  const cwd = await mkdtemp(join(tmpdir(), 'strict-ddd-'));
+  try {
+    for (const [file, source] of Object.entries(files)) {
+      const path = join(cwd, file);
+      await mkdir(dirname(path), { recursive: true });
+      await writeFile(path, source);
+    }
+    await assertion(cwd);
+  } finally {
+    await rm(cwd, { recursive: true, force: true });
+  }
+}
 
 test('mixed production declarations report their file and declaration @spec:AC-254', () => {
   const violations = scanFiles([fixture('invalid-mixed-service.ts')]);
@@ -93,7 +111,7 @@ test('Gateway has no remaining legacy declarations after its migration wave @spe
   assert.deepEqual(violations, []);
 });
 
-test('the stable NestJS baseline is empty and the in-scope roots have zero violations @spec:AC-259', async () => {
+test('the stable declaration baseline stays empty while the repository baseline cannot grow @spec:AC-259 @spec:AC-261', async () => {
   const baseline = JSON.parse(
     await readFile(
       'tools/architecture/strict-ddd-legacy-baseline.json',
@@ -101,12 +119,13 @@ test('the stable NestJS baseline is empty and the in-scope roots have zero viola
     ),
   );
 
-  assert.deepEqual(baseline, { violations: [] });
-  assert.deepEqual(await scanRoots(strictDddRoots), []);
   assert.deepEqual(
-    baselineGrowth(await scanRoots(strictDddRoots), baseline),
+    baseline.violations.filter(
+      ({ code }) => code !== 'unclassified-production',
+    ),
     [],
   );
+  assert.deepEqual(await scanRepository(), baseline.violations);
   assert.deepEqual(
     baselineGrowth(scanFiles([fixture('invalid-mixed-service.ts')]), baseline),
     [
@@ -120,7 +139,120 @@ test('the stable NestJS baseline is empty and the in-scope roots have zero viola
   );
 });
 
-test('the migration task manifest permits only the authorized T-216 Order Workflow compatibility consumer', async () => {
+test('the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006', async () => {
+  assert.deepEqual(repositoryApplicationExclusions, [
+    'apps/order-workflow-subgraph',
+    'apps/payment-federation',
+  ]);
+
+  await withRepository(
+    {
+      'apps/gateway/src/main.ts': 'bootstrap();',
+      'apps/order-workflow-subgraph/src/ignored.ts': 'ignored();',
+      'apps/payment-federation/src/ignored.java': 'class Ignored {}',
+      'apps/wordpress-integration/plugin.php': '<?php',
+      'libs/contracts/graphql/schema.graphql': 'type Query { ok: Boolean! }',
+      'infra/sst.config.ts': 'export default {};',
+      'scripts/check.mjs': 'export default true;',
+      'test/gate.test.mjs': "import test from 'node:test';",
+      'node_modules/vendor/index.ts': 'dependency();',
+      'dist/app.js': 'buildOutput();',
+      'coverage/report.json': '{}',
+      'libs/gateway/nest/src/generated/client.ts': 'generated();',
+    },
+    async (cwd) => {
+      assert.deepEqual(await inventoryRepository({ cwd }), [
+        {
+          boundary: 'composition',
+          context: 'edge',
+          file: 'apps/gateway/src/main.ts',
+        },
+        {
+          boundary: 'wordpress-plugin',
+          context: 'commercial',
+          file: 'apps/wordpress-integration/plugin.php',
+        },
+        {
+          boundary: 'infrastructure',
+          context: 'repository',
+          file: 'infra/sst.config.ts',
+        },
+        {
+          boundary: 'contracts',
+          context: 'shared',
+          file: 'libs/contracts/graphql/schema.graphql',
+        },
+        {
+          boundary: 'scripts',
+          context: 'repository',
+          file: 'scripts/check.mjs',
+        },
+        {
+          boundary: 'test-tooling',
+          context: 'repository',
+          file: 'test/gate.test.mjs',
+        },
+      ]);
+    },
+  );
+
+  const inventory = await inventoryRepository();
+  assert.deepEqual(
+    inventory.filter(({ context }) => !context),
+    [],
+  );
+  assert.equal(
+    inventory.some(({ file }) =>
+      repositoryApplicationExclusions.some(
+        (root) => file === root || file.startsWith(`${root}/`),
+      ),
+    ),
+    false,
+  );
+});
+
+test('unlayered orchestration and unknown production roots fail the repository gate @spec:AC-261 @principle:P-007', async () => {
+  await withRepository(
+    {
+      'apps/catalog/src/catalog.service.ts': 'export class CatalogService {}',
+      'libs/identity/nest/src/application/use-cases/register-user.use-case.ts':
+        "import { Injectable } from '@nestjs/common'; export class RegisterUserUseCase {}",
+      'libs/identity/nest/src/registration/registration.service.ts':
+        'export class RegistrationService {}',
+      'rogue.service.ts': 'export class RogueService {}',
+    },
+    async (cwd) => {
+      assert.deepEqual(await scanRepository({ cwd }), [
+        {
+          code: 'unclassified-production',
+          declaration: 'missing repository classification',
+          file: 'apps/catalog/src/catalog.service.ts',
+          line: 1,
+        },
+        {
+          code: 'forbidden-dependency',
+          declaration: '@nestjs/common',
+          file: 'libs/identity/nest/src/application/use-cases/register-user.use-case.ts',
+          line: 1,
+        },
+        {
+          code: 'unclassified-production',
+          declaration: 'missing approved layer',
+          file: 'libs/identity/nest/src/registration/registration.service.ts',
+          line: 1,
+        },
+        {
+          code: 'unclassified-production',
+          declaration: 'missing repository classification',
+          file: 'rogue.service.ts',
+          line: 1,
+        },
+      ]);
+    },
+  );
+});
+
+test('the migration task manifest rejects both excluded applications @spec:AC-260', async () => {
   assert.deepEqual(
     taskManifestScopeViolations(
       await readFile(
@@ -132,23 +264,16 @@ test('the migration task manifest permits only the authorized T-216 Order Workfl
   );
   assert.deepEqual(
     taskManifestScopeViolations(
-      '## T-216 — Close migration [pendente]\n- Arquivos: apps/order-workflow-subgraph/src/main.ts',
+      '## T-216 — Close migration [pendente]\n- Arquivos: apps/order-workflow-subgraph/src/main.ts, apps/payment-federation/src/main.java',
     ),
     [
       {
-        code: 'excluded-order-workflow',
+        code: 'excluded-application',
         declaration: 'apps/order-workflow-subgraph/src/main.ts',
       },
-    ],
-  );
-  assert.deepEqual(
-    taskManifestScopeViolations(
-      '## T-999 — Unauthorized [pendente]\n- Arquivos: apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts',
-    ),
-    [
       {
-        code: 'excluded-order-workflow',
-        declaration: 'apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts',
+        code: 'excluded-application',
+        declaration: 'apps/payment-federation/src/main.java',
       },
     ],
   );

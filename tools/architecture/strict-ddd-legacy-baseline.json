@@ -1,3 +1,304 @@
 {
-  "violations": []
+  "violations": [
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "apps/gateway/src/subscriptions/gateway-sse.options.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "apps/gateway/src/subscriptions/order-workflow-subscription.client.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "apps/gateway/src/subscriptions/sse-handler.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/auth-context.factory.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/authentication-principal.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/commerce-cookie-policy.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/commerce-session-headers.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/commerce-session-request-headers.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/commerce-session-response-headers.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/gateway-authentication.configuration.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/gateway-context.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/gateway-jwt-header-validator.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/gateway-request.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/gateway-unauthenticated.error.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/auth/token-verifier.service.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/federation/authenticated-data-source.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/federation/federation-capabilities.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/federation/gateway-federation.configuration.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/gateway/nest/src/federation/set-cookie-values.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/better-auth/better-auth.error.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/better-auth/identity-auth.types.d.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/graphql/identity-user.types.d.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/graphql/pending-load.types.d.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/graphql/user-cursor.decoder.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/graphql/user-cursor.encoder.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/graphql/user.loader.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/graphql/user.repository.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/oauth-issuer/oauth-client.types.d.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/oauth-issuer/oauth-error-code.d.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/oauth-issuer/oauth.error.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/registration/identity-bootstrap.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/registration/registration-compensation.service.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/registration/registration.error.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/registration/registration.service.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/registration/registration.types.d.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/wordpress/wordpress-error-code.d.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/wordpress/wordpress-identity.service.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/identity/nest/src/wordpress/wordpress.error.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/graphql/required-scopes.metadata.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/oauth-claims.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/oauth-graphql-context.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/oauth-http-request.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-authentication-messages.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
+      "line": 1
+    },
+    {
+      "code": "unclassified-production",
+      "declaration": "missing approved layer",
+      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
+      "line": 1
+    }
+  ]
 }
