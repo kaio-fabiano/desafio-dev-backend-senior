@@ -1,11 +1,65 @@
 {
   "feature": "strict-nestjs-ddd-migration",
-  "timestamp": "2026-09-07T16:11:07.691Z",
-  "gitRev": "368c5ee",
+  "timestamp": "2026-09-07T18:47:50.134Z",
+  "gitRev": "2d6e840",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 79,
-  "results": {},
-  "principles": {}
+  "testsParsed": 233,
+  "results": {
+    "AC-252": {
+      "status": "pass",
+      "testName": "AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005",
+      "method": "tap"
+    },
+    "AC-253": {
+      "status": "pass",
+      "testName": "AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004",
+      "method": "tap"
+    },
+    "AC-254": {
+      "status": "pass",
+      "testName": "mixed production declarations report their file and declaration @spec:AC-254",
+      "method": "tap"
+    },
+    "AC-255": {
+      "status": "pass",
+      "testName": "only dedicated framework files receive functional exceptions @spec:AC-255",
+      "method": "tap"
+    },
+    "AC-256": {
+      "status": "pass",
+      "testName": "domain and application layers reject framework dependencies @spec:AC-256",
+      "method": "tap"
+    },
+    "AC-257": {
+      "status": "pass",
+      "testName": "focused classes and abstract ports are accepted @spec:AC-257",
+      "method": "tap"
+    },
+    "AC-258": {
+      "status": "pass",
+      "testName": "Gateway has no remaining legacy declarations after its migration wave @spec:AC-256 @spec:AC-257 @spec:AC-258",
+      "method": "tap"
+    },
+    "AC-259": {
+      "status": "pass",
+      "testName": "the stable NestJS baseline is empty and the in-scope roots have zero violations @spec:AC-259",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    },
+    "P-005": {
+      "status": "pass",
+      "testName": "AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005"
+    },
+    "P-004": {
+      "status": "pass",
+      "testName": "AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004"
+    }
+  }
 }
