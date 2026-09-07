@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { CommerceCookiePolicy } from './commerce-cookie-policy.ts';
+import { CommerceCookieAdapter } from '../infrastructure/http/commerce-cookie.adapter.ts';
 
-describe('CommerceCookiePolicy', () => {
+describe('CommerceCookieAdapter', () => {
   it('retains only documented WooCommerce cart cookies', () => {
     expect(
-      CommerceCookiePolicy.allowlisted(
+      new CommerceCookieAdapter().allowlisted(
         'bad; analytics=x; woocommerce_cart_hash=h; ' +
           'woocommerce_items_in_cart=2; wp_woocommerce_session_store=a=b',
       ),
@@ -16,7 +16,8 @@ describe('CommerceCookiePolicy', () => {
   });
 
   it('returns undefined when no allowlisted cookie is present', () => {
-    expect(CommerceCookiePolicy.allowlisted(undefined)).toBeUndefined();
-    expect(CommerceCookiePolicy.allowlisted('analytics=secret')).toBeUndefined();
+    const cookies = new CommerceCookieAdapter();
+    expect(cookies.allowlisted(undefined)).toBeUndefined();
+    expect(cookies.allowlisted('analytics=secret')).toBeUndefined();
   });
 });

@@ -27,66 +27,6 @@
     {
       "code": "unclassified-production",
       "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/authentication-principal.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/commerce-cookie-policy.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/commerce-session-headers.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/commerce-session-request-headers.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/commerce-session-response-headers.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/gateway-authentication.configuration.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/gateway-context.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/gateway-jwt-header-validator.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/gateway-request.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/auth/gateway-unauthenticated.error.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
       "file": "libs/gateway/nest/src/auth/token-verifier.service.ts",
       "line": 1
     },
@@ -99,19 +39,7 @@
     {
       "code": "unclassified-production",
       "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/federation/federation-capabilities.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
       "file": "libs/gateway/nest/src/federation/gateway-federation.configuration.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/gateway/nest/src/federation/set-cookie-values.ts",
       "line": 1
     },
     {

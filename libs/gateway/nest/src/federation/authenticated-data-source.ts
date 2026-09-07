@@ -3,15 +3,19 @@ import {
   type GraphQLDataSourceProcessOptions,
 } from '@apollo/gateway';
 
-import { CommerceCookiePolicy } from '../auth/commerce-cookie-policy.ts';
-import { CommerceSessionRequestHeaders } from '../auth/commerce-session-request-headers.ts';
-import { CommerceSessionResponseHeaders } from '../auth/commerce-session-response-headers.ts';
-import type { GatewayContext } from '../auth/gateway-context.ts';
-import type { FederationCapabilities } from './federation-capabilities.ts';
-import { SetCookieValues } from './set-cookie-values.ts';
+import type { FederationCapabilities } from '../application/dto/federation-capabilities.dto.ts';
+import type { GatewayContext } from '../application/dto/gateway-context.dto.ts';
+import { CaptureFederationResponseUseCase } from '../application/use-cases/capture-federation-response.use-case.ts';
+import { PrepareFederationRequestUseCase } from '../application/use-cases/prepare-federation-request.use-case.ts';
+import { CommerceCookieAdapter } from '../infrastructure/http/commerce-cookie.adapter.ts';
+import { SetCookieValuesAdapter } from '../infrastructure/http/set-cookie-values.adapter.ts';
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayContext> {
   private readonly capabilities: FederationCapabilities;
+  private readonly captureResponse = new CaptureFederationResponseUseCase();
+  private readonly prepareRequest = new PrepareFederationRequestUseCase(
+    new CommerceCookieAdapter(),
+  );
 
   constructor(config: { url: string; capabilities?: FederationCapabilities }) {
     super({ url: config.url });
@@ -24,18 +28,11 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayCont
   }: GraphQLDataSourceProcessOptions<GatewayContext>) {
     const headers = request.http?.headers;
     if (!headers) return;
-    if (this.capabilities.origin) {
-      headers.set('origin', this.capabilities.origin);
-    }
-    if (context?.requestId) headers.set('x-request-id', context.requestId);
-    if (this.capabilities.bearer && context?.authorization) {
-      headers.set('authorization', context.authorization);
-    }
-    if (!this.capabilities.requestSession) return;
-    for (const name of CommerceSessionRequestHeaders.values) {
-      const raw = context?.sessionHeaders?.[name];
-      const value = name === 'cookie' ? CommerceCookiePolicy.allowlisted(raw) : raw;
-      if (value) headers.set(name, value);
+    for (const [name, value] of this.prepareRequest.execute(
+      this.capabilities,
+      context as GatewayContext | undefined,
+    )) {
+      headers.set(name, value);
     }
   }
 
@@ -48,12 +45,24 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayCont
     NonNullable<RemoteGraphQLDataSource<GatewayContext>['didReceiveResponse']>
   > {
     if (!this.capabilities.responseSession) return response;
-    for (const name of CommerceSessionResponseHeaders.values) {
+    const incoming = new Map<string, string | readonly string[]>();
+    for (const name of ['woocommerce-session', 'cart-token']) {
       const value = response.http?.headers.get(name);
-      if (value) context.setResponseHeader?.(name, value);
+      if (value) incoming.set(name, value);
     }
-    const cookies = response.http ? SetCookieValues.from(response.http.headers) : [];
-    if (cookies.length > 0) context.setResponseHeader?.('set-cookie', cookies);
+    const cookies = response.http
+      ? SetCookieValuesAdapter.from(response.http.headers)
+      : [];
+    if (cookies.length > 0) incoming.set('set-cookie', cookies);
+    for (const [name, value] of this.captureResponse.execute(
+      this.capabilities,
+      incoming,
+    )) {
+      context.setResponseHeader?.(
+        name,
+        typeof value === 'string' ? value : [...value],
+      );
+    }
     return response;
   }
 }

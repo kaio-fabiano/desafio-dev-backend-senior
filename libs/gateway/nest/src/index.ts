@@ -1,9 +1,11 @@
 export { AuthContextFactory } from './auth/auth-context.factory.ts';
 export { GatewayAuthModule } from './auth/gateway-auth.module.ts';
-export { AuthenticationPrincipal } from './auth/authentication-principal.ts';
-export { CommerceSessionHeaders } from './auth/commerce-session-headers.ts';
-export { GatewayContext } from './auth/gateway-context.ts';
+export { AuthenticationPrincipal } from './application/dto/authentication-principal.dto.ts';
+export { CommerceSessionHeaders } from './application/dto/commerce-session-headers.dto.ts';
+export { GatewayContext } from './application/dto/gateway-context.dto.ts';
+export { OrderWorkflowSubscriptionPort } from './application/ports/order-workflow-subscription.port.ts';
+export { ForwardGatewaySubscriptionUseCase } from './application/use-cases/forward-gateway-subscription.use-case.ts';
 export { TokenVerifierService } from './auth/token-verifier.service.ts';
 export { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
-export { FederationCapabilities } from './federation/federation-capabilities.ts';
+export { FederationCapabilities } from './application/dto/federation-capabilities.dto.ts';
 export { GatewayModule } from './gateway.module.ts';

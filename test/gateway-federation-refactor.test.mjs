@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const libraryRoot = 'libs/gateway/nest/src';
@@ -10,6 +10,88 @@ const config = {
       : undefined;
   },
 };
+
+const gatewayCoreFiles = [
+  'application/ports/commerce-cookie.port.ts',
+  'application/ports/gateway-token-verifier.port.ts',
+  'application/ports/order-workflow-subscription.port.ts',
+  'application/use-cases/capture-federation-response.use-case.ts',
+  'application/use-cases/create-gateway-context.use-case.ts',
+  'application/use-cases/forward-gateway-subscription.use-case.ts',
+  'application/use-cases/prepare-federation-request.use-case.ts',
+];
+
+test('AC-256: Gateway application dependencies point inward through abstract ports @spec:AC-256', async () => {
+  const missing = [];
+  for (const file of gatewayCoreFiles) {
+    try {
+      await access(`${libraryRoot}/${file}`);
+    } catch {
+      missing.push(file);
+    }
+  }
+  assert.deepEqual(missing, []);
+
+  const sources = await Promise.all(
+    gatewayCoreFiles.map((file) =>
+      readFile(`${libraryRoot}/${file}`, 'utf8').then((source) => [
+        file,
+        source,
+      ]),
+    ),
+  );
+  for (const [file, source] of sources) {
+    assert.doesNotMatch(
+      source,
+      /from ['"](?:@nestjs|@apollo|graphql|graphql-sse|express)|@(?:Injectable|Inject)\b/,
+      file,
+    );
+    if (file.endsWith('.port.ts')) {
+      assert.match(source, /export abstract class /, file);
+    }
+  }
+});
+
+test('AC-265: Gateway is a thin edge with explicit application ports @spec:AC-265', async () => {
+  const [main, appModule, middleware, authFactory, dataSource, handler] =
+    await Promise.all([
+      readFile('apps/gateway/src/main.ts', 'utf8'),
+      readFile('apps/gateway/src/app.module.ts', 'utf8'),
+      readFile('apps/gateway/src/subscriptions/sse.middleware.ts', 'utf8'),
+      readFile(`${libraryRoot}/auth/auth-context.factory.ts`, 'utf8'),
+      readFile(
+        `${libraryRoot}/federation/authenticated-data-source.ts`,
+        'utf8',
+      ),
+      readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
+    ]);
+
+  assert.doesNotMatch(
+    `${main}\n${appModule}`,
+    /OrderWorkflowSubscriptionClient|createClient\(/,
+  );
+  await assert.rejects(access(`${libraryRoot}/domain`));
+  assert.doesNotMatch(
+    middleware,
+    /new (?:GatewaySseHandler|OrderWorkflowSubscriptionClient)/,
+  );
+  assert.match(authFactory, /CreateGatewayContextUseCase/);
+  assert.match(dataSource, /PrepareFederationRequestUseCase/);
+  assert.match(dataSource, /CaptureFederationResponseUseCase/);
+  assert.match(handler, /ForwardGatewaySubscriptionUseCase/);
+});
+
+test('AC-268: characterized Gateway behavior moves behind application orchestration @spec:AC-268 @principle:P-003', async () => {
+  const [authFactory, dataSource, handler] = await Promise.all([
+    readFile(`${libraryRoot}/auth/auth-context.factory.ts`, 'utf8'),
+    readFile(`${libraryRoot}/federation/authenticated-data-source.ts`, 'utf8'),
+    readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
+  ]);
+
+  assert.match(authFactory, /\.execute\(/);
+  assert.match(dataSource, /\.execute\(/);
+  assert.match(handler, /\.execute\(/);
+});
 
 test('AC-095: Gateway contains only authenticated federation edge responsibilities @spec:AC-095', async () => {
   const [
@@ -24,7 +106,10 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     readFile('apps/gateway/src/main.ts', 'utf8'),
     readFile('apps/gateway/src/app.module.ts', 'utf8'),
     readFile(`${libraryRoot}/gateway.module.ts`, 'utf8'),
-    readFile(`${libraryRoot}/federation/gateway-federation.configuration.ts`, 'utf8'),
+    readFile(
+      `${libraryRoot}/federation/gateway-federation.configuration.ts`,
+      'utf8',
+    ),
     readFile('libs/gateway/nest/project.json', 'utf8'),
     import(`../${libraryRoot}/auth/auth-context.factory.ts`),
     import(`../${libraryRoot}/auth/token-verifier.service.ts`),
@@ -50,7 +135,10 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(gatewayModule, /AuthContextFactory/);
   assert.match(federationConfiguration, /http:\/\/wordpress\/graphql/);
   assert.match(federationConfiguration, /payment-federation:8080\/graphql/);
-  assert.match(federationConfiguration, /order-workflow-subgraph:3003\/graphql/);
+  assert.match(
+    federationConfiguration,
+    /order-workflow-subgraph:3003\/graphql/,
+  );
   assert.doesNotMatch(federationConfiguration, /stock-worker/);
   assert.doesNotMatch(
     `${main}\n${appModule}\n${gatewayModule}\n${federationConfiguration}`,
