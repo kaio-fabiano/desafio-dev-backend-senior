@@ -1,11 +1,11 @@
 # Plano de execução — strict-nestjs-ddd-migration
 
-> gerado por `onp-spec plano` em 2026-09-07 18:12 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-07 19:20 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano strict-nestjs-ddd-migration --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (5 já concluída(s): T-209, T-210, T-211, T-212, T-213)
+- **modo SEQUENCIAL (escolha do usuário)**: 9 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (5 já concluída(s): T-209, T-210, T-211, T-212, T-213)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/strict-nestjs-ddd-migration`; levar para a main é decisão sua
 
@@ -13,7 +13,15 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-216 | Remove the in-scope legacy baseline and close all migration gates | `gpt-5.6-terra` | medium |
+| T-216 | Replace the partial scanner with a truthful repository inventory | `gpt-5.6-sol` | high |
+| T-217 | Extract the framework-independent Identity core | `gpt-5.6-sol` | high |
+| T-218 | Rebuild Identity adapters, presentation, and NestJS composition | `gpt-5.6-sol` | high |
+| T-219 | Separate Platform authorization policy from NestJS adapters | `gpt-5.6-sol` | high |
+| T-220 | Refactor the Gateway as a thin Clean Architecture edge | `gpt-5.6-sol` | high |
+| T-221 | Refactor the WordPress and WooCommerce integration | `gpt-5.6-sol` | high |
+| T-222 | Govern shared contracts and Apollo MCP as explicit boundaries | `gpt-5.6-terra` | medium |
+| T-223 | Refactor infrastructure, deployment scripts, and end-to-end tooling | `gpt-5.6-terra` | medium |
+| T-224 | Close the repository-wide baseline and publish migration evidence | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits
 
@@ -32,7 +40,7 @@ bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh
 Cada tarefa roda `codex exec` com **janela de contexto limpa**, na árvore principal,
 uma após a outra, com `--model` e `model_reasoning_effort` já definidos por tarefa e sandbox `danger-full-access`.
 Os prompts exatos estão embutidos no script.
-Logs: `../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-logs/`.
+Logs: `../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-logs/`.
 
 **Confirmação de custos — antes de executar**: os modelos e esforços por
 tarefa estão nas tabelas acima; o agente CONFIRMA com o usuário se estão
