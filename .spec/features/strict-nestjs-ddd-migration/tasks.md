@@ -79,7 +79,7 @@
 - Esforço: alto
 - Notas: Follow characterization-first Red, Green, Refactor using WordPress and WooCommerce conventions rather than NestJS file grammar. Keep plugin bootstrap and hooks thin, isolate project-owned responsibilities in namespaced classes, validate nonces/capabilities and external inputs, preserve REST and GraphQL contracts, use WooCommerce CRUD APIs with HPOS compatibility, and retain WooCommerce as cart/order source of truth. Do not implement the future checkout/order redesign or modify either excluded application.
 
-## T-222 — Govern shared contracts and Apollo MCP as explicit boundaries [pendente]
+## T-222 — Govern shared contracts and Apollo MCP as explicit boundaries [concluida]
 - Refs: US-125, US-126, AC-267, AC-268
 - Arquivos: libs/contracts, apps/apollo-mcp, test/milestone-6-apollo-mcp.test.mjs, test/milestone-6-mcp-config.test.mjs, test/milestone-6-mcp-operations.test.mjs, test/structural-mcp-review.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-terra
