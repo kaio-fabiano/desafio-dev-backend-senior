@@ -51,7 +51,7 @@
 - Esforço: alto
 - Notas: Preserve the owner's existing uncommitted Identity edits. Follow characterization-first Red, Green, Refactor. Identify the actual Identity aggregate or explicitly document where a use case has no aggregate. Extract registration and client-provisioning use cases, immutable domain/application data classes, domain errors, policies, and abstract-class ports with no NestJS, Better Auth, WordPress, GraphQL, database, or transport imports. Do not introduce generic repositories, buses, base entities, or empty layer folders.
 
-## T-218 — Rebuild Identity adapters, presentation, and NestJS composition [pendente]
+## T-218 — Rebuild Identity adapters, presentation, and NestJS composition [concluida]
 - Refs: US-123, US-126, AC-263, AC-268
 - Arquivos: libs/identity/nest/src, apps/identity-subgraph/src, test/identity-federation-refactor.test.mjs, test/wordpress-registration-graphql.contract.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-sol
