@@ -6,18 +6,19 @@ import {
 import { AuthService } from '@thallesp/nestjs-better-auth';
 
 import type { IdentityAuth } from '../better-auth/identity-auth.types.d.ts';
+import { OAuthClientDefinition } from '../application/dto/oauth-client-definition.dto.ts';
+import { OAuthClientIds } from '../application/dto/oauth-client-ids.dto.ts';
+import { OAuthSeedCredentials } from '../application/dto/oauth-seed-credentials.dto.ts';
+import { OAuthClientProvisioningPort } from '../application/ports/oauth-client-provisioning.port.ts';
+import { OAuthSeedCredentialsPort } from '../application/ports/oauth-seed-credentials.port.ts';
+import { ProvisionOAuthClientsUseCase } from '../application/use-cases/provision-oauth-clients.use-case.ts';
 import { IdentityBootstrap } from '../registration/identity-bootstrap.ts';
-import { OAuthResources } from './oauth-resources.ts';
 import { OAuthError } from './oauth.error.ts';
-import type {
-  OAuthClientBody,
-  OAuthClientSeed,
-} from './oauth-client.types.d.ts';
 
 @Injectable()
 export class OAuthClientProvisioningService implements OnApplicationBootstrap {
-  private clients?: { gateway: string; mcp: string };
-  private initialization?: Promise<{ gateway: string; mcp: string }>;
+  private clients?: OAuthClientIds;
+  private initialization?: Promise<OAuthClientIds>;
 
   constructor(
     @Inject(AuthService)
@@ -36,26 +37,100 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
 
   private async initialize() {
     const context = await this.auth.instance.$context;
-    await context.runMigrations();
-    for (const identifier of Object.values(OAuthResources.resources)) {
-      await context.adapter.update({
-        model: 'oauthResource',
-        where: [{ field: 'identifier', value: identifier }],
-        update: { signingAlgorithm: 'ES256', updatedAt: new Date() },
-      });
-    }
-    return {
-      gateway: await this.seedClient({
-        name: 'Marketplace gateway',
-        redirectUri: 'http://127.0.0.1:4000/oauth/callback',
-        softwareId: 'identity-gateway',
-      }),
-      mcp: await this.seedClient({
-        name: 'Apollo MCP',
-        redirectUri: 'http://127.0.0.1:6274/oauth/callback',
-        softwareId: 'apollo-mcp',
-      }),
-    };
+    const adapter = context.adapter;
+    const clients = {
+      createClient: async (
+        definition: OAuthClientDefinition,
+        sessionCookie: string,
+      ) => {
+        const client = await this.auth.api.adminCreateOAuthClient({
+          headers: new Headers({ cookie: sessionCookie }),
+          body: {
+            client_name: definition.name,
+            software_id: definition.softwareId,
+            redirect_uris: [definition.redirectUri],
+            scope: definition.scopes.join(' '),
+            grant_types: ['authorization_code'],
+            response_types: ['code'],
+            token_endpoint_auth_method: 'none',
+            application_type: 'native',
+            require_pkce: true,
+            skip_consent: true,
+          },
+        });
+        return client.client_id;
+      },
+      ensureResourceLinks: async (
+        clientId: string,
+        resourceIds: readonly string[],
+      ) => {
+        const links = await adapter.findMany<{ resourceId: string }>({
+          model: 'oauthClientResource',
+          where: [{ field: 'clientId', value: clientId }],
+        });
+        const linkedResources = new Set(
+          links.map(({ resourceId }) => resourceId),
+        );
+        for (const resourceId of resourceIds) {
+          if (linkedResources.has(resourceId)) continue;
+          await adapter.create({
+            model: 'oauthClientResource',
+            data: { clientId, resourceId, createdAt: new Date() },
+          });
+        }
+      },
+      findClient: async (softwareId: string) =>
+        (
+          await adapter.findOne<{ clientId: string }>({
+            model: 'oauthClient',
+            where: [{ field: 'softwareId', value: softwareId }],
+          })
+        )?.clientId,
+      openAdministratorSession: async (
+        credentials: OAuthSeedCredentials,
+        name: string,
+      ) => {
+        const administrator = await adapter.findOne<{ id: string }>({
+          model: 'user',
+          where: [{ field: 'email', value: credentials.email }],
+        });
+        const response = administrator
+          ? await this.auth.api.signInEmail({
+              body: credentials,
+              asResponse: true,
+            })
+          : await this.auth.api.signUpEmail({
+              body: { ...credentials, name },
+              headers: IdentityBootstrap.headers(),
+              asResponse: true,
+            });
+        if (!response.ok) {
+          throw new OAuthError(
+            'OAUTH_CLIENT_SEED_FAILED',
+            `Identity client seed failed: ${response.status}`,
+          );
+        }
+        return response.headers
+          .getSetCookie()
+          .map((value) => value.split(';', 1)[0])
+          .filter(Boolean)
+          .join('; ');
+      },
+      prepareResources: async (resourceIds: readonly string[]) => {
+        await context.runMigrations();
+        for (const identifier of resourceIds) {
+          await adapter.update({
+            model: 'oauthResource',
+            where: [{ field: 'identifier', value: identifier }],
+            update: { signingAlgorithm: 'ES256', updatedAt: new Date() },
+          });
+        }
+      },
+    } satisfies OAuthClientProvisioningPort;
+    const credentials = {
+      get: () => this.seedCredentials(),
+    } satisfies OAuthSeedCredentialsPort;
+    return new ProvisionOAuthClientsUseCase(clients, credentials).execute();
   }
 
   get clientIds() {
@@ -68,78 +143,7 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
     return { ...this.clients };
   }
 
-  private async seedClient(seed: OAuthClientSeed): Promise<string> {
-    const context = await this.auth.instance.$context;
-    const existing = await context.adapter.findOne<{ clientId: string }>({
-      model: 'oauthClient',
-      where: [{ field: 'softwareId', value: seed.softwareId }],
-    });
-    if (existing) {
-      const links = await context.adapter.findMany<{ resourceId: string }>({
-        model: 'oauthClientResource',
-        where: [{ field: 'clientId', value: existing.clientId }],
-      });
-      const linkedResources = new Set(
-        links.map(({ resourceId }) => resourceId),
-      );
-      for (const resourceId of Object.values(OAuthResources.resources)) {
-        if (linkedResources.has(resourceId)) continue;
-        await context.adapter.create({
-          model: 'oauthClientResource',
-          data: {
-            clientId: existing.clientId,
-            resourceId,
-            createdAt: new Date(),
-          },
-        });
-      }
-      return existing.clientId;
-    }
-
-    const credentials = this.seedCredentials();
-    const administrator = await context.adapter.findOne<{ id: string }>({
-      model: 'user',
-      where: [{ field: 'email', value: credentials.email }],
-    });
-    const response = administrator
-      ? await this.auth.api.signInEmail({ body: credentials, asResponse: true })
-      : await this.auth.api.signUpEmail({
-          body: { ...credentials, name: 'Identity client seed' },
-          headers: IdentityBootstrap.headers(),
-          asResponse: true,
-        });
-    if (!response.ok) {
-      throw new OAuthError(
-        'OAUTH_CLIENT_SEED_FAILED',
-        `Identity client seed failed: ${response.status}`,
-      );
-    }
-    const body = {
-      client_name: seed.name,
-      software_id: seed.softwareId,
-      redirect_uris: [seed.redirectUri],
-      scope: ['openid', 'profile', ...OAuthResources.delegatedScopes].join(' '),
-      grant_types: ['authorization_code'],
-      response_types: ['code'],
-      token_endpoint_auth_method: 'none',
-      application_type: 'native',
-      require_pkce: true,
-      skip_consent: true,
-    } satisfies OAuthClientBody;
-    const client = await this.auth.api.adminCreateOAuthClient({
-      headers: new Headers({
-        cookie: response.headers
-          .getSetCookie()
-          .map((value) => value.split(';', 1)[0])
-          .filter(Boolean)
-          .join('; '),
-      }),
-      body,
-    });
-    return client.client_id;
-  }
-
-  private seedCredentials() {
+  private seedCredentials(): OAuthSeedCredentials {
     const password = process.env.SEED_ADMIN_PASSWORD;
     if (!password) {
       throw new OAuthError(
@@ -147,9 +151,9 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
         'SEED_ADMIN_PASSWORD is required to create OAuth clients',
       );
     }
-    return {
-      email: process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
+    return new OAuthSeedCredentials(
+      process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
       password,
-    };
+    );
   }
 }

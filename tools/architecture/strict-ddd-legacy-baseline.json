@@ -177,18 +177,6 @@
     {
       "code": "unclassified-production",
       "declaration": "missing approved layer",
-      "file": "libs/identity/nest/src/oauth-issuer/oauth-client.types.d.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/identity/nest/src/oauth-issuer/oauth-error-code.d.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
       "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts",
       "line": 1
     },
@@ -220,12 +208,6 @@
       "code": "unclassified-production",
       "declaration": "missing approved layer",
       "file": "libs/identity/nest/src/registration/registration.service.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/identity/nest/src/registration/registration.types.d.ts",
       "line": 1
     },
     {

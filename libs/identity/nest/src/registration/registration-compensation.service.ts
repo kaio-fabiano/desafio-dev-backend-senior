@@ -1,46 +1,45 @@
 import { Inject, Injectable } from '@nestjs/common';
+
+import { CompensateRegistrationUseCase } from '../application/use-cases/compensate-registration.use-case.ts';
+import { CustomerIdentityPort } from '../application/ports/customer-identity.port.ts';
+import { IdentityAccountPort } from '../application/ports/identity-account.port.ts';
 import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
-import type { CompensationFailure, RegistrationIdentityAdapter } from './registration.types.d.ts';
 
 @Injectable()
 export class RegistrationCompensationService {
+  private readonly useCase: CompensateRegistrationUseCase;
+
   constructor(
     @Inject(WordPressIdentityService)
     private readonly wordpress: Pick<
       WordPressIdentityService,
       'deleteCustomer'
     >,
-  ) {}
+  ) {
+    this.useCase = new CompensateRegistrationUseCase({
+      deleteCustomer: (customerId) => this.wordpress.deleteCustomer(customerId),
+    } satisfies Pick<CustomerIdentityPort, 'deleteCustomer'>);
+  }
 
   async compensate(
-    identity: RegistrationIdentityAdapter,
+    identity: Pick<
+      IdentityAccountPort,
+      'deleteAccounts' | 'deleteUser' | 'deleteUserSessions'
+    >,
     userId: string,
     wordpressUserId?: string,
-  ): Promise<CompensationFailure[]> {
-    const steps: Array<{
-      run: () => Promise<unknown>;
-      step: CompensationFailure['step'];
-    }> = [
-      ...(wordpressUserId
-        ? [
-            {
-              run: () => this.wordpress.deleteCustomer(wordpressUserId),
-              step: 'wordpress' as const,
-            },
-          ]
-        : []),
-      { run: () => identity.deleteUserSessions(userId), step: 'sessions' },
-      { run: () => identity.deleteAccounts(userId), step: 'accounts' },
-      { run: () => identity.deleteUser(userId), step: 'user' },
-    ];
-    const failures: CompensationFailure[] = [];
-    for (const { run, step } of steps) {
-      try {
-        await run();
-      } catch (cause) {
-        failures.push({ cause, step });
-      }
-    }
-    return failures;
+  ) {
+    return this.execute(identity, userId, wordpressUserId);
+  }
+
+  execute(
+    identity: Pick<
+      IdentityAccountPort,
+      'deleteAccounts' | 'deleteUser' | 'deleteUserSessions'
+    >,
+    userId: string,
+    wordpressUserId?: string,
+  ) {
+    return this.useCase.execute(identity, userId, wordpressUserId);
   }
 }

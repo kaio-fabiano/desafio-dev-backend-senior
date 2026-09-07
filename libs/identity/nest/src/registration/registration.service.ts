@@ -6,11 +6,14 @@ import {
 } from '@thallesp/nestjs-better-auth';
 import { APIError } from 'better-auth/api';
 
+import { RegisterIdentityCommand } from '../application/commands/register-identity.command.ts';
+import { CustomerIdentityPort } from '../application/ports/customer-identity.port.ts';
+import { IdentityAccountPort } from '../application/ports/identity-account.port.ts';
+import { RegisterIdentityUseCase } from '../application/use-cases/register-identity.use-case.ts';
+import { IdentityRegistrationPolicy } from '../domain/policies/identity-registration.policy.ts';
 import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
 import { IdentityBootstrap } from './identity-bootstrap.ts';
 import { RegistrationCompensationService } from './registration-compensation.service.ts';
-import { RegistrationError } from './registration.error.ts';
-import type { SignUpInput, SignUpResult } from './registration.types.d.ts';
 
 @Hook()
 @Injectable()
@@ -19,7 +22,7 @@ export class RegistrationService {
     @Inject(WordPressIdentityService)
     private readonly wordpress: Pick<
       WordPressIdentityService,
-      'createCustomer' | 'linkSubject'
+      'createCustomer' | 'deleteCustomer' | 'linkSubject'
     >,
     @Inject(RegistrationCompensationService)
     private readonly compensation: RegistrationCompensationService,
@@ -27,56 +30,77 @@ export class RegistrationService {
 
   @AfterHook('/sign-up/email') // DatabaseHook seria melhor?
   async afterEmailSignUp(context: AuthHookContext): Promise<void> {
-    if (IdentityBootstrap.matches(context.headers)) {
-      return;
-    }
-    const input = context.body as SignUpInput | undefined;
+    const input = context.body as
+      | { email?: string; name?: string; password?: string }
+      | undefined;
     const result = await this.signUpResult(context.context.returned);
-    if (!input?.email || !input.name || !input.password || !result.user) return;
+    const registration = IdentityRegistrationPolicy.evaluate(
+      IdentityBootstrap.matches(context.headers),
+      input?.email,
+      input?.name,
+      input?.password,
+      result.user?.id,
+    );
+    if (!registration) return;
 
     const betterAuthInternalAdapter = context.context.internalAdapter;
-    let wordpressUserId: string | undefined;
+    const customer = {
+      createCustomer: async (command: RegisterIdentityCommand) =>
+        (await this.wordpress.createCustomer(command)).id,
+      deleteCustomer: (customerId: string) =>
+        this.wordpress.deleteCustomer(customerId),
+      linkSubject: (customerId: string, subject: string) =>
+        this.wordpress.linkSubject(customerId, subject),
+    } satisfies CustomerIdentityPort;
+    const identity = {
+      deleteAccounts: (subject: string) =>
+        betterAuthInternalAdapter.deleteAccounts(subject),
+      deleteUser: (subject: string) =>
+        betterAuthInternalAdapter.deleteUser(subject),
+      deleteUserSessions: (subject: string) =>
+        betterAuthInternalAdapter.deleteUserSessions(subject),
+      linkExternalIdentity: async (
+        externalIdentityId: string,
+        subject: string,
+      ) => {
+        await betterAuthInternalAdapter.linkAccount({
+          accountId: externalIdentityId,
+          issuer: 'wordpress',
+          providerId: 'wordpress',
+          userId: subject,
+        });
+      },
+    } satisfies IdentityAccountPort;
     try {
-      const account = await this.wordpress.createCustomer({
-        email: input.email,
-        name: input.name,
-        password: input.password,
-      });
-      wordpressUserId = account.id;
-      await betterAuthInternalAdapter.linkAccount({
-        accountId: account.id,
-        issuer: 'wordpress',
-        providerId: 'wordpress',
-        userId: result.user.id,
-      });
-      await this.wordpress.linkSubject(account.id, result.user.id);
-    } catch (cause) {
-      const failures = await this.compensation.compensate(
-        betterAuthInternalAdapter,
-        result.user.id,
-        wordpressUserId,
+      await new RegisterIdentityUseCase(
+        customer,
+        identity,
+        this.compensation,
+      ).execute(
+        new RegisterIdentityCommand(
+          registration.email,
+          registration.name,
+          registration.password,
+          registration.subject,
+        ),
       );
-      const apiCause = failures.length
-        ? new RegistrationError(
-            'REGISTRATION_COMPENSATION_FAILED',
-            'Registration failed and compensation was incomplete',
-            { cause, failures },
-          )
-        : cause;
+    } catch (cause) {
       throw new APIError('SERVICE_UNAVAILABLE', {
-        cause: apiCause,
+        cause,
         code: 'WORDPRESS_IDENTITY_LINK_FAILED',
         message: 'Registration could not be completed',
       });
     }
   }
 
-  private async signUpResult(returned: unknown): Promise<SignUpResult> {
+  private async signUpResult(
+    returned: unknown,
+  ): Promise<{ user?: { id: string } }> {
     if (returned instanceof Response) {
       return returned.ok
-        ? ((await returned.clone().json()) as SignUpResult)
+        ? ((await returned.clone().json()) as { user?: { id: string } })
         : {};
     }
-    return (returned ?? {}) as SignUpResult;
+    return (returned ?? {}) as { user?: { id: string } };
   }
 }
