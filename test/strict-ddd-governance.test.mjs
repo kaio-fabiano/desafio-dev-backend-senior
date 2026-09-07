@@ -4,7 +4,7 @@ import test from 'node:test';
 
 const contractPath = 'docs/standards/strict-nestjs-ddd.md';
 
-test('AC-252: the strict DDD contract is explicit @spec:AC-252', async () => {
+test('AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005', async () => {
   const contract = await readFile(contractPath, 'utf8');
   for (const term of [
     'Strategic design and ownership',
@@ -18,7 +18,7 @@ test('AC-252: the strict DDD contract is explicit @spec:AC-252', async () => {
   assert.match(contract, /Unit tests[\s\S]*integration tests[\s\S]*contract tests[\s\S]*end-to-end tests/i);
 });
 
-test('AC-253: agents cannot silently bypass the contract @spec:AC-253', async () => {
+test('AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004', async () => {
   const [agents, constitution, contract] = await Promise.all([
     readFile('AGENTS.md', 'utf8'),
     readFile('.spec/constituicao.md', 'utf8'),
