@@ -1,6 +1,6 @@
 # Plano de execução — strict-nestjs-ddd-migration
 
-> gerado por `onp-spec plano` em 2026-09-07 16:05 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-07 16:12 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano strict-nestjs-ddd-migration --sequencial`
 
 ## Resumo — o que vai acontecer
@@ -37,7 +37,7 @@ bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh
 Cada tarefa roda `codex exec` com **janela de contexto limpa**, na árvore principal,
 uma após a outra, com `--model` e `model_reasoning_effort` já definidos por tarefa e sandbox `danger-full-access`.
 Os prompts exatos estão embutidos no script.
-Logs: `../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-logs/`.
+Logs: `../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-logs/`.
 
 **Confirmação de custos — antes de executar**: os modelos e esforços por
 tarefa estão nas tabelas acima; o agente CONFIRMA com o usuário se estão

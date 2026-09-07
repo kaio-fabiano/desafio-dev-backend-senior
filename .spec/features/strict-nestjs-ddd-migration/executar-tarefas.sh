@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano strict-nestjs-ddd-migration` em 2026-09-07 16:05
+# executar-tarefas.sh — gerado por `onp-spec plano strict-nestjs-ddd-migration` em 2026-09-07 16:12
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-strict-nestjs-ddd-migration-mtrfn4jj'
+RUN_ID='desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-mtrfw45s'
 FEATURE='strict-nestjs-ddd-migration'
 BASE_BRANCH='spec/strict-nestjs-ddd-migration'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -65,8 +65,8 @@ preparar_ambiente() {
     info "branch de trabalho: $BASE_BRANCH (a partir de $ATUAL)"
   fi
   git worktree prune
-  LOG_DIR="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-logs"
-  WT_BASE="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration"
+  LOG_DIR="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-logs"
+  WT_BASE="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration"
   STREAMS_DIR="${ONP_SPEC_HOME:-$HOME/.onp-spec}/painel/streams/$RUN_ID"
   mkdir -p "$LOG_DIR" "$STREAMS_DIR"
 }

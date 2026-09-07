@@ -110,6 +110,7 @@ a disruptive rewrite or investment in a transitional order workflow.
 | ASM-086 | The current GraphQL, HTTP, OAuth, SSE, RabbitMQ, and persistence contracts must remain behaviorally compatible throughout the migration. | confirmada | The request is architectural; no behavior change was requested. |
 | ASM-087 | Existing uncommitted milestone 7 and Compose changes are unrelated and must not be modified by this feature. | confirmada | The initial worktree inspection found those pre-existing changes. |
 | ASM-088 | The current TypeScript Order Workflow is intentionally excluded because its ownership and behavior will change: WooCommerce will retain cart/order capabilities and the remaining workflow will move to Java. | confirmada | The owner explicitly removed Order Workflow from this NestJS migration to avoid refactoring disposable behavior. |
+| ASM-089 | The six migration tasks run sequentially with T-209 on `gpt-5.6-luna` at low effort and T-210, T-211, T-212, T-213, and T-216 on `gpt-5.6-terra` at medium effort. | confirmada | The owner explicitly accepted the recommended execution order, models, and efforts before execution. Headless task sessions must not request this confirmation again. |
 
 ## Perguntas em aberto
 
