@@ -37,8 +37,7 @@
 - Esforço: medio
 - Notas: Separate Better Auth configuration/factory responsibilities, OAuth resources, registration commands/results/errors, compensation, WordPress adapters, GraphQL DTOs, cursor behavior, and composition while preserving Better Auth as the identity source of truth.
 
-## T-216 — Remove the in-scope legacy baseline and close all migration gates [pendente]
-
+## T-216 — Remove the in-scope legacy baseline and close all migration gates [concluida]
 - Refs: US-121, AC-258, AC-259
 - Arquivos: tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out/graph.json, graphify-out/GRAPH_REPORT.md, graphify-out/graph.html
 - Modelo: gpt-5.6-terra
