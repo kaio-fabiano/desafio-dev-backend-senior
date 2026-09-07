@@ -1,10 +1,18 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://desafio.dev/contracts/events/envelope.schema.json",
+  "$comment": "Owner: Shared integration-contract boundary",
   "title": "Common event envelope",
   "type": "object",
   "additionalProperties": false,
-  "required": ["eventId", "eventType", "eventVersion", "occurredAt", "traceContext", "operationKey"],
+  "required": [
+    "eventId",
+    "eventType",
+    "eventVersion",
+    "occurredAt",
+    "traceContext",
+    "operationKey"
+  ],
   "properties": {
     "eventId": { "type": "string", "format": "uuid" },
     "eventType": { "type": "string", "minLength": 1 },
@@ -20,6 +28,7 @@
       }
     },
     "operationKey": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string", "minLength": 1 },
     "payload": { "type": "object" }
   }
 }

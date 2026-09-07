@@ -1,3 +1,4 @@
+# Owner: Apollo MCP integration-contract boundary
 query getMyCart {
   cart {
     contents {

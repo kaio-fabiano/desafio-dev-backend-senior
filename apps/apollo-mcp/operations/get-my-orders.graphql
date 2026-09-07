@@ -1,3 +1,4 @@
+# Owner: Apollo MCP integration-contract boundary
 query getMyOrders($first: Int, $after: String) {
   customer {
     orders(first: $first, after: $after) {

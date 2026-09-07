@@ -1,3 +1,4 @@
+# Owner: Apollo MCP integration-contract boundary
 mutation addToCart($productId: Int!, $quantity: Int!) {
   addToCart(input: { productId: $productId, quantity: $quantity }) {
     cart {

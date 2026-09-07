@@ -1,3 +1,4 @@
+# Owner: Apollo MCP integration-contract boundary
 query searchProducts($first: Int, $after: String) {
   products(first: $first, after: $after) {
     nodes {
