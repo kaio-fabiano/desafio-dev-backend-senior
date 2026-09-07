@@ -15,12 +15,25 @@ describe('IdentityResolver', () => {
     await expect(resolver.users(20, 'not a cursor')).rejects.toBeInstanceOf(
       BadRequestException,
     );
+    await expect(resolver.users(20, 'a')).rejects.toBeInstanceOf(
+      BadRequestException,
+    );
     expect(users.findPage).not.toHaveBeenCalled();
   });
 
   it('maps pages and batches repeated user references per request @spec:AC-228', async () => {
-    const findByIds = vi.fn().mockResolvedValue([{ id: 'one', email: 'one@test' }]);
-    const findPage = vi.fn().mockResolvedValue({ edges: [], pageInfo: { hasNextPage: false, hasPreviousPage: false, startCursor: null, endCursor: null } });
+    const findByIds = vi
+      .fn()
+      .mockResolvedValue([{ id: 'one', email: 'one@test' }]);
+    const findPage = vi.fn().mockResolvedValue({
+      edges: [],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: null,
+        endCursor: null,
+      },
+    });
     const repository = { findByIds, findPage };
     const loader = new UserLoader(repository as never);
     const resolver = new IdentityResolver(repository as never, loader);
@@ -28,7 +41,10 @@ describe('IdentityResolver', () => {
     await expect(resolver.users(0)).rejects.toBeInstanceOf(BadRequestException);
     await resolver.users(1);
     await resolver.users(1, Buffer.from('after').toString('base64url'));
-    const [first, repeated] = await Promise.all([resolver.user('one'), resolver.user('one')]);
+    const [first, repeated] = await Promise.all([
+      resolver.user('one'),
+      resolver.user('one'),
+    ]);
     expect(first).toEqual({ id: 'one', email: 'one@test' });
     expect(repeated).toBe(first);
     expect(findByIds).toHaveBeenCalledOnce();
@@ -43,18 +59,26 @@ describe('IdentityResolver', () => {
     );
 
     await expect(resolver.me('one')).resolves.toMatchObject({ id: 'one' });
-    await expect(resolver.resolveReference({ id: 'two' })).resolves.toMatchObject({ id: 'one' });
+    await expect(
+      resolver.resolveReference({ id: 'two' }),
+    ).resolves.toMatchObject({ id: 'one' });
     expect(load).toHaveBeenNthCalledWith(1, 'one');
     expect(load).toHaveBeenNthCalledWith(2, 'two');
   });
 
   it('returns nulls and propagates repository failures to every queued load @spec:AC-228', async () => {
-    const missing = new UserLoader({ findByIds: vi.fn().mockResolvedValue([]) } as never);
+    const missing = new UserLoader({
+      findByIds: vi.fn().mockResolvedValue([]),
+    } as never);
     await expect(missing.load('missing')).resolves.toBeNull();
 
     const failure = new Error('identity store unavailable');
-    const failing = new UserLoader({ findByIds: vi.fn().mockRejectedValue(failure) } as never);
-    await expect(Promise.all([failing.load('one'), failing.load('two')])).rejects.toBe(failure);
+    const failing = new UserLoader({
+      findByIds: vi.fn().mockRejectedValue(failure),
+    } as never);
+    await expect(
+      Promise.all([failing.load('one'), failing.load('two')]),
+    ).rejects.toBe(failure);
   });
 
   it('reads Better Auth users through the repository boundary @spec:AC-228', async () => {
@@ -66,9 +90,13 @@ describe('IdentityResolver', () => {
         { id: 'two', email: 'two@test' },
       ])
       .mockResolvedValueOnce([]);
-    const repository = new IdentityUserRepository({ instance: { $context: Promise.resolve({ adapter: { findMany } }) } } as never);
+    const repository = new IdentityUserRepository({
+      instance: { $context: Promise.resolve({ adapter: { findMany } }) },
+    } as never);
     await expect(repository.findByIds([])).resolves.toEqual([]);
-    await expect(repository.findByIds(['one'])).resolves.toEqual([{ id: 'one', email: 'one@test' }]);
+    await expect(repository.findByIds(['one'])).resolves.toEqual([
+      { id: 'one', email: 'one@test' },
+    ]);
     const page = await repository.findPage(1, 'before');
     expect(page.edges).toHaveLength(1);
     expect(page.pageInfo).toMatchObject({

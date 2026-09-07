@@ -135,30 +135,6 @@
     {
       "code": "unclassified-production",
       "declaration": "missing approved layer",
-      "file": "libs/identity/nest/src/graphql/identity-user.types.d.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/identity/nest/src/graphql/pending-load.types.d.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/identity/nest/src/graphql/user-cursor.decoder.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
-      "file": "libs/identity/nest/src/graphql/user-cursor.encoder.ts",
-      "line": 1
-    },
-    {
-      "code": "unclassified-production",
-      "declaration": "missing approved layer",
       "file": "libs/identity/nest/src/graphql/user.loader.ts",
       "line": 1
     },

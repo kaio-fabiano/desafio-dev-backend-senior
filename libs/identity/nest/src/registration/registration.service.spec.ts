@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
+import { WordPressCustomerIdentityAdapter } from '../infrastructure/wordpress/wordpress-customer-identity.adapter.ts';
 import { RegistrationCompensationService } from './registration-compensation.service.ts';
 import { RegistrationError } from './registration.error.ts';
 import { RegistrationService } from './registration.service.ts';
@@ -62,7 +63,7 @@ function registrationService(
   wordpress: RegistrationWordPressService,
 ): RegistrationService {
   return new RegistrationService(
-    wordpress,
+    new WordPressCustomerIdentityAdapter(wordpress as WordPressIdentityService),
     new RegistrationCompensationService(wordpress),
   );
 }

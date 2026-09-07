@@ -72,13 +72,14 @@ test('AC-093: Better Auth uses direct plugins and its NestJS integration @spec:A
   assert.match(moduleSource, /AuthService/);
 });
 
-test('AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094', async () => {
+test('AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094 @spec:AC-268', async () => {
   const [
     { IdentityResolver },
     { UserLoader },
     { RegistrationService },
     { IdentityBootstrap },
     { RegistrationCompensationService },
+    { WordPressCustomerIdentityAdapter },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
     import(`../${libraryRoot}/graphql/user.loader.ts`),
@@ -86,6 +87,9 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     import(`../${libraryRoot}/registration/identity-bootstrap.ts`),
     import(
       `../${libraryRoot}/registration/registration-compensation.service.ts`
+    ),
+    import(
+      `../${libraryRoot}/infrastructure/wordpress/wordpress-customer-identity.adapter.ts`
     ),
   ]);
   const users = [
@@ -121,11 +125,15 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     async createCustomer() {
       return { id: 'wp-44' };
     },
-    async deleteCustomer() {},
-    async linkSubject() {},
+    async deleteCustomer() {
+      return undefined;
+    },
+    async linkSubject() {
+      return undefined;
+    },
   };
   const registration = new RegistrationService(
-    wordpress,
+    new WordPressCustomerIdentityAdapter(wordpress),
     new RegistrationCompensationService(wordpress),
   );
   await registration.afterEmailSignUp({
@@ -165,11 +173,15 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     async createCustomer() {
       throw new Error('WordPress unavailable');
     },
-    async deleteCustomer() {},
-    async linkSubject() {},
+    async deleteCustomer() {
+      return undefined;
+    },
+    async linkSubject() {
+      return undefined;
+    },
   };
   const failedRegistration = new RegistrationService(
-    unavailableWordPress,
+    new WordPressCustomerIdentityAdapter(unavailableWordPress),
     new RegistrationCompensationService(unavailableWordPress),
   );
   await assert.rejects(
@@ -183,7 +195,9 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
         context: {
           returned: { user: { id: 'failed-user' } },
           internalAdapter: {
-            async linkAccount() {},
+            async linkAccount() {
+              return undefined;
+            },
             async deleteUserSessions(id) {
               cleanup.push(['sessions', id]);
             },
@@ -213,6 +227,62 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
   assert.doesNotMatch(
     sources.join('\n'),
     /\bPostgresUserRepository\b|from ['"]pg['"]|select\s+.+\s+from\s+["']?user/i,
+  );
+});
+
+test('AC-263: Identity composes explicit adapters and delegates presentation to use cases @spec:AC-263 @spec:AC-268', async () => {
+  const [
+    accountAdapter,
+    oauthAdapter,
+    credentialsAdapter,
+    userAdapter,
+    wordpressAdapter,
+    registration,
+    resolver,
+    oauthController,
+    identityModule,
+    registrationModule,
+    oauthModule,
+    appModule,
+    main,
+  ] = await Promise.all(
+    [
+      `${libraryRoot}/infrastructure/better-auth/better-auth-identity-account.adapter.ts`,
+      `${libraryRoot}/infrastructure/oauth/better-auth-oauth-client-provisioning.adapter.ts`,
+      `${libraryRoot}/infrastructure/oauth/environment-oauth-seed-credentials.adapter.ts`,
+      `${libraryRoot}/infrastructure/persistence/better-auth-identity-user.adapter.ts`,
+      `${libraryRoot}/infrastructure/wordpress/wordpress-customer-identity.adapter.ts`,
+      `${libraryRoot}/registration/registration.service.ts`,
+      `${libraryRoot}/graphql/identity.resolver.ts`,
+      `${libraryRoot}/oauth-issuer/oauth-clients.controller.ts`,
+      `${libraryRoot}/identity.module.ts`,
+      `${libraryRoot}/registration/registration.module.ts`,
+      `${libraryRoot}/oauth-issuer/oauth-issuer.module.ts`,
+      'apps/identity-subgraph/src/app.module.ts',
+      'apps/identity-subgraph/src/main.ts',
+    ].map((file) => readFile(file, 'utf8')),
+  );
+
+  assert.match(accountAdapter, /implements IdentityAccountPort/);
+  assert.match(oauthAdapter, /implements OAuthClientProvisioningPort/);
+  assert.match(credentialsAdapter, /implements OAuthSeedCredentialsPort/);
+  assert.match(userAdapter, /implements IdentityUserQueryPort/);
+  assert.match(wordpressAdapter, /implements CustomerIdentityPort/);
+  assert.match(registration, /RegisterIdentityUseCase/);
+  assert.match(registration, /BetterAuthIdentityAccountAdapter/);
+  assert.doesNotMatch(registration, /internalAdapter\.linkAccount/);
+  assert.match(resolver, /ListIdentityUsersUseCase/);
+  assert.match(resolver, /FindIdentityUsersUseCase/);
+  assert.doesNotMatch(resolver, /IdentityUserRepository/);
+  assert.match(oauthController, /OAuthClientProvisioningService/);
+  assert.match(identityModule, /IdentityUserQueryPort/);
+  assert.match(identityModule, /BetterAuthIdentityUserAdapter/);
+  assert.match(registrationModule, /CustomerIdentityPort/);
+  assert.match(oauthModule, /OAuthClientProvisioningPort/);
+  assert.match(oauthModule, /OAuthSeedCredentialsPort/);
+  assert.doesNotMatch(
+    `${appModule}\n${main}`,
+    /better-auth|WordPress|AuthService|IdentityUserQueryPort/,
   );
 });
 

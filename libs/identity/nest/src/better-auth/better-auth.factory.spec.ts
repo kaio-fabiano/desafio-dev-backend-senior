@@ -4,10 +4,10 @@ import { Pool } from 'pg';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OAuthClientProvisioningService } from '../oauth-issuer/oauth-client-provisioning.service.ts';
+import { BetterAuthOAuthClientProvisioningAdapter } from '../infrastructure/oauth/better-auth-oauth-client-provisioning.adapter.ts';
+import { EnvironmentOAuthSeedCredentialsAdapter } from '../infrastructure/oauth/environment-oauth-seed-credentials.adapter.ts';
 import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
-import {
-  BetterAuthFactory,
-} from './better-auth.factory.ts';
+import { BetterAuthFactory } from './better-auth.factory.ts';
 import type { IdentityAuth } from './identity-auth.types.d.ts';
 import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
 
@@ -193,7 +193,10 @@ function bootstrapWith(
     api,
     instance,
   } as unknown as AuthService<IdentityAuth>;
-  return new OAuthClientProvisioningService(auth);
+  return new OAuthClientProvisioningService(
+    new BetterAuthOAuthClientProvisioningAdapter(auth),
+    new EnvironmentOAuthSeedCredentialsAdapter(),
+  );
 }
 
 function existingClientsAdapter(): BootstrapAdapter {
@@ -258,10 +261,13 @@ describe('OAuthClientProvisioningService', () => {
       issuer: 'https://identity.test/api/auth',
       secret: 'identity-test-secret-with-at-least-32-characters',
     });
-    const bootstrap = new OAuthClientProvisioningService({
-      api: auth.api,
-      instance: auth,
-    } as unknown as AuthService<IdentityAuth>);
+    const bootstrap = new OAuthClientProvisioningService(
+      new BetterAuthOAuthClientProvisioningAdapter({
+        api: auth.api,
+        instance: auth,
+      } as unknown as AuthService<IdentityAuth>),
+      new EnvironmentOAuthSeedCredentialsAdapter(),
+    );
     const context = await auth.$context;
     vi.spyOn(context, 'runMigrations').mockResolvedValue(undefined);
 
