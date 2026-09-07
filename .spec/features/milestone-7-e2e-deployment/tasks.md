@@ -64,6 +64,7 @@
 - Esforço: alto
 - Arquivos: apps/e2e/src/environment.ts, compose.yaml, apps/wordpress-integration/scripts/production-entrypoint.sh, libs/identity/nest/src/better-auth/better-auth.factory.ts, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts, test/milestone-7-e2e-contract.test.mjs, test/mercado-pago-production-deployment.test.mjs, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json, graphify-out
 - Notes: Diagnose the repeatable CI-only startup failure, preserve production-equivalent service behavior, emit actionable container diagnostics, and merge the fork pull request only after all required checks pass.
+
 ## T-207 — Restore executable E2E bootstrap [pendente]
 
 - Refs: AC-067, AC-075
@@ -71,3 +72,11 @@
 - Esforço: medio
 - Arquivos: test/milestone-7-e2e-contract.test.mjs, vitest.config.ts, compose.yaml, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json
 - Notes: Add focused contract coverage that the canonical Vitest target selects the acceptance file and Compose preserves the decorator-capable Docker image commands; make the minimum configuration correction and rerun the complete isolated journey.
+
+## T-208 — Restore federated WooCommerce cart continuity [pendente]
+
+- Refs: AC-067, AC-069, AC-070, AC-114
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/e2e/src/journey.ts, libs/gateway/nest/src/auth/gateway-context.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts, apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.spec.ts, libs/gateway/nest/src/gateway-path.integration.spec.ts, test/milestone-7-e2e-contract.test.mjs, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json
+- Notes: Run after T-207. Trace the cart session from the public addToCart response through Gateway and Order Workflow, add a focused failing test for the observed empty-cart boundary, implement the minimum continuity fix, and rerun the complete Card, Pix, and compensation journey.

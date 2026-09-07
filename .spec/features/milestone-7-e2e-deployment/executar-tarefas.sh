@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano milestone-7-e2e-deployment` em 2026-09-05 20:24
+# executar-tarefas.sh — gerado por `onp-spec plano milestone-7-e2e-deployment` em 2026-09-05 20:44
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-milestone-7-e2e-deployment-mtou067r'
+RUN_ID='desafio-dev-backend-senior-milestone-7-e2e-deployment-mtoup950'
 FEATURE='milestone-7-e2e-deployment'
 BASE_BRANCH='spec/milestone-7-e2e-deployment'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -200,6 +200,38 @@ Regras inegociáveis:
   return 1
 }
 
+# ── sequencial T-208 (ordem do tasks.md) ──
+executar_seq_T_208() {
+  info 'sequencial T-208 — Restore federated WooCommerce cart continuity'
+  if rodar_tarefa seq 'T-208' 'Você executa UMA tarefa da feature "milestone-7-e2e-deployment" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/milestone-7-e2e-deployment/spec.md, .spec/features/milestone-7-e2e-deployment/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-208 — "Restore federated WooCommerce cart continuity"
+  critérios/refs: AC-067 (The complete environment and journey run from one command), AC-069 (Card checkout reaches the same terminal state everywhere), AC-070 (Pix checkout reaches the same terminal state everywhere), AC-114 (E2E proves the complete buyer contract)
+  arquivos permitidos (e seus testes): apps/e2e/src/journey.ts, libs/gateway/nest/src/auth/gateway-context.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, libs/gateway/nest/src/federation/authenticated-data-source.ts, apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts, apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.spec.ts, libs/gateway/nest/src/gateway-path.integration.spec.ts, test/milestone-7-e2e-contract.test.mjs, .spec/features/milestone-7-e2e-deployment/tasks.md, .spec/verification/milestone-7-e2e-deployment.json
+  mensagem de commit: "T-208 milestone-7-e2e-deployment: Restore federated WooCommerce cart continuity"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-208 milestone-7-e2e-deployment: Restore federated WooCommerce cart continuity (auto-commit do plano)'
+    fi
+    marcar_concluidas T-208
+    verde "✔ T-208 concluída"
+    return 0
+  fi
+  vermelho "✘ T-208 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/milestone-7-e2e-deployment/executar-tarefas.sh --seq T-208"
+  FALHAS="$FALHAS T-208"
+  return 1
+}
+
 # ── gate: quem decide é a máquina ────────────────────────────────────
 rodar_gate() {
   echo
@@ -254,12 +286,14 @@ executar_tudo() {
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
   executar_seq_T_207 || true
+  executar_seq_T_208 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
   echo "  seq       T-207 (sequencial)"
+  echo "  seq       T-208 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -295,6 +329,7 @@ case "$MODO" in
   seq)
     case "$ALVO" in
       T-207) evento --tipo inicio --escopo "seq:T-207"; iniciar_resumos; executar_seq_T_207 || true; encerrar "seq:T-207" ;;
+      T-208) evento --tipo inicio --escopo "seq:T-208"; iniciar_resumos; executar_seq_T_208 || true; encerrar "seq:T-208" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

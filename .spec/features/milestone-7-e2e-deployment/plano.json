@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-milestone-7-e2e-deployment-mtou067r",
+  "runId": "desafio-dev-backend-senior-milestone-7-e2e-deployment-mtoup950",
   "feature": "milestone-7-e2e-deployment",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-05 20:24",
+  "geradoEm": "2026-09-05 20:44",
   "branchTrabalho": "spec/milestone-7-e2e-deployment",
   "baseDir": ".spec/features/milestone-7-e2e-deployment",
   "specDir": ".spec",
@@ -30,6 +30,30 @@
       "refs": [
         "AC-067",
         "AC-075"
+      ]
+    },
+    {
+      "id": "T-208",
+      "titulo": "Restore federated WooCommerce cart continuity",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/e2e/src/journey.ts",
+        "libs/gateway/nest/src/auth/gateway-context.ts",
+        "libs/gateway/nest/src/auth/auth-context.factory.ts",
+        "libs/gateway/nest/src/federation/authenticated-data-source.ts",
+        "apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts",
+        "apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.spec.ts",
+        "libs/gateway/nest/src/gateway-path.integration.spec.ts",
+        "test/milestone-7-e2e-contract.test.mjs",
+        ".spec/features/milestone-7-e2e-deployment/tasks.md",
+        ".spec/verification/milestone-7-e2e-deployment.json"
+      ],
+      "refs": [
+        "AC-067",
+        "AC-069",
+        "AC-070",
+        "AC-114"
       ]
     }
   ],
