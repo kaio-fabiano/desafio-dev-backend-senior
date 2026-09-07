@@ -23,8 +23,7 @@
 - Esforço: medio
 - Notas: Split OAuth options, claims, request/context data, credential errors, request adapter behavior, metadata/decorator artifacts, and injection contracts. Preserve the public package API and NestJS module behavior.
 
-## T-212 — Migrate the Gateway NestJS edge [pendente]
-
+## T-212 — Migrate the Gateway NestJS edge [concluida]
 - Refs: US-120, US-121, AC-256, AC-257, AC-258
 - Arquivos: libs/gateway/nest/src, apps/gateway/src, libs/gateway/nest/src/**/*.spec.ts, apps/gateway/src/**/*.spec.ts, test/oauth-resource-server-auth.spec.test.mjs, test/gateway-federation-refactor.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-terra
