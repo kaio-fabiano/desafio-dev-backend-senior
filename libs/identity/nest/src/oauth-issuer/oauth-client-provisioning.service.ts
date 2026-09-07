@@ -5,29 +5,11 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '@thallesp/nestjs-better-auth';
 
-import type { IdentityAuth } from '../better-auth/better-auth.factory.ts';
-import { identityBootstrapHeaders } from '../registration/registration.service.ts';
+import type { IdentityAuth } from '../better-auth/identity-auth.types.d.ts';
+import { identityBootstrapHeaders } from '../registration/identity-bootstrap.config.ts';
 import { DELEGATED_OAUTH_SCOPES, OAUTH_RESOURCES } from './oauth-resources.ts';
 import { OAuthError } from './oauth.error.ts';
-
-type OAuthClientSeed = {
-  name: string;
-  redirectUri: string;
-  softwareId: string;
-};
-
-type OAuthClientBody = {
-  application_type: 'native';
-  client_name: string;
-  grant_types: ['authorization_code'];
-  redirect_uris: [string];
-  require_pkce: true;
-  response_types: ['code'];
-  skip_consent: true;
-  scope: string;
-  software_id: string;
-  token_endpoint_auth_method: 'none';
-};
+import type { OAuthClientBody, OAuthClientSeed } from './oauth-client.types.d.ts';
 
 @Injectable()
 export class OAuthClientProvisioningService implements OnApplicationBootstrap {

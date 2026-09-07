@@ -1,7 +1,4 @@
-export type OAuthErrorCode =
-  | 'OAUTH_CLIENT_SEED_FAILED'
-  | 'OAUTH_CLIENTS_NOT_READY'
-  | 'SEED_ADMIN_PASSWORD_REQUIRED';
+import type { OAuthErrorCode } from './oauth-error-code.d.ts';
 
 export class OAuthError extends Error {
   constructor(

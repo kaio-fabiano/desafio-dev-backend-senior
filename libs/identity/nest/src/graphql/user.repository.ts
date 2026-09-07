@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AuthService } from '@thallesp/nestjs-better-auth';
 
-import type { IdentityAuth } from '../better-auth/better-auth.factory.ts';
-import type { IdentityUser, UserConnection } from './identity.resolver.ts';
+import type { IdentityAuth } from '../better-auth/identity-auth.types.d.ts';
+import type { IdentityUser, UserConnection } from './identity-user.types.d.ts';
+import { UserCursorEncoder } from './user-cursor.encoder.ts';
 
 @Injectable()
 export class IdentityUserRepository {
@@ -37,17 +38,13 @@ export class IdentityUserRepository {
     const firstUser = page.at(0);
     const last = page.at(-1);
     return {
-      edges: page.map((node) => ({ cursor: encodeCursor(node.id), node })),
+      edges: page.map((node) => ({ cursor: UserCursorEncoder.encode(node.id), node })),
       pageInfo: {
         hasNextPage: users.length > first,
         hasPreviousPage: afterId !== undefined,
-        startCursor: firstUser ? encodeCursor(firstUser.id) : null,
-        endCursor: last ? encodeCursor(last.id) : null,
+        startCursor: firstUser ? UserCursorEncoder.encode(firstUser.id) : null,
+        endCursor: last ? UserCursorEncoder.encode(last.id) : null,
       },
     };
   }
-}
-
-export function encodeCursor(id: string): string {
-  return Buffer.from(id).toString('base64url');
 }

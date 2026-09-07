@@ -5,21 +5,12 @@ import {
   type AuthHookContext,
 } from '@thallesp/nestjs-better-auth';
 import { APIError } from 'better-auth/api';
-import { randomUUID } from 'node:crypto';
 
 import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
 import { RegistrationCompensationService } from './registration-compensation.service.ts';
 import { RegistrationError } from './registration.error.ts';
-
-const WORDPRESS_PROVIDER_ID = 'wordpress';
-const identityBootstrapToken = randomUUID();
-
-export function identityBootstrapHeaders(): Headers {
-  return new Headers({ 'x-identity-bootstrap': identityBootstrapToken });
-}
-
-type SignUpResult = { user?: { id: string } };
-type SignUpInput = { email?: string; name?: string; password?: string };
+import { isIdentityBootstrap } from './identity-bootstrap.config.ts';
+import type { SignUpInput, SignUpResult } from './registration.types.d.ts';
 
 @Hook()
 @Injectable()
@@ -37,7 +28,7 @@ export class RegistrationService {
   @AfterHook('/sign-up/email') // DatabaseHook seria melhor?
   async afterEmailSignUp(context: AuthHookContext): Promise<void> {
     if (
-      context.headers?.get('x-identity-bootstrap') === identityBootstrapToken
+      isIdentityBootstrap(context.headers)
     ) {
       return;
     }
@@ -56,8 +47,8 @@ export class RegistrationService {
       wordpressUserId = account.id;
       await betterAuthInternalAdapter.linkAccount({
         accountId: account.id,
-        issuer: WORDPRESS_PROVIDER_ID,
-        providerId: WORDPRESS_PROVIDER_ID,
+        issuer: 'wordpress',
+        providerId: 'wordpress',
         userId: result.user.id,
       });
       await this.wordpress.linkSubject(account.id, result.user.id);

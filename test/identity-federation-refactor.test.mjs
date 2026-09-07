@@ -76,12 +76,14 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
   const [
     { IdentityResolver },
     { UserLoader },
-    { RegistrationService, identityBootstrapHeaders },
+    { RegistrationService },
+    { identityBootstrapHeaders },
     { RegistrationCompensationService },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
     import(`../${libraryRoot}/graphql/user.loader.ts`),
     import(`../${libraryRoot}/registration/registration.service.ts`),
+    import(`../${libraryRoot}/registration/identity-bootstrap.config.ts`),
     import(
       `../${libraryRoot}/registration/registration-compensation.service.ts`
     ),

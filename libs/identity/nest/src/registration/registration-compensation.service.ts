@@ -1,13 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { AuthHookContext } from '@thallesp/nestjs-better-auth';
-
 import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
-import type { CompensationFailure } from './registration.error.ts';
-
-export type RegistrationIdentityAdapter = Pick<
-  AuthHookContext['context']['internalAdapter'],
-  'deleteAccounts' | 'deleteUser' | 'deleteUserSessions'
->;
+import type { CompensationFailure, RegistrationIdentityAdapter } from './registration.types.d.ts';
 
 @Injectable()
 export class RegistrationCompensationService {

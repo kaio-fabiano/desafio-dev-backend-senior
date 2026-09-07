@@ -1,28 +1,12 @@
-import { Module, type Provider } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AuthModule as NestJSBetterAuth } from '@thallesp/nestjs-better-auth';
 
 export { AuthService } from '@thallesp/nestjs-better-auth';
 
-import {
-  BetterAuthFactory,
-  type IdentityAuth,
-  IdentityDatabasePool,
-} from './better-auth.factory.ts';
+import type { IdentityAuth } from './identity-auth.types.d.ts';
+import { IdentityAuthProvidersModule } from './identity-auth-providers.module.ts';
+import { IdentityAuthToken } from './identity-auth-token.provider.ts';
 import { RegistrationModule } from '../registration/registration.module.ts';
-
-const IDENTITY_AUTH = Symbol('IDENTITY_AUTH');
-
-const identityAuthProvider: Provider = {
-  provide: IDENTITY_AUTH,
-  inject: [BetterAuthFactory],
-  useFactory: (factory: BetterAuthFactory) => factory.create(),
-};
-
-@Module({
-  providers: [IdentityDatabasePool, BetterAuthFactory, identityAuthProvider],
-  exports: [IDENTITY_AUTH],
-})
-class IdentityAuthProvidersModule {}
 
 @Module({
   imports: [
@@ -30,7 +14,7 @@ class IdentityAuthProvidersModule {}
     RegistrationModule,
     NestJSBetterAuth.forRootAsync({
       imports: [IdentityAuthProvidersModule],
-      inject: [IDENTITY_AUTH],
+      inject: [IdentityAuthToken.value],
       disableGlobalAuthGuard: true,
       useFactory: (auth: IdentityAuth) => ({ auth }),
     }),

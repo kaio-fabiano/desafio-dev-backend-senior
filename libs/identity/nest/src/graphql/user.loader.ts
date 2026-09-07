@@ -1,13 +1,9 @@
 import { Inject, Injectable, Scope } from '@nestjs/common';
 
-import type { IdentityUser } from './identity.resolver.ts';
+import type { IdentityUser } from './identity-user.types.d.ts';
+import type { PendingLoad } from './pending-load.types.d.ts';
 import { IdentityUserRepository } from './user.repository.ts';
 
-type PendingLoad = {
-  id: string;
-  resolve: (user: IdentityUser | null) => void;
-  reject: (reason: unknown) => void;
-};
 @Injectable({ scope: Scope.REQUEST })
 export class UserLoader {
   private readonly cache = new Map<string, Promise<IdentityUser | null>>();

@@ -8,10 +8,14 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
   // Dado: Better Auth configured as the platform authorization server
   // Quando: a Gateway, MCP, Order Workflow, Identity, or Payment token is issued
   // Então: each owned protected resource has an explicit audience and allowed scopes, while WordPress session integration remains outside this OAuth trust model
-  const [resources, factory, journey] = await Promise.all([
-    readFile('libs/identity/nest/src/oauth-issuer/oauth-resources.ts', 'utf8'),
+  const [resources, factory, provisioning, journey] = await Promise.all([
+    readFile('libs/identity/nest/src/oauth-issuer/oauth-resources.config.ts', 'utf8'),
     readFile(
       'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+      'utf8',
+    ),
+    readFile(
+      'libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts',
       'utf8',
     ),
     readFile('apps/e2e/src/journey.ts', 'utf8'),
@@ -27,7 +31,7 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
   }
   assert.match(factory, /Object\.values\(OAUTH_RESOURCES\)/);
   assert.match(factory, /OAUTH_RESOURCE_SCOPES\[identifier\]/);
-  assert.match(factory, /skip_consent: true/);
+  assert.match(provisioning, /skip_consent: true/);
   assert.equal(
     [
       ...resources.matchAll(

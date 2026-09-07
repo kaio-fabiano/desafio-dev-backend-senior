@@ -1,7 +1,4 @@
-export type CompensationFailure = {
-  cause: unknown;
-  step: 'wordpress' | 'sessions' | 'accounts' | 'user';
-};
+import type { CompensationFailure } from './registration.types.d.ts';
 
 export class RegistrationError extends Error {
   readonly failures?: readonly CompensationFailure[];

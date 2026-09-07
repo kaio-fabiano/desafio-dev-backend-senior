@@ -1,74 +1,12 @@
 import { oauthProvider } from '@better-auth/oauth-provider';
-import { Inject, Injectable, type OnModuleDestroy } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { betterAuth } from 'better-auth';
 import { jwt } from 'better-auth/plugins';
-import { Pool } from 'pg';
 
 import { BetterAuthError } from './better-auth.error.ts';
-import {
-  DELEGATED_OAUTH_SCOPES,
-  OAUTH_RESOURCES,
-  OAUTH_RESOURCE_SCOPES,
-} from '../oauth-issuer/oauth-resources.ts';
-type IdentityDatabase = NonNullable<
-  Parameters<typeof betterAuth>[0]['database']
->;
-
-export type IdentityAuthOptions = {
-  baseURL?: string;
-  database?: IdentityDatabase;
-  issuer?: string;
-  secret?: string;
-  seedAdminEmail?: string;
-};
-
-type BaseIdentityAuth = ReturnType<typeof betterAuth>;
-type OAuthClientInput = {
-  headers: Headers;
-  body: {
-    application_type: 'native';
-    client_name: string;
-    grant_types: ['authorization_code'];
-    redirect_uris: [string];
-    require_pkce: true;
-    response_types: ['code'];
-    skip_consent: true;
-    scope: string;
-    software_id: string;
-    token_endpoint_auth_method: 'none';
-  };
-};
-
-export type IdentityAuth = BaseIdentityAuth & {
-  api: BaseIdentityAuth['api'] & {
-    adminCreateOAuthClient(
-      input: OAuthClientInput,
-    ): Promise<{ client_id: string }>;
-  };
-};
-
-@Injectable()
-export class IdentityDatabasePool implements OnModuleDestroy {
-  private database?: Pool;
-
-  get connection(): Pool {
-    this.database ??= new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl:
-        process.env.NODE_ENV === 'production' &&
-        process.env.DATABASE_SSL !== 'false'
-          ? { rejectUnauthorized: true }
-          : undefined,
-    });
-    return this.database;
-  }
-
-  async onModuleDestroy() {
-    const database = this.database;
-    this.database = undefined;
-    await database?.end();
-  }
-}
+import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
+import type { IdentityAuth, IdentityAuthOptions } from './identity-auth.types.d.ts';
+import { DELEGATED_OAUTH_SCOPES, OAUTH_RESOURCES, OAUTH_RESOURCE_SCOPES } from '../oauth-issuer/oauth-resources.config.ts';
 
 @Injectable()
 export class BetterAuthFactory {

@@ -5,10 +5,8 @@ import { describe, expect, it, vi } from 'vitest';
 import type { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
 import { RegistrationCompensationService } from './registration-compensation.service.ts';
 import { RegistrationError } from './registration.error.ts';
-import {
-  identityBootstrapHeaders,
-  RegistrationService,
-} from './registration.service.ts';
+import { RegistrationService } from './registration.service.ts';
+import { identityBootstrapHeaders } from './identity-bootstrap.config.ts';
 
 type IdentityAdapter = {
   deleteAccounts: ReturnType<typeof vi.fn>;

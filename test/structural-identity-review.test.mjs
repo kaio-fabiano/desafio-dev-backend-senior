@@ -64,7 +64,7 @@ test('AC-240/AC-244: OAuth issuer and resource verification have explicit owners
       readFile('libs/identity/nest/src/index.ts', 'utf8'),
       readFile('libs/identity/nest/src/identity.module.ts', 'utf8'),
       readFile(
-        'libs/identity/nest/src/oauth-issuer/oauth-resources.ts',
+        'libs/identity/nest/src/oauth-issuer/oauth-resources.config.ts',
         'utf8',
       ),
       readFile(

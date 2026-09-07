@@ -1,39 +1,16 @@
 {
   "violations": [
-    { "code": "mixed-declaration", "declaration": "IdentityDatabase", "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts", "line": 13 },
-    { "code": "mixed-declaration", "declaration": "IdentityAuthOptions", "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts", "line": 17 },
-    { "code": "mixed-declaration", "declaration": "BaseIdentityAuth", "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts", "line": 25 },
-    { "code": "mixed-declaration", "declaration": "OAuthClientInput", "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts", "line": 26 },
-    { "code": "mixed-declaration", "declaration": "IdentityAuth", "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts", "line": 42 },
-    { "code": "mixed-declaration", "declaration": "IdentityDatabasePool", "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts", "line": 50 },
-    { "code": "mixed-declaration", "declaration": "BetterAuthFactory", "file": "libs/identity/nest/src/better-auth/better-auth.factory.ts", "line": 73 },
-    { "code": "mixed-declaration", "declaration": "IDENTITY_AUTH", "file": "libs/identity/nest/src/better-auth/better-auth.module.ts", "line": 13 },
-    { "code": "mixed-declaration", "declaration": "identityAuthProvider", "file": "libs/identity/nest/src/better-auth/better-auth.module.ts", "line": 15 },
-    { "code": "mixed-declaration", "declaration": "IdentityAuthProvidersModule", "file": "libs/identity/nest/src/better-auth/better-auth.module.ts", "line": 21 },
-    { "code": "mixed-declaration", "declaration": "BetterAuthModule", "file": "libs/identity/nest/src/better-auth/better-auth.module.ts", "line": 27 },
-    { "code": "mixed-declaration", "declaration": "IdentityUser", "file": "libs/identity/nest/src/graphql/identity.resolver.ts", "line": 12 },
-    { "code": "mixed-declaration", "declaration": "UserConnection", "file": "libs/identity/nest/src/graphql/identity.resolver.ts", "line": 13 },
-    { "code": "mixed-declaration", "declaration": "decodeCursor", "file": "libs/identity/nest/src/graphql/identity.resolver.ts", "line": 63 },
-    { "code": "mixed-declaration", "declaration": "PendingLoad", "file": "libs/identity/nest/src/graphql/user.loader.ts", "line": 6 },
-    { "code": "mixed-declaration", "declaration": "encodeCursor", "file": "libs/identity/nest/src/graphql/user.repository.ts", "line": 51 },
-    { "code": "mixed-declaration", "declaration": "OAuthClientSeed", "file": "libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts", "line": 13 },
-    { "code": "mixed-declaration", "declaration": "OAuthClientBody", "file": "libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts", "line": 19 },
-    { "code": "mixed-declaration", "declaration": "MARKETPLACE_READ_SCOPE", "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts", "line": 10 },
-    { "code": "mixed-declaration", "declaration": "DELEGATED_OAUTH_SCOPES", "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts", "line": 12 },
-    { "code": "mixed-declaration", "declaration": "OAUTH_RESOURCES", "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts", "line": 2 },
-    { "code": "mixed-declaration", "declaration": "GATEWAY_AUDIENCE", "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts", "line": 20 },
-    { "code": "mixed-declaration", "declaration": "MCP_AUDIENCE", "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts", "line": 21 },
-    { "code": "mixed-declaration", "declaration": "OAUTH_RESOURCE_SCOPES", "file": "libs/identity/nest/src/oauth-issuer/oauth-resources.ts", "line": 26 },
-    { "code": "mixed-declaration", "declaration": "OAuthErrorCode", "file": "libs/identity/nest/src/oauth-issuer/oauth.error.ts", "line": 1 },
-    { "code": "mixed-declaration", "declaration": "RegistrationIdentityAdapter", "file": "libs/identity/nest/src/registration/registration-compensation.service.ts", "line": 7 },
-    { "code": "mixed-declaration", "declaration": "CompensationFailure", "file": "libs/identity/nest/src/registration/registration.error.ts", "line": 1 },
-    { "code": "mixed-declaration", "declaration": "WORDPRESS_PROVIDER_ID", "file": "libs/identity/nest/src/registration/registration.service.ts", "line": 14 },
-    { "code": "mixed-declaration", "declaration": "identityBootstrapToken", "file": "libs/identity/nest/src/registration/registration.service.ts", "line": 15 },
-    { "code": "mixed-declaration", "declaration": "identityBootstrapHeaders", "file": "libs/identity/nest/src/registration/registration.service.ts", "line": 17 },
-    { "code": "mixed-declaration", "declaration": "SignUpResult", "file": "libs/identity/nest/src/registration/registration.service.ts", "line": 21 },
-    { "code": "mixed-declaration", "declaration": "SignUpInput", "file": "libs/identity/nest/src/registration/registration.service.ts", "line": 22 },
-    { "code": "mixed-declaration", "declaration": "WordPressErrorCode", "file": "libs/identity/nest/src/wordpress/wordpress.error.ts", "line": 1 },
-    { "code": "mixed-declaration", "declaration": "toOAuthRequest", "file": "libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts", "line": 35 },
-    { "code": "mixed-declaration", "declaration": "isOAuthCredentialError", "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts", "line": 27 }
+    {
+      "code": "mixed-declaration",
+      "declaration": "toOAuthRequest",
+      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts",
+      "line": 35
+    },
+    {
+      "code": "mixed-declaration",
+      "declaration": "isOAuthCredentialError",
+      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
+      "line": 27
+    }
   ]
 }
