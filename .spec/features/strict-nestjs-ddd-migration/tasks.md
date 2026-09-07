@@ -86,7 +86,7 @@
 - Esforço: medio
 - Notas: Follow Red, Green, Refactor where behavior changes. Assign schema and operation ownership, validate versioned event envelopes and GraphQL operations, detect contract drift, and keep declarative artifacts declarative. Do not wrap GraphQL, JSON, or YAML in classes and do not introduce a domain layer for static integration contracts.
 
-## T-223 — Refactor infrastructure, deployment scripts, and end-to-end tooling [pendente]
+## T-223 — Refactor infrastructure, deployment scripts, and end-to-end tooling [concluida]
 - Refs: US-125, US-126, AC-267, AC-268
 - Arquivos: infra, apps/e2e, tools, scripts, test, package.json, nx.json, tsconfig.base.json, pnpm-workspace.yaml
 - Modelo: gpt-5.6-terra
