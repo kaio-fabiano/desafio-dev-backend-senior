@@ -2,7 +2,7 @@
 
 > feature: strict-nestjs-ddd-migration
 
-## T-209 — Install the strict DDD governance contract [pendente]
+## T-209 — Install the strict DDD governance contract [concluida]
 - Refs: US-118, AC-252, AC-253
 - Arquivos: AGENTS.md, .spec/constituicao.md, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, test/strict-ddd-governance.test.mjs
 - Modelo: gpt-5.6-luna
