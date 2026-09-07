@@ -6,10 +6,13 @@ import {
 import { AuthService } from '@thallesp/nestjs-better-auth';
 
 import type { IdentityAuth } from '../better-auth/identity-auth.types.d.ts';
-import { identityBootstrapHeaders } from '../registration/identity-bootstrap.config.ts';
-import { DELEGATED_OAUTH_SCOPES, OAUTH_RESOURCES } from './oauth-resources.ts';
+import { IdentityBootstrap } from '../registration/identity-bootstrap.ts';
+import { OAuthResources } from './oauth-resources.ts';
 import { OAuthError } from './oauth.error.ts';
-import type { OAuthClientBody, OAuthClientSeed } from './oauth-client.types.d.ts';
+import type {
+  OAuthClientBody,
+  OAuthClientSeed,
+} from './oauth-client.types.d.ts';
 
 @Injectable()
 export class OAuthClientProvisioningService implements OnApplicationBootstrap {
@@ -34,7 +37,7 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
   private async initialize() {
     const context = await this.auth.instance.$context;
     await context.runMigrations();
-    for (const identifier of Object.values(OAUTH_RESOURCES)) {
+    for (const identifier of Object.values(OAuthResources.resources)) {
       await context.adapter.update({
         model: 'oauthResource',
         where: [{ field: 'identifier', value: identifier }],
@@ -79,7 +82,7 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
       const linkedResources = new Set(
         links.map(({ resourceId }) => resourceId),
       );
-      for (const resourceId of Object.values(OAUTH_RESOURCES)) {
+      for (const resourceId of Object.values(OAuthResources.resources)) {
         if (linkedResources.has(resourceId)) continue;
         await context.adapter.create({
           model: 'oauthClientResource',
@@ -102,7 +105,7 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
       ? await this.auth.api.signInEmail({ body: credentials, asResponse: true })
       : await this.auth.api.signUpEmail({
           body: { ...credentials, name: 'Identity client seed' },
-          headers: identityBootstrapHeaders(),
+          headers: IdentityBootstrap.headers(),
           asResponse: true,
         });
     if (!response.ok) {
@@ -115,7 +118,7 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
       client_name: seed.name,
       software_id: seed.softwareId,
       redirect_uris: [seed.redirectUri],
-      scope: ['openid', 'profile', ...DELEGATED_OAUTH_SCOPES].join(' '),
+      scope: ['openid', 'profile', ...OAuthResources.delegatedScopes].join(' '),
       grant_types: ['authorization_code'],
       response_types: ['code'],
       token_endpoint_auth_method: 'none',

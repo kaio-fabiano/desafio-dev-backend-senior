@@ -5,7 +5,7 @@ import {
   OAuthSubject,
   RequireScopes,
 } from '@desafio-dev-backend-senior/source/platform-nest';
-import { MARKETPLACE_READ_SCOPE } from '../oauth-issuer/oauth-resources.ts';
+import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 import type { UserConnection } from './identity-user.types.d.ts';
 import { UserCursorDecoder } from './user-cursor.decoder.ts';
 import { UserLoader } from './user.loader.ts';
@@ -21,7 +21,7 @@ export class IdentityResolver {
   ) {}
 
   @Query('users')
-  @RequireScopes(MARKETPLACE_READ_SCOPE)
+  @RequireScopes(OAuthResources.marketplaceReadScope)
   async users(
     @Args('first') first = 20,
     @Args('after') after?: string,
@@ -33,19 +33,19 @@ export class IdentityResolver {
   }
 
   @Query('user')
-  @RequireScopes(MARKETPLACE_READ_SCOPE)
+  @RequireScopes(OAuthResources.marketplaceReadScope)
   user(@Args('id') id: string) {
     return this.usersById.load(id);
   }
 
   @Query('me')
-  @RequireScopes(MARKETPLACE_READ_SCOPE)
+  @RequireScopes(OAuthResources.marketplaceReadScope)
   me(@OAuthSubject() subject: string) {
     return this.usersById.load(subject);
   }
 
   @ResolveReference()
-  @RequireScopes(MARKETPLACE_READ_SCOPE)
+  @RequireScopes(OAuthResources.marketplaceReadScope)
   resolveReference(reference: { id: string }) {
     return this.usersById.load(reference.id);
   }

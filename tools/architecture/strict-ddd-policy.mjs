@@ -22,10 +22,13 @@ export function isDedicatedFile(file) {
     file.endsWith('/index.ts') ||
     file.endsWith('.d.ts') ||
     file.endsWith('.decorator.ts') ||
-    file.endsWith('.config.ts') ||
     file.includes('/migrations/') ||
     file.includes('/generated/')
   );
+}
+
+export function isConfigFile(file) {
+  return file.endsWith('.config.ts');
 }
 
 export function isCoreLayer(file) {

@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+import { WordPressConfiguration } from './wordpress-configuration.provider.ts';
 import { WordPressIdentityService } from './wordpress-identity.service.ts';
-import { wordpressConfigurationProvider } from './wordpress.config.ts';
 
 @Module({
   imports: [ConfigModule],
-  providers: [wordpressConfigurationProvider, WordPressIdentityService],
+  providers: [WordPressConfiguration, WordPressIdentityService],
   exports: [WordPressIdentityService],
 })
 export class WordPressModule {}

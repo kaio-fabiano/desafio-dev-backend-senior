@@ -77,13 +77,13 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     { IdentityResolver },
     { UserLoader },
     { RegistrationService },
-    { identityBootstrapHeaders },
+    { IdentityBootstrap },
     { RegistrationCompensationService },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
     import(`../${libraryRoot}/graphql/user.loader.ts`),
     import(`../${libraryRoot}/registration/registration.service.ts`),
-    import(`../${libraryRoot}/registration/identity-bootstrap.config.ts`),
+    import(`../${libraryRoot}/registration/identity-bootstrap.ts`),
     import(
       `../${libraryRoot}/registration/registration-compensation.service.ts`
     ),
@@ -148,7 +148,7 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     },
   ]);
   await registration.afterEmailSignUp({
-    headers: identityBootstrapHeaders(),
+    headers: IdentityBootstrap.headers(),
     body: { email: 'admin@example.test', name: 'Admin', password: 'secret' },
     context: {
       returned: { user: { id: 'admin' } },
@@ -232,7 +232,7 @@ test('AC-096: Identity Federation rejects sensitive operations without propagate
     assert.match(
       resolver,
       new RegExp(
-        `@RequireScopes\\(MARKETPLACE_READ_SCOPE\\)[\\s\\S]*${operation}`,
+        `@RequireScopes\\(OAuthResources.marketplaceReadScope\\)[\\s\\S]*${operation}`,
       ),
     );
   }

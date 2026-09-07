@@ -1,24 +1,10 @@
-import type { FactoryProvider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { WordPressIdentityService } from './wordpress-identity.service.ts';
-import {
-  type WordPressConfiguration,
-  WORDPRESS_CONFIGURATION,
-  wordpressConfigurationProvider,
-} from './wordpress.config.ts';
+import { WordPressConfiguration } from './wordpress-configuration.provider.ts';
 
-const configurationFactory = (
-  wordpressConfigurationProvider as FactoryProvider<WordPressConfiguration>
-).useFactory as (config: ConfigService) => WordPressConfiguration;
-
-const configuration: WordPressConfiguration = {
-  endpoint: 'https://wordpress.test',
-  registrarIdentity: 'identity-registrar',
-  siteToken: 'site-token',
-};
 
 function response(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -33,13 +19,21 @@ function config(values: Record<string, string>): ConfigService {
   } as unknown as ConfigService;
 }
 
+const configuration = new WordPressConfiguration(
+  config({
+    WORDPRESS_IDENTITY_REGISTRAR: 'identity-registrar',
+    WORDPRESS_URL: 'https://wordpress.test',
+    WPGRAPHQL_SITE_TOKEN: 'site-token',
+  }),
+);
+
 function query(init?: RequestInit): string {
   return (JSON.parse(String(init?.body)) as { query: string }).query;
 }
 
 describe('WordPress configuration', () => {
   it('reads and validates GraphQL registration settings through ConfigService @spec:AC-233 @spec:AC-238', () => {
-    const settings = configurationFactory(
+    const settings = new WordPressConfiguration(
       config({
         NODE_ENV: 'production',
         WORDPRESS_IDENTITY_REGISTRAR: 'registrar',
@@ -57,7 +51,7 @@ describe('WordPress configuration', () => {
 
   it('rejects a missing production site token @spec:AC-233 @spec:AC-238', () => {
     expect(() =>
-      configurationFactory(
+      new WordPressConfiguration(
         config({
           NODE_ENV: 'production',
           WORDPRESS_URL: 'https://wordpress.test',
@@ -247,7 +241,7 @@ describe('WordPressIdentityService', () => {
     const module = await Test.createTestingModule({
       providers: [
         WordPressIdentityService,
-        { provide: WORDPRESS_CONFIGURATION, useValue: configuration },
+        { provide: WordPressConfiguration, useValue: configuration },
       ],
     }).compile();
 

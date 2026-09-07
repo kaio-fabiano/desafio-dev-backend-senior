@@ -4,6 +4,7 @@ import ts from 'typescript';
 
 import {
   forbiddenCoreDependencies,
+  isConfigFile,
   isCoreLayer,
   isDedicatedFile,
 } from './strict-ddd-policy.mjs';
@@ -41,7 +42,7 @@ function declarationName(node) {
 
 function allowsFunctionalArtifact(file, statements) {
   if (file.endsWith('/index.ts') || file.endsWith('.d.ts')) return true;
-  if (file.endsWith('/main.ts') || file.endsWith('.config.ts')) return true;
+  if (file.endsWith('/main.ts')) return true;
   if (file.includes('/migrations/') || file.includes('/generated/'))
     return true;
   if (!file.endsWith('.decorator.ts')) return false;
@@ -51,6 +52,32 @@ function allowsFunctionalArtifact(file, statements) {
   return declarations.length === 1 && ts.isVariableStatement(declarations[0]);
 }
 
+function isVendorConfigExport(statements) {
+  const nonImports = statements.filter(
+    (statement) => !ts.isImportDeclaration(statement),
+  );
+  const config = nonImports[0];
+  const importsRegisterAs = statements.some(
+    (statement) =>
+      ts.isImportDeclaration(statement) &&
+      statement.moduleSpecifier.text === '@nestjs/config' &&
+      statement.importClause?.namedBindings &&
+      ts.isNamedImports(statement.importClause.namedBindings) &&
+      statement.importClause.namedBindings.elements.some(
+        (element) => element.name.text === 'registerAs',
+      ),
+  );
+  return (
+    nonImports.length === 1 &&
+    importsRegisterAs &&
+    ts.isExportAssignment(config) &&
+    !config.isExportEquals &&
+    ts.isCallExpression(config.expression) &&
+    ts.isIdentifier(config.expression.expression) &&
+    config.expression.expression.text === 'registerAs'
+  );
+}
+
 function scanSource(file, text) {
   const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
   const path = normalized(file);
@@ -58,6 +85,25 @@ function scanSource(file, text) {
   const declarations = source.statements.filter((statement) =>
     declarationKinds.has(statement.kind),
   );
+
+  if (isConfigFile(path)) {
+    if (!isVendorConfigExport(source.statements)) {
+      for (const statement of source.statements.filter(
+        (entry) => !ts.isImportDeclaration(entry),
+      )) {
+        violations.push(
+          violation(
+            path,
+            statement,
+            'invalid-config-exception',
+            declarationName(statement),
+            source,
+          ),
+        );
+      }
+    }
+    return violations;
+  }
 
   if (
     !isDedicatedFile(path) ||

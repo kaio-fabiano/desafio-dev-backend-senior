@@ -31,6 +31,24 @@ test('only dedicated framework files receive functional exceptions @spec:AC-255'
   assert.deepEqual(scanFiles([fixture('valid-custom.decorator.ts')]), []);
 });
 
+test('config exceptions reject multiple exports and accept one vendor configuration export @spec:AC-255', () => {
+  assert.deepEqual(scanFiles([fixture('invalid-multi-export.config.ts')]), [
+    {
+      code: 'invalid-config-exception',
+      declaration: 'first',
+      file: fixture('invalid-multi-export.config.ts'),
+      line: 1,
+    },
+    {
+      code: 'invalid-config-exception',
+      declaration: 'second',
+      file: fixture('invalid-multi-export.config.ts'),
+      line: 2,
+    },
+  ]);
+  assert.deepEqual(scanFiles([fixture('valid-vendor.config.ts')]), []);
+});
+
 test('domain and application layers reject framework dependencies @spec:AC-256', () => {
   const violations = scanFiles(
     [
@@ -67,9 +85,10 @@ test('focused classes and abstract ports are accepted @spec:AC-257', () => {
 });
 
 test('Gateway has no remaining legacy declarations after its migration wave @spec:AC-256 @spec:AC-257 @spec:AC-258', async () => {
-  const violations = await scanRoots(
-    ['libs/gateway/nest/src', 'apps/gateway/src'],
-  );
+  const violations = await scanRoots([
+    'libs/gateway/nest/src',
+    'apps/gateway/src',
+  ]);
 
   assert.deepEqual(violations, []);
 });

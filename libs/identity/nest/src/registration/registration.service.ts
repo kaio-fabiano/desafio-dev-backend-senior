@@ -9,7 +9,7 @@ import { APIError } from 'better-auth/api';
 import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
 import { RegistrationCompensationService } from './registration-compensation.service.ts';
 import { RegistrationError } from './registration.error.ts';
-import { isIdentityBootstrap } from './identity-bootstrap.config.ts';
+import { IdentityBootstrap } from './identity-bootstrap.ts';
 import type { SignUpInput, SignUpResult } from './registration.types.d.ts';
 
 @Hook()
@@ -27,9 +27,7 @@ export class RegistrationService {
 
   @AfterHook('/sign-up/email') // DatabaseHook seria melhor?
   async afterEmailSignUp(context: AuthHookContext): Promise<void> {
-    if (
-      isIdentityBootstrap(context.headers)
-    ) {
+    if (IdentityBootstrap.matches(context.headers)) {
       return;
     }
     const input = context.body as SignUpInput | undefined;

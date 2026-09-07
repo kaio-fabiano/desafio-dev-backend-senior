@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { describe, expect, it } from 'vitest';
 
 import { WordPressIdentityService } from './wordpress-identity.service.ts';
-import { WORDPRESS_CONFIGURATION } from './wordpress.config.ts';
+import { WordPressConfiguration } from './wordpress-configuration.provider.ts';
 import { WordPressModule } from './wordpress.module.ts';
 
 @Injectable()
@@ -20,7 +20,7 @@ describe('WordPressModule', () => {
       imports: [WordPressModule],
       providers: [WordPressConsumer],
     })
-      .overrideProvider(WORDPRESS_CONFIGURATION)
+      .overrideProvider(WordPressConfiguration)
       .useValue({
         endpoint: 'https://wordpress.test',
         registrarIdentity: 'identity-registrar',

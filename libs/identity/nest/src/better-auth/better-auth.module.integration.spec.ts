@@ -10,7 +10,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { BetterAuthModule } from './better-auth.module.ts';
 import { BetterAuthFactory } from './better-auth.factory.ts';
 import { RegistrationService } from '../registration/registration.service.ts';
-import { WORDPRESS_CONFIGURATION } from '../wordpress/wordpress.config.ts';
+import { WordPressConfiguration } from '../wordpress/wordpress-configuration.provider.ts';
 import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
 
 describe('BetterAuthModule', () => {
@@ -35,7 +35,7 @@ describe('BetterAuthModule', () => {
     })
       .overrideProvider(BetterAuthFactory)
       .useValue({ create: vi.fn().mockReturnValue(auth) })
-      .overrideProvider(WORDPRESS_CONFIGURATION)
+      .overrideProvider(WordPressConfiguration)
       .useValue({
         endpoint: 'https://wordpress.test',
         registrarIdentity: 'identity-registrar',

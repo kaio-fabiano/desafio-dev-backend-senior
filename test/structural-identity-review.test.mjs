@@ -64,7 +64,7 @@ test('AC-240/AC-244: OAuth issuer and resource verification have explicit owners
       readFile('libs/identity/nest/src/index.ts', 'utf8'),
       readFile('libs/identity/nest/src/identity.module.ts', 'utf8'),
       readFile(
-        'libs/identity/nest/src/oauth-issuer/oauth-resources.config.ts',
+        'libs/identity/nest/src/oauth-issuer/oauth-resources.ts',
         'utf8',
       ),
       readFile(
@@ -81,7 +81,7 @@ test('AC-240/AC-244: OAuth issuer and resource verification have explicit owners
   assert.match(identityModule, /BetterAuthModule/);
   assert.match(identityModule, /OAuthIssuerModule/);
   assert.match(issuerModule, /OAuthClientProvisioningService/);
-  assert.match(oauthResources, /OAUTH_RESOURCES/);
+  assert.match(oauthResources, /class OAuthResources/);
   assert.doesNotMatch(
     main,
     /OAuthClient(?:Bootstrap|Provisioning)Service|app\.get\(OAuthClient/,

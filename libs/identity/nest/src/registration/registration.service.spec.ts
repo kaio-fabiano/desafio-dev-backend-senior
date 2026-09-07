@@ -6,7 +6,7 @@ import type { WordPressIdentityService } from '../wordpress/wordpress-identity.s
 import { RegistrationCompensationService } from './registration-compensation.service.ts';
 import { RegistrationError } from './registration.error.ts';
 import { RegistrationService } from './registration.service.ts';
-import { identityBootstrapHeaders } from './identity-bootstrap.config.ts';
+import { IdentityBootstrap } from './identity-bootstrap.ts';
 
 type IdentityAdapter = {
   deleteAccounts: ReturnType<typeof vi.fn>;
@@ -94,7 +94,7 @@ describe('RegistrationService', () => {
     const registration = registrationService(wordpress);
 
     await registration.afterEmailSignUp(
-      signUpContext(adapter, { headers: identityBootstrapHeaders() }),
+      signUpContext(adapter, { headers: IdentityBootstrap.headers() }),
     );
 
     expect(wordpress.createCustomer).not.toHaveBeenCalled();

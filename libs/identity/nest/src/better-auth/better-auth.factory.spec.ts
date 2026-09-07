@@ -9,10 +9,10 @@ import {
 import type { IdentityAuth } from './identity-auth.types.d.ts';
 import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
 import { OAuthClientProvisioningService } from '../oauth-issuer/oauth-client-provisioning.service.ts';
-import {
-  DELEGATED_OAUTH_SCOPES,
-  OAUTH_RESOURCES,
-} from '../oauth-issuer/oauth-resources.ts';
+import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
+
+const DELEGATED_OAUTH_SCOPES = OAuthResources.delegatedScopes;
+const OAUTH_RESOURCES = OAuthResources.resources;
 
 const createMemoryDatabase = () =>
   memoryAdapter({

@@ -4,7 +4,7 @@ import { AuthService } from '@thallesp/nestjs-better-auth';
 import { describe, expect, it } from 'vitest';
 
 import { BetterAuthFactory } from '../better-auth/better-auth.factory.ts';
-import { WORDPRESS_CONFIGURATION } from '../wordpress/wordpress.config.ts';
+import { WordPressConfiguration } from '../wordpress/wordpress-configuration.provider.ts';
 import { OAuthClientProvisioningService } from './oauth-client-provisioning.service.ts';
 import { OAuthClientsController } from './oauth-clients.controller.ts';
 import { OAuthIssuerModule } from './oauth-issuer.module.ts';
@@ -20,7 +20,7 @@ describe('OAuthIssuerModule', () => {
       .useValue({ create: () => auth })
       .overrideProvider(OAuthClientProvisioningService)
       .useValue({ clientIds: clients })
-      .overrideProvider(WORDPRESS_CONFIGURATION)
+      .overrideProvider(WordPressConfiguration)
       .useValue({
         endpoint: 'https://wordpress.test',
         registrarIdentity: 'identity-registrar',

@@ -13,13 +13,13 @@ import {
   REQUIRED_SCOPE,
   startAuthServer,
 } from './fixtures/auth-server.ts';
-import {
-  DELEGATED_OAUTH_SCOPES,
-  GATEWAY_AUDIENCE as IDENTITY_GATEWAY_AUDIENCE,
-  MARKETPLACE_READ_SCOPE,
-  MCP_AUDIENCE as IDENTITY_MCP_AUDIENCE,
-  OAUTH_RESOURCES,
-} from '../libs/identity/nest/src/oauth-issuer/oauth-resources.ts';
+import { OAuthResources } from '../libs/identity/nest/src/oauth-issuer/oauth-resources.ts';
+
+const DELEGATED_OAUTH_SCOPES = OAuthResources.delegatedScopes;
+const IDENTITY_GATEWAY_AUDIENCE = OAuthResources.gatewayAudience;
+const MARKETPLACE_READ_SCOPE = OAuthResources.marketplaceReadScope;
+const IDENTITY_MCP_AUDIENCE = OAuthResources.mcpAudience;
+const OAUTH_RESOURCES = OAuthResources.resources;
 
 const resourceClient = createAuthClient({
   plugins: [oauthProviderResourceClient()],

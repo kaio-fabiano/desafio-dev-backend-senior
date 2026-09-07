@@ -1,9 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import {
-  type WordPressConfiguration,
-  WORDPRESS_CONFIGURATION,
-} from './wordpress.config.ts';
+import { WordPressConfiguration } from './wordpress-configuration.provider.ts';
 import { WordPressError } from './wordpress.error.ts';
 
 @Injectable()
@@ -12,7 +9,7 @@ export class WordPressIdentityService {
   private readonly headers: Record<string, string>;
 
   constructor(
-    @Inject(WORDPRESS_CONFIGURATION)
+    @Inject(WordPressConfiguration)
     private readonly configuration: WordPressConfiguration,
   ) {
     this.endpoint = new URL('/graphql', configuration.endpoint);

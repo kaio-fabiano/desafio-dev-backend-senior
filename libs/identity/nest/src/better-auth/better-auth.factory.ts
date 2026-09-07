@@ -5,8 +5,11 @@ import { jwt } from 'better-auth/plugins';
 
 import { BetterAuthError } from './better-auth.error.ts';
 import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
-import type { IdentityAuth, IdentityAuthOptions } from './identity-auth.types.d.ts';
-import { DELEGATED_OAUTH_SCOPES, OAUTH_RESOURCES, OAUTH_RESOURCE_SCOPES } from '../oauth-issuer/oauth-resources.config.ts';
+import type {
+  IdentityAuth,
+  IdentityAuthOptions,
+} from './identity-auth.types.d.ts';
+import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 
 @Injectable()
 export class BetterAuthFactory {
@@ -55,13 +58,17 @@ export class BetterAuthFactory {
         oauthProvider({
           loginPage: '/sign-in',
           consentPage: '/consent',
-          scopes: ['openid', 'profile', ...DELEGATED_OAUTH_SCOPES],
-          resources: Object.values(OAUTH_RESOURCES).map((identifier) => ({
-            identifier,
-            allowedScopes: [...OAUTH_RESOURCE_SCOPES[identifier]],
-            signingAlgorithm: 'ES256' as const,
-          })),
-          clientRegistrationDefaultResources: Object.values(OAUTH_RESOURCES),
+          scopes: ['openid', 'profile', ...OAuthResources.delegatedScopes],
+          resources: Object.values(OAuthResources.resources).map(
+            (identifier) => ({
+              identifier,
+              allowedScopes: [...OAuthResources.resourceScopes[identifier]],
+              signingAlgorithm: 'ES256' as const,
+            }),
+          ),
+          clientRegistrationDefaultResources: Object.values(
+            OAuthResources.resources,
+          ),
           clientPrivileges: async ({ user }) => user?.email === seedAdminEmail,
         }) as never,
       ],
