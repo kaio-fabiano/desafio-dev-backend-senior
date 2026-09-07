@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788805361.9174879,
-    "seen": 1788805428.0234683,
-    "ast_hash": "0dbb1dad711a8cbb48573e943b66b862",
+    "mtime": 1788806879.8493903,
+    "seen": 1788806934.7620664,
+    "ast_hash": "28aa1ffa5df7523c95e6f0133e2afc5f",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -546,10 +546,10 @@
     "semantic_hash": ""
   },
   "apps/apollo-mcp/project.json": {
-    "mtime": 1788797237.2448542,
-    "seen": 1788805016.640495,
-    "ast_hash": "79bacbf987cbaf74f2932f178257a420",
-    "semantic_hash": "79bacbf987cbaf74f2932f178257a420"
+    "mtime": 1788805889.4656181,
+    "seen": 1788806934.7621908,
+    "ast_hash": "bd3b18d64833b18587b1a438bb13cbf6",
+    "semantic_hash": ""
   },
   "apps/e2e/project.json": {
     "mtime": 1788797237.2448542,
@@ -1116,9 +1116,9 @@
     "semantic_hash": "cbff934a3d846dda33d31fe91c92d026"
   },
   "test/milestone-8-identity-gateway.test.mjs": {
-    "mtime": 1788797237.2641451,
-    "seen": 1788805016.6408634,
-    "ast_hash": "492bacc8d3a5ec047e200ccd553be3f8",
+    "mtime": 1788805652.505892,
+    "seen": 1788806934.7709281,
+    "ast_hash": "7168e24d1451e7139dcb807ac40955fc",
     "semantic_hash": ""
   },
   "test/milestone-8-import-order-stability.test.mjs": {
@@ -1236,9 +1236,9 @@
     "semantic_hash": "f255643e98ce663c61e898185a303555"
   },
   "test/structural-gateway-review.test.mjs": {
-    "mtime": 1788797237.2641451,
-    "seen": 1788805016.6408944,
-    "ast_hash": "7a003cb2cfa4cd5c7b447c1c407c9825",
+    "mtime": 1788805819.09118,
+    "seen": 1788806934.7719996,
+    "ast_hash": "e71aac61f6eb945f596bbc19fae4815a",
     "semantic_hash": ""
   },
   "test/structural-identity-review.test.mjs": {
@@ -1806,9 +1806,9 @@
     "semantic_hash": ""
   },
   "test/resolve-gateway-sse-todos.test.mjs": {
-    "mtime": 1788797237.2641451,
-    "seen": 1788805016.6408873,
-    "ast_hash": "68eab686ac1dbd1ee7f3595bc3264cfe",
+    "mtime": 1788805847.4323554,
+    "seen": 1788806934.7717977,
+    "ast_hash": "17dfe2f286c38285999a2e5314d2e35a",
     "semantic_hash": ""
   },
   ".spec/features/resolve-gateway-sse-todos/plano-execucao.html": {
@@ -3360,9 +3360,9 @@
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/node-review-tooling.spec.ts": {
-    "mtime": 1788797237.2616096,
-    "seen": 1788805016.6407301,
-    "ast_hash": "3851ddb64e04d55829381997cd9553c4",
+    "mtime": 1788805652.5041895,
+    "seen": 1788806934.7670736,
+    "ast_hash": "05985c49e9040916f6a6207eac77efef",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/decorator-runtime.spec.ts": {
@@ -3858,9 +3858,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/strict-nestjs-ddd-migration.json": {
-    "mtime": 1788805349.6073923,
-    "seen": 1788805428.0235364,
-    "ast_hash": "a2bbd52b4004a2be5cee8c7f2e45acaf",
+    "mtime": 1788806870.139321,
+    "seen": 1788806934.7621202,
+    "ast_hash": "db587568415e2e205ba917d8983b6cc1",
     "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/gateway-sse.options.ts": {
@@ -4230,9 +4230,9 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.spec.ts": {
-    "mtime": 1788797237.262135,
-    "seen": 1788805016.6407552,
-    "ast_hash": "e7a8aa892a574788d592528a3f3c9eee",
+    "mtime": 1788805524.9594865,
+    "seen": 1788806934.7676296,
+    "ast_hash": "bf81105da5866a00995b7fe7b9b9a97b",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts": {
@@ -4464,9 +4464,9 @@
     "semantic_hash": ""
   },
   "test/strict-ddd-governance.test.mjs": {
-    "mtime": 1788797901.3822896,
-    "seen": 1788805016.6408925,
-    "ast_hash": "35c9988f8e18f49597b78f3299de4296",
+    "mtime": 1788806689.6560402,
+    "seen": 1788806934.771957,
+    "ast_hash": "cb49efe20fb1f315e7d886685c9dd657",
     "semantic_hash": ""
   },
   "test/wordpress-registration-graphql.contract.test.mjs": {
@@ -4620,9 +4620,9 @@
     "semantic_hash": ""
   },
   ".spec/features/strict-nestjs-ddd-migration/tasks.md": {
-    "mtime": 1788804917.3030305,
-    "seen": 1788805016.6410563,
-    "ast_hash": "7e42d3e0e3b98e34383e69f53c5bd939",
+    "mtime": 1788806234.6342306,
+    "seen": 1788806934.7765663,
+    "ast_hash": "3ef7aba852fa2a432c496d8bfbc83c63",
     "semantic_hash": ""
   },
   "docs/adrs/009-wordpress-identity-registration.md": {
