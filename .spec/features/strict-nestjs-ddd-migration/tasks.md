@@ -44,7 +44,7 @@
 - Esforço: alto
 - Notas: Follow Red, Green, Refactor. Prove first that unlayered business orchestration and unclassified production files fail. Replace the three-root/folder-substring policy with an explicit repository classification covering every project-owned path except `apps/order-workflow-subgraph` and `apps/payment-federation`. Ignore generated sources, dependencies, caches, and build outputs explicitly. Recompute a truthful shrinking baseline and do not edit either excluded application.
 
-## T-217 — Extract the framework-independent Identity core [pendente]
+## T-217 — Extract the framework-independent Identity core [concluida]
 - Refs: US-120, US-123, US-126, AC-256, AC-257, AC-262, AC-268
 - Arquivos: libs/identity, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-sol

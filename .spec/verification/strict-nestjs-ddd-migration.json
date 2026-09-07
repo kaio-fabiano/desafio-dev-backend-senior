@@ -1,11 +1,11 @@
 {
   "feature": "strict-nestjs-ddd-migration",
-  "timestamp": "2026-09-07T18:47:50.134Z",
-  "gitRev": "2d6e840",
+  "timestamp": "2026-09-07T20:50:24.209Z",
+  "gitRev": "03aed0e",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 233,
+  "testsParsed": 236,
   "results": {
     "AC-252": {
       "status": "pass",
@@ -44,7 +44,27 @@
     },
     "AC-259": {
       "status": "pass",
-      "testName": "the stable NestJS baseline is empty and the in-scope roots have zero violations @spec:AC-259",
+      "testName": "the stable declaration baseline stays empty while the repository baseline cannot grow @spec:AC-259 @spec:AC-261",
+      "method": "tap"
+    },
+    "AC-260": {
+      "status": "pass",
+      "testName": "the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006",
+      "method": "tap"
+    },
+    "AC-261": {
+      "status": "pass",
+      "testName": "the stable declaration baseline stays empty while the repository baseline cannot grow @spec:AC-259 @spec:AC-261",
+      "method": "tap"
+    },
+    "AC-263": {
+      "status": "fail",
+      "testName": "AC-263: Identity composes explicit adapters and delegates presentation to use cases @spec:AC-263",
+      "method": "tap"
+    },
+    "AC-268": {
+      "status": "pass",
+      "testName": "AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094 @spec:AC-268",
       "method": "tap"
     }
   },
@@ -52,6 +72,14 @@
     "P-003": {
       "status": "pass",
       "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+    },
+    "P-006": {
+      "status": "pass",
+      "testName": "the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006"
+    },
+    "P-007": {
+      "status": "pass",
+      "testName": "unlayered orchestration and unknown production roots fail the repository gate @spec:AC-261 @principle:P-007"
     },
     "P-005": {
       "status": "pass",
