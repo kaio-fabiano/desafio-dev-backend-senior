@@ -72,7 +72,7 @@
 - Esforço: alto
 - Notas: Depends on T-219. Follow Red, Green, Refactor. Separate authentication/federation/SSE orchestration and abstract ports from cookie, JWT, Apollo federation, HTTP, and subscription client adapters. Keep controllers and middleware thin and the app root limited to bootstrap, health delivery, and composition. Treat Order Workflow only as an external public contract; do not edit `apps/order-workflow-subgraph` or model its transitional business behavior.
 
-## T-221 — Refactor the WordPress and WooCommerce integration [pendente]
+## T-221 — Refactor the WordPress and WooCommerce integration [concluida]
 - Refs: US-125, US-126, AC-266, AC-268
 - Arquivos: apps/wordpress-integration, test/wordpress-registration-graphql.contract.test.mjs, test/milestone-8-wordpress-inventory-plugin.test.mjs, test/structural-wordpress-review.test.mjs, test/wordpress-native-commerce.test.mjs
 - Modelo: gpt-5.6-sol
