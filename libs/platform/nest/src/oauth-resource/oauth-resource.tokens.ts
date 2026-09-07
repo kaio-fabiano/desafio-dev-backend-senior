@@ -1,1 +1,3 @@
-export const OAUTH_RESOURCE_OPTIONS = Symbol('OAUTH_RESOURCE_OPTIONS');
+export class OAuthResourceOptionsToken {
+  static readonly description = 'OAUTH_RESOURCE_OPTIONS';
+}

@@ -9,15 +9,13 @@ import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-hos
 import { APIError } from 'better-auth';
 import { describe, expect, it, vi } from 'vitest';
 
-import type {
-  OAuthClaims,
-} from '../oauth-resource.types.ts';
+import type { OAuthClaims } from '../oauth-claims.ts';
+import { OAuthAuthenticationMessages } from '../verification/oauth-authentication-messages.ts';
 import {
-  OAUTH_AUTHENTICATION_MESSAGES,
   OAuthCredentialError,
 } from '../verification/oauth-resource.errors.ts';
 import { GraphqlOAuthResourceGuard } from './oauth-resource.guard.ts';
-import { REQUIRED_SCOPES } from './require-scopes.decorator.ts';
+import { RequiredScopesMetadata } from './required-scopes.metadata.ts';
 
 function graphqlExecution(
   context: object,
@@ -85,7 +83,7 @@ describe('GraphqlOAuthResourceGuard', () => {
   });
 
   it('AC-220: requires every scope with case-sensitive matching @spec:AC-220', async () => {
-    expect(OAUTH_AUTHENTICATION_MESSAGES.requiredScopeMissing).toBe(
+    expect(OAuthAuthenticationMessages.requiredScopeMissing).toBe(
       'Required OAuth scope is missing',
     );
     const guard = new GraphqlOAuthResourceGuard(
@@ -104,7 +102,7 @@ describe('GraphqlOAuthResourceGuard', () => {
     };
 
     await expect(guard.canActivate(graphqlExecution(context))).rejects.toThrow(
-      OAUTH_AUTHENTICATION_MESSAGES.requiredScopeMissing,
+      OAuthAuthenticationMessages.requiredScopeMissing,
     );
   });
 
@@ -114,12 +112,12 @@ describe('GraphqlOAuthResourceGuard', () => {
         return true;
       }
     }
-    SetMetadata(REQUIRED_SCOPES, ['class:read'])(Resolver);
+    SetMetadata(RequiredScopesMetadata.key, ['class:read'])(Resolver);
     const descriptor = Object.getOwnPropertyDescriptor(
       Resolver.prototype,
       'operation',
     );
-    SetMetadata(REQUIRED_SCOPES, ['method:read'])(
+    SetMetadata(RequiredScopesMetadata.key, ['method:read'])(
       Resolver.prototype,
       'operation',
       descriptor as PropertyDescriptor,

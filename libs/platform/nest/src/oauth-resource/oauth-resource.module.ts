@@ -1,7 +1,7 @@
 import { Module, type DynamicModule } from '@nestjs/common';
 
 import { GraphqlOAuthResourceGuard } from './graphql/oauth-resource.guard.ts';
-import { OAUTH_RESOURCE_OPTIONS } from './oauth-resource.tokens.ts';
+import { OAuthResourceOptionsToken } from './oauth-resource.tokens.ts';
 import type { OAuthResourceOptions } from './oauth-resource.types.ts';
 import { OAuthResourceService } from './verification/oauth-resource.service.ts';
 
@@ -12,7 +12,7 @@ export class OAuthResourceModule {
       module: OAuthResourceModule,
       providers: [
         {
-          provide: OAUTH_RESOURCE_OPTIONS,
+          provide: OAuthResourceOptionsToken,
           useValue: Object.freeze({ ...options }),
         },
         OAuthResourceService,

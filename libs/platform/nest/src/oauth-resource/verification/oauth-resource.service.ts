@@ -4,9 +4,9 @@ import {
   verifyAccessTokenRequest,
 } from 'better-auth/oauth2';
 
-import { OAUTH_RESOURCE_OPTIONS } from '../oauth-resource.tokens.ts';
+import type { OAuthClaims } from '../oauth-claims.ts';
+import { OAuthResourceOptionsToken as OAUTH_RESOURCE_OPTIONS } from '../oauth-resource.tokens.ts';
 import type {
-  OAuthClaims,
   OAuthResourceOptions,
 } from '../oauth-resource.types.ts';
 import { OAuthCredentialError } from './oauth-resource.errors.ts';
@@ -17,9 +17,9 @@ export class OAuthResourceService {
     @Inject(OAUTH_RESOURCE_OPTIONS)
     private readonly options: OAuthResourceOptions,
   ) {
-    assertHttpUrl(options.audience, 'OAuth audience');
-    assertHttpUrl(options.issuer, 'OAuth issuer');
-    assertHttpUrl(options.jwksUrl, 'OAuth JWKS URL');
+    OAuthResourceService.assertHttpUrl(options.audience, 'OAuth audience');
+    OAuthResourceService.assertHttpUrl(options.issuer, 'OAuth issuer');
+    OAuthResourceService.assertHttpUrl(options.jwksUrl, 'OAuth JWKS URL');
   }
 
   async verify(request: Request): Promise<OAuthClaims> {
@@ -55,14 +55,14 @@ export class OAuthResourceService {
       subject: claims.sub,
     } satisfies OAuthClaims;
   }
-}
 
-function assertHttpUrl(value: string, label: string): void {
-  try {
-    const url = new URL(value);
-    if (url.protocol !== 'http:' && url.protocol !== 'https:')
-      throw new Error();
-  } catch {
-    throw new Error(`${label} must be a valid URL`);
+  private static assertHttpUrl(value: string, label: string): void {
+    try {
+      const url = new URL(value);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:')
+        throw new Error();
+    } catch {
+      throw new Error(`${label} must be a valid URL`);
+    }
   }
 }

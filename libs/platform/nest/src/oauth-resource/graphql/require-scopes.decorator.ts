@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 
-export const REQUIRED_SCOPES = Symbol('REQUIRED_SCOPES');
+import { RequiredScopesMetadata } from './required-scopes.metadata.ts';
 
 export const RequireScopes = (...scopes: string[]) =>
-  SetMetadata(REQUIRED_SCOPES, scopes);
+  SetMetadata(RequiredScopesMetadata.key, scopes);

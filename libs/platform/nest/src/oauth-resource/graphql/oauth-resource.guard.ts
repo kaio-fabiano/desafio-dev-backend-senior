@@ -9,17 +9,15 @@ import {
 import { Reflector } from '@nestjs/core';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import type {
-  OAuthClaims,
-  OAuthGraphQLContext,
-} from '../oauth-resource.types.ts';
+import type { OAuthClaims } from '../oauth-claims.ts';
+import type { OAuthGraphQLContext } from '../oauth-graphql-context.ts';
 import { toOAuthRequest } from '../verification/oauth-request.adapter.ts';
 import {
   isOAuthCredentialError,
-  OAUTH_AUTHENTICATION_MESSAGES,
 } from '../verification/oauth-resource.errors.ts';
+import { OAuthAuthenticationMessages } from '../verification/oauth-authentication-messages.ts';
 import { OAuthResourceService } from '../verification/oauth-resource.service.ts';
-import { REQUIRED_SCOPES } from './require-scopes.decorator.ts';
+import { RequiredScopesMetadata } from './required-scopes.metadata.ts';
 
 /**
  * Authenticates GraphQL operations for the audience configured by the current
@@ -38,7 +36,7 @@ export class GraphqlOAuthResourceGuard implements CanActivate {
   async canActivate(executionContext: ExecutionContext): Promise<boolean> {
     if (executionContext.getType<string>() !== 'graphql') return true;
     const scopes =
-      this.reflector.getAllAndOverride<readonly string[]>(REQUIRED_SCOPES, [
+      this.reflector.getAllAndOverride<readonly string[]>(RequiredScopesMetadata.key, [
         executionContext.getHandler(),
         executionContext.getClass(),
       ]) ?? [];
@@ -47,12 +45,12 @@ export class GraphqlOAuthResourceGuard implements CanActivate {
         executionContext,
       ).getContext<OAuthGraphQLContext>();
     if (context.auth) {
-      assertScopes(context.auth, scopes);
+      this.assertScopes(context.auth, scopes);
       return true;
     }
     if (!context.req) {
       throw new UnauthorizedException(
-        OAUTH_AUTHENTICATION_MESSAGES.bearerTokenRequired,
+        OAuthAuthenticationMessages.bearerTokenRequired,
       );
     }
     let auth: OAuthClaims;
@@ -61,22 +59,22 @@ export class GraphqlOAuthResourceGuard implements CanActivate {
     } catch (error) {
       if (!isOAuthCredentialError(error)) throw error;
       throw new UnauthorizedException(
-        OAUTH_AUTHENTICATION_MESSAGES.invalidBearerToken,
+        OAuthAuthenticationMessages.invalidBearerToken,
       );
     }
     context.auth = auth;
-    assertScopes(auth, scopes);
+    this.assertScopes(auth, scopes);
     return true;
   }
-}
 
-function assertScopes(
-  auth: OAuthClaims,
-  requiredScopes: readonly string[],
-): void {
-  if (!requiredScopes.every((scope) => auth.scopes.includes(scope))) {
-    throw new ForbiddenException(
-      OAUTH_AUTHENTICATION_MESSAGES.requiredScopeMissing,
-    );
+  private assertScopes(
+    auth: OAuthClaims,
+    requiredScopes: readonly string[],
+  ): void {
+    if (!requiredScopes.every((scope) => auth.scopes.includes(scope))) {
+      throw new ForbiddenException(
+        OAuthAuthenticationMessages.requiredScopeMissing,
+      );
+    }
   }
 }

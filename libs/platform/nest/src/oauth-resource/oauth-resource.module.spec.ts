@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import { GraphqlOAuthResourceGuard } from './graphql/oauth-resource.guard.ts';
 import { OAuthResourceModule } from './oauth-resource.module.ts';
-import { OAUTH_RESOURCE_OPTIONS } from './oauth-resource.tokens.ts';
+import { OAuthResourceOptionsToken } from './oauth-resource.tokens.ts';
 import type { OAuthResourceOptions } from './oauth-resource.types.ts';
 import { OAuthResourceService } from './verification/oauth-resource.service.ts';
 
@@ -60,7 +60,9 @@ describe('OAuthResourceModule', () => {
     const module = await Test.createTestingModule({
       imports: [registered],
     }).compile();
-    const snapshot = module.get<OAuthResourceOptions>(OAUTH_RESOURCE_OPTIONS);
+    const snapshot = module.get<OAuthResourceOptions>(
+      OAuthResourceOptionsToken,
+    );
 
     expect(snapshot.audience).toBe(options.audience);
     expect(Object.isFrozen(snapshot)).toBe(true);
@@ -80,10 +82,14 @@ describe('OAuthResourceModule', () => {
     }).compile();
 
     expect(
-      gateway.get<OAuthResourceOptions>(OAUTH_RESOURCE_OPTIONS).audience,
+      gateway.get<OAuthResourceOptions>(
+        OAuthResourceOptionsToken,
+      ).audience,
     ).toBe(options.audience);
     expect(
-      identity.get<OAuthResourceOptions>(OAUTH_RESOURCE_OPTIONS).audience,
+      identity.get<OAuthResourceOptions>(
+        OAuthResourceOptionsToken,
+      ).audience,
     ).toBe(identityOptions.audience);
     await Promise.all([gateway.close(), identity.close()]);
   });

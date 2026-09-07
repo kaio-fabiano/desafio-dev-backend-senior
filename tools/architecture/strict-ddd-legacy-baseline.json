@@ -362,99 +362,15 @@
     },
     {
       "code": "mixed-declaration",
-      "declaration": "assertScopes",
-      "file": "libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts",
-      "line": 73
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "oauthSubjectFactory",
-      "file": "libs/platform/nest/src/oauth-resource/graphql/oauth-subject.decorator.ts",
-      "line": 11
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "OAuthSubject",
-      "file": "libs/platform/nest/src/oauth-resource/graphql/oauth-subject.decorator.ts",
-      "line": 27
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "REQUIRED_SCOPES",
-      "file": "libs/platform/nest/src/oauth-resource/graphql/require-scopes.decorator.ts",
-      "line": 3
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "RequireScopes",
-      "file": "libs/platform/nest/src/oauth-resource/graphql/require-scopes.decorator.ts",
-      "line": 5
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "OAUTH_RESOURCE_OPTIONS",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts",
-      "line": 1
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "OAuthResourceOptions",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
-      "line": 1
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "OAuthHttpRequest",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
-      "line": 14
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "OAuthGraphQLContext",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
-      "line": 22
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "OAuthClaims",
-      "file": "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
-      "line": 7
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "firstHeader",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts",
-      "line": 23
-    },
-    {
-      "code": "mixed-declaration",
       "declaration": "toOAuthRequest",
       "file": "libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts",
-      "line": 3
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "JOSE_CREDENTIAL_ERROR_CODES",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
-      "line": 12
+      "line": 35
     },
     {
       "code": "mixed-declaration",
       "declaration": "isOAuthCredentialError",
       "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
-      "line": 22
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "OAUTH_AUTHENTICATION_MESSAGES",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
-      "line": 3
-    },
-    {
-      "code": "mixed-declaration",
-      "declaration": "assertHttpUrl",
-      "file": "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
-      "line": 60
+      "line": 27
     }
   ]
 }
