@@ -6,15 +6,19 @@
 ## Contexto
 
 The repository already documents bounded contexts and an inward dependency
-direction, but the stable NestJS platform, Gateway, and Identity code still
-mixes classes, interfaces, type aliases, constants, and functions in the same
-production files. Several repositories also colocate application ports and
-infrastructure adapters.
+direction, but the previous migration only separated top-level declarations in
+the Platform, Gateway, and Identity NestJS roots. It did not establish real
+domain, application, infrastructure, presentation, and composition boundaries.
+For example, Identity registration still colocates orchestration, Better Auth
+hooks, WordPress integration, compensation, and transport error translation in
+NestJS services.
 
 The migration must establish a strict, mechanically enforced DDD development
 contract suitable for many teams and coding agents. It must improve boundaries
 without changing public GraphQL, HTTP, SSE, OAuth, messaging, or persistence
-behavior during structural migration.
+behavior during structural migration. Every project-owned source is in scope
+for architectural classification and appropriate refactoring except the two
+explicitly excluded application roots.
 
 ## Histórias
 
@@ -89,6 +93,95 @@ a disruptive rewrite or investment in a transitional order workflow.
 - **Quando** the full quality and architecture gates run
 - **Então** no in-scope legacy file remains allowlisted and build, typecheck, lint, tests, coverage, specification verification, and CI audit all pass
 
+### US-122 — Cover the complete repository without false compliance
+
+As an architecture owner, I want every project-owned artifact classified and
+every production source evaluated, so that an empty folder convention or a
+partial root list cannot report a migration that did not happen.
+
+#### AC-260 — The inventory has only two application exclusions
+
+- **Dado** the repository inventory is generated
+- **Quando** applications, libraries, contracts, infrastructure, plugins, scripts, and test tooling are classified
+- **Então** every project-owned path is included except `apps/order-workflow-subgraph` and `apps/payment-federation`, with generated dependencies and build outputs ignored rather than treated as source
+
+#### AC-261 — Missing layers cannot produce a false zero
+
+- **Dado** business orchestration remains in an unclassified NestJS service outside a `domain` or `application` folder
+- **Quando** the architecture gate runs
+- **Então** it fails because every in-scope production file must belong to an approved context, layer, or technical boundary and dependency direction is checked from that classification
+
+### US-123 — Build a real Identity clean core
+
+As an Identity maintainer, I want registration, provisioning, and identity
+rules separated from NestJS, Better Auth, GraphQL, and WordPress, so that core
+behavior is independently testable and adapters can change safely.
+
+#### AC-262 — Identity domain and application are framework-independent
+
+- **Dado** an Identity domain or application class
+- **Quando** its responsibilities and imports are inspected
+- **Então** it contains identity rules or one use-case orchestration responsibility and imports no NestJS, GraphQL, Better Auth, WordPress, database, HTTP, or concrete adapter code
+
+#### AC-263 — Identity adapters implement explicit ports
+
+- **Dado** Better Auth, WordPress, database, GraphQL, or NestJS participates in an Identity flow
+- **Quando** the flow is composed
+- **Então** each vendor integration is an outer adapter implementing an application abstract-class port, endpoints delegate to use cases, and transport error mapping stays outside domain and application
+
+### US-124 — Separate edge policy from framework plumbing
+
+As a Gateway and Platform maintainer, I want authentication and federation
+policy separated from NestJS transport and composition, so that edge behavior
+remains secure without inventing fake business aggregates.
+
+#### AC-264 — Platform authorization policy has an inward dependency direction
+
+- **Dado** OAuth claims, required scopes, credential verification, or request authentication behavior
+- **Quando** the Platform library is migrated
+- **Então** policy and application orchestration are framework-independent while guards, decorators, request conversion, and provider wiring remain NestJS adapters
+
+#### AC-265 — Gateway remains a thin edge context
+
+- **Dado** HTTP, GraphQL federation, cookies, JWT validation, or SSE subscription behavior
+- **Quando** Gateway is migrated
+- **Então** presentation delegates to focused application classes and ports, concrete clients remain adapters, composition roots only wire dependencies, and Order Workflow is referenced only through its public boundary without modifying the excluded application
+
+### US-125 — Apply architecture appropriate to every other project artifact
+
+As a repository maintainer, I want non-NestJS code included without forcing it
+into fictional NestJS or DDD layers, so that the whole repository has explicit
+and enforceable ownership.
+
+#### AC-266 — The WordPress integration follows WordPress and WooCommerce boundaries
+
+- **Dado** the project-owned WordPress/WooCommerce plugin and its runtime scripts
+- **Quando** they are refactored
+- **Então** bootstrap and hooks are thin, responsibilities are isolated in namespaced classes, inputs and capabilities are validated, WooCommerce CRUD APIs remain HPOS-compatible, and WooCommerce remains the cart/order source of truth
+
+#### AC-267 — Technical boundaries remain technical
+
+- **Dado** Apollo MCP declarations, shared schemas, infrastructure configuration, deployment scripts, or end-to-end tooling
+- **Quando** they are classified or changed
+- **Então** they have explicit ownership, validation, dependency rules, and focused files appropriate to their platform without speculative aggregates, repositories, use cases, or wrapper classes
+
+### US-126 — Prove the repository-wide migration
+
+As an engineering lead, I want executable evidence for every migration wave,
+so that completion means clean boundaries rather than renamed files.
+
+#### AC-268 — Each wave uses characterization-first TDD
+
+- **Dado** an in-scope runtime behavior is moved across boundaries
+- **Quando** its migration task executes
+- **Então** a focused characterization or architecture test fails first, the minimum boundary change makes it pass, and the relevant unit, integration, contract, and end-to-end suites remain green after refactoring
+
+#### AC-269 — Completion has no unclassified production code or legacy baseline
+
+- **Dado** all corrective migration waves are complete
+- **Quando** repository quality, architecture, specification, and audit gates run
+- **Então** every in-scope production artifact is classified, no legacy architecture allowlist remains, coverage and all relevant tests pass, and `onp-spec verify` plus `onp-spec audit --ci` report success
+
 ## Fora de escopo
 
 - Changing public API schemas, authentication semantics, event schemas, or database schemas solely to satisfy file organization.
@@ -97,10 +190,13 @@ a disruptive rewrite or investment in a transitional order workflow.
   queue, and order responsibilities are transitional and will be replaced by a
   separate design in which WooCommerce remains the cart/order source of truth
   and post-checkout business processing belongs to Java.
-- Refactoring the Java Payment bounded context or WordPress-owned code in this
-  TypeScript/NestJS migration; their future changes belong to that separate
-  checkout/order redesign.
+- Refactoring `apps/payment-federation`; it is a Java/Spring application and is
+  governed by a separate architecture effort. Shared contracts at its boundary
+  remain in scope for compatibility verification.
 - Converting tests to one class per file; the rule applies to production code.
+- Applying NestJS file grammar to declarative GraphQL/JSON/YAML, generated
+  sources, shell scripts, PHP, or JavaScript test tooling. These artifacts are
+  still inventoried and governed by platform-appropriate rules.
 
 ## Suposições
 
@@ -110,8 +206,12 @@ a disruptive rewrite or investment in a transitional order workflow.
 | ASM-086 | The current GraphQL, HTTP, OAuth, SSE, RabbitMQ, and persistence contracts must remain behaviorally compatible throughout the migration. | confirmada | The request is architectural; no behavior change was requested. |
 | ASM-087 | Existing uncommitted milestone 7 and Compose changes are unrelated and must not be modified by this feature. | confirmada | The initial worktree inspection found those pre-existing changes. |
 | ASM-088 | The current TypeScript Order Workflow is intentionally excluded because its ownership and behavior will change: WooCommerce will retain cart/order capabilities and the remaining workflow will move to Java. | confirmada | The owner explicitly removed Order Workflow from this NestJS migration to avoid refactoring disposable behavior. |
-| ASM-089 | The six migration tasks run sequentially with T-209 on `gpt-5.6-luna` at low effort and T-210, T-211, T-212, T-213, and T-216 on `gpt-5.6-terra` at medium effort. | confirmada | The owner explicitly accepted the recommended execution order, models, and efforts before execution. Headless task sessions must not request this confirmation again. |
-| ASM-090 | T-216 may replace only the two legacy Platform callable API usages inside Order Workflow with their class-based equivalents. | confirmada | The owner explicitly authorized this narrow mechanical compatibility migration after the zero-baseline gate proved it was required. Checkout, order, idempotency, saga, queue, persistence, and payment behavior remain excluded. |
+| ASM-089 | The original six-task plan used one sequential execution with the previously approved models and efforts. | superada | The corrective repository-wide scope introduces a new task set whose models, efforts, and parallelism require a new explicit confirmation. |
+| ASM-090 | The original T-216 could mechanically update two Platform API usages inside Order Workflow. | superada | The corrected scope now excludes the entire Order Workflow application without exceptions; compatibility must be maintained from the in-scope provider/contract side. |
+| ASM-091 | The corrective migration includes all project-owned code except `apps/order-workflow-subgraph` and `apps/payment-federation`. | confirmada | The owner explicitly corrected the scope: Order Workflow is deferred, Payment is Java and excluded from this NestJS effort, and everything else must be architecturally reviewed and refactored where necessary. |
+| ASM-092 | DDD tactical patterns are required only where business concepts and invariants exist; technical edges must use Clean Architecture boundaries without invented aggregates. | confirmada | Strict architecture means explicit ownership and inward dependencies, not ceremonial domain objects around bootstrap, configuration, schemas, or test harnesses. |
+| ASM-093 | The four current uncommitted Identity file changes belong to the owner and must be preserved during planning and migration. | confirmada | Worktree inspection found changes in Better Auth and registration files before this corrective plan was edited. |
+| ASM-094 | T-216 through T-224 run sequentially with the models and efforts declared in `tasks.md`. | confirmada | The owner explicitly answered “Y” after reviewing the corrective task, model, and effort table and the recommendation for sequential execution. |
 
 ## Perguntas em aberto
 
