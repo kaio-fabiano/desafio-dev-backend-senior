@@ -3,13 +3,13 @@ import { memoryAdapter } from 'better-auth/adapters/memory';
 import { Pool } from 'pg';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { OAuthClientProvisioningService } from '../oauth-issuer/oauth-client-provisioning.service.ts';
+import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 import {
   BetterAuthFactory,
 } from './better-auth.factory.ts';
 import type { IdentityAuth } from './identity-auth.types.d.ts';
 import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
-import { OAuthClientProvisioningService } from '../oauth-issuer/oauth-client-provisioning.service.ts';
-import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 
 const DELEGATED_OAUTH_SCOPES = OAuthResources.delegatedScopes;
 const OAUTH_RESOURCES = OAuthResources.resources;

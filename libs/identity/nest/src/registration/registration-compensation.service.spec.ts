@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { RegistrationCompensationService } from './registration-compensation.service.ts';
 import type { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
+import { RegistrationCompensationService } from './registration-compensation.service.ts';
 
 function identityAdapter() {
   return {

@@ -7,9 +7,9 @@ import {
 import { APIError } from 'better-auth/api';
 
 import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
+import { IdentityBootstrap } from './identity-bootstrap.ts';
 import { RegistrationCompensationService } from './registration-compensation.service.ts';
 import { RegistrationError } from './registration.error.ts';
-import { IdentityBootstrap } from './identity-bootstrap.ts';
 import type { SignUpInput, SignUpResult } from './registration.types.d.ts';
 
 @Hook()
