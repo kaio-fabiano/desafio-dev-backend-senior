@@ -58,7 +58,7 @@
 - Esforço: alto
 - Notas: Depends on T-217. Follow Red, Green, Refactor. Make Better Auth, WordPress, database, OAuth issuer, and cursor implementations concrete adapters for the Identity application ports. Keep GraphQL and HTTP classes in presentation, make endpoints delegate to use cases, translate errors only at the boundary, and keep `apps/identity-subgraph` limited to bootstrap, health delivery, and composition. Preserve all public authentication and registration behavior.
 
-## T-219 — Separate Platform authorization policy from NestJS adapters [pendente]
+## T-219 — Separate Platform authorization policy from NestJS adapters [concluida]
 - Refs: US-120, US-124, US-126, AC-256, AC-257, AC-264, AC-268
 - Arquivos: libs/platform, test/oauth-resource-server-auth.spec.test.mjs, tools/architecture/strict-ddd-legacy-baseline.json
 - Modelo: gpt-5.6-sol
