@@ -1,30 +1,27 @@
 import { describe, expect, it, vi } from 'vitest';
 
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
-import {
-  federationCapabilities,
-  gatewayDriverConfig,
-} from './gateway.module.ts';
+import { GatewayFederationConfiguration } from './federation/gateway-federation.configuration.ts';
 
 describe('gateway federation policies', () => {
   it('assigns least-privilege capabilities at composition', () => {
     expect(
-      federationCapabilities('identity', 'http://identity/graphql'),
+      GatewayFederationConfiguration.capabilities('identity', 'http://identity/graphql'),
     ).toEqual({ bearer: true });
-    expect(federationCapabilities('payment', 'http://payment/graphql')).toEqual(
+    expect(GatewayFederationConfiguration.capabilities('payment', 'http://payment/graphql')).toEqual(
       { bearer: true },
     );
     expect(
-      federationCapabilities('order-workflow', 'http://workflow/graphql'),
+      GatewayFederationConfiguration.capabilities('order-workflow', 'http://workflow/graphql'),
     ).toEqual({ bearer: true, requestSession: true });
     expect(
-      federationCapabilities('wordpress', 'http://wordpress/graphql'),
+      GatewayFederationConfiguration.capabilities('wordpress', 'http://wordpress/graphql'),
     ).toEqual({
       origin: 'http://wordpress',
       requestSession: true,
       responseSession: true,
     });
-    expect(federationCapabilities('unknown', 'http://unknown/graphql')).toEqual(
+    expect(GatewayFederationConfiguration.capabilities('unknown', 'http://unknown/graphql')).toEqual(
       {},
     );
   });
@@ -36,7 +33,7 @@ describe('gateway federation policies', () => {
     const config = {
       get: vi.fn((_name: string, fallback: string) => fallback),
     };
-    const driver = gatewayDriverConfig(auth as never, config as never);
+    const driver = GatewayFederationConfiguration.driverConfig(auth as never, config as never);
 
     await expect(
       driver.server?.context?.({ req: 'request', res: 'response' } as never),

@@ -16,6 +16,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     main,
     appModule,
     gatewayModule,
+    federationConfiguration,
     project,
     { AuthContextFactory },
     { TokenVerifierService },
@@ -23,6 +24,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     readFile('apps/gateway/src/main.ts', 'utf8'),
     readFile('apps/gateway/src/app.module.ts', 'utf8'),
     readFile(`${libraryRoot}/gateway.module.ts`, 'utf8'),
+    readFile(`${libraryRoot}/federation/gateway-federation.configuration.ts`, 'utf8'),
     readFile('libs/gateway/nest/project.json', 'utf8'),
     import(`../${libraryRoot}/auth/auth-context.factory.ts`),
     import(`../${libraryRoot}/auth/token-verifier.service.ts`),
@@ -43,15 +45,15 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
     /from ['"]@nestjs\/apollo['"]|from ['"]@apollo\/gateway['"]|readFileSync\(/,
   );
   assert.match(gatewayModule, /ApolloGatewayDriver/);
-  assert.match(gatewayModule, /LocalCompose/);
-  assert.match(gatewayModule, /AuthenticatedDataSource/);
+  assert.match(federationConfiguration, /LocalCompose/);
+  assert.match(federationConfiguration, /AuthenticatedDataSource/);
   assert.match(gatewayModule, /AuthContextFactory/);
-  assert.match(gatewayModule, /http:\/\/wordpress\/graphql/);
-  assert.match(gatewayModule, /payment-federation:8080\/graphql/);
-  assert.match(gatewayModule, /order-workflow-subgraph:3003\/graphql/);
-  assert.doesNotMatch(gatewayModule, /stock-worker/);
+  assert.match(federationConfiguration, /http:\/\/wordpress\/graphql/);
+  assert.match(federationConfiguration, /payment-federation:8080\/graphql/);
+  assert.match(federationConfiguration, /order-workflow-subgraph:3003\/graphql/);
+  assert.doesNotMatch(federationConfiguration, /stock-worker/);
   assert.doesNotMatch(
-    `${main}\n${appModule}\n${gatewayModule}`,
+    `${main}\n${appModule}\n${gatewayModule}\n${federationConfiguration}`,
     /ProductLoader|OrderLoader|BusinessRepository/,
   );
 

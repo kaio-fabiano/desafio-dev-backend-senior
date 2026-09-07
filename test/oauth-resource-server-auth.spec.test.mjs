@@ -207,7 +207,7 @@ test('AC-178: SSE validates the same bearer token @spec:AC-178', async () => {
       'utf8',
     ),
   ]);
-  assert.match(gateway, /authenticated\.set\(raw, await verify\(raw\)\)/);
+  assert.match(gateway, /this\.authenticated\.set\(raw, await this\.options\.verify\(raw\)\)/);
   assert.match(gateway, /GatewayContext/);
   assert.match(downstream, /authorization: context\.authorization/);
   assert.match(orderWorkflow, /await verify\(toOAuthRequest\(raw\)\)/);

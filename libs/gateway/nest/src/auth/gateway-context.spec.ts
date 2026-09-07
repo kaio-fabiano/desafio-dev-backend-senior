@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { allowlistedCommerceCookies } from './gateway-context.ts';
+import { CommerceCookiePolicy } from './commerce-cookie-policy.ts';
 
-describe('allowlistedCommerceCookies', () => {
+describe('CommerceCookiePolicy', () => {
   it('retains only documented WooCommerce cart cookies', () => {
     expect(
-      allowlistedCommerceCookies(
+      CommerceCookiePolicy.allowlisted(
         'bad; analytics=x; woocommerce_cart_hash=h; ' +
           'woocommerce_items_in_cart=2; wp_woocommerce_session_store=a=b',
       ),
@@ -16,7 +16,7 @@ describe('allowlistedCommerceCookies', () => {
   });
 
   it('returns undefined when no allowlisted cookie is present', () => {
-    expect(allowlistedCommerceCookies(undefined)).toBeUndefined();
-    expect(allowlistedCommerceCookies('analytics=secret')).toBeUndefined();
+    expect(CommerceCookiePolicy.allowlisted(undefined)).toBeUndefined();
+    expect(CommerceCookiePolicy.allowlisted('analytics=secret')).toBeUndefined();
   });
 });

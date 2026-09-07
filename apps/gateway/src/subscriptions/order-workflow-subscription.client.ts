@@ -8,50 +8,27 @@ import {
 
 import type { GatewayContext } from '@desafio-dev-backend-senior/source/gateway-nest';
 
-type DelegatedClient = Pick<Client, 'dispose' | 'iterate'>;
+export class OrderWorkflowSubscriptionClient {
+  constructor(
+    private readonly url: string,
+    private readonly makeClient: (options: ClientOptions<false>) => Pick<Client, 'dispose' | 'iterate'> = createClient,
+  ) {}
 
-export type OrderWorkflowSubscriptionClient = {
-  subscribe(
-    request: RequestParams,
-    context: GatewayContext,
-  ): AsyncGenerator<ExecutionResult>;
-};
-
-type OrderWorkflowSubscriptionClientOptions = {
-  url: string;
-  createClient?: (options: ClientOptions<false>) => DelegatedClient;
-};
-
-export function createOrderWorkflowSubscriptionClient({
-  url,
-  createClient: makeClient = createClient,
-}: OrderWorkflowSubscriptionClientOptions): OrderWorkflowSubscriptionClient {
-  return {
-    subscribe(request, context) {
-      const client = makeClient({
-        url,
+  subscribe(request: RequestParams, context: GatewayContext): AsyncGenerator<ExecutionResult> {
+    const client = this.makeClient({
+        url: this.url,
         singleConnection: false,
         retryAttempts: 0,
         headers: {
           authorization: context.authorization,
           'x-request-id': context.requestId,
         },
-      });
-      const downstream = client.iterate(request);
-      let disposed = false;
-      const dispose = () => {
-        if (disposed) return;
-        disposed = true;
-        client.dispose();
-      };
+    });
+    const downstream = client.iterate(request);
+    return this.delegate(downstream, client);
+  }
 
-      return (async function* delegate() {
-        try {
-          yield* downstream as AsyncIterableIterator<ExecutionResult>;
-        } finally {
-          dispose();
-        }
-      })();
-    },
-  };
+  private async *delegate(downstream: ReturnType<Client['iterate']>, client: Pick<Client, 'dispose'>): AsyncGenerator<ExecutionResult> {
+    try { yield* downstream as AsyncIterableIterator<ExecutionResult>; } finally { client.dispose(); }
+  }
 }

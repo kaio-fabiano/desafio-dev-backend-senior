@@ -3,20 +3,12 @@ import {
   type GraphQLDataSourceProcessOptions,
 } from '@apollo/gateway';
 
-import {
-  allowlistedCommerceCookies,
-  COMMERCE_SESSION_REQUEST_HEADERS,
-  COMMERCE_SESSION_RESPONSE_HEADERS,
-  type GatewayContext,
-} from '../auth/gateway-context.ts';
-
-// Review: docs/reviews/gateway-auth-refactor.md
-export type FederationCapabilities = Readonly<{
-  bearer?: boolean;
-  origin?: string;
-  requestSession?: boolean;
-  responseSession?: boolean;
-}>;
+import { CommerceCookiePolicy } from '../auth/commerce-cookie-policy.ts';
+import { CommerceSessionRequestHeaders } from '../auth/commerce-session-request-headers.ts';
+import { CommerceSessionResponseHeaders } from '../auth/commerce-session-response-headers.ts';
+import type { GatewayContext } from '../auth/gateway-context.ts';
+import type { FederationCapabilities } from './federation-capabilities.ts';
+import { SetCookieValues } from './set-cookie-values.ts';
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayContext> {
   private readonly capabilities: FederationCapabilities;
@@ -40,9 +32,9 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayCont
       headers.set('authorization', context.authorization);
     }
     if (!this.capabilities.requestSession) return;
-    for (const name of COMMERCE_SESSION_REQUEST_HEADERS) {
+    for (const name of CommerceSessionRequestHeaders.values) {
       const raw = context?.sessionHeaders?.[name];
-      const value = name === 'cookie' ? allowlistedCommerceCookies(raw) : raw;
+      const value = name === 'cookie' ? CommerceCookiePolicy.allowlisted(raw) : raw;
       if (value) headers.set(name, value);
     }
   }
@@ -56,29 +48,12 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayCont
     NonNullable<RemoteGraphQLDataSource<GatewayContext>['didReceiveResponse']>
   > {
     if (!this.capabilities.responseSession) return response;
-    for (const name of COMMERCE_SESSION_RESPONSE_HEADERS) {
+    for (const name of CommerceSessionResponseHeaders.values) {
       const value = response.http?.headers.get(name);
       if (value) context.setResponseHeader?.(name, value);
     }
-    const cookies = response.http ? setCookieValues(response.http.headers) : [];
+    const cookies = response.http ? SetCookieValues.from(response.http.headers) : [];
     if (cookies.length > 0) context.setResponseHeader?.('set-cookie', cookies);
     return response;
   }
-}
-
-function setCookieValues(headers: {
-  get(name: string): string | null;
-}): string[] {
-  const raw = (
-    headers as typeof headers & {
-      raw?: () => Readonly<Record<string, readonly string[]>>;
-    }
-  ).raw?.()['set-cookie'];
-  if (raw) return [...raw];
-  const native = (
-    headers as typeof headers & { getSetCookie?: () => readonly string[] }
-  ).getSetCookie?.();
-  if (native) return [...native];
-  const value = headers.get('set-cookie');
-  return value ? [value] : [];
 }

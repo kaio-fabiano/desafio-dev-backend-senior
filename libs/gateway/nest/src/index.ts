@@ -1,13 +1,9 @@
 export { AuthContextFactory } from './auth/auth-context.factory.ts';
 export { GatewayAuthModule } from './auth/gateway-auth.module.ts';
-export {
-  type AuthenticationPrincipal,
-  type CommerceSessionHeaders,
-  type GatewayContext,
-} from './auth/gateway-context.ts';
+export { AuthenticationPrincipal } from './auth/authentication-principal.ts';
+export { CommerceSessionHeaders } from './auth/commerce-session-headers.ts';
+export { GatewayContext } from './auth/gateway-context.ts';
 export { TokenVerifierService } from './auth/token-verifier.service.ts';
-export {
-  AuthenticatedDataSource,
-  type FederationCapabilities,
-} from './federation/authenticated-data-source.ts';
+export { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
+export { FederationCapabilities } from './federation/federation-capabilities.ts';
 export { GatewayModule } from './gateway.module.ts';

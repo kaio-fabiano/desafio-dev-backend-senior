@@ -66,6 +66,14 @@ test('focused classes and abstract ports are accepted @spec:AC-257', () => {
   );
 });
 
+test('Gateway has no remaining legacy declarations after its migration wave @spec:AC-256 @spec:AC-257 @spec:AC-258', async () => {
+  const violations = await scanRoots(
+    ['libs/gateway/nest/src', 'apps/gateway/src'],
+  );
+
+  assert.deepEqual(violations, []);
+});
+
 test('the stable NestJS baseline accepts only existing violations', async () => {
   const baseline = JSON.parse(
     await readFile(

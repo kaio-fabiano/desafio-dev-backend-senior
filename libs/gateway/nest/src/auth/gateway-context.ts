@@ -1,58 +1,12 @@
-export const COMMERCE_SESSION_REQUEST_HEADERS = [
-  'cookie',
-  'woocommerce-session',
-  'cart-token',
-] as const;
+import type { AuthenticationPrincipal } from './authentication-principal.ts';
+import type { CommerceSessionHeaders } from './commerce-session-headers.ts';
 
-export const COMMERCE_SESSION_RESPONSE_HEADERS = [
-  'woocommerce-session',
-  'cart-token',
-] as const;
-
-const WOOCOMMERCE_COOKIE_NAMES = [
-  'woocommerce_cart_hash',
-  'woocommerce_items_in_cart',
-] as const;
-const WOOCOMMERCE_COOKIE_PREFIXES = ['wp_woocommerce_session_'] as const;
-
-export type CommerceSessionRequestHeader =
-  (typeof COMMERCE_SESSION_REQUEST_HEADERS)[number];
-
-export type CommerceSessionHeaders = Readonly<
-  Partial<Record<CommerceSessionRequestHeader, string>>
->;
-
-export type AuthenticationPrincipal = {
-  audience: readonly string[];
-  scopes: readonly string[];
-  subject: string;
-  supplierCompanyId?: string;
-};
-
-export type GatewayContext = {
-  authorization: string;
-  principal: AuthenticationPrincipal;
-  requestId: string;
-  sessionHeaders: CommerceSessionHeaders;
-  setResponseHeader?: (name: string, value: string | string[]) => void;
-};
-
-export function allowlistedCommerceCookies(
-  header: string | null | undefined,
-): string | undefined {
-  const cookies = (header ?? '')
-    .split(';')
-    .map((cookie) => cookie.trim())
-    .filter((cookie) => {
-      const separator = cookie.indexOf('=');
-      if (separator < 1) return false;
-      const name = cookie.slice(0, separator);
-      return (
-        WOOCOMMERCE_COOKIE_NAMES.includes(
-          name as (typeof WOOCOMMERCE_COOKIE_NAMES)[number],
-        ) ||
-        WOOCOMMERCE_COOKIE_PREFIXES.some((prefix) => name.startsWith(prefix))
-      );
-    });
-  return cookies.length > 0 ? cookies.join('; ') : undefined;
+export declare class GatewayContext {
+  readonly [key: string]: unknown;
+  readonly [key: symbol]: unknown;
+  readonly authorization: string;
+  readonly principal: AuthenticationPrincipal;
+  readonly requestId: string;
+  readonly sessionHeaders: CommerceSessionHeaders;
+  readonly setResponseHeader?: (name: string, value: string | string[]) => void;
 }

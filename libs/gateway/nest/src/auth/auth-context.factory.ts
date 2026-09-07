@@ -1,25 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GraphQLError } from 'graphql';
 import { randomUUID } from 'node:crypto';
 import type { ServerResponse } from 'node:http';
 
 import { isOAuthCredentialError } from '@desafio-dev-backend-senior/source/platform-nest';
-import {
-  allowlistedCommerceCookies,
-  COMMERCE_SESSION_REQUEST_HEADERS,
-  type CommerceSessionHeaders,
-  type GatewayContext,
-} from './gateway-context.ts';
-import {
-  toGatewayRequest,
-  trustedGatewayOrigin,
-  type GatewayRequest,
-} from './gateway-request.adapter.ts';
+import { CommerceCookiePolicy } from './commerce-cookie-policy.ts';
+import { CommerceSessionRequestHeaders } from './commerce-session-request-headers.ts';
+import type { CommerceSessionHeaders } from './commerce-session-headers.ts';
+import type { GatewayContext } from './gateway-context.ts';
+import { GatewayRequestAdapter } from './gateway-request.adapter.ts';
+import type { GatewayRequest } from './gateway-request.ts';
 import { TokenVerifierService } from './token-verifier.service.ts';
-
-// Review: docs/reviews/gateway-auth-refactor.md
-const DEFAULT_GATEWAY_ORIGIN = 'https://gateway.marketplace.local';
+import { GatewayAuthenticationConfiguration } from './gateway-authentication.configuration.ts';
+import { GatewayUnauthenticatedError } from './gateway-unauthenticated.error.ts';
 
 @Injectable()
 export class AuthContextFactory {
@@ -31,10 +24,10 @@ export class AuthContextFactory {
     @Inject(ConfigService)
     config: ConfigService,
   ) {
-    this.origin = trustedGatewayOrigin(
+    this.origin = GatewayRequestAdapter.trustedOrigin(
       config.get<string>('GATEWAY_ORIGIN') ??
         config.get<string>('GATEWAY_AUDIENCE') ??
-        DEFAULT_GATEWAY_ORIGIN,
+        GatewayAuthenticationConfiguration.defaultOrigin,
     );
   }
 
@@ -42,19 +35,19 @@ export class AuthContextFactory {
     request: GatewayRequest,
     response?: Pick<ServerResponse, 'getHeader' | 'setHeader'>,
   ): Promise<GatewayContext> {
-    const authenticationRequest = toGatewayRequest(request, this.origin);
+    const authenticationRequest = GatewayRequestAdapter.toRequest(request, this.origin);
     let principal;
     try {
       principal = await this.tokens.verify(authenticationRequest);
     } catch (error) {
-      if (isOAuthCredentialError(error)) throw unauthenticatedGraphqlError();
+      if (isOAuthCredentialError(error)) throw GatewayUnauthenticatedError.create();
       throw error;
     }
 
     const sessionHeaders: Partial<Record<string, string>> = {};
-    for (const name of COMMERCE_SESSION_REQUEST_HEADERS) {
+    for (const name of CommerceSessionRequestHeaders.values) {
       const raw = authenticationRequest.headers.get(name)?.trim();
-      const value = name === 'cookie' ? allowlistedCommerceCookies(raw) : raw;
+      const value = name === 'cookie' ? CommerceCookiePolicy.allowlisted(raw) : raw;
       if (value) sessionHeaders[name] = value;
     }
 
@@ -86,10 +79,4 @@ export class AuthContextFactory {
         : {}),
     };
   }
-}
-
-function unauthenticatedGraphqlError(): GraphQLError {
-  return new GraphQLError('Unauthorized', {
-    extensions: { code: 'UNAUTHENTICATED', http: { status: 401 } },
-  });
 }
