@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788806879.8493903,
-    "seen": 1788806934.7620664,
-    "ast_hash": "28aa1ffa5df7523c95e6f0133e2afc5f",
+    "mtime": 1788807315.2701538,
+    "seen": 1788807319.6151648,
+    "ast_hash": "ea28ad603a6eaf6292bd075c0e8695f5",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
