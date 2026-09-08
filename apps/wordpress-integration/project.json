@@ -5,16 +5,10 @@
   "root": "apps/wordpress-integration",
   "tags": ["type:tooling", "scope:wordpress"],
   "targets": {
-    "probe": {
+    "acceptance": {
       "executor": "nx:run-commands",
       "options": {
         "command": "bash apps/wordpress-integration/scripts/install-plugins.sh && node apps/wordpress-integration/scripts/probe.mjs"
-      }
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node --test --test-reporter=tap test/marco-0-wordpress.test.mjs"
       }
     }
   }

@@ -71,10 +71,10 @@ would violate the observable requirement.
 6. test proves WebSocket is not used.
 
 Outcome: the hybrid GraphQL-over-SSE edge is implemented and the transport,
-federated hydration, authentication, and cancellation behavior are executable
-in `test/marco-0-sse.test.mjs` and the complete journey in
-`apps/e2e/src/milestone-7.e2e.test.ts`. This closes the challenge decision; it
-does not establish production capacity or availability.
+authentication, ownership, and cancellation behavior are executable in
+`apps/order-workflow-subgraph/src/graphql/sse/sse.integration.spec.ts` and the
+complete journey in `apps/e2e/src/milestone-7.e2e.test.ts`. This closes the
+challenge decision; it does not establish production capacity or availability.
 
 ## D-002 — Audience and the “same token”
 
@@ -102,9 +102,11 @@ If the PoC fails, the response will be incremental: plugin configuration/filter,
 a minimal fork, and, only as a last resort, a NestJS adapter/subgraph for the
 gap. A general wrapper replicating the entire WooCommerce schema is not allowed.
 
-The plugin-first proof passed. Pinned installation, clean Rover composition,
-native Woo capabilities, and the absence of a redundant WordPress NestJS
-runtime are exercised by `test/marco-0-wordpress.test.mjs` and
+The plugin-first proof passed. The explicit
+`@desafio-dev-backend-senior/wordpress-integration:acceptance` target retains
+pinned installation and live Rover composition. Native Woo capabilities and
+the absence of a redundant WordPress NestJS runtime are exercised by
+`test/wordpress-native-commerce.test.mjs` and
 `test/remove-wordpress-federation-runtime.spec.test.mjs`. Production plugin
 release, hosting, backup, and upgrade controls remain G-003.
 

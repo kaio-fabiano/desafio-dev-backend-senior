@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano strict-nestjs-ddd-migration` em 2026-09-07 18:12
+# executar-tarefas.sh — gerado por `onp-spec plano strict-nestjs-ddd-migration` em 2026-09-07 22:36
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-mtrk5agj'
+RUN_ID='desafio-dev-backend-senior-strict-nestjs-ddd-migration-mtrtlk7w'
 FEATURE='strict-nestjs-ddd-migration'
 BASE_BRANCH='spec/strict-nestjs-ddd-migration'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -65,8 +65,8 @@ preparar_ambiente() {
     info "branch de trabalho: $BASE_BRANCH (a partir de $ATUAL)"
   fi
   git worktree prune
-  LOG_DIR="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-logs"
-  WT_BASE="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration"
+  LOG_DIR="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-logs"
+  WT_BASE="$(dirname "$TOPLEVEL")/onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration"
   STREAMS_DIR="${ONP_SPEC_HOME:-$HOME/.onp-spec}/painel/streams/$RUN_ID"
   mkdir -p "$LOG_DIR" "$STREAMS_DIR"
 }
@@ -168,35 +168,35 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-216 (ordem do tasks.md) ──
-executar_seq_T_216() {
-  info 'sequencial T-216 — Remove the in-scope legacy baseline and close all migration gates'
-  if rodar_tarefa seq 'T-216' 'Você executa UMA tarefa da feature "strict-nestjs-ddd-migration" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-224 (ordem do tasks.md) ──
+executar_seq_T_224() {
+  info 'sequencial T-224 — Close the repository-wide baseline and publish migration evidence'
+  if rodar_tarefa seq 'T-224' 'Você executa UMA tarefa da feature "strict-nestjs-ddd-migration" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/strict-nestjs-ddd-migration/spec.md, .spec/features/strict-nestjs-ddd-migration/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-216 — "Remove the in-scope legacy baseline and close all migration gates"
-  critérios/refs: AC-258 (Every migration wave preserves contracts), AC-259 (The migration closes with zero legacy exceptions)
-  arquivos permitidos (e seus testes): libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts, libs/platform/nest/src/index.ts, libs/gateway/nest/src/auth/auth-context.factory.ts, apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts, tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out/graph.json, graphify-out/GRAPH_REPORT.md, graphify-out/graph.html
-  mensagem de commit: "T-216 strict-nestjs-ddd-migration: Remove the in-scope legacy baseline and close all migration gates"
+T-224 — "Close the repository-wide baseline and publish migration evidence"
+  critérios/refs: AC-258 (Every migration wave preserves contracts), AC-259 (The migration closes with zero legacy exceptions), AC-260 (The inventory has only two application exclusions), AC-261 (Missing layers cannot produce a false zero), AC-269 (Completion has no unclassified production code or legacy baseline)
+  arquivos permitidos (e seus testes): tools/architecture/strict-ddd-policy.mjs, tools/architecture/strict-ddd-legacy-baseline.json, test/strict-ddd-architecture.test.mjs, docs/standards/strict-nestjs-ddd.md, docs/domain/context-map.md, docs/prds/01-arquitetura-e-dominio.md, graphify-out, .spec/features/strict-nestjs-ddd-migration
+  mensagem de commit: "T-224 strict-nestjs-ddd-migration: Close the repository-wide baseline and publish migration evidence"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-terra' medium >> "$LOG_DIR/seq.log" 2>&1; then
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-216 strict-nestjs-ddd-migration: Remove the in-scope legacy baseline and close all migration gates (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-224 strict-nestjs-ddd-migration: Close the repository-wide baseline and publish migration evidence (auto-commit do plano)'
     fi
-    marcar_concluidas T-216
-    verde "✔ T-216 concluída"
+    marcar_concluidas T-224
+    verde "✔ T-224 concluída"
     return 0
   fi
-  vermelho "✘ T-216 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh --seq T-216"
-  FALHAS="$FALHAS T-216"
+  vermelho "✘ T-224 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh --seq T-224"
+  FALHAS="$FALHAS T-224"
   return 1
 }
 
@@ -253,13 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_216 || true
+  executar_seq_T_224 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-216 (sequencial)"
+  echo "  seq       T-224 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -294,7 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-216) evento --tipo inicio --escopo "seq:T-216"; iniciar_resumos; executar_seq_T_216 || true; encerrar "seq:T-216" ;;
+      T-224) evento --tipo inicio --escopo "seq:T-224"; iniciar_resumos; executar_seq_T_224 || true; encerrar "seq:T-224" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

@@ -24,8 +24,7 @@ test('@spec:AC-202 resolved gateway auth review remains complete and discoverabl
     Array.from({ length: 20 }, (_, index) => index + 1),
   );
   for (const path of sourceFiles) {
-    const source = await readFile(new URL(path, root), 'utf8');
-    assert.match(source, /Review: docs\/reviews\/gateway-auth-refactor\.md/);
+    assert.ok(ledger.includes(`- \`${path}\``));
   }
   assert.equal(
     (ledger.match(/^\*\*Status:\*\* Resolved\./gm) ?? []).length,

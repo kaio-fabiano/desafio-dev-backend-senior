@@ -5,12 +5,20 @@ import test from 'node:test';
 const source = (path) => readFile(path, 'utf8');
 
 test('AC-131: cart state is portable across replicas @spec:AC-131', async () => {
-  const dataSource = await source(
-    'libs/gateway/nest/src/federation/authenticated-data-source.ts',
-  );
-  assert.match(dataSource, /COMMERCE_SESSION_REQUEST_HEADERS/);
-  assert.match(dataSource, /allowlistedCommerceCookies/);
-  assert.match(dataSource, /context\?\.sessionHeaders/);
+  const [dataSource, prepareRequest, cookieAdapter] = await Promise.all([
+    source('libs/gateway/nest/src/federation/authenticated-data-source.ts'),
+    source(
+      'libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts',
+    ),
+    source(
+      'libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts',
+    ),
+  ]);
+  assert.match(dataSource, /this\.prepareRequest\.execute/);
+  assert.match(prepareRequest, /context\?\.sessionHeaders\?\.cookie/);
+  assert.match(prepareRequest, /\['woocommerce-session'\]/);
+  assert.match(prepareRequest, /\['cart-token'\]/);
+  assert.match(cookieAdapter, /wp_woocommerce_session_/);
   await assert.rejects(
     source('apps/order-workflow-subgraph/src/cart/woo-cart.adapter.ts'),
     /ENOENT/,

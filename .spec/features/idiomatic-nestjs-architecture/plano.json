@@ -1,0 +1,62 @@
+{
+  "runId": "desafio-dev-backend-senior-idiomatic-nestjs-architecture-mtsb6xa0",
+  "feature": "idiomatic-nestjs-architecture",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-08 06:49",
+  "branchTrabalho": "spec/idiomatic-nestjs-architecture",
+  "baseDir": ".spec/features/idiomatic-nestjs-architecture",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-227",
+      "titulo": "Make OAuth verification a NestJS-managed use case",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
+        "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts",
+        "test/oauth-resource-server-auth.spec.test.mjs",
+        "test/harden-oauth-resource-service.test.mjs"
+      ],
+      "refs": [
+        "US-128",
+        "AC-273"
+      ]
+    },
+    {
+      "id": "T-229",
+      "titulo": "Audit every NestJS module and close repository evidence",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "test/idiomatic-nestjs-architecture.test.mjs",
+        "docs/architecture/idiomatic-nestjs-module-audit.md",
+        "graphify-out"
+      ],
+      "refs": [
+        "US-129",
+        "US-130",
+        "AC-275",
+        "AC-276"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-225",
+    "T-226",
+    "T-228"
+  ],
+  "avisos": []
+}

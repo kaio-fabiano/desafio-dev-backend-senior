@@ -2,8 +2,8 @@ import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { WordPressIdentityService } from './wordpress-identity.service.ts';
 import { WordPressConfiguration } from './wordpress-configuration.provider.ts';
+import { WordPressIdentityService } from './wordpress-identity.service.ts';
 
 
 function response(body: unknown, status = 200) {

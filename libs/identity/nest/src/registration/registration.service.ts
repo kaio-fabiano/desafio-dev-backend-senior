@@ -6,77 +6,65 @@ import {
 } from '@thallesp/nestjs-better-auth';
 import { APIError } from 'better-auth/api';
 
-import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
-import { RegistrationCompensationService } from './registration-compensation.service.ts';
-import { RegistrationError } from './registration.error.ts';
+import { RegisterIdentityCommand } from '../application/commands/register-identity.command.ts';
+import { RegisterIdentityUseCase } from '../application/use-cases/register-identity.use-case.ts';
+import { IdentityRegistrationPolicy } from '../domain/policies/identity-registration.policy.ts';
+import { BetterAuthIdentityAccountAdapter } from '../infrastructure/better-auth/better-auth-identity-account.adapter.ts';
 import { IdentityBootstrap } from './identity-bootstrap.ts';
-import type { SignUpInput, SignUpResult } from './registration.types.d.ts';
 
 @Hook()
 @Injectable()
 export class RegistrationService {
   constructor(
-    @Inject(WordPressIdentityService)
-    private readonly wordpress: Pick<
-      WordPressIdentityService,
-      'createCustomer' | 'linkSubject'
-    >,
-    @Inject(RegistrationCompensationService)
-    private readonly compensation: RegistrationCompensationService,
+    @Inject(RegisterIdentityUseCase)
+    private readonly registration: RegisterIdentityUseCase,
   ) {}
 
   @AfterHook('/sign-up/email') // DatabaseHook seria melhor?
   async afterEmailSignUp(context: AuthHookContext): Promise<void> {
-    if (IdentityBootstrap.matches(context.headers)) {
-      return;
-    }
-    const input = context.body as SignUpInput | undefined;
+    const input = context.body as
+      | { email?: string; name?: string; password?: string }
+      | undefined;
     const result = await this.signUpResult(context.context.returned);
-    if (!input?.email || !input.name || !input.password || !result.user) return;
+    const registration = IdentityRegistrationPolicy.evaluate(
+      IdentityBootstrap.matches(context.headers),
+      input?.email,
+      input?.name,
+      input?.password,
+      result.user?.id,
+    );
+    if (!registration) return;
 
-    const betterAuthInternalAdapter = context.context.internalAdapter;
-    let wordpressUserId: string | undefined;
+    const identity = new BetterAuthIdentityAccountAdapter(
+      context.context.internalAdapter,
+    );
     try {
-      const account = await this.wordpress.createCustomer({
-        email: input.email,
-        name: input.name,
-        password: input.password,
-      });
-      wordpressUserId = account.id;
-      await betterAuthInternalAdapter.linkAccount({
-        accountId: account.id,
-        issuer: 'wordpress',
-        providerId: 'wordpress',
-        userId: result.user.id,
-      });
-      await this.wordpress.linkSubject(account.id, result.user.id);
-    } catch (cause) {
-      const failures = await this.compensation.compensate(
-        betterAuthInternalAdapter,
-        result.user.id,
-        wordpressUserId,
+      await this.registration.execute(
+        new RegisterIdentityCommand(
+          registration.email,
+          registration.name,
+          registration.password,
+          registration.subject,
+        ),
+        identity,
       );
-      const apiCause = failures.length
-        ? new RegistrationError(
-            'REGISTRATION_COMPENSATION_FAILED',
-            'Registration failed and compensation was incomplete',
-            { cause, failures },
-          )
-        : cause;
+    } catch (cause) {
       throw new APIError('SERVICE_UNAVAILABLE', {
-        cause: apiCause,
+        cause,
         code: 'WORDPRESS_IDENTITY_LINK_FAILED',
         message: 'Registration could not be completed',
       });
     }
   }
 
-  private async signUpResult(returned: unknown): Promise<SignUpResult> {
+  private async signUpResult(
+    returned: unknown,
+  ): Promise<{ user?: { id: string } }> {
     if (returned instanceof Response) {
       return returned.ok
-        ? ((await returned.clone().json()) as SignUpResult)
+        ? ((await returned.clone().json()) as { user?: { id: string } })
         : {};
     }
-    return (returned ?? {}) as SignUpResult;
+    return (returned ?? {}) as { user?: { id: string } };
   }
 }

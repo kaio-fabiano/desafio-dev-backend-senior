@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "acceptance": "bash scripts/install-plugins.sh && node scripts/probe.mjs",
     "install-plugins": "bash scripts/install-plugins.sh",
-    "probe": "node scripts/probe.mjs",
-    "test": "node --test ../../test/marco-0-wordpress.test.mjs"
+    "probe": "node scripts/probe.mjs"
   }
 }

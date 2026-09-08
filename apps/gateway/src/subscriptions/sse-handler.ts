@@ -1,22 +1,54 @@
-import { GraphQLError } from 'graphql';
+import { Inject, Injectable } from '@nestjs/common';
+import { GraphQLError, type ExecutionResult } from 'graphql';
 import { createHandler } from 'graphql-sse/lib/use/http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import type { GatewayContext } from '@desafio-dev-backend-senior/source/gateway-nest';
-import { GatewaySseOptions } from './gateway-sse.options.ts';
+import {
+  AuthContextFactory,
+  ForwardGatewaySubscriptionUseCase,
+  type GatewayContext,
+} from '@desafio-dev-backend-senior/source/gateway-nest';
 
+@Injectable()
 export class GatewaySseHandler {
-  private readonly authenticated = new WeakMap<IncomingMessage, GatewayContext>();
-  private readonly active = new WeakMap<IncomingMessage, AsyncGenerator>();
+  private readonly authenticated = new WeakMap<
+    IncomingMessage,
+    GatewayContext
+  >();
+  private readonly active = new WeakMap<
+    IncomingMessage,
+    AsyncGenerator<unknown>
+  >();
   private readonly handler = createHandler<GatewayContext>({
-    authenticate: async ({ raw }) => { this.authenticated.set(raw, await this.options.verify(raw)); return null; },
-    context: ({ raw }) => { const context = this.authenticated.get(raw); if (!context) throw new Error('Unauthenticated subscription'); return context; },
-    onSubscribe: (request, params) => { const context = this.authenticated.get(request.raw); if (!context) throw new Error('Unauthenticated subscription'); const subscription = this.options.orderWorkflow.subscribe(params, context); this.active.set(request.raw, subscription); return subscription; },
+    authenticate: async ({ raw }) => {
+      this.authenticated.set(raw, await this.authContext.create(raw));
+      return null;
+    },
+    context: ({ raw }) => {
+      const context = this.authenticated.get(raw);
+      if (!context) throw new Error('Unauthenticated subscription');
+      return context;
+    },
+    onSubscribe: (request, params) => {
+      const context = this.authenticated.get(request.raw);
+      if (!context) throw new Error('Unauthenticated subscription');
+      const subscription = this.subscriptions.execute(params, context);
+      this.active.set(request.raw, subscription);
+      return subscription as AsyncGenerator<ExecutionResult>;
+    },
   });
 
-  constructor(private readonly options: GatewaySseOptions) {}
+  constructor(
+    @Inject(AuthContextFactory)
+    private readonly authContext: AuthContextFactory,
+    @Inject(ForwardGatewaySubscriptionUseCase)
+    private readonly subscriptions: ForwardGatewaySubscriptionUseCase,
+  ) {}
 
-  async handle(request: IncomingMessage, response: ServerResponse): Promise<void> {
+  async handle(
+    request: IncomingMessage,
+    response: ServerResponse,
+  ): Promise<void> {
     let closing: Promise<unknown> | undefined;
     const closeSubscription = () => {
       const subscription = this.active.get(request);

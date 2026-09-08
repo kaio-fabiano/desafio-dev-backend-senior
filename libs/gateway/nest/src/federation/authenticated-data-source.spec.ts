@@ -1,5 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
+import { CaptureFederationResponseUseCase } from '../application/use-cases/capture-federation-response.use-case.ts';
+import { PrepareFederationRequestUseCase } from '../application/use-cases/prepare-federation-request.use-case.ts';
+import { CommerceCookieAdapter } from '../infrastructure/http/commerce-cookie.adapter.ts';
 import { AuthenticatedDataSource } from './authenticated-data-source.ts';
 
 const context = {
@@ -22,9 +25,19 @@ function requestHeaders() {
   return { headers, request: { http: { headers } } };
 }
 
+function dataSource(
+  config: ConstructorParameters<typeof AuthenticatedDataSource>[0],
+) {
+  return new AuthenticatedDataSource(
+    config,
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new CaptureFederationResponseUseCase(),
+  );
+}
+
 describe('AuthenticatedDataSource', () => {
   it('AC-226: makes bearer and commerce forwarding explicit capabilities @spec:AC-226', () => {
-    const implicit = new AuthenticatedDataSource({
+    const implicit = dataSource({
       url: 'http://identity-subgraph:3001/graphql',
     });
     const implicitRequest = requestHeaders();
@@ -35,7 +48,7 @@ describe('AuthenticatedDataSource', () => {
     expect(implicitRequest.headers.get('authorization')).toBeNull();
     expect(implicitRequest.headers.get('x-request-id')).toBe('request-1');
 
-    const explicit = new AuthenticatedDataSource({
+    const explicit = dataSource({
       capabilities: {
         bearer: true,
         origin: 'http://wordpress',
@@ -60,7 +73,7 @@ describe('AuthenticatedDataSource', () => {
   });
 
   it('forwards correlation IDs without depending on an authenticated subject', () => {
-    const source = new AuthenticatedDataSource({
+    const source = dataSource({
       url: 'http://identity-subgraph:3001/graphql',
     });
     const outgoing = requestHeaders();
@@ -74,7 +87,7 @@ describe('AuthenticatedDataSource', () => {
   });
 
   it('ignores requests without an Apollo HTTP transport', () => {
-    const source = new AuthenticatedDataSource({
+    const source = dataSource({
       capabilities: { bearer: true, requestSession: true },
       url: 'http://identity-subgraph:3001/graphql',
     });
@@ -86,7 +99,7 @@ describe('AuthenticatedDataSource', () => {
 
   it('preserves every Set-Cookie value from Apollo response headers', () => {
     const setResponseHeader = vi.fn();
-    const source = new AuthenticatedDataSource({
+    const source = dataSource({
       capabilities: { responseSession: true },
       url: 'http://wordpress/graphql',
     } as never);
@@ -106,7 +119,7 @@ describe('AuthenticatedDataSource', () => {
 
   it('captures only the response session headers requested by policy', () => {
     const setResponseHeader = vi.fn();
-    const source = new AuthenticatedDataSource({
+    const source = dataSource({
       capabilities: { responseSession: true },
       url: 'http://wordpress/graphql',
     } as never);
@@ -132,11 +145,11 @@ describe('AuthenticatedDataSource', () => {
 
   it('supports native and scalar Set-Cookie APIs and disabled capture', () => {
     const setResponseHeader = vi.fn();
-    const enabled = new AuthenticatedDataSource({
+    const enabled = dataSource({
       capabilities: { responseSession: true },
       url: 'http://wordpress/graphql',
     });
-    const disabled = new AuthenticatedDataSource({
+    const disabled = dataSource({
       url: 'http://identity/graphql',
     });
     const response = {
@@ -174,7 +187,7 @@ describe('AuthenticatedDataSource', () => {
 
   it('does not forward response session state without transport headers', () => {
     const setResponseHeader = vi.fn();
-    const source = new AuthenticatedDataSource({
+    const source = dataSource({
       capabilities: { responseSession: true },
       url: 'http://wordpress/graphql',
     });

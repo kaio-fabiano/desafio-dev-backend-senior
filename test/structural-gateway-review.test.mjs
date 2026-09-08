@@ -2,7 +2,18 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+import { CaptureFederationResponseUseCase } from '../libs/gateway/nest/src/application/use-cases/capture-federation-response.use-case.ts';
+import { PrepareFederationRequestUseCase } from '../libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts';
 import { AuthenticatedDataSource } from '../libs/gateway/nest/src/federation/authenticated-data-source.ts';
+import { CommerceCookieAdapter } from '../libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts';
+
+function dataSource(config) {
+  return new AuthenticatedDataSource(
+    config,
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new CaptureFederationResponseUseCase(),
+  );
+}
 
 const context = {
   authorization: 'Bearer access-token',
@@ -20,7 +31,7 @@ const context = {
 };
 
 test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => {
-  const identity = new AuthenticatedDataSource({
+  const identity = dataSource({
     url: 'http://identity-subgraph:3001/graphql',
   });
   const identityHeaders = new Headers();
@@ -49,7 +60,7 @@ test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => 
   });
   assert.deepEqual(reflected, []);
 
-  const wordpress = new AuthenticatedDataSource({
+  const wordpress = dataSource({
     url: 'http://wordpress/graphql',
     capabilities: {
       origin: 'http://wordpress',

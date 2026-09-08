@@ -10,9 +10,9 @@ import {
   OAuthResourceService,
 } from '@desafio-dev-backend-senior/source/platform-nest';
 
+import { FindIdentityUsersUseCase } from '../application/use-cases/find-identity-users.use-case.ts';
+import { ListIdentityUsersUseCase } from '../application/use-cases/list-identity-users.use-case.ts';
 import { IdentityResolver } from './identity.resolver.ts';
-import { UserLoader } from './user.loader.ts';
-import { IdentityUserRepository } from './user.repository.ts';
 
 const users = [{ id: 'user-1', email: 'buyer@identity.test' }];
 const repository = {
@@ -42,8 +42,14 @@ const repository = {
   ],
   providers: [
     IdentityResolver,
-    { provide: IdentityUserRepository, useValue: repository },
-    { provide: UserLoader, useValue: new UserLoader(repository as never) },
+    {
+      provide: ListIdentityUsersUseCase,
+      useValue: new ListIdentityUsersUseCase(repository),
+    },
+    {
+      provide: FindIdentityUsersUseCase,
+      useValue: new FindIdentityUsersUseCase(repository),
+    },
     GraphqlOAuthResourceGuard,
     {
       provide: OAuthResourceService,

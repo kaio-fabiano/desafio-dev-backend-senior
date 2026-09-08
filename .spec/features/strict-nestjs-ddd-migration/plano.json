@@ -1,44 +1,44 @@
 {
-  "runId": "desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-mtrk5agj",
+  "runId": "desafio-dev-backend-senior-strict-nestjs-ddd-migration-mtrtlk7w",
   "feature": "strict-nestjs-ddd-migration",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-07 18:12",
+  "geradoEm": "2026-09-07 22:36",
   "branchTrabalho": "spec/strict-nestjs-ddd-migration",
   "baseDir": ".spec/features/strict-nestjs-ddd-migration",
   "specDir": ".spec",
-  "repoName": "desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential",
-  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-logs",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-logs",
   "ondas": [],
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-216",
-      "titulo": "Remove the in-scope legacy baseline and close all migration gates",
-      "modelo": "gpt-5.6-terra",
-      "esforco": "medium",
+      "id": "T-224",
+      "titulo": "Close the repository-wide baseline and publish migration evidence",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
       "arquivos": [
-        "libs/platform/nest/src/oauth-resource/verification/oauth-request.adapter.ts",
-        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts",
-        "libs/platform/nest/src/index.ts",
-        "libs/gateway/nest/src/auth/auth-context.factory.ts",
-        "apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts",
+        "tools/architecture/strict-ddd-policy.mjs",
         "tools/architecture/strict-ddd-legacy-baseline.json",
         "test/strict-ddd-architecture.test.mjs",
         "docs/standards/strict-nestjs-ddd.md",
         "docs/domain/context-map.md",
         "docs/prds/01-arquitetura-e-dominio.md",
-        "graphify-out/graph.json",
-        "graphify-out/GRAPH_REPORT.md",
-        "graphify-out/graph.html"
+        "graphify-out",
+        ".spec/features/strict-nestjs-ddd-migration"
       ],
       "refs": [
         "US-121",
+        "US-122",
+        "US-126",
         "AC-258",
-        "AC-259"
+        "AC-259",
+        "AC-260",
+        "AC-261",
+        "AC-269"
       ]
     }
   ],
@@ -47,7 +47,17 @@
     "T-210",
     "T-211",
     "T-212",
-    "T-213"
+    "T-213",
+    "T-216",
+    "T-217",
+    "T-218",
+    "T-219",
+    "T-220",
+    "T-221",
+    "T-222",
+    "T-223"
   ],
-  "avisos": []
+  "avisos": [
+    "T-224 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
 }

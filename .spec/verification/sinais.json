@@ -383,10 +383,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "marco-0-pocs",
       "ref": "—",
-      "ocorrencias": 71,
+      "ocorrencias": 83,
       "primeiraVez": "2026-08-26T14:18:56.620Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T07:46:12.042Z",
+      "gitRev": "092441e"
     },
     "TASK_CONCLUIDA_SEM_PROVA::project-planning-memory::T-001": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 70,
+      "ocorrencias": 84,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 66,
+      "ocorrencias": 79,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2552,10 +2552,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 62,
+      "ocorrencias": 76,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 66,
+      "ocorrencias": 80,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 50,
+      "ocorrencias": 64,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T07:46:12.042Z",
+      "gitRev": "092441e"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -3794,10 +3794,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-076",
-      "ocorrencias": 6,
+      "ocorrencias": 15,
       "primeiraVez": "2026-08-31T23:15:00.402Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:08:29.772Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::federated-platform-architecture-refactor::T-079": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3893,10 +3893,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "remove-wordpress-federation-runtime",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 41,
       "primeiraVez": "2026-08-31T23:16:27.342Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_FALHOU::delivery-closure::AC-116": {
       "codigo": "VERIFY_FALHOU",
@@ -4208,10 +4208,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "structural-improvement-program",
       "ref": "—",
-      "ocorrencias": 49,
+      "ocorrencias": 63,
       "primeiraVez": "2026-09-01T03:06:54.499Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T07:46:12.042Z",
+      "gitRev": "092441e"
     },
     "VERIFY_OBSOLETO::keep-graphify-current::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -4280,10 +4280,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resolve-gateway-sse-todos",
       "ref": "—",
-      "ocorrencias": 21,
+      "ocorrencias": 34,
       "primeiraVez": "2026-09-01T20:06:19.306Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "AC_SEM_TESTE::milestone-6-apollo-mcp::AC-138": {
       "codigo": "AC_SEM_TESTE",
@@ -4298,10 +4298,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "production-happy-path-hardening",
       "ref": "—",
-      "ocorrencias": 35,
+      "ocorrencias": 49,
       "primeiraVez": "2026-09-01T21:13:57.059Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T07:46:12.042Z",
+      "gitRev": "092441e"
     },
     "ID_DUPLICADO::transaction-federation-refactor::ASM-001": {
       "codigo": "ID_DUPLICADO",
@@ -4361,10 +4361,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "transaction-federation-refactor",
       "ref": "T-111",
-      "ocorrencias": 11,
+      "ocorrencias": 20,
       "primeiraVez": "2026-09-01T22:10:18.322Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::transaction-federation-refactor::T-112": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -4568,10 +4568,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "production-happy-path-hardening",
       "ref": "T-105",
-      "ocorrencias": 5,
+      "ocorrencias": 14,
       "primeiraVez": "2026-09-01T22:40:14.199Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::production-happy-path-hardening::T-106": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -4676,10 +4676,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "transaction-federation-refactor",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 41,
       "primeiraVez": "2026-09-01T22:40:14.199Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "ID_DUPLICADO::production-readiness-gap-register::US-077": {
       "codigo": "ID_DUPLICADO",
@@ -4694,10 +4694,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "align-payment-federation-naming",
       "ref": "—",
-      "ocorrencias": 16,
+      "ocorrencias": 29,
       "primeiraVez": "2026-09-02T07:40:08.793Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-124": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -5108,28 +5108,28 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "mercado-pago-payment-provider",
       "ref": "—",
-      "ocorrencias": 19,
+      "ocorrencias": 29,
       "primeiraVez": "2026-09-02T21:59:31.241Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "VERIFY_OBSOLETO::payment-federation-clean-architecture::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "payment-federation-clean-architecture",
       "ref": "—",
-      "ocorrencias": 19,
+      "ocorrencias": 29,
       "primeiraVez": "2026-09-02T23:12:59.508Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "VERIFY_OBSOLETO::oauth-resource-server-auth::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "oauth-resource-server-auth",
       "ref": "—",
-      "ocorrencias": 36,
+      "ocorrencias": 51,
       "primeiraVez": "2026-09-03T00:18:19.513Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "STATUS_INVALIDO::reconcile-architecture-decisions::.spec/features/reconcile-architecture-decisions/spec.md": {
       "codigo": "STATUS_INVALIDO",
@@ -5405,10 +5405,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "mercado-pago-production-deployment",
       "ref": "—",
-      "ocorrencias": 16,
+      "ocorrencias": 26,
       "primeiraVez": "2026-09-04T09:22:38.432Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "VERIFY_OBSOLETO::sonar-java-full-analysis::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -5558,19 +5558,19 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "harden-oauth-resource-service",
       "ref": "T-174",
-      "ocorrencias": 4,
+      "ocorrencias": 11,
       "primeiraVez": "2026-09-04T23:50:37.413Z",
-      "ultimaVez": "2026-09-04T23:50:37.413Z",
-      "gitRev": "382be0e"
+      "ultimaVez": "2026-09-07T23:08:29.772Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::harden-oauth-resource-service::T-175": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "harden-oauth-resource-service",
       "ref": "T-175",
-      "ocorrencias": 10,
+      "ocorrencias": 17,
       "primeiraVez": "2026-09-04T23:50:37.413Z",
-      "ultimaVez": "2026-09-04T23:50:37.413Z",
-      "gitRev": "382be0e"
+      "ultimaVez": "2026-09-07T23:08:29.772Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::oauth-resource-server-auth::T-139": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -5666,46 +5666,46 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-oauth-resource-service",
       "ref": "—",
-      "ocorrencias": 6,
+      "ocorrencias": 21,
       "primeiraVez": "2026-09-05T01:07:42.638Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_OBSOLETO::harden-graphql-oauth-resource-guard::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-graphql-oauth-resource-guard",
       "ref": "—",
-      "ocorrencias": 5,
+      "ocorrencias": 20,
       "primeiraVez": "2026-09-05T01:54:53.014Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_OBSOLETO::adopt-nestjs-config::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "adopt-nestjs-config",
       "ref": "—",
-      "ocorrencias": 13,
+      "ocorrencias": 26,
       "primeiraVez": "2026-09-05T02:10:16.102Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_OBSOLETO::harden-oauth-resource-module::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-oauth-resource-module",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 19,
       "primeiraVez": "2026-09-05T02:10:16.102Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_OBSOLETO::remove-unused-resource-provider::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "remove-unused-resource-provider",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-05T02:10:16.102Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "AC_SEM_TESTE::resolve-node-review-todos::AC-225": {
       "codigo": "AC_SEM_TESTE",
@@ -5783,10 +5783,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resolve-node-review-todos",
       "ref": "—",
-      "ocorrencias": 21,
+      "ocorrencias": 36,
       "primeiraVez": "2026-09-05T13:04:48.384Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "TASK_CONCLUIDA_SEM_PROVA::resolve-node-review-todos::T-183": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -5918,10 +5918,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refactor-registration-boundaries",
       "ref": "T-194",
-      "ocorrencias": 11,
+      "ocorrencias": 20,
       "primeiraVez": "2026-09-05T14:01:15.330Z",
-      "ultimaVez": "2026-09-05T14:01:15.330Z",
-      "gitRev": "9c421ee"
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
     },
     "AC_SEM_TESTE::refactor-registration-boundaries::AC-236": {
       "codigo": "AC_SEM_TESTE",
@@ -6035,10 +6035,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refactor-registration-boundaries",
       "ref": "T-197",
-      "ocorrencias": 7,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-05T14:45:00.203Z",
-      "ultimaVez": "2026-09-05T14:45:00.203Z",
-      "gitRev": "9c421ee"
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::refactor-registration-boundaries::T-198": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -6098,19 +6098,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "refactor-registration-boundaries",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 23,
       "primeiraVez": "2026-09-05T14:45:00.203Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_OBSOLETO::graphql-relay-dataloader-closure::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "graphql-relay-dataloader-closure",
       "ref": "—",
-      "ocorrencias": 9,
+      "ocorrencias": 23,
       "primeiraVez": "2026-09-05T15:13:09.133Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "TASK_CONCLUIDA_SEM_PROVA::refactor-registration-boundaries::T-195": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6305,10 +6305,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "document-sse-bootstrap-simplification",
       "ref": "—",
-      "ocorrencias": 6,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-05T15:53:00.533Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "AC_SEM_PROVA::graphql-only-woocommerce::AC-241": {
       "codigo": "AC_SEM_PROVA",
@@ -6350,10 +6350,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "gateway-auth-review-ledger",
       "ref": "—",
-      "ocorrencias": 2,
+      "ocorrencias": 15,
       "primeiraVez": "2026-09-05T16:50:02.234Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "ARQUIVO_INEXISTENTE::modularize-order-workflow-subgraph::T-203": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -6593,55 +6593,55 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "graphql-only-woocommerce",
       "ref": "—",
-      "ocorrencias": 3,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-05T17:46:38.085Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "VERIFY_OBSOLETO::modularize-order-workflow-subgraph::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "modularize-order-workflow-subgraph",
       "ref": "—",
-      "ocorrencias": 7,
+      "ocorrencias": 17,
       "primeiraVez": "2026-09-05T17:53:09.082Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "VERIFY_OBSOLETO::clarify-gateway-module-boundaries::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "clarify-gateway-module-boundaries",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 14,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T20:06:51.179Z",
+      "gitRev": "7aa899f"
     },
     "VERIFY_OBSOLETO::nestjs-vitest-testing-standard::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "nestjs-vitest-testing-standard",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 11,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::oauth-resource-server-auth::T-135": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "oauth-resource-server-auth",
       "ref": "T-135",
-      "ocorrencias": 1,
+      "ocorrencias": 10,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
     },
     "VERIFY_OBSOLETO::stabilize-platform-nest-public-api::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "stabilize-platform-nest-public-api",
       "ref": "—",
-      "ocorrencias": 1,
+      "ocorrencias": 11,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T23:13:09.567Z",
+      "gitRev": "fcd96e4"
     },
     "ARQUIVO_INEXISTENTE::strict-nestjs-ddd-migration::T-209": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -6683,10 +6683,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "strict-nestjs-ddd-migration",
       "ref": "T-211",
-      "ocorrencias": 2,
+      "ocorrencias": 27,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T22:33:35.607Z",
+      "gitRev": "fcd96e4"
     },
     "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-211": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6701,10 +6701,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "strict-nestjs-ddd-migration",
       "ref": "T-212",
-      "ocorrencias": 3,
+      "ocorrencias": 59,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-08T06:39:20.031Z",
+      "gitRev": "c5f996f"
     },
     "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-212": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6719,10 +6719,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "strict-nestjs-ddd-migration",
       "ref": "T-213",
-      "ocorrencias": 2,
+      "ocorrencias": 40,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-07T16:11:07.837Z",
-      "gitRev": "368c5ee"
+      "ultimaVez": "2026-09-07T22:33:35.607Z",
+      "gitRev": "fcd96e4"
     },
     "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-213": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6822,6 +6822,1104 @@
       "primeiraVez": "2026-09-07T16:11:07.837Z",
       "ultimaVez": "2026-09-07T16:11:07.837Z",
       "gitRev": "368c5ee"
+    },
+    "ARQUIVO_INEXISTENTE::refactor-registration-boundaries::T-191": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "refactor-registration-boundaries",
+      "ref": "T-191",
+      "ocorrencias": 9,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_INEXISTENTE::strict-nestjs-ddd-migration::T-217": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-217",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T19:16:57.901Z",
+      "gitRev": "209cbfa"
+    },
+    "ARQUIVO_INEXISTENTE::strict-nestjs-ddd-migration::T-219": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-219",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T19:16:57.901Z",
+      "gitRev": "209cbfa"
+    },
+    "ARQUIVO_INEXISTENTE::strict-nestjs-ddd-migration::T-220": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-220",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-08T06:39:20.031Z",
+      "gitRev": "c5f996f"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-260": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-260",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T19:16:57.901Z",
+      "gitRev": "209cbfa"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-261": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-261",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T19:16:57.901Z",
+      "gitRev": "209cbfa"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-262": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-262",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T19:16:57.901Z",
+      "gitRev": "209cbfa"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-263": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-263",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T19:16:57.901Z",
+      "gitRev": "209cbfa"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-264": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-264",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T20:50:24.698Z",
+      "gitRev": "03aed0e"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-265": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-265",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T20:50:24.698Z",
+      "gitRev": "03aed0e"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-266": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-266",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T20:50:24.698Z",
+      "gitRev": "03aed0e"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-267": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-267",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T20:50:24.698Z",
+      "gitRev": "03aed0e"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-268": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-268",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T19:16:57.901Z",
+      "gitRev": "209cbfa"
+    },
+    "AC_SEM_TESTE::strict-nestjs-ddd-migration::AC-269": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-269",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-07T22:33:35.607Z",
+      "gitRev": "fcd96e4"
+    },
+    "VERIFY_OBSOLETO::strict-nestjs-ddd-migration::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "—",
+      "ocorrencias": 16,
+      "primeiraVez": "2026-09-07T19:16:57.901Z",
+      "ultimaVez": "2026-09-08T07:46:12.042Z",
+      "gitRev": "092441e"
+    },
+    "VERIFY_FALHOU::strict-nestjs-ddd-migration::AC-263": {
+      "codigo": "VERIFY_FALHOU",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-263",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-07T20:50:24.229Z",
+      "ultimaVez": "2026-09-07T20:50:24.229Z",
+      "gitRev": "03aed0e"
+    },
+    "ASM_STATUS_INVALIDO::strict-nestjs-ddd-migration::ASM-089": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "ASM-089",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.607Z",
+      "gitRev": "fcd96e4"
+    },
+    "ASM_STATUS_INVALIDO::strict-nestjs-ddd-migration::ASM-090": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "ASM-090",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.607Z",
+      "gitRev": "fcd96e4"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-217": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-217",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "AC_SEM_PROVA::strict-nestjs-ddd-migration::AC-262": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-262",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "AC_SEM_PROVA::strict-nestjs-ddd-migration::AC-263": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-263",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/commands/register-identity.command.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/commands/register-identity.command.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/dto/oauth-client-definition.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/dto/oauth-client-definition.dto.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/dto/oauth-client-ids.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/dto/oauth-client-ids.dto.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/dto/oauth-seed-credentials.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/dto/oauth-seed-credentials.dto.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/dto/registration-compensation-failure.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/dto/registration-compensation-failure.dto.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/errors/oauth.error.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/errors/oauth.error.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/errors/registration.error.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/errors/registration.error.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/policies/oauth-client-provisioning.policy.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/policies/oauth-client-provisioning.policy.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/ports/customer-identity.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/ports/customer-identity.port.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/ports/identity-account.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/ports/identity-account.port.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/ports/oauth-client-provisioning.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/ports/oauth-client-provisioning.port.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/ports/oauth-seed-credentials.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/ports/oauth-seed-credentials.port.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/use-cases/compensate-registration.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/use-cases/compensate-registration.use-case.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/use-cases/provision-oauth-clients.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/use-cases/provision-oauth-clients.use-case.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/use-cases/register-identity.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/use-cases/register-identity.use-case.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/domain/policies/identity-registration.policy.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/domain/policies/identity-registration.policy.ts",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-07T20:50:24.698Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_INEXISTENTE::harden-graphql-oauth-resource-guard::T-178": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "harden-graphql-oauth-resource-guard",
+      "ref": "T-178",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.772Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_INEXISTENTE::milestone-7-e2e-deployment::T-208": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "milestone-7-e2e-deployment",
+      "ref": "T-208",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_INEXISTENTE::resolve-node-review-todos::T-184": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "resolve-node-review-todos",
+      "ref": "T-184",
+      "ocorrencias": 21,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-218": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-218",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-219": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-219",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-220": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-220",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-221": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-221",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-222": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-222",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::strict-nestjs-ddd-migration::T-223": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "T-223",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "AC_SEM_PROVA::strict-nestjs-ddd-migration::AC-264": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-264",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "AC_SEM_PROVA::strict-nestjs-ddd-migration::AC-265": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-265",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "AC_SEM_PROVA::strict-nestjs-ddd-migration::AC-266": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-266",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "AC_SEM_PROVA::strict-nestjs-ddd-migration::AC-267": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-267",
+      "ocorrencias": 7,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::apps/e2e/src/sandbox-environment.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "apps/e2e/src/sandbox-environment.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::apps/gateway/src/subscriptions/gateway-sse.provider.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "apps/gateway/src/subscriptions/gateway-sse.provider.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/dto/authentication-principal.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/dto/authentication-principal.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/dto/commerce-session-headers.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/dto/commerce-session-headers.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/dto/federation-capabilities.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/dto/federation-capabilities.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/dto/gateway-authentication-request.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/dto/gateway-authentication-request.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/dto/gateway-context.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/dto/gateway-context.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/ports/commerce-cookie.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/ports/commerce-cookie.port.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/ports/gateway-token-verifier.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/ports/gateway-token-verifier.port.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/ports/order-workflow-subscription.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/ports/order-workflow-subscription.port.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/use-cases/capture-federation-response.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/use-cases/capture-federation-response.use-case.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/use-cases/create-gateway-context.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/use-cases/create-gateway-context.use-case.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/use-cases/forward-gateway-subscription.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/use-cases/forward-gateway-subscription.use-case.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/infrastructure/auth/gateway-jwt-header.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/infrastructure/auth/gateway-jwt-header.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/infrastructure/http/gateway-request.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/infrastructure/http/gateway-request.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/infrastructure/http/gateway-request.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/infrastructure/http/gateway-request.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/infrastructure/http/set-cookie-values.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/infrastructure/http/set-cookie-values.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/presentation/graphql/gateway-unauthenticated.error.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/presentation/graphql/gateway-unauthenticated.error.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/dto/identity-user-connection.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/dto/identity-user-connection.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/dto/identity-user.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/dto/identity-user.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/ports/identity-user-query.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/ports/identity-user-query.port.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/use-cases/find-identity-users.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/use-cases/find-identity-users.use-case.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/application/use-cases/list-identity-users.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/application/use-cases/list-identity-users.use-case.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/infrastructure/better-auth/better-auth-identity-account.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/infrastructure/better-auth/better-auth-identity-account.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/infrastructure/cursor/user-cursor.encoder.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/infrastructure/cursor/user-cursor.encoder.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/infrastructure/oauth/better-auth-oauth-client-provisioning.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/infrastructure/oauth/better-auth-oauth-client-provisioning.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/infrastructure/oauth/environment-oauth-seed-credentials.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/infrastructure/oauth/environment-oauth-seed-credentials.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/infrastructure/persistence/better-auth-identity-user.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/infrastructure/persistence/better-auth-identity-user.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/infrastructure/wordpress/wordpress-customer-identity.adapter.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/infrastructure/wordpress/wordpress-customer-identity.adapter.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/identity/nest/src/presentation/graphql/user-cursor.decoder.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/identity/nest/src/presentation/graphql/user-cursor.decoder.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/application/dto/oauth-credential-verification.dto.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/application/dto/oauth-credential-verification.dto.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/application/ports/oauth-credential-verifier.port.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/application/ports/oauth-credential-verifier.port.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/domain/errors/oauth-credential.error.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/domain/errors/oauth-credential.error.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/domain/policies/required-scopes.policy.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/domain/policies/required-scopes.policy.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/domain/value-objects/oauth-claims.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/domain/value-objects/oauth-claims.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/infrastructure/http/oauth-http-request.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/infrastructure/http/oauth-http-request.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/presentation/graphql/oauth-authentication-messages.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/presentation/graphql/oauth-authentication-messages.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/presentation/graphql/oauth-graphql-context.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/presentation/graphql/oauth-graphql-context.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "ARQUIVO_ORFAO::—::libs/platform/nest/src/oauth-resource/presentation/graphql/required-scopes.metadata.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/platform/nest/src/oauth-resource/presentation/graphql/required-scopes.metadata.ts",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-07T22:32:54.547Z",
+      "ultimaVez": "2026-09-07T22:33:35.608Z",
+      "gitRev": "fcd96e4"
+    },
+    "AC_SEM_PROVA::strict-nestjs-ddd-migration::AC-269": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "strict-nestjs-ddd-migration",
+      "ref": "AC-269",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-07T22:36:32.990Z",
+      "ultimaVez": "2026-09-07T23:08:29.773Z",
+      "gitRev": "fcd96e4"
+    },
+    "SECAO_AUSENTE::idiomatic-nestjs-architecture::.spec/features/idiomatic-nestjs-architecture/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": ".spec/features/idiomatic-nestjs-architecture/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T03:40:16.759Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-270": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-270",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-271": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-271",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-272": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-272",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-273": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-273",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-274": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-274",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-275": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-275",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "ARQUIVO_INEXISTENTE::idiomatic-nestjs-architecture::T-226": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-226",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "ARQUIVO_INEXISTENTE::idiomatic-nestjs-architecture::T-228": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-228",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "ARQUIVO_INEXISTENTE::idiomatic-nestjs-architecture::T-229": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-229",
+      "ocorrencias": 10,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T04:40:51.110Z",
+      "gitRev": "437618a"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-270": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-270",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-271": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-271",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-272": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-272",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T04:40:51.110Z",
+      "gitRev": "437618a"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-273": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-273",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-274": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-274",
+      "ocorrencias": 6,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-275": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-275",
+      "ocorrencias": 5,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T04:40:51.111Z",
+      "gitRev": "437618a"
+    },
+    "ID_DUPLICADO::marco-0-pocs::ASM-003": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "marco-0-pocs",
+      "ref": "ASM-003",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ID_DUPLICADO::project-planning-memory::ASM-001": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "project-planning-memory",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ID_DUPLICADO::project-planning-memory::ASM-002": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "project-planning-memory",
+      "ref": "ASM-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ASM_STATUS_INVALIDO::idiomatic-nestjs-architecture::ASM-001": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ASM_STATUS_INVALIDO::idiomatic-nestjs-architecture::ASM-002": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "ASM-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ASM_STATUS_INVALIDO::idiomatic-nestjs-architecture::ASM-003": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "ASM-003",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-276": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-276",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T03:57:46.201Z",
+      "ultimaVez": "2026-09-08T04:40:51.111Z",
+      "gitRev": "437618a"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::idiomatic-nestjs-architecture::T-226": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-226",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T04:40:51.110Z",
+      "ultimaVez": "2026-09-08T04:40:51.110Z",
+      "gitRev": "437618a"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::idiomatic-nestjs-architecture::T-227": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-227",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-09-08T04:40:51.110Z",
+      "ultimaVez": "2026-09-08T06:39:20.031Z",
+      "gitRev": "c5f996f"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::idiomatic-nestjs-architecture::T-228": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-228",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T04:40:51.110Z",
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::idiomatic-nestjs-architecture::T-229": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-229",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T04:40:51.110Z",
+      "ultimaVez": "2026-09-08T04:40:51.110Z",
+      "gitRev": "437618a"
+    },
+    "AC_SEM_PROVA::idiomatic-nestjs-architecture::AC-273": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-273",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-09-08T04:40:51.111Z",
+      "ultimaVez": "2026-09-08T06:39:20.031Z",
+      "gitRev": "c5f996f"
+    },
+    "ARQUIVO_ORFAO::—::libs/gateway/nest/src/federation/gateway-federation.module.ts": {
+      "codigo": "ARQUIVO_ORFAO",
+      "feature": "—",
+      "ref": "libs/gateway/nest/src/federation/gateway-federation.module.ts",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T06:39:20.031Z",
+      "ultimaVez": "2026-09-08T06:39:20.031Z",
+      "gitRev": "c5f996f"
     }
   }
 }

@@ -1,3 +1,5 @@
+import { OAuthClientProvisioningPolicy } from '../application/policies/oauth-client-provisioning.policy.ts';
+
 export class OAuthResources {
   static readonly resources = {
     gateway: 'https://gateway.marketplace.local',
@@ -13,7 +15,7 @@ export class OAuthResources {
     'cart:read',
     'orders:read',
     'cart:write',
-  ] as const;
+  ] as const satisfies typeof OAuthClientProvisioningPolicy.delegatedScopes;
   static readonly gatewayAudience = OAuthResources.resources.gateway;
   static readonly mcpAudience = OAuthResources.resources.mcp;
   static readonly resourceScopes = {

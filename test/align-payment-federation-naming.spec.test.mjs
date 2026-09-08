@@ -20,7 +20,10 @@ test('AC-152: Payment Federation has one canonical name @spec:AC-152', async () 
     await Promise.all([
       readFile('apps/payment-federation/project.json', 'utf8').then(JSON.parse),
       readFile('compose.yaml', 'utf8'),
-      readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
+      readFile(
+        'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
+        'utf8',
+      ),
       readFile('infra/sst.config.ts', 'utf8'),
       readFile('.github/workflows/ci.yml', 'utf8'),
     ]);

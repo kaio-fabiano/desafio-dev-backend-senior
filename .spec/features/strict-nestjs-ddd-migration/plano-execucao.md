@@ -1,19 +1,23 @@
 # Plano de execução — strict-nestjs-ddd-migration
 
-> gerado por `onp-spec plano` em 2026-09-07 18:12 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-07 22:36 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano strict-nestjs-ddd-migration --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (5 já concluída(s): T-209, T-210, T-211, T-212, T-213)
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (13 já concluída(s): T-209, T-210, T-211, T-212, T-213, T-216, T-217, T-218, T-219, T-220, T-221, T-222, T-223)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/strict-nestjs-ddd-migration`; levar para a main é decisão sua
+
+### Avisos
+
+- ⚠ T-224 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar
 
 ## Ordem de execução (uma tarefa após a outra)
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-216 | Remove the in-scope legacy baseline and close all migration gates | `gpt-5.6-terra` | medium |
+| T-224 | Close the repository-wide baseline and publish migration evidence | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits
 
@@ -32,7 +36,7 @@ bash .spec/features/strict-nestjs-ddd-migration/executar-tarefas.sh
 Cada tarefa roda `codex exec` com **janela de contexto limpa**, na árvore principal,
 uma após a outra, com `--model` e `model_reasoning_effort` já definidos por tarefa e sandbox `danger-full-access`.
 Os prompts exatos estão embutidos no script.
-Logs: `../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-sequential-strict-nestjs-ddd-migration-logs/`.
+Logs: `../onp-worktrees/desafio-dev-backend-senior-strict-nestjs-ddd-migration-logs/`.
 
 **Confirmação de custos — antes de executar**: os modelos e esforços por
 tarefa estão nas tabelas acima; o agente CONFIRMA com o usuário se estão

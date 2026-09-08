@@ -1,40 +1,56 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import {
   requestToResourceInput,
   verifyAccessTokenRequest,
 } from 'better-auth/oauth2';
 
-import type { OAuthClaims } from '../oauth-claims.ts';
+import { OAuthCredentialVerification } from '../application/dto/oauth-credential-verification.dto.ts';
+import { OAuthCredentialVerifierPort } from '../application/ports/oauth-credential-verifier.port.ts';
+import { VerifyOAuthCredentialUseCase } from '../application/use-cases/verify-oauth-credential.use-case.ts';
+import { OAuthCredentialError } from '../domain/errors/oauth-credential.error.ts';
+import { OAuthClaims } from '../domain/value-objects/oauth-claims.ts';
 import { OAuthResourceOptionsToken as OAUTH_RESOURCE_OPTIONS } from '../oauth-resource.tokens.ts';
-import type {
-  OAuthResourceOptions,
-} from '../oauth-resource.types.ts';
-import { OAuthCredentialError } from './oauth-resource.errors.ts';
+import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
 
 @Injectable()
-export class OAuthResourceService {
+export class OAuthResourceService extends OAuthCredentialVerifierPort {
   constructor(
     @Inject(OAUTH_RESOURCE_OPTIONS)
     private readonly options: OAuthResourceOptions,
+    @Optional()
+    @Inject(VerifyOAuthCredentialUseCase)
+    private readonly verification?: VerifyOAuthCredentialUseCase,
   ) {
+    super();
     OAuthResourceService.assertHttpUrl(options.audience, 'OAuth audience');
     OAuthResourceService.assertHttpUrl(options.issuer, 'OAuth issuer');
     OAuthResourceService.assertHttpUrl(options.jwksUrl, 'OAuth JWKS URL');
   }
 
   async verify(request: Request): Promise<OAuthClaims> {
-    const claims = await verifyAccessTokenRequest(
-      requestToResourceInput(request),
-      {
-        jwksUrl: this.options.jwksUrl,
-        verifyOptions: {
-          algorithms: ['ES256'],
-          audience: this.options.audience,
-          issuer: this.options.issuer,
-          requiredClaims: ['exp', 'iat', 'sub'],
-        },
-      },
+    const input = requestToResourceInput(request);
+    const credential = new OAuthCredentialVerification(
+      input.authorizationHeader,
+      input.dpopProofJwt,
+      input.method,
+      input.url,
     );
+    if (this.verification) return this.verification.execute(credential);
+    return OAuthClaims.from(await this.verifyCredential(credential));
+  }
+
+  async verifyCredential(
+    credential: OAuthCredentialVerification,
+  ): Promise<Readonly<Record<string, unknown>>> {
+    const claims = await verifyAccessTokenRequest(credential, {
+      jwksUrl: this.options.jwksUrl,
+      verifyOptions: {
+        algorithms: ['ES256'],
+        audience: this.options.audience,
+        issuer: this.options.issuer,
+        requiredClaims: ['exp', 'iat', 'sub'],
+      },
+    });
     if (typeof claims.sub !== 'string' || claims.sub.trim().length === 0) {
       throw new OAuthCredentialError(
         'Access token subject must be a non-empty string',
@@ -44,16 +60,7 @@ export class OAuthResourceService {
     if (scope !== undefined && typeof scope !== 'string') {
       throw new OAuthCredentialError('Access token scope must be a string');
     }
-    return {
-      audience: Array.isArray(claims.aud)
-        ? claims.aud
-        : claims.aud
-          ? [claims.aud]
-          : [],
-      claims,
-      scopes: (scope ?? '').split(' ').filter(Boolean),
-      subject: claims.sub,
-    } satisfies OAuthClaims;
+    return claims as Readonly<Record<string, unknown>>;
   }
 
   private static assertHttpUrl(value: string, label: string): void {

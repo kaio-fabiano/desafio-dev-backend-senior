@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { RegistrationCompensationService } from './registration-compensation.service.ts';
+import { CompensateRegistrationUseCase } from '../application/use-cases/compensate-registration.use-case.ts';
 import type { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
+import { RegistrationCompensationService } from './registration-compensation.service.ts';
 
 function identityAdapter() {
   return {
@@ -21,7 +22,9 @@ describe('RegistrationCompensationService', () => {
   it('cleans only resources owned by the failed attempt @spec:AC-235', async () => {
     const identity = identityAdapter();
     const wordpress = wordpressService();
-    const compensation = new RegistrationCompensationService(wordpress);
+    const compensation = new RegistrationCompensationService(
+      new CompensateRegistrationUseCase(wordpress),
+    );
 
     const failures = await compensation.compensate(
       identity,
@@ -43,7 +46,9 @@ describe('RegistrationCompensationService', () => {
   it('does not delete a WordPress customer without an owned id @spec:AC-235', async () => {
     const identity = identityAdapter();
     const wordpress = wordpressService();
-    const compensation = new RegistrationCompensationService(wordpress);
+    const compensation = new RegistrationCompensationService(
+      new CompensateRegistrationUseCase(wordpress),
+    );
 
     await compensation.compensate(identity, 'better-auth-user');
 
@@ -63,7 +68,9 @@ describe('RegistrationCompensationService', () => {
     wordpress.deleteCustomer.mockRejectedValue(
       new Error('WordPress cleanup failed'),
     );
-    const compensation = new RegistrationCompensationService(wordpress);
+    const compensation = new RegistrationCompensationService(
+      new CompensateRegistrationUseCase(wordpress),
+    );
 
     const failures = await compensation.compensate(
       identity,

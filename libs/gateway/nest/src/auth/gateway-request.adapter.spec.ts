@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { GatewayRequestAdapter } from './gateway-request.adapter.ts';
+import { GatewayRequestAdapter } from '../infrastructure/http/gateway-request.adapter.ts';
 
 const origin = 'https://gateway.marketplace.local';
 
@@ -47,17 +47,19 @@ describe('gateway request adapter', () => {
       '//attacker.example/graphql',
       '/\\attacker.example/graphql',
     ]) {
-      expect(() => GatewayRequestAdapter.toRequest(input(target), origin)).toThrow(
-        'Gateway request target must be an absolute path',
-      );
+      expect(() =>
+        GatewayRequestAdapter.toRequest(input(target), origin),
+      ).toThrow('Gateway request target must be an absolute path');
     }
   });
 
   it('accepts only HTTP gateway origins', () => {
-    expect(GatewayRequestAdapter.trustedOrigin(`${origin}/nested`)).toBe(origin);
-    expect(() => GatewayRequestAdapter.trustedOrigin('ftp://gateway.example')).toThrow(
-      'Gateway origin must use HTTP or HTTPS',
+    expect(GatewayRequestAdapter.trustedOrigin(`${origin}/nested`)).toBe(
+      origin,
     );
+    expect(() =>
+      GatewayRequestAdapter.trustedOrigin('ftp://gateway.example'),
+    ).toThrow('Gateway origin must use HTTP or HTTPS');
     expect(() => GatewayRequestAdapter.trustedOrigin('gateway')).toThrow();
   });
 });

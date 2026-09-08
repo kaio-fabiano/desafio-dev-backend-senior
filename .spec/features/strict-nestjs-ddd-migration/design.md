@@ -19,20 +19,40 @@ file roles, not exceptions granted to individual services.
 
 ## Migration scope
 
-This migration covers only the stable NestJS Platform, Gateway, and Identity
-roots. `apps/order-workflow-subgraph` is excluded completely: this plan must not
-refactor, repackage, or establish new domain abstractions around its current
-checkout, idempotency, saga, queue, persistence, or order-processing behavior.
+This migration covers every project-owned source and configuration artifact
+except these two application roots:
 
-The sole authorized exception is a mechanical T-216 consumer migration from
-the two legacy callable Platform exports to their class-based equivalents. It
-must not change Order Workflow behavior or introduce architecture around that
-transitional implementation.
+- `apps/order-workflow-subgraph`, whose checkout and order workflow will be
+  redesigned by a later specification;
+- `apps/payment-federation`, which is Java/Spring and belongs to a separate
+  architecture effort.
+
+The exclusion is path-specific, not capability-wide. Public contracts and
+clients used to communicate with either excluded application remain in scope,
+but their compatibility must be preserved.
 
 That behavior is transitional. A separate future specification must redesign
 the flow around WooCommerce as the cart/order source of truth and place the
-remaining post-checkout business workflow in Java. The Java and WordPress
-changes themselves are also outside this migration.
+remaining post-checkout business workflow in Java. The project-owned WordPress
+integration is in scope now, but this migration may only improve its boundaries,
+security, compatibility, and maintainability; it must not implement that future
+checkout/order redesign.
+
+## Repository architecture classification
+
+| Scope | Architectural treatment |
+| --- | --- |
+| `libs/identity/nest`, `apps/identity-subgraph` | Identity bounded context: pure domain/application core, outer Better Auth/WordPress/database adapters, GraphQL/HTTP presentation, NestJS composition |
+| `libs/platform/nest` | Access-control supporting context: pure authorization policy/application contracts plus NestJS guards, decorators, request adapters, and composition |
+| `libs/gateway/nest`, `apps/gateway` | Edge context: focused application orchestration and abstract ports, transport/vendor adapters, thin presentation and composition; no invented aggregate |
+| `apps/wordpress-integration` | WordPress/WooCommerce plugin architecture with thin bootstrap/hooks, namespaced responsibilities, secure boundaries, WooCommerce CRUD and HPOS compatibility |
+| `libs/contracts`, `apps/apollo-mcp` | Versioned integration-contract and declarative adapter boundaries; schema/operation validation, no tactical DDD ceremony |
+| `infra` | Deployment and observability boundary; typed configuration, secret boundaries, validation, no domain layer |
+| `apps/e2e`, repository test tooling and scripts | Acceptance and delivery tooling; focused helpers and deterministic environment boundaries, no production-domain modeling |
+
+Generated artifacts, caches, dependencies, and build outputs are ignored by
+source rules through explicit patterns. They are never counted as migrated
+production code.
 
 ## Strategic DDD gate before implementation
 
@@ -214,6 +234,16 @@ check. It must report source locations and enforce:
 8. no empty architectural folders or speculative shared abstractions.
 9. `Record<K, V>` is never used as a substitute for a domain or application
    modeling class.
+10. every in-scope production path maps to a declared context, layer, or
+    technical-boundary policy; an unclassified file is a violation;
+11. dependency checks use that explicit map, not only folder-name substring
+    detection, so absent `domain` or `application` folders cannot pass falsely;
+12. only the two application exclusions in Migration scope are accepted.
+
+The TypeScript one-class-per-file grammar applies to project-owned production
+TypeScript. PHP, shell, JavaScript test tooling, GraphQL, JSON, and YAML use
+their own syntax-aware checks and ownership rules. A configuration or bootstrap
+exception never authorizes business orchestration in an outer-layer file.
 
 The constitution receives mandatory principles backed by this test. `AGENTS.md`
 links to the canonical standard and requires the strategic DDD gate in every
@@ -221,40 +251,52 @@ implementation task.
 
 ## Migration inventory
 
-The final AST inventory must be recomputed only for the in-scope Platform,
-Gateway, and Identity roots during Wave 0. The previous repository-wide count
-included the now-excluded Order Workflow and is therefore not a valid baseline.
-Known in-scope hotspots include Gateway and Identity files that mix NestJS
-classes with types, configuration callbacks, tokens, or helper functions.
+The inventory must be recomputed from repository-owned paths, subtracting only
+the two excluded application roots and explicit generated/build/dependency
+patterns. It must classify NestJS TypeScript, WordPress/PHP, Apollo MCP,
+contracts, infrastructure, scripts, and test tooling separately. Known
+hotspots include Identity registration and Better Auth services, Platform OAuth
+verification, Gateway authentication/federation/SSE, and the WordPress plugin.
 
-The architecture scanner must keep the Order Workflow outside this migration's
-baseline and must report an error if any task in this feature attempts to modify
-its files. This is a scope exclusion, not evidence that its current architecture
-already complies with the strict standard.
+The architecture scanner must keep both excluded application roots outside this
+migration's baseline and must report an error if any task in this feature
+attempts to modify their files. This is a scope exclusion, not evidence that
+their current architecture already complies with the strict standard.
 
 ## Rollout strategy
 
-### Wave 0 — Governance and non-regression gate
+### Corrective Wave 0 — Truthful inventory and non-regression gate
 
-Publish the standard, agent rules, constitution principles, AST test, and the
-explicit legacy baseline. From this point onward no new violation is accepted.
+Replace the partial-root scanner with an explicit repository classification.
+Add fixtures proving that unlayered orchestration and unclassified production
+files fail. Recompute a truthful baseline; zero is forbidden while known
+violations remain.
 
-### Wave 1 — Shared platform and Gateway
+### Corrective Wave 1 — Identity core and adapters
 
-Split OAuth resource contracts, errors, request conversion, tokens, Gateway
-context data, federation capabilities, and module factories. These are shared
-or edge concerns with relatively small domain impact.
+First extract framework-independent Identity domain concepts, application use
+cases, and abstract ports behind characterization tests. Then adapt Better Auth,
+WordPress, database, OAuth issuer, GraphQL, and NestJS composition to those
+ports. The application roots remain composition and delivery only.
 
-### Wave 2 — Identity
+### Corrective Wave 2 — Platform and Gateway edges
 
-Separate Better Auth options, factories, errors, OAuth resource definitions,
-registration errors/compensation, WordPress configuration, GraphQL DTOs, and
-cursor behavior into focused classes and adapters.
+Separate access-control policy from NestJS guards and request conversion.
+Separate Gateway orchestration and ports from concrete JWT, federation, cookie,
+and SSE adapters. Preserve public behavior and do not edit Order Workflow.
 
-### Wave 3 — Close the in-scope baseline
+### Corrective Wave 3 — WordPress and technical boundaries
+
+Refactor the project-owned WordPress/WooCommerce integration using native plugin
+and WooCommerce conventions, including HPOS-safe CRUD and secure hooks. Validate
+Apollo MCP operations, shared contracts, infrastructure, deployment scripts,
+and acceptance tooling under boundary-specific rules without fake DDD layers.
+
+### Corrective Wave 4 — Close the repository baseline
 
 Remove the final legacy entries, run all quality gates, update the graph and
-architecture documentation, and require zero in-scope exceptions in CI.
+architecture documentation, and require zero in-scope exceptions and zero
+unclassified project-owned production files in CI.
 
 ## Verification pyramid
 

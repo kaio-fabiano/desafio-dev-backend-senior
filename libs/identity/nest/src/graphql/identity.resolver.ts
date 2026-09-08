@@ -5,31 +5,33 @@ import {
   OAuthSubject,
   RequireScopes,
 } from '@desafio-dev-backend-senior/source/platform-nest';
+import { IdentityUserQueryPort } from '../application/ports/identity-user-query.port.ts';
+import { FindIdentityUsersUseCase } from '../application/use-cases/find-identity-users.use-case.ts';
+import { ListIdentityUsersUseCase } from '../application/use-cases/list-identity-users.use-case.ts';
 import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
-import type { UserConnection } from './identity-user.types.d.ts';
-import { UserCursorDecoder } from './user-cursor.decoder.ts';
-import { UserLoader } from './user.loader.ts';
-import { IdentityUserRepository } from './user.repository.ts';
+import { UserCursorDecoder } from '../presentation/graphql/user-cursor.decoder.ts';
 
 @Resolver('User')
 export class IdentityResolver {
   constructor(
-    @Inject(IdentityUserRepository)
-    private readonly userRepository: IdentityUserRepository,
-    @Inject(UserLoader)
-    private readonly usersById: UserLoader,
+    @Inject(ListIdentityUsersUseCase)
+    private readonly userQueries:
+      | ListIdentityUsersUseCase
+      | Pick<IdentityUserQueryPort, 'findPage'>,
+    @Inject(FindIdentityUsersUseCase)
+    private readonly usersById: Pick<FindIdentityUsersUseCase, 'load'>,
   ) {}
 
   @Query('users')
   @RequireScopes(OAuthResources.marketplaceReadScope)
-  async users(
-    @Args('first') first = 20,
-    @Args('after') after?: string,
-  ): Promise<UserConnection> {
+  async users(@Args('first') first = 20, @Args('after') after?: string) {
     if (!Number.isInteger(first) || first < 1 || first > 100) {
       throw new BadRequestException('first must be between 1 and 100');
     }
-    return this.userRepository.findPage(first, UserCursorDecoder.decode(after));
+    const afterId = UserCursorDecoder.decode(after);
+    return 'execute' in this.userQueries
+      ? this.userQueries.execute(first, afterId)
+      : this.userQueries.findPage(first, afterId);
   }
 
   @Query('user')

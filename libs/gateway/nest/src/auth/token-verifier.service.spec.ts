@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
+import { GatewayAuthenticationRequest } from '../application/dto/gateway-authentication-request.dto.ts';
 import { TokenVerifierService } from './token-verifier.service.ts';
 
 describe('TokenVerifierService', () => {
@@ -61,5 +62,35 @@ describe('TokenVerifierService', () => {
     await expect(
       service.verify(new Request('https://gateway.example/graphql')),
     ).rejects.toBe(outage);
+  });
+
+  it('preserves authorization and DPoP proof through the token port', async () => {
+    const verify = vi.fn().mockResolvedValue({
+      audience: ['gateway'],
+      claims: {},
+      scopes: [],
+      subject: 'buyer-1',
+    });
+    const service = new TokenVerifierService({ verify } as never);
+    const encoded = Buffer.from(
+      JSON.stringify({ alg: 'ES256', kid: 'key-1' }),
+    ).toString('base64url');
+
+    await service.verifyToken(
+      new GatewayAuthenticationRequest(
+        `DPoP ${encoded}.payload.signature`,
+        undefined,
+        undefined,
+        'signed-dpop-proof',
+        'POST',
+        'request-1',
+        'https://gateway.example/graphql',
+        undefined,
+      ),
+    );
+
+    const request = verify.mock.calls[0]?.[0];
+    expect(request.headers.get('authorization')).toMatch(/^DPoP /);
+    expect(request.headers.get('dpop')).toBe('signed-dpop-proof');
   });
 });

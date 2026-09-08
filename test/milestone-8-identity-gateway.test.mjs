@@ -3,7 +3,10 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import { IdentityResolver } from '../libs/identity/nest/src/graphql/identity.resolver.ts';
+import { CaptureFederationResponseUseCase } from '../libs/gateway/nest/src/application/use-cases/capture-federation-response.use-case.ts';
+import { PrepareFederationRequestUseCase } from '../libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts';
 import { AuthenticatedDataSource } from '../libs/gateway/nest/src/federation/authenticated-data-source.ts';
+import { CommerceCookieAdapter } from '../libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts';
 import { OwnedProductMutations } from './fixtures/identity-supplier.ts';
 
 test('AC-080: Identity resolves authorized users, user, me and federated references from one repository @spec:AC-080', async () => {
@@ -42,10 +45,14 @@ test('AC-080: Identity resolves authorized users, user, me and federated referen
 });
 
 test('AC-081: Gateway composes Federation v2 services and propagates verified identity context @spec:AC-081', async () => {
-  const source = new AuthenticatedDataSource({
-    url: 'http://identity/graphql',
-    capabilities: { bearer: true },
-  });
+  const source = new AuthenticatedDataSource(
+    {
+      url: 'http://identity/graphql',
+      capabilities: { bearer: true },
+    },
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new CaptureFederationResponseUseCase(),
+  );
   const headers = new Headers();
   source.willSendRequest({
     request: { http: { headers } },

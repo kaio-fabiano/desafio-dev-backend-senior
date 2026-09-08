@@ -31,7 +31,7 @@
 
 ## T-105 — Make order subscriptions distributed and replayable [concluida]
 - Refs: US-066, AC-135, US-067, AC-136
-- Arquivos: apps/order-workflow-subgraph/src/subscriptions, apps/order-workflow-subgraph/src/messaging, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/src/graphql, test
+- Arquivos: apps/order-workflow-subgraph/src/graphql/sse, apps/order-workflow-subgraph/src/messaging, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/src/graphql, test
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Keep GraphQL-over-SSE, replace process-local latest state with persisted replay plus cross-replica notification, and own connections through Nest lifecycle providers. Run focused tests, affected ESLint, and code review.

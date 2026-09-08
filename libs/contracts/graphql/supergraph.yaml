@@ -1,3 +1,4 @@
+# Owner: Shared integration-contract boundary
 federation_version: =2.11
 
 subgraphs:

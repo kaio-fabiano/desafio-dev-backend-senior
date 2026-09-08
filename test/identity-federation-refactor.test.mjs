@@ -72,20 +72,28 @@ test('AC-093: Better Auth uses direct plugins and its NestJS integration @spec:A
   assert.match(moduleSource, /AuthService/);
 });
 
-test('AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094', async () => {
+test('AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094 @spec:AC-268', async () => {
   const [
     { IdentityResolver },
     { UserLoader },
     { RegistrationService },
     { IdentityBootstrap },
-    { RegistrationCompensationService },
+    { RegisterIdentityUseCase },
+    { CompensateRegistrationUseCase },
+    { WordPressCustomerIdentityAdapter },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
     import(`../${libraryRoot}/graphql/user.loader.ts`),
     import(`../${libraryRoot}/registration/registration.service.ts`),
     import(`../${libraryRoot}/registration/identity-bootstrap.ts`),
     import(
-      `../${libraryRoot}/registration/registration-compensation.service.ts`
+      `../${libraryRoot}/application/use-cases/register-identity.use-case.ts`
+    ),
+    import(
+      `../${libraryRoot}/application/use-cases/compensate-registration.use-case.ts`
+    ),
+    import(
+      `../${libraryRoot}/infrastructure/wordpress/wordpress-customer-identity.adapter.ts`
     ),
   ]);
   const users = [
@@ -121,12 +129,19 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     async createCustomer() {
       return { id: 'wp-44' };
     },
-    async deleteCustomer() {},
-    async linkSubject() {},
+    async deleteCustomer() {
+      return undefined;
+    },
+    async linkSubject() {
+      return undefined;
+    },
   };
+  const customer = new WordPressCustomerIdentityAdapter(wordpress);
   const registration = new RegistrationService(
-    wordpress,
-    new RegistrationCompensationService(wordpress),
+    new RegisterIdentityUseCase(
+      customer,
+      new CompensateRegistrationUseCase(customer),
+    ),
   );
   await registration.afterEmailSignUp({
     body: { email: 'buyer@example.test', name: 'Buyer', password: 'secret' },
@@ -165,12 +180,21 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     async createCustomer() {
       throw new Error('WordPress unavailable');
     },
-    async deleteCustomer() {},
-    async linkSubject() {},
+    async deleteCustomer() {
+      return undefined;
+    },
+    async linkSubject() {
+      return undefined;
+    },
   };
-  const failedRegistration = new RegistrationService(
+  const unavailableCustomer = new WordPressCustomerIdentityAdapter(
     unavailableWordPress,
-    new RegistrationCompensationService(unavailableWordPress),
+  );
+  const failedRegistration = new RegistrationService(
+    new RegisterIdentityUseCase(
+      unavailableCustomer,
+      new CompensateRegistrationUseCase(unavailableCustomer),
+    ),
   );
   await assert.rejects(
     () =>
@@ -183,7 +207,9 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
         context: {
           returned: { user: { id: 'failed-user' } },
           internalAdapter: {
-            async linkAccount() {},
+            async linkAccount() {
+              return undefined;
+            },
             async deleteUserSessions(id) {
               cleanup.push(['sessions', id]);
             },
@@ -216,6 +242,109 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
   );
 });
 
+test('AC-263: Identity composes explicit adapters and delegates presentation to use cases @spec:AC-263 @spec:AC-268', async () => {
+  const [
+    accountAdapter,
+    oauthAdapter,
+    credentialsAdapter,
+    userAdapter,
+    wordpressAdapter,
+    registration,
+    resolver,
+    oauthController,
+    identityModule,
+    registrationModule,
+    oauthModule,
+    appModule,
+    main,
+  ] = await Promise.all(
+    [
+      `${libraryRoot}/infrastructure/better-auth/better-auth-identity-account.adapter.ts`,
+      `${libraryRoot}/infrastructure/oauth/better-auth-oauth-client-provisioning.adapter.ts`,
+      `${libraryRoot}/infrastructure/oauth/environment-oauth-seed-credentials.adapter.ts`,
+      `${libraryRoot}/infrastructure/persistence/better-auth-identity-user.adapter.ts`,
+      `${libraryRoot}/infrastructure/wordpress/wordpress-customer-identity.adapter.ts`,
+      `${libraryRoot}/registration/registration.service.ts`,
+      `${libraryRoot}/graphql/identity.resolver.ts`,
+      `${libraryRoot}/oauth-issuer/oauth-clients.controller.ts`,
+      `${libraryRoot}/identity.module.ts`,
+      `${libraryRoot}/registration/registration.module.ts`,
+      `${libraryRoot}/oauth-issuer/oauth-issuer.module.ts`,
+      'apps/identity-subgraph/src/app.module.ts',
+      'apps/identity-subgraph/src/main.ts',
+    ].map((file) => readFile(file, 'utf8')),
+  );
+
+  assert.match(accountAdapter, /implements IdentityAccountPort/);
+  assert.match(oauthAdapter, /implements OAuthClientProvisioningPort/);
+  assert.match(credentialsAdapter, /implements OAuthSeedCredentialsPort/);
+  assert.match(userAdapter, /implements IdentityUserQueryPort/);
+  assert.match(wordpressAdapter, /implements CustomerIdentityPort/);
+  assert.match(registration, /RegisterIdentityUseCase/);
+  assert.match(registration, /BetterAuthIdentityAccountAdapter/);
+  assert.doesNotMatch(registration, /internalAdapter\.linkAccount/);
+  assert.match(resolver, /ListIdentityUsersUseCase/);
+  assert.match(resolver, /FindIdentityUsersUseCase/);
+  assert.doesNotMatch(resolver, /IdentityUserRepository/);
+  assert.match(oauthController, /OAuthClientProvisioningService/);
+  assert.match(identityModule, /IdentityUserQueryPort/);
+  assert.match(identityModule, /BetterAuthIdentityUserAdapter/);
+  assert.match(registrationModule, /CustomerIdentityPort/);
+  assert.match(oauthModule, /OAuthClientProvisioningPort/);
+  assert.match(oauthModule, /OAuthSeedCredentialsPort/);
+  assert.doesNotMatch(
+    `${appModule}\n${main}`,
+    /better-auth|WordPress|AuthService|IdentityUserQueryPort/,
+  );
+});
+
+test('AC-272: Identity use cases are container-managed @spec:AC-272', async () => {
+  const [useCases, identityModule, registrationModule, oauthModule, runtime] =
+    await Promise.all([
+      Promise.all(
+        [
+          'compensate-registration',
+          'find-identity-users',
+          'list-identity-users',
+          'provision-oauth-clients',
+          'register-identity',
+        ].map((name) =>
+          readFile(
+            `${libraryRoot}/application/use-cases/${name}.use-case.ts`,
+            'utf8',
+          ),
+        ),
+      ),
+      readFile(`${libraryRoot}/identity.module.ts`, 'utf8'),
+      readFile(`${libraryRoot}/registration/registration.module.ts`, 'utf8'),
+      readFile(`${libraryRoot}/oauth-issuer/oauth-issuer.module.ts`, 'utf8'),
+      Promise.all(
+        [
+          `${libraryRoot}/identity.module.ts`,
+          `${libraryRoot}/registration/registration.module.ts`,
+          `${libraryRoot}/registration/registration.service.ts`,
+          `${libraryRoot}/registration/registration-compensation.service.ts`,
+          `${libraryRoot}/oauth-issuer/oauth-issuer.module.ts`,
+          `${libraryRoot}/oauth-issuer/oauth-client-provisioning.service.ts`,
+        ].map((file) => readFile(file, 'utf8')),
+      ),
+    ]);
+
+  for (const source of useCases) assert.match(source, /@Injectable\(\)/);
+  assert.match(identityModule, /providers:[\s\S]*ListIdentityUsersUseCase/);
+  assert.match(identityModule, /providers:[\s\S]*FindIdentityUsersUseCase/);
+  assert.match(
+    registrationModule,
+    /providers:[\s\S]*CompensateRegistrationUseCase/,
+  );
+  assert.match(registrationModule, /providers:[\s\S]*RegisterIdentityUseCase/);
+  assert.match(oauthModule, /providers:[\s\S]*ProvisionOAuthClientsUseCase/);
+  assert.doesNotMatch(
+    runtime.join('\n'),
+    /new (?:CompensateRegistration|FindIdentityUsers|ListIdentityUsers|ProvisionOAuthClients|RegisterIdentity)UseCase/,
+  );
+});
+
 test('AC-096: Identity Federation rejects sensitive operations without propagated scope @spec:AC-096', async () => {
   const [resolver, guard, service] = await Promise.all([
     readFile(`${libraryRoot}/graphql/identity.resolver.ts`, 'utf8'),
@@ -238,7 +367,7 @@ test('AC-096: Identity Federation rejects sensitive operations without propagate
   }
   assert.match(
     guard,
-    /this\.resources\.verify\(OAuthRequestAdapter\.toRequest\(context\.req\)\)/,
+    /this\.resources\.verify\(\s*OAuthRequestAdapter\.toRequest\(context\.req\),?\s*\)/,
   );
   assert.match(guard, /assertScopes\(auth, scopes\)/);
   assert.match(service, /verifyAccessTokenRequest/);

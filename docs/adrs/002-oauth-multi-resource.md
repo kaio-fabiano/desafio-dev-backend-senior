@@ -43,12 +43,15 @@ PKCE and the same repeated-resource and resource-server validation rules.
 
 ```bash
 corepack pnpm@10.17.1 install --frozen-lockfile
-node --experimental-transform-types --test --test-reporter=tap test/marco-0-auth.test.mjs
+node --import tsx --test --test-reporter=tap test/oauth-resource-server-auth.spec.test.mjs test/milestone-6-mcp-oauth.test.mjs
 corepack pnpm@10.17.1 exec nx run @desafio-dev-backend-senior/identity-subgraph:test
 ```
 
-The test target proves criteria AC-011 and AC-012. The probe prints the verified
-claims and both expected audience rejections as JSON.
+The current OAuth and MCP tests prove protected-resource registration, exact
+audience and scope validation, bearer propagation, and rejection paths through
+the production NestJS boundaries. Their shared `test/fixtures/auth-server.ts`
+fixture keeps the Better Auth grant reproducible without reviving the retired
+resource-server harness.
 
 ## Sources
 

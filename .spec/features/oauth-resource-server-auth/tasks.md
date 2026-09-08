@@ -20,7 +20,7 @@
 - Refs: US-088, US-090, AC-176, AC-178
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/order-workflow-subgraph/src/graphql, apps/order-workflow-subgraph/src/subscriptions, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/project.json, test/oauth-resource-server-auth.spec.test.mjs, test/production-happy-path-hardening.spec.test.js
+- Arquivos: apps/order-workflow-subgraph/src/graphql, apps/order-workflow-subgraph/src/graphql/sse, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/project.json, test/oauth-resource-server-auth.spec.test.mjs, test/production-happy-path-hardening.spec.test.js
 - Notas: Replace FederationAuthGuard with the shared OAuth integration while preserving SubjectOwnerGuard as bounded-context authorization.
 
 ## T-136 — Forward bearer credentials through the Gateway [concluida]

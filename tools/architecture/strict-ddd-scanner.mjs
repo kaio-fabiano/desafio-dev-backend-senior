@@ -3,14 +3,22 @@ import { resolve } from 'node:path';
 import ts from 'typescript';
 
 import {
+  applicationNestInjectionImports,
+  classifyRepositoryPath,
   forbiddenCoreDependencies,
   isConfigFile,
   isCoreLayer,
   isDedicatedFile,
+  isExcludedRepositoryPath,
+  isIgnoredRepositoryPath,
+  isProductionSource,
+  isProductionTypeScript,
+  repositoryApplicationExclusions,
+  usesStrictTypeScriptRules,
 } from './strict-ddd-policy.mjs';
 
-// DDD decision: Platform, Gateway, and Identity own this structural use case;
-// no aggregate or ports are involved. Each source file is the consistency boundary.
+// DDD decision: repository architecture governance owns this technical use case.
+// There is no aggregate or port; one repository snapshot is the consistency boundary.
 const declarationKinds = new Set([
   ts.SyntaxKind.ClassDeclaration,
   ts.SyntaxKind.InterfaceDeclaration,
@@ -75,6 +83,58 @@ function isVendorConfigExport(statements) {
     ts.isCallExpression(config.expression) &&
     ts.isIdentifier(config.expression.expression) &&
     config.expression.expression.text === 'registerAs'
+  );
+}
+
+function applicationNestImports(statement) {
+  if (statement.moduleSpecifier.text !== '@nestjs/common') return new Map();
+  const bindings = statement.importClause?.namedBindings;
+  if (!bindings || !ts.isNamedImports(bindings)) return new Map();
+  return new Map(
+    bindings.elements
+      .filter((element) =>
+        applicationNestInjectionImports.has(
+          element.propertyName?.text ?? element.name.text,
+        ),
+      )
+      .map((element) => [
+        element.name.text,
+        element.propertyName?.text ?? element.name.text,
+      ]),
+  );
+}
+
+function allowsApplicationNestImport(statement) {
+  const bindings = statement.importClause?.namedBindings;
+  return (
+    statement.moduleSpecifier.text === '@nestjs/common' &&
+    !statement.importClause?.name &&
+    bindings &&
+    ts.isNamedImports(bindings) &&
+    bindings.elements.length > 0 &&
+    bindings.elements.every((element) =>
+      applicationNestInjectionImports.has(
+        element.propertyName?.text ?? element.name.text,
+      ),
+    )
+  );
+}
+
+function decoratorName(decorator) {
+  const expression = ts.isCallExpression(decorator.expression)
+    ? decorator.expression.expression
+    : decorator.expression;
+  return ts.isIdentifier(expression) ? expression.text : null;
+}
+
+function allowsApplicationNestDecorator(node, decorator, imports) {
+  if (!ts.isCallExpression(decorator.expression)) return false;
+  const imported = imports.get(decoratorName(decorator));
+  if (imported === 'Injectable') return ts.isClassDeclaration(node);
+  return (
+    imported === 'Inject' &&
+    ts.isParameter(node) &&
+    ts.isConstructorDeclaration(node.parent)
   );
 }
 
@@ -145,10 +205,17 @@ function scanSource(file, text) {
   }
 
   if (isCoreLayer(path)) {
+    const boundary = classifyRepositoryPath(path).boundary;
+    const imports = new Map();
     for (const statement of source.statements.filter(ts.isImportDeclaration)) {
       const specifier = statement.moduleSpecifier.text;
+      if (boundary === 'application') {
+        for (const [local, imported] of applicationNestImports(statement))
+          imports.set(local, imported);
+      }
       if (
-        forbiddenCoreDependencies.some((pattern) => pattern.test(specifier))
+        forbiddenCoreDependencies.some((pattern) => pattern.test(specifier)) &&
+        !(boundary === 'application' && allowsApplicationNestImport(statement))
       ) {
         violations.push(
           violation(path, statement, 'forbidden-dependency', specifier, source),
@@ -156,16 +223,23 @@ function scanSource(file, text) {
       }
     }
     ts.forEachChild(source, function visit(node) {
-      if (ts.canHaveDecorators(node) && ts.getDecorators(node)?.length) {
-        violations.push(
-          violation(
-            path,
-            node,
-            'framework-decorator',
-            node.getText(source).split(/\s|\{/)[0],
-            source,
-          ),
-        );
+      if (ts.canHaveDecorators(node)) {
+        for (const decorator of ts.getDecorators(node) ?? []) {
+          if (
+            boundary === 'application' &&
+            allowsApplicationNestDecorator(node, decorator, imports)
+          )
+            continue;
+          violations.push(
+            violation(
+              path,
+              decorator,
+              'framework-decorator',
+              decoratorName(decorator) ?? decorator.getText(source),
+              source,
+            ),
+          );
+        }
       }
       ts.forEachChild(node, visit);
     });
@@ -200,6 +274,60 @@ async function typescriptFiles(root) {
   return files;
 }
 
+async function repositoryFiles(root, relative = '') {
+  const files = [];
+  for (const entry of await readdir(resolve(root, relative), {
+    withFileTypes: true,
+  })) {
+    const file = normalized(
+      relative ? `${relative}/${entry.name}` : entry.name,
+    );
+    if (isExcludedRepositoryPath(file) || isIgnoredRepositoryPath(file))
+      continue;
+    if (entry.isDirectory()) files.push(...(await repositoryFiles(root, file)));
+    else if (entry.isFile()) files.push(file);
+  }
+  return files;
+}
+
+export async function inventoryRepository({ cwd = process.cwd() } = {}) {
+  return (await repositoryFiles(cwd))
+    .map((file) => ({ ...classifyRepositoryPath(file), file }))
+    .sort((left, right) => left.file.localeCompare(right.file));
+}
+
+export async function scanRepository({ cwd = process.cwd() } = {}) {
+  const inventory = await inventoryRepository({ cwd });
+  const production = inventory.filter(({ file }) => isProductionSource(file));
+  const unclassified = production
+    .filter(({ boundary, context }) => !boundary || !context)
+    .map(({ context, file }) => ({
+      code: 'unclassified-production',
+      declaration: context
+        ? 'missing approved layer'
+        : 'missing repository classification',
+      file,
+      line: 1,
+    }));
+  const sources = await Promise.all(
+    production
+      .filter(
+        ({ file }) =>
+          isProductionTypeScript(file) && usesStrictTypeScriptRules(file),
+      )
+      .map(async ({ file }) => ({
+        file,
+        source: await readFile(resolve(cwd, file), 'utf8'),
+      })),
+  );
+
+  return [...unclassified, ...scanFiles(sources)].sort((left, right) =>
+    `${left.file}:${left.line}:${left.code}:${left.declaration}`.localeCompare(
+      `${right.file}:${right.line}:${right.code}:${right.declaration}`,
+    ),
+  );
+}
+
 export async function scanRoots(roots, { cwd = process.cwd() } = {}) {
   const files = (
     await Promise.all(roots.map((root) => typescriptFiles(resolve(cwd, root))))
@@ -227,17 +355,15 @@ export function baselineGrowth(violations, baseline) {
 }
 
 export function taskManifestScopeViolations(taskManifest) {
-  const authorizedT216Path =
-    'apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts';
-  let task = '';
   return taskManifest.split('\n').flatMap((line) => {
-    const heading = line.match(/^## (T-\d+)/);
-    if (heading) task = heading[1];
     if (!line.startsWith('- Arquivos:')) return [];
     const files = line.slice('- Arquivos: '.length).split(', ');
     return files
-      .filter((file) => /(?:apps\/)?order-workflow-subgraph\//.test(file))
-      .filter((file) => task !== 'T-216' || file !== authorizedT216Path)
-      .map((file) => ({ code: 'excluded-order-workflow', declaration: file }));
+      .filter((file) =>
+        repositoryApplicationExclusions.some(
+          (root) => file === root || file.startsWith(`${root}/`),
+        ),
+      )
+      .map((file) => ({ code: 'excluded-application', declaration: file }));
   });
 }

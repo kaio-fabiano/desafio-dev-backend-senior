@@ -20,7 +20,7 @@
 
 ## T-178 — Harden the GraphQL OAuth resource guard contract [concluida]
 - Refs: US-108, AC-220
-- Arquivos: libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts, libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.spec.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.ts, test/harden-oauth-resource-service.test.mjs
+- Arquivos: libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts, libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.spec.ts, libs/platform/nest/src/oauth-resource/domain/errors/oauth-credential.error.ts, test/harden-oauth-resource-service.test.mjs
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notas: Preserve the current trust boundaries and add only missing guard-level coverage.

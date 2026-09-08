@@ -138,6 +138,44 @@ describe('Woo checkout adapter', () => {
     });
   });
 
+  it('keeps buyer cart credentials out of technical order reconciliation @spec:AC-229 @spec:AC-241', async () => {
+    const requests: Array<{ headers: Headers; query: string }> = [];
+    const adapter = createWooCheckoutAdapter(
+      'http://wordpress.test',
+      serviceCredentials,
+      async (_url, init) => {
+        const body = JSON.parse(String(init?.body)) as { query: string };
+        requests.push({
+          headers: new Headers(init?.headers),
+          query: body.query,
+        });
+        return body.query.includes('mutation LoginOrderWorkflow')
+          ? Response.json({ data: { login: { authToken: 'service-token' } } })
+          : orderResponse([]);
+      },
+    );
+
+    await expect(
+      adapter.findByReference({
+        paymentMethod: 'CARD',
+        reference: 'operation-reference',
+        subject: 'buyer-1',
+        session: {
+          cartToken: 'buyer-cart-token',
+          wooSession: 'Session buyer-session',
+          cookie: 'wp_woocommerce_session_buyer=session',
+        },
+      }),
+    ).resolves.toBeNull();
+
+    expect(requests).toHaveLength(2);
+    for (const request of requests) {
+      expect(request.headers.has('cart-token')).toBe(false);
+      expect(request.headers.has('woocommerce-session')).toBe(false);
+      expect(request.headers.has('cookie')).toBe(false);
+    }
+  });
+
   it('rejects ambiguous, malformed, and failed order lookup responses @spec:AC-229', async () => {
     const order = {
       databaseId: 42,

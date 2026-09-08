@@ -39,7 +39,7 @@
 
 ## T-059 — Retire obsolete PoC project structure [concluida]
 - Refs: US-043, AC-087
-- Arquivos: apps/wordpress-integration, apps/e2e/project.json, docs/adrs, docs/runbooks, test/marco-0-auth.test.mjs, test/marco-0-sse.test.mjs, test/marco-0-wordpress.test.mjs, test/milestone-8-poc-retirement.test.mjs, pnpm-workspace.yaml, pnpm-lock.yaml
+- Arquivos: apps/wordpress-integration, apps/e2e/project.json, docs/adrs, docs/runbooks, test/milestone-8-poc-retirement.test.mjs, pnpm-workspace.yaml, pnpm-lock.yaml
 - Modelo: gpt-5.6-terra
 - Esforço: medio
 - Notes: Preserve useful fixtures, rename the active WordPress integration, and delete only duplicated applications after replacement proofs pass.

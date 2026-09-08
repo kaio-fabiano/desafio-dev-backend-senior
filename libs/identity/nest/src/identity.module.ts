@@ -6,14 +6,17 @@ import {
   ApolloFederationDriver,
   type ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { Module, Scope } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 
 import { BetterAuthModule } from './better-auth/better-auth.module.ts';
+import { IdentityUserQueryPort } from './application/ports/identity-user-query.port.ts';
+import { FindIdentityUsersUseCase } from './application/use-cases/find-identity-users.use-case.ts';
+import { ListIdentityUsersUseCase } from './application/use-cases/list-identity-users.use-case.ts';
 import { IdentityResolver } from './graphql/identity.resolver.ts';
 import { UserLoader } from './graphql/user.loader.ts';
-import { IdentityUserRepository } from './graphql/user.repository.ts';
+import { BetterAuthIdentityUserAdapter } from './infrastructure/persistence/better-auth-identity-user.adapter.ts';
 import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
 
 @Module({
@@ -43,7 +46,17 @@ import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
     }),
   ],
   providers: [
-    IdentityUserRepository,
+    BetterAuthIdentityUserAdapter,
+    {
+      provide: IdentityUserQueryPort,
+      useExisting: BetterAuthIdentityUserAdapter,
+    },
+    {
+      provide: FindIdentityUsersUseCase,
+      scope: Scope.REQUEST,
+      useClass: FindIdentityUsersUseCase,
+    },
+    ListIdentityUsersUseCase,
     IdentityResolver,
     UserLoader,
     { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },

@@ -28,17 +28,16 @@ A second Node runtime would duplicate that boundary.
 Reproduce from the repository root:
 
 ```bash
-bash apps/wordpress-integration/scripts/install-plugins.sh
-node apps/wordpress-integration/scripts/probe.mjs
-node --test --test-reporter=tap test/marco-0-wordpress.test.mjs
+corepack pnpm@10.17.1 exec nx run @desafio-dev-backend-senior/wordpress-integration:acceptance
+node --test --test-reporter=tap test/remove-wordpress-federation-runtime.spec.test.mjs test/structural-wordpress-review.test.mjs test/wordpress-native-commerce.test.mjs test/wordpress-registration-graphql.contract.test.mjs
 ```
 
-The local and CI bootstrap validates the installed plugin version before using
-the pinned source URL. It reuses an exact match and downloads only a missing or
-mismatched plugin. Production must use a prebuilt immutable WordPress image
-containing these pinned plugins and must not download plugins at startup.
-Plugin upgrades therefore require an explicit version change, image rebuild,
-and successful composition proof before deployment.
+The explicit, non-default acceptance target retains the live Docker-backed
+WordPress and Rover compatibility probe. The default structural and contract
+suites cover the promoted runtime boundaries without starting that probe. The
+bootstrap validates the installed plugin version before using the pinned source
+URL. Production must use a prebuilt immutable WordPress image and must not download plugins at startup. Plugin upgrades therefore require an explicit
+version change, image rebuild, and successful acceptance proof before deployment.
 
 ## Evidence
 
@@ -92,4 +91,6 @@ a second payment processor or a custom WooCommerce gateway.
 No marketplace MU-plugin, custom GraphQL field, custom inventory route, custom
 REST route, or custom WordPress authentication filter is retained. The native
 identity registration operations and their least-privilege setup are proved by
-`test/wordpress-registration-graphql.contract.test.mjs`.
+`test/wordpress-registration-graphql.contract.test.mjs`; direct federation
+ownership remains covered by
+`test/remove-wordpress-federation-runtime.spec.test.mjs`.

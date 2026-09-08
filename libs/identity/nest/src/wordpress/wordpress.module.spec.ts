@@ -2,8 +2,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { describe, expect, it } from 'vitest';
 
-import { WordPressIdentityService } from './wordpress-identity.service.ts';
 import { WordPressConfiguration } from './wordpress-configuration.provider.ts';
+import { WordPressIdentityService } from './wordpress-identity.service.ts';
 import { WordPressModule } from './wordpress.module.ts';
 
 @Injectable()

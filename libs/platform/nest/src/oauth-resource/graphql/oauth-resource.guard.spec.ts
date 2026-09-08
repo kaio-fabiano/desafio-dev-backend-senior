@@ -9,13 +9,11 @@ import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-hos
 import { APIError } from 'better-auth';
 import { describe, expect, it, vi } from 'vitest';
 
-import type { OAuthClaims } from '../oauth-claims.ts';
-import { OAuthAuthenticationMessages } from '../verification/oauth-authentication-messages.ts';
-import {
-  OAuthCredentialError,
-} from '../verification/oauth-resource.errors.ts';
+import { OAuthCredentialError } from '../domain/errors/oauth-credential.error.ts';
+import type { OAuthClaims } from '../domain/value-objects/oauth-claims.ts';
+import { OAuthAuthenticationMessages } from '../presentation/graphql/oauth-authentication-messages.ts';
+import { RequiredScopesMetadata } from '../presentation/graphql/required-scopes.metadata.ts';
 import { GraphqlOAuthResourceGuard } from './oauth-resource.guard.ts';
-import { RequiredScopesMetadata } from './required-scopes.metadata.ts';
 
 function graphqlExecution(
   context: object,

@@ -768,14 +768,18 @@ export async function runAcceptanceJourney(
       retry: cardRetry,
       event: card.event,
       meOrder: cardRetry,
-      products: meAfterCard.products.edges.map(({ node }) => node),
+      products: meAfterCard.products.edges.map(
+        ({ node }: { node: JsonObject }) => node,
+      ),
     },
     pix: {
       subscriptionOpenedBeforeCheckout: pix.subscriptionOpenedBeforeCheckout,
       checkout: pix.checkout,
       event: pix.event,
       meOrder: pixRetry,
-      products: meAfterPix.products.edges.map(({ node }) => node),
+      products: meAfterPix.products.edges.map(
+        ({ node }: { node: JsonObject }) => node,
+      ),
     },
     compensation: {
       checkout: compensation.checkout,

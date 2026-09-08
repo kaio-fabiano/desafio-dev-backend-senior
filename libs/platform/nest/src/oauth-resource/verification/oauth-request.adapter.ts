@@ -1,4 +1,4 @@
-import type { OAuthHttpRequest } from '../oauth-http-request.ts';
+import type { OAuthHttpRequest } from '../infrastructure/http/oauth-http-request.ts';
 
 export class OAuthRequestAdapter {
   static toRequest(request: OAuthHttpRequest): Request {
@@ -12,7 +12,8 @@ export class OAuthRequestAdapter {
     if (protocol !== 'http' && protocol !== 'https') {
       throw new Error('OAuth request protocol must be HTTP or HTTPS');
     }
-    const host = OAuthRequestAdapter.firstHeader(request.headers.host) ?? 'resource.local';
+    const host =
+      OAuthRequestAdapter.firstHeader(request.headers.host) ?? 'resource.local';
     const target = request.originalUrl ?? request.url ?? '/';
     if (!target.startsWith('/') || target.startsWith('//')) {
       throw new Error('OAuth request target must be an absolute path');

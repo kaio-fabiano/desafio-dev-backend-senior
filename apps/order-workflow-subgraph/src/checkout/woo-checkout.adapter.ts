@@ -93,10 +93,11 @@ export function createWooCheckoutAdapter(
   async function findByReference(
     input: WooCheckoutInput,
   ): Promise<WooCheckoutOrder | null> {
+    const technicalInput = { ...input, session: undefined };
     const authentication = await execute<{
       login?: { authToken?: string };
     }>(
-      input,
+      technicalInput,
       `mutation LoginOrderWorkflow($input: LoginInput!) {
         login(input: $input) { authToken }
       }`,
@@ -115,7 +116,7 @@ export function createWooCheckoutAdapter(
     const data = await execute<{
       orders?: { nodes?: WooGraphQLOrder[] };
     }>(
-      input,
+      technicalInput,
       `query FindOrderByWorkflowReference($reference: String!) {
         orders(first: 2, where: { search: $reference }) {
           nodes {

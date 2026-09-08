@@ -1,7 +1,9 @@
 import { Inject, Injectable, Module } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
+import { OAuthCredentialVerifierPort } from './application/ports/oauth-credential-verifier.port.ts';
+import { VerifyOAuthCredentialUseCase } from './application/use-cases/verify-oauth-credential.use-case.ts';
 import { GraphqlOAuthResourceGuard } from './graphql/oauth-resource.guard.ts';
 import { OAuthResourceModule } from './oauth-resource.module.ts';
 import { OAuthResourceOptionsToken } from './oauth-resource.tokens.ts';
@@ -31,6 +33,42 @@ class OAuthConsumer {
 class ConsumerModule {}
 
 describe('OAuthResourceModule', () => {
+  it('AC-273: resolves credential verification through NestJS providers @spec:AC-273', async () => {
+    const verifyCredential = vi.fn().mockResolvedValue({
+      aud: options.audience,
+      scope: 'orders:read',
+      sub: 'buyer-1',
+    });
+    const module = await Test.createTestingModule({
+      imports: [OAuthResourceModule.register(options)],
+    })
+      .overrideProvider(OAuthCredentialVerifierPort)
+      .useValue({ verifyCredential })
+      .compile();
+
+    try {
+      const service = module.get(OAuthResourceService);
+
+      expect(module.get(VerifyOAuthCredentialUseCase)).toBeInstanceOf(
+        VerifyOAuthCredentialUseCase,
+      );
+      expect(module.get(OAuthCredentialVerifierPort)).not.toBe(service);
+      await expect(
+        service.verify(
+          new Request('https://orders.marketplace.local/graphql', {
+            headers: { authorization: 'Bearer token' },
+          }),
+        ),
+      ).resolves.toMatchObject({
+        scopes: ['orders:read'],
+        subject: 'buyer-1',
+      });
+      expect(verifyCredential).toHaveBeenCalledOnce();
+    } finally {
+      await module.close();
+    }
+  });
+
   it('AC-223: resolves exported providers through a NestJS consumer module @spec:AC-223', async () => {
     const module = await Test.createTestingModule({
       imports: [ConsumerModule],
@@ -45,9 +83,7 @@ describe('OAuthResourceModule', () => {
   it('fails module compilation for invalid OAuth options', async () => {
     await expect(
       Test.createTestingModule({
-        imports: [
-          OAuthResourceModule.register({ ...options, audience: '' }),
-        ],
+        imports: [OAuthResourceModule.register({ ...options, audience: '' })],
       }).compile(),
     ).rejects.toThrow('OAuth audience must be a valid URL');
   });
@@ -82,14 +118,10 @@ describe('OAuthResourceModule', () => {
     }).compile();
 
     expect(
-      gateway.get<OAuthResourceOptions>(
-        OAuthResourceOptionsToken,
-      ).audience,
+      gateway.get<OAuthResourceOptions>(OAuthResourceOptionsToken).audience,
     ).toBe(options.audience);
     expect(
-      identity.get<OAuthResourceOptions>(
-        OAuthResourceOptionsToken,
-      ).audience,
+      identity.get<OAuthResourceOptions>(OAuthResourceOptionsToken).audience,
     ).toBe(identityOptions.audience);
     await Promise.all([gateway.close(), identity.close()]);
   });

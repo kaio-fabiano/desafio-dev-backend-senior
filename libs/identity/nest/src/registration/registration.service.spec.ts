@@ -3,7 +3,9 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
-import { RegistrationCompensationService } from './registration-compensation.service.ts';
+import { CompensateRegistrationUseCase } from '../application/use-cases/compensate-registration.use-case.ts';
+import { RegisterIdentityUseCase } from '../application/use-cases/register-identity.use-case.ts';
+import { WordPressCustomerIdentityAdapter } from '../infrastructure/wordpress/wordpress-customer-identity.adapter.ts';
 import { RegistrationError } from './registration.error.ts';
 import { RegistrationService } from './registration.service.ts';
 import { IdentityBootstrap } from './identity-bootstrap.ts';
@@ -61,9 +63,14 @@ function wordpressService(
 function registrationService(
   wordpress: RegistrationWordPressService,
 ): RegistrationService {
+  const customer = new WordPressCustomerIdentityAdapter(
+    wordpress as WordPressIdentityService,
+  );
   return new RegistrationService(
-    wordpress,
-    new RegistrationCompensationService(wordpress),
+    new RegisterIdentityUseCase(
+      customer,
+      new CompensateRegistrationUseCase(customer),
+    ),
   );
 }
 
@@ -198,6 +205,11 @@ describe('RegistrationService', () => {
           internalAdapter: adapter,
           returned: new Response(null, { status: 400 }),
         },
+      }),
+    );
+    await registration.afterEmailSignUp(
+      signUpContext(adapter, {
+        context: { internalAdapter: adapter, returned: undefined },
       }),
     );
 

@@ -1,3 +1,4 @@
+# Owner: Apollo MCP integration-contract boundary
 endpoint: http://gateway:3000/graphql
 
 transport:

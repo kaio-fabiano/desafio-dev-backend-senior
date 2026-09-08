@@ -45,6 +45,10 @@
 - Preserve strategic ownership and inward dependencies: domain and
   application code remain framework-independent, and cross-context access
   uses contracts or federated references only.
+- Keep every project-owned path in the architecture inventory. Only
+  `apps/order-workflow-subgraph` and `apps/payment-federation` are excluded;
+  every other production source needs an approved context and layer or an
+  explicit technical boundary.
 - Do not silently bypass, weaken, or create exceptions to the contract. Any
   exception must be narrow, dedicated to the documented outer-layer artifact,
   and explicitly recorded in the contract and review evidence.

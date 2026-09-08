@@ -1,7 +1,12 @@
-import { chmod, readFile, rename, writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
 import { issueSandboxBearer, proveSandboxMcpAccess } from './journey.ts';
+import {
+  storeSecretEnvironmentValue,
+  upsertEnvironmentValue,
+} from './sandbox-environment.ts';
+
+export { storeSecretEnvironmentValue, upsertEnvironmentValue };
 
 const BEARER_NAME = 'MERCADO_PAGO_SANDBOX_BEARER_TOKEN';
 const REQUIRED_AUDIENCES = [
@@ -10,18 +15,6 @@ const REQUIRED_AUDIENCES = [
 ];
 const REQUIRED_SCOPES = ['cart:write', 'orders:read'];
 const MCP_SCOPES = ['marketplace:read', 'mcp:tools'];
-
-export function upsertEnvironmentValue(
-  contents: string,
-  name: string,
-  value: string,
-) {
-  const line = `${name}=${value}`;
-  const pattern = new RegExp(`^${name}=.*$`, 'm');
-  return pattern.test(contents)
-    ? contents.replace(pattern, line)
-    : `${contents.trimEnd()}\n${line}\n`;
-}
 
 export function validateSandboxClaims(claims: Record<string, unknown>) {
   const scopes = new Set(
@@ -89,15 +82,11 @@ async function main() {
       `Sandbox MCP proof passed: ${JSON.stringify(proof)}\n`,
     );
   }
-  const contents = await readFile(environmentPath, 'utf8');
-  const temporaryPath = `${environmentPath}.tmp`;
-  await writeFile(
-    temporaryPath,
-    upsertEnvironmentValue(contents, BEARER_NAME, grant.accessToken),
-    { mode: 0o600 },
+  await storeSecretEnvironmentValue(
+    environmentPath,
+    BEARER_NAME,
+    grant.accessToken,
   );
-  await rename(temporaryPath, environmentPath);
-  await chmod(environmentPath, 0o600);
   process.stdout.write(
     'Sandbox bearer generated and stored without disclosure.\n',
   );

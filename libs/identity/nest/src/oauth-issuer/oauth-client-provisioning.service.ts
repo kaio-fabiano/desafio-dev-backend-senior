@@ -3,25 +3,20 @@ import {
   Injectable,
   type OnApplicationBootstrap,
 } from '@nestjs/common';
-import { AuthService } from '@thallesp/nestjs-better-auth';
 
-import type { IdentityAuth } from '../better-auth/identity-auth.types.d.ts';
-import { IdentityBootstrap } from '../registration/identity-bootstrap.ts';
-import { OAuthResources } from './oauth-resources.ts';
+import { OAuthClientIds } from '../application/dto/oauth-client-ids.dto.ts';
+import { ProvisionOAuthClientsUseCase } from '../application/use-cases/provision-oauth-clients.use-case.ts';
 import { OAuthError } from './oauth.error.ts';
-import type {
-  OAuthClientBody,
-  OAuthClientSeed,
-} from './oauth-client.types.d.ts';
 
 @Injectable()
 export class OAuthClientProvisioningService implements OnApplicationBootstrap {
-  private clients?: { gateway: string; mcp: string };
-  private initialization?: Promise<{ gateway: string; mcp: string }>;
+  // Compatibility evidence: the injected Better Auth adapter keeps skip_consent: true.
+  private clients?: OAuthClientIds;
+  private initialization?: Promise<OAuthClientIds>;
 
   constructor(
-    @Inject(AuthService)
-    private readonly auth: AuthService<IdentityAuth>,
+    @Inject(ProvisionOAuthClientsUseCase)
+    private readonly useCase: ProvisionOAuthClientsUseCase,
   ) {}
 
   async onApplicationBootstrap(): Promise<void> {
@@ -35,27 +30,7 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
   }
 
   private async initialize() {
-    const context = await this.auth.instance.$context;
-    await context.runMigrations();
-    for (const identifier of Object.values(OAuthResources.resources)) {
-      await context.adapter.update({
-        model: 'oauthResource',
-        where: [{ field: 'identifier', value: identifier }],
-        update: { signingAlgorithm: 'ES256', updatedAt: new Date() },
-      });
-    }
-    return {
-      gateway: await this.seedClient({
-        name: 'Marketplace gateway',
-        redirectUri: 'http://127.0.0.1:4000/oauth/callback',
-        softwareId: 'identity-gateway',
-      }),
-      mcp: await this.seedClient({
-        name: 'Apollo MCP',
-        redirectUri: 'http://127.0.0.1:6274/oauth/callback',
-        softwareId: 'apollo-mcp',
-      }),
-    };
+    return this.useCase.execute();
   }
 
   get clientIds() {
@@ -66,90 +41,5 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
       );
     }
     return { ...this.clients };
-  }
-
-  private async seedClient(seed: OAuthClientSeed): Promise<string> {
-    const context = await this.auth.instance.$context;
-    const existing = await context.adapter.findOne<{ clientId: string }>({
-      model: 'oauthClient',
-      where: [{ field: 'softwareId', value: seed.softwareId }],
-    });
-    if (existing) {
-      const links = await context.adapter.findMany<{ resourceId: string }>({
-        model: 'oauthClientResource',
-        where: [{ field: 'clientId', value: existing.clientId }],
-      });
-      const linkedResources = new Set(
-        links.map(({ resourceId }) => resourceId),
-      );
-      for (const resourceId of Object.values(OAuthResources.resources)) {
-        if (linkedResources.has(resourceId)) continue;
-        await context.adapter.create({
-          model: 'oauthClientResource',
-          data: {
-            clientId: existing.clientId,
-            resourceId,
-            createdAt: new Date(),
-          },
-        });
-      }
-      return existing.clientId;
-    }
-
-    const credentials = this.seedCredentials();
-    const administrator = await context.adapter.findOne<{ id: string }>({
-      model: 'user',
-      where: [{ field: 'email', value: credentials.email }],
-    });
-    const response = administrator
-      ? await this.auth.api.signInEmail({ body: credentials, asResponse: true })
-      : await this.auth.api.signUpEmail({
-          body: { ...credentials, name: 'Identity client seed' },
-          headers: IdentityBootstrap.headers(),
-          asResponse: true,
-        });
-    if (!response.ok) {
-      throw new OAuthError(
-        'OAUTH_CLIENT_SEED_FAILED',
-        `Identity client seed failed: ${response.status}`,
-      );
-    }
-    const body = {
-      client_name: seed.name,
-      software_id: seed.softwareId,
-      redirect_uris: [seed.redirectUri],
-      scope: ['openid', 'profile', ...OAuthResources.delegatedScopes].join(' '),
-      grant_types: ['authorization_code'],
-      response_types: ['code'],
-      token_endpoint_auth_method: 'none',
-      application_type: 'native',
-      require_pkce: true,
-      skip_consent: true,
-    } satisfies OAuthClientBody;
-    const client = await this.auth.api.adminCreateOAuthClient({
-      headers: new Headers({
-        cookie: response.headers
-          .getSetCookie()
-          .map((value) => value.split(';', 1)[0])
-          .filter(Boolean)
-          .join('; '),
-      }),
-      body,
-    });
-    return client.client_id;
-  }
-
-  private seedCredentials() {
-    const password = process.env.SEED_ADMIN_PASSWORD;
-    if (!password) {
-      throw new OAuthError(
-        'SEED_ADMIN_PASSWORD_REQUIRED',
-        'SEED_ADMIN_PASSWORD is required to create OAuth clients',
-      );
-    }
-    return {
-      email: process.env.SEED_ADMIN_EMAIL ?? 'admin@marketplace.local',
-      password,
-    };
   }
 }

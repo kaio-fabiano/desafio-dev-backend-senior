@@ -3,13 +3,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import { betterAuth } from 'better-auth';
 import { jwt } from 'better-auth/plugins';
 
+import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 import { BetterAuthError } from './better-auth.error.ts';
-import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
 import type {
   IdentityAuth,
   IdentityAuthOptions,
 } from './identity-auth.types.d.ts';
-import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
+import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
 
 @Injectable()
 export class BetterAuthFactory {

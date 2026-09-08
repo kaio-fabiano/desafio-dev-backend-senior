@@ -10,7 +10,7 @@ completed.
 ## T-191 — Extract WordPress registration integration [concluida]
 
 - Refs: US-112, AC-233, AC-234
-- Arquivos: libs/identity/nest/src/wordpress/wordpress.config.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.spec.ts, libs/identity/nest/src/better-auth/better-auth.module.ts, libs/identity/nest/src/better-auth/better-auth.module.integration.spec.ts
+- Arquivos: libs/identity/nest/src/wordpress/wordpress-configuration.provider.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.spec.ts, libs/identity/nest/src/better-auth/better-auth.module.ts, libs/identity/nest/src/better-auth/better-auth.module.integration.spec.ts
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Red proved ConfigService-backed provider wiring and the registration integration contract before moving configuration and remote operations into focused NestJS providers. T-197 subsequently replaced the initial WooCommerce REST protocol with native WordPress GraphQL. No gateway or port abstraction was introduced.
@@ -34,7 +34,7 @@ completed.
 ## T-194 — Establish focused NestJS authentication modules [concluida]
 
 - Refs: US-112, AC-233, AC-234, AC-235, AC-236
-- Arquivos: libs/identity/nest/src/better-auth/better-auth.module.ts, libs/identity/nest/src/better-auth/better-auth.module.integration.spec.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/better-auth/better-auth.factory.spec.ts, libs/identity/nest/src/registration/registration.module.ts, libs/identity/nest/src/registration/registration.module.spec.ts, libs/identity/nest/src/registration/registration.service.ts, libs/identity/nest/src/registration/registration.service.spec.ts, libs/identity/nest/src/registration/registration-compensation.service.ts, libs/identity/nest/src/registration/registration-compensation.service.spec.ts, libs/identity/nest/src/wordpress/wordpress.module.ts, libs/identity/nest/src/wordpress/wordpress.module.spec.ts, libs/identity/nest/src/wordpress/wordpress.config.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.spec.ts, libs/identity/nest/src/index.ts, libs/identity/nest/src/identity.module.ts, libs/identity/nest/src/graphql/user.repository.ts, test/identity-federation-refactor.test.mjs, test/structural-identity-review.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/milestone-6-mcp-oauth.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/mercado-pago-production-deployment.test.mjs, .spec/features/resolve-node-review-todos/inventory.json
+- Arquivos: libs/identity/nest/src/better-auth/better-auth.module.ts, libs/identity/nest/src/better-auth/better-auth.module.integration.spec.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/better-auth/better-auth.factory.spec.ts, libs/identity/nest/src/registration/registration.module.ts, libs/identity/nest/src/registration/registration.module.spec.ts, libs/identity/nest/src/registration/registration.service.ts, libs/identity/nest/src/registration/registration.service.spec.ts, libs/identity/nest/src/registration/registration-compensation.service.ts, libs/identity/nest/src/registration/registration-compensation.service.spec.ts, libs/identity/nest/src/wordpress/wordpress.module.ts, libs/identity/nest/src/wordpress/wordpress.module.spec.ts, libs/identity/nest/src/wordpress/wordpress-configuration.provider.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.spec.ts, libs/identity/nest/src/index.ts, libs/identity/nest/src/identity.module.ts, libs/identity/nest/src/graphql/user.repository.ts, test/identity-federation-refactor.test.mjs, test/structural-identity-review.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/milestone-6-mcp-oauth.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/mercado-pago-production-deployment.test.mjs, .spec/features/resolve-node-review-todos/inventory.json
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Red proved the explicit module graph and provider visibility before moving files. Green introduced WordPressModule, RegistrationModule, and BetterAuthModule. T-198 subsequently promoted them to sibling features, added the OAuth issuer module later clarified by T-201, and replaced the shared root contracts with feature-owned errors and OAuth policy.
@@ -58,7 +58,7 @@ completed.
 ## T-197 — Migrate WordPress identity registration to GraphQL [concluida]
 
 - Refs: US-113, AC-238, AC-240
-- Arquivos: libs/identity/nest/src/wordpress/wordpress.config.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.spec.ts, libs/identity/nest/src/wordpress/wordpress.error.ts, libs/identity/nest/src/wordpress/wordpress.module.ts, libs/identity/nest/src/wordpress/wordpress.module.spec.ts, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/production-entrypoint.sh, compose.yaml
+- Arquivos: libs/identity/nest/src/wordpress/wordpress-configuration.provider.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.ts, libs/identity/nest/src/wordpress/wordpress-identity.service.spec.ts, libs/identity/nest/src/wordpress/wordpress.error.ts, libs/identity/nest/src/wordpress/wordpress.module.ts, libs/identity/nest/src/wordpress/wordpress.module.spec.ts, apps/wordpress-integration/scripts/install-plugins.sh, apps/wordpress-integration/scripts/production-entrypoint.sh, compose.yaml
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Red proves named GraphQL operations, error mapping, service authentication, and the absence of WooCommerce REST customer calls. Green implements the minimum native GraphQL client and adds a private WordPress extension only if T-195 proved it necessary.
@@ -74,7 +74,7 @@ completed.
 ## T-199 — Verify the GraphQL boundary and identity module architecture [concluida]
 
 - Refs: US-113, AC-237, AC-238, AC-239, AC-240
-- Arquivos: test/identity-federation-refactor.test.mjs, test/structural-identity-review.test.mjs, test/architecture-boundaries.test.mjs, test/marco-0-wordpress.test.mjs, docs/evidence/refactor-registration-boundaries/review.md, .spec/verification/refactor-registration-boundaries.json
+- Arquivos: test/identity-federation-refactor.test.mjs, test/structural-identity-review.test.mjs, test/architecture-boundaries.test.mjs, test/wordpress-registration-graphql.contract.test.mjs, docs/evidence/refactor-registration-boundaries/review.md, .spec/verification/refactor-registration-boundaries.json
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: After T-198. Update architecture and contract evidence, then run focused tests, integration tests, coverage, typecheck, lint, `onp-spec verify refactor-registration-boundaries`, and `onp-spec audit --ci`. No criterion is complete without passing executable proof.

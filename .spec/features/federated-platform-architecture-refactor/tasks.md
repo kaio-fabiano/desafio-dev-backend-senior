@@ -99,7 +99,7 @@
 - Refs: US-051, AC-102, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: compose.yaml, apps/order-workflow-subgraph/src/subscriptions, apps/gateway/src/subscriptions, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Arquivos: compose.yaml, apps/order-workflow-subgraph/src/graphql/sse, apps/gateway/src/subscriptions, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
 - Notas: Publish authorized GraphQL-over-SSE events from Commerce and preserve cleanup, isolation, and terminal-event semantics through the gateway edge.
 
 ## T-077 — Delete the marketplace MU-plugin and prove the plugin-first topology [concluida]

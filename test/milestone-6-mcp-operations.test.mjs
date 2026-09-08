@@ -3,33 +3,60 @@ import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import Ajv from 'ajv/dist/2020.js';
+
 const operationsDir = join(process.cwd(), 'apps/apollo-mcp/operations');
 const expectedTools = new Set([
-  'me', 'searchProducts', 'getProduct', 'getMyCart',
-  'getMyOrders', 'addToCart',
+  'me',
+  'searchProducts',
+  'getProduct',
+  'getMyCart',
+  'getMyOrders',
+  'addToCart',
 ]);
 
 async function manifest() {
-  const files = (await readdir(operationsDir)).filter((file) => file.endsWith('.graphql'));
-  return Promise.all(files.map(async (file) => ({ file, source: await readFile(join(operationsDir, file), 'utf8') })));
+  const files = (await readdir(operationsDir)).filter((file) =>
+    file.endsWith('.graphql'),
+  );
+  return Promise.all(
+    files.map(async (file) => ({
+      file,
+      source: await readFile(join(operationsDir, file), 'utf8'),
+    })),
+  );
 }
 
 test('AC-060: Only approved operations become tools @spec:AC-060', async () => {
   const entries = await manifest();
-  const names = new Set(entries.flatMap(({ source }) => [...source.matchAll(/(?:query|mutation)\s+(\w+)/g)].map((match) => match[1])));
+  const names = new Set(
+    entries.flatMap(({ source }) =>
+      [...source.matchAll(/(?:query|mutation)\s+(\w+)/g)].map(
+        (match) => match[1],
+      ),
+    ),
+  );
   assert.deepEqual(names, expectedTools);
 });
 
 test('AC-061: Forbidden mutations cannot be invoked @spec:AC-061', async () => {
   const entries = await manifest();
   const source = entries.map(({ source }) => source).join('\n');
-  assert.doesNotMatch(source, /\b(?:checkout|payment|administration|execute|introspection)\b/i);
-  assert.doesNotMatch(source, /mutation\s+\w*(?:checkout|payment|catalog|supplier|administration)\w*/i);
+  assert.doesNotMatch(
+    source,
+    /\b(?:checkout|payment|administration|execute|introspection)\b/i,
+  );
+  assert.doesNotMatch(
+    source,
+    /mutation\s+\w*(?:checkout|payment|catalog|supplier|administration)\w*/i,
+  );
 });
 
 test('AC-138: Product discovery and lookup have distinct contracts @spec:AC-138', async () => {
   const entries = await manifest();
-  const sourceByFile = new Map(entries.map(({ file, source }) => [file, source]));
+  const sourceByFile = new Map(
+    entries.map(({ file, source }) => [file, source]),
+  );
   const search = sourceByFile.get('search-products.graphql');
   const lookup = sourceByFile.get('get-product.graphql');
 
@@ -40,4 +67,40 @@ test('AC-138: Product discovery and lookup have distinct contracts @spec:AC-138'
   assert.doesNotMatch(search, /\bproduct\s*\(/);
   assert.match(lookup, /\bproduct\(id: \$productId\)/);
   assert.doesNotMatch(lookup, /\bproducts\s*\(/);
+});
+
+test('AC-267: Versioned shared events inherit the common envelope @spec:AC-267', async () => {
+  const eventsDir = join(process.cwd(), 'libs/contracts/events');
+  const eventFiles = (await readdir(eventsDir))
+    .filter((file) => file.endsWith('.v1.schema.json'))
+    .sort();
+  const envelope = JSON.parse(
+    await readFile(join(eventsDir, 'envelope.schema.json'), 'utf8'),
+  );
+  const schemas = await Promise.all(
+    eventFiles.map(async (file) => [
+      file,
+      JSON.parse(await readFile(join(eventsDir, file), 'utf8')),
+    ]),
+  );
+  const ajv = new Ajv({ validateFormats: false });
+  ajv.addSchema(envelope);
+
+  for (const [file, schema] of schemas) {
+    const [eventType, version] = file.replace('.schema.json', '').split('.');
+    assert.match(
+      schema.$id,
+      new RegExp(`/${eventType}\\.${version}\\.schema\\.json$`),
+    );
+    assert.equal(
+      schema.allOf?.[0]?.$ref,
+      'envelope.schema.json',
+      `${file} must inherit the common envelope`,
+    );
+    assert.equal(schema.allOf?.[1]?.properties?.eventVersion?.const, version);
+    assert.doesNotThrow(
+      () => ajv.compile(schema),
+      `${file} must remain a valid JSON Schema`,
+    );
+  }
 });
