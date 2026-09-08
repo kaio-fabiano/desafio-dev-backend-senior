@@ -74,7 +74,7 @@ completed.
 ## T-199 — Verify the GraphQL boundary and identity module architecture [concluida]
 
 - Refs: US-113, AC-237, AC-238, AC-239, AC-240
-- Arquivos: test/identity-federation-refactor.test.mjs, test/structural-identity-review.test.mjs, test/architecture-boundaries.test.mjs, test/marco-0-wordpress.test.mjs, docs/evidence/refactor-registration-boundaries/review.md, .spec/verification/refactor-registration-boundaries.json
+- Arquivos: test/identity-federation-refactor.test.mjs, test/structural-identity-review.test.mjs, test/architecture-boundaries.test.mjs, test/wordpress-registration-graphql.contract.test.mjs, docs/evidence/refactor-registration-boundaries/review.md, .spec/verification/refactor-registration-boundaries.json
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: After T-198. Update architecture and contract evidence, then run focused tests, integration tests, coverage, typecheck, lint, `onp-spec verify refactor-registration-boundaries`, and `onp-spec audit --ci`. No criterion is complete without passing executable proof.

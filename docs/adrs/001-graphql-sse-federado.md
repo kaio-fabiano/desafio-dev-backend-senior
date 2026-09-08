@@ -28,16 +28,18 @@ verified alternative and keeps authentication at the same edge boundary.
 Run:
 
 ```sh
-node test/fixtures/federated-sse-probe.ts
-node --test --test-reporter=tap test/marco-0-sse.test.mjs
-corepack pnpm@10.17.1 exec nx run @desafio-dev-backend-senior/gateway:test
+corepack pnpm@10.17.1 exec nx run @desafio-dev-backend-senior/order-workflow-subgraph:test
+node --test --test-reporter=tap test/resolve-gateway-sse-todos.test.mjs
+corepack pnpm@10.17.1 exec nx run @desafio-dev-backend-senior/e2e:acceptance
 ```
 
-The probe starts both servers on ephemeral loopback ports, subscribes through
-the gateway, and emits one order event from the subgraph. It reports
-`text/event-stream` for both the client-to-edge and edge-to-subgraph legs and
-returns the event payload. The acceptance test also pins the adopted decision
-and the evaluated versions.
+The current integration suite at
+`apps/order-workflow-subgraph/src/graphql/sse/sse.integration.spec.ts`
+exercises the authenticated owner stream through the production Order Workflow
+SSE handler and event broker, including scope rejection, disconnect cleanup,
+and checkout propagation. The Gateway structural test pins the colocated
+authenticated route, and the end-to-end acceptance suite proves the complete
+deployed journey.
 
 ## Consequences
 
