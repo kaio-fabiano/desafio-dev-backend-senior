@@ -1,11 +1,11 @@
 {
   "feature": "federated-platform-architecture-refactor",
-  "timestamp": "2026-09-08T02:44:47.910Z",
-  "gitRev": "fcd96e4",
-  "command": "cat /tmp/strict-ddd-full-green.tap",
+  "timestamp": "2026-09-08T20:12:46.666Z",
+  "gitRev": "7aa899f",
+  "command": "cat /tmp/onp-final-green.tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 674,
+  "testsParsed": 677,
   "results": {
     "AC-090": {
       "status": "pass",
