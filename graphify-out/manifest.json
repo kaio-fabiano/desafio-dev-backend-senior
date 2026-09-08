@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788822789.5715976,
-    "seen": 1788835533.4478517,
-    "ast_hash": "9178f70d513d296c6f99d1ec4efe49ce",
+    "mtime": 1788842451.1153963,
+    "seen": 1788845263.716164,
+    "ast_hash": "39ec3163a64b3e06d39339a3dfe667b2",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -834,9 +834,9 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/identity.module.ts": {
-    "mtime": 1788815197.7628155,
-    "seen": 1788821459.1268265,
-    "ast_hash": "b38438fe55af3faf76336214111be193",
+    "mtime": 1788844040.97796,
+    "seen": 1788845263.721799,
+    "ast_hash": "38779c4884b79fcbbff114bc58a8b5ec",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/index.ts": {
@@ -984,9 +984,9 @@
     "semantic_hash": ""
   },
   "test/identity-federation-refactor.test.mjs": {
-    "mtime": 1788821287.890507,
-    "seen": 1788821459.1278968,
-    "ast_hash": "b8c0146b06ca74fc0b993a4d514a7f8c",
+    "mtime": 1788844040.9857066,
+    "seen": 1788845263.723506,
+    "ast_hash": "f418232f48b46035d5dbc3627ec4f8b3",
     "semantic_hash": ""
   },
   "test/marco-0-auth.test.mjs": {
@@ -2634,9 +2634,9 @@
     "semantic_hash": "6562e000e59b63b106cad97392c9b963"
   },
   "test/oauth-resource-server-auth.spec.test.mjs": {
-    "mtime": 1788821287.890507,
-    "seen": 1788821459.1283648,
-    "ast_hash": "c5f17dcbb7dcfd6cbfb5df59638d48a9",
+    "mtime": 1788841198.2741878,
+    "seen": 1788845263.7240462,
+    "ast_hash": "a907a5a071ab52a059cd6d3437db55e2",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-payment-provider/design.md": {
@@ -3060,9 +3060,9 @@
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts": {
-    "mtime": 1788807438.3254018,
-    "seen": 1788807551.6875947,
-    "ast_hash": "a95d8da2203e370bea658cc6e9d9bb1b",
+    "mtime": 1788841198.2741878,
+    "seen": 1788845263.722684,
+    "ast_hash": "71179b37d6e0faf0639c691288f2f7b2",
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts": {
@@ -3096,9 +3096,9 @@
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts": {
-    "mtime": 1788816766.0975623,
-    "seen": 1788821459.1272948,
-    "ast_hash": "9203c9fed093e6e9818bc4aabecc7b16",
+    "mtime": 1788841198.2741878,
+    "seen": 1788845263.7229042,
+    "ast_hash": "34da3b896f99cef7e45ad72ca7b82a19",
     "semantic_hash": ""
   },
   "libs/platform/nest/tsconfig.spec.json": {
@@ -3126,9 +3126,9 @@
     "semantic_hash": ""
   },
   "test/harden-oauth-resource-service.test.mjs": {
-    "mtime": 1788807438.3274016,
-    "seen": 1788807551.6876426,
-    "ast_hash": "386c22d55663d791618a9a8b63c8bde8",
+    "mtime": 1788841198.2741878,
+    "seen": 1788845263.7235048,
+    "ast_hash": "75ba9da9779da9a865a401cf9e66857a",
     "semantic_hash": ""
   },
   "test/nestjs-vitest-testing-standard.test.mjs": {
@@ -3384,9 +3384,9 @@
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts": {
-    "mtime": 1788807438.3254018,
-    "seen": 1788807551.687594,
-    "ast_hash": "626d3a1290cdb3de08b484bdd2ef0e07",
+    "mtime": 1788841198.2741878,
+    "seen": 1788845263.7226827,
+    "ast_hash": "6c7556362e7eafb6194d38537ee5a18e",
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/verification/oauth-resource.errors.spec.ts": {
@@ -4068,9 +4068,9 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/better-auth/better-auth.factory.spec.ts": {
-    "mtime": 1788815340.4344466,
-    "seen": 1788821459.1266575,
-    "ast_hash": "ddc71b16845535ec8f6d570000c2f555",
+    "mtime": 1788844040.9761322,
+    "seen": 1788845263.721463,
+    "ast_hash": "b2ac47cf6c08adda14eca8417974bd31",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/better-auth/better-auth.factory.ts": {
@@ -4122,15 +4122,15 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.spec.ts": {
-    "mtime": 1788815234.258264,
-    "seen": 1788821459.126852,
-    "ast_hash": "a6723ba9b09db5b224deec262178d774",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.7219772,
+    "ast_hash": "c700ee5e8d56ce7c5c0d7bd7d19ddd29",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts": {
-    "mtime": 1788815330.2637053,
-    "seen": 1788821459.1268537,
-    "ast_hash": "d5caaa676899ab9d8b64bafd32661205",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.7219784,
+    "ast_hash": "c96826c1c7c90c7a1a87d2ce4bc2e10e",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-clients.controller.ts": {
@@ -4140,15 +4140,15 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-issuer.module.spec.ts": {
-    "mtime": 1788807438.3244016,
-    "seen": 1788807551.6875625,
-    "ast_hash": "74d3a7641a06bbc83eeeb5215d5d1732",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.7220008,
+    "ast_hash": "4d4cd73a1fa49a858a2c52a0092d1f78",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-issuer.module.ts": {
-    "mtime": 1788815081.0474825,
-    "seen": 1788821459.1268957,
-    "ast_hash": "8fa1aecda4f308d0d398511ccfe32dde",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.722002,
+    "ast_hash": "49c049d757e2e4cb849683e882894dbc",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/oauth-issuer/oauth-resources.ts": {
@@ -4170,15 +4170,15 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/registration/registration-compensation.service.spec.ts": {
-    "mtime": 1788807677.993184,
-    "seen": 1788821459.1269217,
-    "ast_hash": "5d72c0b3184c3ec72a7f96cc931c3582",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.7220874,
+    "ast_hash": "0dd22cdcedb84131b77b11ba50f15c5d",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/registration/registration-compensation.service.ts": {
-    "mtime": 1788813158.16813,
-    "seen": 1788821459.1269228,
-    "ast_hash": "2bb21ef5ddbc70160e58ca3ff47ee93d",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.7220888,
+    "ast_hash": "d446cdfc723e42eae19be5913a63b996",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/registration/registration.error.ts": {
@@ -4188,27 +4188,27 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/registration/registration.module.spec.ts": {
-    "mtime": 1788807438.3244016,
-    "seen": 1788807551.68757,
-    "ast_hash": "6baadee3b5929e954e0847daafa453cb",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.72211,
+    "ast_hash": "80b3bbc6ed175b26bddd0326cf173cc3",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/registration/registration.module.ts": {
-    "mtime": 1788815124.408323,
-    "seen": 1788821459.1269443,
-    "ast_hash": "a757a5859cff09233091ec830d6eedbc",
+    "mtime": 1788844040.9780626,
+    "seen": 1788845263.722111,
+    "ast_hash": "d30a00da11721ac6788f74e3ce635e3d",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/registration/registration.service.spec.ts": {
-    "mtime": 1788815340.5680795,
-    "seen": 1788821459.126945,
-    "ast_hash": "123bdb6d1a90a883d63160a5f6b09f83",
+    "mtime": 1788844040.9825335,
+    "seen": 1788845263.722112,
+    "ast_hash": "31d48dc3aaefd3a20432a0fbb65a5be0",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/registration/registration.service.ts": {
-    "mtime": 1788815217.0779452,
-    "seen": 1788821459.1269464,
-    "ast_hash": "56764205f542668f62e9248fb8af3715",
+    "mtime": 1788844040.9845333,
+    "seen": 1788845263.7221127,
+    "ast_hash": "7cd97a2324f32769719b1565ea63693b",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/wordpress/wordpress-configuration.provider.ts": {
@@ -4302,9 +4302,9 @@
     "semantic_hash": ""
   },
   "test/strict-ddd-architecture.test.mjs": {
-    "mtime": 1788820505.6386275,
-    "seen": 1788821459.1285806,
-    "ast_hash": "13dcebadabd7fac74a90840f114febd5",
+    "mtime": 1788841530.5813584,
+    "seen": 1788845263.7242906,
+    "ast_hash": "5729b344ad12a73ecac43972b4eb15b6",
     "semantic_hash": ""
   },
   "test/strict-ddd-governance.test.mjs": {
@@ -4326,15 +4326,15 @@
     "semantic_hash": ""
   },
   "tools/architecture/strict-ddd-policy.mjs": {
-    "mtime": 1788820490.0295386,
-    "seen": 1788821459.1287446,
-    "ast_hash": "feb2cb78dd8faf9a55fd5818a9f346dc",
+    "mtime": 1788841530.5814404,
+    "seen": 1788845263.7246008,
+    "ast_hash": "ee8d5cbb0b3efab67f023f258ee8c7bc",
     "semantic_hash": ""
   },
   "tools/architecture/strict-ddd-scanner.mjs": {
-    "mtime": 1788809943.676413,
-    "seen": 1788821459.128746,
-    "ast_hash": "6be32c73b807950b83b136dc96e5358e",
+    "mtime": 1788841530.5815017,
+    "seen": 1788845263.7246032,
+    "ast_hash": "d2252a0061eb46d521596309f0ea60ff",
     "semantic_hash": ""
   },
   ".spec/features/clarify-gateway-module-boundaries/plano-execucao.html": {
@@ -4500,9 +4500,9 @@
     "semantic_hash": ""
   },
   "docs/standards/strict-nestjs-ddd.md": {
-    "mtime": 1788820615.6422672,
-    "seen": 1788821459.132987,
-    "ast_hash": "0a090f9f3e5863eadac2ab98f8d36dd8",
+    "mtime": 1788841530.580566,
+    "seen": 1788845263.7292283,
+    "ast_hash": "a2145c1544977476cc7d5f7c5cc59175",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260831_224854_porque_existe_essa_federa\u0107ao_do_wordpress.md": {
@@ -4752,33 +4752,33 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/application/use-cases/compensate-registration.use-case.ts": {
-    "mtime": 1788813140.1220517,
-    "seen": 1788821459.126629,
-    "ast_hash": "ac13fb3884f3bf08943eeff2d384a5e1",
+    "mtime": 1788844040.9754183,
+    "seen": 1788845263.7214346,
+    "ast_hash": "2189d8313a6d928d0fa6fdfcf2f77330",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/application/use-cases/find-identity-users.use-case.ts": {
-    "mtime": 1788815032.8427079,
-    "seen": 1788821459.12663,
-    "ast_hash": "52b31a9444f19c7ef49412ef0c8549f9",
+    "mtime": 1788844040.9754183,
+    "seen": 1788845263.7214358,
+    "ast_hash": "db7f427c4f5a48e11915a350a840d641",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/application/use-cases/list-identity-users.use-case.ts": {
-    "mtime": 1788815032.8427079,
-    "seen": 1788821459.126631,
-    "ast_hash": "a013be5f9ec132c567953fe78366e6d8",
+    "mtime": 1788844040.9754183,
+    "seen": 1788845263.7214367,
+    "ast_hash": "92e209df18493eb991990007a253d2ff",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/application/use-cases/provision-oauth-clients.use-case.ts": {
-    "mtime": 1788811609.38251,
-    "seen": 1788821459.1266317,
-    "ast_hash": "7eaad5940ad4f0381c79ba6bba1e2988",
+    "mtime": 1788844040.9754183,
+    "seen": 1788845263.721438,
+    "ast_hash": "e40914f74a288a731ccf37eba3e0c794",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/application/use-cases/register-identity.use-case.ts": {
-    "mtime": 1788812019.6573396,
-    "seen": 1788821459.1266325,
-    "ast_hash": "6dc0d432a0df90c29726af3e4fdb1cd0",
+    "mtime": 1788844040.9755332,
+    "seen": 1788845263.7214391,
+    "ast_hash": "c8958319509c1b9fa5caec31f418437f",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/domain/policies/identity-registration.policy.ts": {
@@ -4788,14 +4788,14 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/identity-core.architecture.spec.ts": {
-    "mtime": 1788813140.1220517,
-    "seen": 1788821459.1268246,
-    "ast_hash": "9e961ab4b89e95f9cabdeaafaf280e92",
+    "mtime": 1788844040.9778175,
+    "seen": 1788845263.7217963,
+    "ast_hash": "cd6d488da89ce9e70c69c8ef1203e40b",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/identity-core.spec.ts": {
-    "mtime": 1788812934.2316885,
-    "seen": 1788821459.1268256,
+    "mtime": 1788838305.7316117,
+    "seen": 1788845263.721798,
     "ast_hash": "ebc282dbf8810c364f9411e8a66efea6",
     "semantic_hash": ""
   },
@@ -4866,9 +4866,9 @@
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts": {
-    "mtime": 1788816572.0246303,
-    "seen": 1788821459.127107,
-    "ast_hash": "5e14226e65789df9466d10fe0ddd1c88",
+    "mtime": 1788841198.2741878,
+    "seen": 1788845263.7224262,
+    "ast_hash": "63f60f58f0e82190f77c4db1d1b0e65a",
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/domain/errors/oauth-credential.error.ts": {
@@ -4929,6 +4929,66 @@
     "mtime": 1788812035.6644185,
     "seen": 1788821459.1330934,
     "ast_hash": "cc1baab5712407b0f072b5785a11119c",
+    "semantic_hash": ""
+  },
+  ".spec/features/idiomatic-nestjs-architecture/executar-tarefas.sh": {
+    "mtime": 1788842601.927178,
+    "seen": 1788845263.7146826,
+    "ast_hash": "6021c14fb92e6c8c344a3cf13eb85e3c",
+    "semantic_hash": ""
+  },
+  ".spec/features/idiomatic-nestjs-architecture/plano.json": {
+    "mtime": 1788842601.9266405,
+    "seen": 1788845263.7146854,
+    "ast_hash": "2f3aecb05260aac5551e7290a0283958",
+    "semantic_hash": ""
+  },
+  ".spec/verification/idiomatic-nestjs-architecture.json": {
+    "mtime": 1788842450.8753932,
+    "seen": 1788845263.7157648,
+    "ast_hash": "51f1441da3e879abaed24d3bd83b0b84",
+    "semantic_hash": ""
+  },
+  "test/idiomatic-nestjs-architecture.test.mjs": {
+    "mtime": 1788845691.2450793,
+    "seen": 1788845706.0458407,
+    "ast_hash": "4666d0af4bb4e7c5959bde285684ab81",
+    "semantic_hash": ""
+  },
+  ".spec/features/idiomatic-nestjs-architecture/design.md": {
+    "mtime": 1788839848.4373348,
+    "seen": 1788845263.7258801,
+    "ast_hash": "588aea5a65a23ebfea9c20c1fec664ef",
+    "semantic_hash": ""
+  },
+  ".spec/features/idiomatic-nestjs-architecture/plano-execucao.html": {
+    "mtime": 1788842601.928365,
+    "seen": 1788845263.7258818,
+    "ast_hash": "916f3c3aa4f56b1d41ef91c4e6d98624",
+    "semantic_hash": ""
+  },
+  ".spec/features/idiomatic-nestjs-architecture/plano-execucao.md": {
+    "mtime": 1788842601.9251778,
+    "seen": 1788845263.7258832,
+    "ast_hash": "ecd000781991215d6dca4798b8438a3b",
+    "semantic_hash": ""
+  },
+  ".spec/features/idiomatic-nestjs-architecture/spec.md": {
+    "mtime": 1788839848.4363346,
+    "seen": 1788845263.7258842,
+    "ast_hash": "ce1616dd6b72fc08a70c7bde0742c277",
+    "semantic_hash": ""
+  },
+  ".spec/features/idiomatic-nestjs-architecture/tasks.md": {
+    "mtime": 1788844458.305912,
+    "seen": 1788845263.7258852,
+    "ast_hash": "1ffe7ef0917985af8698268ef854619d",
+    "semantic_hash": ""
+  },
+  "docs/architecture/idiomatic-nestjs-module-audit.md": {
+    "mtime": 1788845820.2410996,
+    "seen": 1788845841.8324022,
+    "ast_hash": "a23bf3536a9741013c41de5cac6e89d9",
     "semantic_hash": ""
   }
 }
