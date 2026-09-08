@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano idiomatic-nestjs-architecture` em 2026-09-08 06:41
+# executar-tarefas.sh — gerado por `onp-spec plano idiomatic-nestjs-architecture` em 2026-09-08 06:49
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-idiomatic-nestjs-architecture-mtsawxne'
+RUN_ID='desafio-dev-backend-senior-idiomatic-nestjs-architecture-mtsb6xa0'
 FEATURE='idiomatic-nestjs-architecture'
 BASE_BRANCH='spec/idiomatic-nestjs-architecture'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'

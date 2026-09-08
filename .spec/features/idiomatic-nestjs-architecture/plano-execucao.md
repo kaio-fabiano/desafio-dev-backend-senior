@@ -1,6 +1,6 @@
 # Plano de execução — idiomatic-nestjs-architecture
 
-> gerado por `onp-spec plano` em 2026-09-08 06:41 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-08 06:49 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano idiomatic-nestjs-architecture --sequencial`
 
 ## Resumo — o que vai acontecer
