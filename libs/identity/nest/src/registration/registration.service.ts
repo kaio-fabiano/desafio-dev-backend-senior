@@ -7,8 +7,6 @@ import {
 import { APIError } from 'better-auth/api';
 
 import { RegisterIdentityCommand } from '../application/commands/register-identity.command.ts';
-import { CustomerIdentityPort } from '../application/ports/customer-identity.port.ts';
-import { CompensateRegistrationUseCase } from '../application/use-cases/compensate-registration.use-case.ts';
 import { RegisterIdentityUseCase } from '../application/use-cases/register-identity.use-case.ts';
 import { IdentityRegistrationPolicy } from '../domain/policies/identity-registration.policy.ts';
 import { BetterAuthIdentityAccountAdapter } from '../infrastructure/better-auth/better-auth-identity-account.adapter.ts';
@@ -18,13 +16,8 @@ import { IdentityBootstrap } from './identity-bootstrap.ts';
 @Injectable()
 export class RegistrationService {
   constructor(
-    @Inject(CustomerIdentityPort)
-    private readonly customer: CustomerIdentityPort,
-    @Inject(CompensateRegistrationUseCase)
-    private readonly compensation: Pick<
-      CompensateRegistrationUseCase,
-      'execute'
-    >,
+    @Inject(RegisterIdentityUseCase)
+    private readonly registration: RegisterIdentityUseCase,
   ) {}
 
   @AfterHook('/sign-up/email') // DatabaseHook seria melhor?
@@ -46,17 +39,14 @@ export class RegistrationService {
       context.context.internalAdapter,
     );
     try {
-      await new RegisterIdentityUseCase(
-        this.customer,
-        identity,
-        this.compensation,
-      ).execute(
+      await this.registration.execute(
         new RegisterIdentityCommand(
           registration.email,
           registration.name,
           registration.password,
           registration.subject,
         ),
+        identity,
       );
     } catch (cause) {
       throw new APIError('SERVICE_UNAVAILABLE', {

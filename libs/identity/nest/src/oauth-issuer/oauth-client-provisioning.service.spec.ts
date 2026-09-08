@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
+import { ProvisionOAuthClientsUseCase } from '../application/use-cases/provision-oauth-clients.use-case.ts';
 import { OAuthClientProvisioningService } from './oauth-client-provisioning.service.ts';
 
 describe('OAuthClientProvisioningService ownership', () => {
   it('reports that clients are unavailable before bootstrap @spec:AC-240', () => {
     const service = new OAuthClientProvisioningService(
-      {} as never,
-      {} as never,
+      new ProvisionOAuthClientsUseCase({} as never, {} as never),
     );
 
     expect(() => service.clientIds).toThrow(

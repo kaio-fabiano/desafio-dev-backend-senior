@@ -4,13 +4,14 @@ import { AuthService } from '@thallesp/nestjs-better-auth';
 import { describe, expect, it } from 'vitest';
 
 import { BetterAuthFactory } from '../better-auth/better-auth.factory.ts';
+import { ProvisionOAuthClientsUseCase } from '../application/use-cases/provision-oauth-clients.use-case.ts';
 import { WordPressConfiguration } from '../wordpress/wordpress-configuration.provider.ts';
 import { OAuthClientProvisioningService } from './oauth-client-provisioning.service.ts';
 import { OAuthClientsController } from './oauth-clients.controller.ts';
 import { OAuthIssuerModule } from './oauth-issuer.module.ts';
 
 describe('OAuthIssuerModule', () => {
-  it('owns OAuth client provisioning and inspection @spec:AC-239 @spec:AC-240 @spec:AC-244', async () => {
+  it('owns OAuth client provisioning and inspection @spec:AC-239 @spec:AC-240 @spec:AC-244 @spec:AC-272', async () => {
     const clients = { gateway: 'gateway-client', mcp: 'mcp-client' };
     const auth = { api: {}, options: { basePath: '/api/auth', hooks: {} } };
     const module = await Test.createTestingModule({
@@ -29,6 +30,9 @@ describe('OAuthIssuerModule', () => {
       .compile();
 
     expect(module.get(AuthService).instance).toBe(auth);
+    expect(module.get(ProvisionOAuthClientsUseCase)).toBeInstanceOf(
+      ProvisionOAuthClientsUseCase,
+    );
     expect(module.get(OAuthClientsController).clients()).toEqual(clients);
     expect(Reflect.getMetadata(PATH_METADATA, OAuthClientsController)).toBe(
       'oauth/clients',

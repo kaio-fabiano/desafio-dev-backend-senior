@@ -14,6 +14,8 @@ const coreFiles = [
   'application/ports/oauth-client-provisioning.port.ts',
   'application/ports/oauth-seed-credentials.port.ts',
   'application/use-cases/compensate-registration.use-case.ts',
+  'application/use-cases/find-identity-users.use-case.ts',
+  'application/use-cases/list-identity-users.use-case.ts',
   'application/use-cases/provision-oauth-clients.use-case.ts',
   'application/use-cases/register-identity.use-case.ts',
   'domain/policies/identity-registration.policy.ts',
@@ -34,8 +36,18 @@ describe('Identity core architecture', () => {
 
     for (const [file, source] of sources) {
       expect(source, file).not.toMatch(
-        /from ['"](?:@nestjs|@apollo|graphql|better-auth|@thallesp|@mikro-orm|pg)|@(?:Injectable|Inject|Hook)\b/,
+        /from ['"](?:@apollo|graphql|better-auth|@thallesp|@mikro-orm|pg)/,
       );
+      expect(source, file).not.toMatch(/from ['"]@nestjs\/(?!common['"])/);
+      if (file.startsWith('domain/')) {
+        expect(source, file).not.toMatch(/from ['"]@nestjs/);
+      }
+      if (source.includes("from '@nestjs/common'")) {
+        expect(file).toMatch(/^application\/use-cases\//);
+        expect(source, file).toContain(
+          "import { Inject, Injectable } from '@nestjs/common';",
+        );
+      }
     }
   });
 
@@ -55,7 +67,7 @@ describe('Identity core architecture', () => {
     }
   });
 
-  it('keeps registration and provisioning framework-independent @spec:AC-262', async () => {
+  it('keeps registration and provisioning free of outer concerns @spec:AC-262', async () => {
     const sources = (await coreSources())
       .map(([, source]) => source)
       .join('\n');
