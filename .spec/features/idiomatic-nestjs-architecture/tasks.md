@@ -31,7 +31,7 @@ session.
 - Esforço: alto
 - Notas: Depends on T-225's approved rule, but is file-disjoint and may be developed in parallel. Follow Red, Green, Refactor. Bounded context: Identity. Use cases: register identity, compensate registration, provision OAuth clients, find/list identities. Aggregate: the Identity registration consistency boundary coordinates Better Auth identity and WordPress customer linkage; query and provisioning flows have no aggregate. Invariants: stable collaborators are injected; hook-derived identity adapters remain explicit runtime input; compensation order and public errors remain unchanged; no transport/vendor type enters Application. Consistency boundary: one registration attempt, one bootstrap provisioning run, or one identity query. Affected ports: CustomerIdentityPort, IdentityAccountPort, OAuthClientProvisioningPort, OAuthSeedCredentialsPort, IdentityUserQueryPort. Do not edit `libs/identity/nest/src/identity-core.spec.ts`; preserve owner work.
 
-## T-227 — Make OAuth verification a NestJS-managed use case [pendente]
+## T-227 — Make OAuth verification a NestJS-managed use case [concluida]
 - Refs: US-128, AC-273
 - Arquivos: libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts, libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts, test/oauth-resource-server-auth.spec.test.mjs, test/harden-oauth-resource-service.test.mjs
 - Modelo: gpt-5.6-sol
