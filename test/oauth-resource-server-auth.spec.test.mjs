@@ -20,6 +20,71 @@ const platformCoreFiles = async () => {
   return files;
 };
 
+test('AC-273: OAuth credential verification is resolved by NestJS providers @spec:AC-273', async () => {
+  const [
+    { Test },
+    { OAuthCredentialVerifierPort },
+    { VerifyOAuthCredentialUseCase },
+    { OAuthResourceModule },
+    { OAuthResourceService },
+  ] = await Promise.all([
+    import('@nestjs/testing'),
+    import(
+      '../libs/platform/nest/src/oauth-resource/application/ports/oauth-credential-verifier.port.ts'
+    ),
+    import(
+      '../libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts'
+    ),
+    import('../libs/platform/nest/src/oauth-resource/oauth-resource.module.ts'),
+    import(
+      '../libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts'
+    ),
+  ]);
+  const options = {
+    audience: 'https://orders.marketplace.local',
+    issuer: 'https://identity.marketplace.local/api/auth',
+    jwksUrl: 'https://identity.marketplace.local/api/auth/jwks',
+  };
+  let verificationCount = 0;
+  const module = await Test.createTestingModule({
+    imports: [OAuthResourceModule.register(options)],
+  })
+    .overrideProvider(OAuthCredentialVerifierPort)
+    .useValue({
+      verifyCredential: async () => {
+        verificationCount += 1;
+        return {
+          aud: options.audience,
+          scope: 'orders:read',
+          sub: 'buyer-1',
+        };
+      },
+    })
+    .compile();
+
+  try {
+    const service = module.get(OAuthResourceService);
+
+    assert.ok(
+      module.get(VerifyOAuthCredentialUseCase) instanceof
+        VerifyOAuthCredentialUseCase,
+    );
+    assert.notEqual(module.get(OAuthCredentialVerifierPort), service);
+    const claims = await service.verify(
+      new Request('https://orders.marketplace.local/graphql', {
+        headers: { authorization: 'Bearer token' },
+      }),
+    );
+
+    assert.deepEqual(claims.audience, [options.audience]);
+    assert.deepEqual(claims.scopes, ['orders:read']);
+    assert.equal(claims.subject, 'buyer-1');
+    assert.equal(verificationCount, 1);
+  } finally {
+    await module.close();
+  }
+});
+
 // US-087 — Preserve OAuth proof across federation boundaries
 test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174', async () => {
   // Dado: Better Auth configured as the platform authorization server
