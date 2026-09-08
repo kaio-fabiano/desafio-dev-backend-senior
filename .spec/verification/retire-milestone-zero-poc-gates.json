@@ -1,0 +1,48 @@
+{
+  "feature": "retire-milestone-zero-poc-gates",
+  "timestamp": "2026-09-08T19:30:19.083Z",
+  "gitRev": "40700c7",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 677,
+  "results": {
+    "AC-277": {
+      "status": "pass",
+      "testName": "AC-277: completed Milestone Zero evidence is historical @spec:AC-277",
+      "method": "tap"
+    },
+    "AC-278": {
+      "status": "pass",
+      "testName": "AC-278: default tests avoid the heavy WordPress compatibility probe @spec:AC-278",
+      "method": "tap"
+    },
+    "AC-279": {
+      "status": "pass",
+      "testName": "AC-279: current behavior owns current regression evidence @spec:AC-279",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-268: characterized Gateway behavior moves behind application orchestration @spec:AC-268 @principle:P-003"
+    },
+    "P-006": {
+      "status": "pass",
+      "testName": "the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006"
+    },
+    "P-007": {
+      "status": "pass",
+      "testName": "unlayered orchestration and unknown production roots fail the repository gate @spec:AC-261 @principle:P-007"
+    },
+    "P-005": {
+      "status": "pass",
+      "testName": "AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005"
+    },
+    "P-004": {
+      "status": "pass",
+      "testName": "AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004"
+    }
+  }
+}

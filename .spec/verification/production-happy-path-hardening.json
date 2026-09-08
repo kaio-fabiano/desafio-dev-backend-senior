@@ -1,11 +1,11 @@
 {
   "feature": "production-happy-path-hardening",
-  "timestamp": "2026-09-08T02:44:50.466Z",
-  "gitRev": "fcd96e4",
-  "command": "cat /tmp/strict-ddd-full-green.tap",
+  "timestamp": "2026-09-08T19:33:50.878Z",
+  "gitRev": "40700c7",
+  "command": "NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap test/challenge-compliance-contract.test.mjs test/delivery-closure-final-records.test.mjs test/delivery-closure-inventory-saga.test.mjs test/delivery-closure-observability.test.mjs test/delivery-closure-payment-runtime.test.mjs test/delivery-closure-rabbitmq.test.mjs test/gateway-federation-refactor.test.mjs test/identity-federation-refactor.test.mjs test/idiomatic-nestjs-architecture.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-operations.test.mjs test/milestone-7-e2e-contract.test.mjs test/oauth-resource-server-auth.spec.test.mjs test/production-happy-path-hardening.test.mjs test/reconcile-architecture-decisions.spec.test.mjs test/strict-ddd-architecture.test.mjs test/strict-ddd-governance.test.mjs test/structural-commerce-review.test.mjs test/structural-gateway-review.test.mjs test/structural-identity-review.test.mjs test/structural-improvement-program.test.mjs test/structural-mcp-review.test.mjs test/structural-payment-review.test.mjs test/structural-platform-review.test.mjs test/structural-wordpress-review.test.mjs && pnpm exec vitest run --reporter=tap apps/e2e/src/sandbox-bearer.spec.ts libs/gateway/nest/src/application/gateway-edge.application.spec.ts libs/identity/nest/src/identity-core.architecture.spec.ts libs/identity/nest/src/identity-core.spec.ts libs/identity/nest/src/infrastructure/wordpress/wordpress-customer-identity.adapter.spec.ts libs/identity/nest/src/oauth-issuer/oauth-issuer.module.spec.ts libs/identity/nest/src/registration/registration.module.spec.ts libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts libs/platform/nest/src/oauth-resource/domain/policies/required-scopes.policy.spec.ts libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 674,
+  "testsParsed": 140,
   "results": {
     "AC-131": {
       "status": "pass",
