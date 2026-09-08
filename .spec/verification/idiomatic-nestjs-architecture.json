@@ -1,11 +1,11 @@
 {
   "feature": "idiomatic-nestjs-architecture",
-  "timestamp": "2026-09-08T05:41:09.510Z",
-  "gitRev": "020d39a",
+  "timestamp": "2026-09-08T06:39:19.804Z",
+  "gitRev": "c5f996f",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 252,
+  "testsParsed": 253,
   "results": {
     "AC-270": {
       "status": "pass",
@@ -20,6 +20,11 @@
     "AC-272": {
       "status": "pass",
       "testName": "AC-272: Identity use cases are container-managed @spec:AC-272",
+      "method": "tap"
+    },
+    "AC-274": {
+      "status": "pass",
+      "testName": "AC-274: Gateway flows are resolved as NestJS-managed providers @spec:AC-274",
       "method": "tap"
     },
     "AC-275": {
