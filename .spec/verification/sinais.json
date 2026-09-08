@@ -6953,10 +6953,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "strict-nestjs-ddd-migration",
       "ref": "—",
-      "ocorrencias": 8,
+      "ocorrencias": 12,
       "primeiraVez": "2026-09-07T19:16:57.901Z",
-      "ultimaVez": "2026-09-07T23:08:29.773Z",
-      "gitRev": "fcd96e4"
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
     },
     "VERIFY_FALHOU::strict-nestjs-ddd-migration::AC-263": {
       "codigo": "VERIFY_FALHOU",
@@ -7659,6 +7659,213 @@
       "primeiraVez": "2026-09-07T22:36:32.990Z",
       "ultimaVez": "2026-09-07T23:08:29.773Z",
       "gitRev": "fcd96e4"
+    },
+    "SECAO_AUSENTE::idiomatic-nestjs-architecture::.spec/features/idiomatic-nestjs-architecture/spec.md": {
+      "codigo": "SECAO_AUSENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": ".spec/features/idiomatic-nestjs-architecture/spec.md",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T03:40:16.759Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-270": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-270",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-271": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-271",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-272": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-272",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-273": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-273",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-274": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-274",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "AC_INCOMPLETO::idiomatic-nestjs-architecture::AC-275": {
+      "codigo": "AC_INCOMPLETO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-275",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "ARQUIVO_INEXISTENTE::idiomatic-nestjs-architecture::T-226": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-226",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "ARQUIVO_INEXISTENTE::idiomatic-nestjs-architecture::T-228": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-228",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:40:16.766Z",
+      "gitRev": "71c597c"
+    },
+    "ARQUIVO_INEXISTENTE::idiomatic-nestjs-architecture::T-229": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "T-229",
+      "ocorrencias": 8,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-270": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-270",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-271": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-271",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-272": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-272",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-273": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-273",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-274": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-274",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-275": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-275",
+      "ocorrencias": 4,
+      "primeiraVez": "2026-09-08T03:40:16.766Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
+    },
+    "ID_DUPLICADO::marco-0-pocs::ASM-003": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "marco-0-pocs",
+      "ref": "ASM-003",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ID_DUPLICADO::project-planning-memory::ASM-001": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "project-planning-memory",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ID_DUPLICADO::project-planning-memory::ASM-002": {
+      "codigo": "ID_DUPLICADO",
+      "feature": "project-planning-memory",
+      "ref": "ASM-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ASM_STATUS_INVALIDO::idiomatic-nestjs-architecture::ASM-001": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "ASM-001",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ASM_STATUS_INVALIDO::idiomatic-nestjs-architecture::ASM-002": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "ASM-002",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "ASM_STATUS_INVALIDO::idiomatic-nestjs-architecture::ASM-003": {
+      "codigo": "ASM_STATUS_INVALIDO",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "ASM-003",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:41:25.207Z",
+      "ultimaVez": "2026-09-08T03:41:25.207Z",
+      "gitRev": "71c597c"
+    },
+    "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-276": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "idiomatic-nestjs-architecture",
+      "ref": "AC-276",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-08T03:57:46.201Z",
+      "ultimaVez": "2026-09-08T03:57:46.201Z",
+      "gitRev": "71c597c"
     }
   }
 }
