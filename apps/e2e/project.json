@@ -36,7 +36,7 @@
     "milestone-6-acceptance": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node --experimental-transform-types --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs"
+        "command": "NODE_ENV=test TSX_TSCONFIG_PATH=tsconfig.base.json node --import tsx --test --test-reporter=tap test/milestone-6-mcp-operations.test.mjs test/milestone-6-mcp-config.test.mjs test/milestone-6-mcp-oauth.test.mjs test/milestone-6-mcp-propagation.test.mjs test/milestone-6-apollo-mcp.test.mjs"
       }
     },
     "milestone-7-quality": {
