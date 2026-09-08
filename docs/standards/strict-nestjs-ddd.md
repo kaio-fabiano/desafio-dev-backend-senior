@@ -36,13 +36,18 @@ composition -> adapters -> application -> domain
 ```
 
 - Domain imports no NestJS, GraphQL, ORM, transport, adapter, or other
-  bounded-context internals. Application imports domain and abstract ports,
-  never concrete infrastructure.
+  bounded-context internals. Application imports domain, abstract ports, and
+  only the named `Inject` and `Injectable` primitives from `@nestjs/common`;
+  it never imports concrete infrastructure.
 - Production files have one primary responsibility and do not colocate
   classes, interfaces, type aliases, enums, functions, or runtime constants
   belonging to another role. Names describe the role and bounded context.
 - Ports are abstract classes. Adapters implement ports at the outer boundary.
-  Dependency injection is configured in composition files, not in domain code.
+  Application use cases may use `@Injectable()` on the class and `@Inject()`
+  on constructor parameters so NestJS can wire those abstract ports. Domain
+  remains undecorated. Controllers, resolvers, modules, configuration,
+  persistence, transport, GraphQL, vendor SDKs, and concrete adapters remain
+  outside Application.
 
 ## Narrow exceptions
 
@@ -100,6 +105,21 @@ turn that result into a false zero.
   retained by the completed migration waves. The architecture policy assigns
   every one an exact boundary; it adds no directory wildcard, so an unknown
   sibling remains an `unclassified-production` violation.
+
+### T-225 implementation record
+
+- Bounded context: repository architecture governance, a technical boundary.
+- Use case: classify approved NestJS injection in Application without allowing
+  outer concerns into the layer.
+- Aggregate: none; the scanner evaluates source structure, not business state.
+- Invariants: Domain has no NestJS dependency; Application may use only
+  `Inject` and `Injectable` from `@nestjs/common`; transport, persistence,
+  configuration, GraphQL, vendor SDKs, and concrete adapters stay outside.
+- Consistency boundary: one scanner evaluation of one repository snapshot.
+- Affected ports: none.
+- Red evidence: AC-270 rejected the approved `@Injectable()` and constructor
+  `@Inject()` usage; AC-271 showed that Express and Better Auth imports were
+  not yet classified as outer dependencies.
 
 ## Required evidence
 
