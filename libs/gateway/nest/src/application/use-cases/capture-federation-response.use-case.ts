@@ -1,5 +1,8 @@
+import { Injectable } from '@nestjs/common';
+
 import type { FederationCapabilities } from '../dto/federation-capabilities.dto.ts';
 
+@Injectable()
 export class CaptureFederationResponseUseCase {
   execute(
     capabilities: FederationCapabilities,

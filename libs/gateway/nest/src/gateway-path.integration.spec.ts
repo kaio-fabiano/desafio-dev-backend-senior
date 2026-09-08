@@ -12,9 +12,15 @@ import { Test } from '@nestjs/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { OAuthResourceService } from '@desafio-dev-backend-senior/source/platform-nest';
+import { CommerceCookiePort } from './application/ports/commerce-cookie.port.ts';
+import { GatewayTokenVerifierPort } from './application/ports/gateway-token-verifier.port.ts';
+import { CaptureFederationResponseUseCase } from './application/use-cases/capture-federation-response.use-case.ts';
+import { CreateGatewayContextUseCase } from './application/use-cases/create-gateway-context.use-case.ts';
+import { PrepareFederationRequestUseCase } from './application/use-cases/prepare-federation-request.use-case.ts';
 import { AuthContextFactory } from './auth/auth-context.factory.ts';
 import { TokenVerifierService } from './auth/token-verifier.service.ts';
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
+import { CommerceCookieAdapter } from './infrastructure/http/commerce-cookie.adapter.ts';
 
 const issuer = 'https://identity.marketplace.local/api/auth';
 const audience = 'https://gateway.marketplace.local';
@@ -104,6 +110,16 @@ async function contextFactory(jwksUrl: string) {
         useValue: new OAuthResourceService({ audience, issuer, jwksUrl }),
       },
       TokenVerifierService,
+      {
+        provide: GatewayTokenVerifierPort,
+        useExisting: TokenVerifierService,
+      },
+      CommerceCookieAdapter,
+      {
+        provide: CommerceCookiePort,
+        useExisting: CommerceCookieAdapter,
+      },
+      CreateGatewayContextUseCase,
       AuthContextFactory,
       {
         provide: ConfigService,
@@ -173,15 +189,19 @@ describe('gateway authentication and federation path', () => {
     }
     const url = `http://127.0.0.1:${address.port}/graphql`;
     try {
-      const source = new AuthenticatedDataSource({
-        capabilities: {
-          bearer: true,
-          origin: new URL(url).origin,
-          requestSession: true,
-          responseSession: true,
+      const source = new AuthenticatedDataSource(
+        {
+          capabilities: {
+            bearer: true,
+            origin: new URL(url).origin,
+            requestSession: true,
+            responseSession: true,
+          },
+          url,
         },
-        url,
-      });
+        new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+        new CaptureFederationResponseUseCase(),
+      );
 
       await expect(
         source.process({

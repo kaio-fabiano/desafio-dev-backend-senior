@@ -1,9 +1,15 @@
+import { Inject, Injectable } from '@nestjs/common';
+
 import type { FederationCapabilities } from '../dto/federation-capabilities.dto.ts';
 import type { GatewayContext } from '../dto/gateway-context.dto.ts';
-import type { CommerceCookiePort } from '../ports/commerce-cookie.port.ts';
+import { CommerceCookiePort } from '../ports/commerce-cookie.port.ts';
 
+@Injectable()
 export class PrepareFederationRequestUseCase {
-  constructor(private readonly cookies: CommerceCookiePort) {}
+  constructor(
+    @Inject(CommerceCookiePort)
+    private readonly cookies: CommerceCookiePort,
+  ) {}
 
   execute(
     capabilities: FederationCapabilities,

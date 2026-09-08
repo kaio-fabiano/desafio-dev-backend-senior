@@ -100,6 +100,29 @@ function contextOf(value) {
   )?.[0];
 }
 
+function isAllowedApplicationInjection(file, source, dependency) {
+  if (
+    dependency !== '@nestjs/common' ||
+    !file.split(sep).join('/').includes('/application/')
+  ) {
+    return false;
+  }
+  const declarations = [
+    ...source.matchAll(
+      /import\s*\{([^}]*)\}\s*from\s*['"]@nestjs\/common['"]/g,
+    ),
+  ];
+  return (
+    declarations.length > 0 &&
+    declarations.every(([, names]) =>
+      names
+        .split(',')
+        .map((name) => name.trim())
+        .every((name) => name === 'Inject' || name === 'Injectable'),
+    )
+  );
+}
+
 test('AC-091: domain and application code depend only on inward contracts @spec:AC-091', async () => {
   const files = (await Promise.all([sourceFiles('apps'), sourceFiles('libs')]))
     .flat()
@@ -115,7 +138,10 @@ test('AC-091: domain and application code depend only on inward contracts @spec:
     const source = await readFile(file, 'utf8');
     const sourceContext = contextOf(file);
     for (const dependency of imports(source)) {
-      if (forbiddenDependencies.some((pattern) => pattern.test(dependency))) {
+      if (
+        forbiddenDependencies.some((pattern) => pattern.test(dependency)) &&
+        !isAllowedApplicationInjection(file, source, dependency)
+      ) {
         violations.push(`${relative('.', file)} -> ${dependency}`);
       }
       const dependencyContext = contextOf(dependency);

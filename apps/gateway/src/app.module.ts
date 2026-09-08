@@ -1,9 +1,15 @@
 import type { MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { Module, RequestMethod } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { GatewayModule } from '@desafio-dev-backend-senior/source/gateway-nest';
+import {
+  ForwardGatewaySubscriptionUseCase,
+  GatewayModule,
+  OrderWorkflowSubscriptionPort,
+} from '@desafio-dev-backend-senior/source/gateway-nest';
 import { HealthController } from './health.controller.ts';
+import { OrderWorkflowSubscriptionClient } from './subscriptions/order-workflow-subscription.client.ts';
+import { GatewaySseHandler } from './subscriptions/sse-handler.ts';
 import { GatewaySseMiddleware } from './subscriptions/sse.middleware.ts';
 
 /**
@@ -16,7 +22,24 @@ import { GatewaySseMiddleware } from './subscriptions/sse.middleware.ts';
     GatewayModule,
   ],
   controllers: [HealthController],
-  providers: [GatewaySseMiddleware],
+  providers: [
+    {
+      provide: OrderWorkflowSubscriptionClient,
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) =>
+        new OrderWorkflowSubscriptionClient(
+          config.get<string>('ORDER_WORKFLOW_SUBSCRIPTION_URL') ??
+            'http://order-workflow-subgraph:3003/graphql/stream',
+        ),
+    },
+    {
+      provide: OrderWorkflowSubscriptionPort,
+      useExisting: OrderWorkflowSubscriptionClient,
+    },
+    ForwardGatewaySubscriptionUseCase,
+    GatewaySseHandler,
+    GatewaySseMiddleware,
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

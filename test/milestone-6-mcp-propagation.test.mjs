@@ -5,6 +5,8 @@ import { createServer } from 'node:http';
 import { test } from 'node:test';
 
 import { AuthContextFactory } from '../libs/gateway/nest/src/auth/auth-context.factory.ts';
+import { CreateGatewayContextUseCase } from '../libs/gateway/nest/src/application/use-cases/create-gateway-context.use-case.ts';
+import { CommerceCookieAdapter } from '../libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts';
 
 const bearer = 'Bearer opaque-multi-audience-token';
 const issuer = 'https://identity.marketplace.test/api/auth';
@@ -29,13 +31,13 @@ test('AC-064: The same bearer token reaches the gateway @spec:AC-064', async () 
   assert.doesNotMatch(config, /forward_headers:[\s\S]*authorization/i);
   assert.match(
     config,
-    /health_check:\n  enabled: true\n  path: \/health\n  readiness:/,
+    /health_check:\n {2}enabled: true\n {2}path: \/health\n {2}readiness:/,
   );
   assert.match(
     compose,
-    /apollo-mcp:\n    build:[\s\S]*dockerfile: apps\/apollo-mcp\/Dockerfile/,
+    /apollo-mcp:\n {4}build:[\s\S]*dockerfile: apps\/apollo-mcp\/Dockerfile/,
   );
-  assert.match(compose, /gateway:\n        condition: service_healthy/);
+  assert.match(compose, /gateway:\n {8}condition: service_healthy/);
   assert.doesNotMatch(
     gatewayMain,
     /console\.(?:log|info|warn|error)\([^\n]*authorization/i,
@@ -78,20 +80,23 @@ async function gatewayHarness() {
   let verifications = 0;
   const authorizationHeaders = [];
   const authContext = new AuthContextFactory(
-    {
-      async verify(request) {
-        verifications += 1;
-        authorizationHeaders.push(request.headers.get('authorization'));
-        if (request.headers.get('authorization') !== bearer) {
-          throw new Error('Invalid access token');
-        }
-        return {
-          subject: claims.sub,
-          scopes: claims.scope.split(' '),
-          audience: claims.aud,
-        };
+    new CreateGatewayContextUseCase(
+      {
+        async verifyToken(request) {
+          verifications += 1;
+          authorizationHeaders.push(request.authorization);
+          if (request.authorization !== bearer) {
+            throw new Error('Invalid access token');
+          }
+          return {
+            subject: claims.sub,
+            scopes: claims.scope.split(' '),
+            audience: claims.aud,
+          };
+        },
       },
-    },
+      new CommerceCookieAdapter(),
+    ),
     { get: () => audience },
   );
   const server = createServer((request, response) => {

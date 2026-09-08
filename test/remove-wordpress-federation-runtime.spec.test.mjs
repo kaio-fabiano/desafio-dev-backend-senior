@@ -22,20 +22,22 @@ test('AC-117: Direct plugin subgraph @spec:AC-117 @spec:AC-097', async () => {
 
   assert.match(gateway, /http:\/\/wordpress\/graphql/);
   assert.match(supergraph, /routing_url: http:\/\/wordpress\/graphql/);
-  assert.doesNotMatch(compose, /^  wordpress-federation:/m);
+  assert.doesNotMatch(compose, /^ {2}wordpress-federation:/m);
   assert.equal(await exists('apps/wordpress-federation'), false);
 });
 
 // US-059 — Compose WordPress directly
 test('AC-118: Single subscription owner @spec:AC-118 @spec:AC-102', async () => {
-  const [gatewayMiddleware, gatewaySse] = await Promise.all([
-    readFile('apps/gateway/src/subscriptions/gateway-sse.provider.ts', 'utf8'),
+  const [appModule, gatewaySse] = await Promise.all([
+    readFile('apps/gateway/src/app.module.ts', 'utf8'),
     readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
   ]);
 
-  assert.match(gatewayMiddleware, /createOrderWorkflowSubscriptionClient/);
+  assert.match(appModule, /OrderWorkflowSubscriptionClient/);
+  assert.match(appModule, /provide: OrderWorkflowSubscriptionPort/);
+  assert.match(appModule, /useExisting: OrderWorkflowSubscriptionClient/);
   assert.match(gatewaySse, /ForwardGatewaySubscriptionUseCase/);
-  assert.match(gatewaySse, /options\.orderWorkflow/);
+  assert.doesNotMatch(gatewaySse, /new ForwardGatewaySubscriptionUseCase/);
   assert.equal(await exists('libs/wordpress/nest/src/subscriptions'), false);
 });
 
@@ -69,10 +71,7 @@ test('AC-120: WordPress capabilities preserved @spec:AC-120', async () => {
   ]);
 
   assert.match(install, /wp-graphql-federations/);
-  assert.match(
-    gateway,
-    /replace\('-', '_'\)\.toUpperCase\(\)\}_GRAPHQL_URL/,
-  );
+  assert.match(gateway, /replace\('-', '_'\)\.toUpperCase\(\)\}_GRAPHQL_URL/);
   assert.match(gateway, /http:\/\/wordpress\/graphql/);
   assert.match(compose, /WORDPRESS_GRAPHQL_URL: http:\/\/wordpress\/graphql/);
   assert.equal(await exists('libs/wordpress/nest/src/federation'), false);

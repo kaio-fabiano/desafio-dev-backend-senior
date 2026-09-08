@@ -4,19 +4,24 @@ import { APIError } from 'better-auth';
 import type { ServerResponse } from 'node:http';
 import { describe, expect, it, vi } from 'vitest';
 
+import { CommerceCookiePort } from '../application/ports/commerce-cookie.port.ts';
+import { GatewayTokenVerifierPort } from '../application/ports/gateway-token-verifier.port.ts';
+import { CreateGatewayContextUseCase } from '../application/use-cases/create-gateway-context.use-case.ts';
+import { CommerceCookieAdapter } from '../infrastructure/http/commerce-cookie.adapter.ts';
 import { AuthContextFactory } from './auth-context.factory.ts';
-import { TokenVerifierService } from './token-verifier.service.ts';
 
 const trustedOrigin = 'https://gateway.marketplace.local';
 
 async function factoryWith(
-  verify: TokenVerifierService['verify'],
+  verifyToken: GatewayTokenVerifierPort['verifyToken'],
   configuration: { gatewayOrigin?: string } = { gatewayOrigin: trustedOrigin },
 ) {
   const testingModule = await Test.createTestingModule({
     providers: [
       AuthContextFactory,
-      { provide: TokenVerifierService, useValue: { verify } },
+      CreateGatewayContextUseCase,
+      { provide: GatewayTokenVerifierPort, useValue: { verifyToken } },
+      { provide: CommerceCookiePort, useClass: CommerceCookieAdapter },
       {
         provide: ConfigService,
         useValue: {
@@ -48,11 +53,13 @@ function request(headers: Record<string, string | string[] | undefined> = {}) {
 
 describe('AuthContextFactory', () => {
   it('AC-226: creates a separated principal with trusted request metadata @spec:AC-226', async () => {
-    const verify = vi.fn<TokenVerifierService['verify']>().mockResolvedValue({
-      audience: ['https://gateway.marketplace.local'],
-      scopes: ['cart:write'],
-      subject: 'buyer-1',
-    } as never);
+    const verify = vi
+      .fn<GatewayTokenVerifierPort['verifyToken']>()
+      .mockResolvedValue({
+        audience: ['https://gateway.marketplace.local'],
+        scopes: ['cart:write'],
+        subject: 'buyer-1',
+      } as never);
     const factory = await factoryWith(verify);
 
     const context = await factory.create(
@@ -80,7 +87,7 @@ describe('AuthContextFactory', () => {
 
   it('allowlists only WooCommerce cart cookies and session headers', async () => {
     const factory = await factoryWith(
-      vi.fn<TokenVerifierService['verify']>().mockResolvedValue({
+      vi.fn<GatewayTokenVerifierPort['verifyToken']>().mockResolvedValue({
         audience: [],
         scopes: [],
         subject: 'buyer-1',
@@ -116,7 +123,7 @@ describe('AuthContextFactory', () => {
   it('maps credential failures to one GraphQL authentication error', async () => {
     const factory = await factoryWith(
       vi
-        .fn<TokenVerifierService['verify']>()
+        .fn<GatewayTokenVerifierPort['verifyToken']>()
         .mockRejectedValue(new APIError('UNAUTHORIZED')),
     );
 
@@ -132,18 +139,22 @@ describe('AuthContextFactory', () => {
   it('preserves JWKS outages and unexpected verifier failures', async () => {
     const outage = new Error('JWKS unavailable');
     const factory = await factoryWith(
-      vi.fn<TokenVerifierService['verify']>().mockRejectedValue(outage),
+      vi
+        .fn<GatewayTokenVerifierPort['verifyToken']>()
+        .mockRejectedValue(outage),
     );
 
     await expect(factory.create(request())).rejects.toBe(outage);
   });
 
   it('uses the default trusted origin and creates a request ID', async () => {
-    const verify = vi.fn<TokenVerifierService['verify']>().mockResolvedValue({
-      audience: [],
-      scopes: [],
-      subject: 'buyer-1',
-    } as never);
+    const verify = vi
+      .fn<GatewayTokenVerifierPort['verifyToken']>()
+      .mockResolvedValue({
+        audience: [],
+        scopes: [],
+        subject: 'buyer-1',
+      } as never);
     const factory = await factoryWith(verify, {});
 
     const context = await factory.create(request());
@@ -156,7 +167,7 @@ describe('AuthContextFactory', () => {
 
   it('exposes response header writes without collapsing string arrays', async () => {
     const factory = await factoryWith(
-      vi.fn<TokenVerifierService['verify']>().mockResolvedValue({
+      vi.fn<GatewayTokenVerifierPort['verifyToken']>().mockResolvedValue({
         audience: [],
         scopes: [],
         subject: 'buyer-1',

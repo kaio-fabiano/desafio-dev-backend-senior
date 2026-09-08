@@ -7,17 +7,16 @@ import type { FederationCapabilities } from '../application/dto/federation-capab
 import type { GatewayContext } from '../application/dto/gateway-context.dto.ts';
 import { CaptureFederationResponseUseCase } from '../application/use-cases/capture-federation-response.use-case.ts';
 import { PrepareFederationRequestUseCase } from '../application/use-cases/prepare-federation-request.use-case.ts';
-import { CommerceCookieAdapter } from '../infrastructure/http/commerce-cookie.adapter.ts';
 import { SetCookieValuesAdapter } from '../infrastructure/http/set-cookie-values.adapter.ts';
 
 export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayContext> {
   private readonly capabilities: FederationCapabilities;
-  private readonly captureResponse = new CaptureFederationResponseUseCase();
-  private readonly prepareRequest = new PrepareFederationRequestUseCase(
-    new CommerceCookieAdapter(),
-  );
 
-  constructor(config: { url: string; capabilities?: FederationCapabilities }) {
+  constructor(
+    config: { url: string; capabilities?: FederationCapabilities },
+    private readonly prepareRequest: PrepareFederationRequestUseCase,
+    private readonly captureResponse: CaptureFederationResponseUseCase,
+  ) {
     super({ url: config.url });
     this.capabilities = { ...config.capabilities };
   }

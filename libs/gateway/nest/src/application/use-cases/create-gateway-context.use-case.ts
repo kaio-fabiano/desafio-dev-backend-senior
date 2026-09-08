@@ -1,12 +1,17 @@
+import { Inject, Injectable } from '@nestjs/common';
+
 import type { CommerceSessionHeaders } from '../dto/commerce-session-headers.dto.ts';
 import type { GatewayAuthenticationRequest } from '../dto/gateway-authentication-request.dto.ts';
 import { GatewayContext } from '../dto/gateway-context.dto.ts';
-import type { CommerceCookiePort } from '../ports/commerce-cookie.port.ts';
-import type { GatewayTokenVerifierPort } from '../ports/gateway-token-verifier.port.ts';
+import { CommerceCookiePort } from '../ports/commerce-cookie.port.ts';
+import { GatewayTokenVerifierPort } from '../ports/gateway-token-verifier.port.ts';
 
+@Injectable()
 export class CreateGatewayContextUseCase {
   constructor(
+    @Inject(GatewayTokenVerifierPort)
     private readonly tokens: GatewayTokenVerifierPort,
+    @Inject(CommerceCookiePort)
     private readonly cookies: CommerceCookiePort,
   ) {}
 

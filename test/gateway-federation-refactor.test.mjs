@@ -2,6 +2,24 @@ import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+import { Test } from '@nestjs/testing';
+
+import { AppModule } from '../apps/gateway/src/app.module.ts';
+import { GatewaySseHandler } from '../apps/gateway/src/subscriptions/sse-handler.ts';
+import { OrderWorkflowSubscriptionClient } from '../apps/gateway/src/subscriptions/order-workflow-subscription.client.ts';
+import { CommerceCookiePort } from '../libs/gateway/nest/src/application/ports/commerce-cookie.port.ts';
+import { GatewayTokenVerifierPort } from '../libs/gateway/nest/src/application/ports/gateway-token-verifier.port.ts';
+import { OrderWorkflowSubscriptionPort } from '../libs/gateway/nest/src/application/ports/order-workflow-subscription.port.ts';
+import { CaptureFederationResponseUseCase } from '../libs/gateway/nest/src/application/use-cases/capture-federation-response.use-case.ts';
+import { CreateGatewayContextUseCase } from '../libs/gateway/nest/src/application/use-cases/create-gateway-context.use-case.ts';
+import { ForwardGatewaySubscriptionUseCase } from '../libs/gateway/nest/src/application/use-cases/forward-gateway-subscription.use-case.ts';
+import { PrepareFederationRequestUseCase } from '../libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts';
+import { AuthContextFactory } from '../libs/gateway/nest/src/auth/auth-context.factory.ts';
+import { TokenVerifierService } from '../libs/gateway/nest/src/auth/token-verifier.service.ts';
+import { AuthenticatedDataSource } from '../libs/gateway/nest/src/federation/authenticated-data-source.ts';
+import { GatewayFederationConfiguration } from '../libs/gateway/nest/src/federation/gateway-federation.configuration.ts';
+import { CommerceCookieAdapter } from '../libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts';
+
 const libraryRoot = 'libs/gateway/nest/src';
 const config = {
   get(name) {
@@ -20,6 +38,54 @@ const gatewayCoreFiles = [
   'application/use-cases/forward-gateway-subscription.use-case.ts',
   'application/use-cases/prepare-federation-request.use-case.ts',
 ];
+
+function dataSource(config) {
+  return new AuthenticatedDataSource(
+    config,
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new CaptureFederationResponseUseCase(),
+  );
+}
+
+function authFactory(tokens) {
+  return new AuthContextFactory(
+    new CreateGatewayContextUseCase(tokens, new CommerceCookieAdapter()),
+    config,
+  );
+}
+
+test('AC-274: Gateway flows are resolved as NestJS-managed providers @spec:AC-274', async () => {
+  const testingModule = await Test.createTestingModule({
+    imports: [AppModule],
+  }).compile();
+
+  try {
+    assert.equal(
+      testingModule.get(GatewayTokenVerifierPort),
+      testingModule.get(TokenVerifierService),
+    );
+    assert.equal(
+      testingModule.get(CommerceCookiePort),
+      testingModule.get(CommerceCookieAdapter),
+    );
+    assert.equal(
+      testingModule.get(OrderWorkflowSubscriptionPort),
+      testingModule.get(OrderWorkflowSubscriptionClient),
+    );
+    for (const provider of [
+      CreateGatewayContextUseCase,
+      PrepareFederationRequestUseCase,
+      CaptureFederationResponseUseCase,
+      ForwardGatewaySubscriptionUseCase,
+      GatewayFederationConfiguration,
+      GatewaySseHandler,
+    ]) {
+      assert.ok(testingModule.get(provider));
+    }
+  } finally {
+    await testingModule.close();
+  }
+});
 
 test('AC-256: Gateway application dependencies point inward through abstract ports @spec:AC-256', async () => {
   const missing = [];
@@ -43,11 +109,12 @@ test('AC-256: Gateway application dependencies point inward through abstract por
   for (const [file, source] of sources) {
     assert.doesNotMatch(
       source,
-      /from ['"](?:@nestjs|@apollo|graphql|graphql-sse|express)|@(?:Injectable|Inject)\b/,
+      /from ['"](?:@apollo|graphql|graphql-sse|express)/,
       file,
     );
     if (file.endsWith('.port.ts')) {
       assert.match(source, /export abstract class /, file);
+      assert.doesNotMatch(source, /from ['"]@nestjs/, file);
     }
   }
 });
@@ -66,10 +133,8 @@ test('AC-265: Gateway is a thin edge with explicit application ports @spec:AC-26
       readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
     ]);
 
-  assert.doesNotMatch(
-    `${main}\n${appModule}`,
-    /OrderWorkflowSubscriptionClient|createClient\(/,
-  );
+  assert.doesNotMatch(main, /OrderWorkflowSubscriptionClient|createClient\(/);
+  assert.match(appModule, /useExisting: OrderWorkflowSubscriptionClient/);
   await assert.rejects(access(`${libraryRoot}/domain`));
   assert.doesNotMatch(
     middleware,
@@ -94,26 +159,17 @@ test('AC-268: characterized Gateway behavior moves behind application orchestrat
 });
 
 test('AC-095: Gateway contains only authenticated federation edge responsibilities @spec:AC-095', async () => {
-  const [
-    main,
-    appModule,
-    gatewayModule,
-    federationConfiguration,
-    project,
-    { AuthContextFactory },
-    { TokenVerifierService },
-  ] = await Promise.all([
-    readFile('apps/gateway/src/main.ts', 'utf8'),
-    readFile('apps/gateway/src/app.module.ts', 'utf8'),
-    readFile(`${libraryRoot}/gateway.module.ts`, 'utf8'),
-    readFile(
-      `${libraryRoot}/federation/gateway-federation.configuration.ts`,
-      'utf8',
-    ),
-    readFile('libs/gateway/nest/project.json', 'utf8'),
-    import(`../${libraryRoot}/auth/auth-context.factory.ts`),
-    import(`../${libraryRoot}/auth/token-verifier.service.ts`),
-  ]);
+  const [main, appModule, gatewayModule, federationConfiguration, project] =
+    await Promise.all([
+      readFile('apps/gateway/src/main.ts', 'utf8'),
+      readFile('apps/gateway/src/app.module.ts', 'utf8'),
+      readFile(`${libraryRoot}/gateway.module.ts`, 'utf8'),
+      readFile(
+        `${libraryRoot}/federation/gateway-federation.configuration.ts`,
+        'utf8',
+      ),
+      readFile('libs/gateway/nest/project.json', 'utf8'),
+    ]);
 
   assert.match(
     main,
@@ -132,7 +188,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(gatewayModule, /ApolloGatewayDriver/);
   assert.match(federationConfiguration, /LocalCompose/);
   assert.match(federationConfiguration, /AuthenticatedDataSource/);
-  assert.match(gatewayModule, /AuthContextFactory/);
+  assert.match(federationConfiguration, /AuthContextFactory/);
   assert.match(federationConfiguration, /http:\/\/wordpress\/graphql/);
   assert.match(federationConfiguration, /payment-federation:8080\/graphql/);
   assert.match(
@@ -164,7 +220,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
       claims: {},
     }),
   });
-  const context = await new AuthContextFactory(tokens, config).create({
+  const context = await authFactory(tokens).create({
     headers: {
       host: 'gateway.test',
       'woocommerce-session': 'session-token',
@@ -189,15 +245,12 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   });
   await assert.rejects(
     () =>
-      new AuthContextFactory(
-        {
-          async verify() {
-            const { APIError } = await import('better-auth');
-            throw new APIError('UNAUTHORIZED');
-          },
+      authFactory({
+        async verifyToken() {
+          const { APIError } = await import('better-auth');
+          throw new APIError('UNAUTHORIZED');
         },
-        config,
-      ).create({
+      }).create({
         headers: { host: 'gateway.test' },
         method: 'POST',
         rawHeaders: [],
@@ -211,11 +264,11 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
 });
 
 test('AC-096: Gateway propagates verified identity and leaves sensitive authorization to subgraphs @spec:AC-096', async () => {
-  const [{ AuthenticatedDataSource }, gatewayModule] = await Promise.all([
-    import(`../${libraryRoot}/federation/authenticated-data-source.ts`),
-    readFile(`${libraryRoot}/gateway.module.ts`, 'utf8'),
-  ]);
-  const source = new AuthenticatedDataSource({
+  const gatewayModule = await readFile(
+    `${libraryRoot}/gateway.module.ts`,
+    'utf8',
+  );
+  const source = dataSource({
     capabilities: { bearer: true },
     url: 'http://identity-federation/graphql',
   });
@@ -248,7 +301,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   assert.equal(headers.get('woocommerce-session'), null);
   assert.equal(headers.get('cart-token'), null);
 
-  const orderWorkflow = new AuthenticatedDataSource({
+  const orderWorkflow = dataSource({
     capabilities: { bearer: true, requestSession: true },
     url: 'http://order-workflow-subgraph:3003/graphql',
   });
@@ -304,7 +357,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   });
   assert.deepEqual(returnedHeaders, []);
 
-  const wordpress = new AuthenticatedDataSource({
+  const wordpress = dataSource({
     capabilities: {
       origin: 'http://wordpress',
       requestSession: true,
