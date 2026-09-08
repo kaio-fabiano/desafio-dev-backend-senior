@@ -405,9 +405,25 @@ test('AC-256: Platform authorization core dependencies point inward @spec:AC-256
     const source = await readFile(file, 'utf8');
     assert.doesNotMatch(
       source,
-      /from ['"](?:@nestjs|@apollo|@mikro-orm|better-auth|graphql|pg)(?:\/|['"])/,
-      `${file} imports an outer framework or vendor`,
+      /from ['"](?:@apollo|@mikro-orm|better-auth|graphql|pg)(?:\/|['"])/,
+      `${file} imports an outer vendor`,
     );
+    assert.doesNotMatch(source, /from ['"]@nestjs\/(?!common['"])/);
+    if (file.includes('/domain/')) {
+      assert.doesNotMatch(source, /from ['"]@nestjs\/common['"]/);
+    }
+    for (const [, imported] of source.matchAll(
+      /import \{([^}]+)\} from ['"]@nestjs\/common['"]/g,
+    )) {
+      assert.deepEqual(
+        imported.split(',').map((name) => name.trim()),
+        imported
+          .split(',')
+          .map((name) => name.trim())
+          .filter((name) => ['Inject', 'Injectable'].includes(name)),
+        `${file} imports unsupported NestJS primitives`,
+      );
+    }
   }
 });
 

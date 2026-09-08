@@ -82,7 +82,10 @@ test('AC-214: OAuth request targets are reconstructed safely @spec:AC-214', asyn
   assert.equal(request.url, 'http://internal:3000/graphql?operation=checkout');
   assert.throws(
     () =>
-      OAuthRequestAdapter.toRequest({ headers: {}, originalUrl: 'https://attacker.example' }),
+      OAuthRequestAdapter.toRequest({
+        headers: {},
+        originalUrl: 'https://attacker.example',
+      }),
     /absolute path/,
   );
 });
@@ -142,7 +145,7 @@ test('AC-220/AC-221/AC-223: OAuth NestJS contracts pass in Vitest @spec:AC-220 @
     { cwd: new URL('..', import.meta.url) },
   );
 
-  assert.match(stdout, /16 passed/);
+  assert.match(stdout, /17 passed/);
 });
 
 test('AC-222: GraphQL OAuth decorators have co-located unit specs @spec:AC-222', async () => {

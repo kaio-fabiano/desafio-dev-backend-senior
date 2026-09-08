@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Optional } from '@nestjs/common';
 import {
   requestToResourceInput,
   verifyAccessTokenRequest,
@@ -8,35 +8,35 @@ import { OAuthCredentialVerification } from '../application/dto/oauth-credential
 import { OAuthCredentialVerifierPort } from '../application/ports/oauth-credential-verifier.port.ts';
 import { VerifyOAuthCredentialUseCase } from '../application/use-cases/verify-oauth-credential.use-case.ts';
 import { OAuthCredentialError } from '../domain/errors/oauth-credential.error.ts';
-import type { OAuthClaims } from '../domain/value-objects/oauth-claims.ts';
+import { OAuthClaims } from '../domain/value-objects/oauth-claims.ts';
 import { OAuthResourceOptionsToken as OAUTH_RESOURCE_OPTIONS } from '../oauth-resource.tokens.ts';
 import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
 
 @Injectable()
 export class OAuthResourceService extends OAuthCredentialVerifierPort {
-  private readonly verification: VerifyOAuthCredentialUseCase;
-
   constructor(
     @Inject(OAUTH_RESOURCE_OPTIONS)
     private readonly options: OAuthResourceOptions,
+    @Optional()
+    @Inject(VerifyOAuthCredentialUseCase)
+    private readonly verification?: VerifyOAuthCredentialUseCase,
   ) {
     super();
     OAuthResourceService.assertHttpUrl(options.audience, 'OAuth audience');
     OAuthResourceService.assertHttpUrl(options.issuer, 'OAuth issuer');
     OAuthResourceService.assertHttpUrl(options.jwksUrl, 'OAuth JWKS URL');
-    this.verification = new VerifyOAuthCredentialUseCase(this);
   }
 
   async verify(request: Request): Promise<OAuthClaims> {
     const input = requestToResourceInput(request);
-    return this.verification.execute(
-      new OAuthCredentialVerification(
-        input.authorizationHeader,
-        input.dpopProofJwt,
-        input.method,
-        input.url,
-      ),
+    const credential = new OAuthCredentialVerification(
+      input.authorizationHeader,
+      input.dpopProofJwt,
+      input.method,
+      input.url,
     );
+    if (this.verification) return this.verification.execute(credential);
+    return OAuthClaims.from(await this.verifyCredential(credential));
   }
 
   async verifyCredential(
