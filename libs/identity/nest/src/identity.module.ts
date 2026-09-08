@@ -52,18 +52,11 @@ import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
       useExisting: BetterAuthIdentityUserAdapter,
     },
     {
-      provide: ListIdentityUsersUseCase,
-      inject: [IdentityUserQueryPort],
-      useFactory: (users: IdentityUserQueryPort) =>
-        new ListIdentityUsersUseCase(users),
-    },
-    {
       provide: FindIdentityUsersUseCase,
-      inject: [IdentityUserQueryPort],
       scope: Scope.REQUEST,
-      useFactory: (users: IdentityUserQueryPort) =>
-        new FindIdentityUsersUseCase(users),
+      useClass: FindIdentityUsersUseCase,
     },
+    ListIdentityUsersUseCase,
     IdentityResolver,
     UserLoader,
     { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },

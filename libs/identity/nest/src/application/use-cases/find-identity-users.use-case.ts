@@ -1,6 +1,9 @@
+import { Inject, Injectable } from '@nestjs/common';
+
 import { IdentityUser } from '../dto/identity-user.dto.ts';
 import { IdentityUserQueryPort } from '../ports/identity-user-query.port.ts';
 
+@Injectable()
 export class FindIdentityUsersUseCase {
   private readonly cache = new Map<string, Promise<IdentityUser | null>>();
   private queue: Array<{
@@ -9,7 +12,10 @@ export class FindIdentityUsersUseCase {
     reject: (reason: unknown) => void;
   }> = [];
 
-  constructor(private readonly users: IdentityUserQueryPort) {}
+  constructor(
+    @Inject(IdentityUserQueryPort)
+    private readonly users: IdentityUserQueryPort,
+  ) {}
 
   load(id: string): Promise<IdentityUser | null> {
     const cached = this.cache.get(id);

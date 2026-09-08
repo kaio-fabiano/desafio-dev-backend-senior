@@ -3,6 +3,7 @@ import { memoryAdapter } from 'better-auth/adapters/memory';
 import { Pool } from 'pg';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { ProvisionOAuthClientsUseCase } from '../application/use-cases/provision-oauth-clients.use-case.ts';
 import { OAuthClientProvisioningService } from '../oauth-issuer/oauth-client-provisioning.service.ts';
 import { BetterAuthOAuthClientProvisioningAdapter } from '../infrastructure/oauth/better-auth-oauth-client-provisioning.adapter.ts';
 import { EnvironmentOAuthSeedCredentialsAdapter } from '../infrastructure/oauth/environment-oauth-seed-credentials.adapter.ts';
@@ -194,8 +195,10 @@ function bootstrapWith(
     instance,
   } as unknown as AuthService<IdentityAuth>;
   return new OAuthClientProvisioningService(
-    new BetterAuthOAuthClientProvisioningAdapter(auth),
-    new EnvironmentOAuthSeedCredentialsAdapter(),
+    new ProvisionOAuthClientsUseCase(
+      new BetterAuthOAuthClientProvisioningAdapter(auth),
+      new EnvironmentOAuthSeedCredentialsAdapter(),
+    ),
   );
 }
 
@@ -262,11 +265,13 @@ describe('OAuthClientProvisioningService', () => {
       secret: 'identity-test-secret-with-at-least-32-characters',
     });
     const bootstrap = new OAuthClientProvisioningService(
-      new BetterAuthOAuthClientProvisioningAdapter({
-        api: auth.api,
-        instance: auth,
-      } as unknown as AuthService<IdentityAuth>),
-      new EnvironmentOAuthSeedCredentialsAdapter(),
+      new ProvisionOAuthClientsUseCase(
+        new BetterAuthOAuthClientProvisioningAdapter({
+          api: auth.api,
+          instance: auth,
+        } as unknown as AuthService<IdentityAuth>),
+        new EnvironmentOAuthSeedCredentialsAdapter(),
+      ),
     );
     const context = await auth.$context;
     vi.spyOn(context, 'runMigrations').mockResolvedValue(undefined);

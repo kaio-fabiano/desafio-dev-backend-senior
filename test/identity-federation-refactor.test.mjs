@@ -78,7 +78,8 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     { UserLoader },
     { RegistrationService },
     { IdentityBootstrap },
-    { RegistrationCompensationService },
+    { RegisterIdentityUseCase },
+    { CompensateRegistrationUseCase },
     { WordPressCustomerIdentityAdapter },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
@@ -86,7 +87,10 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     import(`../${libraryRoot}/registration/registration.service.ts`),
     import(`../${libraryRoot}/registration/identity-bootstrap.ts`),
     import(
-      `../${libraryRoot}/registration/registration-compensation.service.ts`
+      `../${libraryRoot}/application/use-cases/register-identity.use-case.ts`
+    ),
+    import(
+      `../${libraryRoot}/application/use-cases/compensate-registration.use-case.ts`
     ),
     import(
       `../${libraryRoot}/infrastructure/wordpress/wordpress-customer-identity.adapter.ts`
@@ -132,9 +136,12 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
       return undefined;
     },
   };
+  const customer = new WordPressCustomerIdentityAdapter(wordpress);
   const registration = new RegistrationService(
-    new WordPressCustomerIdentityAdapter(wordpress),
-    new RegistrationCompensationService(wordpress),
+    new RegisterIdentityUseCase(
+      customer,
+      new CompensateRegistrationUseCase(customer),
+    ),
   );
   await registration.afterEmailSignUp({
     body: { email: 'buyer@example.test', name: 'Buyer', password: 'secret' },
@@ -180,9 +187,14 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
       return undefined;
     },
   };
+  const unavailableCustomer = new WordPressCustomerIdentityAdapter(
+    unavailableWordPress,
+  );
   const failedRegistration = new RegistrationService(
-    new WordPressCustomerIdentityAdapter(unavailableWordPress),
-    new RegistrationCompensationService(unavailableWordPress),
+    new RegisterIdentityUseCase(
+      unavailableCustomer,
+      new CompensateRegistrationUseCase(unavailableCustomer),
+    ),
   );
   await assert.rejects(
     () =>
@@ -283,6 +295,53 @@ test('AC-263: Identity composes explicit adapters and delegates presentation to 
   assert.doesNotMatch(
     `${appModule}\n${main}`,
     /better-auth|WordPress|AuthService|IdentityUserQueryPort/,
+  );
+});
+
+test('AC-272: Identity use cases are container-managed @spec:AC-272', async () => {
+  const [useCases, identityModule, registrationModule, oauthModule, runtime] =
+    await Promise.all([
+      Promise.all(
+        [
+          'compensate-registration',
+          'find-identity-users',
+          'list-identity-users',
+          'provision-oauth-clients',
+          'register-identity',
+        ].map((name) =>
+          readFile(
+            `${libraryRoot}/application/use-cases/${name}.use-case.ts`,
+            'utf8',
+          ),
+        ),
+      ),
+      readFile(`${libraryRoot}/identity.module.ts`, 'utf8'),
+      readFile(`${libraryRoot}/registration/registration.module.ts`, 'utf8'),
+      readFile(`${libraryRoot}/oauth-issuer/oauth-issuer.module.ts`, 'utf8'),
+      Promise.all(
+        [
+          `${libraryRoot}/identity.module.ts`,
+          `${libraryRoot}/registration/registration.module.ts`,
+          `${libraryRoot}/registration/registration.service.ts`,
+          `${libraryRoot}/registration/registration-compensation.service.ts`,
+          `${libraryRoot}/oauth-issuer/oauth-issuer.module.ts`,
+          `${libraryRoot}/oauth-issuer/oauth-client-provisioning.service.ts`,
+        ].map((file) => readFile(file, 'utf8')),
+      ),
+    ]);
+
+  for (const source of useCases) assert.match(source, /@Injectable\(\)/);
+  assert.match(identityModule, /providers:[\s\S]*ListIdentityUsersUseCase/);
+  assert.match(identityModule, /providers:[\s\S]*FindIdentityUsersUseCase/);
+  assert.match(
+    registrationModule,
+    /providers:[\s\S]*CompensateRegistrationUseCase/,
+  );
+  assert.match(registrationModule, /providers:[\s\S]*RegisterIdentityUseCase/);
+  assert.match(oauthModule, /providers:[\s\S]*ProvisionOAuthClientsUseCase/);
+  assert.doesNotMatch(
+    runtime.join('\n'),
+    /new (?:CompensateRegistration|FindIdentityUsers|ListIdentityUsers|ProvisionOAuthClients|RegisterIdentity)UseCase/,
   );
 });
 

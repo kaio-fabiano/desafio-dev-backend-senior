@@ -1,12 +1,17 @@
+import { Inject, Injectable } from '@nestjs/common';
+
 import { OAuthClientIds } from '../dto/oauth-client-ids.dto.ts';
 import { OAuthClientDefinition } from '../dto/oauth-client-definition.dto.ts';
 import { OAuthClientProvisioningPolicy } from '../policies/oauth-client-provisioning.policy.ts';
 import { OAuthClientProvisioningPort } from '../ports/oauth-client-provisioning.port.ts';
 import { OAuthSeedCredentialsPort } from '../ports/oauth-seed-credentials.port.ts';
 
+@Injectable()
 export class ProvisionOAuthClientsUseCase {
   constructor(
+    @Inject(OAuthClientProvisioningPort)
     private readonly clients: OAuthClientProvisioningPort,
+    @Inject(OAuthSeedCredentialsPort)
     private readonly credentials: OAuthSeedCredentialsPort,
   ) {}
 
