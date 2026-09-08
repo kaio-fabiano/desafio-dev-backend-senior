@@ -31,7 +31,7 @@ session.
 - Esforço: alto
 - Notas: Depends on T-225's approved rule, but is file-disjoint and may be developed in parallel. Follow Red, Green, Refactor. Bounded context: Identity. Use cases: register identity, compensate registration, provision OAuth clients, find/list identities. Aggregate: the Identity registration consistency boundary coordinates Better Auth identity and WordPress customer linkage; query and provisioning flows have no aggregate. Invariants: stable collaborators are injected; hook-derived identity adapters remain explicit runtime input; compensation order and public errors remain unchanged; no transport/vendor type enters Application. Consistency boundary: one registration attempt, one bootstrap provisioning run, or one identity query. Affected ports: CustomerIdentityPort, IdentityAccountPort, OAuthClientProvisioningPort, OAuthSeedCredentialsPort, IdentityUserQueryPort. Do not edit `libs/identity/nest/src/identity-core.spec.ts`; preserve owner work.
 
-## T-227 — Make OAuth verification a NestJS-managed use case [concluida]
+## T-227 — Make OAuth verification a NestJS-managed use case [pendente]
 - Refs: US-128, AC-273
 - Arquivos: libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts, libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts, test/oauth-resource-server-auth.spec.test.mjs, test/harden-oauth-resource-service.test.mjs
 - Modelo: gpt-5.6-sol
@@ -40,12 +40,12 @@ session.
 
 ## T-228 — Make Gateway flows NestJS-managed providers [concluida]
 - Refs: US-128, AC-274
-- Arquivos: libs/gateway/nest/src/application/use-cases, libs/gateway/nest/src/auth, libs/gateway/nest/src/federation, libs/gateway/nest/src/gateway.module.ts, apps/gateway/src/app.module.ts, apps/gateway/src/subscriptions, test/gateway-federation-refactor.test.mjs, test/architecture-boundaries.test.mjs, test/clarify-gateway-module-boundaries.spec.test.mjs, test/milestone-6-apollo-mcp.test.mjs, test/milestone-6-mcp-oauth.test.mjs, test/milestone-6-mcp-propagation.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/resolve-gateway-sse-todos.test.mjs, test/structural-gateway-review.test.mjs
+- Arquivos: libs/gateway/nest/src/application/use-cases, libs/gateway/nest/src/auth, libs/gateway/nest/src/federation, libs/gateway/nest/src/federation/gateway-federation.module.ts, libs/gateway/nest/src/gateway.module.ts, apps/gateway/src/app.module.ts, apps/gateway/src/subscriptions, test/gateway-federation-refactor.test.mjs, test/architecture-boundaries.test.mjs, test/clarify-gateway-module-boundaries.spec.test.mjs, test/milestone-6-apollo-mcp.test.mjs, test/milestone-6-mcp-oauth.test.mjs, test/milestone-6-mcp-propagation.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/resolve-gateway-sse-todos.test.mjs, test/structural-gateway-review.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Depends on T-225's approved rule, but is file-disjoint from Identity and Platform. Follow Red, Green, Refactor. Bounded context: Gateway edge. Use cases: create authenticated context, prepare/capture federation session state, and forward subscriptions. Aggregate: none; Gateway owns no business persistence. Invariants: authentication precedes forwarding, response headers preserve multi-cookie semantics, federation capabilities remain per-subgraph, SSE cancellation remains best-effort and leak-free, and stable collaborators come from DI. Consistency boundary: one HTTP/GraphQL/SSE request. Affected ports: GatewayTokenVerifierPort, CommerceCookiePort, OrderWorkflowSubscriptionPort. Keep Apollo and Node request types outside Application. The listed repository tests are legacy executable expectations directly coupled to the approved Gateway composition and AC-091 rule; update only assertions invalidated by the provider migration. Graphify artifacts remain owned by T-229.
 
-## T-229 — Audit every NestJS module and close repository evidence [concluida]
+## T-229 — Audit every NestJS module and close repository evidence [pendente]
 - Refs: US-129, US-130, AC-275, AC-276
 - Arquivos: test/idiomatic-nestjs-architecture.test.mjs, docs/architecture/idiomatic-nestjs-module-audit.md, graphify-out
 - Modelo: gpt-5.6-sol
