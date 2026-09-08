@@ -138,8 +138,8 @@
     "semantic_hash": ""
   },
   "onpspec.config.json": {
-    "mtime": 1788896074.9889512,
-    "seen": 1788896194.080917,
+    "mtime": 1788898376.4276,
+    "seen": 1788898461.4383423,
     "ast_hash": "6207f30f2b36836555951b360a255969",
     "semantic_hash": ""
   },
@@ -468,9 +468,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/federated-platform-architecture-refactor.json": {
-    "mtime": 1788853826.6896946,
-    "seen": 1788896194.0803869,
-    "ast_hash": "e3dc45a744607aca41d81d9c597038b2",
+    "mtime": 1788898366.6725204,
+    "seen": 1788898461.429975,
+    "ast_hash": "90769894d8f5ed2ba5b002e1b8c47e01",
     "semantic_hash": ""
   },
   ".spec/verification/import-order-stability.json": {
@@ -480,21 +480,21 @@
     "semantic_hash": ""
   },
   ".spec/verification/milestone-6-apollo-mcp.json": {
-    "mtime": 1788853898.158224,
-    "seen": 1788896194.0804117,
-    "ast_hash": "fecb04386c21710d60a5f60e079f9c11",
+    "mtime": 1788898367.7545292,
+    "seen": 1788898461.4300964,
+    "ast_hash": "3a31abb82d818e4866620313e3211835",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-7-e2e-deployment.json": {
-    "mtime": 1788853909.644309,
-    "seen": 1788896194.080413,
-    "ast_hash": "b702fe955bede84aa86088730e38d724",
+    "mtime": 1788898367.9326792,
+    "seen": 1788898461.4300976,
+    "ast_hash": "60b70936519773d31c81e33edd441eda",
     "semantic_hash": ""
   },
   ".spec/verification/milestone-8-compliance-hardening.json": {
-    "mtime": 1788853920.6173904,
-    "seen": 1788896194.0804148,
-    "ast_hash": "942fdb323c6bb4dbafdc5a50b06847c9",
+    "mtime": 1788898368.092532,
+    "seen": 1788898461.4300988,
+    "ast_hash": "6d3a84a0390b298fd6cb20e2cc16fc89",
     "semantic_hash": ""
   },
   ".spec/verification/project-planning-memory.json": {
@@ -510,15 +510,15 @@
     "semantic_hash": ""
   },
   ".spec/verification/remove-wordpress-federation-runtime.json": {
-    "mtime": 1788853968.5857456,
-    "seen": 1788896194.0804436,
-    "ast_hash": "0be2a33618f709fbd2d3570a6c131ce0",
+    "mtime": 1788898368.592536,
+    "seen": 1788898461.4302535,
+    "ast_hash": "aa6b952f76f1fd9be0db27b2ecf98a6d",
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788895865.4091704,
-    "seen": 1788896194.080451,
-    "ast_hash": "43ab1bc3d7d3717daa7151745b4841db",
+    "mtime": 1788898011.1835835,
+    "seen": 1788898461.4302766,
+    "ast_hash": "8bef6127be8d3cefbbc55aed88ddf9b4",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -1686,9 +1686,9 @@
     "semantic_hash": "9550ef1392c152858a4578e6fd2bd8db"
   },
   ".spec/verification/resolve-gateway-sse-todos.json": {
-    "mtime": 1788853979.9138296,
-    "seen": 1788896194.0804448,
-    "ast_hash": "530f179600aee4d03e7b7e7bf608945b",
+    "mtime": 1788898368.7875376,
+    "seen": 1788898461.4302552,
+    "ast_hash": "d5d15fd009917f17e407fea9d840f52d",
     "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/sse.middleware.ts": {
@@ -1770,9 +1770,9 @@
     "semantic_hash": "7fc41232d71b6ecf6bad150fa98cf4fc"
   },
   ".spec/verification/transaction-federation-refactor.json": {
-    "mtime": 1788854034.8132362,
-    "seen": 1788896194.0804627,
-    "ast_hash": "26bfe02c2d7ba782ffe9a231e5baf5d0",
+    "mtime": 1788898369.1315403,
+    "seen": 1788898461.4303627,
+    "ast_hash": "f46ea51b931ed46227591f26f461e7b5",
     "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/order-workflow-subscription.client.ts": {
@@ -2016,9 +2016,9 @@
     "semantic_hash": "487d9cef52e720dbcd1a56aac859b333"
   },
   ".spec/verification/align-payment-federation-naming.json": {
-    "mtime": 1788853792.844444,
-    "seen": 1788896194.0803778,
-    "ast_hash": "5d127635c2357a978f35b9b180e34134",
+    "mtime": 1788898366.2915173,
+    "seen": 1788898461.4299347,
+    "ast_hash": "9a59ccf08f7ea0d67ae1dc5b06157cdf",
     "semantic_hash": ""
   },
   "apps/payment-federation/build.gradle.kts": {
@@ -2514,9 +2514,9 @@
     "semantic_hash": "1a3d9b501a888f9eeefef7a1c0d3fdea"
   },
   ".spec/verification/oauth-resource-server-auth.json": {
-    "mtime": 1788853931.8464735,
-    "seen": 1788896194.0804205,
-    "ast_hash": "6e98161c34acc8977db5623f93355390",
+    "mtime": 1788898368.2545333,
+    "seen": 1788898461.430134,
+    "ast_hash": "d4785cdf3b9812bbc64db1b8eb2c648e",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java": {
@@ -2832,9 +2832,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/graphql-relay-dataloader-closure.json": {
-    "mtime": 1788853850.2538693,
-    "seen": 1788896194.0803936,
-    "ast_hash": "fbbb23544cfa04df0559f11d67ab0cbb",
+    "mtime": 1788898367.0245233,
+    "seen": 1788898461.429996,
+    "ast_hash": "9fc09ba34a607996b0af8a7cfa504a4f",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/graphql/user.loader.ts": {
@@ -2898,9 +2898,9 @@
     "semantic_hash": "88eeb8b09b488c368a7c3825c90a8215"
   },
   ".spec/verification/adopt-nestjs-config.json": {
-    "mtime": 1788853757.7751842,
-    "seen": 1788896194.0803761,
-    "ast_hash": "8fdfec6a2f0d450b9da2ae8c1de354a7",
+    "mtime": 1788898366.1665163,
+    "seen": 1788898461.4299324,
+    "ast_hash": "1a027353077a3a05e62e1c66e91c376c",
     "semantic_hash": ""
   },
   ".spec/verification/document-sse-bootstrap-simplification.json": {
@@ -2910,15 +2910,15 @@
     "semantic_hash": ""
   },
   ".spec/verification/gateway-auth-review-ledger.json": {
-    "mtime": 1788853838.093779,
-    "seen": 1788896194.080389,
-    "ast_hash": "dc8e759d1aaccda9a107deb792669d55",
+    "mtime": 1788898366.8505218,
+    "seen": 1788898461.4299765,
+    "ast_hash": "28d9a114bd7ef6d3c6839c9b41210549",
     "semantic_hash": ""
   },
   ".spec/verification/harden-oauth-resource-service.json": {
-    "mtime": 1788853886.9161408,
-    "seen": 1788896194.0804002,
-    "ast_hash": "89d0e2231497e0c14129165e952d1447",
+    "mtime": 1788898367.5675278,
+    "seen": 1788898461.43,
+    "ast_hash": "08ca86d18045c56e90a05876105570bf",
     "semantic_hash": ""
   },
   ".spec/verification/nestjs-vitest-testing-standard.json": {
@@ -3066,15 +3066,15 @@
     "semantic_hash": ""
   },
   ".spec/verification/harden-graphql-oauth-resource-guard.json": {
-    "mtime": 1788853861.2099504,
-    "seen": 1788896194.0803952,
-    "ast_hash": "56aa7a10188a401c82e445258eb465ae",
+    "mtime": 1788898367.2155247,
+    "seen": 1788898461.4299972,
+    "ast_hash": "dc9488d5dad73256e7c5812fa392bba9",
     "semantic_hash": ""
   },
   ".spec/verification/harden-oauth-resource-module.json": {
-    "mtime": 1788853875.5410564,
-    "seen": 1788896194.080398,
-    "ast_hash": "44264f2b0dcaf8499f380334aca45511",
+    "mtime": 1788898367.383526,
+    "seen": 1788898461.4299986,
+    "ast_hash": "cb98fb08ea88f3b75fb82c13587a266b",
     "semantic_hash": ""
   },
   ".spec/verification/remove-unused-resource-provider.json": {
@@ -3606,9 +3606,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/resolve-node-review-todos.json": {
-    "mtime": 1788854168.2162244,
-    "seen": 1788896194.0804462,
-    "ast_hash": "3879fa4488ce5896dd52b4ec0c9fec6b",
+    "mtime": 1788898368.9635391,
+    "seen": 1788898461.4302566,
+    "ast_hash": "68676c6e1319466e0b539e81db35fe02",
     "semantic_hash": ""
   },
   "apps/gateway/tsconfig.json": {
@@ -3708,9 +3708,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/clarify-gateway-module-boundaries.json": {
-    "mtime": 1788853804.0165267,
-    "seen": 1788896194.0803797,
-    "ast_hash": "c483fa3f4d62ea181529d802e1e4d3a2",
+    "mtime": 1788898366.4655187,
+    "seen": 1788898461.4299364,
+    "ast_hash": "f69dc56ea66390b543ff40b7d7aecec2",
     "semantic_hash": ""
   },
   ".spec/verification/graphql-only-woocommerce.json": {
@@ -3726,9 +3726,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/refactor-registration-boundaries.json": {
-    "mtime": 1788854812.7446427,
-    "seen": 1788896194.0804327,
-    "ast_hash": "91e684afa4b162bc541c436bda94d0b1",
+    "mtime": 1788898368.4095345,
+    "seen": 1788898461.4302187,
+    "ast_hash": "a4569d7ca5030a0add0894189d555512",
     "semantic_hash": ""
   },
   ".spec/verification/strict-nestjs-ddd-migration.json": {
