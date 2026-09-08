@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 80,
+      "ocorrencias": 81,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-07T23:13:09.567Z",
-      "gitRev": "fcd96e4"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2552,10 +2552,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 72,
+      "ocorrencias": 73,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-09-07T23:13:09.567Z",
-      "gitRev": "fcd96e4"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 76,
+      "ocorrencias": 77,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-09-07T23:13:09.567Z",
-      "gitRev": "fcd96e4"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 61,
+      "ocorrencias": 62,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-08T04:40:51.110Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -4208,10 +4208,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "structural-improvement-program",
       "ref": "—",
-      "ocorrencias": 60,
+      "ocorrencias": 61,
       "primeiraVez": "2026-09-01T03:06:54.499Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "VERIFY_OBSOLETO::keep-graphify-current::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -4298,10 +4298,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "production-happy-path-hardening",
       "ref": "—",
-      "ocorrencias": 46,
+      "ocorrencias": 47,
       "primeiraVez": "2026-09-01T21:13:57.059Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "ID_DUPLICADO::transaction-federation-refactor::ASM-001": {
       "codigo": "ID_DUPLICADO",
@@ -5126,10 +5126,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "oauth-resource-server-auth",
       "ref": "—",
-      "ocorrencias": 47,
+      "ocorrencias": 48,
       "primeiraVez": "2026-09-03T00:18:19.513Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "STATUS_INVALIDO::reconcile-architecture-decisions::.spec/features/reconcile-architecture-decisions/spec.md": {
       "codigo": "STATUS_INVALIDO",
@@ -5666,19 +5666,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-oauth-resource-service",
       "ref": "—",
-      "ocorrencias": 17,
+      "ocorrencias": 18,
       "primeiraVez": "2026-09-05T01:07:42.638Z",
-      "ultimaVez": "2026-09-08T04:40:51.110Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "VERIFY_OBSOLETO::harden-graphql-oauth-resource-guard::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-graphql-oauth-resource-guard",
       "ref": "—",
-      "ocorrencias": 16,
+      "ocorrencias": 17,
       "primeiraVez": "2026-09-05T01:54:53.014Z",
-      "ultimaVez": "2026-09-08T04:40:51.110Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "VERIFY_OBSOLETO::adopt-nestjs-config::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -5693,10 +5693,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-oauth-resource-module",
       "ref": "—",
-      "ocorrencias": 15,
+      "ocorrencias": 16,
       "primeiraVez": "2026-09-05T02:10:16.102Z",
-      "ultimaVez": "2026-09-08T04:40:51.110Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "VERIFY_OBSOLETO::remove-unused-resource-provider::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -5783,10 +5783,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resolve-node-review-todos",
       "ref": "—",
-      "ocorrencias": 32,
+      "ocorrencias": 33,
       "primeiraVez": "2026-09-05T13:04:48.384Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::resolve-node-review-todos::T-183": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6098,19 +6098,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "refactor-registration-boundaries",
       "ref": "—",
-      "ocorrencias": 19,
+      "ocorrencias": 20,
       "primeiraVez": "2026-09-05T14:45:00.203Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "VERIFY_OBSOLETO::graphql-relay-dataloader-closure::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "graphql-relay-dataloader-closure",
       "ref": "—",
-      "ocorrencias": 19,
+      "ocorrencias": 20,
       "primeiraVez": "2026-09-05T15:13:09.133Z",
-      "ultimaVez": "2026-09-07T23:13:09.567Z",
-      "gitRev": "fcd96e4"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::refactor-registration-boundaries::T-195": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6953,10 +6953,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "strict-nestjs-ddd-migration",
       "ref": "—",
-      "ocorrencias": 13,
+      "ocorrencias": 14,
       "primeiraVez": "2026-09-07T19:16:57.901Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "VERIFY_FALHOU::strict-nestjs-ddd-migration::AC-263": {
       "codigo": "VERIFY_FALHOU",
@@ -7790,10 +7790,10 @@
       "codigo": "AC_SEM_TESTE",
       "feature": "idiomatic-nestjs-architecture",
       "ref": "AC-274",
-      "ocorrencias": 5,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-08T03:40:16.766Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "AC_SEM_TESTE::idiomatic-nestjs-architecture::AC-275": {
       "codigo": "AC_SEM_TESTE",
@@ -7880,19 +7880,19 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "idiomatic-nestjs-architecture",
       "ref": "T-227",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-08T04:40:51.110Z",
-      "ultimaVez": "2026-09-08T04:40:51.110Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::idiomatic-nestjs-architecture::T-228": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "idiomatic-nestjs-architecture",
       "ref": "T-228",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-08T04:40:51.110Z",
-      "ultimaVez": "2026-09-08T04:40:51.110Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     },
     "TASK_CONCLUIDA_SEM_PROVA::idiomatic-nestjs-architecture::T-229": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -7907,10 +7907,10 @@
       "codigo": "AC_SEM_PROVA",
       "feature": "idiomatic-nestjs-architecture",
       "ref": "AC-273",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-08T04:40:51.111Z",
-      "ultimaVez": "2026-09-08T04:40:51.111Z",
-      "gitRev": "437618a"
+      "ultimaVez": "2026-09-08T05:41:09.735Z",
+      "gitRev": "020d39a"
     }
   }
 }

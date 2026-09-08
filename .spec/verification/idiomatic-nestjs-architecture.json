@@ -1,11 +1,11 @@
 {
   "feature": "idiomatic-nestjs-architecture",
-  "timestamp": "2026-09-08T04:40:50.871Z",
-  "gitRev": "437618a",
+  "timestamp": "2026-09-08T05:41:09.510Z",
+  "gitRev": "020d39a",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 249,
+  "testsParsed": 252,
   "results": {
     "AC-270": {
       "status": "pass",
@@ -15,6 +15,21 @@
     "AC-271": {
       "status": "pass",
       "testName": "Application rejects outer concerns and unsupported framework decorators @spec:AC-271",
+      "method": "tap"
+    },
+    "AC-272": {
+      "status": "pass",
+      "testName": "AC-272: Identity use cases are container-managed @spec:AC-272",
+      "method": "tap"
+    },
+    "AC-275": {
+      "status": "pass",
+      "testName": "AC-275: every NestJS module preserves explicit boundaries @spec:AC-275",
+      "method": "tap"
+    },
+    "AC-276": {
+      "status": "pass",
+      "testName": "AC-276: every task starts one fresh Codex session and commits atomically @spec:AC-276",
       "method": "tap"
     }
   },
