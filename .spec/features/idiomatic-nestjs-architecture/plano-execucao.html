@@ -38,54 +38,34 @@
 </style>
 <main>
   <h1>Plano de execução — idiomatic-nestjs-architecture</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-08 04:43 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-08 05:43 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>2</b> tarefa(s) em paralelo</div>
-    <div><b>2</b> faixa(s) · <b>1</b> onda(s)</div>
-    <div><b>1</b> sequencial(is)</div>
-    <div>seleção do usuário: <b>T-226, T-228</b></div>
+    <div><b>2</b> tarefa(s), uma após a outra</div>
+    <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/idiomatic-nestjs-architecture</code></div>
   </div>
-  
+
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
     <div><code id="cmd">bash .spec/features/idiomatic-nestjs-architecture/executar-tarefas.sh</code></div>
-    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
+    <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
     (<code>onp-spec resumo idiomatic-nestjs-architecture --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo idiomatic-nestjs-architecture</code>).</p>
   </div>
-  
+
+
     <section class="onda">
-      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 — em paralelo, janelas limpas</small></h3>
-      <div class="grade">
-      <div class="faixa">
-        <h4>faixa-1 <small>branch <code>spec/idiomatic-nestjs-architecture-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-1</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-226</span>
-          <span class="ttitulo">Make Identity use cases NestJS-managed providers</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/identity/nest/src/application/use-cases</code> <code>libs/identity/nest/src/identity.module.ts</code> <code>libs/identity/nest/src/oauth-issuer</code> <code>libs/identity/nest/src/registration</code> <code>libs/identity/nest/src/identity-core.architecture.spec.ts</code> <code>test/identity-federation-refactor.test.mjs</code> <code>test/wordpress-registration-graphql.contract.test.mjs</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-2 <small>branch <code>spec/idiomatic-nestjs-architecture-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-2</code></small></h4>
-        
+      <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
         <div class="tarefa">
           <span class="tid">T-228</span>
           <span class="ttitulo">Make Gateway flows NestJS-managed providers</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/gateway/nest/src/application/use-cases</code> <code>libs/gateway/nest/src/auth</code> <code>libs/gateway/nest/src/federation</code> <code>libs/gateway/nest/src/gateway.module.ts</code> <code>apps/gateway/src/app.module.ts</code> <code>apps/gateway/src/subscriptions</code> <code>test/gateway-federation-refactor.test.mjs</code></span>
+          <span class="arquivos"><code>libs/gateway/nest/src/application/use-cases</code> <code>libs/gateway/nest/src/auth</code> <code>libs/gateway/nest/src/federation</code> <code>libs/gateway/nest/src/gateway.module.ts</code> <code>apps/gateway/src/app.module.ts</code> <code>apps/gateway/src/subscriptions</code> <code>test/gateway-federation-refactor.test.mjs</code> <code>test/architecture-boundaries.test.mjs</code> <code>test/clarify-gateway-module-boundaries.spec.test.mjs</code> <code>test/milestone-6-apollo-mcp.test.mjs</code> <code>test/milestone-6-mcp-oauth.test.mjs</code> <code>test/milestone-6-mcp-propagation.test.mjs</code> <code>test/milestone-8-identity-gateway.test.mjs</code> <code>test/oauth-resource-server-auth.spec.test.mjs</code> <code>test/remove-wordpress-federation-runtime.spec.test.mjs</code> <code>test/resolve-gateway-sse-todos.test.mjs</code> <code>test/structural-gateway-review.test.mjs</code></span>
         </div>
-      </div></div>
-    </section>
-  
-    <section class="onda">
-      <h3>Sequenciais <small>após as ondas, na árvore principal</small></h3>
-      <div class="grade"><div class="faixa">
         <div class="tarefa">
           <span class="tid">T-229</span>
           <span class="ttitulo">Audit every NestJS module and close repository evidence</span>
@@ -97,8 +77,7 @@
     <h3>Branches e commits</h3>
     <ol>
       <li>tudo parte da branch de trabalho <code>spec/idiomatic-nestjs-architecture</code></li>
-      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx idiomatic-nestjs-architecture: título</code></li>
-      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
+      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx idiomatic-nestjs-architecture: título</code></li>
       <li>gate final: <code>onp-spec verify idiomatic-nestjs-architecture</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>
