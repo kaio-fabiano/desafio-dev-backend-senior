@@ -1,41 +1,27 @@
 # Plano de execução — idiomatic-nestjs-architecture
 
-> gerado por `onp-spec plano` em 2026-09-08 03:59 — NÃO edite à mão;
-> mudou tasks.md ou a config? Regenere: `onp-spec plano idiomatic-nestjs-architecture --paralelizar T-225,T-226,T-227,T-228`
+> gerado por `onp-spec plano` em 2026-09-08 04:43 — NÃO edite à mão;
+> mudou tasks.md ou a config? Regenere: `onp-spec plano idiomatic-nestjs-architecture --paralelizar T-226,T-228`
 
 ## Resumo — o que vai acontecer
 
-- **5 tarefa(s) pendente(s)**: 4 em 4 faixa(s) paralela(s) + 1 sequencial(is)
-- **seleção do usuário**: paralelizar só T-225, T-226, T-227, T-228 — as demais rodam uma após a outra, ao final
+- **3 tarefa(s) pendente(s)**: 2 em 2 faixa(s) paralela(s) + 1 sequencial(is) (2 já concluída(s): T-225, T-227)
+- **seleção do usuário**: paralelizar só T-226, T-228 — as demais rodam uma após a outra, ao final
 - **1 faixa = 1 worktree + 1 branch + 1 janela de contexto limpa** — faixas não compartilham nenhum arquivo entre si
 - prefere outra seleção ou uma após a outra? Regenere com `onp-spec plano idiomatic-nestjs-architecture --paralelizar T-xxx,T-yyy` ou `--sequencial`
 - tudo acontece na branch de trabalho `spec/idiomatic-nestjs-architecture`; levar para a main é decisão sua
 
 ## Faixas e ondas
 
-### Onda 1 — faixa-1 ∥ faixa-2 ∥ faixa-3
+### Onda 1 — faixa-1 ∥ faixa-2
 
 #### faixa-1 — branch `spec/idiomatic-nestjs-architecture-faixa-1` — worktree `../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-1`
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
-| T-225 | Align the executable DDD contract with NestJS injection | `gpt-5.6-sol` | high | `docs/standards/strict-nestjs-ddd.md`, `tools/architecture/strict-ddd-policy.mjs`, `tools/architecture/strict-ddd-scanner.mjs`, `test/strict-ddd-architecture.test.mjs`, `test/fixtures/strict-ddd` |
-
-#### faixa-2 — branch `spec/idiomatic-nestjs-architecture-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-2`
-
-| tarefa | título | modelo | esforço | arquivos |
-|---|---|---|---|---|
 | T-226 | Make Identity use cases NestJS-managed providers | `gpt-5.6-sol` | high | `libs/identity/nest/src/application/use-cases`, `libs/identity/nest/src/identity.module.ts`, `libs/identity/nest/src/oauth-issuer`, `libs/identity/nest/src/registration`, `libs/identity/nest/src/identity-core.architecture.spec.ts`, `test/identity-federation-refactor.test.mjs`, `test/wordpress-registration-graphql.contract.test.mjs` |
 
-#### faixa-3 — branch `spec/idiomatic-nestjs-architecture-faixa-3` — worktree `../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-3`
-
-| tarefa | título | modelo | esforço | arquivos |
-|---|---|---|---|---|
-| T-227 | Make OAuth verification a NestJS-managed use case | `gpt-5.6-sol` | high | `libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts`, `libs/platform/nest/src/oauth-resource/oauth-resource.module.ts`, `libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts`, `libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts`, `libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts`, `libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts`, `test/oauth-resource-server-auth.spec.test.mjs`, `test/harden-oauth-resource-service.test.mjs` |
-
-### Onda 2 — faixa-4
-
-#### faixa-4 — branch `spec/idiomatic-nestjs-architecture-faixa-4` — worktree `../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-4`
+#### faixa-2 — branch `spec/idiomatic-nestjs-architecture-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-2`
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|

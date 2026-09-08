@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano idiomatic-nestjs-architecture` em 2026-09-08 03:59
+# executar-tarefas.sh — gerado por `onp-spec plano idiomatic-nestjs-architecture` em 2026-09-08 04:43
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-idiomatic-nestjs-architecture-mts54bz3'
+RUN_ID='desafio-dev-backend-senior-idiomatic-nestjs-architecture-mts6p5fp'
 FEATURE='idiomatic-nestjs-architecture'
 BASE_BRANCH='spec/idiomatic-nestjs-architecture'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,7 +168,7 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-225 ──
+# ── faixa-1: T-226 ──
 executar_faixa_1() {
   local WT="$WT_BASE-faixa-1"
   preparar_worktree 'faixa-1' 'spec/idiomatic-nestjs-architecture-faixa-1' "$WT" || return 1
@@ -176,37 +176,7 @@ executar_faixa_1() {
   : > "$LOG_DIR/faixa-1.log"
   (
     cd "$WT" || exit 9
-    rodar_tarefa 'faixa-1' 'T-225' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/idiomatic-nestjs-architecture/spec.md, .spec/features/idiomatic-nestjs-architecture/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-225 — "Align the executable DDD contract with NestJS injection"
-  critérios/refs: AC-270 (Application accepts only NestJS injection primitives), AC-271 (Outer concerns remain outside Application)
-  arquivos permitidos (e seus testes): docs/standards/strict-nestjs-ddd.md, tools/architecture/strict-ddd-policy.mjs, tools/architecture/strict-ddd-scanner.mjs, test/strict-ddd-architecture.test.mjs, test/fixtures/strict-ddd
-  mensagem de commit: "T-225 idiomatic-nestjs-architecture: Align the executable DDD contract with NestJS injection"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
-  ) >> "$LOG_DIR/faixa-1.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-1' 'spec/idiomatic-nestjs-architecture-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-225
-  return 0
-}
-
-# ── faixa-2: T-226 ──
-executar_faixa_2() {
-  local WT="$WT_BASE-faixa-2"
-  preparar_worktree 'faixa-2' 'spec/idiomatic-nestjs-architecture-faixa-2' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
-  : > "$LOG_DIR/faixa-2.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-2' 'T-226' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
+    rodar_tarefa 'faixa-1' 'T-226' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/idiomatic-nestjs-architecture/spec.md, .spec/features/idiomatic-nestjs-architecture/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
@@ -221,52 +191,22 @@ Regras inegociáveis:
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
-  ) >> "$LOG_DIR/faixa-2.log" 2>&1
+  ) >> "$LOG_DIR/faixa-1.log" 2>&1
   local st=$?
-  mesclar_faixa 'faixa-2' 'spec/idiomatic-nestjs-architecture-faixa-2' "$WT" "$st" || return 1
+  mesclar_faixa 'faixa-1' 'spec/idiomatic-nestjs-architecture-faixa-1' "$WT" "$st" || return 1
   marcar_concluidas T-226
   return 0
 }
 
-# ── faixa-3: T-227 ──
-executar_faixa_3() {
-  local WT="$WT_BASE-faixa-3"
-  preparar_worktree 'faixa-3' 'spec/idiomatic-nestjs-architecture-faixa-3' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-3' --estado executando --tentativa "$(tentativa 'faixa-3')"
-  : > "$LOG_DIR/faixa-3.log"
+# ── faixa-2: T-228 ──
+executar_faixa_2() {
+  local WT="$WT_BASE-faixa-2"
+  preparar_worktree 'faixa-2' 'spec/idiomatic-nestjs-architecture-faixa-2' "$WT" || return 1
+  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
+  : > "$LOG_DIR/faixa-2.log"
   (
     cd "$WT" || exit 9
-    rodar_tarefa 'faixa-3' 'T-227' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/idiomatic-nestjs-architecture/spec.md, .spec/features/idiomatic-nestjs-architecture/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-227 — "Make OAuth verification a NestJS-managed use case"
-  critérios/refs: AC-273 (OAuth resource verification is container-managed)
-  arquivos permitidos (e seus testes): libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts, libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts, test/oauth-resource-server-auth.spec.test.mjs, test/harden-oauth-resource-service.test.mjs
-  mensagem de commit: "T-227 idiomatic-nestjs-architecture: Make OAuth verification a NestJS-managed use case"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
-  ) >> "$LOG_DIR/faixa-3.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-3' 'spec/idiomatic-nestjs-architecture-faixa-3' "$WT" "$st" || return 1
-  marcar_concluidas T-227
-  return 0
-}
-
-# ── faixa-4: T-228 ──
-executar_faixa_4() {
-  local WT="$WT_BASE-faixa-4"
-  preparar_worktree 'faixa-4' 'spec/idiomatic-nestjs-architecture-faixa-4' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-4' --estado executando --tentativa "$(tentativa 'faixa-4')"
-  : > "$LOG_DIR/faixa-4.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-4' 'T-228' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
+    rodar_tarefa 'faixa-2' 'T-228' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/idiomatic-nestjs-architecture/spec.md, .spec/features/idiomatic-nestjs-architecture/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
@@ -281,9 +221,9 @@ Regras inegociáveis:
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
-  ) >> "$LOG_DIR/faixa-4.log" 2>&1
+  ) >> "$LOG_DIR/faixa-2.log" 2>&1
   local st=$?
-  mesclar_faixa 'faixa-4' 'spec/idiomatic-nestjs-architecture-faixa-4' "$WT" "$st" || return 1
+  mesclar_faixa 'faixa-2' 'spec/idiomatic-nestjs-architecture-faixa-2' "$WT" "$st" || return 1
   marcar_concluidas T-228
   return 0
 }
@@ -373,28 +313,20 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  # onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3
-  info "onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3 — janelas limpas em paralelo"
+  # onda 1: faixa-1 ∥ faixa-2
+  info "onda 1: faixa-1 ∥ faixa-2 — janelas limpas em paralelo"
   executar_faixa_1 & PID_FAIXA_1=$!
   executar_faixa_2 & PID_FAIXA_2=$!
-  executar_faixa_3 & PID_FAIXA_3=$!
   wait "$PID_FAIXA_1" || true
   wait "$PID_FAIXA_2" || true
-  wait "$PID_FAIXA_3" || true
-  # onda 2: faixa-4
-  info "onda 2: faixa-4 — janelas limpas em paralelo"
-  executar_faixa_4 & PID_FAIXA_4=$!
-  wait "$PID_FAIXA_4" || true
   executar_seq_T_229 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-225"
-  echo "  faixa-2  onda 1  T-226"
-  echo "  faixa-3  onda 1  T-227"
-  echo "  faixa-4  onda 2  T-228"
+  echo "  faixa-1  onda 1  T-226"
+  echo "  faixa-2  onda 1  T-228"
   echo "  seq       T-229 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
@@ -428,8 +360,6 @@ case "$MODO" in
     case "$ALVO" in
       faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
       faixa-2) evento --tipo inicio --escopo "faixa:faixa-2"; iniciar_resumos; executar_faixa_2 || true; encerrar "faixa:faixa-2" ;;
-      faixa-3) evento --tipo inicio --escopo "faixa:faixa-3"; iniciar_resumos; executar_faixa_3 || true; encerrar "faixa:faixa-3" ;;
-      faixa-4) evento --tipo inicio --escopo "faixa:faixa-4"; iniciar_resumos; executar_faixa_4 || true; encerrar "faixa:faixa-4" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)
