@@ -8,7 +8,13 @@ import ts from 'typescript';
 const expectedModules = {
   'apps/gateway/src/app.module.ts': {
     imports: ['ConfigModule.forRoot', 'GatewayModule'],
-    providers: ['GatewaySseMiddleware'],
+    providers: [
+      'OrderWorkflowSubscriptionClient',
+      'OrderWorkflowSubscriptionPort',
+      'ForwardGatewaySubscriptionUseCase',
+      'GatewaySseHandler',
+      'GatewaySseMiddleware',
+    ],
     exports: [],
   },
   'apps/identity-subgraph/src/app.module.ts': {
@@ -82,11 +88,35 @@ const expectedModules = {
   },
   'libs/gateway/nest/src/auth/gateway-auth.module.ts': {
     imports: ['ConfigModule', 'OAuthResourceModule.register'],
-    providers: ['TokenVerifierService', 'AuthContextFactory'],
-    exports: ['TokenVerifierService', 'AuthContextFactory'],
+    providers: [
+      'CommerceCookieAdapter',
+      'CommerceCookiePort',
+      'TokenVerifierService',
+      'GatewayTokenVerifierPort',
+      'CreateGatewayContextUseCase',
+      'AuthContextFactory',
+    ],
+    exports: [
+      'CommerceCookiePort',
+      'TokenVerifierService',
+      'AuthContextFactory',
+    ],
+  },
+  'libs/gateway/nest/src/federation/gateway-federation.module.ts': {
+    imports: ['ConfigModule', 'GatewayAuthModule'],
+    providers: [
+      'PrepareFederationRequestUseCase',
+      'CaptureFederationResponseUseCase',
+      'GatewayFederationConfiguration',
+    ],
+    exports: ['GatewayFederationConfiguration'],
   },
   'libs/gateway/nest/src/gateway.module.ts': {
-    imports: ['GatewayAuthModule', 'GraphQLModule.forRootAsync'],
+    imports: [
+      'GatewayAuthModule',
+      'GatewayFederationModule',
+      'GraphQLModule.forRootAsync',
+    ],
     providers: [],
     exports: ['GatewayAuthModule'],
   },
@@ -170,12 +200,7 @@ const expectedModules = {
   },
 };
 
-const expectedManualUseCases = [
-  'apps/gateway/src/subscriptions/sse-handler.ts:ForwardGatewaySubscriptionUseCase',
-  'libs/gateway/nest/src/auth/auth-context.factory.ts:CreateGatewayContextUseCase',
-  'libs/gateway/nest/src/federation/authenticated-data-source.ts:CaptureFederationResponseUseCase',
-  'libs/gateway/nest/src/federation/authenticated-data-source.ts:PrepareFederationRequestUseCase',
-];
+const expectedManualUseCases = [];
 
 async function productionTypeScriptFiles(directory) {
   const files = [];
@@ -312,6 +337,7 @@ test('AC-275: every NestJS module preserves explicit boundaries @spec:AC-275', a
     assert.match(report, new RegExp(`\\b${file.replaceAll('.', '\\.')}`));
   for (const site of expectedManualUseCases)
     assert.match(report, new RegExp(site.replaceAll('.', '\\.')));
+  assert.match(report, /No manual `\*UseCase` construction remains/);
 });
 
 test('AC-276: every task starts one fresh Codex session and commits atomically @spec:AC-276', async () => {
@@ -328,7 +354,7 @@ test('AC-276: every task starts one fresh Codex session and commits atomically @
     ...executor.matchAll(/Sua tarefa \(somente ela\):\n(T-\d+)/g),
   ].map((match) => match[1]);
 
-  assert.deepEqual(dispatched, ['T-226', 'T-228', 'T-229']);
+  assert.deepEqual(dispatched, ['T-228', 'T-229']);
   assert.deepEqual(prompts, dispatched);
   assert.equal(new Set(dispatched).size, dispatched.length);
   assert.equal((executor.match(/^\s*if codex exec "\$3"/gm) ?? []).length, 1);

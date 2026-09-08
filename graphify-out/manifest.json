@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788842451.1153963,
-    "seen": 1788845263.716164,
-    "ast_hash": "39ec3163a64b3e06d39339a3dfe667b2",
+    "mtime": 1788846069.7450829,
+    "seen": 1788848815.0575762,
+    "ast_hash": "a790635c308bd40643ec17ec109929c8",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -582,9 +582,9 @@
     "semantic_hash": ""
   },
   "apps/gateway/src/app.module.ts": {
-    "mtime": 1788640676.789272,
-    "seen": 1788807551.6873434,
-    "ast_hash": "3863634db982f1abd31e521c07ce353b",
+    "mtime": 1788846883.6705008,
+    "seen": 1788848815.0579593,
+    "ast_hash": "d5ec44d1e35e057235b682078516aa6e",
     "semantic_hash": ""
   },
   "apps/gateway/src/health.controller.ts": {
@@ -600,9 +600,9 @@
     "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/sse-handler.ts": {
-    "mtime": 1788817510.8769107,
-    "seen": 1788821459.1222098,
-    "ast_hash": "d96ada3109e669b29b505d9ab697318d",
+    "mtime": 1788847457.4432766,
+    "seen": 1788848815.0580385,
+    "ast_hash": "55d3fa3ac072c0d6d9c40d02f91f2174",
     "semantic_hash": ""
   },
   "apps/gateway/tsconfig.app.json": {
@@ -780,9 +780,9 @@
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/auth/auth-context.factory.ts": {
-    "mtime": 1788817491.2417684,
-    "seen": 1788821459.1263838,
-    "ast_hash": "d332be02c23a1f810cd5cca897840110",
+    "mtime": 1788846844.054155,
+    "seen": 1788848815.0623677,
+    "ast_hash": "2fe763a2f2de81a8d2b92c7ad0deee43",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/auth/token-verifier.service.ts": {
@@ -792,15 +792,15 @@
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/federation/authenticated-data-source.ts": {
-    "mtime": 1788817749.1856985,
-    "seen": 1788821459.1264534,
-    "ast_hash": "5f31444c21764b130cd39cde06b1188d",
+    "mtime": 1788846844.054256,
+    "seen": 1788848815.0624776,
+    "ast_hash": "0829cc2bbb89c2d2eebff7607a16d167",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/gateway.module.ts": {
-    "mtime": 1788807438.3224018,
-    "seen": 1788807551.687531,
-    "ast_hash": "36e85bc4458fa3367633c55e9f6b06b2",
+    "mtime": 1788847457.6178513,
+    "seen": 1788848815.0624843,
+    "ast_hash": "ee9b1ee9707df9c62ef3fd7f0514112f",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/index.ts": {
@@ -882,10 +882,10 @@
     "semantic_hash": "a0f23aaf90d7734a95aa66c374acecc0"
   },
   "test/architecture-boundaries.test.mjs": {
-    "mtime": 1788417949.6192138,
-    "seen": 1788807551.6876132,
-    "ast_hash": "456601d32dfab31c704260492108a218",
-    "semantic_hash": "456601d32dfab31c704260492108a218"
+    "mtime": 1788847239.3568423,
+    "seen": 1788848815.0652218,
+    "ast_hash": "590d4cfcbf19335c6154301f8119beeb",
+    "semantic_hash": ""
   },
   "test/challenge-compliance-contract.test.mjs": {
     "mtime": 1788640676.355189,
@@ -978,9 +978,9 @@
     "semantic_hash": "dd4e013670d7d9a8a3fb971764483200"
   },
   "test/gateway-federation-refactor.test.mjs": {
-    "mtime": 1788817818.9125245,
-    "seen": 1788821459.127865,
-    "ast_hash": "e486d416fb33ea21c2187edd733b5d41",
+    "mtime": 1788847892.0464978,
+    "seen": 1788848815.065629,
+    "ast_hash": "0be6f76d15e2f6a45182fa930e11bb3e",
     "semantic_hash": ""
   },
   "test/identity-federation-refactor.test.mjs": {
@@ -1056,9 +1056,9 @@
     "semantic_hash": ""
   },
   "test/milestone-6-mcp-propagation.test.mjs": {
-    "mtime": 1788640676.8342724,
-    "seen": 1788807551.6876574,
-    "ast_hash": "33597cc95db1787f2d3009dbe21d9eb6",
+    "mtime": 1788847893.7875104,
+    "seen": 1788848815.0659084,
+    "ast_hash": "a8d30c685b9ed8a287ae074318544577",
     "semantic_hash": ""
   },
   "test/milestone-7-containers.test.mjs": {
@@ -1116,9 +1116,9 @@
     "semantic_hash": "cbff934a3d846dda33d31fe91c92d026"
   },
   "test/milestone-8-identity-gateway.test.mjs": {
-    "mtime": 1788807438.3274016,
-    "seen": 1788807551.687666,
-    "ast_hash": "7168e24d1451e7139dcb807ac40955fc",
+    "mtime": 1788847149.3042297,
+    "seen": 1788848815.0660474,
+    "ast_hash": "42d68fb833ec68c90498eb58093270b8",
     "semantic_hash": ""
   },
   "test/milestone-8-import-order-stability.test.mjs": {
@@ -1170,9 +1170,9 @@
     "semantic_hash": "bc019125b8774820cd9218784afb816f"
   },
   "test/remove-wordpress-federation-runtime.spec.test.mjs": {
-    "mtime": 1788821050.2789638,
-    "seen": 1788821459.1285195,
-    "ast_hash": "31f3a2d873621b719f7b1bb991818b05",
+    "mtime": 1788847893.7875104,
+    "seen": 1788848815.0663595,
+    "ast_hash": "94fe00333d9fba84f5df2d101dec850c",
     "semantic_hash": ""
   },
   "test/retired-applications-removal.test.mjs": {
@@ -1236,9 +1236,9 @@
     "semantic_hash": "f255643e98ce663c61e898185a303555"
   },
   "test/structural-gateway-review.test.mjs": {
-    "mtime": 1788807438.3284018,
-    "seen": 1788807551.6876936,
-    "ast_hash": "e71aac61f6eb945f596bbc19fae4815a",
+    "mtime": 1788847149.3032298,
+    "seen": 1788848815.0664532,
+    "ast_hash": "54d485bcc949d06a1393a3e6d4caf1cf",
     "semantic_hash": ""
   },
   "test/structural-identity-review.test.mjs": {
@@ -1800,15 +1800,15 @@
     "semantic_hash": ""
   },
   "apps/gateway/src/subscriptions/sse.middleware.ts": {
-    "mtime": 1788817519.9379764,
-    "seen": 1788821459.122211,
-    "ast_hash": "ec255425c225b9ffbeaa7683ffdb36d4",
+    "mtime": 1788846883.6715062,
+    "seen": 1788848815.0580404,
+    "ast_hash": "f1c1a556ec2b3f1e6602c14f85c0b2d3",
     "semantic_hash": ""
   },
   "test/resolve-gateway-sse-todos.test.mjs": {
-    "mtime": 1788807438.3284018,
-    "seen": 1788807551.687687,
-    "ast_hash": "17dfe2f286c38285999a2e5314d2e35a",
+    "mtime": 1788847199.7295716,
+    "seen": 1788848815.0663612,
+    "ast_hash": "cbe6481e216bdfa4f9b71ed8703bf82a",
     "semantic_hash": ""
   },
   ".spec/features/resolve-gateway-sse-todos/plano-execucao.html": {
@@ -2634,9 +2634,9 @@
     "semantic_hash": "6562e000e59b63b106cad97392c9b963"
   },
   "test/oauth-resource-server-auth.spec.test.mjs": {
-    "mtime": 1788841198.2741878,
-    "seen": 1788845263.7240462,
-    "ast_hash": "a907a5a071ab52a059cd6d3437db55e2",
+    "mtime": 1788847386.7078655,
+    "seen": 1788848815.0661857,
+    "ast_hash": "b02fbf1223d956504478966b9089ca46",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-payment-provider/design.md": {
@@ -3300,9 +3300,9 @@
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/auth/auth-context.factory.spec.ts": {
-    "mtime": 1788640676.8232722,
-    "seen": 1788807551.687508,
-    "ast_hash": "bdcbcfc87b73156a0cc49ed69d220123",
+    "mtime": 1788847457.520109,
+    "seen": 1788848815.0623665,
+    "ast_hash": "224f7011cdc92217a365652626aed1fa",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/auth/gateway-context.spec.ts": {
@@ -3324,21 +3324,21 @@
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/federation/authenticated-data-source.spec.ts": {
-    "mtime": 1788640676.8242724,
-    "seen": 1788807551.6875248,
-    "ast_hash": "d9f77f3ca2281ce2b790643ecaed1701",
+    "mtime": 1788847062.0606477,
+    "seen": 1788848815.062476,
+    "ast_hash": "7fcd4f9f87cccd6f3a832b8d81b108f1",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/gateway-path.integration.spec.ts": {
-    "mtime": 1788640676.8242724,
-    "seen": 1788807551.6875288,
-    "ast_hash": "0cf5beeb19dd76e49118847f57447305",
+    "mtime": 1788847457.6041539,
+    "seen": 1788848815.062482,
+    "ast_hash": "5d820ad5467f89898b2cf5a7d38eddf5",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/gateway.module.spec.ts": {
-    "mtime": 1788807438.3224018,
-    "seen": 1788807551.68753,
-    "ast_hash": "fdeb273d90c7dd341a69e6d7f638b122",
+    "mtime": 1788847816.1479073,
+    "seen": 1788848815.0624835,
+    "ast_hash": "072911cef1a29f7269379b9e6074a8de",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/node-review-tooling.spec.ts": {
@@ -3845,12 +3845,6 @@
     "ast_hash": "e692c58c92a0bca62201d37f19b54993",
     "semantic_hash": ""
   },
-  "apps/gateway/src/subscriptions/gateway-sse.options.ts": {
-    "mtime": 1788807438.3138146,
-    "seen": 1788807551.687347,
-    "ast_hash": "47522a5d2388746fe0df18b379789ebb",
-    "semantic_hash": ""
-  },
   "apps/order-workflow-subgraph/src/app.module.spec.ts": {
     "mtime": 1788640676.792272,
     "seen": 1788807551.6873631,
@@ -4050,15 +4044,15 @@
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/auth/gateway-auth.module.ts": {
-    "mtime": 1788640676.8242724,
-    "seen": 1788807551.687515,
-    "ast_hash": "770acbaffb378af5de70a21aa7559634",
+    "mtime": 1788847457.534769,
+    "seen": 1788848815.062393,
+    "ast_hash": "6a1fe2486c2a619a5bc84584d43c7ab0",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/federation/gateway-federation.configuration.ts": {
-    "mtime": 1788817818.8599846,
-    "seen": 1788821459.1264546,
-    "ast_hash": "72e8c66cf00c5474dd5ba3a4fb6d7fdd",
+    "mtime": 1788846844.054256,
+    "seen": 1788848815.0624785,
+    "ast_hash": "103a0a5a652366b2d15df8767e4dd071",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/better-auth/better-auth.error.ts": {
@@ -4260,9 +4254,9 @@
     "semantic_hash": ""
   },
   "test/clarify-gateway-module-boundaries.spec.test.mjs": {
-    "mtime": 1788640676.8322725,
-    "seen": 1788807551.6876206,
-    "ast_hash": "481d9a545b84919aec710f7ff9d2e595",
+    "mtime": 1788847457.6639655,
+    "seen": 1788848815.0652404,
+    "ast_hash": "651d679a74a6715e41f84f4775a9990d",
     "semantic_hash": ""
   },
   "test/fixtures/strict-ddd/invalid-mixed-service.ts": {
@@ -4541,12 +4535,6 @@
     "ast_hash": "b69707a4253e535e265daebc9b5694fe",
     "semantic_hash": ""
   },
-  "apps/gateway/src/subscriptions/gateway-sse.provider.ts": {
-    "mtime": 1788817818.811087,
-    "seen": 1788821459.1222067,
-    "ast_hash": "ee6662860e35ea1737636370be5d7991",
-    "semantic_hash": ""
-  },
   "libs/gateway/nest/src/application/dto/authentication-principal.dto.ts": {
     "mtime": 1788817442.1354122,
     "seen": 1788821459.126345,
@@ -4602,27 +4590,27 @@
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/application/use-cases/capture-federation-response.use-case.ts": {
-    "mtime": 1788817442.1370242,
-    "seen": 1788821459.1263547,
-    "ast_hash": "66ab8c27936349bea017a7027d4f8a84",
+    "mtime": 1788846844.0532558,
+    "seen": 1788848815.0623598,
+    "ast_hash": "45d7719b5395b372e4287b0538dc1545",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/application/use-cases/create-gateway-context.use-case.ts": {
-    "mtime": 1788817818.8729396,
-    "seen": 1788821459.1263556,
-    "ast_hash": "5bf4e03f2fc0505f442bf725e1cce7a3",
+    "mtime": 1788846844.0532558,
+    "seen": 1788848815.062362,
+    "ast_hash": "e10572c0dd12396eb964ab7565037c6d",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/application/use-cases/forward-gateway-subscription.use-case.ts": {
-    "mtime": 1788817442.137082,
-    "seen": 1788821459.1263568,
-    "ast_hash": "be2cc9d30e54640a80dbbdfebc627f36",
+    "mtime": 1788846844.054155,
+    "seen": 1788848815.0623634,
+    "ast_hash": "1e4e3aca732e949ba34a0419057c3bdc",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts": {
-    "mtime": 1788817442.136969,
-    "seen": 1788821459.1263578,
-    "ast_hash": "9bcb60cc8bb7be002d4bf0cb9ebc557e",
+    "mtime": 1788846844.054155,
+    "seen": 1788848815.0623643,
+    "ast_hash": "5e567dd3bf22c86d0b2075a634f85073",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/infrastructure/auth/gateway-jwt-header.adapter.ts": {
@@ -4932,27 +4920,27 @@
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/executar-tarefas.sh": {
-    "mtime": 1788842601.927178,
-    "seen": 1788845263.7146826,
-    "ast_hash": "6021c14fb92e6c8c344a3cf13eb85e3c",
+    "mtime": 1788846191.8540566,
+    "seen": 1788848815.0560899,
+    "ast_hash": "1dc4c9984bcbdda08e3c2d4d55baf65f",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/plano.json": {
-    "mtime": 1788842601.9266405,
-    "seen": 1788845263.7146854,
-    "ast_hash": "2f3aecb05260aac5551e7290a0283958",
+    "mtime": 1788846191.8530567,
+    "seen": 1788848815.0560918,
+    "ast_hash": "f4be14dcae0db3edf1b09206d241fd32",
     "semantic_hash": ""
   },
   ".spec/verification/idiomatic-nestjs-architecture.json": {
-    "mtime": 1788842450.8753932,
-    "seen": 1788845263.7157648,
-    "ast_hash": "51f1441da3e879abaed24d3bd83b0b84",
+    "mtime": 1788846069.513081,
+    "seen": 1788848815.0571651,
+    "ast_hash": "68f913aa9a386f73333ef63cd1670bce",
     "semantic_hash": ""
   },
   "test/idiomatic-nestjs-architecture.test.mjs": {
-    "mtime": 1788845691.2450793,
-    "seen": 1788845706.0458407,
-    "ast_hash": "4666d0af4bb4e7c5959bde285684ab81",
+    "mtime": 1788849042.9106905,
+    "seen": 1788849075.7362416,
+    "ast_hash": "0c7418a6a0ad8a338d1b129c442b192b",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/design.md": {
@@ -4962,15 +4950,15 @@
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/plano-execucao.html": {
-    "mtime": 1788842601.928365,
-    "seen": 1788845263.7258818,
-    "ast_hash": "916f3c3aa4f56b1d41ef91c4e6d98624",
+    "mtime": 1788846260.6106057,
+    "seen": 1788848815.067783,
+    "ast_hash": "b02dbcd17f62d972021963163a9a1042",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/plano-execucao.md": {
-    "mtime": 1788842601.9251778,
-    "seen": 1788845263.7258832,
-    "ast_hash": "ecd000781991215d6dca4798b8438a3b",
+    "mtime": 1788846191.8530567,
+    "seen": 1788848815.0677845,
+    "ast_hash": "22336a6dbdc10a363c78e66bfa4f3a3f",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/spec.md": {
@@ -4980,15 +4968,21 @@
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/tasks.md": {
-    "mtime": 1788844458.305912,
-    "seen": 1788845263.7258852,
-    "ast_hash": "1ffe7ef0917985af8698268ef854619d",
+    "mtime": 1788848125.5232127,
+    "seen": 1788848815.0678036,
+    "ast_hash": "20b3e7333152f86e53589d1944b9f0dc",
     "semantic_hash": ""
   },
   "docs/architecture/idiomatic-nestjs-module-audit.md": {
-    "mtime": 1788845820.2410996,
-    "seen": 1788845841.8324022,
-    "ast_hash": "a23bf3536a9741013c41de5cac6e89d9",
+    "mtime": 1788849005.007378,
+    "seen": 1788849075.7417018,
+    "ast_hash": "13be9567ec247ae20cbe8dadad286490",
+    "semantic_hash": ""
+  },
+  "libs/gateway/nest/src/federation/gateway-federation.module.ts": {
+    "mtime": 1788846844.055256,
+    "seen": 1788848815.0624807,
+    "ast_hash": "93aadcfc80779e9519ec822ccb30932d",
     "semantic_hash": ""
   }
 }
