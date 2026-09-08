@@ -38,7 +38,7 @@ session.
 - Esforço: alto
 - Notas: Depends on T-225's approved rule, but is file-disjoint and may be developed in parallel. Follow Red, Green, Refactor. Bounded context: Platform authorization. Use case: verify an OAuth credential. Aggregate: none; verification is a stateless security policy. Invariants: URL configuration is validated, ES256 and required claims remain enforced, subject/scope validation remains unchanged, and the verifier port does not resolve to a self-referential provider cycle. Consistency boundary: one credential verification. Affected port: OAuthCredentialVerifierPort. Prefer explicit tokens/providers over `ModuleRef` or a service locator.
 
-## T-228 — Make Gateway flows NestJS-managed providers [pendente]
+## T-228 — Make Gateway flows NestJS-managed providers [concluida]
 - Refs: US-128, AC-274
 - Arquivos: libs/gateway/nest/src/application/use-cases, libs/gateway/nest/src/auth, libs/gateway/nest/src/federation, libs/gateway/nest/src/gateway.module.ts, apps/gateway/src/app.module.ts, apps/gateway/src/subscriptions, test/gateway-federation-refactor.test.mjs, test/architecture-boundaries.test.mjs, test/clarify-gateway-module-boundaries.spec.test.mjs, test/milestone-6-apollo-mcp.test.mjs, test/milestone-6-mcp-oauth.test.mjs, test/milestone-6-mcp-propagation.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/resolve-gateway-sse-todos.test.mjs, test/structural-gateway-review.test.mjs
 - Modelo: gpt-5.6-sol
