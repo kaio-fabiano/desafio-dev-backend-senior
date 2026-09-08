@@ -1,0 +1,129 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de execução — idiomatic-nestjs-architecture</title>
+<style>
+  :root { --bg:#fafafa; --fg:#1a1a1a; --card:#fff; --borda:#e2e2e2; --sub:#666;
+          --acc:#0a7c42; --acc-fg:#fff; --aviso:#8a6d00; --aviso-bg:#fff8e1; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#141414; --fg:#eaeaea; --card:#1e1e1e; --borda:#333; --sub:#9a9a9a;
+            --acc:#17a35c; --aviso:#e0c36a; --aviso-bg:#2a2410; }
+  }
+  * { box-sizing:border-box }
+  body { margin:0; padding:2rem 1rem; background:var(--bg); color:var(--fg);
+         font:15px/1.55 system-ui,-apple-system,sans-serif }
+  main { max-width:64rem; margin:0 auto }
+  h1 { font-size:1.5rem; margin:0 0 .25rem } h3 { margin:1.5rem 0 .5rem }
+  h4 { margin:0 0 .5rem } small { color:var(--sub); font-weight:400 }
+  .sub { color:var(--sub); margin:0 0 1.25rem }
+  code { font:.85em ui-monospace,monospace; background:var(--card);
+         border:1px solid var(--borda); border-radius:4px; padding:.05em .35em; overflow-wrap:anywhere }
+  .resumo { display:flex; gap:.75rem; flex-wrap:wrap; margin:0 0 1rem }
+  .resumo div { background:var(--card); border:1px solid var(--borda); border-radius:8px;
+                padding:.5rem .9rem } .resumo b { font-size:1.2rem }
+  .executor { background:var(--card); border:1px solid var(--borda); border-radius:10px;
+              padding:1rem; margin:0 0 .5rem }
+  .executor h2 { margin:0 0 .5rem; font-size:1.05rem }
+  .nota { color:var(--sub); font-size:.85rem; margin:.5rem 0 0 }
+  #cmd { display:inline-block; margin-top:.6rem }
+  .grade { display:grid; grid-template-columns:repeat(auto-fit,minmax(17rem,1fr)); gap:.75rem }
+  .faixa { background:var(--card); border:1px solid var(--borda); border-radius:10px; padding: .9rem }
+  .tarefa { display:flex; flex-direction:column; gap:.15rem; padding:.6rem 0;
+            border-top:1px dashed var(--borda) }
+  .tarefa:first-of-type { border-top:0 }
+  .tid { font:700 .85rem ui-monospace,monospace; color:var(--acc) }
+  .meta,.arquivos { font-size:.85rem; color:var(--sub) }
+  .avisos { background:var(--aviso-bg); color:var(--aviso); border-radius:8px;
+            padding:.6rem .9rem; margin:0 0 1rem; font-size:.9rem }
+  ol li { margin:.25rem 0 }
+</style>
+<main>
+  <h1>Plano de execução — idiomatic-nestjs-architecture</h1>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-08 03:59 · regenere após mudar tasks.md</p>
+  <div class="resumo">
+    <div><b>4</b> tarefa(s) em paralelo</div>
+    <div><b>4</b> faixa(s) · <b>2</b> onda(s)</div>
+    <div><b>1</b> sequencial(is)</div>
+    <div>seleção do usuário: <b>T-225, T-226, T-227, T-228</b></div>
+    <div>branch <code>spec/idiomatic-nestjs-architecture</code></div>
+  </div>
+  
+  <div class="executor">
+    <h2>Como executar — via agente</h2>
+    <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
+    <div><code id="cmd">bash .spec/features/idiomatic-nestjs-architecture/executar-tarefas.sh</code></div>
+    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
+    O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
+    1 minuto, o agente posta no chat a <b>tabela de andamento</b>
+    (<code>onp-spec resumo idiomatic-nestjs-architecture --tabela</code>) e o
+    <b>resumo geral de andamento</b> (<code>onp-spec resumo idiomatic-nestjs-architecture</code>).</p>
+  </div>
+  
+    <section class="onda">
+      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 ∥ faixa-3 — em paralelo, janelas limpas</small></h3>
+      <div class="grade">
+      <div class="faixa">
+        <h4>faixa-1 <small>branch <code>spec/idiomatic-nestjs-architecture-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-1</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-225</span>
+          <span class="ttitulo">Align the executable DDD contract with NestJS injection</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>docs/standards/strict-nestjs-ddd.md</code> <code>tools/architecture/strict-ddd-policy.mjs</code> <code>tools/architecture/strict-ddd-scanner.mjs</code> <code>test/strict-ddd-architecture.test.mjs</code> <code>test/fixtures/strict-ddd</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-2 <small>branch <code>spec/idiomatic-nestjs-architecture-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-2</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-226</span>
+          <span class="ttitulo">Make Identity use cases NestJS-managed providers</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>libs/identity/nest/src/application/use-cases</code> <code>libs/identity/nest/src/identity.module.ts</code> <code>libs/identity/nest/src/oauth-issuer</code> <code>libs/identity/nest/src/registration</code> <code>libs/identity/nest/src/identity-core.architecture.spec.ts</code> <code>test/identity-federation-refactor.test.mjs</code> <code>test/wordpress-registration-graphql.contract.test.mjs</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-3 <small>branch <code>spec/idiomatic-nestjs-architecture-faixa-3</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-3</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-227</span>
+          <span class="ttitulo">Make OAuth verification a NestJS-managed use case</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts</code> <code>libs/platform/nest/src/oauth-resource/oauth-resource.module.ts</code> <code>libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts</code> <code>libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts</code> <code>libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts</code> <code>libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts</code> <code>test/oauth-resource-server-auth.spec.test.mjs</code> <code>test/harden-oauth-resource-service.test.mjs</code></span>
+        </div>
+      </div></div>
+    </section>
+    <section class="onda">
+      <h3>Onda 2 <small>faixa-4 — em paralelo, janelas limpas</small></h3>
+      <div class="grade">
+      <div class="faixa">
+        <h4>faixa-4 <small>branch <code>spec/idiomatic-nestjs-architecture-faixa-4</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-4</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-228</span>
+          <span class="ttitulo">Make Gateway flows NestJS-managed providers</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>libs/gateway/nest/src/application/use-cases</code> <code>libs/gateway/nest/src/auth</code> <code>libs/gateway/nest/src/federation</code> <code>libs/gateway/nest/src/gateway.module.ts</code> <code>apps/gateway/src/app.module.ts</code> <code>apps/gateway/src/subscriptions</code> <code>test/gateway-federation-refactor.test.mjs</code></span>
+        </div>
+      </div></div>
+    </section>
+  
+    <section class="onda">
+      <h3>Sequenciais <small>após as ondas, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
+        <div class="tarefa">
+          <span class="tid">T-229</span>
+          <span class="ttitulo">Audit every NestJS module and close repository evidence</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>test/idiomatic-nestjs-architecture.test.mjs</code> <code>docs/architecture/idiomatic-nestjs-module-audit.md</code> <code>graphify-out</code></span>
+        </div></div></div>
+    </section>
+  <section class="onda">
+    <h3>Branches e commits</h3>
+    <ol>
+      <li>tudo parte da branch de trabalho <code>spec/idiomatic-nestjs-architecture</code></li>
+      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx idiomatic-nestjs-architecture: título</code></li>
+      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
+      <li>gate final: <code>onp-spec verify idiomatic-nestjs-architecture</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
+    </ol>
+  </section>
+</main>

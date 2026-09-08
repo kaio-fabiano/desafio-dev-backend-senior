@@ -1,0 +1,157 @@
+{
+  "runId": "desafio-dev-backend-senior-idiomatic-nestjs-architecture-mts54bz3",
+  "feature": "idiomatic-nestjs-architecture",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-225",
+    "T-226",
+    "T-227",
+    "T-228"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-08 03:59",
+  "branchTrabalho": "spec/idiomatic-nestjs-architecture",
+  "baseDir": ".spec/features/idiomatic-nestjs-architecture",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ],
+    [
+      "faixa-4"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/idiomatic-nestjs-architecture-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-225",
+          "titulo": "Align the executable DDD contract with NestJS injection",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "docs/standards/strict-nestjs-ddd.md",
+            "tools/architecture/strict-ddd-policy.mjs",
+            "tools/architecture/strict-ddd-scanner.mjs",
+            "test/strict-ddd-architecture.test.mjs",
+            "test/fixtures/strict-ddd"
+          ],
+          "refs": [
+            "US-127",
+            "AC-270",
+            "AC-271"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/idiomatic-nestjs-architecture-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-226",
+          "titulo": "Make Identity use cases NestJS-managed providers",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "libs/identity/nest/src/application/use-cases",
+            "libs/identity/nest/src/identity.module.ts",
+            "libs/identity/nest/src/oauth-issuer",
+            "libs/identity/nest/src/registration",
+            "libs/identity/nest/src/identity-core.architecture.spec.ts",
+            "test/identity-federation-refactor.test.mjs",
+            "test/wordpress-registration-graphql.contract.test.mjs"
+          ],
+          "refs": [
+            "US-128",
+            "AC-272"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/idiomatic-nestjs-architecture-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-227",
+          "titulo": "Make OAuth verification a NestJS-managed use case",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts",
+            "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts",
+            "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
+            "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts",
+            "libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts",
+            "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts",
+            "test/oauth-resource-server-auth.spec.test.mjs",
+            "test/harden-oauth-resource-service.test.mjs"
+          ],
+          "refs": [
+            "US-128",
+            "AC-273"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-4",
+      "branch": "spec/idiomatic-nestjs-architecture-faixa-4",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-idiomatic-nestjs-architecture-faixa-4",
+      "tarefas": [
+        {
+          "id": "T-228",
+          "titulo": "Make Gateway flows NestJS-managed providers",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "libs/gateway/nest/src/application/use-cases",
+            "libs/gateway/nest/src/auth",
+            "libs/gateway/nest/src/federation",
+            "libs/gateway/nest/src/gateway.module.ts",
+            "apps/gateway/src/app.module.ts",
+            "apps/gateway/src/subscriptions",
+            "test/gateway-federation-refactor.test.mjs"
+          ],
+          "refs": [
+            "US-128",
+            "AC-274"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-229",
+      "titulo": "Audit every NestJS module and close repository evidence",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "test/idiomatic-nestjs-architecture.test.mjs",
+        "docs/architecture/idiomatic-nestjs-module-audit.md",
+        "graphify-out"
+      ],
+      "refs": [
+        "US-129",
+        "US-130",
+        "AC-275",
+        "AC-276"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
