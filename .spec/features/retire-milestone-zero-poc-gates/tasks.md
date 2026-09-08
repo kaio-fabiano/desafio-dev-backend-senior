@@ -1,0 +1,11 @@
+# Tasks: Retire Milestone Zero PoC gates
+
+> feature: retire-milestone-zero-poc-gates
+
+## T-230 — Retire obsolete PoC gates and preserve current evidence [pendente]
+
+- Refs: US-131, AC-277, AC-278, AC-279
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: .spec/features/retire-milestone-zero-poc-gates, .spec/features/marco-0-pocs, .spec/verification/marco-0-pocs.json, apps/wordpress-integration/package.json, apps/wordpress-integration/project.json, test/retire-milestone-zero-poc-gates.test.mjs, test/marco-0-workspace.test.mjs, test/marco-0-sse.test.mjs, test/marco-0-auth.test.mjs, test/marco-0-wordpress.test.mjs, test/marco-0-decisions.test.mjs, test/marco-0-pocs.spec.test.js, test/fixtures/auth-probe.ts, test/fixtures/auth-resource-servers.ts, test/fixtures/federated-sse-gateway.ts, test/fixtures/federated-sse-probe.ts, test/fixtures/federated-sse-subgraph.ts, docs/adrs/001-graphql-sse-federado.md, docs/adrs/002-oauth-multi-resource.md, docs/adrs/003-wordpress-federation.md, docs/prds/08-riscos-e-decisoes-pendentes.md, test/reconcile-architecture-decisions.spec.test.mjs, .spec/features/milestone-8-compliance-hardening/tasks.md, .spec/features/refactor-registration-boundaries/tasks.md
+- Notas: Execute in one fresh headless Codex chat with no inherited conversation. This task changes test governance only; bounded contexts, aggregates, invariants, consistency boundaries, ports, production code, and runtime topology are unaffected. Follow Red by adding a focused annotated structural test that fails because the active legacy feature/tests and default WordPress probe still exist. Green removes only superseded Milestone Zero tests and their exclusively owned fixtures, archives decisions through existing ADRs/risk documentation, and exposes the unchanged WordPress probe only as an explicit acceptance target. Preserve `test/fixtures/auth-server.ts` because current MCP tests still use it. Refactor updates every active reference to current evidence, runs focused tests plus relevant workspace gates, refreshes Graphify if required, and closes with `onp-spec verify retire-milestone-zero-poc-gates` and `onp-spec audit --ci`. Do not stage or modify the user's unrelated working-tree changes, especially `libs/platform/nest/src/oauth-resource/domain/value-objects/oauth-claims.ts` and pre-existing verification records.

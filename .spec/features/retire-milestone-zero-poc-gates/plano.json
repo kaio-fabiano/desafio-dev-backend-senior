@@ -1,0 +1,59 @@
+{
+  "runId": "desafio-dev-backend-senior-retire-milestone-zero-poc-gates-mtt0vwc6",
+  "feature": "retire-milestone-zero-poc-gates",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-08 18:48",
+  "branchTrabalho": "spec/retire-milestone-zero-poc-gates",
+  "baseDir": ".spec/features/retire-milestone-zero-poc-gates",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-retire-milestone-zero-poc-gates-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-230",
+      "titulo": "Retire obsolete PoC gates and preserve current evidence",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        ".spec/features/retire-milestone-zero-poc-gates",
+        ".spec/features/marco-0-pocs",
+        ".spec/verification/marco-0-pocs.json",
+        "apps/wordpress-integration/package.json",
+        "apps/wordpress-integration/project.json",
+        "test/retire-milestone-zero-poc-gates.test.mjs",
+        "test/marco-0-workspace.test.mjs",
+        "test/marco-0-sse.test.mjs",
+        "test/marco-0-auth.test.mjs",
+        "test/marco-0-wordpress.test.mjs",
+        "test/marco-0-decisions.test.mjs",
+        "test/marco-0-pocs.spec.test.js",
+        "test/fixtures/auth-probe.ts",
+        "test/fixtures/auth-resource-servers.ts",
+        "test/fixtures/federated-sse-gateway.ts",
+        "test/fixtures/federated-sse-probe.ts",
+        "test/fixtures/federated-sse-subgraph.ts",
+        "docs/adrs/001-graphql-sse-federado.md",
+        "docs/adrs/002-oauth-multi-resource.md",
+        "docs/adrs/003-wordpress-federation.md",
+        "docs/prds/08-riscos-e-decisoes-pendentes.md",
+        "test/reconcile-architecture-decisions.spec.test.mjs",
+        ".spec/features/milestone-8-compliance-hardening/tasks.md",
+        ".spec/features/refactor-registration-boundaries/tasks.md"
+      ],
+      "refs": [
+        "US-131",
+        "AC-277",
+        "AC-278",
+        "AC-279"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
