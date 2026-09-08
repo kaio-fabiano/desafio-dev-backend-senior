@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano idiomatic-nestjs-architecture` em 2026-09-08 05:43
+# executar-tarefas.sh — gerado por `onp-spec plano idiomatic-nestjs-architecture` em 2026-09-08 06:41
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-idiomatic-nestjs-architecture-mts8u3fx'
+RUN_ID='desafio-dev-backend-senior-idiomatic-nestjs-architecture-mtsawxne'
 FEATURE='idiomatic-nestjs-architecture'
 BASE_BRANCH='spec/idiomatic-nestjs-architecture'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,17 +168,17 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-228 (ordem do tasks.md) ──
-executar_seq_T_228() {
-  info 'sequencial T-228 — Make Gateway flows NestJS-managed providers'
-  if rodar_tarefa seq 'T-228' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-227 (ordem do tasks.md) ──
+executar_seq_T_227() {
+  info 'sequencial T-227 — Make OAuth verification a NestJS-managed use case'
+  if rodar_tarefa seq 'T-227' 'Você executa UMA tarefa da feature "idiomatic-nestjs-architecture" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/idiomatic-nestjs-architecture/spec.md, .spec/features/idiomatic-nestjs-architecture/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-228 — "Make Gateway flows NestJS-managed providers"
-  critérios/refs: AC-274 (Gateway flows are container-managed)
-  arquivos permitidos (e seus testes): libs/gateway/nest/src/application/use-cases, libs/gateway/nest/src/auth, libs/gateway/nest/src/federation, libs/gateway/nest/src/gateway.module.ts, apps/gateway/src/app.module.ts, apps/gateway/src/subscriptions, test/gateway-federation-refactor.test.mjs, test/architecture-boundaries.test.mjs, test/clarify-gateway-module-boundaries.spec.test.mjs, test/milestone-6-apollo-mcp.test.mjs, test/milestone-6-mcp-oauth.test.mjs, test/milestone-6-mcp-propagation.test.mjs, test/milestone-8-identity-gateway.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/remove-wordpress-federation-runtime.spec.test.mjs, test/resolve-gateway-sse-todos.test.mjs, test/structural-gateway-review.test.mjs
-  mensagem de commit: "T-228 idiomatic-nestjs-architecture: Make Gateway flows NestJS-managed providers"
+T-227 — "Make OAuth verification a NestJS-managed use case"
+  critérios/refs: AC-273 (OAuth resource verification is container-managed)
+  arquivos permitidos (e seus testes): libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts, libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts, libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts, test/oauth-resource-server-auth.spec.test.mjs, test/harden-oauth-resource-service.test.mjs
+  mensagem de commit: "T-227 idiomatic-nestjs-architecture: Make OAuth verification a NestJS-managed use case"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -188,15 +188,15 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-228 idiomatic-nestjs-architecture: Make Gateway flows NestJS-managed providers (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-227 idiomatic-nestjs-architecture: Make OAuth verification a NestJS-managed use case (auto-commit do plano)'
     fi
-    marcar_concluidas T-228
-    verde "✔ T-228 concluída"
+    marcar_concluidas T-227
+    verde "✔ T-227 concluída"
     return 0
   fi
-  vermelho "✘ T-228 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/idiomatic-nestjs-architecture/executar-tarefas.sh --seq T-228"
-  FALHAS="$FALHAS T-228"
+  vermelho "✘ T-227 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/idiomatic-nestjs-architecture/executar-tarefas.sh --seq T-227"
+  FALHAS="$FALHAS T-227"
   return 1
 }
 
@@ -285,14 +285,14 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_228 || true
+  executar_seq_T_227 || true
   executar_seq_T_229 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-228 (sequencial)"
+  echo "  seq       T-227 (sequencial)"
   echo "  seq       T-229 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
@@ -328,7 +328,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-228) evento --tipo inicio --escopo "seq:T-228"; iniciar_resumos; executar_seq_T_228 || true; encerrar "seq:T-228" ;;
+      T-227) evento --tipo inicio --escopo "seq:T-227"; iniciar_resumos; executar_seq_T_227 || true; encerrar "seq:T-227" ;;
       T-229) evento --tipo inicio --escopo "seq:T-229"; iniciar_resumos; executar_seq_T_229 || true; encerrar "seq:T-229" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;

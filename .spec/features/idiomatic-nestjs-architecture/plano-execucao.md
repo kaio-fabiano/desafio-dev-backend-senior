@@ -1,11 +1,11 @@
 # Plano de execução — idiomatic-nestjs-architecture
 
-> gerado por `onp-spec plano` em 2026-09-08 05:43 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-08 06:41 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano idiomatic-nestjs-architecture --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (3 já concluída(s): T-225, T-226, T-227)
+- **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (3 já concluída(s): T-225, T-226, T-228)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/idiomatic-nestjs-architecture`; levar para a main é decisão sua
 
@@ -13,7 +13,7 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-228 | Make Gateway flows NestJS-managed providers | `gpt-5.6-sol` | high |
+| T-227 | Make OAuth verification a NestJS-managed use case | `gpt-5.6-sol` | high |
 | T-229 | Audit every NestJS module and close repository evidence | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits

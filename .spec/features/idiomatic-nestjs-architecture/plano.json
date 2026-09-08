@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-idiomatic-nestjs-architecture-mts8u3fx",
+  "runId": "desafio-dev-backend-senior-idiomatic-nestjs-architecture-mtsawxne",
   "feature": "idiomatic-nestjs-architecture",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-08 05:43",
+  "geradoEm": "2026-09-08 06:41",
   "branchTrabalho": "spec/idiomatic-nestjs-architecture",
   "baseDir": ".spec/features/idiomatic-nestjs-architecture",
   "specDir": ".spec",
@@ -16,32 +16,23 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-228",
-      "titulo": "Make Gateway flows NestJS-managed providers",
+      "id": "T-227",
+      "titulo": "Make OAuth verification a NestJS-managed use case",
       "modelo": "gpt-5.6-sol",
       "esforco": "high",
       "arquivos": [
-        "libs/gateway/nest/src/application/use-cases",
-        "libs/gateway/nest/src/auth",
-        "libs/gateway/nest/src/federation",
-        "libs/gateway/nest/src/gateway.module.ts",
-        "apps/gateway/src/app.module.ts",
-        "apps/gateway/src/subscriptions",
-        "test/gateway-federation-refactor.test.mjs",
-        "test/architecture-boundaries.test.mjs",
-        "test/clarify-gateway-module-boundaries.spec.test.mjs",
-        "test/milestone-6-apollo-mcp.test.mjs",
-        "test/milestone-6-mcp-oauth.test.mjs",
-        "test/milestone-6-mcp-propagation.test.mjs",
-        "test/milestone-8-identity-gateway.test.mjs",
+        "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
+        "libs/platform/nest/src/oauth-resource/application/use-cases/verify-oauth-credential.use-case.spec.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts",
         "test/oauth-resource-server-auth.spec.test.mjs",
-        "test/remove-wordpress-federation-runtime.spec.test.mjs",
-        "test/resolve-gateway-sse-todos.test.mjs",
-        "test/structural-gateway-review.test.mjs"
+        "test/harden-oauth-resource-service.test.mjs"
       ],
       "refs": [
         "US-128",
-        "AC-274"
+        "AC-273"
       ]
     },
     {
@@ -65,7 +56,7 @@
   "concluidas": [
     "T-225",
     "T-226",
-    "T-227"
+    "T-228"
   ],
   "avisos": []
 }
