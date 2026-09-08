@@ -1,11 +1,11 @@
 {
   "feature": "oauth-resource-server-auth",
-  "timestamp": "2026-09-08T02:44:50.157Z",
-  "gitRev": "fcd96e4",
-  "command": "cat /tmp/strict-ddd-full-green.tap",
+  "timestamp": "2026-09-08T20:12:48.249Z",
+  "gitRev": "7aa899f",
+  "command": "cat /tmp/onp-final-green.tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 674,
+  "testsParsed": 677,
   "results": {
     "AC-174": {
       "status": "pass",
