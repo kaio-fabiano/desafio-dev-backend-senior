@@ -201,6 +201,11 @@ const expectedModules = {
 };
 
 const expectedManualUseCases = [];
+const expectedRuntimeBoundaries = [
+  'apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts',
+  'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
+  'libs/identity/nest/src/registration/registration.service.ts',
+];
 
 async function productionTypeScriptFiles(directory) {
   const files = [];
@@ -337,6 +342,8 @@ test('AC-275: every NestJS module preserves explicit boundaries @spec:AC-275', a
     assert.match(report, new RegExp(`\\b${file.replaceAll('.', '\\.')}`));
   for (const site of expectedManualUseCases)
     assert.match(report, new RegExp(site.replaceAll('.', '\\.')));
+  for (const site of expectedRuntimeBoundaries)
+    assert.match(report, new RegExp(site.replaceAll('.', '\\.')));
   assert.match(report, /No manual `\*UseCase` construction remains/);
 });
 
@@ -354,7 +361,7 @@ test('AC-276: every task starts one fresh Codex session and commits atomically @
     ...executor.matchAll(/Sua tarefa \(somente ela\):\n(T-\d+)/g),
   ].map((match) => match[1]);
 
-  assert.deepEqual(dispatched, ['T-228', 'T-229']);
+  assert.deepEqual(dispatched, ['T-227', 'T-229']);
   assert.deepEqual(prompts, dispatched);
   assert.equal(new Set(dispatched).size, dispatched.length);
   assert.equal((executor.match(/^\s*if codex exec "\$3"/gm) ?? []).length, 1);
@@ -370,11 +377,7 @@ test('AC-276: every task starts one fresh Codex session and commits atomically @
     executor.indexOf('\nlistar() {'),
   );
   assert.ok(
-    runAll.indexOf('wait "$PID_FAIXA_1"') <
-      runAll.indexOf('executar_seq_T_229'),
-  );
-  assert.ok(
-    runAll.indexOf('wait "$PID_FAIXA_2"') <
+    runAll.indexOf('executar_seq_T_227') <
       runAll.indexOf('executar_seq_T_229'),
   );
 });

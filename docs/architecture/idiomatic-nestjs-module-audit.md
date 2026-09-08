@@ -68,6 +68,17 @@ No manual `*UseCase` construction remains in production TypeScript. Stable
 Gateway collaborators now come from explicit providers, while request and
 subgraph data are passed to those injected use cases as runtime input.
 
+Three outer-layer composition sites still construct objects from runtime data:
+
+| Site | Runtime boundary |
+| --- | --- |
+| `apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts` | RabbitMQ channels and forked entity managers exist only after bootstrap, so the runtime builds their publishers, consumers, and repositories together. |
+| `libs/gateway/nest/src/federation/gateway-federation.configuration.ts` | Apollo calls `buildService` with each discovered subgraph URL, so it creates that URL-bound `AuthenticatedDataSource` while reusing injected use cases. |
+| `libs/identity/nest/src/registration/registration.service.ts` | Better Auth supplies its internal adapter only to the active post-registration hook, so the service wraps it as explicit use-case input instead of locating a provider. |
+
+Constructors inside module `useFactory` providers remain NestJS-owned and are
+already covered by the exact module metadata inventory above.
+
 The same scan rejects `ModuleRef`, `forwardRef()`, static singleton instances,
 and `getInstance()` in production TypeScript. No occurrence was found.
 
@@ -78,8 +89,8 @@ invokes that path once, and that path starts bare `codex exec`; it never uses
 `codex exec resume` or a previous transcript. The prompt repeats the one-task
 scope and requires a task-owned commit.
 
-The current executor runs T-228 and then T-229 sequentially. T-229 starts only
-after T-228's dedicated process returns and its changes are committed. This
+The current executor runs T-227 and then T-229 sequentially. T-229 starts only
+after T-227's dedicated process returns and its changes are committed. This
 transfers state through committed files, not conversational history. Targeted
 retries call the same fresh-session path.
 
@@ -92,18 +103,22 @@ NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx \
   --test --test-reporter=tap test/idiomatic-nestjs-architecture.test.mjs
 ```
 
-After T-228 integration, AC-275 failed because the new Gateway federation
-module was absent from the 17-module inventory. AC-276 failed because its
-executor snapshot still expected T-226 although the regenerated plan dispatches
-only T-228 and T-229. Green refreshes both exact snapshots; the tests retain
-module, provider-token, manual-construction, and executor assertions so future
-drift fails closed.
+After T-227 integration, AC-276 failed because its executor snapshot still
+expected T-228 although the regenerated plan dispatches only T-227 and T-229.
+AC-275 remained green for all 18 modules. Green refreshes the executor snapshot;
+the tests retain module, provider-token, runtime-construction, and fresh-session
+assertions so future drift fails closed.
 
 ## Verification status
 
 - Focused AC-275 and AC-276 tests: pass (2/2).
-- Complete root Node test run: pass (253/253).
-- Complete Vitest run: pass (64/64 files).
-- Graphify refresh: 5,361 nodes, 9,765 edges, and 393 communities; the
+- Complete root Node test run: 252/254 pass. AC-013 and AC-014 are blocked
+  because the Rover container timed out downloading its `supergraph` binary
+  while `github.com:443` was unavailable.
+- Complete Vitest run: 63/64 files pass. The full E2E file is blocked because
+  its `wordpress-setup` container cannot download pinned GitHub dependencies.
+- Graphify refresh: 5,363 nodes, 9,771 edges, and 397 communities; the
   multigraph diagnostic found no unverified nodes, invalid endpoints,
   duplicates, collapsed edges, or self-loops.
+- Four SQL files were skipped because Graphify's optional SQL parser is not
+  installed; none is part of the NestJS module inventory.

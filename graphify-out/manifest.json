@@ -534,9 +534,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1788846069.7450829,
-    "seen": 1788848815.0575762,
-    "ast_hash": "a790635c308bd40643ec17ec109929c8",
+    "mtime": 1788849560.0358398,
+    "seen": 1788851265.149233,
+    "ast_hash": "54e43a26f60783b4ffda153045b59efc",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -2634,9 +2634,9 @@
     "semantic_hash": "6562e000e59b63b106cad97392c9b963"
   },
   "test/oauth-resource-server-auth.spec.test.mjs": {
-    "mtime": 1788847386.7078655,
-    "seen": 1788848815.0661857,
-    "ast_hash": "b02fbf1223d956504478966b9089ca46",
+    "mtime": 1788850858.3053,
+    "seen": 1788851265.1579301,
+    "ast_hash": "d1da0363da051f236c1e19c59f9614b7",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-payment-provider/design.md": {
@@ -4458,9 +4458,9 @@
     "semantic_hash": ""
   },
   ".spec/features/strict-nestjs-ddd-migration/tasks.md": {
-    "mtime": 1788835556.1184747,
-    "seen": 1788836056.9387484,
-    "ast_hash": "f3bcd74b6e90ad4ff3ecad6c2f1df9ee",
+    "mtime": 1788849657.4026053,
+    "seen": 1788851265.165025,
+    "ast_hash": "f15068e148743e41c23107a2c974efa5",
     "semantic_hash": ""
   },
   "docs/adrs/009-wordpress-identity-registration.md": {
@@ -4920,27 +4920,27 @@
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/executar-tarefas.sh": {
-    "mtime": 1788846191.8540566,
-    "seen": 1788848815.0560899,
-    "ast_hash": "1dc4c9984bcbdda08e3c2d4d55baf65f",
+    "mtime": 1788850149.6254385,
+    "seen": 1788851265.1477084,
+    "ast_hash": "88bfe369127a820ae6d9bfbd9016939a",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/plano.json": {
-    "mtime": 1788846191.8530567,
-    "seen": 1788848815.0560918,
-    "ast_hash": "f4be14dcae0db3edf1b09206d241fd32",
+    "mtime": 1788850149.6244385,
+    "seen": 1788851265.147711,
+    "ast_hash": "e27729dc175f150f1d7031aa9f059e9b",
     "semantic_hash": ""
   },
   ".spec/verification/idiomatic-nestjs-architecture.json": {
-    "mtime": 1788846069.513081,
-    "seen": 1788848815.0571651,
-    "ast_hash": "68f913aa9a386f73333ef63cd1670bce",
+    "mtime": 1788849559.807838,
+    "seen": 1788851265.148858,
+    "ast_hash": "4cf828934fb8a41a5fed0484621d74ee",
     "semantic_hash": ""
   },
   "test/idiomatic-nestjs-architecture.test.mjs": {
-    "mtime": 1788849042.9106905,
-    "seen": 1788849075.7362416,
-    "ast_hash": "0c7418a6a0ad8a338d1b129c442b192b",
+    "mtime": 1788851403.691946,
+    "seen": 1788852682.696021,
+    "ast_hash": "32dd9384d9c54454040f72428dca0b05",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/design.md": {
@@ -4950,15 +4950,15 @@
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/plano-execucao.html": {
-    "mtime": 1788846260.6106057,
-    "seen": 1788848815.067783,
-    "ast_hash": "b02dbcd17f62d972021963163a9a1042",
+    "mtime": 1788850165.9305649,
+    "seen": 1788851265.1598082,
+    "ast_hash": "6225d35a80bc255b47c4a53505db78b7",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/plano-execucao.md": {
-    "mtime": 1788846191.8530567,
-    "seen": 1788848815.0677845,
-    "ast_hash": "22336a6dbdc10a363c78e66bfa4f3a3f",
+    "mtime": 1788850149.6244385,
+    "seen": 1788851265.1598237,
+    "ast_hash": "d71e321ee710c37c096b08189949bd21",
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/spec.md": {
@@ -4968,15 +4968,15 @@
     "semantic_hash": ""
   },
   ".spec/features/idiomatic-nestjs-architecture/tasks.md": {
-    "mtime": 1788848125.5232127,
-    "seen": 1788848815.0678036,
-    "ast_hash": "20b3e7333152f86e53589d1944b9f0dc",
+    "mtime": 1788850941.2138243,
+    "seen": 1788851265.1599338,
+    "ast_hash": "da1254d09d0ce8f99cbbf52442a93095",
     "semantic_hash": ""
   },
   "docs/architecture/idiomatic-nestjs-module-audit.md": {
-    "mtime": 1788849005.007378,
-    "seen": 1788849075.7417018,
-    "ast_hash": "13be9567ec247ae20cbe8dadad286490",
+    "mtime": 1788852725.7565506,
+    "seen": 1788852755.2249053,
+    "ast_hash": "0818b16566ffef3b1c2f4aef463126ec",
     "semantic_hash": ""
   },
   "libs/gateway/nest/src/federation/gateway-federation.module.ts": {
