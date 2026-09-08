@@ -253,12 +253,24 @@ export function usesStrictTypeScriptRules(file) {
 export const forbiddenCoreDependencies = [
   /^@nestjs(?:\/|$)/,
   /^@apollo(?:\/|$)/,
+  /^@as-integrations\/express5(?:\/|$)/,
+  /^@better-auth(?:\/|$)/,
+  /^@opentelemetry(?:\/|$)/,
+  /^@thallesp\/nestjs-better-auth(?:\/|$)/,
+  /^better-auth(?:\/|$)/,
+  /^(?:express|fastify)(?:\/|$)/,
   /^(?:graphql|graphql-sse)(?:\/|$)/,
+  /^(?:node:)?(?:dgram|http|http2|https|net|tls)(?:\/|$)/,
   /^@mikro-orm(?:\/|$)/,
   /^(?:pg|prisma|typeorm|sequelize|drizzle-orm)(?:\/|$)/,
   /^(?:amqplib|kafkajs|nats|ioredis)(?:\/|$)/,
-  /(?:^|\/)(?:infrastructure|persistence|adapters?|presentation)(?:\/|$)/,
+  /(?:^|\/)(?:config(?:uration)?|infrastructure|persistence|adapters?|presentation)(?:\/|$)/,
 ];
+
+export const applicationNestInjectionImports = new Set([
+  'Inject',
+  'Injectable',
+]);
 
 export function isDedicatedFile(file) {
   return (

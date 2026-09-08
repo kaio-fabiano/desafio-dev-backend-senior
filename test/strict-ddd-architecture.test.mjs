@@ -67,7 +67,7 @@ test('config exceptions reject multiple exports and accept one vendor configurat
   assert.deepEqual(scanFiles([fixture('valid-vendor.config.ts')]), []);
 });
 
-test('domain and application layers reject framework dependencies @spec:AC-256', () => {
+test('domain rejects framework dependencies @spec:AC-256', () => {
   const violations = scanFiles(
     [
       {
@@ -87,6 +87,125 @@ test('domain and application layers reject framework dependencies @spec:AC-256',
       line: 1,
     },
   ]);
+});
+
+test('Application accepts only NestJS injection primitives while Domain stays NestJS-free @spec:AC-270', () => {
+  assert.deepEqual(
+    scanFiles([
+      {
+        file: 'libs/identity/nest/src/application/use-cases/register-user.use-case.ts',
+        source: `import { Inject, Injectable } from '@nestjs/common';
+import { IdentityPort } from '../ports/identity.port';
+
+@Injectable()
+export class RegisterUserUseCase {
+  constructor(@Inject(IdentityPort) private readonly identities: IdentityPort) {}
+}`,
+      },
+    ]),
+    [],
+  );
+
+  assert.deepEqual(
+    scanFiles([
+      {
+        file: 'libs/identity/nest/src/domain/entities/user.entity.ts',
+        source: `import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class UserEntity {}`,
+      },
+    ]),
+    [
+      {
+        code: 'forbidden-dependency',
+        declaration: '@nestjs/common',
+        file: 'libs/identity/nest/src/domain/entities/user.entity.ts',
+        line: 1,
+      },
+      {
+        code: 'framework-decorator',
+        declaration: 'Injectable',
+        file: 'libs/identity/nest/src/domain/entities/user.entity.ts',
+        line: 3,
+      },
+    ],
+  );
+});
+
+test('Application rejects outer concerns and unsupported framework decorators @spec:AC-271', () => {
+  assert.deepEqual(
+    scanFiles([
+      {
+        file: 'libs/identity/nest/src/application/use-cases/leaky.use-case.ts',
+        source: `import { Request } from 'express';
+import { EntityManager } from '@mikro-orm/core';
+import { ConfigService } from '@nestjs/config';
+import { betterAuth } from 'better-auth';
+import { GraphQLResolveInfo } from 'graphql';
+import { IdentityAdapter } from '../../infrastructure/identity.adapter';
+
+export class LeakyUseCase {}`,
+      },
+      {
+        file: 'libs/identity/nest/src/application/use-cases/web.use-case.ts',
+        source: `import { Controller } from '@nestjs/common';
+
+@Controller()
+export class WebUseCase {}`,
+      },
+    ]),
+    [
+      {
+        code: 'forbidden-dependency',
+        declaration: 'express',
+        file: 'libs/identity/nest/src/application/use-cases/leaky.use-case.ts',
+        line: 1,
+      },
+      {
+        code: 'forbidden-dependency',
+        declaration: '@mikro-orm/core',
+        file: 'libs/identity/nest/src/application/use-cases/leaky.use-case.ts',
+        line: 2,
+      },
+      {
+        code: 'forbidden-dependency',
+        declaration: '@nestjs/config',
+        file: 'libs/identity/nest/src/application/use-cases/leaky.use-case.ts',
+        line: 3,
+      },
+      {
+        code: 'forbidden-dependency',
+        declaration: 'better-auth',
+        file: 'libs/identity/nest/src/application/use-cases/leaky.use-case.ts',
+        line: 4,
+      },
+      {
+        code: 'forbidden-dependency',
+        declaration: 'graphql',
+        file: 'libs/identity/nest/src/application/use-cases/leaky.use-case.ts',
+        line: 5,
+      },
+      {
+        code: 'forbidden-dependency',
+        declaration: '../../infrastructure/identity.adapter',
+        file: 'libs/identity/nest/src/application/use-cases/leaky.use-case.ts',
+        line: 6,
+      },
+      {
+        code: 'forbidden-dependency',
+        declaration: '@nestjs/common',
+        file: 'libs/identity/nest/src/application/use-cases/web.use-case.ts',
+        line: 1,
+      },
+      {
+        code: 'framework-decorator',
+        declaration: 'Controller',
+        file: 'libs/identity/nest/src/application/use-cases/web.use-case.ts',
+        line: 3,
+      },
+    ],
+  );
 });
 
 test('focused classes and abstract ports are accepted @spec:AC-257', () => {
@@ -222,12 +341,6 @@ test('unlayered orchestration and unknown production roots fail the repository g
           code: 'unclassified-production',
           declaration: 'missing repository classification',
           file: 'apps/catalog/src/catalog.service.ts',
-          line: 1,
-        },
-        {
-          code: 'forbidden-dependency',
-          declaration: '@nestjs/common',
-          file: 'libs/identity/nest/src/application/use-cases/register-user.use-case.ts',
           line: 1,
         },
         {

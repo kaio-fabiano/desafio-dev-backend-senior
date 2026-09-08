@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import ts from 'typescript';
 
 import {
+  applicationNestInjectionImports,
   classifyRepositoryPath,
   forbiddenCoreDependencies,
   isConfigFile,
@@ -85,6 +86,58 @@ function isVendorConfigExport(statements) {
   );
 }
 
+function applicationNestImports(statement) {
+  if (statement.moduleSpecifier.text !== '@nestjs/common') return new Map();
+  const bindings = statement.importClause?.namedBindings;
+  if (!bindings || !ts.isNamedImports(bindings)) return new Map();
+  return new Map(
+    bindings.elements
+      .filter((element) =>
+        applicationNestInjectionImports.has(
+          element.propertyName?.text ?? element.name.text,
+        ),
+      )
+      .map((element) => [
+        element.name.text,
+        element.propertyName?.text ?? element.name.text,
+      ]),
+  );
+}
+
+function allowsApplicationNestImport(statement) {
+  const bindings = statement.importClause?.namedBindings;
+  return (
+    statement.moduleSpecifier.text === '@nestjs/common' &&
+    !statement.importClause?.name &&
+    bindings &&
+    ts.isNamedImports(bindings) &&
+    bindings.elements.length > 0 &&
+    bindings.elements.every((element) =>
+      applicationNestInjectionImports.has(
+        element.propertyName?.text ?? element.name.text,
+      ),
+    )
+  );
+}
+
+function decoratorName(decorator) {
+  const expression = ts.isCallExpression(decorator.expression)
+    ? decorator.expression.expression
+    : decorator.expression;
+  return ts.isIdentifier(expression) ? expression.text : null;
+}
+
+function allowsApplicationNestDecorator(node, decorator, imports) {
+  if (!ts.isCallExpression(decorator.expression)) return false;
+  const imported = imports.get(decoratorName(decorator));
+  if (imported === 'Injectable') return ts.isClassDeclaration(node);
+  return (
+    imported === 'Inject' &&
+    ts.isParameter(node) &&
+    ts.isConstructorDeclaration(node.parent)
+  );
+}
+
 function scanSource(file, text) {
   const source = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
   const path = normalized(file);
@@ -152,10 +205,17 @@ function scanSource(file, text) {
   }
 
   if (isCoreLayer(path)) {
+    const boundary = classifyRepositoryPath(path).boundary;
+    const imports = new Map();
     for (const statement of source.statements.filter(ts.isImportDeclaration)) {
       const specifier = statement.moduleSpecifier.text;
+      if (boundary === 'application') {
+        for (const [local, imported] of applicationNestImports(statement))
+          imports.set(local, imported);
+      }
       if (
-        forbiddenCoreDependencies.some((pattern) => pattern.test(specifier))
+        forbiddenCoreDependencies.some((pattern) => pattern.test(specifier)) &&
+        !(boundary === 'application' && allowsApplicationNestImport(statement))
       ) {
         violations.push(
           violation(path, statement, 'forbidden-dependency', specifier, source),
@@ -163,16 +223,23 @@ function scanSource(file, text) {
       }
     }
     ts.forEachChild(source, function visit(node) {
-      if (ts.canHaveDecorators(node) && ts.getDecorators(node)?.length) {
-        violations.push(
-          violation(
-            path,
-            node,
-            'framework-decorator',
-            node.getText(source).split(/\s|\{/)[0],
-            source,
-          ),
-        );
+      if (ts.canHaveDecorators(node)) {
+        for (const decorator of ts.getDecorators(node) ?? []) {
+          if (
+            boundary === 'application' &&
+            allowsApplicationNestDecorator(node, decorator, imports)
+          )
+            continue;
+          violations.push(
+            violation(
+              path,
+              decorator,
+              'framework-decorator',
+              decoratorName(decorator) ?? decorator.getText(source),
+              source,
+            ),
+          );
+        }
       }
       ts.forEachChild(node, visit);
     });
