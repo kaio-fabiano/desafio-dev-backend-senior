@@ -24,7 +24,7 @@ session.
 - Esforço: alto
 - Notas: Follow Red, Green, Refactor. Bounded context: repository architecture governance (technical boundary). Use case: classify allowed NestJS DI in Application without permitting outer concerns. Aggregate: none. Invariants: Domain imports no NestJS; Application may use only the approved `@nestjs/common` DI primitives and remains free of transport, persistence, configuration, vendor SDKs, and concrete adapters; abstract-class ports remain canonical. Consistency boundary: one scanner evaluation of one repository snapshot. Affected ports: none. Record the focused failing architecture tests before changing the scanner or standard.
 
-## T-226 — Make Identity use cases NestJS-managed providers [pendente]
+## T-226 — Make Identity use cases NestJS-managed providers [concluida]
 - Refs: US-128, AC-272
 - Arquivos: libs/identity/nest/src/application/use-cases, libs/identity/nest/src/identity.module.ts, libs/identity/nest/src/oauth-issuer, libs/identity/nest/src/registration, libs/identity/nest/src/identity-core.architecture.spec.ts, test/identity-federation-refactor.test.mjs, test/wordpress-registration-graphql.contract.test.mjs
 - Modelo: gpt-5.6-sol
@@ -38,7 +38,7 @@ session.
 - Esforço: alto
 - Notas: Depends on T-225's approved rule, but is file-disjoint and may be developed in parallel. Follow Red, Green, Refactor. Bounded context: Platform authorization. Use case: verify an OAuth credential. Aggregate: none; verification is a stateless security policy. Invariants: URL configuration is validated, ES256 and required claims remain enforced, subject/scope validation remains unchanged, and the verifier port does not resolve to a self-referential provider cycle. Consistency boundary: one credential verification. Affected port: OAuthCredentialVerifierPort. Prefer explicit tokens/providers over `ModuleRef` or a service locator.
 
-## T-228 — Make Gateway flows NestJS-managed providers [pendente]
+## T-228 — Make Gateway flows NestJS-managed providers [concluida]
 - Refs: US-128, AC-274
 - Arquivos: libs/gateway/nest/src/application/use-cases, libs/gateway/nest/src/auth, libs/gateway/nest/src/federation, libs/gateway/nest/src/gateway.module.ts, apps/gateway/src/app.module.ts, apps/gateway/src/subscriptions, test/gateway-federation-refactor.test.mjs
 - Modelo: gpt-5.6-sol
