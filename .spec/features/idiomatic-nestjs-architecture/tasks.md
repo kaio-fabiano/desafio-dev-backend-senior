@@ -39,8 +39,7 @@ applies equally to parallel bands, sequential tasks, and targeted retries.
 - Esforço: alto
 - Notas: Depends on T-225's approved rule, but is file-disjoint from Identity and Platform. Follow Red, Green, Refactor. Bounded context: Gateway edge. Use cases: create authenticated context, prepare/capture federation session state, and forward subscriptions. Aggregate: none; Gateway owns no business persistence. Invariants: authentication precedes forwarding, response headers preserve multi-cookie semantics, federation capabilities remain per-subgraph, SSE cancellation remains best-effort and leak-free, and stable collaborators come from DI. Consistency boundary: one HTTP/GraphQL/SSE request. Affected ports: GatewayTokenVerifierPort, CommerceCookiePort, OrderWorkflowSubscriptionPort. Keep Apollo and Node request types outside Application.
 
-## T-229 — Audit every NestJS module and close repository evidence [pendente]
-
+## T-229 — Audit every NestJS module and close repository evidence [concluida]
 - Refs: US-129, US-130, AC-275, AC-276
 - Arquivos: test/idiomatic-nestjs-architecture.test.mjs, docs/architecture/idiomatic-nestjs-module-audit.md, graphify-out
 - Modelo: gpt-5.6-sol
