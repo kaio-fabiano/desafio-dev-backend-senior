@@ -87,10 +87,12 @@ Nx tags and source-level architecture tests both enforce these rules. Tags
 protect project-to-project edges; source tests catch forbidden dependencies
 inside mixed-language projects.
 
-The Platform, Gateway, and Identity migration baseline is empty. The only
-audited compatibility migration outside those roots is T-216: Order Workflow's
-SSE boundary calls the class-based OAuth request adapter and credential error
-classifier without changing checkout or workflow business behavior.
+The repository-wide migration baseline is empty. The architecture inventory
+classifies every in-scope production source and fails closed for unknown paths.
+The complete `apps/order-workflow-subgraph` and `apps/payment-federation` roots
+are the only exclusions; this migration neither edits them nor treats their
+current structure as strict-DDD evidence. Their public contracts remain
+compatibility constraints for in-scope providers and consumers.
 
 ## Runtime flow
 

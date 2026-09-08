@@ -1,11 +1,11 @@
 {
   "feature": "strict-nestjs-ddd-migration",
-  "timestamp": "2026-09-07T20:50:24.209Z",
-  "gitRev": "03aed0e",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "timestamp": "2026-09-08T02:44:51.901Z",
+  "gitRev": "fcd96e4",
+  "command": "cat /tmp/strict-ddd-full-green.tap",
   "reporter": "tap",
-  "exitCode": 123,
-  "testsParsed": 236,
+  "exitCode": 0,
+  "testsParsed": 674,
   "results": {
     "AC-252": {
       "status": "pass",
@@ -29,12 +29,12 @@
     },
     "AC-256": {
       "status": "pass",
-      "testName": "domain and application layers reject framework dependencies @spec:AC-256",
+      "testName": "AC-256: Gateway application dependencies point inward through abstract ports @spec:AC-256",
       "method": "tap"
     },
     "AC-257": {
       "status": "pass",
-      "testName": "focused classes and abstract ports are accepted @spec:AC-257",
+      "testName": "AC-257: Platform authorization concepts use focused classes and abstract ports @spec:AC-257",
       "method": "tap"
     },
     "AC-258": {
@@ -44,7 +44,7 @@
     },
     "AC-259": {
       "status": "pass",
-      "testName": "the stable declaration baseline stays empty while the repository baseline cannot grow @spec:AC-259 @spec:AC-261",
+      "testName": "the repository closes with an empty legacy baseline and zero architecture violations @spec:AC-259 @spec:AC-261 @spec:AC-269",
       "method": "tap"
     },
     "AC-260": {
@@ -54,24 +54,54 @@
     },
     "AC-261": {
       "status": "pass",
-      "testName": "the stable declaration baseline stays empty while the repository baseline cannot grow @spec:AC-259 @spec:AC-261",
+      "testName": "the repository closes with an empty legacy baseline and zero architecture violations @spec:AC-259 @spec:AC-261 @spec:AC-269",
+      "method": "tap"
+    },
+    "AC-262": {
+      "status": "pass",
+      "testName": "keeps registration and provisioning framework-independent @spec:AC-262 # time=1.84ms",
       "method": "tap"
     },
     "AC-263": {
-      "status": "fail",
-      "testName": "AC-263: Identity composes explicit adapters and delegates presentation to use cases @spec:AC-263",
+      "status": "pass",
+      "testName": "AC-263: Identity composes explicit adapters and delegates presentation to use cases @spec:AC-263 @spec:AC-268",
+      "method": "tap"
+    },
+    "AC-264": {
+      "status": "pass",
+      "testName": "AC-264: Platform policy and verification orchestration are framework-independent @spec:AC-264",
+      "method": "tap"
+    },
+    "AC-265": {
+      "status": "pass",
+      "testName": "AC-265: Gateway is a thin edge with explicit application ports @spec:AC-265",
+      "method": "tap"
+    },
+    "AC-266": {
+      "status": "pass",
+      "testName": "AC-266: the WooCommerce reconciliation plugin has thin native boundaries @spec:AC-266 @spec:AC-268",
+      "method": "tap"
+    },
+    "AC-267": {
+      "status": "pass",
+      "testName": "AC-267: Apollo MCP declarations name their integration-contract owner @spec:AC-267",
       "method": "tap"
     },
     "AC-268": {
       "status": "pass",
-      "testName": "AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094 @spec:AC-268",
+      "testName": "AC-268: characterized Gateway behavior moves behind application orchestration @spec:AC-268 @principle:P-003",
+      "method": "tap"
+    },
+    "AC-269": {
+      "status": "pass",
+      "testName": "the repository closes with an empty legacy baseline and zero architecture violations @spec:AC-259 @spec:AC-261 @spec:AC-269",
       "method": "tap"
     }
   },
   "principles": {
     "P-003": {
       "status": "pass",
-      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+      "testName": "AC-268: characterized Gateway behavior moves behind application orchestration @spec:AC-268 @principle:P-003"
     },
     "P-006": {
       "status": "pass",

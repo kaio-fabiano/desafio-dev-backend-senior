@@ -38,13 +38,13 @@
 </style>
 <main>
   <h1>Plano de execução — strict-nestjs-ddd-migration</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-07 19:20 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-07 22:36 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>9</b> tarefa(s), uma após a outra</div>
+    <div><b>1</b> tarefa(s), uma após a outra</div>
     <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/strict-nestjs-ddd-migration</code></div>
   </div>
-  
+  <div class="avisos"><div>⚠ T-224 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar</div></div>
   <div class="executor">
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
@@ -61,58 +61,10 @@
       <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
       <div class="grade"><div class="faixa">
         <div class="tarefa">
-          <span class="tid">T-216</span>
-          <span class="ttitulo">Replace the partial scanner with a truthful repository inventory</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>tools/architecture</code> <code>test/strict-ddd-architecture.test.mjs</code> <code>test/fixtures/strict-ddd</code> <code>docs/standards/strict-nestjs-ddd.md</code> <code>docs/domain/context-map.md</code> <code>.spec/constituicao.md</code> <code>AGENTS.md</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-217</span>
-          <span class="ttitulo">Extract the framework-independent Identity core</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/identity</code> <code>tools/architecture/strict-ddd-legacy-baseline.json</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-218</span>
-          <span class="ttitulo">Rebuild Identity adapters, presentation, and NestJS composition</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/identity/nest/src</code> <code>apps/identity-subgraph/src</code> <code>test/identity-federation-refactor.test.mjs</code> <code>test/wordpress-registration-graphql.contract.test.mjs</code> <code>tools/architecture/strict-ddd-legacy-baseline.json</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-219</span>
-          <span class="ttitulo">Separate Platform authorization policy from NestJS adapters</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/platform</code> <code>test/oauth-resource-server-auth.spec.test.mjs</code> <code>tools/architecture/strict-ddd-legacy-baseline.json</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-220</span>
-          <span class="ttitulo">Refactor the Gateway as a thin Clean Architecture edge</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/gateway</code> <code>apps/gateway/src</code> <code>test/gateway-federation-refactor.test.mjs</code> <code>tools/architecture/strict-ddd-legacy-baseline.json</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-221</span>
-          <span class="ttitulo">Refactor the WordPress and WooCommerce integration</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/wordpress-integration</code> <code>test/wordpress-registration-graphql.contract.test.mjs</code> <code>test/milestone-8-wordpress-inventory-plugin.test.mjs</code> <code>test/structural-wordpress-review.test.mjs</code> <code>test/wordpress-native-commerce.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-222</span>
-          <span class="ttitulo">Govern shared contracts and Apollo MCP as explicit boundaries</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>libs/contracts</code> <code>apps/apollo-mcp</code> <code>test/milestone-6-apollo-mcp.test.mjs</code> <code>test/milestone-6-mcp-config.test.mjs</code> <code>test/milestone-6-mcp-operations.test.mjs</code> <code>test/structural-mcp-review.test.mjs</code> <code>tools/architecture/strict-ddd-legacy-baseline.json</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-223</span>
-          <span class="ttitulo">Refactor infrastructure, deployment scripts, and end-to-end tooling</span>
-          <span class="meta"><code>gpt-5.6-terra</code> · esforço <b>medium</b></span>
-          <span class="arquivos"><code>infra</code> <code>apps/e2e</code> <code>tools</code> <code>scripts</code> <code>test</code> <code>package.json</code> <code>nx.json</code> <code>tsconfig.base.json</code> <code>pnpm-workspace.yaml</code></span>
-        </div>
-        <div class="tarefa">
           <span class="tid">T-224</span>
           <span class="ttitulo">Close the repository-wide baseline and publish migration evidence</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>tools/architecture/strict-ddd-legacy-baseline.json</code> <code>test/strict-ddd-architecture.test.mjs</code> <code>docs/standards/strict-nestjs-ddd.md</code> <code>docs/domain/context-map.md</code> <code>docs/prds/01-arquitetura-e-dominio.md</code> <code>graphify-out</code> <code>.spec/features/strict-nestjs-ddd-migration</code></span>
+          <span class="arquivos"><code>tools/architecture/strict-ddd-policy.mjs</code> <code>tools/architecture/strict-ddd-legacy-baseline.json</code> <code>test/strict-ddd-architecture.test.mjs</code> <code>docs/standards/strict-nestjs-ddd.md</code> <code>docs/domain/context-map.md</code> <code>docs/prds/01-arquitetura-e-dominio.md</code> <code>graphify-out</code> <code>.spec/features/strict-nestjs-ddd-migration</code></span>
         </div></div></div>
     </section>
   <section class="onda">

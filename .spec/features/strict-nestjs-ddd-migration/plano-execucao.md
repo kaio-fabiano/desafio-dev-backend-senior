@@ -1,26 +1,22 @@
 # Plano de execução — strict-nestjs-ddd-migration
 
-> gerado por `onp-spec plano` em 2026-09-07 19:20 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-07 22:36 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano strict-nestjs-ddd-migration --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 9 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (5 já concluída(s): T-209, T-210, T-211, T-212, T-213)
+- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (13 já concluída(s): T-209, T-210, T-211, T-212, T-213, T-216, T-217, T-218, T-219, T-220, T-221, T-222, T-223)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/strict-nestjs-ddd-migration`; levar para a main é decisão sua
+
+### Avisos
+
+- ⚠ T-224 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar
 
 ## Ordem de execução (uma tarefa após a outra)
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-216 | Replace the partial scanner with a truthful repository inventory | `gpt-5.6-sol` | high |
-| T-217 | Extract the framework-independent Identity core | `gpt-5.6-sol` | high |
-| T-218 | Rebuild Identity adapters, presentation, and NestJS composition | `gpt-5.6-sol` | high |
-| T-219 | Separate Platform authorization policy from NestJS adapters | `gpt-5.6-sol` | high |
-| T-220 | Refactor the Gateway as a thin Clean Architecture edge | `gpt-5.6-sol` | high |
-| T-221 | Refactor the WordPress and WooCommerce integration | `gpt-5.6-sol` | high |
-| T-222 | Govern shared contracts and Apollo MCP as explicit boundaries | `gpt-5.6-terra` | medium |
-| T-223 | Refactor infrastructure, deployment scripts, and end-to-end tooling | `gpt-5.6-terra` | medium |
 | T-224 | Close the repository-wide baseline and publish migration evidence | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits

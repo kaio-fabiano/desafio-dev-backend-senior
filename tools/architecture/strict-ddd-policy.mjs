@@ -70,6 +70,85 @@ const layerNames = new Set([
   'presentation',
 ]);
 
+const explicitOuterBoundaryFiles = new Map([
+  ['apps/gateway/src/subscriptions/gateway-sse.options.ts', 'composition'],
+  [
+    'apps/gateway/src/subscriptions/order-workflow-subscription.client.ts',
+    'infrastructure',
+  ],
+  ['apps/gateway/src/subscriptions/sse-handler.ts', 'presentation'],
+  ['libs/gateway/nest/src/auth/auth-context.factory.ts', 'presentation'],
+  ['libs/gateway/nest/src/auth/token-verifier.service.ts', 'infrastructure'],
+  [
+    'libs/gateway/nest/src/federation/authenticated-data-source.ts',
+    'infrastructure',
+  ],
+  [
+    'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
+    'composition',
+  ],
+  [
+    'libs/identity/nest/src/better-auth/better-auth.error.ts',
+    'infrastructure',
+  ],
+  [
+    'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+    'infrastructure',
+  ],
+  [
+    'libs/identity/nest/src/better-auth/identity-auth.types.d.ts',
+    'infrastructure',
+  ],
+  ['libs/identity/nest/src/graphql/user.loader.ts', 'presentation'],
+  ['libs/identity/nest/src/graphql/user.repository.ts', 'compatibility'],
+  [
+    'libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts',
+    'composition',
+  ],
+  ['libs/identity/nest/src/oauth-issuer/oauth-resources.ts', 'composition'],
+  ['libs/identity/nest/src/oauth-issuer/oauth.error.ts', 'compatibility'],
+  [
+    'libs/identity/nest/src/registration/identity-bootstrap.ts',
+    'infrastructure',
+  ],
+  [
+    'libs/identity/nest/src/registration/registration-compensation.service.ts',
+    'composition',
+  ],
+  [
+    'libs/identity/nest/src/registration/registration.error.ts',
+    'compatibility',
+  ],
+  [
+    'libs/identity/nest/src/registration/registration.service.ts',
+    'presentation',
+  ],
+  [
+    'libs/identity/nest/src/wordpress/wordpress-error-code.d.ts',
+    'infrastructure',
+  ],
+  [
+    'libs/identity/nest/src/wordpress/wordpress-identity.service.ts',
+    'infrastructure',
+  ],
+  [
+    'libs/identity/nest/src/wordpress/wordpress.error.ts',
+    'infrastructure',
+  ],
+  [
+    'libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts',
+    'composition',
+  ],
+  [
+    'libs/platform/nest/src/oauth-resource/oauth-resource.types.ts',
+    'composition',
+  ],
+  [
+    'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
+    'infrastructure',
+  ],
+]);
+
 const repositoryRootFiles = new Set([
   '.dockerignore',
   '.gitignore',
@@ -94,6 +173,8 @@ function isWithin(file, root) {
 }
 
 function sourceBoundary(file, sourceRoot) {
+  const explicitBoundary = explicitOuterBoundaryFiles.get(file);
+  if (explicitBoundary) return explicitBoundary;
   const relative = file.slice(sourceRoot.length + 1);
   const layer = relative.split('/').find((part) => layerNames.has(part));
   if (layer) return layer;

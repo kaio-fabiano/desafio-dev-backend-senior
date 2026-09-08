@@ -79,6 +79,28 @@ turn that result into a false zero.
   policy exposed neither a repository inventory nor an unclassified-production
   violation, and it protected only Order Workflow in task manifests.
 
+### T-224 implementation record
+
+- Bounded context: repository architecture governance, a technical boundary.
+- Use case: close the migration baseline and publish repository-wide evidence.
+- Aggregate: none; the operation classifies and verifies a filesystem snapshot
+  and does not perform a business state transition.
+- Invariants: the two excluded application roots remain unchanged; every other
+  production source has a context and a layer or explicit technical boundary;
+  the legacy baseline is empty; unknown production paths still fail closed.
+- Consistency boundary: one repository snapshot covered by the architecture and
+  quality gates.
+- Affected ports: none; the scanner reads the local filesystem directly.
+- Red evidence: the focused AC-259, AC-261, and AC-269 test reported all 25
+  remaining baseline entries when it first required an empty baseline and zero
+  repository violations.
+- Classification decision: inspection found that all 25 files are outer-layer
+  NestJS composition or presentation shells, vendor infrastructure adapters,
+  configuration/declaration artifacts, or compatibility exports created or
+  retained by the completed migration waves. The architecture policy assigns
+  every one an exact boundary; it adds no directory wildcard, so an unknown
+  sibling remains an `unclassified-production` violation.
+
 ## Required evidence
 
 Every change follows Red, Green, Refactor when production behavior changes.

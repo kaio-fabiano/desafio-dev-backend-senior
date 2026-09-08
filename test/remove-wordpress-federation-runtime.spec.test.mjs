@@ -12,7 +12,10 @@ async function exists(path) {
 // US-059 — Compose WordPress directly
 test('AC-117: Direct plugin subgraph @spec:AC-117 @spec:AC-097', async () => {
   const [gateway, supergraph, compose] = await Promise.all([
-    readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
+    readFile(
+      'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
+      'utf8',
+    ),
     readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
     readFile('compose.yaml', 'utf8'),
   ]);
@@ -26,12 +29,13 @@ test('AC-117: Direct plugin subgraph @spec:AC-117 @spec:AC-097', async () => {
 // US-059 — Compose WordPress directly
 test('AC-118: Single subscription owner @spec:AC-118 @spec:AC-102', async () => {
   const [gatewayMiddleware, gatewaySse] = await Promise.all([
-    readFile('apps/gateway/src/subscriptions/sse.middleware.ts', 'utf8'),
+    readFile('apps/gateway/src/subscriptions/gateway-sse.provider.ts', 'utf8'),
     readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),
   ]);
 
   assert.match(gatewayMiddleware, /createOrderWorkflowSubscriptionClient/);
-  assert.match(gatewaySse, /orderWorkflow\.subscribe/);
+  assert.match(gatewaySse, /ForwardGatewaySubscriptionUseCase/);
+  assert.match(gatewaySse, /options\.orderWorkflow/);
   assert.equal(await exists('libs/wordpress/nest/src/subscriptions'), false);
 });
 
@@ -57,12 +61,19 @@ test('AC-119: Reduced deployable topology @spec:AC-119', async () => {
 test('AC-120: WordPress capabilities preserved @spec:AC-120', async () => {
   const [install, gateway, compose] = await Promise.all([
     readFile('apps/wordpress-integration/scripts/install-plugins.sh', 'utf8'),
-    readFile('libs/gateway/nest/src/gateway.module.ts', 'utf8'),
+    readFile(
+      'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
+      'utf8',
+    ),
     readFile('compose.yaml', 'utf8'),
   ]);
 
   assert.match(install, /wp-graphql-federations/);
-  assert.match(gateway, /WORDPRESS_GRAPHQL_URL/);
+  assert.match(
+    gateway,
+    /replace\('-', '_'\)\.toUpperCase\(\)\}_GRAPHQL_URL/,
+  );
+  assert.match(gateway, /http:\/\/wordpress\/graphql/);
   assert.match(compose, /WORDPRESS_GRAPHQL_URL: http:\/\/wordpress\/graphql/);
   assert.equal(await exists('libs/wordpress/nest/src/federation'), false);
 });

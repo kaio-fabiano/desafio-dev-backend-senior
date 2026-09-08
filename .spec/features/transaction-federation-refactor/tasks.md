@@ -24,7 +24,7 @@
 
 ## T-111 — Simplificar saga e preservar SSE no Order Workflow [concluida]
 - Refs: US-070, AC-143, AC-144, AC-145, US-071, AC-146, AC-147
-- Arquivos: apps/order-workflow-subgraph/src/saga, apps/order-workflow-subgraph/src/inbox, apps/order-workflow-subgraph/src/outbox, apps/order-workflow-subgraph/src/subscriptions, apps/order-workflow-subgraph/src/persistence, apps/order-workflow-subgraph/src/messaging
+- Arquivos: apps/order-workflow-subgraph/src/saga, apps/order-workflow-subgraph/src/inbox, apps/order-workflow-subgraph/src/outbox, apps/order-workflow-subgraph/src/graphql/sse, apps/order-workflow-subgraph/src/persistence, apps/order-workflow-subgraph/src/messaging
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 

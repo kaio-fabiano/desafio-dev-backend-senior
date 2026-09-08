@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-strict-nestjs-ddd-migration-mtrml2g6",
+  "runId": "desafio-dev-backend-senior-strict-nestjs-ddd-migration-mtrtlk7w",
   "feature": "strict-nestjs-ddd-migration",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-07 19:20",
+  "geradoEm": "2026-09-07 22:36",
   "branchTrabalho": "spec/strict-nestjs-ddd-migration",
   "baseDir": ".spec/features/strict-nestjs-ddd-migration",
   "specDir": ".spec",
@@ -16,172 +16,12 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-216",
-      "titulo": "Replace the partial scanner with a truthful repository inventory",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "tools/architecture",
-        "test/strict-ddd-architecture.test.mjs",
-        "test/fixtures/strict-ddd",
-        "docs/standards/strict-nestjs-ddd.md",
-        "docs/domain/context-map.md",
-        ".spec/constituicao.md",
-        "AGENTS.md"
-      ],
-      "refs": [
-        "US-122",
-        "AC-260",
-        "AC-261"
-      ]
-    },
-    {
-      "id": "T-217",
-      "titulo": "Extract the framework-independent Identity core",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "libs/identity",
-        "tools/architecture/strict-ddd-legacy-baseline.json"
-      ],
-      "refs": [
-        "US-120",
-        "US-123",
-        "US-126",
-        "AC-256",
-        "AC-257",
-        "AC-262",
-        "AC-268"
-      ]
-    },
-    {
-      "id": "T-218",
-      "titulo": "Rebuild Identity adapters, presentation, and NestJS composition",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "libs/identity/nest/src",
-        "apps/identity-subgraph/src",
-        "test/identity-federation-refactor.test.mjs",
-        "test/wordpress-registration-graphql.contract.test.mjs",
-        "tools/architecture/strict-ddd-legacy-baseline.json"
-      ],
-      "refs": [
-        "US-123",
-        "US-126",
-        "AC-263",
-        "AC-268"
-      ]
-    },
-    {
-      "id": "T-219",
-      "titulo": "Separate Platform authorization policy from NestJS adapters",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "libs/platform",
-        "test/oauth-resource-server-auth.spec.test.mjs",
-        "tools/architecture/strict-ddd-legacy-baseline.json"
-      ],
-      "refs": [
-        "US-120",
-        "US-124",
-        "US-126",
-        "AC-256",
-        "AC-257",
-        "AC-264",
-        "AC-268"
-      ]
-    },
-    {
-      "id": "T-220",
-      "titulo": "Refactor the Gateway as a thin Clean Architecture edge",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "libs/gateway",
-        "apps/gateway/src",
-        "test/gateway-federation-refactor.test.mjs",
-        "tools/architecture/strict-ddd-legacy-baseline.json"
-      ],
-      "refs": [
-        "US-120",
-        "US-124",
-        "US-126",
-        "AC-256",
-        "AC-265",
-        "AC-268"
-      ]
-    },
-    {
-      "id": "T-221",
-      "titulo": "Refactor the WordPress and WooCommerce integration",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/wordpress-integration",
-        "test/wordpress-registration-graphql.contract.test.mjs",
-        "test/milestone-8-wordpress-inventory-plugin.test.mjs",
-        "test/structural-wordpress-review.test.mjs",
-        "test/wordpress-native-commerce.test.mjs"
-      ],
-      "refs": [
-        "US-125",
-        "US-126",
-        "AC-266",
-        "AC-268"
-      ]
-    },
-    {
-      "id": "T-222",
-      "titulo": "Govern shared contracts and Apollo MCP as explicit boundaries",
-      "modelo": "gpt-5.6-terra",
-      "esforco": "medium",
-      "arquivos": [
-        "libs/contracts",
-        "apps/apollo-mcp",
-        "test/milestone-6-apollo-mcp.test.mjs",
-        "test/milestone-6-mcp-config.test.mjs",
-        "test/milestone-6-mcp-operations.test.mjs",
-        "test/structural-mcp-review.test.mjs",
-        "tools/architecture/strict-ddd-legacy-baseline.json"
-      ],
-      "refs": [
-        "US-125",
-        "US-126",
-        "AC-267",
-        "AC-268"
-      ]
-    },
-    {
-      "id": "T-223",
-      "titulo": "Refactor infrastructure, deployment scripts, and end-to-end tooling",
-      "modelo": "gpt-5.6-terra",
-      "esforco": "medium",
-      "arquivos": [
-        "infra",
-        "apps/e2e",
-        "tools",
-        "scripts",
-        "test",
-        "package.json",
-        "nx.json",
-        "tsconfig.base.json",
-        "pnpm-workspace.yaml"
-      ],
-      "refs": [
-        "US-125",
-        "US-126",
-        "AC-267",
-        "AC-268"
-      ]
-    },
-    {
       "id": "T-224",
       "titulo": "Close the repository-wide baseline and publish migration evidence",
       "modelo": "gpt-5.6-sol",
       "esforco": "high",
       "arquivos": [
+        "tools/architecture/strict-ddd-policy.mjs",
         "tools/architecture/strict-ddd-legacy-baseline.json",
         "test/strict-ddd-architecture.test.mjs",
         "docs/standards/strict-nestjs-ddd.md",
@@ -207,7 +47,17 @@
     "T-210",
     "T-211",
     "T-212",
-    "T-213"
+    "T-213",
+    "T-216",
+    "T-217",
+    "T-218",
+    "T-219",
+    "T-220",
+    "T-221",
+    "T-222",
+    "T-223"
   ],
-  "avisos": []
+  "avisos": [
+    "T-224 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar"
+  ]
 }

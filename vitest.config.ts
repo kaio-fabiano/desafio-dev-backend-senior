@@ -8,6 +8,41 @@ const criticalThresholds = {
   perFile: true,
 } as const;
 
+const allCoverageIncludes = [
+  'libs/gateway/nest/src/auth/*.ts',
+  'libs/gateway/nest/src/federation/authenticated-data-source.ts',
+  'libs/gateway/nest/src/gateway.module.ts',
+  'libs/identity/nest/src/{better-auth,oauth,registration,wordpress}/*.ts',
+  'libs/identity/nest/src/graphql/{identity.resolver,user.loader,user.repository}.ts',
+  'libs/platform/nest/src/oauth-resource/graphql/*.ts',
+  'libs/platform/nest/src/oauth-resource/verification/*.ts',
+  'apps/order-workflow-subgraph/src/checkout/{checkout.module,checkout.repository,checkout.service,command-hash,woo-checkout.adapter}.ts',
+  'apps/order-workflow-subgraph/src/{inbox/inbox.repository,messaging/messaging.module,messaging/order-workflow-messaging.runtime,messaging/rabbitmq,outbox/outbox.publisher,outbox/outbox.repository,persistence/persistence.module,saga/order-event.consumer,saga/order-saga.repository,saga/order-saga,saga/postgres-order-event.notifier}.ts',
+  'apps/order-workflow-subgraph/src/graphql/{authenticated-subject.decorator,order-workflow-graphql.module,order-workflow-operations.service,order-workflow.resolver,sse/sse-handler,sse/sse.middleware}.ts',
+  'apps/order-workflow-subgraph/src/health.controller.ts',
+  'apps/order-workflow-subgraph/src/order-events/{order-events.module,order-events.subscription,postgres/mikro-orm-order-event.replay}.ts',
+];
+
+const coverageProjectRoots = [
+  'apps/order-workflow-subgraph',
+  'libs/gateway/nest',
+  'libs/identity/nest',
+  'libs/platform/nest',
+];
+const focusedCoverageRoots = coverageProjectRoots.filter((root) =>
+  process.argv.some((argument) =>
+    [root, `./${root}`].some(
+      (candidate) =>
+        argument === candidate || argument.startsWith(`${candidate}/`),
+    ),
+  ),
+);
+const coverageIncludes = focusedCoverageRoots.length
+  ? allCoverageIncludes.filter((pattern) =>
+      focusedCoverageRoots.some((root) => pattern.startsWith(`${root}/`)),
+    )
+  : allCoverageIncludes;
+
 export default defineConfig({
   test: {
     clearMocks: true,
@@ -20,20 +55,7 @@ export default defineConfig({
     restoreMocks: true,
     coverage: {
       provider: 'v8',
-      include: [
-        'libs/gateway/nest/src/auth/*.ts',
-        'libs/gateway/nest/src/federation/authenticated-data-source.ts',
-        'libs/gateway/nest/src/gateway.module.ts',
-        'libs/identity/nest/src/{better-auth,oauth,registration,wordpress}/*.ts',
-        'libs/identity/nest/src/graphql/{identity.resolver,user.loader,user.repository}.ts',
-        'libs/platform/nest/src/oauth-resource/graphql/*.ts',
-        'libs/platform/nest/src/oauth-resource/verification/*.ts',
-        'apps/order-workflow-subgraph/src/checkout/{checkout.module,checkout.repository,checkout.service,command-hash,woo-checkout.adapter}.ts',
-        'apps/order-workflow-subgraph/src/{inbox/inbox.repository,messaging/messaging.module,messaging/order-workflow-messaging.runtime,messaging/rabbitmq,outbox/outbox.publisher,outbox/outbox.repository,persistence/persistence.module,saga/order-event.consumer,saga/order-saga.repository,saga/order-saga,saga/postgres-order-event.notifier}.ts',
-        'apps/order-workflow-subgraph/src/graphql/{authenticated-subject.decorator,order-workflow-graphql.module,order-workflow-operations.service,order-workflow.resolver,sse/sse-handler,sse/sse.middleware}.ts',
-        'apps/order-workflow-subgraph/src/health.controller.ts',
-        'apps/order-workflow-subgraph/src/order-events/{order-events.module,order-events.subscription,postgres/mikro-orm-order-event.replay}.ts',
-      ],
+      include: coverageIncludes,
       reporter: ['text', 'json-summary', 'html'],
       excludeAfterRemap: true,
       thresholds: {

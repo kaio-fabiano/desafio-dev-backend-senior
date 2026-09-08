@@ -1,11 +1,11 @@
 {
   "feature": "graphql-relay-dataloader-closure",
-  "timestamp": "2026-09-05T16:29:13.457Z",
-  "gitRev": "9c421ee",
-  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "timestamp": "2026-09-08T02:44:48.364Z",
+  "gitRev": "fcd96e4",
+  "command": "cat /tmp/strict-ddd-full-green.tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 574,
+  "testsParsed": 674,
   "results": {
     "AC-197": {
       "status": "pass",
@@ -31,7 +31,23 @@
   "principles": {
     "P-003": {
       "status": "pass",
-      "testName": "AC-209: every implementation task follows TDD @spec:AC-209 @principle:P-003"
+      "testName": "AC-268: characterized Gateway behavior moves behind application orchestration @spec:AC-268 @principle:P-003"
+    },
+    "P-006": {
+      "status": "pass",
+      "testName": "the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006"
+    },
+    "P-007": {
+      "status": "pass",
+      "testName": "unlayered orchestration and unknown production roots fail the repository gate @spec:AC-261 @principle:P-007"
+    },
+    "P-005": {
+      "status": "pass",
+      "testName": "AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005"
+    },
+    "P-004": {
+      "status": "pass",
+      "testName": "AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004"
     }
   }
 }

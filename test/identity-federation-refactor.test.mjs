@@ -308,7 +308,7 @@ test('AC-096: Identity Federation rejects sensitive operations without propagate
   }
   assert.match(
     guard,
-    /this\.resources\.verify\(OAuthRequestAdapter\.toRequest\(context\.req\)\)/,
+    /this\.resources\.verify\(\s*OAuthRequestAdapter\.toRequest\(context\.req\),?\s*\)/,
   );
   assert.match(guard, /assertScopes\(auth, scopes\)/);
   assert.match(service, /verifyAccessTokenRequest/);

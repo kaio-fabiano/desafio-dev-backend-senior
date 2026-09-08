@@ -482,6 +482,7 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
   const fakeBin = await mkdtemp(join(tmpdir(), 'sst-deploy-guard-'));
   const fakeLog = join(fakeBin, 'commands.log');
   await Promise.all([
+    writeFile(fakeLog, ''),
     writeFile(
       join(fakeBin, 'pnpm'),
       '#!/bin/sh\nprintf "pnpm %s\\n" "$*" >> "$FAKE_LOG"\n',
@@ -501,9 +502,14 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
   const reviewedHash = createHash('sha256')
     .update('reviewed diff\n')
     .digest('hex');
+  const withFakeCommands = (command) =>
+    command
+      .replaceAll('pnpm ', `${join(fakeBin, 'pnpm')} `)
+      .replaceAll('sst ', `${join(fakeBin, 'sst')} `);
+  const deployUnderTest = withFakeCommands(deploy);
   const approvedEnvironment = {
     FAKE_LOG: fakeLog,
-    PATH: `${fakeBin}:${process.env.PATH}`,
+    PATH: `${fakeBin}:/usr/bin:/bin`,
     SST_APPROVED_MONTHLY_COST_USD: '100',
     SST_APPROVED_STAGE: 'sandbox',
     SST_DEPLOY_APPROVAL: 'DEPLOY',
@@ -511,16 +517,35 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
   };
 
   try {
-    const mismatch = spawnSync('bash', ['-o', 'pipefail', '-c', deploy], {
+    const mismatch = spawnSync(
+      'bash',
+      ['-o', 'pipefail', '-c', deployUnderTest],
+      {
       env: { ...approvedEnvironment, SST_APPROVED_DIFF_SHA256: '0'.repeat(64) },
-    });
+      },
+    );
     assert.notEqual(mismatch.status, 0);
     assert.doesNotMatch(await readFile(fakeLog, 'utf8'), /sst deploy/);
 
-    const approved = spawnSync('bash', ['-o', 'pipefail', '-c', deploy], {
-      env: { ...approvedEnvironment, SST_APPROVED_DIFF_SHA256: reviewedHash },
-    });
-    assert.equal(approved.status, 0, approved.stderr.toString());
+    const approved = spawnSync(
+      'bash',
+      ['-o', 'pipefail', '-c', deployUnderTest],
+      {
+        env: { ...approvedEnvironment, SST_APPROVED_DIFF_SHA256: reviewedHash },
+      },
+    );
+    assert.equal(
+      approved.status,
+      0,
+      [
+        approved.error?.message,
+        approved.stdout.toString(),
+        approved.stderr.toString(),
+        await readFile(fakeLog, 'utf8'),
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    );
     assert.match(
       await readFile(fakeLog, 'utf8'),
       /pnpm run validate[\s\S]*sst diff --stage sandbox[\s\S]*sst deploy --stage sandbox/,
@@ -544,7 +569,7 @@ test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async ()
     ]);
     const firstApproved = spawnSync(
       'bash',
-      ['-o', 'pipefail', '-c', firstDeploy],
+      ['-o', 'pipefail', '-c', withFakeCommands(firstDeploy)],
       {
         env: {
           ...approvedEnvironment,
@@ -617,8 +642,15 @@ test('AC-195: one managed HTTPS API exposes only approved private routes @spec:A
 });
 
 test('AC-193: deployed containers use production-safe startup dependencies @spec:AC-193', async () => {
-  const [stack, compose, mcpImage, wordpressEntrypoint, orm, relay, identity] =
-    await Promise.all([
+  const [
+    stack,
+    compose,
+    mcpImage,
+    wordpressEntrypoint,
+    orm,
+    relay,
+    identityDatabase,
+  ] = await Promise.all([
       readFile('infra/sst.config.ts', 'utf8'),
       readFile('compose.yaml', 'utf8'),
       readFile('apps/apollo-mcp/Dockerfile', 'utf8'),
@@ -635,7 +667,7 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
         'utf8',
       ),
       readFile(
-        'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+        'libs/identity/nest/src/better-auth/identity-database-pool.provider.ts',
         'utf8',
       ),
     ]);
@@ -663,8 +695,14 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
     /ORDER_WORKFLOW_DB_SSL !== 'false'[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/,
   );
   assert.match(relay, /ORDER_WORKFLOW_DB_SSL !== 'false'/);
-  assert.match(identity, /DATABASE_SSL !== 'false'/);
-  assert.match(identity, /IDENTITY_TRUSTED_ORIGINS\?\.split\(','\)/);
+  assert.match(identityDatabase, /DATABASE_SSL !== 'false'/);
+  assert.match(
+    await readFile(
+      'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+      'utf8',
+    ),
+    /IDENTITY_TRUSTED_ORIGINS\?\.split\(','\)/,
+  );
   assert.match(compose, /DATABASE_SSL: 'false'/);
   assert.match(
     compose,

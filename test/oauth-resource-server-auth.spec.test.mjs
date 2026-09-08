@@ -84,9 +84,13 @@ test('AC-175: Federation preserves the standard bearer credential @spec:AC-175',
   // Dado: a valid authenticated GraphQL request entering the Gateway
   // Quando: the Gateway calls an owned subgraph
   // Então: it forwards the bearer credential and request correlation data without manufacturing `x-authenticated-subject`, `x-authenticated-scopes`, or a shared federation secret
-  const [source, stream] = await Promise.all([
+  const [source, prepareRequest, stream] = await Promise.all([
     readFile(
       'libs/gateway/nest/src/federation/authenticated-data-source.ts',
+      'utf8',
+    ),
+    readFile(
+      'libs/gateway/nest/src/application/use-cases/prepare-federation-request.use-case.ts',
       'utf8',
     ),
     readFile(
@@ -94,11 +98,15 @@ test('AC-175: Federation preserves the standard bearer credential @spec:AC-175',
       'utf8',
     ),
   ]);
-  assert.match(source, /set\('authorization', context\.authorization\)/);
+  assert.match(source, /this\.prepareRequest\.execute/);
+  assert.match(
+    prepareRequest,
+    /headers\.set\('authorization', context\.authorization\)/,
+  );
   assert.match(stream, /authorization: context\.authorization/);
-  assert.match(`${source}\n${stream}`, /x-request-id/);
+  assert.match(`${source}\n${prepareRequest}\n${stream}`, /x-request-id/);
   assert.doesNotMatch(
-    `${source}\n${stream}`,
+    `${source}\n${prepareRequest}\n${stream}`,
     /x-federation-secret|x-authenticated-subject|x-authenticated-scopes/,
   );
 });

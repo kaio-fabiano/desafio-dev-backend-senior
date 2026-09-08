@@ -28,3 +28,10 @@ classifies production source by context and layer or explicit technical
 boundary. The only migration exclusions are the complete
 `apps/order-workflow-subgraph` and `apps/payment-federation` application roots;
 their public contracts remain in scope from the provider and consumer sides.
+
+The closed migration has no legacy allowlist. Core files are classified by
+their `domain` or `application` path. Outer files are classified by their layer
+path, dedicated framework suffix, or an exact policy entry for a retained
+NestJS composition, presentation, infrastructure, or compatibility artifact.
+Exact entries do not classify sibling files: new unlayered production remains
+a gate violation.

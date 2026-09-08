@@ -111,7 +111,7 @@ test('Gateway has no remaining legacy declarations after its migration wave @spe
   assert.deepEqual(violations, []);
 });
 
-test('the stable declaration baseline stays empty while the repository baseline cannot grow @spec:AC-259 @spec:AC-261', async () => {
+test('the repository closes with an empty legacy baseline and zero architecture violations @spec:AC-259 @spec:AC-261 @spec:AC-269', async () => {
   const baseline = JSON.parse(
     await readFile(
       'tools/architecture/strict-ddd-legacy-baseline.json',
@@ -119,13 +119,8 @@ test('the stable declaration baseline stays empty while the repository baseline 
     ),
   );
 
-  assert.deepEqual(
-    baseline.violations.filter(
-      ({ code }) => code !== 'unclassified-production',
-    ),
-    [],
-  );
-  assert.deepEqual(await scanRepository(), baseline.violations);
+  assert.deepEqual(baseline.violations, []);
+  assert.deepEqual(await scanRepository(), []);
   assert.deepEqual(
     baselineGrowth(scanFiles([fixture('invalid-mixed-service.ts')]), baseline),
     [
@@ -217,7 +212,7 @@ test('unlayered orchestration and unknown production roots fail the repository g
       'apps/catalog/src/catalog.service.ts': 'export class CatalogService {}',
       'libs/identity/nest/src/application/use-cases/register-user.use-case.ts':
         "import { Injectable } from '@nestjs/common'; export class RegisterUserUseCase {}",
-      'libs/identity/nest/src/registration/registration.service.ts':
+      'libs/identity/nest/src/registration/unexpected-registration.service.ts':
         'export class RegistrationService {}',
       'rogue.service.ts': 'export class RogueService {}',
     },
@@ -238,7 +233,7 @@ test('unlayered orchestration and unknown production roots fail the repository g
         {
           code: 'unclassified-production',
           declaration: 'missing approved layer',
-          file: 'libs/identity/nest/src/registration/registration.service.ts',
+          file: 'libs/identity/nest/src/registration/unexpected-registration.service.ts',
           line: 1,
         },
         {
