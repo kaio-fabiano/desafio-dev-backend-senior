@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtug129i",
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtupzk98",
   "feature": "migrate-order-workflow-to-axon-java",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-09 18:40",
+  "geradoEm": "2026-09-09 23:18",
   "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
   "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
   "specDir": ".spec",
@@ -31,7 +31,8 @@
         "README.md",
         "docs",
         "test",
-        ".spec/features/migrate-order-workflow-to-axon-java"
+        ".spec/features",
+        ".spec/verification"
       ],
       "refs": [
         "US-136",
