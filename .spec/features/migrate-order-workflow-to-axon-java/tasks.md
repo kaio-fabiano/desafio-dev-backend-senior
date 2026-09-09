@@ -162,7 +162,7 @@
 - Risks/blockers: Final terminal status names and legacy status mapping from Q-024 can block final projection fields; incompatible contract changes require separate approval.
 - Rollback: Keep Gateway routing on Node and discard/rebuild shadow projections; no command writer changes in this phase.
 
-## T-250 — Deliver transaction-filtered GraphQL SSE [pendente]
+## T-250 — Deliver transaction-filtered GraphQL SSE [concluida]
 - Refs: US-135, AC-289, AC-288, AC-292
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription, apps/gateway/src/subscriptions, apps/gateway/src/app.module.ts, apps/e2e/src, apps/wordpress-integration, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
