@@ -1,30 +1,80 @@
 {
   "feature": "migrate-order-workflow-to-axon-java",
-  "timestamp": "2026-09-09T10:46:59.642Z",
-  "gitRev": "ffc45fc",
+  "timestamp": "2026-09-09T23:17:45.002Z",
+  "gitRev": "142101c1",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
-  "exitCode": 123,
-  "testsParsed": 254,
+  "exitCode": 0,
+  "testsParsed": 515,
   "results": {
     "AC-280": {
       "status": "pass",
-      "testName": "Java architecture boundaries are enforced by JUnit @spec:AC-280",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-281": {
+      "status": "pass",
+      "testName": "Inventory uses distinct Axon command, event, and query paths @spec:AC-281",
       "method": "tap"
     },
     "AC-282": {
       "status": "pass",
-      "testName": "Axon PostgreSQL restart, replay, token, and concurrency behavior passes JUnit @spec:AC-282",
+      "testName": "Inventory event streams and projections are replayable and durable @spec:AC-282",
+      "method": "tap"
+    },
+    "AC-283": {
+      "status": "pass",
+      "testName": "Payment invariants and provider idempotency survive Axon conversion @spec:AC-283",
+      "method": "tap"
+    },
+    "AC-284": {
+      "status": "pass",
+      "testName": "Inventory converges independently for duplicate, stale, and concurrent work @spec:AC-284",
       "method": "tap"
     },
     "AC-293": {
       "status": "pass",
-      "testName": "Real RabbitMQ and PostgreSQL prove reliable AMQP delivery @spec:AC-293",
+      "testName": "AC-110: RabbitMQ delivers the durable choreographed lifecycle @spec:AC-110 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-285": {
+      "status": "pass",
+      "testName": "Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285",
+      "method": "tap"
+    },
+    "AC-286": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-287": {
+      "status": "pass",
+      "testName": "Replayable projections use distinct command, event, and query paths @spec:AC-281 @spec:AC-287",
+      "method": "tap"
+    },
+    "AC-288": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-289": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-290": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-291": {
+      "status": "pass",
+      "testName": "Java is the sole deployed Transaction owner after Node retirement @spec:AC-291",
       "method": "tap"
     },
     "AC-292": {
       "status": "pass",
-      "testName": "The real PostgreSQL migration baseline passes the Java quality gate @spec:AC-292",
+      "testName": "Inventory migration passes its focused repository quality gates @spec:AC-292",
       "method": "tap"
     }
   },
