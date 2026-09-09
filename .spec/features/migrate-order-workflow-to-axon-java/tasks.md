@@ -203,7 +203,7 @@
 - Refactor: Remove obsolete direct cross-context calls and unused legacy Java routing only after every scenario is green; keep handlers local and explicit rather than introducing a generic choreography framework.
 - Validation: `./gradlew :apps:payment-federation:test --tests '*E2E*' --tests '*Choreograph*' --tests '*Architecture*'`; full Java test/coverage/build/lint; relevant contract tests; onp-spec verify and non-CI audit.
 - Acceptance: AC-286 proves strict choreography structurally and behaviorally; AC-293 proves every boundary crosses real RabbitMQ; all happy/failure paths and causal metadata are green with zero critical skips.
-- Risks/blockers: Q-024 blocks the post-approval commit-failure assertion until the product owner approves terminal/refund semantics; Amazon MQ behavior remains separately operationally validated.
+- Risks/blockers: Q-024 is resolved: post-approval inventory commit failure must trigger an idempotent refund and Payment must converge through `REFUND_PENDING` to `REFUNDED`; Amazon MQ behavior remains separately operationally validated.
 - Rollback: Disable target event bindings and return the entire command path to legacy writers; replayable event/projection data remains for diagnosis but receives no commands.
 
 ## T-252 — Import or clean-start legacy state and perform reversible cutover [pendente]

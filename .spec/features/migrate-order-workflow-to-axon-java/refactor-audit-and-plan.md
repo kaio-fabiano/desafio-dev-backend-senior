@@ -145,8 +145,10 @@ and typed `payload`.
 | `TransactionRejected` | `transaction.rejected.v1` | Transaction | external observers if required | transaction sequence |
 | `TransactionCancelled` | `transaction.cancelled.v1` | Transaction | Inventory, Payment | transaction sequence; local validity checks |
 
-Final terminal names and post-approval failure semantics are **NEEDS
-VALIDATION**. Domain Events are never serialized as public AMQP contracts.
+For an inventory commit failure after payment approval, Payment transitions
+through `REFUND_PENDING` and converges to terminal `REFUNDED` through an
+idempotent refund operation. Domain Events are never serialized as public AMQP
+contracts.
 
 ## H. Command Catalog
 
@@ -339,8 +341,8 @@ state, specifications, verification evidence, and the execution ledger.
   build/lint, verify and non-CI audit.
 - **Gate:** AC-281, AC-282 and AC-283 are green; provider effects occur at most
   once and Payment calls no foreign context or WordPress order writer.
-- **Risks/blockers:** Q-026 blocks production credential handling; Q-024 blocks
-  final post-approval refund semantics.
+- **Risks/blockers:** Q-026 blocks production credential handling; Q-024 fixes
+  the post-approval refund result as `REFUNDED`.
 - **Rollback:** retain old API/listener behind a mutually exclusive route and
   restore it before target bindings accept commands.
 
@@ -431,8 +433,9 @@ state, specifications, verification evidence, and the execution ledger.
   test/coverage/build/lint, contracts, verify and non-CI audit.
 - **Gate:** AC-283, AC-284, AC-286, AC-287 and AC-293 are green with no critical
   skip; every cross-context hop was observed over real RabbitMQ.
-- **Risks/blockers:** Q-024 is a hard blocker for the commit-failure scenario;
-  Amazon MQ remains an operational validation outside container proof.
+- **Risks/blockers:** Q-024 is resolved with the idempotent
+  `REFUND_PENDING` -> `REFUNDED` policy; Amazon MQ remains an operational
+  validation outside container proof.
 - **Rollback:** disable all target bindings together and return command traffic
   to legacy writers; keep event/projection data read-only.
 
@@ -511,8 +514,9 @@ failure-path tests.
    a conceptual `axon` schema is not yet approved.
 3. Decide importer versus proven clean start for legacy Workflow and Java JDBC
    state.
-4. Approve terminal Transaction states and post-approval inventory-failure
-   compensation/refund semantics.
+4. ~~Approve terminal Transaction states and post-approval inventory-failure
+   compensation/refund semantics.~~ Resolved by Q-024: an idempotent refund
+   converges through `REFUND_PENDING` to `REFUNDED`.
 5. Resolve whether acceptance requires WordPress-hosted GraphiQL or Gateway
    GraphiQL over the composed WordPress graph.
 6. Approve operation-key retention, lease timeout, abandonment cleanup and
