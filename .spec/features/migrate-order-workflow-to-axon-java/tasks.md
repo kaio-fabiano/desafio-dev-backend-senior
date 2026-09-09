@@ -206,7 +206,7 @@
 - Risks/blockers: Q-024 is resolved: post-approval inventory commit failure must trigger an idempotent refund and Payment must converge through `REFUND_PENDING` to `REFUNDED`; Amazon MQ behavior remains separately operationally validated.
 - Rollback: Disable target event bindings and return the entire command path to legacy writers; replayable event/projection data remains for diagnosis but receives no commands.
 
-## T-252 — Import or clean-start legacy state and perform reversible cutover [pendente]
+## T-252 — Import or clean-start legacy state and perform reversible cutover [concluida]
 - Refs: US-134, US-135, US-136, AC-285, AC-287, AC-288, AC-289, AC-290, AC-291, AC-292, AC-293
 - Arquivos: apps/order-workflow-subgraph/src/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
