@@ -230,7 +230,7 @@
 
 ## T-253 — Retire Node Workflow and close all quality gates [pendente]
 - Refs: US-136, AC-280, AC-282, AC-286, AC-288, AC-289, AC-290, AC-291, AC-292, AC-293
-- Arquivos: apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, compose.yaml, README.md, docs, test, .spec/features/migrate-order-workflow-to-axon-java
+- Arquivos: apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, infra/sst.config.ts, compose.yaml, README.md, docs, test, .spec/features/migrate-order-workflow-to-axon-java
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-252, completed reconciliation window, approved irreversible checkpoint.
