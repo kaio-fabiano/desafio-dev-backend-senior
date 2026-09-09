@@ -99,6 +99,28 @@ type Mutation {
 
 type Subscription {
   orderEvents(operationKey: ID!): OrderEvent!
+  onTransactionUpdated(transactionId: ID!): TransactionUpdate!
+}
+
+type TransactionUpdate {
+  transactionId: ID!
+  operationKey: ID!
+  wooOrderId: ID!
+  amount: Float!
+  currency: String!
+  paymentMethod: PaymentMethod!
+  status: TransactionStatus!
+  outcomeReference: ID
+  version: Int!
+}
+
+enum TransactionStatus {
+  ACCEPTED
+  INVENTORY_RESERVED
+  PAYMENT_PENDING
+  PAYMENT_APPROVED
+  COMPLETED
+  REJECTED
 }
 
 type OrderEvent {

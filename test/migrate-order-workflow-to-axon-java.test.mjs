@@ -121,3 +121,25 @@ test('Projection and GraphQL evidence participate in the repository gate @spec:A
   assert.match(graphql, /Order Workflow GraphQL preserves scopes, owner isolation, validation, and errors/);
   assert.doesNotMatch(projection + graphql, /skipped="[1-9]/);
 });
+
+test('Axon subscription queries isolate each transaction over GraphQL SSE @spec:AC-289', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.subscription.TransactionSubscriptionSseTest',
+  );
+
+  assert.match(xml, /tests="6"/);
+  assert.match(xml, /failures="0"/);
+  assert.match(xml, /skipped="0"/);
+  assert.match(xml, /HTTP SSE isolates simultaneous owners and transactions, orders versions, and reconnects/);
+  assert.match(xml, /Subscription query suppresses stale versions and propagates cancellation/);
+  assert.match(xml, /QueryUpdateEmitter filters by transaction and authenticated owner/);
+  assert.match(xml, /Legacy orderEvents remains live through the Java SSE cutover/);
+});
+
+test('Gateway cutover preserves the public SSE edge and repository gate @spec:AC-288 @spec:AC-292', async () => {
+  const gateway = await readFile('apps/gateway/src/app.module.ts', 'utf8');
+
+  assert.match(gateway, /path: 'graphql\/stream'/);
+  assert.match(gateway, /http:\/\/payment-federation:8080\/graphql/);
+  assert.doesNotMatch(gateway, /http:\/\/order-workflow-subgraph:3003\/graphql\/stream/);
+});
