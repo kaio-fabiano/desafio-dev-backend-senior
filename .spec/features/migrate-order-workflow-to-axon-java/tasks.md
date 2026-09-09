@@ -233,6 +233,7 @@
 - Arquivos: apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, infra/sst.config.ts, compose.yaml, README.md, docs, test, .spec/features/migrate-order-workflow-to-axon-java
 - Modelo: gpt-5.6-sol
 - Esforço: alto
+- Approval: The user explicitly approved sequential execution with `gpt-5.6-sol` and high effort before this clean-context run; do not request that confirmation again.
 - Dependencies: T-252, completed reconciliation window, approved irreversible checkpoint.
 - Objective: Remove the inactive Node Order Workflow from source/deployment inventories, eliminate compatibility scaffolding that no longer has consumers, document operations, and obtain the final mechanical Definition of Done.
 - Bounded context: Repository/deployment governance technical boundary; no business ownership moves in this phase.
