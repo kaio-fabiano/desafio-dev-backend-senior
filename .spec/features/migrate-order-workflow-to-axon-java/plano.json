@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtu8ygac",
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtuegcm5",
   "feature": "migrate-order-workflow-to-axon-java",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-sol",
   "esforcoForcado": "high",
-  "geradoEm": "2026-09-09 15:22",
+  "geradoEm": "2026-09-09 17:56",
   "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
   "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
   "specDir": ".spec",
@@ -15,30 +15,6 @@
   "ondas": [],
   "faixas": [],
   "sequenciais": [
-    {
-      "id": "T-251",
-      "titulo": "Prove the complete choreographed lifecycle and compensations",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture",
-        "test/migrate-order-workflow-to-axon-java.test.mjs"
-      ],
-      "refs": [
-        "US-133",
-        "US-134",
-        "AC-283",
-        "AC-284",
-        "AC-286",
-        "AC-287",
-        "AC-293",
-        "AC-292"
-      ]
-    },
     {
       "id": "T-252",
       "titulo": "Import or clean-start legacy state and perform reversible cutover",
@@ -110,7 +86,8 @@
     "T-247",
     "T-248",
     "T-249",
-    "T-250"
+    "T-250",
+    "T-251"
   ],
   "avisos": []
 }

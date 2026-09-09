@@ -1,11 +1,11 @@
 # Plano de execução — migrate-order-workflow-to-axon-java
 
-> gerado por `onp-spec plano` em 2026-09-09 15:22 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-09 17:56 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano migrate-order-workflow-to-axon-java --sequencial --modelo gpt-5.6-sol --esforco high`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 3 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (11 já concluída(s): T-240, T-241, T-242, T-243, T-244, T-245, T-246, T-247, T-248, T-249, T-250)
+- **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (12 já concluída(s): T-240, T-241, T-242, T-243, T-244, T-245, T-246, T-247, T-248, T-249, T-250, T-251)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - **custo travado pelo usuário**: modelo `gpt-5.6-sol` · esforço `high` em TODAS as tarefas (vence tasks.md e config)
 - tudo acontece na branch de trabalho `spec/migrate-order-workflow-to-axon-java`; levar para a main é decisão sua
@@ -14,7 +14,6 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-251 | Prove the complete choreographed lifecycle and compensations | `gpt-5.6-sol` | high |
 | T-252 | Import or clean-start legacy state and perform reversible cutover | `gpt-5.6-sol` | high |
 | T-253 | Retire Node Workflow and close all quality gates | `gpt-5.6-sol` | high |
 
