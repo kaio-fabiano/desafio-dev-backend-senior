@@ -1,11 +1,11 @@
 {
   "feature": "migrate-order-workflow-to-axon-java",
-  "timestamp": "2026-09-09T09:20:45.336Z",
-  "gitRev": "9dc8b6e",
+  "timestamp": "2026-09-09T10:46:59.642Z",
+  "gitRev": "ffc45fc",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 251,
+  "testsParsed": 254,
   "results": {
     "AC-280": {
       "status": "pass",
@@ -15,6 +15,11 @@
     "AC-282": {
       "status": "pass",
       "testName": "Axon PostgreSQL restart, replay, token, and concurrency behavior passes JUnit @spec:AC-282",
+      "method": "tap"
+    },
+    "AC-293": {
+      "status": "pass",
+      "testName": "Real RabbitMQ and PostgreSQL prove reliable AMQP delivery @spec:AC-293",
       "method": "tap"
     },
     "AC-292": {
