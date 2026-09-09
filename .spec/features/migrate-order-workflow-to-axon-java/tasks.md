@@ -71,7 +71,7 @@
 - Refactor: Extract only repeated topology/envelope mechanics that have at least two real consumers; keep context-specific bindings and commands explicit.
 - Validation: `./gradlew :apps:payment-federation:test --tests '*Contract*' --tests '*Rabbit*' --tests '*Inbox*' --tests '*Outbox*'`; `./gradlew :apps:payment-federation:test`; `npx nx run payment-federation:build`; `npx nx run payment-federation:lint`; onp-spec verify and non-CI audit commands from T-244.
 - Acceptance: AC-293 passes over real RabbitMQ/PostgreSQL; outage, redelivery, retry, DLQ, serialization, headers, publisher confirm, and mandatory routing are proven; no cross-context in-process dispatch exists.
-- Risks/blockers: Amazon MQ TLS, permissions, quorum support, HA, and operational replay remain `NOT VERIFIED` until environment evidence exists; payment credential classification from Q-026 blocks any payload that might carry a token.
+- Risks/blockers: Amazon MQ TLS, permissions, quorum support, HA, and operational replay remain `NOT VERIFIED` until environment evidence exists; Q-026 forbids sensitive payment tokens in Integration Events and permits only opaque provider references.
 - Rollback: Disable the new queues/listeners and revert new V1 bindings/migrations while retaining existing routing keys; no business flow has switched yet.
 
 ## T-246 — Convert Inventory into an independent Axon participant [concluida]
@@ -115,7 +115,7 @@
 - Refactor: Retain verified SDK/authentication behavior, move SDK DTO mapping outward, and remove nested commands/integration events from the domain after equivalent tests pass.
 - Validation: `./gradlew :apps:payment-federation:test --tests '*payment*' --tests '*MercadoPago*'`; full Java tests, coverage, build, lint, onp-spec verify, and non-CI audit.
 - Acceptance: AC-283 passes with final-state assertions, provider calls remain at most once under redelivery, Payment reacts to no Inventory-rejection event, and no Payment code invokes another context or WordPress order mutation.
-- Risks/blockers: Q-026 data classification/retention and Q-024 compensation policy block production credential/refund behavior; Mercado Pago network is simulated deterministically in automated tests.
+- Risks/blockers: Q-026 classifies payment tokens as sensitive and Q-024 fixes the terminal compensation as `REFUNDED`; Mercado Pago network is simulated deterministically in automated tests.
 - Rollback: Preserve the existing Payment API and old listener behind mutually exclusive routing/profile flags; revert to the legacy writer before accepting target V1 bindings.
 
 ## T-248 — Migrate checkout and Transaction decisions [concluida]
@@ -137,7 +137,7 @@
 - Refactor: Delete duplicated Java/Node-independent mapping helpers only after fixture parity; keep the external reconciliation plugin and operation-reference semantics.
 - Validation: `./gradlew :apps:payment-federation:test --tests '*transaction*' --tests '*Checkout*' --tests '*WooCommerce*'`; full Java tests, coverage, build, lint, onp-spec verify, and non-CI audit.
 - Acceptance: AC-285 concurrency/reconciliation tests prove one internal transaction and at most one Woo order; AC-286 structural test proves Transaction has no cross-context command; checkout compatibility fixtures match Node behavior.
-- Risks/blockers: Q-022 determines import versus clean start; Q-026 must settle lease timeout, retention, abandonment, credential retry/redaction, currency, and Woo status mapping before production cutover.
+- Risks/blockers: Q-022 selects an abort-on-data clean start; Q-026 fixes the 30-second lease, 24-hour abandonment cleanup, 30-day technical-record retention, credential redaction, and bounded retry policy; currency and Woo status mapping remain contract-controlled.
 - Rollback: Java remains shadow/non-writing; discard target Transaction streams/projections and continue routing all checkout commands to Node.
 
 ## T-249 — Build replayable projections and compatible GraphQL [concluida]
@@ -181,7 +181,7 @@
 - Refactor: Remove Node relay/broker only after end-to-end parity and cutover; do not introduce a second SSE framework or polling fallback.
 - Validation: `./gradlew :apps:payment-federation:test --tests '*Subscription*' --tests '*Sse*'`; relevant Gateway tests and `npx nx run gateway:typecheck`; `npx nx run e2e:e2e`; full Java tests/build/lint, onp-spec verify, and non-CI audit.
 - Acceptance: AC-289 proves the complete required Axon-to-SSE path and isolation through the public surface; AC-288 subscription compatibility remains green; any literal WordPress-hosted requirement is explicitly proven or blocks completion.
-- Risks/blockers: Q-025 must define the accepted WordPress/GraphiQL surface; Federation must not be claimed to route subscriptions without protocol evidence.
+- Risks/blockers: Q-025 selects Gateway GraphiQL as the public surface; Federation must not be claimed to route subscriptions without protocol evidence.
 - Rollback: Restore Gateway SSE downstream URL to Node; Java subscription remains unused and Node relay/broker remains deployable until final cutover.
 
 ## T-251 — Prove the complete choreographed lifecycle and compensations [concluida]
@@ -225,7 +225,7 @@
 - Refactor: Remove temporary comparison code only after signed reconciliation evidence; retain immutable migration audit output and rollback runbook.
 - Validation: importer dry-run and restart commands documented by the chosen implementation; full Java suite; `npx nx run gateway:typecheck`; relevant Gateway/contract tests; `npx nx run e2e:e2e`; `docker compose config`; `docker compose up --build` acceptance journey; coverage/build/lint/onp-spec verify and non-CI audit.
 - Acceptance: AC-290 has executable proof for every legacy row or an approved zero-state gate; AC-291 proves sole Java command ownership, public GraphQL/SSE health, and a tested rollback checkpoint; no dual writer window exists.
-- Risks/blockers: Q-022 is a hard decision; production ingress/DNS/secrets/migration runner are absent and must be `NOT VERIFIED` with an owner and command; rollback after new Java-only writes requires forward recovery rather than unsafe traffic reversal.
+- Risks/blockers: Q-022 approves clean start and requires the cutover to abort when any legacy durable row exists; production ingress/DNS/secrets/migration runner are absent and must be `NOT VERIFIED` with an owner and command; rollback after new Java-only writes requires forward recovery rather than unsafe traffic reversal.
 - Rollback: Before the irreversible checkpoint, quiesce commands, restore old Gateway/queue routing, verify legacy writer health, and keep Java data read-only. After divergent Java writes, stop and execute the approved forward-recovery runbook; never blindly re-enable Node.
 
 ## T-253 — Retire Node Workflow and close all quality gates [pendente]

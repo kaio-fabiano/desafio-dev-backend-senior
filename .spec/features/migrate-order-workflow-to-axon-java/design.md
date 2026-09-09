@@ -243,8 +243,8 @@ result returns as a local command; no event-sourcing handler performs I/O.
 - `PaymentRejectedV1`: Inventory releases its reservation and Transaction
   rejects independently.
 - `InventoryCommitRejectedV1` after approval: Payment starts an idempotent
-  refund and Transaction enters a non-terminal compensation state; final
-  terminal naming is **NEEDS VALIDATION**.
+  refund and Transaction enters `REFUND_PENDING`; `PaymentRefundedV1`
+  converges both observable lifecycles to terminal `REFUNDED`.
 - `PaymentRefundedV1`: Transaction records compensation completion; Inventory
   records/releases only its own reservation as applicable.
 - `TransactionCancelledV1`: Inventory and Payment independently decide whether
@@ -282,11 +282,9 @@ WordPress/WPGraphQL remains a composed commerce data owner; it does not
 automatically route or proxy the subscription.
 ```
 
-This reuses the currently evidenced Gateway proxy instead of claiming Apollo
-Federation subscription planning. If acceptance literally requires the
-connection to originate from a WordPress-hosted GraphiQL endpoint, the needed
-WordPress proxy/plugin and supported SSE protocol are **NEEDS VALIDATION** and
-the acceptance test remains blocked until proved.
+This reuses the approved Gateway GraphiQL and SSE proxy instead of claiming
+Apollo Federation subscription planning. WordPress remains the composed
+commerce data owner and does not host or proxy subscriptions.
 
 ## PostgreSQL ownership
 

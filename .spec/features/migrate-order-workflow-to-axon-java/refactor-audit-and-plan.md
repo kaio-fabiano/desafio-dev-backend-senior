@@ -21,11 +21,10 @@ queries. Spring AMQP/RabbitMQ carries versioned Integration Events between
 contexts. The lifecycle is Inventory-first and strictly choreographed; no
 component knows or advances the complete sequence.
 
-The principal blockers are the unselected Axon 5 persistent store, the literal
-meaning of the required WordPress/GraphiQL subscription surface, legacy-data
-migration policy, terminal compensation policy, and operational/security
-parameters. These are not implementation details and remain **NEEDS
-VALIDATION**.
+The remaining principal blockers are production infrastructure evidence and
+the final repository gates. The public GraphiQL surface, clean-start policy,
+terminal refund outcome, and operational/security parameters have explicit
+product decisions recorded in Q-022 and Q-024 through Q-026.
 
 Detailed evidence is retained in [the Java audit](audit-current-java.md) and
 [the Workflow audit](audit-current-workflow.md).
@@ -209,7 +208,8 @@ The authenticated owner receives only the requested transaction. Reconnect,
 initial state/version suppression, simultaneous subscribers, cancellation and
 resource cleanup require executable tests. WordPress remains a composed data
 owner and does not automatically proxy subscriptions. A literal
-WordPress-hosted GraphiQL/SSE route is **NEEDS VALIDATION**.
+Gateway GraphiQL is the approved public surface; WordPress does not host or
+proxy subscriptions.
 
 ## L. Saga Choreography
 
@@ -341,8 +341,8 @@ state, specifications, verification evidence, and the execution ledger.
   build/lint, verify and non-CI audit.
 - **Gate:** AC-281, AC-282 and AC-283 are green; provider effects occur at most
   once and Payment calls no foreign context or WordPress order writer.
-- **Risks/blockers:** Q-026 blocks production credential handling; Q-024 fixes
-  the post-approval refund result as `REFUNDED`.
+- **Risks/blockers:** Q-026 permits only opaque provider references outside the
+  provider boundary; Q-024 fixes the post-approval result as `REFUNDED`.
 - **Rollback:** retain old API/listener behind a mutually exclusive route and
   restore it before target bindings accept commands.
 
@@ -364,8 +364,9 @@ state, specifications, verification evidence, and the execution ledger.
   tests/coverage/build/lint, verify and non-CI audit.
 - **Gate:** AC-285 passes and the Transaction portion of AC-286 proves it emits
   facts but never advances another context.
-- **Risks/blockers:** Q-022 and Q-026 control legacy data, lease/retention,
-  credentials, currency and Woo status behavior.
+- **Risks/blockers:** Q-022 selects an abort-on-data clean start and Q-026 fixes
+  lease, retention, abandonment, credential and retry policies; currency and
+  Woo status behavior remain contract-controlled.
 - **Rollback:** Java stays a non-writing shadow and Gateway remains on Node.
 
 ### Phase 6 — Replayable CQRS and compatible GraphQL (T-249)
@@ -409,7 +410,8 @@ state, specifications, verification evidence, and the execution ledger.
 - **Gate:** AC-289 and subscription compatibility under AC-288 pass through the
   public edge. A literal WordPress-hosted requirement is either proven or
   remains a hard blocker.
-- **Risks/blockers:** Q-025 must be resolved before the acceptance claim.
+- **Risks/blockers:** Q-025 approves Gateway GraphiQL as the public acceptance
+  surface; production ingress remains separately operationally validated.
 - **Rollback:** restore Gateway's downstream SSE URL to Node; retain the Node
   relay/broker until cutover.
 
@@ -512,17 +514,22 @@ failure-path tests.
    processor/token, sequencing, snapshot and dead-letter infrastructure.
 2. Determine its schema, exact tables/migrations and transaction integration;
    a conceptual `axon` schema is not yet approved.
-3. Decide importer versus proven clean start for legacy Workflow and Java JDBC
-   state.
+3. ~~Decide importer versus proven clean start for legacy Workflow and Java
+   JDBC state.~~ Resolved by Q-022: use a clean-start gate that aborts on any
+   legacy durable row.
 4. ~~Approve terminal Transaction states and post-approval inventory-failure
    compensation/refund semantics.~~ Resolved by Q-024: an idempotent refund
    converges through `REFUND_PENDING` to `REFUNDED`.
-5. Resolve whether acceptance requires WordPress-hosted GraphiQL or Gateway
-   GraphiQL over the composed WordPress graph.
-6. Approve operation-key retention, lease timeout, abandonment cleanup and
-   payment-credential retry semantics.
-7. Classify/redact payment credentials and forbid reusable provider tokens in
-   general integration contracts.
+5. ~~Resolve whether acceptance requires WordPress-hosted GraphiQL or Gateway
+   GraphiQL over the composed WordPress graph.~~ Resolved by Q-025: Gateway is
+   the public surface and WordPress remains the commerce data owner.
+6. ~~Approve operation-key retention, lease timeout, abandonment cleanup and
+   payment-credential retry semantics.~~ Resolved by Q-026: 30-second lease,
+   24-hour abandonment cleanup, 30-day technical-record retention, and bounded
+   1/10/60-second retries followed by DLQ.
+7. ~~Classify/redact payment credentials and forbid reusable provider tokens
+   in general integration contracts.~~ Resolved by Q-026: tokens are sensitive
+   and only opaque provider references may leave the provider boundary.
 8. Validate Amazon MQ topology, TLS, credentials, quorum support, permissions,
    HA, ordering and replica behavior.
 9. Define production ingress, secret management, migration runner,
