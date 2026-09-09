@@ -1,6 +1,6 @@
 # Plano de execução — migrate-order-workflow-to-axon-java
 
-> gerado por `onp-spec plano` em 2026-09-09 18:37 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-09 18:40 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano migrate-order-workflow-to-axon-java --sequencial`
 
 ## Resumo — o que vai acontecer
