@@ -54,7 +54,7 @@
 
 ## T-245 — Establish versioned contracts and reliable AMQP boundaries [pendente]
 - Refs: US-132, US-133, AC-280, AC-293, AC-292
-- Arquivos: libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging
+- Arquivos: libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244.
@@ -76,7 +76,7 @@
 
 ## T-246 — Convert Inventory into an independent Axon participant [pendente]
 - Refs: US-132, US-133, AC-281, AC-282, AC-284, AC-293, AC-292
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244, T-245.
@@ -98,7 +98,7 @@
 
 ## T-247 — Convert Payment and provider effects into Axon [pendente]
 - Refs: US-132, US-133, AC-281, AC-282, AC-283, AC-293, AC-292
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244, T-245. May proceed independently of T-246 until choreography tests.
@@ -120,7 +120,7 @@
 
 ## T-248 — Migrate checkout and Transaction decisions [pendente]
 - Refs: US-132, US-134, AC-281, AC-282, AC-285, AC-286, AC-293, AC-292
-- Arquivos: apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction
+- Arquivos: apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244, T-245.
@@ -142,7 +142,7 @@
 
 ## T-249 — Build replayable projections and compatible GraphQL [pendente]
 - Refs: US-132, US-134, US-135, AC-281, AC-287, AC-288, AC-292
-- Arquivos: libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/projection
+- Arquivos: libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/projection, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-246, T-247, T-248.
@@ -164,7 +164,7 @@
 
 ## T-250 — Deliver transaction-filtered GraphQL SSE [pendente]
 - Refs: US-135, AC-289, AC-288, AC-292
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription, apps/gateway/src/subscriptions, apps/gateway/src/app.module.ts, apps/e2e/src, apps/wordpress-integration
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription, apps/gateway/src/subscriptions, apps/gateway/src/app.module.ts, apps/e2e/src, apps/wordpress-integration, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-249.
@@ -186,7 +186,7 @@
 
 ## T-251 — Prove the complete choreographed lifecycle and compensations [pendente]
 - Refs: US-133, US-134, AC-283, AC-284, AC-286, AC-287, AC-293, AC-292
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/e2e, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/e2e, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-246, T-247, T-248, T-249, T-250.
@@ -208,7 +208,7 @@
 
 ## T-252 — Import or clean-start legacy state and perform reversible cutover [pendente]
 - Refs: US-134, US-135, US-136, AC-285, AC-287, AC-288, AC-289, AC-290, AC-291, AC-292, AC-293
-- Arquivos: apps/order-workflow-subgraph/src/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e
+- Arquivos: apps/order-workflow-subgraph/src/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-251 and explicit resolution of Q-022, Q-024, Q-025, and applicable Q-026 policies.
