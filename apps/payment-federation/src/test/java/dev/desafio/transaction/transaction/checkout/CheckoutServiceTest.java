@@ -52,7 +52,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("Concurrent identical checkout observes one Transaction and one Woo order @spec:AC-285")
+    @DisplayName("Concurrent identical checkout observes one Transaction and one Woo order @spec:AC-285 @spec:AC-229")
     void concurrentIdenticalCheckoutObservesOneTransactionAndOneWooOrder() throws Exception {
         var repository = new MemoryCheckoutRepository();
         var createStarted = new CountDownLatch(1);
@@ -89,7 +89,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("Checkout conflicts deterministically and bounds a busy lease wait @spec:AC-285")
+    @DisplayName("Checkout conflicts deterministically and bounds a busy lease wait @spec:AC-285 @spec:AC-229")
     void checkoutConflictsDeterministicallyAndBoundsABusyLeaseWait() {
         var repository = new MemoryCheckoutRepository();
         var service = service(repository, request -> ORDER, command -> command.transactionId());
@@ -114,7 +114,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("Ambiguous Woo success is reconciled before checkout retries creation @spec:AC-285")
+    @DisplayName("Ambiguous Woo success is reconciled before checkout retries creation @spec:AC-285 @spec:AC-229 @spec:AC-243")
     void ambiguousWooSuccessIsReconciledBeforeCheckoutRetriesCreation() {
         var repository = new MemoryCheckoutRepository();
         var creations = new AtomicInteger();

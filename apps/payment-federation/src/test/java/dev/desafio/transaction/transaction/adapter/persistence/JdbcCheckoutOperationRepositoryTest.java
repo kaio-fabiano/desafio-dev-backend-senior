@@ -52,7 +52,7 @@ class JdbcCheckoutOperationRepositoryTest {
     }
 
     @Test
-    @DisplayName("PostgreSQL grants one checkout lease and survives repository restart @spec:AC-285 @spec:AC-292")
+    @DisplayName("PostgreSQL grants one checkout lease and survives repository restart @spec:AC-285 @spec:AC-292 @spec:AC-229")
     void postgresGrantsOneCheckoutLeaseAndSurvivesRepositoryRestart() {
         var operationKey = "operation-" + java.util.UUID.randomUUID();
         var request = new CheckoutOperationRepository.ClaimRequest(

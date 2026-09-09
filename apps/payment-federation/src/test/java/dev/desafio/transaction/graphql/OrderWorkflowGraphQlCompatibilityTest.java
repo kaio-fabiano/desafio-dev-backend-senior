@@ -45,6 +45,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import reactor.core.publisher.Mono;
 
@@ -208,7 +209,7 @@ class OrderWorkflowGraphQlCompatibilityTest {
     }
 
     @Test
-    @DisplayName("Order Workflow GraphQL preserves scopes, owner isolation, validation, and errors @spec:AC-288")
+    @DisplayName("Order Workflow GraphQL preserves scopes, owner isolation, validation, and errors @spec:AC-288 @spec:AC-229 @spec:AC-231")
     void preservesAuthorizationAndValidationErrors() {
         var forbidden = graphQl(
             "{ checkout(id: \"transaction-249\") { id } }",
@@ -226,6 +227,7 @@ class OrderWorkflowGraphQlCompatibilityTest {
             }
             """, "buyer-249", "cart:write");
         assertEquals("CHECKOUT_INPUT_INVALID", errorCode(invalid));
+        verifyNoInteractions(commandGateway);
 
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

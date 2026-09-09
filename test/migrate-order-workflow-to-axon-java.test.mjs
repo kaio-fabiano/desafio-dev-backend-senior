@@ -71,7 +71,7 @@ test('V1 integration contracts expose only the approved boundary fields @spec:AC
   assert.doesNotMatch(JSON.stringify(envelope), /providerToken|accessToken|cardToken/i);
 });
 
-test('Real RabbitMQ and PostgreSQL prove reliable AMQP delivery @spec:AC-293', async () => {
+test('Real RabbitMQ and PostgreSQL prove reliable AMQP delivery @spec:AC-293 @spec:AC-230', async () => {
   const xml = await report(
     'dev.desafio.transaction.infrastructure.messaging.RabbitMqBoundaryIntegrationTest',
   );
@@ -122,7 +122,7 @@ test('Projection and GraphQL evidence participate in the repository gate @spec:A
   assert.doesNotMatch(projection + graphql, /skipped="[1-9]/);
 });
 
-test('Axon subscription queries isolate each transaction over GraphQL SSE @spec:AC-289', async () => {
+test('Axon subscription queries isolate each transaction over GraphQL SSE @spec:AC-289 @spec:AC-231', async () => {
   const xml = await report(
     'dev.desafio.transaction.subscription.TransactionSubscriptionSseTest',
   );
@@ -179,13 +179,14 @@ test('Clean-start migration blocks legacy rows and remains restartable @spec:AC-
   assert.match(xml, /Any current or historical legacy row blocks Java ownership/);
 });
 
-test('Cutover keeps Java as the sole compatible GraphQL, SSE, and AMQP owner @spec:AC-285 @spec:AC-287 @spec:AC-288 @spec:AC-289 @spec:AC-291 @spec:AC-293', async () => {
-  const [compose, environment, gateway, checkout, projection, graphql, subscription, amqp] =
+test('Cutover keeps Java as the sole compatible GraphQL, SSE, and AMQP owner @spec:AC-285 @spec:AC-287 @spec:AC-288 @spec:AC-289 @spec:AC-291 @spec:AC-293 @spec:AC-229 @spec:AC-243', async () => {
+  const [compose, environment, gateway, checkout, woo, projection, graphql, subscription, amqp] =
     await Promise.all([
       readFile('compose.yaml', 'utf8'),
       readFile('apps/e2e/src/environment.ts', 'utf8'),
       readFile('apps/gateway/src/app.module.ts', 'utf8'),
       report('dev.desafio.transaction.transaction.checkout.CheckoutServiceTest'),
+      report('dev.desafio.transaction.transaction.adapter.woocommerce.WooCommerceGraphQlOrderAdapterTest'),
       report('dev.desafio.transaction.projection.TransactionProjectionReplayTest'),
       report('dev.desafio.transaction.graphql.OrderWorkflowGraphQlCompatibilityTest'),
       report('dev.desafio.transaction.subscription.TransactionSubscriptionSseTest'),
@@ -201,7 +202,7 @@ test('Cutover keeps Java as the sole compatible GraphQL, SSE, and AMQP owner @sp
   assert.match(compose, /INVENTORY_LEGACY_LISTENER_ENABLED:.*false/);
   assert.doesNotMatch(environment, /^\s*'order-workflow-subgraph',$/m);
   assert.match(gateway, /http:\/\/payment-federation:8080\/graphql/);
-  for (const xml of [checkout, projection, graphql, subscription, amqp]) {
+  for (const xml of [checkout, woo, projection, graphql, subscription, amqp]) {
     assert.match(xml, /failures="0"/);
     assert.match(xml, /skipped="0"/);
   }

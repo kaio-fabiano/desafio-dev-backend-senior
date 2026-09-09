@@ -48,7 +48,7 @@ test('Transaction state is replayed by the Axon fixture without side effects @sp
   assert.doesNotMatch(tests, /@Disabled|\.skip\(|\.todo\(/);
 });
 
-test('Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285', async () => {
+test('Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285 @spec:AC-229 @spec:AC-243', async () => {
   const tests = (await contents(testRoot)).join('\n');
   assert.match(
     tests,

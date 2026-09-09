@@ -151,7 +151,7 @@ class TransactionSubscriptionSseTest {
     }
 
     @Test
-    @DisplayName("Subscription query suppresses stale versions and propagates cancellation @spec:AC-289")
+    @DisplayName("Subscription query suppresses stale versions and propagates cancellation @spec:AC-289 @spec:AC-231")
     void suppressesStaleVersionsAndReleasesOnCancel() {
         var subscriptions = mock(TransactionSubscriptionGateway.class);
         var cancelled = new AtomicBoolean();

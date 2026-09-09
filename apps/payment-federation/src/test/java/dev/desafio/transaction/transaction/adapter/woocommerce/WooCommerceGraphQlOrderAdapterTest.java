@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WooCommerceGraphQlOrderAdapterTest {
     private static final ObjectMapper JSON = new ObjectMapper();
 
     @Test
-    @DisplayName("Woo ACL authenticates with its trusted origin and reconciles ambiguous checkout @spec:AC-285 @spec:AC-288")
+    @DisplayName("Woo ACL authenticates with its trusted origin and reconciles ambiguous checkout @spec:AC-285 @spec:AC-288 @spec:AC-243")
     void wooAclReconcilesAnAmbiguousCheckoutByItsOperationReference() throws Exception {
         var lookups = new AtomicInteger();
         var calls = new ArrayList<WooCommerceGraphQlOrderAdapter.Call>();
@@ -61,6 +63,41 @@ class WooCommerceGraphQlOrderAdapterTest {
             .allMatch(call -> "cart-token".equals(call.headers().get("cart-token"))));
     }
 
+    @Test
+    @DisplayName("Woo lookup preserves missing, malformed, duplicate, and failed recovery outcomes @spec:AC-243")
+    void wooLookupPreservesRecoveryOutcomes() throws Exception {
+        var request = new WooCommerceOrderPort.Request(
+            "buyer-1", "operation-reference", "PIX",
+            new WooCommerceOrderPort.Session("cart-token", "woo-session", "buyer-cookie")
+        );
+
+        assertNull(adapter(call -> response(call, "{\"orders\":{\"nodes\":[]}}")).findByReference(request));
+        assertThrows(IllegalStateException.class, () ->
+            adapter(call -> response(call, "{\"orders\":{\"nodes\":{}}}")).findByReference(request)
+        );
+        assertThrows(IllegalStateException.class, () ->
+            adapter(call -> response(call, duplicateOrderPayload())).findByReference(request)
+        );
+        assertThrows(IllegalStateException.class, () ->
+            adapter(call -> {
+                if (call.query().contains("LoginTransaction")) return response(call, "");
+                throw new IllegalStateException("WooGraphQL request failed");
+            }).findByReference(request)
+        );
+    }
+
+    private static WooCommerceGraphQlOrderAdapter adapter(
+        WooCommerceGraphQlOrderAdapter.GraphQlClient client
+    ) {
+        return new WooCommerceGraphQlOrderAdapter(client, "transaction", "site-token", "http://wordpress");
+    }
+
+    private static JsonNode response(WooCommerceGraphQlOrderAdapter.Call call, String orders) throws Exception {
+        return call.query().contains("LoginTransaction")
+            ? json("{\"login\":{\"authToken\":\"service-token\"}}")
+            : json(orders);
+    }
+
     private static JsonNode json(String value) throws Exception {
         return JSON.readTree(value);
     }
@@ -80,6 +117,19 @@ class WooCommerceGraphQlOrderAdapterTest {
               "metaData":[{"key":"_order_workflow_operation_reference","value":"operation-reference"}],
               "lineItems":{"nodes":[{"quantity":2,"product":{"node":{"databaseId":1001}}}]}
             }]}}
+            """;
+    }
+
+    private static String duplicateOrderPayload() {
+        return """
+            {"orders":{"nodes":[
+              {"databaseId":42,"total":"19.90","currency":"BRL",
+               "metaData":[{"key":"_order_workflow_operation_reference","value":"operation-reference"}],
+               "lineItems":{"nodes":[{"quantity":2,"product":{"node":{"databaseId":1001}}}]}},
+              {"databaseId":43,"total":"19.90","currency":"BRL",
+               "metaData":[{"key":"_order_workflow_operation_reference","value":"operation-reference"}],
+               "lineItems":{"nodes":[{"quantity":2,"product":{"node":{"databaseId":1001}}}]}}
+            ]}}
             """;
     }
 }
