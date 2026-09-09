@@ -228,7 +228,7 @@
 - Risks/blockers: Q-022 approves clean start and requires the cutover to abort when any legacy durable row exists; production ingress/DNS/secrets/migration runner are absent and must be `NOT VERIFIED` with an owner and command; rollback after new Java-only writes requires forward recovery rather than unsafe traffic reversal.
 - Rollback: Before the irreversible checkpoint, quiesce commands, restore old Gateway/queue routing, verify legacy writer health, and keep Java data read-only. After divergent Java writes, stop and execute the approved forward-recovery runbook; never blindly re-enable Node.
 
-## T-253 — Retire Node Workflow and close all quality gates [pendente]
+## T-253 — Retire Node Workflow and close all quality gates [concluida]
 - Refs: US-136, AC-280, AC-282, AC-286, AC-288, AC-289, AC-290, AC-291, AC-292, AC-293
 - Arquivos: apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, infra/sst.config.ts, compose.yaml, README.md, docs, test, .spec/features, .spec/verification
 - Modelo: gpt-5.6-sol
