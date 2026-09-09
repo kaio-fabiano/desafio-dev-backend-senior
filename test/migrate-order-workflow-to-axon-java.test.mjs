@@ -166,3 +166,42 @@ test('Choreography E2E participates in the repository quality gate @spec:AC-292'
   assert.match(xml, /The lifecycle quality proof uses real PostgreSQL and RabbitMQ without skips/);
   assert.doesNotMatch(xml, /skipped="[1-9]/);
 });
+
+test('Clean-start migration blocks legacy rows and remains restartable @spec:AC-290 @spec:AC-292', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.migration.LegacyCleanStartGateIntegrationTest',
+  );
+
+  assert.match(xml, /tests="2"/);
+  assert.match(xml, /failures="0"/);
+  assert.match(xml, /skipped="0"/);
+  assert.match(xml, /Empty legacy state is restartable, side-effect-free, and append-only/);
+  assert.match(xml, /Any current or historical legacy row blocks Java ownership/);
+});
+
+test('Cutover keeps Java as the sole compatible GraphQL, SSE, and AMQP owner @spec:AC-285 @spec:AC-287 @spec:AC-288 @spec:AC-289 @spec:AC-291 @spec:AC-293', async () => {
+  const [compose, environment, gateway, checkout, projection, graphql, subscription, amqp] =
+    await Promise.all([
+      readFile('compose.yaml', 'utf8'),
+      readFile('apps/e2e/src/environment.ts', 'utf8'),
+      readFile('apps/gateway/src/app.module.ts', 'utf8'),
+      report('dev.desafio.transaction.transaction.checkout.CheckoutServiceTest'),
+      report('dev.desafio.transaction.projection.TransactionProjectionReplayTest'),
+      report('dev.desafio.transaction.graphql.OrderWorkflowGraphQlCompatibilityTest'),
+      report('dev.desafio.transaction.subscription.TransactionSubscriptionSseTest'),
+      report('dev.desafio.transaction.infrastructure.messaging.RabbitMqBoundaryIntegrationTest'),
+    ]);
+
+  assert.match(compose, /profiles: \['legacy-rollback'\]/);
+  assert.match(compose, /ORDER_WORKFLOW_GRAPHQL_URL:.*payment-federation:8080\/graphql/);
+  assert.match(compose, /ORDER_WORKFLOW_SUBSCRIPTION_URL:.*payment-federation:8080\/graphql/);
+  assert.match(compose, /MIGRATION_LEGACY_CLEAN_START_ENABLED:.*true/);
+  assert.match(compose, /PAYMENT_LEGACY_MESSAGING_ENABLED:.*false/);
+  assert.match(compose, /INVENTORY_LEGACY_LISTENER_ENABLED:.*false/);
+  assert.doesNotMatch(environment, /^\s*'order-workflow-subgraph',$/m);
+  assert.match(gateway, /http:\/\/payment-federation:8080\/graphql/);
+  for (const xml of [checkout, projection, graphql, subscription, amqp]) {
+    assert.match(xml, /failures="0"/);
+    assert.match(xml, /skipped="0"/);
+  }
+});

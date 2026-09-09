@@ -17,7 +17,6 @@ const COMPOSE_SERVICES = [
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'order-workflow-subgraph',
   'payment-federation',
   'gateway',
   'apollo-mcp',
@@ -64,21 +63,18 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
     const identity = startedEnvironment.getContainer('identity-subgraph-1');
     const mcp = startedEnvironment.getContainer('apollo-mcp-1');
     const wordpress = startedEnvironment.getContainer('wordpress-1');
-    const commerce = startedEnvironment.getContainer(
-      'order-workflow-subgraph-1',
-    );
+    const commerce = startedEnvironment.getContainer('payment-federation-1');
     return {
       identityUrl: `http://${identity.getHost()}:${identity.getMappedPort(3001)}`,
       gatewayUrl: `http://${gateway.getHost()}:${gateway.getMappedPort(3000)}`,
       mcpUrl: `http://${mcp.getHost()}:${mcp.getMappedPort(8000)}/mcp`,
       wordpressUrl: `http://${wordpress.getHost()}:${wordpress.getMappedPort(80)}`,
       wordpressSiteToken: 'wordpress-local-only',
-      commerceUrl: `http://${commerce.getHost()}:${commerce.getMappedPort(3003)}`,
+      commerceUrl: `http://${commerce.getHost()}:${commerce.getMappedPort(8080)}`,
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,
       diagnostics: async () => {
         const services = [
-          'order-workflow-subgraph',
           'payment-federation',
           'wordpress',
         ];

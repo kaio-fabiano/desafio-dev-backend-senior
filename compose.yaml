@@ -233,11 +233,11 @@ services:
       GATEWAY_AUDIENCE: https://gateway.marketplace.local
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
+      ORDER_WORKFLOW_GRAPHQL_URL: ${ORDER_WORKFLOW_GRAPHQL_URL:-http://payment-federation:8080/graphql}
+      ORDER_WORKFLOW_SUBSCRIPTION_URL: ${ORDER_WORKFLOW_SUBSCRIPTION_URL:-http://payment-federation:8080/graphql}
       PORT: 3000
       WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
     depends_on:
-      order-workflow-subgraph:
-        condition: service_healthy
       wordpress-setup:
         condition: service_healthy
       payment-federation:
@@ -326,6 +326,7 @@ services:
       retries: 30
 
   order-workflow-subgraph:
+    profiles: ['legacy-rollback']
     build:
       context: .
       dockerfile: apps/order-workflow-subgraph/Dockerfile
@@ -386,16 +387,26 @@ services:
       MERCADO_PAGO_API_BASE_URL: ${MERCADO_PAGO_API_BASE_URL:-https://api.mercadopago.com}
       MERCADO_PAGO_CONNECTION_TIMEOUT: ${MERCADO_PAGO_CONNECTION_TIMEOUT:-5s}
       MERCADO_PAGO_READ_TIMEOUT: ${MERCADO_PAGO_READ_TIMEOUT:-15s}
+      MIGRATION_LEGACY_CLEAN_START_ENABLED: ${MIGRATION_LEGACY_CLEAN_START_ENABLED:-true}
+      MIGRATION_LEGACY_CLEAN_START_PASSWORD: postgres
+      MIGRATION_LEGACY_CLEAN_START_URL: jdbc:postgresql://order-workflow-database:5432/order_workflow
+      MIGRATION_LEGACY_CLEAN_START_USERNAME: postgres
+      PAYMENT_LEGACY_MESSAGING_ENABLED: ${PAYMENT_LEGACY_MESSAGING_ENABLED:-false}
+      INVENTORY_LEGACY_LISTENER_ENABLED: ${INVENTORY_LEGACY_LISTENER_ENABLED:-false}
       SERVER_PORT: 8080
       RABBITMQ_URL: amqp://rabbitmq:5672
       SPRING_PROFILES_ACTIVE: local
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
       SPRING_DATASOURCE_USERNAME: postgres
+      TRANSACTION_CHECKOUT_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
+      TRANSACTION_CHECKOUT_WORDPRESS_URL: http://wordpress/graphql
       WORDPRESS_URL: http://wordpress
       WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
       WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
     depends_on:
+      order-workflow-database:
+        condition: service_healthy
       payment-database:
         condition: service_healthy
       rabbitmq:
