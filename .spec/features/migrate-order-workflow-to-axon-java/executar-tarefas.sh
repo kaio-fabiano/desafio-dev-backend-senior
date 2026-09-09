@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 07:08
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 08:33
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttrblj6'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttudgc8'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -177,7 +177,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-244 — "Prove the Axon 5 persistence and architecture baseline"
   critérios/refs: AC-280 (Java sources follow the approved boundaries), AC-282 (Axon state is durable and replayable), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/build.gradle.kts, apps/payment-federation/src/main/java/dev/desafio/transaction, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence
+  arquivos permitidos (e seus testes): apps/payment-federation/build.gradle.kts, apps/payment-federation/project.json, apps/payment-federation/src/main/java/dev/desafio/transaction, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence, test/migrate-order-workflow-to-axon-java.test.mjs, onpspec.config.json
   mensagem de commit: "T-244 migrate-order-workflow-to-axon-java: Prove the Axon 5 persistence and architecture baseline"
 
 Regras inegociáveis:
