@@ -63,6 +63,60 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
         }
     }
 
+    @Override
+    public ProviderNotificationHandler.Claim claimForAxon(
+        String providerRequestId,
+        PaymentProvider.Result authoritativeState,
+        Instant receivedAt
+    ) {
+        Objects.requireNonNull(authoritativeState, "authoritativeState");
+        Objects.requireNonNull(receivedAt, "receivedAt");
+        try (var connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try {
+                var inserted = claimNotification(connection, providerRequestId, authoritativeState, receivedAt);
+                var payment = findPaymentForUpdate(connection, authoritativeState.providerReference());
+                var completed = !inserted && notificationCompleted(connection, providerRequestId);
+                connection.commit();
+                return new ProviderNotificationHandler.Claim(payment.paymentId(), completed);
+            } catch (RuntimeException | SQLException error) {
+                rollback(connection, error);
+                if (error instanceof RuntimeException runtime) throw runtime;
+                throw new IllegalStateException("provider notification claim failed", error);
+            }
+        } catch (SQLException error) {
+            throw new IllegalStateException("payment database is unavailable", error);
+        }
+    }
+
+    @Override
+    public void completeForAxon(
+        String providerRequestId,
+        ProviderNotificationHandler.Outcome outcome,
+        Instant processedAt
+    ) {
+        try (var connection = dataSource.getConnection()) {
+            completeNotification(connection, providerRequestId, outcome, processedAt);
+        } catch (SQLException error) {
+            throw new IllegalStateException("provider notification completion failed", error);
+        }
+    }
+
+    private boolean notificationCompleted(Connection connection, String providerRequestId)
+        throws SQLException {
+        try (var statement = connection.prepareStatement("""
+            select processing_outcome
+              from payment.provider_notification_inbox
+             where provider_request_id = ?
+            """)) {
+            statement.setString(1, providerRequestId);
+            try (var rows = statement.executeQuery()) {
+                if (!rows.next()) throw new IllegalStateException("provider notification claim is missing");
+                return rows.getString("processing_outcome") != null;
+            }
+        }
+    }
+
     private boolean claimNotification(
         Connection connection,
         String providerRequestId,

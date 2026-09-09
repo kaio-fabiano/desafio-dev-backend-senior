@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.ArrayList;
 
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(name = "spring.datasource.url")
+@ConditionalOnProperty(name = "payment.legacy-messaging.enabled", havingValue = "true")
 public class PaymentMessagingConfiguration {
     private static final String EVENTS = "marketplace.events.v1";
     private static final String RETRY = "marketplace.retry.v1";

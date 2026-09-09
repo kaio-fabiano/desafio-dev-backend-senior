@@ -10,6 +10,13 @@ public interface PaymentProvider {
         throw new UnsupportedOperationException("provider lookup is unavailable");
     }
 
+    default Result reconcile(Payment.Command command) {
+        if (command instanceof Payment.RefundRequested refund && refund.providerReference() != null) {
+            return findByProviderReference(refund.providerReference());
+        }
+        throw new UnsupportedOperationException("provider reconciliation is unavailable");
+    }
+
     record Result(String providerReference, Payment.Status status, String pixCode) {
         public Result {
             new Payment.ProviderResult(providerReference, status, pixCode);

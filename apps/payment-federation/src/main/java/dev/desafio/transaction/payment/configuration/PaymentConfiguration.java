@@ -1,18 +1,15 @@
 package dev.desafio.transaction.payment.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.payment.adapter.mercadopago.MercadoPagoPaymentProvider;
 import dev.desafio.transaction.payment.adapter.messaging.PaymentConsumer;
 import dev.desafio.transaction.payment.adapter.persistence.JdbcPaymentRepository;
 import dev.desafio.transaction.payment.adapter.persistence.JdbcProviderNotificationRepository;
 import dev.desafio.transaction.payment.adapter.provider.DeterministicPaymentProvider;
-import dev.desafio.transaction.payment.adapter.wordpress.WordPressOrderPaymentAdapter;
 import dev.desafio.transaction.payment.application.PaymentHandler;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.PaymentRepository;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import dev.desafio.transaction.payment.application.command.AuthorizePaymentHandler;
-import dev.desafio.transaction.payment.application.command.OrderPaymentPort;
 import dev.desafio.transaction.payment.application.query.FindPaymentHandler;
 import dev.desafio.transaction.payment.application.query.PaymentView;
 import dev.desafio.transaction.payment.domain.Payment;
@@ -25,8 +22,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import java.net.URI;
-import java.util.Optional;
 
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(MercadoPagoProperties.class)
@@ -85,12 +80,9 @@ public class PaymentConfiguration {
 
     @Bean
     @ConditionalOnBean(PaymentHandler.class)
-    AuthorizePaymentHandler authorizePaymentHandler(
-        PaymentHandler paymentHandler,
-        Optional<OrderPaymentPort> orders
-    ) {
-        return orders.map(orderPort -> new AuthorizePaymentHandler(paymentHandler, orderPort))
-            .orElseGet(() -> new AuthorizePaymentHandler(paymentHandler));
+    @ConditionalOnProperty(name = "payment.legacy-api.enabled", havingValue = "true")
+    AuthorizePaymentHandler authorizePaymentHandler(PaymentHandler paymentHandler) {
+        return new AuthorizePaymentHandler(paymentHandler);
     }
 
     @Bean
@@ -113,19 +105,4 @@ public class PaymentConfiguration {
         ).stream().findFirst());
     }
 
-    @Bean
-    @ConditionalOnProperty(name = "wordpress.graphql-url")
-    OrderPaymentPort wordpressOrderPayment(ObjectMapper json) {
-        return new WordPressOrderPaymentAdapter(
-            URI.create(requiredEnvironment("WORDPRESS_GRAPHQL_URL")),
-            requiredEnvironment("WPGRAPHQL_SITE_TOKEN"),
-            json
-        );
-    }
-
-    private static String requiredEnvironment(String name) {
-        var value = System.getenv(name);
-        if (value == null || value.isBlank()) throw new IllegalStateException(name + " is required");
-        return value;
-    }
 }

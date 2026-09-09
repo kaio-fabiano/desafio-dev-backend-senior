@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @Component
-@ConditionalOnProperty(name = "spring.datasource.url")
+@ConditionalOnProperty(name = "payment.legacy-messaging.enabled", havingValue = "true")
 public final class PaymentRabbitListener {
     private static final Logger LOG = LoggerFactory.getLogger(PaymentRabbitListener.class);
     private static final String EVENTS = "marketplace.events.v1";
