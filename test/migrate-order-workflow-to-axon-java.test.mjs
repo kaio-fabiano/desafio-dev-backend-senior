@@ -90,3 +90,34 @@ test('The AMQP boundary participates in the repository quality gate @spec:AC-292
   assert.match(xml, /failures="0"/);
   assert.match(xml, /skipped="0"/);
 });
+
+test('Replayable projections use distinct command, event, and query paths @spec:AC-281 @spec:AC-287', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.projection.TransactionProjectionReplayTest',
+  );
+
+  assert.match(xml, /failures="0"/);
+  assert.match(xml, /skipped="0"/);
+  assert.match(xml, /Commands, Domain Events, replayable projections, and Axon queries stay distinct/);
+});
+
+test('The Java endpoint preserves federated Order Workflow GraphQL @spec:AC-288', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.graphql.OrderWorkflowGraphQlCompatibilityTest',
+  );
+
+  assert.match(xml, /failures="0"/);
+  assert.match(xml, /skipped="0"/);
+  assert.match(xml, /The Java HTTP endpoint preserves the Order Workflow GraphQL contract/);
+});
+
+test('Projection and GraphQL evidence participate in the repository gate @spec:AC-292', async () => {
+  const [projection, graphql] = await Promise.all([
+    report('dev.desafio.transaction.projection.TransactionProjectionReplayTest'),
+    report('dev.desafio.transaction.graphql.OrderWorkflowGraphQlCompatibilityTest'),
+  ]);
+
+  assert.match(projection, /Projection evidence runs on PostgreSQL with no skipped quality gate/);
+  assert.match(graphql, /Order Workflow GraphQL preserves scopes, owner isolation, validation, and errors/);
+  assert.doesNotMatch(projection + graphql, /skipped="[1-9]/);
+});
