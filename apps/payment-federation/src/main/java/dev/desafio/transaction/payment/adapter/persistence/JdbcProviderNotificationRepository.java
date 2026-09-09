@@ -70,7 +70,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
         Instant receivedAt
     ) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            insert into provider_notification_inbox
+            insert into payment.provider_notification_inbox
                 (provider_request_id, provider_reference, authoritative_status, received_at)
             values (?, ?, ?, ?)
             on conflict (provider_request_id) do nothing
@@ -87,7 +87,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
         throws SQLException {
         try (var statement = connection.prepareStatement("""
             select payment_id, operation_key, order_id, method, status, provider_reference
-              from payment_record
+              from payment.payment_record
              where provider_reference = ?
                for update
             """)) {
@@ -134,7 +134,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
         PaymentProvider.Result authoritativeState
     ) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            update payment_record
+            update payment.payment_record
                set status = ?, pix_code = ?, updated_at = current_timestamp
              where payment_id = ? and status = ? and provider_reference = ?
             """)) {
@@ -161,7 +161,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
         var eventId = stableUuid(payment.operationKey(), payment.paymentId(), eventType);
 
         try (var statement = connection.prepareStatement("""
-            insert into payment_effect (effect_id, payment_id, operation_key, effect_type, occurred_at)
+            insert into payment.payment_effect (effect_id, payment_id, operation_key, effect_type, occurred_at)
             values (?, ?, ?, ?, ?)
             on conflict do nothing
             """)) {
@@ -175,7 +175,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
 
         var sql = switch (eventType) {
             case "payment.authorized" -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, 'v1', jsonb_build_object(
                     'paymentId', ?, 'orderId', ?, 'providerReference', ?
@@ -183,7 +183,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
                 on conflict (operation_key, event_type) do nothing
                 """;
             case "payment.pix-generated" -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, 'v1', jsonb_build_object(
                     'paymentId', ?, 'orderId', ?, 'providerReference', ?, 'pixCode', ?
@@ -191,7 +191,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
                 on conflict (operation_key, event_type) do nothing
                 """;
             case "payment.failed" -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, 'v1', jsonb_build_object(
                     'paymentId', ?, 'reason', 'PROVIDER_REJECTED'
@@ -199,7 +199,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
                 on conflict (operation_key, event_type) do nothing
                 """;
             default -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, 'v1', jsonb_build_object(
                     'paymentId', ?, 'orderId', ?
@@ -255,7 +255,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
         Instant processedAt
     ) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            update provider_notification_inbox
+            update payment.provider_notification_inbox
                set processing_outcome = ?, processed_at = ?
              where provider_request_id = ?
             """)) {

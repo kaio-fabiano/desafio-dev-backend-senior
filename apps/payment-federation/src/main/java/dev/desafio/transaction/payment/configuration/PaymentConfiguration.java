@@ -34,7 +34,7 @@ public class PaymentConfiguration {
     private static final String FIND_PAYMENT_SQL = """
         select payment_id, operation_key, order_id, method, amount, currency,
                status, provider_reference, pix_code
-          from payment_record
+          from payment.payment_record
          where payment_id = ?
         """;
 

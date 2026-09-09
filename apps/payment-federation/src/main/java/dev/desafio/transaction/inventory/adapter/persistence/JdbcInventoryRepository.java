@@ -58,7 +58,7 @@ public final class JdbcInventoryRepository implements InventoryRepository {
                 insertOutbox(connection, event);
                 var stored = findOutbox(connection, event.operationKey());
                 try (var statement = connection.prepareStatement("""
-                    update inventory_operation
+                    update inventory.inventory_operation
                        set state = 'COMPLETED', owner_token = null, lease_until = null,
                            result_event_id = ?, updated_at = current_timestamp
                      where operation_key = ? and state = 'CLAIMED' and owner_token = ?
@@ -90,7 +90,7 @@ public final class JdbcInventoryRepository implements InventoryRepository {
         UUID ownerToken
     ) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            insert into inventory_operation
+            insert into inventory.inventory_operation
                 (operation_key, order_id, request_fingerprint, state, owner_token, lease_until)
             values (?, ?, ?, 'CLAIMED', ?, current_timestamp + interval '60 seconds')
             on conflict (operation_key) do nothing
@@ -110,7 +110,7 @@ public final class JdbcInventoryRepository implements InventoryRepository {
         UUID ownerToken
     ) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            update inventory_operation
+            update inventory.inventory_operation
                set owner_token = ?, lease_until = current_timestamp + interval '60 seconds',
                    updated_at = current_timestamp
              where operation_key = ? and order_id = ? and request_fingerprint = ?
@@ -135,8 +135,8 @@ public final class JdbcInventoryRepository implements InventoryRepository {
             select i.order_id, i.request_fingerprint, i.state, i.owner_token,
                    o.event_id, o.operation_key, o.event_type, o.event_version,
                    o.order_id as result_order_id, o.reservation_id, o.reason, o.occurred_at
-              from inventory_operation i
-              left join inventory_outbox o on o.event_id = i.result_event_id
+              from inventory.inventory_operation i
+              left join inventory.inventory_outbox o on o.event_id = i.result_event_id
              where i.operation_key = ?
             """)) {
             statement.setString(1, request.operationKey());
@@ -169,7 +169,7 @@ public final class JdbcInventoryRepository implements InventoryRepository {
 
     private void insertOutbox(Connection connection, Inventory.OutgoingEvent event) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            insert into inventory_outbox
+            insert into inventory.inventory_outbox
                 (event_id, operation_key, event_type, event_version, order_id, reservation_id, reason, occurred_at)
             values (?, ?, ?, ?, ?, ?, ?, ?)
             on conflict (operation_key) do nothing
@@ -191,7 +191,7 @@ public final class JdbcInventoryRepository implements InventoryRepository {
         try (var statement = connection.prepareStatement("""
             select event_id, operation_key, event_type, event_version,
                    order_id as result_order_id, reservation_id, reason, occurred_at
-              from inventory_outbox where operation_key = ?
+              from inventory.inventory_outbox where operation_key = ?
             """)) {
             statement.setString(1, operationKey);
             try (var rows = statement.executeQuery()) {
@@ -203,7 +203,7 @@ public final class JdbcInventoryRepository implements InventoryRepository {
 
     private void recordInbox(Connection connection, UUID eventId, UUID resultEventId) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            insert into inventory_inbox (event_id, result_event_id) values (?, ?)
+            insert into inventory.inventory_inbox (event_id, result_event_id) values (?, ?)
             on conflict (event_id) do nothing
             """)) {
             statement.setObject(1, eventId);

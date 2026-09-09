@@ -1,4 +1,4 @@
-create table provider_notification_inbox (
+create table payment.provider_notification_inbox (
     provider_request_id text primary key,
     provider_reference text not null,
     authoritative_status text not null check (
@@ -16,4 +16,4 @@ create table provider_notification_inbox (
 );
 
 create index provider_notification_inbox_reference_index
-    on provider_notification_inbox (provider_reference, received_at);
+    on payment.provider_notification_inbox (provider_reference, received_at);

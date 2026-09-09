@@ -1,3 +1,5 @@
+set local search_path = inventory, pg_catalog;
+
 create table inventory_outbox (
     event_id uuid primary key,
     operation_key text not null unique,

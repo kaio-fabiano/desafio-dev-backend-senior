@@ -128,7 +128,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         var payment = findPaymentForUpdate(connection, command.paymentId(), command.operationKey())
             .orElseThrow(() -> new IllegalStateException("claimed payment inbox record is incomplete"));
         try (var statement = connection.prepareStatement("""
-            select result_event_id from payment_inbox where event_id = ?
+            select result_event_id from payment.payment_inbox where event_id = ?
             """)) {
             statement.setObject(1, incomingEventId);
             try (var rows = statement.executeQuery()) {
@@ -151,7 +151,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         try (var statement = connection.prepareStatement("""
             select payment_id, operation_key, order_id, method, amount, currency,
                    status, provider_reference, pix_code
-              from payment_record
+              from payment.payment_record
              where payment_id = ? or operation_key = ?
                for update
             """)) {
@@ -170,7 +170,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
 
     private void insertPayment(Connection connection, Payment payment) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            insert into payment_record
+            insert into payment.payment_record
                 (payment_id, operation_key, order_id, method, amount, currency,
                  status, provider_reference, pix_code)
             values (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -187,7 +187,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         Payment.Status expectedStatus
     ) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            update payment_record
+            update payment.payment_record
                set status = ?, provider_reference = ?, pix_code = ?, updated_at = current_timestamp
              where payment_id = ? and status = ?
             """)) {
@@ -222,7 +222,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
     ) throws SQLException {
         var proposedId = Payment.stableUuid(payment.operationKey(), payment.paymentId(), effectType);
         try (var statement = connection.prepareStatement("""
-            insert into payment_effect (effect_id, payment_id, operation_key, effect_type, occurred_at)
+            insert into payment.payment_effect (effect_id, payment_id, operation_key, effect_type, occurred_at)
             values (?, ?, ?, ?, ?)
             on conflict do nothing
             """)) {
@@ -243,7 +243,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
     ) throws SQLException {
         var sql = switch (event.eventType()) {
             case "payment.authorized" -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, ?, jsonb_build_object(
                     'paymentId', ?, 'orderId', ?, 'providerReference', ?
@@ -251,7 +251,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
                 on conflict do nothing
                 """;
             case "payment.pix-generated" -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, ?, jsonb_build_object(
                     'paymentId', ?, 'orderId', ?, 'providerReference', ?, 'pixCode', ?
@@ -259,13 +259,13 @@ public final class JdbcPaymentRepository implements PaymentRepository {
                 on conflict do nothing
                 """;
             case "payment.failed" -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, ?, jsonb_build_object('paymentId', ?, 'reason', ?), ?)
                 on conflict do nothing
                 """;
             default -> """
-                insert into payment_outbox
+                insert into payment.payment_outbox
                     (event_id, effect_id, operation_key, event_type, event_version, payload, occurred_at)
                 values (?, ?, ?, ?, ?, jsonb_build_object('paymentId', ?, 'orderId', ?), ?)
                 on conflict do nothing
@@ -320,7 +320,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
     ) throws SQLException {
         var sql = """
             select event_id, event_type, event_version, operation_key, occurred_at
-              from payment_outbox
+              from payment.payment_outbox
              where %s = ?
             """.formatted(column);
         try (var statement = connection.prepareStatement(sql)) {
@@ -349,7 +349,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
 
     private boolean claimInbox(Connection connection, UUID incomingEventId) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            insert into payment_inbox (event_id) values (?)
+            insert into payment.payment_inbox (event_id) values (?)
             on conflict (event_id) do nothing
             """)) {
             statement.setObject(1, incomingEventId);
@@ -365,7 +365,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         UUID resultEventId
     ) throws SQLException {
         try (var statement = connection.prepareStatement("""
-            update payment_inbox
+            update payment.payment_inbox
                set payment_id = ?, effect_id = ?, result_event_id = ?
              where event_id = ?
             """)) {
