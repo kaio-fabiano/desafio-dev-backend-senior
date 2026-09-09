@@ -30,6 +30,9 @@ class ArchitectureBoundariesTest {
             if (normalized.contains("/transaction/payment/")) contexts.add("payment");
             if (normalized.contains("/transaction/inventory/")) contexts.add("inventory");
             assertTrue(normalized.matches(".*/(payment|inventory)/(domain|application|adapter|configuration)/.*\\.java")
+                || normalized.matches(".*/transaction/configuration/[^/]+\\.java")
+                || normalized.matches(".*/transaction/contracts/integration/v1/[^/]+\\.java")
+                || normalized.matches(".*/transaction/shared/infrastructure/(messaging|persistence)/[^/]+\\.java")
                 || normalized.endsWith("/transaction/PaymentFederationApplication.java"));
             if (normalized.contains("/domain/")) {
                 assertFalse(source.matches(

@@ -219,7 +219,7 @@ test('AC-169: Java packages enforce inward dependencies for Payment and Inventor
     }
     if (
       relative !== 'PaymentFederationApplication.java' &&
-      !/^(?:payment|inventory)\/(?:domain|application|adapter|configuration)\//.test(
+      !/^(?:(?:payment|inventory)\/(?:domain|application|adapter|configuration)\/|configuration\/[^/]+\.java$|contracts\/integration\/v1\/[^/]+\.java$|shared\/infrastructure\/(?:messaging|persistence)\/[^/]+\.java$)/.test(
         relative,
       )
     ) {

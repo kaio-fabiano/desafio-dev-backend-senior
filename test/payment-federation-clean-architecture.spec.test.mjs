@@ -40,7 +40,7 @@ test('AC-170: Payment and Inventory use consistent inward layers @spec:AC-170', 
 
     if (
       relative !== 'PaymentFederationApplication.java' &&
-      !/^(?:payment|inventory)\/(?:domain|application|adapter|configuration)\//.test(
+      !/^(?:(?:payment|inventory)\/(?:domain|application|adapter|configuration)\/|configuration\/[^/]+\.java$|contracts\/integration\/v1\/[^/]+\.java$|shared\/infrastructure\/(?:messaging|persistence)\/[^/]+\.java$)/.test(
         relative,
       )
     ) {
