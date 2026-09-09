@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 @Component
 @ConditionalOnBean(name = "inventoryReliableAmqpConsumer")
@@ -106,6 +107,9 @@ public final class InventoryRabbitListener {
         return new ReserveInventoryCommand(
             event.transactionId(), event.eventId(), event.correlationId() + ":inventory-reserve",
             event.transactionId(), required(payload, "orderId"), items,
+            required(payload, "paymentId"), required(payload, "paymentOperationKey"),
+            required(payload, "paymentMethod"), new BigDecimal(required(payload, "amount")),
+            required(payload, "currency"), required(payload, "payerEmail"),
             event.correlationId(), event.eventId().toString()
         );
     }

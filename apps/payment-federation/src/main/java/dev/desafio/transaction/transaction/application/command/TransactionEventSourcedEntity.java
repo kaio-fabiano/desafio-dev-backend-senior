@@ -31,6 +31,14 @@ public final class TransactionEventSourcedEntity {
             .map(TransactionEvent::from);
     }
 
+    public boolean awaits(RecordTransactionOutcome command) {
+        return transaction.awaits(command.outcome());
+    }
+
+    public Transaction.Status status() {
+        return transaction.status();
+    }
+
     @EventSourcingHandler
     public void on(TransactionEvent event) {
         transaction.apply(event.toDomainEvent());

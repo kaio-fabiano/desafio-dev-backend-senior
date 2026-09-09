@@ -1,6 +1,7 @@
 package dev.desafio.transaction.inventory.domain;
 
 import dev.desafio.transaction.inventory.domain.event.InventoryCommittedEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommitRejectedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReleasedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
@@ -72,6 +73,19 @@ public final class InventoryReservation {
         return true;
     }
 
+    public boolean rejectCommit(String reason, String correlationId, String causationId,
+                                Instant occurredAt, InventoryEventPublisher events) {
+        if (status == Status.COMMIT_REJECTED) return false;
+        if (status != Status.RESERVED) return false;
+        var event = new InventoryCommitRejectedEvent(
+            id, transactionId, orderId, required(reason, "reason"), version + 1,
+            required(correlationId, "correlationId"), required(causationId, "causationId"), occurredAt
+        );
+        events.raise(event);
+        on(event);
+        return true;
+    }
+
     public boolean release(String correlationId, String causationId, Instant occurredAt,
                            InventoryEventPublisher events) {
         if (status == Status.RELEASED) return false;
@@ -108,6 +122,11 @@ public final class InventoryReservation {
         version = event.version();
     }
 
+    public void on(InventoryCommitRejectedEvent event) {
+        status = Status.COMMIT_REJECTED;
+        version = event.version();
+    }
+
     public void on(InventoryReleasedEvent event) {
         status = Status.RELEASED;
         version = event.version();
@@ -124,7 +143,7 @@ public final class InventoryReservation {
         return orderId.equals(candidateOrderId) && items.equals(candidateItems);
     }
 
-    public enum Status { RESERVED, REJECTED, COMMITTED, RELEASED }
+    public enum Status { RESERVED, REJECTED, COMMITTED, COMMIT_REJECTED, RELEASED }
 
     private static String required(String value, String field) {
         if (value == null || value.isBlank()) throw new IllegalArgumentException(field + " is required");

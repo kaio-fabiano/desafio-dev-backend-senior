@@ -34,6 +34,11 @@ public final class InventoryEventSourcedEntity {
         return reservation.release(correlationId, causationId, occurredAt, events);
     }
 
+    public boolean rejectCommit(String reason, String correlationId, String causationId,
+                                Instant occurredAt, InventoryEventPublisher events) {
+        return reservation.rejectCommit(reason, correlationId, causationId, occurredAt, events);
+    }
+
     public InventoryReservation.Status status() {
         return reservation.status();
     }
@@ -44,6 +49,11 @@ public final class InventoryEventSourcedEntity {
 
     @EventSourcingHandler
     public void on(InventoryCommittedAxonEvent event) {
+        reservation.on(event.payload());
+    }
+
+    @EventSourcingHandler
+    public void on(InventoryCommitRejectedAxonEvent event) {
         reservation.on(event.payload());
     }
 

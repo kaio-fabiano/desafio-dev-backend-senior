@@ -68,7 +68,7 @@ public final class PaymentAggregate {
         if (stage == Stage.APPROVED || stage == Stage.REJECTED || stage == Stage.REFUNDED) {
             throw new IllegalStateException("terminal payment state cannot change");
         }
-        if (stage == Stage.REFUND_REQUESTED) {
+        if (stage == Stage.REFUND_PENDING) {
             if (command.status() != Payment.Status.REFUNDED
                 || !providerReference.equals(command.providerReference())) {
                 throw new IllegalStateException("refund must preserve the approved provider reference");
@@ -112,7 +112,7 @@ public final class PaymentAggregate {
             || !transactionId.equals(command.transactionId())) {
             throw new IllegalArgumentException("refund identifiers do not match the payment");
         }
-        if (stage == Stage.REFUND_REQUESTED || stage == Stage.REFUNDED) return null;
+        if (stage == Stage.REFUND_PENDING || stage == Stage.REFUNDED) return null;
         if (method != Payment.Method.CARD || stage != Stage.APPROVED) {
             throw new IllegalStateException("refund requires an approved Card payment");
         }
@@ -145,7 +145,7 @@ public final class PaymentAggregate {
 
     @EventSourcingHandler
     public void on(PaymentRefundRequested event) {
-        stage = Stage.REFUND_REQUESTED;
+        stage = Stage.REFUND_PENDING;
     }
 
     @EventSourcingHandler
@@ -177,5 +177,5 @@ public final class PaymentAggregate {
         };
     }
 
-    public enum Stage { REQUESTED, PENDING, APPROVED, REJECTED, REFUND_REQUESTED, REFUNDED }
+    public enum Stage { REQUESTED, PENDING, APPROVED, REJECTED, REFUND_PENDING, REFUNDED }
 }

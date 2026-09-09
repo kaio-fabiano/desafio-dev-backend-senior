@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ContextArchitectureTest {
     @Test
-    @DisplayName("Context and layer imports point inward without a hidden orchestrator @spec:AC-280")
+    @DisplayName("Context and layer imports point inward without a hidden orchestrator @spec:AC-280 @spec:AC-286")
     void contextAndLayerImportsPointInwardWithoutHiddenOrchestrator() {
         var classes = new ClassFileImporter()
             .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)

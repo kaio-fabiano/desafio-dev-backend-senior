@@ -143,3 +143,26 @@ test('Gateway cutover preserves the public SSE edge and repository gate @spec:AC
   assert.match(gateway, /http:\/\/payment-federation:8080\/graphql/);
   assert.doesNotMatch(gateway, /http:\/\/order-workflow-subgraph:3003\/graphql\/stream/);
 });
+
+test('The complete RabbitMQ choreography and compensations pass Java E2E @spec:AC-283 @spec:AC-284 @spec:AC-286 @spec:AC-287 @spec:AC-293', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.e2e.ChoreographedLifecycleE2ETest',
+  );
+
+  assert.match(xml, /tests="5"/);
+  assert.match(xml, /failures="0"/);
+  assert.match(xml, /skipped="0"/);
+  assert.match(xml, /Inventory-first RabbitMQ lifecycle completes a replayable Transaction projection/);
+  assert.match(xml, /Commit rejection triggers one provider refund and converges without regression/);
+  assert.match(xml, /Inventory and Payment rejection reactions remain independent over RabbitMQ/);
+  assert.match(xml, /Out-of-order outcomes retry and converge without projection regression/);
+});
+
+test('Choreography E2E participates in the repository quality gate @spec:AC-292', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.e2e.ChoreographedLifecycleE2ETest',
+  );
+
+  assert.match(xml, /The lifecycle quality proof uses real PostgreSQL and RabbitMQ without skips/);
+  assert.doesNotMatch(xml, /skipped="[1-9]/);
+});

@@ -41,10 +41,22 @@ public final class ReserveInventoryCommandHandler {
         );
         var result = inventory.handle(request);
         var available = "stock.reserved".equals(result.event().eventType());
-        return InventoryReservation.decide(
-            command.inventoryReservationId(), command.transactionId(), command.orderId(),
-            command.items(), available, command.correlationId(), command.causationId(),
-            clock.instant(), event -> appender.append(InventoryAxonEvents.wrap(event))
-        ).status();
+        if (!available) {
+            return InventoryReservation.decide(
+                command.inventoryReservationId(), command.transactionId(), command.orderId(),
+                command.items(), false, command.correlationId(), command.causationId(),
+                clock.instant(), event -> appender.append(InventoryAxonEvents.wrap(event))
+            ).status();
+        }
+        var event = new dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent(
+            command.inventoryReservationId(), command.transactionId(), command.orderId(), command.items(),
+            command.paymentId(), command.paymentOperationKey(), command.paymentMethod(), command.amount(),
+            command.currency(), command.payerEmail(), 1, command.correlationId(), command.causationId(),
+            clock.instant()
+        );
+        appender.append(new dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent(
+            command.inventoryReservationId(), event
+        ));
+        return InventoryReservation.Status.RESERVED;
     }
 }

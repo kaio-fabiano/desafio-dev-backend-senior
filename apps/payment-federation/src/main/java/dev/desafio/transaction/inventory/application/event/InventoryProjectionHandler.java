@@ -3,6 +3,7 @@ package dev.desafio.transaction.inventory.application.event;
 import dev.desafio.transaction.inventory.application.query.InventoryProjectionRepository;
 import dev.desafio.transaction.inventory.application.query.InventoryReservationView;
 import dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent;
+import dev.desafio.transaction.inventory.application.axon.InventoryCommitRejectedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryReleasedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryReservationRejectedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
@@ -35,6 +36,13 @@ public final class InventoryProjectionHandler {
         var event = message.payload();
         save(event.inventoryReservationId(), event.transactionId(), event.orderId(),
             InventoryReservation.Status.COMMITTED, event.version(), null, event.occurredAt());
+    }
+
+    @EventHandler
+    public void on(InventoryCommitRejectedAxonEvent message) {
+        var event = message.payload();
+        save(event.inventoryReservationId(), event.transactionId(), event.orderId(),
+            InventoryReservation.Status.COMMIT_REJECTED, event.version(), event.reason(), event.occurredAt());
     }
 
     @EventHandler

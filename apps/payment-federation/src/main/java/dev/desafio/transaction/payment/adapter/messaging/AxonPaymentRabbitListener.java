@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
+import dev.desafio.transaction.payment.application.command.RefundPayment;
 import dev.desafio.transaction.payment.domain.Payment;
 import dev.desafio.transaction.shared.infrastructure.messaging.ReliableAmqpConsumer;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
@@ -13,8 +14,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import java.math.BigDecimal;
 
 public final class AxonPaymentRabbitListener {
-    static final String EVENT_TYPE = "inventory.reserved.v1";
-
     private final ReliableAmqpConsumer consumer;
     private final CommandGateway commands;
 
@@ -29,16 +28,21 @@ public final class AxonPaymentRabbitListener {
     }
 
     private void dispatch(IntegrationEventEnvelope<JsonNode> event) {
-        if (!EVENT_TYPE.equals(event.eventType())) {
-            throw new ReliableAmqpConsumer.BusinessRejection(
-                "Payment only consumes InventoryReserved"
+        var command = switch (event.eventType()) {
+            case "inventory.reserved.v1" -> request(event);
+            case "inventory.commit-rejected.v1", "transaction.cancelled.v1" -> refund(event);
+            default -> throw new ReliableAmqpConsumer.BusinessRejection(
+                "Payment does not consume " + event.eventType()
             );
-        }
+        };
+        commands.send(command, String.class).join();
+    }
+
+    private RequestPayment request(IntegrationEventEnvelope<JsonNode> event) {
         var payload = event.payload();
         var method = Payment.Method.valueOf(required(payload, "method"));
-        commands.send(new RequestPayment(
-            required(payload, "paymentId"),
-            required(payload, "operationKey"),
+        return new RequestPayment(
+            required(payload, "paymentId"), required(payload, "paymentOperationKey"),
             event.transactionId(),
             method,
             new BigDecimal(required(payload, "amount")),
@@ -48,7 +52,15 @@ public final class AxonPaymentRabbitListener {
             method == Payment.Method.CARD ? required(payload, "paymentMethodId") : null,
             event.correlationId(),
             event.eventId().toString()
-        ), String.class).join();
+        );
+    }
+
+    private RefundPayment refund(IntegrationEventEnvelope<JsonNode> event) {
+        return new RefundPayment(
+            event.transactionId(), event.correlationId() + ":payment", event.transactionId(),
+            event.payload().path("reason").asText("INVENTORY_COMMIT_REJECTED"),
+            event.correlationId(), event.eventId().toString()
+        );
     }
 
     private String required(JsonNode payload, String field) {

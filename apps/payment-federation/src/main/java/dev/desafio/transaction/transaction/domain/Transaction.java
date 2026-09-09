@@ -124,8 +124,25 @@ public final class Transaction {
                 case PAYMENT_REJECTED -> Status.REJECTED;
                 default -> null;
             };
-            case PAYMENT_APPROVED -> outcome == Outcome.INVENTORY_COMMITTED ? Status.COMPLETED : null;
-            case COMPLETED, REJECTED -> null;
+            case PAYMENT_APPROVED -> switch (outcome) {
+                case INVENTORY_COMMITTED -> Status.COMPLETED;
+                case INVENTORY_COMMIT_REJECTED -> Status.REFUND_PENDING;
+                default -> null;
+            };
+            case REFUND_PENDING -> outcome == Outcome.PAYMENT_REFUNDED ? Status.REFUNDED : null;
+            case COMPLETED, REJECTED, REFUNDED -> null;
+        };
+    }
+
+    private static boolean isFuture(Status current, Outcome outcome) {
+        return switch (current) {
+            case ACCEPTED -> outcome != Outcome.INVENTORY_RESERVED
+                && outcome != Outcome.INVENTORY_REJECTED;
+            case INVENTORY_RESERVED, PAYMENT_PENDING -> outcome == Outcome.INVENTORY_COMMITTED
+                || outcome == Outcome.INVENTORY_COMMIT_REJECTED
+                || outcome == Outcome.PAYMENT_REFUNDED;
+            case PAYMENT_APPROVED -> outcome == Outcome.PAYMENT_REFUNDED;
+            case REFUND_PENDING, REFUNDED, COMPLETED, REJECTED -> false;
         };
     }
 
@@ -183,12 +200,15 @@ public final class Transaction {
     public String paymentMethod() { return paymentMethod; }
     public Status status() { return status; }
     public int version() { return version; }
+    public boolean awaits(Outcome outcome) { return isFuture(status, outcome); }
 
     public enum Status {
         ACCEPTED,
         INVENTORY_RESERVED,
         PAYMENT_PENDING,
         PAYMENT_APPROVED,
+        REFUND_PENDING,
+        REFUNDED,
         COMPLETED,
         REJECTED
     }
@@ -199,7 +219,15 @@ public final class Transaction {
         PAYMENT_PENDING,
         PAYMENT_APPROVED,
         PAYMENT_REJECTED,
-        INVENTORY_COMMITTED
+        INVENTORY_COMMITTED,
+        INVENTORY_COMMIT_REJECTED,
+        PAYMENT_REFUNDED
+    }
+
+    public static final class OutcomeNotReadyException extends RuntimeException {
+        public OutcomeNotReadyException(Status status, Outcome outcome) {
+            super(outcome + " is not ready while Transaction is " + status);
+        }
     }
 
     public record Item(String productId, int quantity) {

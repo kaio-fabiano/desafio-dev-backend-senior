@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @Component
 @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
 public final class TransactionRabbitListener {
-    private static final String CONSUMER = "transaction-lifecycle-v1";
+    private static final String CONSUMER = "transaction";
     private final ReliableAmqpConsumer consumer;
     private final CommandGateway commands;
 
@@ -53,6 +53,8 @@ public final class TransactionRabbitListener {
             case "payment.approved.v1" -> Transaction.Outcome.PAYMENT_APPROVED;
             case "payment.rejected.v1" -> Transaction.Outcome.PAYMENT_REJECTED;
             case "inventory.committed.v1" -> Transaction.Outcome.INVENTORY_COMMITTED;
+            case "inventory.commit-rejected.v1" -> Transaction.Outcome.INVENTORY_COMMIT_REJECTED;
+            case "payment.refunded.v1" -> Transaction.Outcome.PAYMENT_REFUNDED;
             default -> throw new ReliableAmqpConsumer.BusinessRejection(
                 "Transaction does not consume " + event.eventType()
             );

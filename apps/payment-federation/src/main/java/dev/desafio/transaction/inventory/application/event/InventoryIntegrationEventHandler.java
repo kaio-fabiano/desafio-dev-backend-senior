@@ -1,6 +1,7 @@
 package dev.desafio.transaction.inventory.application.event;
 
 import dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent;
+import dev.desafio.transaction.inventory.application.axon.InventoryCommitRejectedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryReleasedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryReservationRejectedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
@@ -21,7 +22,9 @@ public final class InventoryIntegrationEventHandler {
         enqueue("inventory.reserved.v1", event.inventoryReservationId(), event.transactionId(),
             event.correlationId(), event.causationId(), event.occurredAt(), event.version(),
             Map.of("orderId", event.orderId(), "reservationId", event.inventoryReservationId(),
-                "items", event.items()));
+                "items", event.items(), "paymentId", event.paymentId(),
+                "paymentOperationKey", event.paymentOperationKey(), "method", event.paymentMethod(),
+                "amount", event.amount(), "currency", event.currency(), "payerEmail", event.payerEmail()));
     }
 
     @EventHandler
@@ -38,6 +41,15 @@ public final class InventoryIntegrationEventHandler {
         enqueue("inventory.committed.v1", event.inventoryReservationId(), event.transactionId(),
             event.correlationId(), event.causationId(), event.occurredAt(), event.version(),
             Map.of("orderId", event.orderId(), "reservationId", event.inventoryReservationId()));
+    }
+
+    @EventHandler
+    public void on(InventoryCommitRejectedAxonEvent message) {
+        var event = message.payload();
+        enqueue("inventory.commit-rejected.v1", event.inventoryReservationId(), event.transactionId(),
+            event.correlationId(), event.causationId(), event.occurredAt(), event.version(),
+            Map.of("orderId", event.orderId(), "reservationId", event.inventoryReservationId(),
+                "reason", event.reason()));
     }
 
     @EventHandler

@@ -20,6 +20,12 @@ public final class RecordTransactionOutcomeHandler {
         @InjectEntity TransactionEventSourcedEntity transaction,
         EventAppender events
     ) {
-        transaction.record(command, clock.instant()).ifPresent(events::append);
+        var event = transaction.record(command, clock.instant());
+        if (event.isEmpty() && transaction.awaits(command)) {
+            throw new dev.desafio.transaction.transaction.domain.Transaction.OutcomeNotReadyException(
+                transaction.status(), command.outcome()
+            );
+        }
+        event.ifPresent(events::append);
     }
 }

@@ -20,6 +20,8 @@ public record OrderEventView(
                 case ACCEPTED -> "CREATED";
                 case INVENTORY_RESERVED, PAYMENT_PENDING -> "PAYMENT_PENDING";
                 case PAYMENT_APPROVED -> "STOCK_PENDING";
+                case REFUND_PENDING -> "REFUND_PENDING";
+                case REFUNDED -> "REFUNDED";
                 case COMPLETED -> "COMPLETED";
                 case REJECTED -> "CANCELLED";
             },
