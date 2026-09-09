@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 10:11
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 10:48
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttxv9zu'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttz6yrp'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,48 +168,21 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-245 (ordem do tasks.md) ──
-executar_seq_T_245() {
-  info 'sequencial T-245 — Establish versioned contracts and reliable AMQP boundaries'
-  if rodar_tarefa seq 'T-245' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-245 — "Establish versioned contracts and reliable AMQP boundaries"
-  critérios/refs: AC-280 (Java sources follow the approved boundaries), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, test/migrate-order-workflow-to-axon-java.test.mjs, test/mercado-pago-payment-provider.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs
-  mensagem de commit: "T-245 migrate-order-workflow-to-axon-java: Establish versioned contracts and reliable AMQP boundaries"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-245 migrate-order-workflow-to-axon-java: Establish versioned contracts and reliable AMQP boundaries (auto-commit do plano)'
-    fi
-    marcar_concluidas T-245
-    verde "✔ T-245 concluída"
-    return 0
-  fi
-  vermelho "✘ T-245 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-245"
-  FALHAS="$FALHAS T-245"
-  return 1
-}
-
-# ── sequencial T-246 (ordem do tasks.md) ──
-executar_seq_T_246() {
-  info 'sequencial T-246 — Convert Inventory into an independent Axon participant'
-  if rodar_tarefa seq 'T-246' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
+# ── faixa-1: T-246 ──
+executar_faixa_1() {
+  local WT="$WT_BASE-faixa-1"
+  preparar_worktree 'faixa-1' 'spec/migrate-order-workflow-to-axon-java-faixa-1' "$WT" || return 1
+  evento --tipo faixa --faixa 'faixa-1' --estado executando --tentativa "$(tentativa 'faixa-1')"
+  : > "$LOG_DIR/faixa-1.log"
+  (
+    cd "$WT" || exit 9
+    rodar_tarefa 'faixa-1' 'T-246' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
 T-246 — "Convert Inventory into an independent Axon participant"
   critérios/refs: AC-281 (Commands, events, and queries have distinct paths), AC-282 (Axon state is durable and replayable), AC-284 (Inventory remains independently consistent), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/migrate-order-workflow-to-axon-java.test.mjs
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/migrate-order-workflow-to-axon-java-inventory.test.mjs
   mensagem de commit: "T-246 migrate-order-workflow-to-axon-java: Convert Inventory into an independent Axon participant"
 
 Regras inegociáveis:
@@ -217,31 +190,29 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-246 migrate-order-workflow-to-axon-java: Convert Inventory into an independent Axon participant (auto-commit do plano)'
-    fi
-    marcar_concluidas T-246
-    verde "✔ T-246 concluída"
-    return 0
-  fi
-  vermelho "✘ T-246 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-246"
-  FALHAS="$FALHAS T-246"
-  return 1
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
+  ) >> "$LOG_DIR/faixa-1.log" 2>&1
+  local st=$?
+  mesclar_faixa 'faixa-1' 'spec/migrate-order-workflow-to-axon-java-faixa-1' "$WT" "$st" || return 1
+  marcar_concluidas T-246
+  return 0
 }
 
-# ── sequencial T-247 (ordem do tasks.md) ──
-executar_seq_T_247() {
-  info 'sequencial T-247 — Convert Payment and provider effects into Axon'
-  if rodar_tarefa seq 'T-247' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
+# ── faixa-2: T-247 ──
+executar_faixa_2() {
+  local WT="$WT_BASE-faixa-2"
+  preparar_worktree 'faixa-2' 'spec/migrate-order-workflow-to-axon-java-faixa-2' "$WT" || return 1
+  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
+  : > "$LOG_DIR/faixa-2.log"
+  (
+    cd "$WT" || exit 9
+    rodar_tarefa 'faixa-2' 'T-247' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
 T-247 — "Convert Payment and provider effects into Axon"
   critérios/refs: AC-281 (Commands, events, and queries have distinct paths), AC-282 (Axon state is durable and replayable), AC-283 (Payment invariants and provider idempotency survive conversion), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, test/migrate-order-workflow-to-axon-java.test.mjs
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, test/migrate-order-workflow-to-axon-java-payment.test.mjs
   mensagem de commit: "T-247 migrate-order-workflow-to-axon-java: Convert Payment and provider effects into Axon"
 
 Regras inegociáveis:
@@ -249,31 +220,29 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-247 migrate-order-workflow-to-axon-java: Convert Payment and provider effects into Axon (auto-commit do plano)'
-    fi
-    marcar_concluidas T-247
-    verde "✔ T-247 concluída"
-    return 0
-  fi
-  vermelho "✘ T-247 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-247"
-  FALHAS="$FALHAS T-247"
-  return 1
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
+  ) >> "$LOG_DIR/faixa-2.log" 2>&1
+  local st=$?
+  mesclar_faixa 'faixa-2' 'spec/migrate-order-workflow-to-axon-java-faixa-2' "$WT" "$st" || return 1
+  marcar_concluidas T-247
+  return 0
 }
 
-# ── sequencial T-248 (ordem do tasks.md) ──
-executar_seq_T_248() {
-  info 'sequencial T-248 — Migrate checkout and Transaction decisions'
-  if rodar_tarefa seq 'T-248' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
+# ── faixa-3: T-248 ──
+executar_faixa_3() {
+  local WT="$WT_BASE-faixa-3"
+  preparar_worktree 'faixa-3' 'spec/migrate-order-workflow-to-axon-java-faixa-3' "$WT" || return 1
+  evento --tipo faixa --faixa 'faixa-3' --estado executando --tentativa "$(tentativa 'faixa-3')"
+  : > "$LOG_DIR/faixa-3.log"
+  (
+    cd "$WT" || exit 9
+    rodar_tarefa 'faixa-3' 'T-248' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
 T-248 — "Migrate checkout and Transaction decisions"
   critérios/refs: AC-281 (Commands, events, and queries have distinct paths), AC-282 (Axon state is durable and replayable), AC-285 (Checkout remains idempotent across concurrency and ambiguity), AC-286 (The distributed lifecycle is strictly choreographed), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java.test.mjs
+  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java-transaction.test.mjs
   mensagem de commit: "T-248 migrate-order-workflow-to-axon-java: Migrate checkout and Transaction decisions"
 
 Regras inegociáveis:
@@ -281,22 +250,15 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-248 migrate-order-workflow-to-axon-java: Migrate checkout and Transaction decisions (auto-commit do plano)'
-    fi
-    marcar_concluidas T-248
-    verde "✔ T-248 concluída"
-    return 0
-  fi
-  vermelho "✘ T-248 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-248"
-  FALHAS="$FALHAS T-248"
-  return 1
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
+  ) >> "$LOG_DIR/faixa-3.log" 2>&1
+  local st=$?
+  mesclar_faixa 'faixa-3' 'spec/migrate-order-workflow-to-axon-java-faixa-3' "$WT" "$st" || return 1
+  marcar_concluidas T-248
+  return 0
 }
 
-# ── sequencial T-249 (ordem do tasks.md) ──
+# ── sequencial T-249 (fora da seleção do usuário) ──
 executar_seq_T_249() {
   info 'sequencial T-249 — Build replayable projections and compatible GraphQL'
   if rodar_tarefa seq 'T-249' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
@@ -328,7 +290,7 @@ Regras inegociáveis:
   return 1
 }
 
-# ── sequencial T-250 (ordem do tasks.md) ──
+# ── sequencial T-250 (fora da seleção do usuário) ──
 executar_seq_T_250() {
   info 'sequencial T-250 — Deliver transaction-filtered GraphQL SSE'
   if rodar_tarefa seq 'T-250' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
@@ -360,7 +322,7 @@ Regras inegociáveis:
   return 1
 }
 
-# ── sequencial T-251 (ordem do tasks.md) ──
+# ── sequencial T-251 (fora da seleção do usuário) ──
 executar_seq_T_251() {
   info 'sequencial T-251 — Prove the complete choreographed lifecycle and compensations'
   if rodar_tarefa seq 'T-251' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
@@ -392,7 +354,7 @@ Regras inegociáveis:
   return 1
 }
 
-# ── sequencial T-252 (ordem do tasks.md) ──
+# ── sequencial T-252 (fora da seleção do usuário) ──
 executar_seq_T_252() {
   info 'sequencial T-252 — Import or clean-start legacy state and perform reversible cutover'
   if rodar_tarefa seq 'T-252' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
@@ -424,7 +386,7 @@ Regras inegociáveis:
   return 1
 }
 
-# ── sequencial T-253 (ordem do tasks.md) ──
+# ── sequencial T-253 (fora da seleção do usuário) ──
 executar_seq_T_253() {
   info 'sequencial T-253 — Retire Node Workflow and close all quality gates'
   if rodar_tarefa seq 'T-253' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
@@ -509,10 +471,14 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_245 || true
-  executar_seq_T_246 || true
-  executar_seq_T_247 || true
-  executar_seq_T_248 || true
+  # onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3
+  info "onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3 — janelas limpas em paralelo"
+  executar_faixa_1 & PID_FAIXA_1=$!
+  executar_faixa_2 & PID_FAIXA_2=$!
+  executar_faixa_3 & PID_FAIXA_3=$!
+  wait "$PID_FAIXA_1" || true
+  wait "$PID_FAIXA_2" || true
+  wait "$PID_FAIXA_3" || true
   executar_seq_T_249 || true
   executar_seq_T_250 || true
   executar_seq_T_251 || true
@@ -523,10 +489,9 @@ executar_tudo() {
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-245 (sequencial)"
-  echo "  seq       T-246 (sequencial)"
-  echo "  seq       T-247 (sequencial)"
-  echo "  seq       T-248 (sequencial)"
+  echo "  faixa-1  onda 1  T-246"
+  echo "  faixa-2  onda 1  T-247"
+  echo "  faixa-3  onda 1  T-248"
   echo "  seq       T-249 (sequencial)"
   echo "  seq       T-250 (sequencial)"
   echo "  seq       T-251 (sequencial)"
@@ -562,14 +527,13 @@ case "$MODO" in
   gate) COM_GATE=1; iniciar_resumos; encerrar gate ;;
   faixa)
     case "$ALVO" in
+      faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
+      faixa-2) evento --tipo inicio --escopo "faixa:faixa-2"; iniciar_resumos; executar_faixa_2 || true; encerrar "faixa:faixa-2" ;;
+      faixa-3) evento --tipo inicio --escopo "faixa:faixa-3"; iniciar_resumos; executar_faixa_3 || true; encerrar "faixa:faixa-3" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)
     case "$ALVO" in
-      T-245) evento --tipo inicio --escopo "seq:T-245"; iniciar_resumos; executar_seq_T_245 || true; encerrar "seq:T-245" ;;
-      T-246) evento --tipo inicio --escopo "seq:T-246"; iniciar_resumos; executar_seq_T_246 || true; encerrar "seq:T-246" ;;
-      T-247) evento --tipo inicio --escopo "seq:T-247"; iniciar_resumos; executar_seq_T_247 || true; encerrar "seq:T-247" ;;
-      T-248) evento --tipo inicio --escopo "seq:T-248"; iniciar_resumos; executar_seq_T_248 || true; encerrar "seq:T-248" ;;
       T-249) evento --tipo inicio --escopo "seq:T-249"; iniciar_resumos; executar_seq_T_249 || true; encerrar "seq:T-249" ;;
       T-250) evento --tipo inicio --escopo "seq:T-250"; iniciar_resumos; executar_seq_T_250 || true; encerrar "seq:T-250" ;;
       T-251) evento --tipo inicio --escopo "seq:T-251"; iniciar_resumos; executar_seq_T_251 || true; encerrar "seq:T-251" ;;

@@ -38,10 +38,12 @@
 </style>
 <main>
   <h1>Plano de execução — migrate-order-workflow-to-axon-java</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-09 10:11 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-09 10:48 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>9</b> tarefa(s), uma após a outra</div>
-    <div>modo <b>sequencial</b> (escolha do usuário)</div>
+    <div><b>3</b> tarefa(s) em paralelo</div>
+    <div><b>3</b> faixa(s) · <b>1</b> onda(s)</div>
+    <div><b>5</b> sequencial(is)</div>
+    <div>seleção do usuário: <b>T-246, T-247, T-248</b></div>
     <div>branch <code>spec/migrate-order-workflow-to-axon-java</code></div>
   </div>
   
@@ -49,41 +51,51 @@
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
     <div><code id="cmd">bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh</code></div>
-    <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
+    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
     (<code>onp-spec resumo migrate-order-workflow-to-axon-java --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo migrate-order-workflow-to-axon-java</code>).</p>
   </div>
   
-  
     <section class="onda">
-      <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
-      <div class="grade"><div class="faixa">
-        <div class="tarefa">
-          <span class="tid">T-245</span>
-          <span class="ttitulo">Establish versioned contracts and reliable AMQP boundaries</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/contracts/events</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/configuration</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence</code> <code>apps/payment-federation/src/main/resources/db/migration</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/contracts</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code> <code>test/mercado-pago-payment-provider.spec.test.mjs</code> <code>test/payment-federation-clean-architecture.spec.test.mjs</code></span>
-        </div>
+      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 ∥ faixa-3 — em paralelo, janelas limpas</small></h3>
+      <div class="grade">
+      <div class="faixa">
+        <h4>faixa-1 <small>branch <code>spec/migrate-order-workflow-to-axon-java-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-faixa-1</code></small></h4>
+        
         <div class="tarefa">
           <span class="tid">T-246</span>
           <span class="ttitulo">Convert Inventory into an independent Axon participant</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/main/resources/db/migration/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/main/resources/db/migration/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>test/migrate-order-workflow-to-axon-java-inventory.test.mjs</code></span>
         </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-2 <small>branch <code>spec/migrate-order-workflow-to-axon-java-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-faixa-2</code></small></h4>
+        
         <div class="tarefa">
           <span class="tid">T-247</span>
           <span class="ttitulo">Convert Payment and provider effects into Axon</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/main/resources/db/migration/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/main/resources/db/migration/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code> <code>test/migrate-order-workflow-to-axon-java-payment.test.mjs</code></span>
         </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-3 <small>branch <code>spec/migrate-order-workflow-to-axon-java-faixa-3</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-faixa-3</code></small></h4>
+        
         <div class="tarefa">
           <span class="tid">T-248</span>
           <span class="ttitulo">Migrate checkout and Transaction decisions</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/order-workflow-subgraph/src/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction</code> <code>apps/payment-federation/src/main/resources/db/migration/transaction</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
+          <span class="arquivos"><code>apps/order-workflow-subgraph/src/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction</code> <code>apps/payment-federation/src/main/resources/db/migration/transaction</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code> <code>test/migrate-order-workflow-to-axon-java-transaction.test.mjs</code></span>
         </div>
+      </div></div>
+    </section>
+  
+    <section class="onda">
+      <h3>Sequenciais <small>após as ondas, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
         <div class="tarefa">
           <span class="tid">T-249</span>
           <span class="ttitulo">Build replayable projections and compatible GraphQL</span>
@@ -119,7 +131,8 @@
     <h3>Branches e commits</h3>
     <ol>
       <li>tudo parte da branch de trabalho <code>spec/migrate-order-workflow-to-axon-java</code></li>
-      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx migrate-order-workflow-to-axon-java: título</code></li>
+      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx migrate-order-workflow-to-axon-java: título</code></li>
+      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
       <li>gate final: <code>onp-spec verify migrate-order-workflow-to-axon-java</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>
