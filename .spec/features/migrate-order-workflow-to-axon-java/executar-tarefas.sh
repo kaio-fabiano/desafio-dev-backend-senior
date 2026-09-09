@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 18:27
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 18:37
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtufkslp'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtufxqro'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -177,7 +177,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-253 — "Retire Node Workflow and close all quality gates"
   critérios/refs: AC-280 (Java sources follow the approved boundaries), AC-282 (Axon state is durable and replayable), AC-286 (The distributed lifecycle is strictly choreographed), AC-288 (Existing GraphQL operations remain compatible during cutover), AC-289 (Axon subscription queries isolate transaction updates), AC-290 (Existing durable state has an explicit migration decision), AC-291 (One Java deployment becomes the sole owner), AC-292 (Repository quality gates prove the migration), AC-293 (Bounded contexts communicate through RabbitMQ AMQP)
-  arquivos permitidos (e seus testes): apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, compose.yaml, README.md, docs, test, .spec/features/migrate-order-workflow-to-axon-java
+  arquivos permitidos (e seus testes): apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, infra/sst.config.ts, compose.yaml, README.md, docs, test, .spec/features/migrate-order-workflow-to-axon-java
   mensagem de commit: "T-253 migrate-order-workflow-to-axon-java: Retire Node Workflow and close all quality gates"
 
 Regras inegociáveis:
