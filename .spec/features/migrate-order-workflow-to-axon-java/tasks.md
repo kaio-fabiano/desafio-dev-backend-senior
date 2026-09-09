@@ -54,7 +54,7 @@
 
 ## T-245 — Establish versioned contracts and reliable AMQP boundaries [pendente]
 - Refs: US-132, US-133, AC-280, AC-293, AC-292
-- Arquivos: libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, test/migrate-order-workflow-to-axon-java.test.mjs
+- Arquivos: libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, test/migrate-order-workflow-to-axon-java.test.mjs, test/mercado-pago-payment-provider.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244.
