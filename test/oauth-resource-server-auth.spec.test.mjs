@@ -186,9 +186,9 @@ test('AC-176: NestJS resource servers use Better Auth verification @spec:AC-176'
     guard,
     guardSpec,
     scopesDecorator,
-    orderModule,
+    orderSecurity,
     identityModule,
-    orderOperations,
+    orderController,
   ] = await Promise.all([
     readFile(
       'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
@@ -207,12 +207,12 @@ test('AC-176: NestJS resource servers use Better Auth verification @spec:AC-176'
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java',
       'utf8',
     ),
     readFile('libs/identity/nest/src/identity.module.ts', 'utf8'),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow-operations.service.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java',
       'utf8',
     ),
   ]);
@@ -220,15 +220,15 @@ test('AC-176: NestJS resource servers use Better Auth verification @spec:AC-176'
   assert.match(service, /requestToResourceInput/);
   assert.match(guard, /Reflector/);
   assert.match(scopesDecorator, /RequireScopes/);
-  assert.match(orderModule, /OAuthResourceModule\.register/);
+  assert.match(orderSecurity, /oauth2ResourceServer/);
   assert.match(identityModule, /OAuthResourceModule\.register/);
   assert.match(
-    orderOperations,
-    /findWorkflow\([\s\S]*subject: string,[\s\S]*wooOrderId: string/,
+    orderController,
+    /Principal principal/,
   );
   assert.match(
-    orderOperations,
-    /CheckoutOperation, \{[\s\S]*subject,[\s\S]*wooOrderId/,
+    orderController,
+    /hasAuthority\('SCOPE_orders:read'\)/,
   );
   assert.match(guardSpec, /verify\)\.toHaveBeenCalledOnce\(\)/);
   assert.match(guardSpec, /context\)\.toMatchObject\(\{ auth \}\)/);
@@ -297,7 +297,7 @@ test('AC-178: SSE validates the same bearer token @spec:AC-178', async () => {
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java',
       'utf8',
     ),
   ]);
@@ -309,9 +309,9 @@ test('AC-178: SSE validates the same bearer token @spec:AC-178', async () => {
   assert.match(downstream, /authorization: context\.authorization/);
   assert.match(
     orderWorkflow,
-    /await verify\(OAuthRequestAdapter\.toRequest\(raw\)\)/,
+    /@PreAuthorize/,
   );
-  assert.match(orderWorkflow, /auth,/);
+  assert.match(orderWorkflow, /Principal principal/);
 });
 
 // US-091 — Turn native-first integration into a maintained rule
@@ -326,7 +326,7 @@ test('AC-179: Native-first boundaries are documented and executable @spec:AC-179
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java',
       'utf8',
     ),
   ]);
@@ -389,13 +389,13 @@ test('AC-182: Gateway and subgraphs share one token verification policy @spec:AC
 });
 
 test('AC-183: Authentication composition contains no redundant wrappers or context state @spec:AC-183', async () => {
-  const [guard, resolver, factory, module] = await Promise.all([
+  const [guard, controller, factory, module] = await Promise.all([
     readFile(
       'libs/platform/nest/src/oauth-resource/graphql/oauth-resource.guard.ts',
       'utf8',
     ),
     readFile(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java',
       'utf8',
     ),
     readFile(
@@ -408,8 +408,8 @@ test('AC-183: Authentication composition contains no redundant wrappers or conte
     ),
   ]);
   assert.doesNotMatch(guard, /context\.subject\s*=/);
-  assert.match(resolver, /OAuthSubject/);
-  assert.doesNotMatch(resolver, /AuthenticatedSubject/);
+  assert.match(controller, /Principal principal/);
+  assert.doesNotMatch(controller, /AuthenticatedSubject|OAuthSubject/);
   assert.doesNotMatch(
     `${factory}\n${module}`,
     /JwtPluginFactory|OAuthProviderPluginFactory/,
@@ -434,20 +434,19 @@ test('AC-184: Authentication changes remain compatible with canonical CI runtime
       'utf8',
     ),
     readFile(
-      'apps/payment-federation/src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java',
+      'apps/payment-federation/src/test/java/dev/desafio/transaction/payment/PaymentMigrationTest.java',
       'utf8',
     ),
     readFile('compose.yaml', 'utf8'),
     readFile('apps/payment-federation/Dockerfile', 'utf8'),
     readFile('apps/gateway/Dockerfile', 'utf8'),
     readFile('apps/identity-subgraph/Dockerfile', 'utf8'),
-    readFile('apps/order-workflow-subgraph/Dockerfile', 'utf8'),
   ]);
 
   assert.match(nestModule, /@Module\s*\(\{\}\)/);
   assert.doesNotMatch(nestModule, /Module\(\{\}\)\(OAuthResourceModule\)/);
   assert.match(architectureTest, /class ArchitectureBoundariesTest/);
-  assert.match(paymentHandlerTest, /class PaymentHandlerTest/);
+  assert.match(paymentHandlerTest, /class PaymentMigrationTest/);
   for (const containerDefinition of [compose, ...nodeDockerfiles]) {
     assert.match(
       containerDefinition,
@@ -455,7 +454,7 @@ test('AC-184: Authentication changes remain compatible with canonical CI runtime
     );
   }
   assert.match(compose, /SPRING_PROFILES_ACTIVE: local/);
-  assert.match(nodeDockerfiles[2], /COPY .*package\.json .*package\.json/);
+  assert.ok(nodeDockerfiles.length === 2);
   assert.match(paymentDockerfile, /RUN gradle clean --no-daemon bootJar/);
 });
 

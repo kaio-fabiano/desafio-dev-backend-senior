@@ -9,10 +9,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class InventoryIntegrationEventHandlerTest {
     @Test
@@ -32,5 +34,23 @@ class InventoryIntegrationEventHandlerTest {
         assertEquals("tx-246", published.getFirst().transactionId());
         assertEquals("correlation-246", published.getFirst().correlationId());
         assertEquals("causation-246", published.getFirst().causationId());
+    }
+
+    @Test
+    @DisplayName("Card reservation publishes only an opaque Payment credential reference @spec:AC-286 @spec:AC-293")
+    void cardReservationPublishesOpaquePaymentReference() {
+        var published = new ArrayList<InventoryIntegrationEvent>();
+        var handler = new InventoryIntegrationEventHandler((source, event) -> published.add(event));
+
+        handler.on(new InventoryReservedAxonEvent("tx-card", new InventoryReservedEvent(
+            "inventory:tx-card", "tx-card", "order-card", List.of(new StockItem("1001", 1)),
+            "payment:tx-card", "operation-card:payment", "CARD", new BigDecimal("19.90"),
+            "BRL", "buyer@example.test", 1, "operation-card", "event-card", Instant.EPOCH
+        )));
+
+        var payload = published.getFirst().payload();
+        assertEquals("payment:tx-card", payload.get("providerCredentialReference"));
+        assertEquals("card", payload.get("paymentMethodId"));
+        assertFalse(payload.containsKey("providerToken"));
     }
 }

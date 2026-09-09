@@ -7,7 +7,7 @@
 
 ## Delivered architecture walkthrough
 
-The implementation uses five deployable applications and one
+The implementation uses four deployable applications plus external WordPress and one
 non-deployable end-to-end project:
 
 ```mermaid
@@ -15,17 +15,16 @@ flowchart LR
   Client --> Gateway
   Agent[AI agent] --> MCP[Apollo MCP] --> Gateway
   Gateway --> Identity[Identity Federation]
-  Gateway --> Workflow[Order Workflow Federation]
-  Gateway --> Payment[Payment Federation]
+  Gateway --> Java[Java Transaction / Inventory / Payment Federation]
   Gateway --> WordPress[WordPress / WPGraphQL native subgraph]
-  Commerce --> RabbitMQ[(RabbitMQ)]
-  RabbitMQ --> Payment
-  Payment -->|Federated GraphQL inventory| WordPress
+  Java --> RabbitMQ[(RabbitMQ)]
+  RabbitMQ --> Java
+  Java -->|WooCommerce ACL| WordPress
   Identity --> BetterAuth[(Better Auth PostgreSQL)]
-  Payment --> PaymentDB[(Payment PostgreSQL)]
+  Java --> PaymentDB[(PostgreSQL: axon / transaction / inventory / payment)]
   WordPress --> Woo[(WooCommerce)]
   Client -->|GraphQL over SSE| Gateway
-  Gateway -->|Order event stream| Commerce
+  Gateway -->|Axon subscription query over SSE| Java
 ```
 
 | Runtime                   | Single responsibility                                                           | Composition boundary                                                                                             |
@@ -33,25 +32,25 @@ flowchart LR
 | Apollo MCP                | Expose curated authenticated graph operations to agents                         | Apollo MCP configuration and its Gateway endpoint                                                                |
 | Gateway                   | Authenticate, propagate safe context, and compose queries and mutations         | NestJS authentication providers and Apollo Gateway                                                               |
 | Identity Federation       | Own identity, sessions, OAuth, registration, and identity graph fields          | `NestJSBetterAuth`, plugin factories, and Identity providers                                                     |
-| Order Workflow Federation | Own idempotent checkout workflow, transactional outbox, and order-event stream  | NestJS application services, PostgreSQL, and RabbitMQ publishers/consumers                                       |
-| Payment Federation        | Own payment invariants and the internal payment and inventory event consumers   | Spring GraphQL Federation, Spring AMQP, and focused application boundaries                                       |
+| Java Transaction Federation | Own Transaction, Inventory, and Payment decisions without a central workflow coordinator | Axon 5 event sourcing/CQRS, Spring GraphQL, Spring AMQP, and isolated PostgreSQL schemas                      |
 | WordPress / WPGraphQL     | Expose authoritative product, cart, order, customer, and inventory capabilities | Native `/graphql` endpoint federated by `wp-graphql-federations`; external infrastructure, not a Node deployable |
 
 The domain rule is ownership, not uniformity: Better Auth owns its records,
-WooCommerce owns commercial state, and Payment owns its aggregate and read
-view. CQRS is used only in Payment, where an invariant-bearing write path and a
-direct read view are materially different. Gateway and Apollo MCP remain
+WooCommerce owns commercial state, while the Java Transaction, Inventory, and
+Payment contexts own their event streams and read views. CQRS is implemented
+with Axon inside each context. Gateway and Apollo MCP remain
 stateless edges. There is deliberately no Identity MikroORM mirror, generic DDD
 framework, base repository hierarchy, gateway business orchestration, or
-separate Stock worker. Inventory remains a distinct internal service boundary
-inside the Java Payment Federation deployment.
+separate Stock worker. The retired Node Order Workflow has no source or
+deployment entry; its compatible GraphQL contract is served by the Java
+Payment Federation deployment.
 
 WordPress integration is plugin-first: WPGraphQL, WooGraphQL, WPGraphQL
 Federations, and WPGraphQL Headless Login provide the graph and session model.
-Commerce publishes checkout through RabbitMQ. Payment Federation processes
-payment and inventory events, and its inventory adapter calls the native
-WordPress GraphQL subgraph backed by the installed plugins. Commerce owns the
-order-event stream exposed through the Gateway SSE edge. There is no WordPress
+Transaction publishes checkout through RabbitMQ. The Java contexts react by
+choreography, and the Inventory adapter calls the native
+WordPress GraphQL subgraph backed by the installed plugins. Transaction owns
+the event stream exposed through the Gateway SSE edge. There is no WordPress
 NestJS proxy, custom SDL-normalization runtime, or marketplace inventory
 MU-plugin.
 

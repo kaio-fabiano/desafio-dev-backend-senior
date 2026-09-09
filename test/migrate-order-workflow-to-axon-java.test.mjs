@@ -46,7 +46,7 @@ test('The real PostgreSQL migration baseline passes the Java quality gate @spec:
 
   assert.match(xml, /failures="0"/);
   assert.match(xml, /skipped="0"/);
-  assert.match(xml, /Fresh PostgreSQL migrations and the application baseline pass real quality gates/);
+  assert.match(xml, /Fresh PostgreSQL migrations expose every AMQP consumer at startup/);
 });
 
 test('V1 integration contracts expose only the approved boundary fields @spec:AC-280', async () => {
@@ -192,7 +192,8 @@ test('Cutover keeps Java as the sole compatible GraphQL, SSE, and AMQP owner @sp
       report('dev.desafio.transaction.infrastructure.messaging.RabbitMqBoundaryIntegrationTest'),
     ]);
 
-  assert.match(compose, /profiles: \['legacy-rollback'\]/);
+  assert.match(compose, /^  order-workflow-database:/m);
+  assert.doesNotMatch(compose, /^  order-workflow-subgraph:/m);
   assert.match(compose, /ORDER_WORKFLOW_GRAPHQL_URL:.*payment-federation:8080\/graphql/);
   assert.match(compose, /ORDER_WORKFLOW_SUBSCRIPTION_URL:.*payment-federation:8080\/graphql/);
   assert.match(compose, /MIGRATION_LEGACY_CLEAN_START_ENABLED:.*true/);

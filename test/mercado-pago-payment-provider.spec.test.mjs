@@ -214,12 +214,12 @@ test('AC-169: Java packages enforce inward dependencies for Payment and Inventor
   for (const { path, source } of sources) {
     const relative = path.slice(transactionRoot.length + 1);
     const [context] = relative.split('/');
-    if (context === 'payment' || context === 'inventory') {
+    if (['transaction', 'payment', 'inventory'].includes(context)) {
       contexts.add(context);
     }
     if (
       relative !== 'PaymentFederationApplication.java' &&
-      !/^(?:(?:payment|inventory)\/(?:domain|application|adapter|configuration)\/|configuration\/[^/]+\.java$|contracts\/integration\/v1\/[^/]+\.java$|shared\/infrastructure\/(?:messaging|persistence)\/[^/]+\.java$)/.test(
+      !/^(?:(?:payment|inventory|transaction)\/(?:domain|application|adapter|configuration|checkout|infrastructure|interfaces)\/|configuration\/[^/]+\.java$|contracts\/integration\/v1\/[^/]+\.java$|shared\/(?:infrastructure|interfaces)\/[^/]+\/[^/]+\.java$|migration\/[^/]+\.java$)/.test(
         relative,
       )
     ) {
@@ -255,7 +255,7 @@ test('AC-169: Java packages enforce inward dependencies for Payment and Inventor
     }
   }
 
-  assert.deepEqual([...contexts].sort(), ['inventory', 'payment']);
+  assert.deepEqual([...contexts].sort(), ['inventory', 'payment', 'transaction']);
   assert.deepEqual(violations, []);
   assert.match(
     await readFile(providerPath, 'utf8'),

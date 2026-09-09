@@ -6,13 +6,12 @@ const source = (path) =>
   readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('@spec:AC-092 NestJS owns shared configuration through providers', async () => {
-  const [gateway, identity, orderWorkflow] = await Promise.all([
+  const [gateway, identity] = await Promise.all([
     source('apps/gateway/src/app.module.ts'),
     source('apps/identity-subgraph/src/app.module.ts'),
-    source('apps/order-workflow-subgraph/src/app.module.ts'),
   ]);
 
-  for (const root of [gateway, identity, orderWorkflow]) {
+  for (const root of [gateway, identity]) {
     assert.match(root, /ConfigModule\.forRoot/);
   }
 });

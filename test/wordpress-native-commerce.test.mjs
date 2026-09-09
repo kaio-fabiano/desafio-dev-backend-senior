@@ -30,7 +30,7 @@ test('AC-139: WordPress owns native commerce operations @spec:AC-139', async () 
 
 test('AC-140: Order Workflow delegates order creation and reconciliation to WooGraphQL @spec:AC-140 @spec:AC-241 @spec:AC-242', async () => {
   const paths = [
-    'apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts',
+    'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java',
     'apps/e2e/src/journey.ts',
     'apps/wordpress-integration/scripts/production-entrypoint.sh',
     'compose.yaml',
@@ -40,11 +40,11 @@ test('AC-140: Order Workflow delegates order creation and reconciliation to WooG
   );
   const [adapter] = sources;
 
-  assert.match(adapter, /mutation\s+Checkout|checkout\s*\(/);
+  assert.match(adapter, /mutation TransactionCheckout/);
   assert.match(adapter, /\/graphql/);
-  assert.match(adapter, /paymentMethod:\s*['"]cod['"]/);
-  assert.match(adapter, /query\s+FindOrderByWorkflowReference/);
-  assert.match(adapter, /orders\s*\(\s*first:\s*2,\s*where:\s*\{\s*search:/);
+  assert.match(adapter, /"paymentMethod", "cod"/);
+  assert.match(adapter, /query\s+FindOrderByTransactionReference/);
+  assert.match(adapter, /orders\(first: 2, where: \{ search: \$reference \}\)/);
   for (const source of sources) {
     assert.doesNotMatch(
       source,

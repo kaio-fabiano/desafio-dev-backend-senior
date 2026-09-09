@@ -65,7 +65,7 @@ public final class TransactionRabbitListener {
     }
 
     private String reference(JsonNode payload, String fallback) {
-        for (var field : new String[] {"reservationId", "paymentId", "providerReference", "reason"}) {
+        for (var field : new String[] {"reservationId", "pixCode", "providerReference", "paymentId", "reason"}) {
             var value = payload.path(field).asText();
             if (!value.isBlank()) return value;
         }

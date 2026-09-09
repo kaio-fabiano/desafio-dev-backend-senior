@@ -17,11 +17,15 @@ import dev.desafio.transaction.payment.application.axon.PaymentIntegrationEventH
 import dev.desafio.transaction.payment.application.axon.PaymentProjectionHandler;
 import dev.desafio.transaction.shared.infrastructure.messaging.AmqpRetryRouter;
 import dev.desafio.transaction.shared.infrastructure.messaging.IntegrationEventJson;
+import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;
+import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelay;
+import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelayScheduler;
 import dev.desafio.transaction.shared.infrastructure.messaging.ReliableAmqpConsumer;
 import dev.desafio.transaction.shared.infrastructure.persistence.JdbcInboxStore;
 import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,6 +67,27 @@ public class AxonPaymentMessagingConfiguration {
             new JdbcOutboxStore(dataSource, json, "payment"),
             json
         );
+    }
+
+    @Bean("paymentOutboxRelay")
+    OutboxRelay paymentOutboxRelay(
+        DataSource dataSource,
+        ObjectMapper json,
+        RabbitTemplate rabbit,
+        Clock clock
+    ) {
+        var codec = new IntegrationEventJson(json);
+        return new OutboxRelay(
+            new JdbcOutboxStore(dataSource, json, "payment"),
+            new ConfirmedAmqpPublisher(rabbit, codec), codec, clock, "payment-relay"
+        );
+    }
+
+    @Bean
+    OutboxRelayScheduler paymentOutboxRelayScheduler(
+        @Qualifier("paymentOutboxRelay") OutboxRelay relay
+    ) {
+        return new OutboxRelayScheduler(relay);
     }
 
     @Bean

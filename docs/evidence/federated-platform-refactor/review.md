@@ -46,7 +46,7 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
         "test/identity-federation-refactor.test.mjs",
         "test/gateway-federation-refactor.test.mjs",
         "test/remove-wordpress-federation-runtime.spec.test.mjs",
-        "apps/payment-federation/src/test/java/dev/desafio/payment/PaymentFederationTest.java"
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java"
       ]
     },
     {
@@ -107,23 +107,14 @@ The JSON block is consumed by `test/federated-platform-quality.test.mjs`.
     {
       "name": "Payment Federation",
       "path": "apps/payment-federation",
-      "responsibility": "Own payment invariants, idempotent commands, dedicated read views, and payment graph fields.",
-      "providerBoundary": "Spring configuration binds the aggregate handler, focused command/query handlers, JDBC view, and GraphQL Federation adapter.",
-      "domainDecision": "Selective CQRS separates invariant-bearing writes from direct payment views without adding a command bus.",
-      "omittedAbstraction": "No Axon, event sourcing, generic CQRS framework, or WooCommerce persistence access.",
+      "responsibility": "Own Transaction, Inventory, and Payment invariants, durable events, projections, and graph fields.",
+      "providerBoundary": "Spring configuration binds Axon command/query/event paths, JDBC projections, AMQP adapters, and GraphQL Federation.",
+      "domainDecision": "Each Java context owns its event stream and projections and communicates with peers through RabbitMQ.",
+      "omittedAbstraction": "No central saga coordinator, cross-context adapter import, or WooCommerce persistence access.",
       "evidence": [
-        "apps/payment-federation/src/test/java/dev/desafio/payment/PaymentFederationTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java",
         "test/architecture-boundaries.test.mjs"
       ]
-    },
-    {
-      "name": "Order Workflow Federation",
-      "path": "apps/order-workflow-subgraph",
-      "responsibility": "Own durable checkout workflow, outbox/inbox processing, and order-event publication.",
-      "providerBoundary": "NestJS providers bind workflow persistence, RabbitMQ adapters, and the order-event stream consumed by Gateway.",
-      "domainDecision": "Commerce owns workflow state and real-time delivery while WooCommerce remains the commercial system of record.",
-      "omittedAbstraction": "No duplicate product, cart, order, customer, or inventory authority.",
-      "evidence": ["test/remove-wordpress-federation-runtime.spec.test.mjs"]
     }
   ]
 }
@@ -140,7 +131,7 @@ runtime, or second subscription implementation.
 
 ## Walkthrough order
 
-1. **Topology:** compare ADR 007 with the Nx project graph. Five applications
+1. **Topology:** compare ADR 007 with the Nx project graph. Four applications
    deploy; `apps/e2e` supplies proof and `apps/wordpress-integration` supplies
    reproducible WordPress assets.
 2. **Dependency direction:** run the Architecture gate. Domain and application
@@ -149,10 +140,10 @@ runtime, or second subscription implementation.
 3. **Provider composition:** inspect the thin application bootstraps, then the
    NestJS and Spring composition modules named above. Bootstraps create and
    close framework applications; they do not assemble infrastructure graphs.
-4. **Ownership:** trace Better Auth records to Identity, payment invariants to
-   Payment, commercial state to WordPress, and SSE delivery to Commerce through Gateway.
+4. **Ownership:** trace Better Auth records to Identity, transaction/inventory/payment
+   invariants to Java, commercial state to WordPress, and SSE delivery through Gateway.
 5. **External contract:** compose the SDL, exercise focused tests, then run the
-   isolated E2E journey through Gateway and its Commerce-backed SSE edge, the
+   isolated E2E journey through Gateway and its Java-backed SSE edge, the
    native WordPress subgraph, and Apollo MCP.
 
 ## Deliberate design choices

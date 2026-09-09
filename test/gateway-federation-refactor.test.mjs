@@ -193,7 +193,7 @@ test('AC-095: Gateway contains only authenticated federation edge responsibiliti
   assert.match(federationConfiguration, /payment-federation:8080\/graphql/);
   assert.match(
     federationConfiguration,
-    /order-workflow-subgraph:3003\/graphql/,
+    /payment-federation:8080\/graphql/,
   );
   assert.doesNotMatch(federationConfiguration, /stock-worker/);
   assert.doesNotMatch(
@@ -303,7 +303,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
 
   const orderWorkflow = dataSource({
     capabilities: { bearer: true, requestSession: true },
-    url: 'http://order-workflow-subgraph:3003/graphql',
+    url: 'http://payment-federation:8080/graphql',
   });
   const orderWorkflowHeaders = new Headers();
   orderWorkflow.willSendRequest({

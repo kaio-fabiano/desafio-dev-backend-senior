@@ -24,7 +24,7 @@ public final class JdbcTransactionOutbox implements TransactionOutbox {
         payload.put("paymentMethod", event.paymentMethod());
         payload.put("amount", event.amount());
         payload.put("currency", event.currency());
-        payload.put("paymentId", event.transactionId());
+        payload.put("paymentId", "payment:" + event.transactionId());
         payload.put("paymentOperationKey", event.operationKey() + ":payment");
         payload.put("payerEmail", event.owner());
         payload.set("items", json.valueToTree(event.items()));

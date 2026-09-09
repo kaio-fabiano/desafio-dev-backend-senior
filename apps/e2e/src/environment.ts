@@ -94,9 +94,8 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
             }),
           )
         ).join('\n');
-        const rabbit = await startedEnvironment
-          .getContainer('rabbitmq-1')
-          .exec([
+        const rabbitContainer = startedEnvironment.getContainer('rabbitmq-1');
+        const rabbit = await rabbitContainer.exec([
             'rabbitmqctl',
             'list_queues',
             'name',
@@ -104,7 +103,25 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
             'messages_unacknowledged',
             'consumers',
           ]);
-        return `${serviceLogs}\n--- rabbitmq ---\n${rabbit.output}\n--- retired components ---\n${RETIRED_COMPONENTS.join(', ')}`;
+        const retryHeaders = await Promise.all(
+          ['inventory', 'payment', 'transaction'].map(async (consumer) => {
+            const retry = await rabbitContainer.exec([
+              'rabbitmqadmin',
+              '--format=raw_json',
+              'get',
+              `queue=${consumer}.events.v1.retry.3`,
+              'count=1',
+              'ackmode=ack_requeue_true',
+            ]);
+            const headers = (
+              JSON.parse(retry.output || '[]') as Array<{
+                properties?: { headers?: Record<string, unknown> };
+              }>
+            )[0]?.properties?.headers;
+            return `${consumer}: ${JSON.stringify(headers ?? {})}`;
+          }),
+        );
+        return `${serviceLogs}\n--- rabbitmq ---\n${rabbit.output}\n--- retry headers ---\n${retryHeaders.join('\n')}\n--- retired components ---\n${RETIRED_COMPONENTS.join(', ')}`;
       },
       stop,
     };

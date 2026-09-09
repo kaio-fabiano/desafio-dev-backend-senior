@@ -21,11 +21,18 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
     private final GraphQlClient client;
     private final String serviceIdentity;
     private final String siteToken;
+    private final String origin;
 
-    public WooCommerceGraphQlOrderAdapter(GraphQlClient client, String serviceIdentity, String siteToken) {
+    public WooCommerceGraphQlOrderAdapter(
+        GraphQlClient client,
+        String serviceIdentity,
+        String siteToken,
+        String origin
+    ) {
         this.client = Objects.requireNonNull(client, "client");
         this.serviceIdentity = required(serviceIdentity, "serviceIdentity");
         this.siteToken = required(siteToken, "siteToken");
+        this.origin = required(origin, "origin");
     }
 
     public static WooCommerceGraphQlOrderAdapter connect(
@@ -35,7 +42,10 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
         ObjectMapper json
     ) {
         return new WooCommerceGraphQlOrderAdapter(
-            new HttpGraphQlClient(wordpress.resolve("/graphql"), json), serviceIdentity, siteToken
+            new HttpGraphQlClient(wordpress.resolve("/graphql"), json),
+            serviceIdentity,
+            siteToken,
+            wordpress.resolve("/").toString().replaceAll("/$", "")
         );
     }
 
@@ -74,7 +84,7 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
                 }
                 """,
             Map.of("input", Map.of("identity", serviceIdentity, "provider", "SITETOKEN")),
-            Map.of("x-wpgraphql-site-token", siteToken)
+            Map.of("origin", origin, "x-wpgraphql-site-token", siteToken)
         ));
         var token = login.path("login").path("authToken").asText();
         if (token.isBlank()) throw new IllegalStateException("WooGraphQL service login failed");
@@ -90,7 +100,7 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
                 }
                 """,
             Map.of("reference", request.reference()),
-            Map.of("authorization", "Bearer " + token)
+            Map.of("authorization", "Bearer " + token, "origin", origin)
         ));
         var matches = new ArrayList<JsonNode>();
         var nodes = data.path("orders").path("nodes");
@@ -157,6 +167,7 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
     private Map<String, String> sessionHeaders(Request request) {
         if (request.session() == null) return Map.of();
         var headers = new java.util.LinkedHashMap<String, String>();
+        headers.put("origin", origin);
         if (hasText(request.session().cartToken())) headers.put("cart-token", request.session().cartToken());
         if (hasText(request.session().wooSession())) {
             headers.put("woocommerce-session", request.session().wooSession());

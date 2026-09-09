@@ -183,6 +183,31 @@ class OrderWorkflowGraphQlCompatibilityTest {
     }
 
     @Test
+    @DisplayName("Checkout acknowledges the Woo order before the Axon projection catches up @spec:AC-288 @spec:AC-289")
+    void checkoutAcknowledgesTheWooOrderBeforeProjectionCatchesUp() {
+        when(queryGateway.query(any(FindOwnedTransaction.class), eq(TransactionView.class)))
+            .thenReturn(Mono.empty());
+
+        var response = graphQl("""
+            mutation {
+              startCheckout(input: {
+                operationKey: "operation-249"
+                paymentMethod: CARD
+                payerEmail: "buyer@example.test"
+                providerToken: "provider-token"
+                paymentMethodId: "visa"
+              }) { wooOrderId paymentMethod workflow { state } }
+            }
+            """, "buyer-249", "cart:write");
+
+        assertNull(response.get("errors"), response.toString());
+        var order = nested(nested(response, "data"), "startCheckout");
+        assertEquals("42", order.get("wooOrderId"));
+        assertEquals("CARD", order.get("paymentMethod"));
+        assertEquals("CREATED", nested(order, "workflow").get("state"));
+    }
+
+    @Test
     @DisplayName("Order Workflow GraphQL preserves scopes, owner isolation, validation, and errors @spec:AC-288")
     void preservesAuthorizationAndValidationErrors() {
         var forbidden = graphQl(

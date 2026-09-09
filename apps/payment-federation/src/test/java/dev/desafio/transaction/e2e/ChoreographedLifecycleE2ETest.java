@@ -168,6 +168,8 @@ class ChoreographedLifecycleE2ETest {
             var command = invocation.getArgument(0);
             var integration = new InventoryIntegrationEventHandler(new JdbcInventoryOutbox(dataSource, json));
             if (command instanceof ReserveInventoryCommand reserve) {
+                assertEquals("inventory:transaction-251", reserve.inventoryReservationId());
+                assertEquals("payment:transaction-251", reserve.paymentId());
                 var reserved = new InventoryReservedEvent(
                     reserve.inventoryReservationId(), reserve.transactionId(), reserve.orderId(),
                     reserve.items(), reserve.paymentId(), reserve.paymentOperationKey(),
@@ -179,6 +181,7 @@ class ChoreographedLifecycleE2ETest {
                 return CompletableFuture.completedFuture(InventoryReservation.Status.RESERVED);
             }
             var commit = (CommitInventoryCommand) command;
+            assertEquals("inventory:transaction-251", commit.inventoryReservationId());
             reservation.get().commit(
                 commit.correlationId(), commit.causationId(), CLOCK.instant(),
                 event -> dispatchInventory(integration, InventoryAxonEvents.wrap(event))
@@ -395,6 +398,9 @@ class ChoreographedLifecycleE2ETest {
         var inventoryGateway = mock(org.axonframework.messaging.commandhandling.gateway.CommandGateway.class);
         when(inventoryGateway.send(any(), eq(Object.class))).thenAnswer(invocation -> {
             var release = (ReleaseInventoryCommand) invocation.getArgument(0);
+            assertEquals(
+                "inventory:transaction-payment-rejected", release.inventoryReservationId()
+            );
             reservation.release(
                 release.correlationId(), release.causationId(), CLOCK.instant(),
                 event -> dispatchInventory(inventoryEvents, InventoryAxonEvents.wrap(event))

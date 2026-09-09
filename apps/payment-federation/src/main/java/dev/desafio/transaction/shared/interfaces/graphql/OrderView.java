@@ -5,6 +5,7 @@ import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import dev.desafio.transaction.payment.application.query.PaymentView;
 import dev.desafio.transaction.payment.domain.Payment;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
+import dev.desafio.transaction.transaction.checkout.CheckoutResult;
 import dev.desafio.transaction.transaction.domain.Transaction;
 
 import java.nio.charset.StandardCharsets;
@@ -18,6 +19,18 @@ public record OrderView(
     OrderStateView workflow,
     String pixCode
 ) {
+    static OrderView started(CheckoutResult checkout, String paymentMethod) {
+        return new OrderView(
+            Base64.getEncoder().encodeToString(
+                ("post:" + checkout.wooOrderId()).getBytes(StandardCharsets.UTF_8)
+            ),
+            checkout.wooOrderId(),
+            paymentMethod,
+            new OrderStateView("CREATED"),
+            null
+        );
+    }
+
     static OrderView from(
         TransactionView transaction,
         Optional<PaymentView> payment,

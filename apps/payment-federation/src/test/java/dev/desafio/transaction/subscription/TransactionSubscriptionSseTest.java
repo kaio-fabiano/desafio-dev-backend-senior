@@ -208,7 +208,7 @@ class TransactionSubscriptionSseTest {
         var subscription = sse("""
             subscription {
               orderEvents(operationKey: "operation-transaction-a") {
-                operationKey orderId state eventTime
+                operationKey orderId state pixCode eventTime
               }
             }
             """, connected).subscribe(payloads::add, ignored -> {});
@@ -221,7 +221,8 @@ class TransactionSubscriptionSseTest {
         var payload = payloads.remove();
         assertTrue(payload.contains("\"operationKey\":\"operation-transaction-a\""), payload);
         assertTrue(payload.contains("\"orderId\":\"42\""), payload);
-        assertTrue(payload.contains("\"state\":\"PAYMENT_PENDING\""), payload);
+        assertTrue(payload.contains("\"state\":\"PIX_GENERATED\""), payload);
+        assertTrue(payload.contains("\"pixCode\":\"PIX:provider-250\""), payload);
         subscription.dispose();
         events.publish(List.of(event(
             "transaction-a", "buyer-250", version.incrementAndGet()
@@ -312,7 +313,7 @@ class TransactionSubscriptionSseTest {
         return new TransactionEvent(
             UUID.randomUUID(), transactionId, "operation-" + transactionId, owner, "42",
             List.of(new Transaction.Item("product-250", 1)), new BigDecimal("19.90"),
-            "BRL", "PIX", Transaction.Outcome.PAYMENT_PENDING, "provider-250",
+            "BRL", "PIX", Transaction.Outcome.PAYMENT_PENDING, "PIX:provider-250",
             Transaction.Status.PAYMENT_PENDING, version, Instant.now()
         );
     }

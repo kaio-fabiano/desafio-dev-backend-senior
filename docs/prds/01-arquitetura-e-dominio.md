@@ -6,7 +6,7 @@ boundaries recorded in [`the context map`](../domain/context-map.md).
 
 ## Expected outcome
 
-The platform converges on the five deployable applications fixed by
+The platform converges on the four Nx deployable applications plus external WordPress fixed by
 [ADR 007](../adrs/007-federated-platform-boundaries.md). Each process has one
 business responsibility, native products keep authority over their data, and
 framework code stays outside domain and application code.
@@ -30,8 +30,9 @@ framework code stays outside domain and application code.
 | ---------- | --------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------- |
 | Identity   | Authentication, OAuth, registration, sessions, and identity graph fields    | Better Auth schema in PostgreSQL                         | Identity Federation         |
 | Commercial | Catalog, cart, checkout, orders, customers, stock, and order transitions    | WordPress/WooCommerce in MySQL                           | External WordPress subgraph |
-| Workflow   | Checkout idempotency, outbox/inbox, and event delivery                      | Workflow state in PostgreSQL                             | Order Workflow Federation   |
-| Payment    | Authorization, Pix generation, compensation, idempotency, and payment views | Payment aggregate and dedicated projection in PostgreSQL | Payment Federation          |
+| Transaction | Checkout idempotency, lifecycle, outbox/inbox, and subscription delivery    | Axon event store and transaction projections in PostgreSQL | Payment Federation        |
+| Inventory  | Reservation, commit, release, and inventory projections                      | Axon event store and inventory projections in PostgreSQL | Payment Federation          |
+| Payment    | Authorization, Pix generation, compensation, idempotency, and payment views  | Axon event store and payment projections in PostgreSQL   | Payment Federation          |
 | Edge       | Authenticated graph composition and MCP operations                          | No domain persistence                                    | Gateway and Apollo MCP      |
 
 The end-to-end project is part of the Nx graph but not deployed. WordPress
@@ -44,8 +45,7 @@ apps/
 ├── apollo-mcp/              authenticated MCP operations through Gateway
 ├── gateway/                 authenticated query/mutation federation edge
 ├── identity-subgraph/       Identity Federation with Better Auth
-├── order-workflow-subgraph/       durable checkout workflow and RabbitMQ boundary
-├── payment-federation/       Payment Federation with Java 21 and Spring Boot
+├── payment-federation/       Java Transaction, Inventory, and Payment contexts
 └── e2e/                     non-deployable Vitest/Testcontainers project
 ```
 
@@ -89,9 +89,8 @@ inside mixed-language projects.
 
 The repository-wide migration baseline is empty. The architecture inventory
 classifies every in-scope production source and fails closed for unknown paths.
-The complete `apps/order-workflow-subgraph` and `apps/payment-federation` roots
-are the only exclusions; this migration neither edits them nor treats their
-current structure as strict-DDD evidence. Their public contracts remain
+The Java source tree is classified by its Transaction, Inventory, Payment,
+Shared, Configuration, and Migration boundaries. Its public contracts remain
 compatibility constraints for in-scope providers and consumers.
 
 ## Runtime flow
@@ -108,11 +107,11 @@ flowchart LR
   WordPress --> Woo[(WordPress / WooCommerce)]
   Client --> SSE[Gateway graphql-sse]
   SSE --> Gateway
-  Gateway --> Commerce[Commerce order stream]
+  Gateway --> Transaction[Java transaction stream]
 ```
 
-The Gateway exposes the SSE transport while Commerce owns and publishes the
-order stream. The Gateway owns no catalog or order repository. WordPress
+The Gateway exposes the SSE transport while the Java Transaction context owns
+and publishes the transaction stream. The Gateway owns no catalog or order repository. WordPress
 exposes commercial graph operations directly through native
 WPGraphQL/WooGraphQL behavior and `wp-graphql-federations`. Payment Federation exposes its own graph
 fields and commands; it never writes WooCommerce storage directly.

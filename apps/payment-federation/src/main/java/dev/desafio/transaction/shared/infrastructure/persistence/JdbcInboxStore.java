@@ -33,7 +33,7 @@ public final class JdbcInboxStore {
         Handler handler
     ) {
         var envelope = serialize(event);
-        return Boolean.TRUE.equals(transaction.execute(ignored -> {
+        var shouldProcess = transaction.execute(ignored -> {
             var inserted = jdbc.update("""
                 insert into %s (
                     consumer_name, event_id, event_type, correlation_id, causation_id,
@@ -54,21 +54,29 @@ public final class JdbcInboxStore {
                 if (!Boolean.TRUE.equals(sameEnvelope)) {
                     throw new IllegalArgumentException("eventId identifies a different envelope");
                 }
-                return false;
+                return "PROCESSING".equals(jdbc.queryForObject(
+                    "select disposition from " + table
+                        + " where consumer_name = ? and event_id = ?",
+                    String.class,
+                    consumer,
+                    event.eventId()
+                ));
             }
-
-            var disposition = handler.handle(event);
-            var updated = jdbc.update(
-                "update " + table
-                    + " set disposition = ?, completed_at = current_timestamp"
-                    + " where consumer_name = ? and event_id = ? and disposition = 'PROCESSING'",
-                disposition.name(),
-                consumer,
-                event.eventId()
-            );
-            if (updated != 1) throw new IllegalStateException("inbox completion was not persisted");
             return true;
-        }));
+        });
+        if (!Boolean.TRUE.equals(shouldProcess)) return false;
+
+        var disposition = handler.handle(event);
+        var updated = transaction.execute(ignored -> jdbc.update(
+            "update " + table
+                + " set disposition = ?, completed_at = current_timestamp"
+                + " where consumer_name = ? and event_id = ? and disposition = 'PROCESSING'",
+            disposition.name(),
+            consumer,
+            event.eventId()
+        ));
+        if (updated != 1) throw new IllegalStateException("inbox completion was not persisted");
+        return true;
     }
 
     public String disposition(String consumer, java.util.UUID eventId) {

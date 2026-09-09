@@ -3,30 +3,15 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 test('@spec:AC-201 resolved SSE startup and lifecycle evidence remains discoverable', async () => {
-  const [main, module, middleware, integration] = await Promise.all([
-    source('../apps/order-workflow-subgraph/src/main.ts'),
-    source(
-      '../apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
-    ),
-    source('../apps/order-workflow-subgraph/src/graphql/sse/sse.middleware.ts'),
-    source(
-      '../apps/order-workflow-subgraph/src/graphql/sse/sse.integration.spec.ts',
-    ),
+  const [gateway, client, controller, integration] = await Promise.all([
+    readFile('apps/gateway/src/app.module.ts', 'utf8'),
+    readFile('apps/gateway/src/subscriptions/order-workflow-subscription.client.ts', 'utf8'),
+    readFile('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java', 'utf8'),
+    readFile('apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java', 'utf8'),
   ]);
-
-  assert.doesNotMatch(
-    main,
-    /registerDeferredSseRoute|TODO: Register the SSE handler/,
-  );
-  assert.match(module, /consumer\.apply\(OrderWorkflowSseMiddleware\)/);
-  assert.match(module, /path: 'graphql\/stream'/);
-  assert.match(module, /stopOnApplicationShutdown: true/);
-  assert.match(middleware, /OrderWorkflowSseConnections/);
-  assert.match(integration, /@spec:AC-201/);
-  assert.match(integration, /createClient/);
-  assert.match(integration, /await running\.app\.close\(\)/);
+  assert.match(gateway, /graphql\/stream/);
+  assert.match(client, /createClient/);
+  assert.match(controller, /Flux<TransactionView>/);
+  assert.match(integration, /propagates cancellation/);
+  assert.match(integration, /reconnects/);
 });
-
-function source(relativePath) {
-  return readFile(new URL(relativePath, import.meta.url), 'utf8');
-}

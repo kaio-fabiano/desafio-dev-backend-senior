@@ -224,5 +224,6 @@ test('AC-079: Compose configures GraphQL service identities for delivered adapte
     compose,
     /identity-subgraph:[\s\S]*WORDPRESS_URL: http:\/\/wordpress/,
   );
-  assert.match(compose, /order-workflow-subgraph:[\s\S]*WPGRAPHQL_SITE_TOKEN/);
+  assert.match(compose, /payment-federation:[\s\S]*WPGRAPHQL_SITE_TOKEN/);
+  assert.doesNotMatch(compose, /^  order-workflow-subgraph:/m);
 });

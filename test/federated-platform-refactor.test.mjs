@@ -17,17 +17,13 @@ function architectureContract(adr) {
   return JSON.parse(match[1]);
 }
 
-test('AC-090: the target contains five deployable applications and one test project @spec:AC-090', async () => {
+test('AC-090: the target contains four Nx deployable applications and one test project @spec:AC-090', async () => {
   const contract = architectureContract(await readFile(adrPath, 'utf8'));
 
   assert.deepEqual(contract.deployableApplications, [
     { name: 'Apollo MCP', path: 'apps/apollo-mcp' },
     { name: 'Gateway', path: 'apps/gateway' },
     { name: 'Identity Federation', path: 'apps/identity-subgraph' },
-    {
-      name: 'Order Workflow Federation',
-      path: 'apps/order-workflow-subgraph',
-    },
     { name: 'Payment Federation', path: 'apps/payment-federation' },
   ]);
   assert.deepEqual(contract.nonDeployableProjects, [
@@ -36,6 +32,7 @@ test('AC-090: the target contains five deployable applications and one test proj
   assert.deepEqual(contract.retiredApplications, [
     'apps/stock-worker',
     'apps/wordpress-federation',
+    'apps/order-workflow-subgraph',
   ]);
 });
 

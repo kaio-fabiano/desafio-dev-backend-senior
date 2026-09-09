@@ -31,11 +31,6 @@ export default $config({
       engine: 'postgres',
       vpc,
     });
-    const orderWorkflowDatabase = new sst.aws.Aurora('OrderWorkflowDatabase', {
-      database: 'order_workflow',
-      engine: 'postgres',
-      vpc,
-    });
     const paymentDatabase = new sst.aws.Postgres('PaymentDatabase', {
       database: 'payment',
       version: '17.6',
@@ -144,43 +139,6 @@ export default $config({
       serviceRegistry: { port: 3001 },
     });
 
-    const orderWorkflow = new sst.aws.Service('OrderWorkflowSubgraph', {
-      cluster,
-      environment: {
-        IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
-        NODE_ENV: 'production',
-        OAUTH_ISSUER: publicOAuthIssuer,
-        ORDER_WORKFLOW_DB_HOST: orderWorkflowDatabase.host,
-        ORDER_WORKFLOW_DB_NAME: orderWorkflowDatabase.database,
-        ORDER_WORKFLOW_DB_PASSWORD: orderWorkflowDatabase.password,
-        ORDER_WORKFLOW_DB_PORT: orderWorkflowDatabase.port.apply(String),
-        ORDER_WORKFLOW_DB_USER: orderWorkflowDatabase.username,
-        PORT: '3003',
-        RABBITMQ_URL: serviceHost('RabbitMq', 5672).replace('http', 'amqp'),
-        WPGRAPHQL_SITE_TOKEN: wordpressGraphQLSiteToken.value,
-        WORDPRESS_URL: serviceHost('WordPress', 80),
-      },
-      health: {
-        command: [
-          'CMD',
-          'node',
-          '-e',
-          "fetch('http://127.0.0.1:3003/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
-        ],
-      },
-      image: {
-        context: '..',
-        dockerfile: 'apps/order-workflow-subgraph/Dockerfile',
-      },
-      transform: {
-        image: (_args, options) => {
-          options.retainOnDelete = true;
-        },
-      },
-      link: [orderWorkflowDatabase, rabbitMq, wordpressGraphQLSiteToken],
-      serviceRegistry: { port: 3003 },
-    });
-
     const paymentFederation = new sst.aws.Service('PaymentFederation', {
       cluster,
       environment: {
@@ -234,8 +192,8 @@ export default $config({
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         NODE_ENV: 'production',
         OAUTH_ISSUER: publicOAuthIssuer,
-        ORDER_WORKFLOW_GRAPHQL_URL: `${serviceHost('OrderWorkflowSubgraph', 3003)}/graphql`,
-        ORDER_WORKFLOW_SUBSCRIPTION_URL: `${serviceHost('OrderWorkflowSubgraph', 3003)}/graphql/stream`,
+        ORDER_WORKFLOW_GRAPHQL_URL: `${serviceHost('PaymentFederation', 8080)}/graphql`,
+        ORDER_WORKFLOW_SUBSCRIPTION_URL: `${serviceHost('PaymentFederation', 8080)}/graphql`,
         PAYMENT_GRAPHQL_URL: `${serviceHost('PaymentFederation', 8080)}/graphql`,
         PORT: '3000',
         WORDPRESS_GRAPHQL_URL: `${serviceHost('WordPress', 80)}/graphql`,
@@ -257,7 +215,7 @@ export default $config({
           options.retainOnDelete = true;
         },
       },
-      link: [identity, orderWorkflow, paymentFederation, wordpress],
+      link: [identity, paymentFederation, wordpress],
       serviceRegistry: { port: 3000 },
     });
 
@@ -324,7 +282,6 @@ export default $config({
         'ApolloMcp',
         'Gateway',
         'IdentitySubgraph',
-        'OrderWorkflowSubgraph',
         'PaymentFederation',
         'RabbitMq',
         'WordPress',

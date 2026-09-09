@@ -10,6 +10,7 @@ const retiredRoots = [
   'apps/poc-auth',
   'apps/poc-sse',
   'apps/poc-harness',
+  'apps/order-workflow-subgraph',
 ];
 
 test('AC-104: retired application roots no longer exist @spec:AC-104', async () => {
@@ -29,7 +30,7 @@ test('AC-104: retired application roots no longer exist @spec:AC-104', async () 
   for (const root of retiredRoots) {
     await assert.rejects(access(root));
   }
-  assert.ok(projects.includes('@desafio-dev-backend-senior/order-workflow-subgraph'));
+  assert.equal(projects.includes('@desafio-dev-backend-senior/order-workflow-subgraph'), false);
   assert.equal(
     projects.some((project) => /stock-worker/.test(project)),
     false,
@@ -50,7 +51,7 @@ test('AC-105: active automation has no retired source dependency @spec:AC-105', 
 
   assert.doesNotMatch(sources, /apps\/stock-worker/);
   assert.doesNotMatch(sources, /StockWorker/);
-  assert.match(sources, /order-workflow-subgraph/);
+  assert.doesNotMatch(sources, /apps\/order-workflow-subgraph|OrderWorkflowSubgraph/);
 });
 
 test('AC-106: supported project gates remain executable @spec:AC-106', async () => {

@@ -1,48 +1,24 @@
 import assert from 'node:assert/strict';
-import { readFile, readdir } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-const workflowRoot = 'apps/order-workflow-subgraph';
-
-test('AC-141: Order Workflow remains an independent focused service @spec:AC-141', async () => {
-  const [project, supergraph, compose] = await Promise.all([
-    readFile(`${workflowRoot}/project.json`, 'utf8').then(JSON.parse),
+test('AC-141: Order Workflow is a logical contract owned by the Java deployment @spec:AC-141', async () => {
+  const [supergraph, compose] = await Promise.all([
     readFile('libs/contracts/graphql/supergraph.yaml', 'utf8'),
     readFile('compose.yaml', 'utf8'),
   ]);
-
-  assert.equal(
-    project.name,
-    '@desafio-dev-backend-senior/order-workflow-subgraph',
-  );
-  assert.equal(project.sourceRoot, `${workflowRoot}/src`);
-  assert.match(supergraph, /order-workflow:/);
-  assert.match(compose, /order-workflow-subgraph:/);
-  assert.doesNotMatch(supergraph, /^\s{2}commerce:/m);
-  assert.doesNotMatch(compose, /^\s{2}commerce-subgraph:/m);
+  await assert.rejects(access('apps/order-workflow-subgraph'), { code: 'ENOENT' });
+  assert.match(supergraph, /order-workflow:\n\s+routing_url: http:\/\/payment-federation:8080\/graphql/);
+  assert.doesNotMatch(compose, /^  order-workflow-subgraph:/m);
+  assert.match(compose, /^  payment-federation:/m);
 });
 
-test('AC-142: Order Workflow persists process state, not commerce aggregates @spec:AC-142', async () => {
-  const entityRoot = `${workflowRoot}/src/persistence/entities`;
-  const files = (await readdir(entityRoot)).filter((file) =>
-    file.endsWith('.ts'),
-  );
-  const entities = await Promise.all(
-    files.map((file) => readFile(`${entityRoot}/${file}`, 'utf8')),
-  );
-  const source = entities.join('\n');
-
-  for (const requiredProcessState of [
-    /operationKey/,
-    /wooOrderId/,
-    /status|state/,
-  ]) {
-    assert.match(source, requiredProcessState);
-  }
-
-  assert.doesNotMatch(source, /class\s+(?:Product|Cart|Customer|Order)\b/);
-  assert.doesNotMatch(
-    source,
-    /@Entity\([^)]*tableName:\s*['"](?:product|cart|customer|order)s?['"]/,
-  );
+test('AC-142: Java Transaction persists process state, not commerce aggregates @spec:AC-142', async () => {
+  const [migration, transaction] = await Promise.all([
+    readFile('apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql', 'utf8'),
+    readFile('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/Transaction.java', 'utf8'),
+  ]);
+  for (const state of [/operation_key/, /woo_order_id/, /status/]) assert.match(migration, state);
+  assert.match(transaction, /class Transaction/);
+  assert.doesNotMatch(`${migration}\n${transaction}`, /class\s+(?:Product|Cart|Customer|Order)\b/);
 });

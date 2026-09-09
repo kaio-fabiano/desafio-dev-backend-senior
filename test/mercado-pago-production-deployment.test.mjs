@@ -316,7 +316,6 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
     ['ApolloMcp', 'apps/apollo-mcp/Dockerfile'],
     ['Gateway', 'apps/gateway/Dockerfile'],
     ['IdentitySubgraph', 'apps/identity-subgraph/Dockerfile'],
-    ['OrderWorkflowSubgraph', 'apps/order-workflow-subgraph/Dockerfile'],
     ['PaymentFederation', 'apps/payment-federation/Dockerfile'],
   ];
 
@@ -331,7 +330,6 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
 
   for (const database of [
     'IdentityDatabase',
-    'OrderWorkflowDatabase',
     'PaymentDatabase',
   ]) {
     assert.match(
@@ -344,6 +342,7 @@ test('AC-191: infrastructure fails closed and contains the complete runtime @spe
   assert.match(config, /new sst\.aws\.Aurora\(['"]WordPressDatabase['"]/);
   assert.match(config, /new sst\.aws\.Service\(['"]RabbitMq['"]/);
   assert.match(config, /new sst\.aws\.Service\(['"]WordPress['"]/);
+  assert.doesNotMatch(config, /OrderWorkflowSubgraph|OrderWorkflowDatabase/);
 
   assert.match(
     config,
@@ -410,7 +409,7 @@ test('AC-191: production WordPress is immutable and secret-backed @spec:AC-191',
   assert.match(entrypoint, /shouldBlockUnauthorizedDomains/);
   assert.match(entrypoint, /user get payment-federation/);
   assert.match(entrypoint, /better_auth_user_id payment-federation/);
-  assert.match(entrypoint, /better_auth_user_id order-workflow/);
+  assert.doesNotMatch(entrypoint, /better_auth_user_id order-workflow/);
 });
 
 test('AC-192: deployment is reviewed before provisioning @spec:AC-192', async () => {
@@ -647,8 +646,8 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
     compose,
     mcpImage,
     wordpressEntrypoint,
-    orm,
-    relay,
+    javaConfiguration,
+    javaMigration,
     identityDatabase,
   ] = await Promise.all([
       readFile('infra/sst.config.ts', 'utf8'),
@@ -658,14 +657,8 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
         'apps/wordpress-integration/scripts/production-entrypoint.sh',
         'utf8',
       ),
-      readFile(
-        'apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts',
-        'utf8',
-      ),
-      readFile(
-        'apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts',
-        'utf8',
-      ),
+      readFile('apps/payment-federation/src/main/resources/application.yaml', 'utf8'),
+      readFile('apps/payment-federation/src/main/resources/db/migration/V5__axon_persistence_baseline.sql', 'utf8'),
       readFile(
         'libs/identity/nest/src/better-auth/identity-database-pool.provider.ts',
         'utf8',
@@ -690,11 +683,9 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
     stack,
     /image: \(_args, options\)[\s\S]*options\.retainOnDelete = true/,
   );
-  assert.match(
-    orm,
-    /ORDER_WORKFLOW_DB_SSL !== 'false'[\s\S]*connection: \{ ssl: \{ rejectUnauthorized: false \} \}/,
-  );
-  assert.match(relay, /ORDER_WORKFLOW_DB_SSL !== 'false'/);
+  assert.match(javaConfiguration, /schemas: axon,transaction,inventory,payment/);
+  assert.match(javaMigration, /create table axon\.aggregate_event_entry/);
+  assert.match(javaMigration, /create table axon\.token_entry/);
   assert.match(identityDatabase, /DATABASE_SSL !== 'false'/);
   assert.match(
     await readFile(
@@ -708,5 +699,5 @@ test('AC-193: deployed containers use production-safe startup dependencies @spec
     compose,
     /IDENTITY_TRUSTED_ORIGINS: http:\/\/127\.0\.0\.1:\*,http:\/\/localhost:\*/,
   );
-  assert.match(compose, /ORDER_WORKFLOW_DB_SSL: 'false'/);
+  assert.match(compose, /SPRING_DATASOURCE_URL: jdbc:postgresql:\/\/payment-database/);
 });

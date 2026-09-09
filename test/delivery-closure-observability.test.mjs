@@ -6,9 +6,8 @@ const read = (path) => readFileSync(path, 'utf8');
 
 test('AC-115: optional telemetry crosses RabbitMQ and Payment Federation @spec:AC-115', () => {
   const compose = read('compose.yaml');
-  const rabbit = read('apps/order-workflow-subgraph/src/messaging/rabbitmq.ts');
-  const commerceRuntime = read(
-    'apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts',
+  const choreography = read(
+    'apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java',
   );
   const payment = read(
     'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java',
@@ -26,8 +25,8 @@ test('AC-115: optional telemetry crosses RabbitMQ and Payment Federation @spec:A
     compose,
     /MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,prometheus/,
   );
-  assert.match(rabbit, /traceparent/);
-  assert.match(commerceRuntime, /operationKey: event\.payload\.operationKey/);
+  assert.match(choreography, /correlationId\(\)/);
+  assert.match(choreography, /causationId\(\)/);
   assert.match(payment, /traceparent/);
   assert.match(inventory, /traceparent/);
   assert.match(collector, /exporters:\n  otlp\/jaeger:/);

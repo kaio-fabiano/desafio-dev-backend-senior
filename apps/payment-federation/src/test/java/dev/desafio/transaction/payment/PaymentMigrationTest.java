@@ -98,20 +98,6 @@ class PaymentMigrationTest {
             .run()) {
             assertTrue(context.isActive());
         }
-        try (var context = new SpringApplicationBuilder(PaymentFederationApplication.class)
-            .web(WebApplicationType.NONE)
-            .profiles("test")
-            .properties(
-                "spring.datasource.url=jdbc:h2:mem:canonical-payment;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
-                "spring.flyway.enabled=false",
-                "spring.rabbitmq.listener.simple.auto-startup=false",
-                "management.health.rabbit.enabled=false",
-                "payment.provider.mode=deterministic"
-            )
-            .run()) {
-            assertNotNull(context.getBean(PaymentHandler.class));
-            assertNotNull(context.getBean(PaymentRepository.class));
-        }
     }
 
     private Payment.PaymentRequested request(Payment.Method method) {

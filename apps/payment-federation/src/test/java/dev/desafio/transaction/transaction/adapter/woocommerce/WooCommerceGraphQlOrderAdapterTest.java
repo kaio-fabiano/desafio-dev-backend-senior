@@ -16,7 +16,7 @@ class WooCommerceGraphQlOrderAdapterTest {
     private static final ObjectMapper JSON = new ObjectMapper();
 
     @Test
-    @DisplayName("Woo ACL reconciles an ambiguous checkout by its operation reference @spec:AC-285")
+    @DisplayName("Woo ACL authenticates with its trusted origin and reconciles ambiguous checkout @spec:AC-285 @spec:AC-288")
     void wooAclReconcilesAnAmbiguousCheckoutByItsOperationReference() throws Exception {
         var lookups = new AtomicInteger();
         var calls = new ArrayList<WooCommerceGraphQlOrderAdapter.Call>();
@@ -31,7 +31,9 @@ class WooCommerceGraphQlOrderAdapterTest {
             if (call.query().contains("TransactionCart")) return json(cartPayload());
             return json("{\"checkout\":{\"order\":{}}}");
         };
-        var adapter = new WooCommerceGraphQlOrderAdapter(client, "transaction", "site-token");
+        var adapter = new WooCommerceGraphQlOrderAdapter(
+            client, "transaction", "site-token", "http://wordpress"
+        );
 
         var order = adapter.createOrFind(new WooCommerceOrderPort.Request(
             "buyer-1", "operation-reference", "PIX",
@@ -50,6 +52,9 @@ class WooCommerceGraphQlOrderAdapterTest {
             .noneMatch(call -> call.headers().containsKey("cart-token")
                 || call.headers().containsKey("woocommerce-session")
                 || call.headers().containsKey("cookie")));
+        assertTrue(calls.stream().allMatch(call ->
+            "http://wordpress".equals(call.headers().get("origin"))
+        ));
         assertTrue(calls.stream()
             .filter(call -> call.query().contains("TransactionCart")
                 || call.query().contains("TransactionCheckout"))

@@ -28,7 +28,10 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.DefaultMessagePropertiesConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
@@ -47,6 +50,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -142,7 +146,13 @@ class RabbitMqBoundaryIntegrationTest {
         var deliveries = new AtomicInteger();
         try (var channel = connectionFactory.createConnection().createChannel(false)) {
             var first = receive(channel, MarketplaceAmqp.eventQueue("inventory"));
-            consumer.receive("inventory", first, channel, ignored -> deliveries.incrementAndGet());
+            consumer.receive("inventory", first, channel, ignored -> {
+                assertFalse(TransactionSynchronizationManager.hasResource(dataSource));
+                new TransactionTemplate(new DataSourceTransactionManager(dataSource)).execute(
+                    status -> new JdbcTemplate(dataSource).queryForObject("select 1", Integer.class)
+                );
+                deliveries.incrementAndGet();
+            });
             assertEquals("COMPLETED", inbox.disposition("inventory", event.eventId()));
             assertEquals(1, deliveries.get());
 
@@ -188,6 +198,7 @@ class RabbitMqBoundaryIntegrationTest {
             assertEquals(4, ((Number) deadLetter.getMessageProperties()
                 .getHeader("x-retry-attempt")).intValue());
             assertNotNull(deadLetter.getMessageProperties().getHeader("x-failure-class"));
+            assertNotNull(deadLetter.getMessageProperties().getHeader("x-failure-message"));
             assertNotNull(deadLetter.getMessageProperties().getHeader("x-failed-at"));
             assertEquals("command-245", deadLetter.getMessageProperties().getHeader("causationId"));
             assertEquals(

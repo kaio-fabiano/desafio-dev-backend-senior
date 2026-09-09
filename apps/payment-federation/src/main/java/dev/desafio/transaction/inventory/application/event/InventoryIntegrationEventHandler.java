@@ -7,6 +7,7 @@ import dev.desafio.transaction.inventory.application.axon.InventoryReservationRe
 import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class InventoryIntegrationEventHandler {
@@ -19,12 +20,23 @@ public final class InventoryIntegrationEventHandler {
     @EventHandler
     public void on(InventoryReservedAxonEvent message) {
         var event = message.payload();
+        var payload = new LinkedHashMap<String, Object>();
+        payload.put("orderId", event.orderId());
+        payload.put("reservationId", event.inventoryReservationId());
+        payload.put("items", event.items());
+        payload.put("paymentId", event.paymentId());
+        payload.put("paymentOperationKey", event.paymentOperationKey());
+        payload.put("method", event.paymentMethod());
+        payload.put("amount", event.amount());
+        payload.put("currency", event.currency());
+        payload.put("payerEmail", event.payerEmail());
+        if ("CARD".equals(event.paymentMethod())) {
+            payload.put("providerCredentialReference", event.paymentId());
+            payload.put("paymentMethodId", "card");
+        }
         enqueue("inventory.reserved.v1", event.inventoryReservationId(), event.transactionId(),
             event.correlationId(), event.causationId(), event.occurredAt(), event.version(),
-            Map.of("orderId", event.orderId(), "reservationId", event.inventoryReservationId(),
-                "items", event.items(), "paymentId", event.paymentId(),
-                "paymentOperationKey", event.paymentOperationKey(), "method", event.paymentMethod(),
-                "amount", event.amount(), "currency", event.currency(), "payerEmail", event.payerEmail()));
+            payload);
     }
 
     @EventHandler

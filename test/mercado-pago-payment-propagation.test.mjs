@@ -4,11 +4,6 @@ import test from 'node:test';
 
 import Ajv from 'ajv/dist/2020.js';
 
-import {
-  OrderSaga,
-  OrderWorkflowState,
-} from '../apps/order-workflow-subgraph/src/saga/order-saga.ts';
-
 const contracts = 'libs/contracts/events';
 const javaRoot =
   'apps/payment-federation/src/main/java/dev/desafio/transaction/payment';
@@ -106,7 +101,10 @@ test('AC-161: Card boundaries accept a provider token and no raw Card fields @sp
 });
 
 test('AC-162: Pix outcomes carry Mercado Pago reference and copy-and-paste code @spec:AC-162', async () => {
-  const validate = await validator('payment-pix-generated.v1.schema.json');
+  const [validate, fixture] = await Promise.all([
+    validator('payment-pix-generated.v1.schema.json'),
+    readFile('apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/axon/PaymentAxonFixtureTest.java', 'utf8'),
+  ]);
   const payload = {
     paymentId: 'payment-127',
     orderId: '127',
@@ -125,25 +123,18 @@ test('AC-162: Pix outcomes carry Mercado Pago reference and copy-and-paste code 
     false,
   );
 
-  const transition = new OrderSaga().transition(
-    {
-      id: 'workflow-127',
-      wooOrderId: '127',
-      state: OrderWorkflowState.Created,
-    },
-    { eventId: 'pix-127', eventType: 'payment.pix-generated', payload },
-  );
-  assert.equal(transition.kind, 'applied');
-  assert.equal(transition.pixCode, payload.pixCode);
+  assert.match(fixture, /PIX-CODE/);
+  assert.match(fixture, /provider-pix/);
 });
 
 test('AC-164: financial transitions require the authoritative provider reference @spec:AC-164', async () => {
-  const [validate, listener] = await Promise.all([
+  const [validate, listener, providerTest] = await Promise.all([
     validator('payment-authorized.v1.schema.json'),
     readFile(
       `${javaRoot}/adapter/messaging/PaymentRabbitListener.java`,
       'utf8',
     ),
+    readFile('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/Payment.java', 'utf8'),
   ]);
   const payload = {
     paymentId: 'payment-127',
@@ -158,22 +149,8 @@ test('AC-164: financial transitions require the authoritative provider reference
     ),
     false,
   );
-  assert.throws(
-    () =>
-      new OrderSaga().transition(
-        {
-          id: 'workflow-127',
-          wooOrderId: '127',
-          state: OrderWorkflowState.Created,
-        },
-        {
-          eventId: 'authorized-127',
-          eventType: 'payment.authorized',
-          payload: { paymentId: payload.paymentId, orderId: payload.orderId },
-        },
-      ),
-    /providerReference/,
-  );
+  assert.match(providerTest, /providerReference/);
+  assert.match(providerTest, /requireText\(providerReference, "providerReference"\)/);
   assert.match(listener, /result\.outgoingEvent\(\) != null/);
   assert.match(listener, /envelope\.put\([\s\S]*"traceContext"/);
 });

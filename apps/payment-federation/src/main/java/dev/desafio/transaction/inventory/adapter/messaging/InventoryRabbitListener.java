@@ -18,16 +18,13 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.math.BigDecimal;
+import java.util.concurrent.CompletionException;
 
-@Component
-@ConditionalOnBean(name = "inventoryReliableAmqpConsumer")
 public final class InventoryRabbitListener {
     private static final String INVENTORY_QUEUE = "payment-federation.inventory.v1";
     private final ReliableAmqpConsumer consumer;
@@ -53,9 +50,18 @@ public final class InventoryRabbitListener {
     @RabbitListener(queues = "inventory.events.v1")
     public void receive(Message message, Channel channel) throws Exception {
         validateTraceparent(message);
-        consumer.receive("inventory", message, channel, event ->
-            commands.send(command(event), Object.class).join()
-        );
+        consumer.receive("inventory", message, channel, this::dispatch);
+    }
+
+    private void dispatch(IntegrationEventEnvelope<JsonNode> event) {
+        try {
+            commands.send(command(event), Object.class).join();
+        } catch (CompletionException error) {
+            var cause = error.getCause();
+            while (cause != null && cause.getCause() != null) cause = cause.getCause();
+            if (cause instanceof RuntimeException runtime) throw runtime;
+            throw error;
+        }
     }
 
     @RabbitListener(
@@ -87,10 +93,10 @@ public final class InventoryRabbitListener {
         return switch (event.eventType()) {
             case "transaction.order-received.v1" -> reserve(event);
             case "payment.approved.v1" -> new CommitInventoryCommand(
-                event.transactionId(), event.correlationId(), event.eventId().toString()
+                "inventory:" + event.transactionId(), event.correlationId(), event.eventId().toString()
             );
             case "payment.rejected.v1", "transaction.cancelled.v1" -> new ReleaseInventoryCommand(
-                event.transactionId(), event.correlationId(), event.eventId().toString()
+                "inventory:" + event.transactionId(), event.correlationId(), event.eventId().toString()
             );
             default -> throw new ReliableAmqpConsumer.BusinessRejection(
                 "unsupported Inventory integration event " + event.eventType()
@@ -105,7 +111,8 @@ public final class InventoryRabbitListener {
             required(item, "productId"), item.path("quantity").asInt()
         )));
         return new ReserveInventoryCommand(
-            event.transactionId(), event.eventId(), event.correlationId() + ":inventory-reserve",
+            "inventory:" + event.transactionId(), event.eventId(),
+            event.correlationId() + ":inventory-reserve",
             event.transactionId(), required(payload, "orderId"), items,
             required(payload, "paymentId"), required(payload, "paymentOperationKey"),
             required(payload, "paymentMethod"), new BigDecimal(required(payload, "amount")),

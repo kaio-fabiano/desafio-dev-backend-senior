@@ -6,7 +6,8 @@ The strict DDD contract applies to these ownership boundaries:
 | --- | --- | --- |
 | Identity | authentication, OAuth, registration, sessions, identity graph fields | commerce or payment state |
 | Commercial | catalog, cart, checkout, orders, customers, inventory | identity sessions or payment authorization |
-| Workflow | checkout idempotency, delivery, inbox/outbox mechanics | commercial order truth or payment invariants |
+| Transaction | checkout idempotency, transaction lifecycle, delivery, inbox/outbox mechanics | commercial order truth or payment invariants |
+| Inventory | reservation, commit, release, and inventory projections | WooCommerce storage or payment authorization |
 | Payment | authorization, Pix, compensation, idempotency, payment views | WooCommerce storage or identity records |
 | Edge | authenticated composition and transport | business persistence and aggregates |
 
@@ -25,9 +26,9 @@ The canonical structural and testing rules are in
 
 Repository architecture governance inventories every project-owned path and
 classifies production source by context and layer or explicit technical
-boundary. The only migration exclusions are the complete
-`apps/order-workflow-subgraph` and `apps/payment-federation` application roots;
-their public contracts remain in scope from the provider and consumer sides.
+boundary. The Java application is inventoried as the Transaction, Inventory,
+Payment, Shared, Configuration, and Migration technical boundaries; its public
+contracts remain in scope from provider and consumer sides.
 
 The closed migration has no legacy allowlist. Core files are classified by
 their `domain` or `application` path. Outer files are classified by their layer

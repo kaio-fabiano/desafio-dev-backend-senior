@@ -52,7 +52,8 @@ public class CheckoutGraphQlController {
             context.getOrDefault("cookie", "")
         );
         return commands.send(input.command(principal.getName(), session), CheckoutResult.class)
-            .flatMap(result -> findOrder(result.transactionId(), principal.getName()))
+            .flatMap(result -> findOrder(result.transactionId(), principal.getName())
+                .switchIfEmpty(Mono.just(OrderView.started(result, input.paymentMethod()))))
             .subscribeOn(Schedulers.boundedElastic());
     }
 

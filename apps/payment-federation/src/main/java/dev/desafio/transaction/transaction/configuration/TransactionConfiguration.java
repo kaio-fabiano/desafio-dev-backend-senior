@@ -14,11 +14,18 @@ import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutService;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.adapter.woocommerce.WooCommerceGraphQlOrderAdapter;
+import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;
+import dev.desafio.transaction.shared.infrastructure.messaging.IntegrationEventJson;
+import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelay;
+import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelayScheduler;
+import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -63,6 +70,29 @@ public class TransactionConfiguration {
         return new JdbcTransactionOutbox(dataSource, json);
     }
 
+    @Bean("transactionOutboxRelay")
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    OutboxRelay transactionOutboxRelay(
+        DataSource dataSource,
+        ObjectMapper json,
+        RabbitTemplate rabbit,
+        Clock clock
+    ) {
+        var codec = new IntegrationEventJson(json);
+        return new OutboxRelay(
+            new JdbcOutboxStore(dataSource, json, "transaction"),
+            new ConfirmedAmqpPublisher(rabbit, codec), codec, clock, "transaction-relay"
+        );
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    OutboxRelayScheduler transactionOutboxRelayScheduler(
+        @Qualifier("transactionOutboxRelay") OutboxRelay relay
+    ) {
+        return new OutboxRelayScheduler(relay);
+    }
+
     @Bean
     @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
     TransactionEventHandler transactionEventHandler(TransactionViewStore views, TransactionOutbox outbox) {
@@ -82,7 +112,7 @@ public class TransactionConfiguration {
     })
     WooCommerceOrderPort wooCommerceOrderPort(
         @Value("${transaction.checkout.wordpress-url}") URI wordpress,
-        @Value("${transaction.checkout.service-identity:transaction}") String serviceIdentity,
+        @Value("${transaction.checkout.service-identity:payment-federation}") String serviceIdentity,
         @Value("${transaction.checkout.site-token}") String siteToken,
         ObjectMapper json
     ) {

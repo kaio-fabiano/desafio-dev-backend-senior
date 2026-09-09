@@ -6,7 +6,7 @@ const read = (path) => readFile(path, 'utf8');
 
 test('AC-112: Payment Federation compensates inventory failure without duplicate effects @spec:AC-112', async () => {
   const [
-    commerceSaga,
+    choreography,
     configuration,
     inventoryListener,
     inventoryRepository,
@@ -16,7 +16,9 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
     paymentConsumer,
     wooInventory,
   ] = await Promise.all([
-    read('apps/order-workflow-subgraph/src/saga/order-saga.ts'),
+    read(
+      'apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java',
+    ),
     read(
       'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration/InventoryMessagingConfiguration.java',
     ),
@@ -69,8 +71,8 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
   );
   assert.doesNotMatch(paymentConfiguration, /\/wp-json\/wc\/v3\/orders/);
 
-  assert.match(commerceSaga, /'stock\.reservation-failed'/);
-  assert.match(commerceSaga, /eventType: 'payment\.refund-requested'/);
+  assert.match(choreography, /Commit rejection triggers one provider refund/);
+  assert.match(choreography, /assertEquals\(1, refundCommands\.get\(\)\)/);
   assert.match(paymentConsumer, /case "payment\.refund-requested"/);
 });
 
@@ -97,14 +99,12 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
 
   for (const service of [
     'rabbitmq',
-    'order-workflow-database',
     'identity-database',
     'payment-database',
     'wordpress-database',
     'wordpress',
     'gateway',
     'identity-subgraph',
-    'order-workflow-subgraph',
     'payment-federation',
     'apollo-mcp',
   ]) {

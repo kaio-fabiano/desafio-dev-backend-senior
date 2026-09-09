@@ -35,11 +35,6 @@ if ! "${wp[@]}" user get payment-federation --field=ID >/dev/null 2>&1; then
     --role=shop_manager --user_pass="$(openssl rand -hex 24)"
 fi
 "${wp[@]}" user meta update payment-federation better_auth_user_id payment-federation
-if ! "${wp[@]}" user get order-workflow --field=ID >/dev/null 2>&1; then
-  "${wp[@]}" user create order-workflow order-workflow@example.test \
-    --role=shop_manager --user_pass="$(openssl rand -hex 24)"
-fi
-"${wp[@]}" user meta update order-workflow better_auth_user_id order-workflow
 "${wp[@]}" role create identity_registrar "Identity Registrar" 2>/dev/null || true
 for capability in read list_users edit_users delete_users; do
   "${wp[@]}" cap add identity_registrar "$capability"

@@ -96,6 +96,6 @@ export class GatewayFederationConfiguration {
     if (name === 'identity') return 'http://identity-subgraph:3001/graphql';
     if (name === 'wordpress') return 'http://wordpress/graphql';
     if (name === 'payment') return 'http://payment-federation:8080/graphql';
-    return 'http://order-workflow-subgraph:3003/graphql';
+    return 'http://payment-federation:8080/graphql';
   }
 }

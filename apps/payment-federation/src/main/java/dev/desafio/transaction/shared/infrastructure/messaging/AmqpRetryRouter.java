@@ -26,6 +26,7 @@ public final class AmqpRetryRouter {
             .setHeader("x-retry-attempt", nextAttempt)
             .setHeader("x-consumer", consumer)
             .setHeader("x-failure-class", failure.getClass().getName())
+            .setHeader("x-failure-message", String.valueOf(failure.getMessage()))
             .setHeader("x-failed-at", clock.instant().toString())
             .build();
         if (nextAttempt <= MarketplaceAmqp.RETRY_DELAYS.length) {

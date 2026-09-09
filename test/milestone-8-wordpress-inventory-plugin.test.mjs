@@ -22,7 +22,7 @@ test('AC-084: WooOrderWorkflow owns inventory without a marketplace MU-plugin @s
 test('AC-084: each active backend uses an isolated GraphQL service identity @spec:AC-084', async () => {
   const compose = await readFile('compose.yaml', 'utf8');
   assert.match(compose, /better_auth_user_id payment-federation/);
-  assert.match(compose, /better_auth_user_id order-workflow/);
+  assert.doesNotMatch(compose, /better_auth_user_id order-workflow/);
   assert.match(compose, /WPGRAPHQL_SITE_TOKEN/);
   assert.doesNotMatch(compose, /woocommerce_api_keys|WOO_CONSUMER/);
   assert.doesNotMatch(compose, /Marketplace local runtime/);
