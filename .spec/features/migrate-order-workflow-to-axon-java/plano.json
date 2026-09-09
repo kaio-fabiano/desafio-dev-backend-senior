@@ -1,165 +1,20 @@
 {
-  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttz6yrp",
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtu8ygac",
   "feature": "migrate-order-workflow-to-axon-java",
   "agent": "codex",
-  "modo": "paralelo",
-  "paralelizar": [
-    "T-246",
-    "T-247",
-    "T-248"
-  ],
+  "modo": "sequencial",
+  "paralelizar": null,
   "modeloForcado": "gpt-5.6-sol",
   "esforcoForcado": "high",
-  "geradoEm": "2026-09-09 10:48",
+  "geradoEm": "2026-09-09 15:22",
   "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
   "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
   "specDir": ".spec",
   "repoName": "desafio-dev-backend-senior",
   "logsDir": "../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-logs",
-  "ondas": [
-    [
-      "faixa-1",
-      "faixa-2",
-      "faixa-3"
-    ]
-  ],
-  "faixas": [
-    {
-      "id": "faixa-1",
-      "branch": "spec/migrate-order-workflow-to-axon-java-faixa-1",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-faixa-1",
-      "tarefas": [
-        {
-          "id": "T-246",
-          "titulo": "Convert Inventory into an independent Axon participant",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory",
-            "apps/payment-federation/src/main/resources/db/migration/inventory",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory",
-            "test/migrate-order-workflow-to-axon-java-inventory.test.mjs"
-          ],
-          "refs": [
-            "US-132",
-            "US-133",
-            "AC-281",
-            "AC-282",
-            "AC-284",
-            "AC-293",
-            "AC-292"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "faixa-2",
-      "branch": "spec/migrate-order-workflow-to-axon-java-faixa-2",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-faixa-2",
-      "tarefas": [
-        {
-          "id": "T-247",
-          "titulo": "Convert Payment and provider effects into Axon",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment",
-            "apps/payment-federation/src/main/resources/db/migration/payment",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/payment",
-            "test/migrate-order-workflow-to-axon-java-payment.test.mjs"
-          ],
-          "refs": [
-            "US-132",
-            "US-133",
-            "AC-281",
-            "AC-282",
-            "AC-283",
-            "AC-293",
-            "AC-292"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "faixa-3",
-      "branch": "spec/migrate-order-workflow-to-axon-java-faixa-3",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-faixa-3",
-      "tarefas": [
-        {
-          "id": "T-248",
-          "titulo": "Migrate checkout and Transaction decisions",
-          "modelo": "gpt-5.6-sol",
-          "esforco": "high",
-          "arquivos": [
-            "apps/order-workflow-subgraph/src/checkout",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction",
-            "apps/payment-federation/src/main/resources/db/migration/transaction",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction",
-            "test/migrate-order-workflow-to-axon-java-transaction.test.mjs"
-          ],
-          "refs": [
-            "US-132",
-            "US-134",
-            "AC-281",
-            "AC-282",
-            "AC-285",
-            "AC-286",
-            "AC-293",
-            "AC-292"
-          ]
-        }
-      ]
-    }
-  ],
+  "ondas": [],
+  "faixas": [],
   "sequenciais": [
-    {
-      "id": "T-249",
-      "titulo": "Build replayable projections and compatible GraphQL",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "libs/contracts/graphql/order-workflow/schema.graphql",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql",
-        "apps/payment-federation/src/main/resources/graphql",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/projection",
-        "test/migrate-order-workflow-to-axon-java.test.mjs"
-      ],
-      "refs": [
-        "US-132",
-        "US-134",
-        "US-135",
-        "AC-281",
-        "AC-287",
-        "AC-288",
-        "AC-292"
-      ]
-    },
-    {
-      "id": "T-250",
-      "titulo": "Deliver transaction-filtered GraphQL SSE",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql",
-        "apps/payment-federation/src/main/resources/graphql",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/subscription",
-        "apps/gateway/src/subscriptions",
-        "apps/gateway/src/app.module.ts",
-        "apps/e2e/src",
-        "apps/wordpress-integration",
-        "test/migrate-order-workflow-to-axon-java.test.mjs"
-      ],
-      "refs": [
-        "US-135",
-        "AC-289",
-        "AC-288",
-        "AC-292"
-      ]
-    },
     {
       "id": "T-251",
       "titulo": "Prove the complete choreographed lifecycle and compensations",
@@ -250,7 +105,12 @@
     "T-242",
     "T-243",
     "T-244",
-    "T-245"
+    "T-245",
+    "T-246",
+    "T-247",
+    "T-248",
+    "T-249",
+    "T-250"
   ],
   "avisos": []
 }
