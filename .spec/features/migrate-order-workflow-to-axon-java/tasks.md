@@ -30,7 +30,7 @@
 - Esforço: alto
 - Notas: After T-242. Preserve T-240 through T-243 for audit provenance and append the executable implementation phases to this file. Every implementation task must declare model, effort, dependencies, bounded context, use case, aggregate or explicit absence, invariants, consistency boundary, affected ports, files, Red/Green/Refactor tests, validation commands, acceptance criteria, risks, blockers, and rollback. Produce the requirement-to-test matrix and objective Definition of Done. Do not implement the refactor.
 
-## T-244 — Prove the Axon 5 persistence and architecture baseline [pendente]
+## T-244 — Prove the Axon 5 persistence and architecture baseline [concluida]
 - Refs: US-132, AC-280, AC-282, AC-292
 - Arquivos: apps/payment-federation/build.gradle.kts, apps/payment-federation/project.json, apps/payment-federation/src/main/java/dev/desafio/transaction, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence, test/migrate-order-workflow-to-axon-java.test.mjs, onpspec.config.json
 - Modelo: gpt-5.6-sol

@@ -1,12 +1,28 @@
 {
   "feature": "migrate-order-workflow-to-axon-java",
-  "timestamp": "2026-09-09T08:30:53.315Z",
-  "gitRev": "8c4450c",
+  "timestamp": "2026-09-09T09:20:45.336Z",
+  "gitRev": "9dc8b6e",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 248,
-  "results": {},
+  "testsParsed": 251,
+  "results": {
+    "AC-280": {
+      "status": "pass",
+      "testName": "Java architecture boundaries are enforced by JUnit @spec:AC-280",
+      "method": "tap"
+    },
+    "AC-282": {
+      "status": "pass",
+      "testName": "Axon PostgreSQL restart, replay, token, and concurrency behavior passes JUnit @spec:AC-282",
+      "method": "tap"
+    },
+    "AC-292": {
+      "status": "pass",
+      "testName": "The real PostgreSQL migration baseline passes the Java quality gate @spec:AC-292",
+      "method": "tap"
+    }
+  },
   "principles": {
     "P-003": {
       "status": "pass",
