@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 09:23
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 10:11
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttw4wyq'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttxv9zu'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -177,7 +177,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-245 — "Establish versioned contracts and reliable AMQP boundaries"
   critérios/refs: AC-280 (Java sources follow the approved boundaries), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, test/migrate-order-workflow-to-axon-java.test.mjs
+  arquivos permitidos (e seus testes): libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, test/migrate-order-workflow-to-axon-java.test.mjs, test/mercado-pago-payment-provider.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs
   mensagem de commit: "T-245 migrate-order-workflow-to-axon-java: Establish versioned contracts and reliable AMQP boundaries"
 
 Regras inegociáveis:
