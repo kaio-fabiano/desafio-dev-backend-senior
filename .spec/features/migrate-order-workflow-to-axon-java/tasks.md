@@ -76,7 +76,7 @@
 
 ## T-246 — Convert Inventory into an independent Axon participant [pendente]
 - Refs: US-132, US-133, AC-281, AC-282, AC-284, AC-293, AC-292
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/migrate-order-workflow-to-axon-java.test.mjs
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/migrate-order-workflow-to-axon-java-inventory.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244, T-245.
@@ -98,7 +98,7 @@
 
 ## T-247 — Convert Payment and provider effects into Axon [pendente]
 - Refs: US-132, US-133, AC-281, AC-282, AC-283, AC-293, AC-292
-- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, test/migrate-order-workflow-to-axon-java.test.mjs
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, test/migrate-order-workflow-to-axon-java-payment.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244, T-245. May proceed independently of T-246 until choreography tests.
@@ -120,7 +120,7 @@
 
 ## T-248 — Migrate checkout and Transaction decisions [pendente]
 - Refs: US-132, US-134, AC-281, AC-282, AC-285, AC-286, AC-293, AC-292
-- Arquivos: apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java.test.mjs
+- Arquivos: apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java-transaction.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244, T-245.
