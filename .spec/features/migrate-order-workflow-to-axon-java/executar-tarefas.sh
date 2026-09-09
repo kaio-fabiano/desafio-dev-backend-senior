@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 17:56
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 18:27
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtuegcm5'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtufkslp'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,38 +168,6 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-252 (ordem do tasks.md) ──
-executar_seq_T_252() {
-  info 'sequencial T-252 — Import or clean-start legacy state and perform reversible cutover'
-  if rodar_tarefa seq 'T-252' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-252 — "Import or clean-start legacy state and perform reversible cutover"
-  critérios/refs: AC-285 (Checkout remains idempotent across concurrency and ambiguity), AC-287 (Transaction projections preserve observable state), AC-288 (Existing GraphQL operations remain compatible during cutover), AC-289 (Axon subscription queries isolate transaction updates), AC-290 (Existing durable state has an explicit migration decision), AC-291 (One Java deployment becomes the sole owner), AC-292 (Repository quality gates prove the migration), AC-293 (Bounded contexts communicate through RabbitMQ AMQP)
-  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e, test/migrate-order-workflow-to-axon-java.test.mjs
-  mensagem de commit: "T-252 migrate-order-workflow-to-axon-java: Import or clean-start legacy state and perform reversible cutover"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-252 migrate-order-workflow-to-axon-java: Import or clean-start legacy state and perform reversible cutover (auto-commit do plano)'
-    fi
-    marcar_concluidas T-252
-    verde "✔ T-252 concluída"
-    return 0
-  fi
-  vermelho "✘ T-252 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-252"
-  FALHAS="$FALHAS T-252"
-  return 1
-}
-
 # ── sequencial T-253 (ordem do tasks.md) ──
 executar_seq_T_253() {
   info 'sequencial T-253 — Retire Node Workflow and close all quality gates'
@@ -285,14 +253,12 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_252 || true
   executar_seq_T_253 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-252 (sequencial)"
   echo "  seq       T-253 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
@@ -328,7 +294,6 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-252) evento --tipo inicio --escopo "seq:T-252"; iniciar_resumos; executar_seq_T_252 || true; encerrar "seq:T-252" ;;
       T-253) evento --tipo inicio --escopo "seq:T-253"; iniciar_resumos; executar_seq_T_253 || true; encerrar "seq:T-253" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;

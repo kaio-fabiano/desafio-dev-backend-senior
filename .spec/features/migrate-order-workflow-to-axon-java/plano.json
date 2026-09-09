@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtuegcm5",
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtufkslp",
   "feature": "migrate-order-workflow-to-axon-java",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-sol",
   "esforcoForcado": "high",
-  "geradoEm": "2026-09-09 17:56",
+  "geradoEm": "2026-09-09 18:27",
   "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
   "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
   "specDir": ".spec",
@@ -15,35 +15,6 @@
   "ondas": [],
   "faixas": [],
   "sequenciais": [
-    {
-      "id": "T-252",
-      "titulo": "Import or clean-start legacy state and perform reversible cutover",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/order-workflow-subgraph/src/persistence",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/migration",
-        "apps/payment-federation/src/main/resources/db/migration",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/migration",
-        "apps/gateway",
-        "compose.yaml",
-        "apps/e2e",
-        "test/migrate-order-workflow-to-axon-java.test.mjs"
-      ],
-      "refs": [
-        "US-134",
-        "US-135",
-        "US-136",
-        "AC-285",
-        "AC-287",
-        "AC-288",
-        "AC-289",
-        "AC-290",
-        "AC-291",
-        "AC-292",
-        "AC-293"
-      ]
-    },
     {
       "id": "T-253",
       "titulo": "Retire Node Workflow and close all quality gates",
@@ -87,7 +58,8 @@
     "T-248",
     "T-249",
     "T-250",
-    "T-251"
+    "T-251",
+    "T-252"
   ],
   "avisos": []
 }
