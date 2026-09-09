@@ -2,7 +2,7 @@ package dev.desafio.transaction.payment.adapter.mercadopago;
 
 import com.mercadopago.exceptions.MPInvalidWebhookSignatureException;
 import com.mercadopago.webhook.WebhookSignatureValidator;
-import dev.desafio.transaction.payment.application.PaymentProvider;
+import dev.desafio.transaction.payment.adapter.axon.AxonProviderNotificationHandler;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import dev.desafio.transaction.payment.configuration.MercadoPagoProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +24,29 @@ import java.time.Instant;
 public final class MercadoPagoWebhookController {
     private static final Duration MAX_SIGNATURE_AGE = Duration.ofMinutes(5);
 
-    private final ProviderNotificationHandler handler;
+    private final NotificationHandler handler;
     private final String webhookSecret;
 
     @Autowired
     public MercadoPagoWebhookController(
-        PaymentProvider provider,
-        ProviderNotificationHandler.Repository repository,
+        AxonProviderNotificationHandler handler,
+        ProviderNotificationHandler.Repository notifications,
         MercadoPagoProperties properties
     ) {
-        this(new ProviderNotificationHandler(provider, repository), properties.webhookSecret());
+        this(
+            notification -> handler.handle(notification).join(),
+            webhookSecret(notifications, properties)
+        );
     }
 
     MercadoPagoWebhookController(ProviderNotificationHandler handler, String webhookSecret) {
+        this(notification -> handler.handle(notification), webhookSecret);
+    }
+
+    private MercadoPagoWebhookController(
+        NotificationHandler handler,
+        String webhookSecret
+    ) {
         this.handler = java.util.Objects.requireNonNull(handler, "handler");
         if (webhookSecret == null || webhookSecret.isBlank()) {
             throw new IllegalArgumentException("webhookSecret is required");
@@ -92,5 +102,18 @@ public final class MercadoPagoWebhookController {
                 timestamp
             );
         }
+    }
+
+    private static String webhookSecret(
+        ProviderNotificationHandler.Repository notifications,
+        MercadoPagoProperties properties
+    ) {
+        java.util.Objects.requireNonNull(notifications, "notifications");
+        return java.util.Objects.requireNonNull(properties, "properties").webhookSecret();
+    }
+
+    @FunctionalInterface
+    private interface NotificationHandler {
+        void handle(ProviderNotificationHandler.Notification notification);
     }
 }

@@ -9,24 +9,21 @@ import java.util.UUID;
 
 public final class AuthorizePaymentHandler {
     private final PaymentHandler paymentHandler;
-    private final OrderPaymentPort orders;
 
     public AuthorizePaymentHandler(PaymentHandler paymentHandler) {
-        this(paymentHandler, (command, payment) -> {});
+        this.paymentHandler = Objects.requireNonNull(paymentHandler, "paymentHandler");
     }
 
     public AuthorizePaymentHandler(PaymentHandler paymentHandler, OrderPaymentPort orders) {
-        this.paymentHandler = Objects.requireNonNull(paymentHandler, "paymentHandler");
-        this.orders = Objects.requireNonNull(orders, "orders");
+        this(paymentHandler);
+        Objects.requireNonNull(orders, "orders");
     }
 
     public PaymentView handle(AuthorizePayment command) {
         Objects.requireNonNull(command, "command");
         var domainCommand = command.toDomainCommand();
         var result = paymentHandler.handle(deliveryId(domainCommand), domainCommand);
-        var payment = PaymentView.from(result.payment());
-        orders.record(command, payment);
-        return payment;
+        return PaymentView.from(result.payment());
     }
 
     private UUID deliveryId(dev.desafio.transaction.payment.domain.Payment.PaymentRequested command) {

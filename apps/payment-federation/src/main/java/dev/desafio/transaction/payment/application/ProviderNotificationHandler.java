@@ -41,7 +41,21 @@ public final class ProviderNotificationHandler {
             PaymentProvider.Result authoritativeState,
             Instant receivedAt
         );
+
+        default Claim claimForAxon(
+            String providerRequestId,
+            PaymentProvider.Result authoritativeState,
+            Instant receivedAt
+        ) {
+            throw new UnsupportedOperationException("Axon notification claims are not supported");
+        }
+
+        default void completeForAxon(String providerRequestId, Outcome outcome, Instant processedAt) {
+            throw new UnsupportedOperationException("Axon notification completion is not supported");
+        }
     }
+
+    public record Claim(String paymentId, boolean completed) {}
 
     public enum Outcome {
         APPLIED,

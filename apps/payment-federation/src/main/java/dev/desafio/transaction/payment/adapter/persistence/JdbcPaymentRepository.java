@@ -21,6 +21,23 @@ public final class JdbcPaymentRepository implements PaymentRepository {
     }
 
     @Override
+    public Optional<ProcessingResult> processed(UUID incomingEventId, Payment.Command command) {
+        try (var connection = dataSource.getConnection();
+             var statement = connection.prepareStatement(
+                 "select 1 from payment.payment_inbox where event_id = ? and payment_id is not null"
+             )) {
+            statement.setObject(1, incomingEventId);
+            try (var rows = statement.executeQuery()) {
+                return rows.next()
+                    ? Optional.of(duplicateResult(connection, incomingEventId, command))
+                    : Optional.empty();
+            }
+        } catch (SQLException error) {
+            throw new IllegalStateException("payment database is unavailable", error);
+        }
+    }
+
+    @Override
     public String providerReference(Payment.RefundRequested command) {
         java.util.Objects.requireNonNull(command, "command");
         try (var connection = dataSource.getConnection()) {

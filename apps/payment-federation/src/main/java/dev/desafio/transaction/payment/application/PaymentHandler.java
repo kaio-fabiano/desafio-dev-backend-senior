@@ -24,6 +24,8 @@ public final class PaymentHandler {
     public PaymentRepository.ProcessingResult handle(UUID eventId, Payment.Command command) {
         Objects.requireNonNull(eventId, "eventId");
         Objects.requireNonNull(command, "command");
+        var processed = repository.processed(eventId, command);
+        if (processed.isPresent()) return processed.orElseThrow();
         var providerCommand = command instanceof Payment.RefundRequested refund
             ? refund.withProviderReference(repository.providerReference(refund))
             : command;

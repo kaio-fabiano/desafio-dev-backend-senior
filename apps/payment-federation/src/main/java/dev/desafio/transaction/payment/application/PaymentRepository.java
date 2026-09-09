@@ -7,6 +7,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 public interface PaymentRepository {
+    default java.util.Optional<ProcessingResult> processed(
+        UUID incomingEventId,
+        Payment.Command command
+    ) {
+        return java.util.Optional.empty();
+    }
+
     String providerReference(Payment.RefundRequested command);
 
     ProcessingResult process(
