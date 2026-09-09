@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttudgc8",
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttw4wyq",
   "feature": "migrate-order-workflow-to-axon-java",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-sol",
   "esforcoForcado": "high",
-  "geradoEm": "2026-09-09 08:33",
+  "geradoEm": "2026-09-09 09:23",
   "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
   "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
   "specDir": ".spec",
@@ -15,30 +15,6 @@
   "ondas": [],
   "faixas": [],
   "sequenciais": [
-    {
-      "id": "T-244",
-      "titulo": "Prove the Axon 5 persistence and architecture baseline",
-      "modelo": "gpt-5.6-sol",
-      "esforco": "high",
-      "arquivos": [
-        "apps/payment-federation/build.gradle.kts",
-        "apps/payment-federation/project.json",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction",
-        "apps/payment-federation/src/main/resources/application.yaml",
-        "apps/payment-federation/src/main/resources/db/migration",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence",
-        "test/migrate-order-workflow-to-axon-java.test.mjs",
-        "onpspec.config.json"
-      ],
-      "refs": [
-        "US-132",
-        "AC-280",
-        "AC-282",
-        "AC-292"
-      ]
-    },
     {
       "id": "T-245",
       "titulo": "Establish versioned contracts and reliable AMQP boundaries",
@@ -52,7 +28,8 @@
         "apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence",
         "apps/payment-federation/src/main/resources/db/migration",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/contracts",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging"
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-132",
@@ -70,7 +47,8 @@
       "arquivos": [
         "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory",
         "apps/payment-federation/src/main/resources/db/migration/inventory",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory"
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-132",
@@ -90,7 +68,8 @@
       "arquivos": [
         "apps/payment-federation/src/main/java/dev/desafio/transaction/payment",
         "apps/payment-federation/src/main/resources/db/migration/payment",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment"
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-132",
@@ -111,7 +90,8 @@
         "apps/order-workflow-subgraph/src/checkout",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction",
         "apps/payment-federation/src/main/resources/db/migration/transaction",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction"
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-132",
@@ -136,7 +116,8 @@
         "apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql",
         "apps/payment-federation/src/main/resources/graphql",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/projection"
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/projection",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-132",
@@ -161,7 +142,8 @@
         "apps/gateway/src/subscriptions",
         "apps/gateway/src/app.module.ts",
         "apps/e2e/src",
-        "apps/wordpress-integration"
+        "apps/wordpress-integration",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-135",
@@ -180,7 +162,8 @@
         "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/payment",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture"
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-133",
@@ -205,7 +188,8 @@
         "apps/payment-federation/src/test/java/dev/desafio/transaction/migration",
         "apps/gateway",
         "compose.yaml",
-        "apps/e2e"
+        "apps/e2e",
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-134",
@@ -256,7 +240,8 @@
     "T-240",
     "T-241",
     "T-242",
-    "T-243"
+    "T-243",
+    "T-244"
   ],
   "avisos": []
 }

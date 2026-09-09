@@ -1,11 +1,11 @@
 # Plano de execução — migrate-order-workflow-to-axon-java
 
-> gerado por `onp-spec plano` em 2026-09-09 08:33 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-09 09:23 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano migrate-order-workflow-to-axon-java --sequencial --modelo gpt-5.6-sol --esforco high`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 10 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (4 já concluída(s): T-240, T-241, T-242, T-243)
+- **modo SEQUENCIAL (escolha do usuário)**: 9 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (5 já concluída(s): T-240, T-241, T-242, T-243, T-244)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - **custo travado pelo usuário**: modelo `gpt-5.6-sol` · esforço `high` em TODAS as tarefas (vence tasks.md e config)
 - tudo acontece na branch de trabalho `spec/migrate-order-workflow-to-axon-java`; levar para a main é decisão sua
@@ -14,7 +14,6 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-244 | Prove the Axon 5 persistence and architecture baseline | `gpt-5.6-sol` | high |
 | T-245 | Establish versioned contracts and reliable AMQP boundaries | `gpt-5.6-sol` | high |
 | T-246 | Convert Inventory into an independent Axon participant | `gpt-5.6-sol` | high |
 | T-247 | Convert Payment and provider effects into Axon | `gpt-5.6-sol` | high |

@@ -38,9 +38,9 @@
 </style>
 <main>
   <h1>Plano de execução — migrate-order-workflow-to-axon-java</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-09 08:33 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-09 09:23 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>10</b> tarefa(s), uma após a outra</div>
+    <div><b>9</b> tarefa(s), uma após a outra</div>
     <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/migrate-order-workflow-to-axon-java</code></div>
   </div>
@@ -61,58 +61,52 @@
       <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
       <div class="grade"><div class="faixa">
         <div class="tarefa">
-          <span class="tid">T-244</span>
-          <span class="ttitulo">Prove the Axon 5 persistence and architecture baseline</span>
-          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-federation/build.gradle.kts</code> <code>apps/payment-federation/project.json</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction</code> <code>apps/payment-federation/src/main/resources/application.yaml</code> <code>apps/payment-federation/src/main/resources/db/migration</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/architecture</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code> <code>onpspec.config.json</code></span>
-        </div>
-        <div class="tarefa">
           <span class="tid">T-245</span>
           <span class="ttitulo">Establish versioned contracts and reliable AMQP boundaries</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/contracts/events</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/configuration</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence</code> <code>apps/payment-federation/src/main/resources/db/migration</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/contracts</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging</code></span>
+          <span class="arquivos"><code>libs/contracts/events</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/configuration</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence</code> <code>apps/payment-federation/src/main/resources/db/migration</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/contracts</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-246</span>
           <span class="ttitulo">Convert Inventory into an independent Axon participant</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/main/resources/db/migration/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/main/resources/db/migration/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-247</span>
           <span class="ttitulo">Convert Payment and provider effects into Axon</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/main/resources/db/migration/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/main/resources/db/migration/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-248</span>
           <span class="ttitulo">Migrate checkout and Transaction decisions</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/order-workflow-subgraph/src/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction</code> <code>apps/payment-federation/src/main/resources/db/migration/transaction</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code></span>
+          <span class="arquivos"><code>apps/order-workflow-subgraph/src/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction</code> <code>apps/payment-federation/src/main/resources/db/migration/transaction</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-249</span>
           <span class="ttitulo">Build replayable projections and compatible GraphQL</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>libs/contracts/graphql/order-workflow/schema.graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql</code> <code>apps/payment-federation/src/main/resources/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/projection</code></span>
+          <span class="arquivos"><code>libs/contracts/graphql/order-workflow/schema.graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql</code> <code>apps/payment-federation/src/main/resources/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/projection</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-250</span>
           <span class="ttitulo">Deliver transaction-filtered GraphQL SSE</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql</code> <code>apps/payment-federation/src/main/resources/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/subscription</code> <code>apps/gateway/src/subscriptions</code> <code>apps/gateway/src/app.module.ts</code> <code>apps/e2e/src</code> <code>apps/wordpress-integration</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql</code> <code>apps/payment-federation/src/main/resources/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/subscription</code> <code>apps/gateway/src/subscriptions</code> <code>apps/gateway/src/app.module.ts</code> <code>apps/e2e/src</code> <code>apps/wordpress-integration</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-251</span>
           <span class="ttitulo">Prove the complete choreographed lifecycle and compensations</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/e2e</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/architecture</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/e2e</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/architecture</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-252</span>
           <span class="ttitulo">Import or clean-start legacy state and perform reversible cutover</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
-          <span class="arquivos"><code>apps/order-workflow-subgraph/src/persistence</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/migration</code> <code>apps/payment-federation/src/main/resources/db/migration</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/migration</code> <code>apps/gateway</code> <code>compose.yaml</code> <code>apps/e2e</code></span>
+          <span class="arquivos"><code>apps/order-workflow-subgraph/src/persistence</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/migration</code> <code>apps/payment-federation/src/main/resources/db/migration</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/migration</code> <code>apps/gateway</code> <code>compose.yaml</code> <code>apps/e2e</code> <code>test/migrate-order-workflow-to-axon-java.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-253</span>

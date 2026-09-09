@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 08:33
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 09:23
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttudgc8'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttw4wyq'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,38 +168,6 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-244 (ordem do tasks.md) ──
-executar_seq_T_244() {
-  info 'sequencial T-244 — Prove the Axon 5 persistence and architecture baseline'
-  if rodar_tarefa seq 'T-244' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-244 — "Prove the Axon 5 persistence and architecture baseline"
-  critérios/refs: AC-280 (Java sources follow the approved boundaries), AC-282 (Axon state is durable and replayable), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/build.gradle.kts, apps/payment-federation/project.json, apps/payment-federation/src/main/java/dev/desafio/transaction, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence, test/migrate-order-workflow-to-axon-java.test.mjs, onpspec.config.json
-  mensagem de commit: "T-244 migrate-order-workflow-to-axon-java: Prove the Axon 5 persistence and architecture baseline"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-244 migrate-order-workflow-to-axon-java: Prove the Axon 5 persistence and architecture baseline (auto-commit do plano)'
-    fi
-    marcar_concluidas T-244
-    verde "✔ T-244 concluída"
-    return 0
-  fi
-  vermelho "✘ T-244 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-244"
-  FALHAS="$FALHAS T-244"
-  return 1
-}
-
 # ── sequencial T-245 (ordem do tasks.md) ──
 executar_seq_T_245() {
   info 'sequencial T-245 — Establish versioned contracts and reliable AMQP boundaries'
@@ -209,7 +177,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-245 — "Establish versioned contracts and reliable AMQP boundaries"
   critérios/refs: AC-280 (Java sources follow the approved boundaries), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging
+  arquivos permitidos (e seus testes): libs/contracts/events, apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/contracts, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-245 migrate-order-workflow-to-axon-java: Establish versioned contracts and reliable AMQP boundaries"
 
 Regras inegociáveis:
@@ -241,7 +209,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-246 — "Convert Inventory into an independent Axon participant"
   critérios/refs: AC-281 (Commands, events, and queries have distinct paths), AC-282 (Axon state is durable and replayable), AC-284 (Inventory remains independently consistent), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-246 migrate-order-workflow-to-axon-java: Convert Inventory into an independent Axon participant"
 
 Regras inegociáveis:
@@ -273,7 +241,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-247 — "Convert Payment and provider effects into Axon"
   critérios/refs: AC-281 (Commands, events, and queries have distinct paths), AC-282 (Axon state is durable and replayable), AC-283 (Payment invariants and provider idempotency survive conversion), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-247 migrate-order-workflow-to-axon-java: Convert Payment and provider effects into Axon"
 
 Regras inegociáveis:
@@ -305,7 +273,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-248 — "Migrate checkout and Transaction decisions"
   critérios/refs: AC-281 (Commands, events, and queries have distinct paths), AC-282 (Axon state is durable and replayable), AC-285 (Checkout remains idempotent across concurrency and ambiguity), AC-286 (The distributed lifecycle is strictly choreographed), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction
+  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-248 migrate-order-workflow-to-axon-java: Migrate checkout and Transaction decisions"
 
 Regras inegociáveis:
@@ -337,7 +305,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-249 — "Build replayable projections and compatible GraphQL"
   critérios/refs: AC-281 (Commands, events, and queries have distinct paths), AC-287 (Transaction projections preserve observable state), AC-288 (Existing GraphQL operations remain compatible during cutover), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/projection
+  arquivos permitidos (e seus testes): libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/projection, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-249 migrate-order-workflow-to-axon-java: Build replayable projections and compatible GraphQL"
 
 Regras inegociáveis:
@@ -369,7 +337,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-250 — "Deliver transaction-filtered GraphQL SSE"
   critérios/refs: AC-289 (Axon subscription queries isolate transaction updates), AC-288 (Existing GraphQL operations remain compatible during cutover), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription, apps/gateway/src/subscriptions, apps/gateway/src/app.module.ts, apps/e2e/src, apps/wordpress-integration
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription, apps/gateway/src/subscriptions, apps/gateway/src/app.module.ts, apps/e2e/src, apps/wordpress-integration, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-250 migrate-order-workflow-to-axon-java: Deliver transaction-filtered GraphQL SSE"
 
 Regras inegociáveis:
@@ -401,7 +369,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-251 — "Prove the complete choreographed lifecycle and compensations"
   critérios/refs: AC-283 (Payment invariants and provider idempotency survive conversion), AC-284 (Inventory remains independently consistent), AC-286 (The distributed lifecycle is strictly choreographed), AC-287 (Transaction projections preserve observable state), AC-293 (Bounded contexts communicate through RabbitMQ AMQP), AC-292 (Repository quality gates prove the migration)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/e2e, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/e2e, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-251 migrate-order-workflow-to-axon-java: Prove the complete choreographed lifecycle and compensations"
 
 Regras inegociáveis:
@@ -433,7 +401,7 @@ Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec
 Sua tarefa (somente ela):
 T-252 — "Import or clean-start legacy state and perform reversible cutover"
   critérios/refs: AC-285 (Checkout remains idempotent across concurrency and ambiguity), AC-287 (Transaction projections preserve observable state), AC-288 (Existing GraphQL operations remain compatible during cutover), AC-289 (Axon subscription queries isolate transaction updates), AC-290 (Existing durable state has an explicit migration decision), AC-291 (One Java deployment becomes the sole owner), AC-292 (Repository quality gates prove the migration), AC-293 (Bounded contexts communicate through RabbitMQ AMQP)
-  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e
+  arquivos permitidos (e seus testes): apps/order-workflow-subgraph/src/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e, test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-252 migrate-order-workflow-to-axon-java: Import or clean-start legacy state and perform reversible cutover"
 
 Regras inegociáveis:
@@ -541,7 +509,6 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_244 || true
   executar_seq_T_245 || true
   executar_seq_T_246 || true
   executar_seq_T_247 || true
@@ -556,7 +523,6 @@ executar_tudo() {
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-244 (sequencial)"
   echo "  seq       T-245 (sequencial)"
   echo "  seq       T-246 (sequencial)"
   echo "  seq       T-247 (sequencial)"
@@ -600,7 +566,6 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-244) evento --tipo inicio --escopo "seq:T-244"; iniciar_resumos; executar_seq_T_244 || true; encerrar "seq:T-244" ;;
       T-245) evento --tipo inicio --escopo "seq:T-245"; iniciar_resumos; executar_seq_T_245 || true; encerrar "seq:T-245" ;;
       T-246) evento --tipo inicio --escopo "seq:T-246"; iniciar_resumos; executar_seq_T_246 || true; encerrar "seq:T-246" ;;
       T-247) evento --tipo inicio --escopo "seq:T-247"; iniciar_resumos; executar_seq_T_247 || true; encerrar "seq:T-247" ;;
