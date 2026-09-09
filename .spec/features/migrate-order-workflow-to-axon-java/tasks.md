@@ -140,7 +140,7 @@
 - Risks/blockers: Q-022 determines import versus clean start; Q-026 must settle lease timeout, retention, abandonment, credential retry/redaction, currency, and Woo status mapping before production cutover.
 - Rollback: Java remains shadow/non-writing; discard target Transaction streams/projections and continue routing all checkout commands to Node.
 
-## T-249 — Build replayable projections and compatible GraphQL [pendente]
+## T-249 — Build replayable projections and compatible GraphQL [concluida]
 - Refs: US-132, US-134, US-135, AC-281, AC-287, AC-288, AC-292
 - Arquivos: libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/projection, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
