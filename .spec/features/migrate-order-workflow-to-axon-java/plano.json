@@ -1,0 +1,259 @@
+{
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mttrblj6",
+  "feature": "migrate-order-workflow-to-axon-java",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-09 07:08",
+  "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
+  "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-244",
+      "titulo": "Prove the Axon 5 persistence and architecture baseline",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/build.gradle.kts",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction",
+        "apps/payment-federation/src/main/resources/application.yaml",
+        "apps/payment-federation/src/main/resources/db/migration",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence"
+      ],
+      "refs": [
+        "US-132",
+        "AC-280",
+        "AC-282",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-245",
+      "titulo": "Establish versioned contracts and reliable AMQP boundaries",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/contracts/events",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/contracts/integration/v1",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/configuration",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/messaging",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence",
+        "apps/payment-federation/src/main/resources/db/migration",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/contracts",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging"
+      ],
+      "refs": [
+        "US-132",
+        "US-133",
+        "AC-280",
+        "AC-293",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-246",
+      "titulo": "Convert Inventory into an independent Axon participant",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory",
+        "apps/payment-federation/src/main/resources/db/migration/inventory",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory"
+      ],
+      "refs": [
+        "US-132",
+        "US-133",
+        "AC-281",
+        "AC-282",
+        "AC-284",
+        "AC-293",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-247",
+      "titulo": "Convert Payment and provider effects into Axon",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment",
+        "apps/payment-federation/src/main/resources/db/migration/payment",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment"
+      ],
+      "refs": [
+        "US-132",
+        "US-133",
+        "AC-281",
+        "AC-282",
+        "AC-283",
+        "AC-293",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-248",
+      "titulo": "Migrate checkout and Transaction decisions",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/checkout",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction",
+        "apps/payment-federation/src/main/resources/db/migration/transaction",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction"
+      ],
+      "refs": [
+        "US-132",
+        "US-134",
+        "AC-281",
+        "AC-282",
+        "AC-285",
+        "AC-286",
+        "AC-293",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-249",
+      "titulo": "Build replayable projections and compatible GraphQL",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/contracts/graphql/order-workflow/schema.graphql",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql",
+        "apps/payment-federation/src/main/resources/graphql",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/projection"
+      ],
+      "refs": [
+        "US-132",
+        "US-134",
+        "US-135",
+        "AC-281",
+        "AC-287",
+        "AC-288",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-250",
+      "titulo": "Deliver transaction-filtered GraphQL SSE",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql",
+        "apps/payment-federation/src/main/resources/graphql",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/subscription",
+        "apps/gateway/src/subscriptions",
+        "apps/gateway/src/app.module.ts",
+        "apps/e2e/src",
+        "apps/wordpress-integration"
+      ],
+      "refs": [
+        "US-135",
+        "AC-289",
+        "AC-288",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-251",
+      "titulo": "Prove the complete choreographed lifecycle and compensations",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture"
+      ],
+      "refs": [
+        "US-133",
+        "US-134",
+        "AC-283",
+        "AC-284",
+        "AC-286",
+        "AC-287",
+        "AC-293",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-252",
+      "titulo": "Import or clean-start legacy state and perform reversible cutover",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph/src/persistence",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/migration",
+        "apps/payment-federation/src/main/resources/db/migration",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/migration",
+        "apps/gateway",
+        "compose.yaml",
+        "apps/e2e"
+      ],
+      "refs": [
+        "US-134",
+        "US-135",
+        "US-136",
+        "AC-285",
+        "AC-287",
+        "AC-288",
+        "AC-289",
+        "AC-290",
+        "AC-291",
+        "AC-292",
+        "AC-293"
+      ]
+    },
+    {
+      "id": "T-253",
+      "titulo": "Retire Node Workflow and close all quality gates",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/order-workflow-subgraph",
+        "apps/gateway",
+        "apps/payment-federation",
+        "apps/wordpress-integration",
+        "libs/contracts",
+        "compose.yaml",
+        "README.md",
+        "docs",
+        "test",
+        ".spec/features/migrate-order-workflow-to-axon-java"
+      ],
+      "refs": [
+        "US-136",
+        "AC-280",
+        "AC-282",
+        "AC-286",
+        "AC-288",
+        "AC-289",
+        "AC-290",
+        "AC-291",
+        "AC-292",
+        "AC-293"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-240",
+    "T-241",
+    "T-242",
+    "T-243"
+  ],
+  "avisos": []
+}

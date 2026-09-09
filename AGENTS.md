@@ -13,6 +13,12 @@
   investigation. Never increase the model or effort silently.
 - Before execution, present the task → model → effort table and wait for the
   user's explicit confirmation, together with the parallelism choice.
+- Execute every task in a new clean Codex context, regardless of whether the
+  plan is sequential or parallel. One task must equal one independent
+  `codex exec` invocation/session; never group multiple task IDs in one chat
+  or reuse the previous task's conversation. Context may pass between tasks
+  only through repository artifacts, task specifications, verification
+  evidence, and the execution ledger.
 - The approved model and effort must be fixed in the generated plan; complete
   the task only after `onp-spec verify` and `onp-spec audit --ci` pass.
 

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Target Java Axon 5 architecture</title>
+  <desc id="desc">Target modular monolith with Transaction, Inventory and Payment bounded contexts, Axon 5 internally and RabbitMQ integration events between contexts.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08111f"/><stop offset="1" stop-color="#14213a"/></linearGradient>
+    <marker id="blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0v6l9-3z" fill="#38bdf8"/></marker>
+    <marker id="gold" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0v6l9-3z" fill="#fbbf24"/></marker>
+    <marker id="gray" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0v6l9-3z" fill="#94a3b8"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#020617" flood-opacity=".5"/></filter>
+    <style>
+      .title{font:700 34px Inter,system-ui,sans-serif;fill:#f8fafc}.sub{font:400 16px Inter,system-ui,sans-serif;fill:#94a3b8}.section{font:700 14px Inter,system-ui,sans-serif;letter-spacing:1.5px;fill:#94a3b8}.name{font:700 20px Inter,system-ui,sans-serif;fill:#f8fafc}.detail{font:400 14px Inter,system-ui,sans-serif;fill:#cbd5e1}.small{font:600 12px Inter,system-ui,sans-serif;fill:#cbd5e1}.box{rx:15;stroke-width:1.5;filter:url(#shadow)}.http{fill:none;stroke:#38bdf8;stroke-width:2.4;marker-end:url(#blue)}.event{fill:none;stroke:#fbbf24;stroke-width:2.5;marker-end:url(#gold)}.data{fill:none;stroke:#94a3b8;stroke-width:2;marker-end:url(#gray)}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <text x="70" y="60" class="title">Target architecture · Java + Axon 5</text>
+  <text x="70" y="90" class="sub">One modular monolith · strict choreography · Spring AMQP/RabbitMQ · isolated PostgreSQL schemas</text>
+
+  <text x="70" y="140" class="section">PUBLIC EDGE</text>
+  <rect x="70" y="160" width="250" height="82" class="box" fill="#172554" stroke="#3b82f6"/>
+  <text x="195" y="194" text-anchor="middle" class="name">Client / GraphiQL</text><text x="195" y="220" text-anchor="middle" class="detail">GraphQL + SSE · OAuth2</text>
+  <rect x="400" y="160" width="310" height="82" class="box" fill="#3b0764" stroke="#a855f7"/>
+  <text x="555" y="194" text-anchor="middle" class="name">NestJS Gateway</text><text x="555" y="220" text-anchor="middle" class="detail">Federation + public SSE proxy</text>
+  <rect x="790" y="160" width="300" height="82" class="box" fill="#164e63" stroke="#06b6d4"/>
+  <text x="940" y="194" text-anchor="middle" class="name">Spring GraphQL</text><text x="940" y="220" text-anchor="middle" class="detail">Commands · queries · subscriptions</text>
+  <rect x="1170" y="160" width="300" height="82" class="box" fill="#312e81" stroke="#6366f1"/>
+  <text x="1320" y="194" text-anchor="middle" class="name">Identity Federation</text><text x="1320" y="220" text-anchor="middle" class="detail">Better Auth · OAuth issuer/JWKS</text>
+  <path d="M320 200H400" class="http"/><path d="M710 200H790" class="http"/><path d="M1170 200H1115Q1090 200 1090 225" class="http"/>
+
+  <text x="70" y="295" class="section">JAVA 21 / SPRING BOOT MODULAR MONOLITH</text>
+  <rect x="55" y="315" width="1490" height="245" rx="24" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <rect x="90" y="350" width="420" height="165" class="box" fill="#064e3b" stroke="#10b981"/>
+  <text x="300" y="385" text-anchor="middle" class="name">Transaction bounded context</text>
+  <text x="300" y="415" text-anchor="middle" class="detail">Transaction aggregate · checkout idempotency</text>
+  <text x="300" y="440" text-anchor="middle" class="detail">WooCommerce order ACL · TransactionView</text>
+  <text x="300" y="465" text-anchor="middle" class="detail">Axon commands/events/queries + SSE updates</text>
+  <text x="300" y="493" text-anchor="middle" class="small">Owns only Transaction decisions</text>
+  <rect x="590" y="350" width="420" height="165" class="box" fill="#0c4a6e" stroke="#0ea5e9"/>
+  <text x="800" y="385" text-anchor="middle" class="name">Inventory bounded context</text>
+  <text x="800" y="415" text-anchor="middle" class="detail">InventoryReservation aggregate</text>
+  <text x="800" y="440" text-anchor="middle" class="detail">reserve · commit · release · stock port</text>
+  <text x="800" y="465" text-anchor="middle" class="detail">Axon commands/events/projection</text>
+  <text x="800" y="493" text-anchor="middle" class="small">Reacts independently to Integration Events</text>
+  <rect x="1090" y="350" width="420" height="165" class="box" fill="#7c2d12" stroke="#f97316"/>
+  <text x="1300" y="385" text-anchor="middle" class="name">Payment bounded context</text>
+  <text x="1300" y="415" text-anchor="middle" class="detail">Payment aggregate · provider effect protocol</text>
+  <text x="1300" y="440" text-anchor="middle" class="detail">authorize · reject · refund · webhook</text>
+  <text x="1300" y="465" text-anchor="middle" class="detail">Axon commands/events/PaymentView</text>
+  <text x="1300" y="493" text-anchor="middle" class="small">Mercado Pago behind PaymentProvider</text>
+
+  <text x="70" y="610" class="section">INTEGRATION BOUNDARY — NO DIRECT CROSS-CONTEXT CALLS</text>
+  <rect x="250" y="635" width="1100" height="105" class="box" fill="#422006" stroke="#f59e0b"/>
+  <text x="800" y="674" text-anchor="middle" class="name">RabbitMQ · versioned Integration Events</text>
+  <text x="800" y="702" text-anchor="middle" class="detail">Spring AMQP · context inbox/outbox · confirms · manual ACK · retry 1s/10s/60s · per-consumer DLQ</text>
+  <text x="800" y="725" text-anchor="middle" class="small">eventId · transactionId · aggregateId · correlationId · causationId · version</text>
+  <path d="M250 635V600H300V515" class="event"/><path d="M800 515V635" class="event"/><path d="M1300 515V600H1350V635" class="event"/>
+  <text x="330" y="590" class="small">publish / consume</text><text x="815" y="590" class="small">publish / consume</text><text x="1190" y="590" class="small">publish / consume</text>
+
+  <text x="70" y="805" class="section">OWNED DATA AND EXTERNAL PORTS</text>
+  <rect x="70" y="830" width="285" height="95" class="box" fill="#4c1d1d" stroke="#ef4444"/>
+  <text x="212" y="865" text-anchor="middle" class="name">WooCommerce</text><text x="212" y="893" text-anchor="middle" class="detail">orders + authoritative stock</text>
+  <rect x="425" y="830" width="570" height="95" class="box" fill="#1e293b" stroke="#64748b"/>
+  <text x="710" y="863" text-anchor="middle" class="name">One PostgreSQL / Amazon RDS instance</text>
+  <text x="710" y="890" text-anchor="middle" class="detail">transaction · inventory · payment schemas · no joins/FKs across contexts</text>
+  <text x="710" y="913" text-anchor="middle" class="small">Axon persistent schema/tables: NEEDS VALIDATION</text>
+  <rect x="1065" y="830" width="300" height="95" class="box" fill="#312e81" stroke="#6366f1"/>
+  <text x="1215" y="865" text-anchor="middle" class="name">Mercado Pago</text><text x="1215" y="893" text-anchor="middle" class="detail">PaymentProvider adapter only</text>
+  <path d="M300 515V785H212V830" class="http"/><path d="M800 515V780H710V830" class="data"/><path d="M1300 515V785H1215V830" class="http"/>
+
+  <rect x="1395" y="830" width="135" height="95" rx="12" fill="#0f172a" stroke="#334155"/>
+  <line x1="1410" y1="855" x2="1445" y2="855" stroke="#38bdf8" stroke-width="3"/><text x="1454" y="860" class="small">HTTP/SSE</text>
+  <line x1="1410" y1="880" x2="1445" y2="880" stroke="#fbbf24" stroke-width="3"/><text x="1454" y="885" class="small">AMQP</text>
+  <line x1="1410" y1="905" x2="1445" y2="905" stroke="#94a3b8" stroke-width="3"/><text x="1454" y="910" class="small">Data</text>
+</svg>
