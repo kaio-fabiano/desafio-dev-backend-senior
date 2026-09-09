@@ -48,3 +48,45 @@ test('The real PostgreSQL migration baseline passes the Java quality gate @spec:
   assert.match(xml, /skipped="0"/);
   assert.match(xml, /Fresh PostgreSQL migrations and the application baseline pass real quality gates/);
 });
+
+test('V1 integration contracts expose only the approved boundary fields @spec:AC-280', async () => {
+  const envelope = JSON.parse(
+    await readFile(
+      'libs/contracts/events/integration-event-envelope.schema.json',
+      'utf8',
+    ),
+  );
+
+  assert.deepEqual(envelope.required, [
+    'eventId',
+    'eventType',
+    'version',
+    'aggregateId',
+    'transactionId',
+    'correlationId',
+    'causationId',
+    'occurredAt',
+    'payload',
+  ]);
+  assert.doesNotMatch(JSON.stringify(envelope), /providerToken|accessToken|cardToken/i);
+});
+
+test('Real RabbitMQ and PostgreSQL prove reliable AMQP delivery @spec:AC-293', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.infrastructure.messaging.RabbitMqBoundaryIntegrationTest',
+  );
+
+  assert.match(xml, /failures="0"/);
+  assert.match(xml, /skipped="0"/);
+  assert.match(xml, /Outbox recovery, duplicate delivery, retry, and DLQ preserve the V1 envelope/);
+});
+
+test('The AMQP boundary participates in the repository quality gate @spec:AC-292', async () => {
+  const xml = await report(
+    'dev.desafio.transaction.infrastructure.messaging.RabbitMqBoundaryIntegrationTest',
+  );
+
+  assert.match(xml, /tests="1"/);
+  assert.match(xml, /failures="0"/);
+  assert.match(xml, /skipped="0"/);
+});

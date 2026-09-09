@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://desafio.dev/contracts/events/integration-event-envelope.v1.schema.json",
+  "$comment": "Owner: versioned integration-contract technical boundary",
+  "title": "Integration event envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eventId",
+    "eventType",
+    "version",
+    "aggregateId",
+    "transactionId",
+    "correlationId",
+    "causationId",
+    "occurredAt",
+    "payload"
+  ],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "type": "string", "pattern": "^[a-z]+(?:[.-][a-z]+)*\\.v1$" },
+    "version": { "const": 1 },
+    "aggregateId": { "type": "string", "minLength": 1 },
+    "transactionId": { "type": "string", "minLength": 1 },
+    "correlationId": { "type": "string", "minLength": 1 },
+    "causationId": { "type": "string", "minLength": 1 },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "payload": { "type": "object" }
+  }
+}

@@ -47,7 +47,7 @@ class PostgresMigrationIntegrationTest {
             assertEquals(Set.of("transaction", "inventory", "payment", "axon"),
                 schemas.stream().filter(Set.of("transaction", "inventory", "payment", "axon")::contains)
                     .collect(java.util.stream.Collectors.toSet()));
-            assertEquals(5, jdbc.queryForObject(
+            assertEquals(6, jdbc.queryForObject(
                 "select count(*) from axon.flyway_schema_history where version is not null and success",
                 Integer.class
             ));
@@ -68,6 +68,12 @@ class PostgresMigrationIntegrationTest {
                 "inventory.inventory_operation",
                 "inventory.inventory_outbox",
                 "inventory.inventory_inbox",
+                "transaction.amqp_inbox",
+                "transaction.amqp_outbox",
+                "inventory.amqp_inbox",
+                "inventory.amqp_outbox",
+                "payment.amqp_inbox",
+                "payment.amqp_outbox",
                 "axon.aggregate_event_entry",
                 "axon.token_entry",
                 "axon.persistence_probe_projection",
