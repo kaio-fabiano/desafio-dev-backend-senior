@@ -74,7 +74,7 @@
 - Risks/blockers: Amazon MQ TLS, permissions, quorum support, HA, and operational replay remain `NOT VERIFIED` until environment evidence exists; payment credential classification from Q-026 blocks any payload that might carry a token.
 - Rollback: Disable the new queues/listeners and revert new V1 bindings/migrations while retaining existing routing keys; no business flow has switched yet.
 
-## T-246 — Convert Inventory into an independent Axon participant [pendente]
+## T-246 — Convert Inventory into an independent Axon participant [concluida]
 - Refs: US-132, US-133, AC-281, AC-282, AC-284, AC-293, AC-292
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/migrate-order-workflow-to-axon-java-inventory.test.mjs
 - Modelo: gpt-5.6-sol
@@ -96,7 +96,7 @@
 - Risks/blockers: Woo stock API ambiguity and replica ordering require executable reconciliation/concurrency evidence; do not use `synchronized` as distributed consistency.
 - Rollback: Keep legacy Inventory bindings available and route one writer at a time; revert bindings to the legacy consumer while leaving the new projection/read data unused.
 
-## T-247 — Convert Payment and provider effects into Axon [pendente]
+## T-247 — Convert Payment and provider effects into Axon [concluida]
 - Refs: US-132, US-133, AC-281, AC-282, AC-283, AC-293, AC-292
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, test/migrate-order-workflow-to-axon-java-payment.test.mjs
 - Modelo: gpt-5.6-sol
@@ -118,7 +118,7 @@
 - Risks/blockers: Q-026 data classification/retention and Q-024 compensation policy block production credential/refund behavior; Mercado Pago network is simulated deterministically in automated tests.
 - Rollback: Preserve the existing Payment API and old listener behind mutually exclusive routing/profile flags; revert to the legacy writer before accepting target V1 bindings.
 
-## T-248 — Migrate checkout and Transaction decisions [pendente]
+## T-248 — Migrate checkout and Transaction decisions [concluida]
 - Refs: US-132, US-134, AC-281, AC-282, AC-285, AC-286, AC-293, AC-292
 - Arquivos: apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java-transaction.test.mjs
 - Modelo: gpt-5.6-sol
