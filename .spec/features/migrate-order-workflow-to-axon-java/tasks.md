@@ -184,7 +184,7 @@
 - Risks/blockers: Q-025 must define the accepted WordPress/GraphiQL surface; Federation must not be claimed to route subscriptions without protocol evidence.
 - Rollback: Restore Gateway SSE downstream URL to Node; Java subscription remains unused and Node relay/broker remains deployable until final cutover.
 
-## T-251 — Prove the complete choreographed lifecycle and compensations [pendente]
+## T-251 — Prove the complete choreographed lifecycle and compensations [concluida]
 - Refs: US-133, US-134, AC-283, AC-284, AC-286, AC-287, AC-293, AC-292
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/e2e, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
