@@ -1,0 +1,27 @@
+{
+  "feature": "harden-oauth-runtime-configuration",
+  "timestamp": "2026-09-10T19:10:13.917Z",
+  "gitRev": "159d0eb1",
+  "command": "pnpm exec vitest run libs/identity/nest/src/better-auth/better-auth.factory.spec.ts libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts libs/gateway/nest/src/auth/gateway-auth.module.spec.ts libs/gateway/nest/src/infrastructure/auth/dynamo-dpop-replay.store.spec.ts -t '@spec:AC-30(8|9)' --reporter=tap && node --test --test-reporter=tap test/harden-oauth-runtime-configuration.test.mjs",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 53,
+  "results": {
+    "AC-308": {
+      "status": "pass",
+      "testName": "uses OAuth settings loaded by ConfigModule after decorator evaluation @spec:AC-308 # time=55.44ms",
+      "method": "tap"
+    },
+    "AC-309": {
+      "status": "pass",
+      "testName": "fails closed when production has no shared DPoP replay table @spec:AC-309 # time=19.24ms",
+      "method": "tap"
+    },
+    "AC-310": {
+      "status": "pass",
+      "testName": "production SST configures the canonical Gateway origin and a linked TTL replay table @spec:AC-310",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

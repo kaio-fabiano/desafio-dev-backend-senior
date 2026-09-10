@@ -2,8 +2,7 @@
 
 > feature: harden-oauth-runtime-configuration
 
-## T-269 — Harden OAuth runtime configuration and Gateway DPoP replay protection [pendente]
-
+## T-269 — Harden OAuth runtime configuration and Gateway DPoP replay protection [concluida]
 - Refs: US-142, US-143, AC-308, AC-309, AC-310
 - Modelo: gpt-5.6-sol
 - Esforço: alto
