@@ -516,9 +516,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/sinais.json": {
-    "mtime": 1789001629.5668252,
-    "seen": 1789007216.030573,
-    "ast_hash": "164bd29008c390ab5adb09ab11f186c6",
+    "mtime": 1789013767.6572955,
+    "seen": 1789014771.4329882,
+    "ast_hash": "b5b5368705e88248191d71935bf9fe80",
     "semantic_hash": ""
   },
   ".spec/verification/stabilize-typescript-editor.json": {
@@ -1830,9 +1830,9 @@
     "semantic_hash": ""
   },
   "apps/payment-federation/project.json": {
-    "mtime": 1788944463.2727883,
-    "seen": 1789007216.0310147,
-    "ast_hash": "90c540cfdbe1d366e6c48970fbceabd6",
+    "mtime": 1789010196.191625,
+    "seen": 1789013171.0477002,
+    "ast_hash": "629acd91a576aebe9db146388972d282",
     "semantic_hash": ""
   },
   "apps/payment-federation/settings.gradle.kts": {
@@ -3318,9 +3318,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/resolve-node-review-todos.json": {
-    "mtime": 1789003397.6404033,
-    "seen": 1789007216.0305696,
-    "ast_hash": "70546de09fafad9ec817c79359e04678",
+    "mtime": 1789014708.1071584,
+    "seen": 1789014771.4329686,
+    "ast_hash": "da0510d9a3e47b243bbc7a892819bc54",
     "semantic_hash": ""
   },
   "apps/gateway/tsconfig.json": {
@@ -3414,9 +3414,9 @@
     "semantic_hash": ""
   },
   ".spec/verification/graphql-only-woocommerce.json": {
-    "mtime": 1789003397.6384032,
-    "seen": 1789007216.0304654,
-    "ast_hash": "239b1baa7cc6183c510968b7fd2e0aa3",
+    "mtime": 1789014235.759328,
+    "seen": 1789014771.4325302,
+    "ast_hash": "a86439cebba7b044fc303c3449b4fd2f",
     "semantic_hash": ""
   },
   ".spec/verification/modularize-order-workflow-subgraph.json": {
@@ -4440,21 +4440,21 @@
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh": {
-    "mtime": 1789006935.234105,
-    "seen": 1789007216.0295987,
-    "ast_hash": "591313d94660252c892dd66952e8ffbe",
+    "mtime": 1789009724.312952,
+    "seen": 1789013171.0429065,
+    "ast_hash": "05c3481359bd788d9ee3fc09f84399ee",
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/plano.json": {
-    "mtime": 1789006935.234105,
-    "seen": 1789007216.0296009,
-    "ast_hash": "e6f628bf65af68a2172cfa299b8313ec",
+    "mtime": 1789009724.312952,
+    "seen": 1789013171.0429106,
+    "ast_hash": "ffc70ac21960d6a6ecf36d96beed01cb",
     "semantic_hash": ""
   },
   ".spec/verification/migrate-order-workflow-to-axon-java.json": {
-    "mtime": 1789004046.4715521,
-    "seen": 1789007216.030505,
-    "ast_hash": "dd214e0fb570acb89871a6b83ccad9c0",
+    "mtime": 1789013761.5222397,
+    "seen": 1789014771.4326894,
+    "ast_hash": "4f09219fe7c4bfd9c209900c6f9487d9",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/configuration/AmqpTopologyConfiguration.java": {
@@ -5406,9 +5406,9 @@
     "semantic_hash": ""
   },
   "test/migrate-order-workflow-to-axon-java.test.mjs": {
-    "mtime": 1788997297.049383,
-    "seen": 1789007216.033525,
-    "ast_hash": "e0200ccb1a2fb0ed434aae78b8d99de6",
+    "mtime": 1789009925.0330632,
+    "seen": 1789013171.0608296,
+    "ast_hash": "3c9ab7e1ed4f87d104cad7bf5ceaacf6",
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/audit-current-java.md": {
@@ -5430,15 +5430,15 @@
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/plano-execucao.html": {
-    "mtime": 1789006935.2351053,
-    "seen": 1789007216.0353312,
-    "ast_hash": "158c3602a0cb409fdf81f380cb67d2a0",
+    "mtime": 1789009724.3145971,
+    "seen": 1789013171.0635476,
+    "ast_hash": "e63325542d903f01473ab6a1bf4440b3",
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/plano-execucao.md": {
-    "mtime": 1789006935.2331052,
-    "seen": 1789007216.0353324,
-    "ast_hash": "535fa1324745ed125238ba7d21463e34",
+    "mtime": 1789009724.312952,
+    "seen": 1789013171.0635493,
+    "ast_hash": "c0f1166936917f986b6d4cde4231e53c",
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/refactor-audit-and-plan.md": {
@@ -5454,9 +5454,9 @@
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/tasks.md": {
-    "mtime": 1789006922.7390022,
-    "seen": 1789007216.0353355,
-    "ast_hash": "ebe9e8f52a2d701a193aff2188590e89",
+    "mtime": 1789013185.430378,
+    "seen": 1789013192.9255443,
+    "ast_hash": "6968a8265fb461f160cd23ee9a09bfbc",
     "semantic_hash": ""
   },
   ".spec/features/migrate-order-workflow-to-axon-java/testing-matrix.md": {
