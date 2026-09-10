@@ -251,3 +251,26 @@
 - Acceptance: Every checkbox in Section P is supported by current evidence; all AC-280 through AC-293 annotated tests pass; zero critical skips/failures; `onp-spec verify` and `audit --ci` exit 0; Java is the sole owner and Node is absent from active inventories.
 - Risks/blockers: Destructive removal requires an approved backup/restore and retention checkpoint; any unresolved critical `NOT VERIFIED` item prevents task completion.
 - Rollback: Restore deleted source/deployment artifacts from version control only before legacy data/topology retirement; after retention cleanup use the approved backup/restore or forward-recovery runbook, not ad hoc reversal.
+
+## T-254 — Reanchor retired Node evidence and refresh the global verification ledger [pendente]
+- Refs: US-136, AC-291, AC-292
+- Arquivos: .spec/features, .spec/verification, docs/adrs/008-native-commerce-and-order-workflow.md, docs/runbooks/java-axon-order-workflow-operations.md
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Approval: The user explicitly approved sequential execution with `gpt-5.6-sol` and high effort in a new clean-context chat.
+- Dependencies: T-253 and its successful 14/14 acceptance-criterion verification with 515 tests.
+- Objective: Replace completed-task mappings to retired Node paths with durable retirement evidence, correct invalid literal glob mappings, and regenerate every obsolete feature verification so the repository-wide audit reflects the Java-only architecture.
+- Bounded context: Repository governance and verification ledger technical boundary; no business context ownership or runtime behavior changes.
+- Use case: Preserve truthful historical traceability after the deliberate deletion of `apps/order-workflow-subgraph` and close the global mechanical Definition of Done.
+- Aggregate: None; this task changes specification metadata and generated verification evidence only.
+- Invariants: The Node application stays deleted; historical claims remain attributable to durable retirement evidence; no acceptance criterion, test, task, or verification result is weakened or removed; all mapped paths exist; `audit --ci` exits zero.
+- Consistency boundary: The complete `.spec/features` task inventory and `.spec/verification` ledger are updated as one repository-governance change.
+- Affected ports: None; only specification-to-code traceability and generated verification records are affected.
+- Behavior: Every retired Node path is reanchored to the surviving Java implementation, retirement ADR/runbook, or current executable test that proves its disposition; wildcard-like mappings resolve to concrete existing paths; obsolete feature proofs are regenerated from their real runners.
+- Red: Preserve the failing global audit output reporting `ARQUIVO_INEXISTENTE` and `VERIFY_OBSOLETO` as the baseline evidence.
+- Green: Apply the smallest truthful mapping updates and run `onp-spec verify` for each obsolete feature until those two audit categories are eliminated.
+- Refactor: Consolidate repeated retired-path mappings on existing durable evidence without inventing placeholder files or restoring dead Node code.
+- Validation: `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs verify <feature>` for each obsolete feature; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs verify migrate-order-workflow-to-axon-java`; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci`; `git diff --check`.
+- Acceptance: AC-291 and AC-292 remain green, no completed task maps a missing file, every verification record is current, and the repository-wide `audit --ci` exits zero without restoring Node artifacts.
+- Risks/blockers: Historical tasks may describe artifacts that intentionally no longer exist; map them to explicit retirement evidence rather than falsifying their original implementation or adding compatibility scaffolding.
+- Rollback: Revert the metadata/evidence commit; runtime remains unaffected because this task never changes production code.
