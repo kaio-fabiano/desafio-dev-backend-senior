@@ -33,6 +33,29 @@ class OAuthConsumer {
 class ConsumerModule {}
 
 describe('OAuthResourceModule', () => {
+  it('AC-308: resolves one vendor adapter behind the verifier port @spec:AC-308', async () => {
+    const module = await Test.createTestingModule({
+      imports: [OAuthResourceModule.register(options)],
+    }).compile();
+
+    try {
+      const verifier = module.get(OAuthCredentialVerifierPort);
+
+      expect(verifier.constructor.name).toBe(
+        'BetterAuthOAuthCredentialVerifierAdapter',
+      );
+      expect(verifier).not.toBe(module.get(OAuthResourceService));
+      expect(module.get(VerifyOAuthCredentialUseCase)).toBeInstanceOf(
+        VerifyOAuthCredentialUseCase,
+      );
+      expect(module.get(GraphqlOAuthResourceGuard)).toBeInstanceOf(
+        GraphqlOAuthResourceGuard,
+      );
+    } finally {
+      await module.close();
+    }
+  });
+
   it('AC-273: resolves credential verification through NestJS providers @spec:AC-273', async () => {
     const verifyCredential = vi.fn().mockResolvedValue({
       aud: options.audience,

@@ -7,6 +7,8 @@ import {
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { VerifyOAuthCredentialUseCase } from '../application/use-cases/verify-oauth-credential.use-case.ts';
+import { BetterAuthOAuthCredentialVerifierAdapter } from '../infrastructure/better-auth-oauth-credential-verifier.adapter.ts';
 import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
 import { OAuthResourceService } from './oauth-resource.service.ts';
 
@@ -71,6 +73,16 @@ function authenticatedRequest(token: string): Request {
   });
 }
 
+function createService(
+  resourceOptions: OAuthResourceOptions = options,
+): OAuthResourceService {
+  return new OAuthResourceService(
+    new VerifyOAuthCredentialUseCase(
+      new BetterAuthOAuthCredentialVerifierAdapter(resourceOptions),
+    ),
+  );
+}
+
 describe('OAuthResourceService with real ES256 tokens and JWKS', () => {
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -82,7 +94,7 @@ describe('OAuthResourceService with real ES256 tokens and JWKS', () => {
       'fetch',
       vi.fn(async () => Response.json({ keys: [key.publicJwk] })),
     );
-    const service = new OAuthResourceService(options);
+    const service = createService();
 
     await expect(
       service.verify(authenticatedRequest(issueToken(key, 'key-valid'))),
@@ -113,7 +125,7 @@ describe('OAuthResourceService with real ES256 tokens and JWKS', () => {
     let keys = [first.publicJwk];
     const fetchJwks = vi.fn(async () => Response.json({ keys }));
     vi.stubGlobal('fetch', fetchJwks);
-    const service = new OAuthResourceService({
+    const service = createService({
       ...options,
       jwksUrl: `${options.jwksUrl}/rotation`,
     });

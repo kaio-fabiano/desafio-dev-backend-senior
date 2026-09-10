@@ -10,54 +10,66 @@ const source = (path) =>
   readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
 test('AC-212: OAuth configuration and claims fail closed @spec:AC-212', async () => {
-  const [service, unit, tokens, types] = await Promise.all([
-    source(
-      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
-    ),
-    source(
-      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts',
-    ),
-    source('libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts'),
-    source('libs/platform/nest/src/oauth-resource/oauth-resource.types.ts'),
-  ]);
+  const [adapter, adapterUnit, service, claims, tokens, types] =
+    await Promise.all([
+      source(
+        'libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.ts',
+      ),
+      source(
+        'libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.spec.ts',
+      ),
+      source(
+        'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
+      ),
+      source(
+        'libs/platform/nest/src/oauth-resource/domain/value-objects/oauth-claims.ts',
+      ),
+      source('libs/platform/nest/src/oauth-resource/oauth-resource.tokens.ts'),
+      source('libs/platform/nest/src/oauth-resource/oauth-resource.types.ts'),
+    ]);
 
-  assert.doesNotMatch(service, /TODO/);
+  assert.doesNotMatch(`${adapter}\n${service}`, /TODO/);
+  assert.match(
+    adapter,
+    /@Injectable\(\)[\s\S]*export class BetterAuthOAuthCredentialVerifierAdapter/,
+  );
+  assert.match(adapter, /@Inject\(OAuthResourceOptionsToken\)/);
+  assert.doesNotMatch(adapter, /as AccessTokenClaims/);
+  assert.doesNotMatch(adapter, /type AccessTokenClaims/);
+  assert.match(tokens, /OAUTH_RESOURCE_OPTIONS/);
+  assert.match(types, /jwksUrl: string/);
+  assert.match(adapter, /requiredClaims: \['exp', 'iat', 'sub'\]/);
+  assert.match(claims, /typeof claims\.sub !== 'string'/);
+  assert.match(claims, /typeof claims\.scope !== 'string'/);
+  assert.match(
+    adapterUnit,
+    /rejects incomplete or malformed local verification configuration/,
+  );
   assert.match(
     service,
     /@Injectable\(\)[\s\S]*export class OAuthResourceService/,
   );
-  assert.match(service, /@Inject\(OAUTH_RESOURCE_OPTIONS\)/);
-  assert.doesNotMatch(service, /Injectable\(\)\(OAuthResourceService\)/);
-  assert.doesNotMatch(service, /as AccessTokenClaims/);
-  assert.doesNotMatch(service, /type AccessTokenClaims/);
-  assert.match(tokens, /OAUTH_RESOURCE_OPTIONS/);
-  assert.match(types, /jwksUrl: string/);
-  assert.match(service, /requiredClaims: \['exp', 'iat', 'sub'\]/);
-  assert.match(service, /typeof claims\.sub !== 'string'/);
-  assert.match(service, /typeof scope !== 'string'/);
   assert.match(
-    unit,
-    /rejects incomplete or malformed local verification configuration/,
-  );
-  assert.match(
-    unit,
+    await source(
+      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts',
+    ),
     /rejects a verified payload whose subject is not a non-empty string/,
   );
 });
 
 test('AC-213: Better Auth remains the cryptographic authority @spec:AC-213', async () => {
-  const [service, integration] = await Promise.all([
+  const [adapter, integration] = await Promise.all([
     source(
-      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
+      'libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.ts',
     ),
     source(
       'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.integration.spec.ts',
     ),
   ]);
 
-  assert.match(service, /verifyAccessTokenRequest/);
-  assert.match(service, /algorithms: \['ES256'\]/);
-  assert.doesNotMatch(service, /createPublicKey|jwtVerify|createRemoteJWKSet/);
+  assert.match(adapter, /verifyAccessTokenRequest/);
+  assert.match(adapter, /algorithms: \['ES256'\]/);
+  assert.doesNotMatch(adapter, /createPublicKey|jwtVerify|createRemoteJWKSet/);
   assert.match(integration, /generateKeyPairSync\('ec'/);
   assert.match(integration, /invalidCases/);
   assert.match(integration, /toHaveBeenCalledTimes\(1\)/);
@@ -105,9 +117,12 @@ test('AC-215: Critical verifier coverage meets the project standard @spec:AC-215
 });
 
 test('AC-215: OAuth resource files are grouped by feature responsibility @spec:AC-215', async () => {
-  const [module, service, guard, subjectDecorator, scopesDecorator] =
+  const [module, adapter, service, guard, subjectDecorator, scopesDecorator] =
     await Promise.all([
       source('libs/platform/nest/src/oauth-resource/oauth-resource.module.ts'),
+      source(
+        'libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.ts',
+      ),
       source(
         'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
       ),
@@ -123,6 +138,7 @@ test('AC-215: OAuth resource files are grouped by feature responsibility @spec:A
     ]);
 
   assert.match(module, /OAuthResourceModule/);
+  assert.match(adapter, /BetterAuthOAuthCredentialVerifierAdapter/);
   assert.match(service, /OAuthResourceService/);
   assert.match(guard, /GraphqlOAuthResourceGuard/);
   assert.match(subjectDecorator, /OAuthSubject/);
@@ -145,7 +161,31 @@ test('AC-220/AC-221/AC-223: OAuth NestJS contracts pass in Vitest @spec:AC-220 @
     { cwd: new URL('..', import.meta.url) },
   );
 
-  assert.match(stdout, /17 passed/);
+  assert.match(stdout, /18 passed/);
+});
+
+test('AC-308: request orchestration is separate from Better Auth verification @spec:AC-308', async () => {
+  const [adapter, service, module] = await Promise.all([
+    source(
+      'libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.ts',
+    ),
+    source(
+      'libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts',
+    ),
+    source('libs/platform/nest/src/oauth-resource/oauth-resource.module.ts'),
+  ]);
+
+  assert.match(adapter, /implements OAuthCredentialVerifierPort/);
+  assert.match(adapter, /verifyAccessTokenRequest\(/);
+  assert.match(module, /useClass: BetterAuthOAuthCredentialVerifierAdapter/);
+  assert.match(service, /@Inject\(VerifyOAuthCredentialUseCase\)/);
+  assert.match(service, /this\.verification\.execute\(/);
+  assert.doesNotMatch(
+    service,
+    /from 'better-auth\/oauth2'.*verifyAccessTokenRequest/,
+  );
+  assert.doesNotMatch(service, /extends OAuthCredentialVerifierPort/);
+  assert.doesNotMatch(service, /async\s+verifyCredential\s*\(/);
 });
 
 test('AC-222: GraphQL OAuth decorators have co-located unit specs @spec:AC-222', async () => {

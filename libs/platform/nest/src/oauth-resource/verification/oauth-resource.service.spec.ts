@@ -4,6 +4,10 @@ import {
 } from 'better-auth/oauth2';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { OAuthCredentialVerification } from '../application/dto/oauth-credential-verification.dto.ts';
+import { OAuthCredentialVerifierPort } from '../application/ports/oauth-credential-verifier.port.ts';
+import { VerifyOAuthCredentialUseCase } from '../application/use-cases/verify-oauth-credential.use-case.ts';
+import { OAuthClaims } from '../domain/value-objects/oauth-claims.ts';
 import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
 import { OAuthRequestAdapter } from './oauth-request.adapter.ts';
 import { OAuthResourceService } from './oauth-resource.service.ts';
@@ -17,12 +21,6 @@ vi.mock('better-auth/oauth2', () => ({
   verifyAccessTokenRequest: vi.fn(),
 }));
 
-const options = {
-  audience: 'https://gateway.marketplace.local',
-  issuer: 'https://identity.marketplace.local/api/auth',
-  jwksUrl: 'https://identity.marketplace.local/api/auth/jwks',
-} satisfies OAuthResourceOptions;
-
 const verifyAccessToken = vi.mocked(verifyAccessTokenRequest);
 
 describe('OAuthResourceService', () => {
@@ -30,31 +28,14 @@ describe('OAuthResourceService', () => {
     vi.clearAllMocks();
   });
 
-  it('AC-212: rejects incomplete or malformed local verification configuration @spec:AC-212', () => {
-    expect(
-      () => new OAuthResourceService({ ...options, audience: '' }),
-    ).toThrow('OAuth audience must be a valid URL');
-    expect(
-      () => new OAuthResourceService({ ...options, issuer: 'identity' }),
-    ).toThrow('OAuth issuer must be a valid URL');
-    expect(
-      () => new OAuthResourceService({ ...options, jwksUrl: 'jwks' }),
-    ).toThrow('OAuth JWKS URL must be a valid URL');
-    expect(
-      () => new OAuthResourceService({ ...options, audience: 'ftp://gateway' }),
-    ).toThrow('OAuth audience must be a valid URL');
-  });
-
-  it('delegates ES256 verification and maps the authenticated claims', async () => {
-    verifyAccessToken.mockResolvedValue({
-      aud: [options.audience, 'https://identity.marketplace.local'],
-      exp: 2_000_000_000,
-      iat: 1_900_000_000,
-      iss: options.issuer,
+  it('AC-308: delegates request verification to the use case @spec:AC-308', async () => {
+    const expected = OAuthClaims.from({
+      aud: ['https://gateway.marketplace.local'],
       scope: 'orders:read cart:write',
       sub: 'buyer-1',
     });
-    const service = new OAuthResourceService(options);
+    const execute = vi.fn().mockResolvedValue(expected);
+    const service = new OAuthResourceService({ execute });
     const request = new Request('https://gateway.marketplace.local/graphql', {
       headers: { authorization: 'Bearer token' },
       method: 'POST',
@@ -62,87 +43,97 @@ describe('OAuthResourceService', () => {
 
     const auth = await service.verify(request);
 
-    expect(auth).toMatchObject({
-      audience: [options.audience, 'https://identity.marketplace.local'],
-      scopes: ['orders:read', 'cart:write'],
-      subject: 'buyer-1',
-    });
+    expect(auth).toBe(expected);
     expect(requestToResourceInput).toHaveBeenCalledWith(request);
-    expect(verifyAccessToken).toHaveBeenCalledWith(
-      expect.objectContaining({
-        authorizationHeader: 'Bearer token',
-        method: 'POST',
-        url: request.url,
-      }),
-      {
-        jwksUrl: options.jwksUrl,
-        verifyOptions: {
-          algorithms: ['ES256'],
-          audience: options.audience,
-          issuer: options.issuer,
-          requiredClaims: ['exp', 'iat', 'sub'],
-        },
-      },
+    expect(execute).toHaveBeenCalledWith(
+      new OAuthCredentialVerification(
+        'Bearer token',
+        undefined,
+        'POST',
+        request.url,
+      ),
     );
   });
 
+  it('preserves direct option validation through the dedicated adapter', () => {
+    const options = {
+      audience: 'ftp://gateway',
+      issuer: 'https://identity.marketplace.local/api/auth',
+      jwksUrl: 'https://identity.marketplace.local/api/auth/jwks',
+    } satisfies OAuthResourceOptions;
+
+    expect(() => new OAuthResourceService(options)).toThrow(
+      'OAuth audience must be a valid URL',
+    );
+  });
+
+  it('preserves direct verification through the dedicated adapter', async () => {
+    verifyAccessToken.mockResolvedValue({
+      aud: 'https://gateway.marketplace.local',
+      sub: 'buyer-1',
+    });
+    const service = new OAuthResourceService({
+      audience: 'https://gateway.marketplace.local',
+      issuer: 'https://identity.marketplace.local/api/auth',
+      jwksUrl: 'https://identity.marketplace.local/api/auth/jwks',
+    });
+
+    await expect(
+      service.verify(new Request('https://gateway.marketplace.local/graphql')),
+    ).resolves.toMatchObject({ subject: 'buyer-1' });
+    expect(verifyAccessToken).toHaveBeenCalledOnce();
+  });
+
   it('rejects a verified payload whose subject is not a non-empty string', async () => {
-    const service = new OAuthResourceService(options);
-    const malformedClaims = { sub: 42 } as unknown as Awaited<
-      ReturnType<typeof verifyAccessTokenRequest>
-    >;
-    verifyAccessToken.mockResolvedValue(malformedClaims);
+    const verifyCredential = vi.fn().mockResolvedValue({ sub: 42 });
+    const service = new OAuthResourceService(
+      new VerifyOAuthCredentialUseCase({ verifyCredential }),
+    );
 
     await expect(
       service.verify(new Request('https://gateway.marketplace.local/graphql')),
     ).rejects.toThrow('Access token subject must be a non-empty string');
 
-    verifyAccessToken.mockResolvedValue({ sub: '   ' });
+    verifyCredential.mockResolvedValue({ sub: '   ' });
     await expect(
       service.verify(new Request('https://gateway.marketplace.local/graphql')),
     ).rejects.toThrow('Access token subject must be a non-empty string');
   });
 
   it('normalizes a single audience and an absent scope claim', async () => {
-    verifyAccessToken.mockResolvedValue({
-      aud: options.audience,
-      exp: 2_000_000_000,
-      iat: 1_900_000_000,
+    const verifyCredential = vi.fn().mockResolvedValue({
+      aud: 'https://gateway.marketplace.local',
       sub: 'buyer-1',
     });
+    const service = new OAuthResourceService(
+      new VerifyOAuthCredentialUseCase({ verifyCredential }),
+    );
 
     await expect(
-      new OAuthResourceService(options).verify(
-        new Request('https://gateway.marketplace.local/graphql'),
-      ),
+      service.verify(new Request('https://gateway.marketplace.local/graphql')),
     ).resolves.toMatchObject({
-      audience: [options.audience],
+      audience: ['https://gateway.marketplace.local'],
       scopes: [],
       subject: 'buyer-1',
     });
 
-    verifyAccessToken.mockResolvedValue({
-      exp: 2_000_000_000,
-      iat: 1_900_000_000,
-      sub: 'buyer-1',
-    });
+    verifyCredential.mockResolvedValue({ sub: 'buyer-1' });
     await expect(
-      new OAuthResourceService(options).verify(
-        new Request('https://gateway.marketplace.local/graphql'),
-      ),
+      service.verify(new Request('https://gateway.marketplace.local/graphql')),
     ).resolves.toMatchObject({ audience: [] });
   });
 
   it('rejects a malformed scope returned across the verification boundary', async () => {
-    const malformedClaims = { scope: 42, sub: 'buyer-1' } as unknown as Awaited<
-      ReturnType<typeof verifyAccessTokenRequest>
-    >;
-    verifyAccessToken.mockResolvedValue(malformedClaims);
+    const verifier = {
+      verifyCredential: vi
+        .fn()
+        .mockResolvedValue({ scope: 42, sub: 'buyer-1' }),
+    } satisfies OAuthCredentialVerifierPort;
 
     await expect(
-      new OAuthResourceService(options).verify(
-        new Request('https://gateway.marketplace.local/graphql'),
-      ),
+      new OAuthResourceService(
+        new VerifyOAuthCredentialUseCase(verifier),
+      ).verify(new Request('https://gateway.marketplace.local/graphql')),
     ).rejects.toThrow('Access token scope must be a string');
   });
 });
