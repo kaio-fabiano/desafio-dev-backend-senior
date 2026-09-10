@@ -4,17 +4,13 @@ import dev.desafio.transaction.transaction.application.query.CheckoutOperationVi
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
 import dev.desafio.transaction.transaction.domain.Transaction;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@Component
-@ConditionalOnProperty(name = "spring.datasource.url")
 public final class JdbcTransactionReadRepository implements TransactionReadRepository {
     private static final String TRANSACTION_COLUMNS = """
         transaction_id, operation_key, owner_subject, woo_order_id, amount,

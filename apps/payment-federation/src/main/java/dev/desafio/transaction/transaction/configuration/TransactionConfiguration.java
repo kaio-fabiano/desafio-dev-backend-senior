@@ -1,15 +1,20 @@
 package dev.desafio.transaction.transaction.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.desafio.transaction.transaction.adapter.persistence.JdbcCheckoutOperationRepository;
-import dev.desafio.transaction.transaction.adapter.persistence.JdbcTransactionOutbox;
-import dev.desafio.transaction.transaction.adapter.persistence.JdbcTransactionViewStore;
+import dev.desafio.transaction.transaction.adapter.persistence.CheckoutOperationJpaRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaCheckoutOperationRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionOutbox;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionReadRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionViewStore;
+import dev.desafio.transaction.transaction.adapter.persistence.TransactionOutboxJpaRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.TransactionViewJpaRepository;
 import dev.desafio.transaction.transaction.application.TransactionOutbox;
 import dev.desafio.transaction.transaction.application.TransactionViewStore;
 import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcomeHandler;
 import dev.desafio.transaction.transaction.application.command.StartTransactionHandler;
 import dev.desafio.transaction.transaction.application.event.TransactionEventHandler;
 import dev.desafio.transaction.transaction.application.query.FindTransactionHandler;
+import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutService;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
@@ -28,13 +33,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 
+import jakarta.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.net.URI;
 import java.time.Clock;
 import java.time.Duration;
 
 @Configuration(proxyBeanMethods = false)
+// Jpa adapters replace JdbcCheckoutOperationRepository and JdbcTransactionViewStore at runtime.
 public class TransactionConfiguration {
     @Bean
     @ConditionalOnMissingBean(Clock.class)
@@ -54,20 +62,41 @@ public class TransactionConfiguration {
 
     @Bean
     @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
-    CheckoutOperationRepository checkoutOperationRepository(DataSource dataSource, ObjectMapper json) {
-        return new JdbcCheckoutOperationRepository(dataSource, json);
+    CheckoutOperationRepository checkoutOperationRepository(
+        CheckoutOperationJpaRepository records,
+        EntityManager entityManager,
+        PlatformTransactionManager transactionManager
+    ) {
+        return new JpaCheckoutOperationRepository(records, entityManager, transactionManager);
     }
 
     @Bean
     @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
-    TransactionViewStore transactionViewStore(DataSource dataSource) {
-        return new JdbcTransactionViewStore(dataSource);
+    TransactionViewStore transactionViewStore(
+        TransactionViewJpaRepository records,
+        PlatformTransactionManager transactionManager
+    ) {
+        return new JpaTransactionViewStore(records, transactionManager);
     }
 
     @Bean
     @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
-    TransactionOutbox transactionOutbox(DataSource dataSource, ObjectMapper json) {
-        return new JdbcTransactionOutbox(dataSource, json);
+    TransactionOutbox transactionOutbox(
+        ObjectMapper json,
+        TransactionOutboxJpaRepository records,
+        EntityManager entityManager,
+        PlatformTransactionManager transactionManager
+    ) {
+        return new JpaTransactionOutbox(json, records, entityManager, transactionManager);
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    TransactionReadRepository transactionReadRepository(
+        CheckoutOperationJpaRepository checkouts,
+        TransactionViewJpaRepository transactions
+    ) {
+        return new JpaTransactionReadRepository(checkouts, transactions);
     }
 
     @Bean("transactionOutboxRelay")
