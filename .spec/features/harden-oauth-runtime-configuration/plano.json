@@ -1,0 +1,52 @@
+{
+  "runId": "desafio-dev-backend-senior-harden-oauth-runtime-config-harden-oauth-runtime-configuration-mtvvof25",
+  "feature": "harden-oauth-runtime-configuration",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 18:45",
+  "branchTrabalho": "spec/harden-oauth-runtime-configuration",
+  "baseDir": ".spec/features/harden-oauth-runtime-configuration",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior-harden-oauth-runtime-config",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-harden-oauth-runtime-config-harden-oauth-runtime-configuration-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-269",
+      "titulo": "Harden OAuth runtime configuration and Gateway DPoP replay protection",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "infra/sst.config.ts",
+        "libs/identity/nest/src/better-auth/better-auth.factory.ts",
+        "libs/identity/nest/src/better-auth/better-auth.factory.spec.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts",
+        "libs/gateway/nest/src/auth/gateway-auth.module.ts",
+        "libs/gateway/nest/src/auth/gateway-auth.module.spec.ts",
+        "libs/gateway/nest/src/infrastructure/auth/dynamo-dpop-replay.store.ts",
+        "libs/gateway/nest/src/infrastructure/auth/dynamo-dpop-replay.store.spec.ts",
+        "test/harden-oauth-runtime-configuration.test.mjs",
+        "docs/evidence/harden-oauth-runtime-configuration/T-269.md"
+      ],
+      "refs": [
+        "US-142",
+        "US-143",
+        "AC-308",
+        "AC-309",
+        "AC-310"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
