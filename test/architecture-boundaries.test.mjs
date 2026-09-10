@@ -146,6 +146,7 @@ test('AC-091: domain and application code depend only on inward contracts @spec:
       }
       const dependencyContext = contextOf(dependency);
       if (
+        dependency.startsWith('dev.desafio.') &&
         sourceContext &&
         dependencyContext &&
         sourceContext !== dependencyContext

@@ -1,0 +1,103 @@
+{
+  "feature": "migrate-order-workflow-to-axon-java",
+  "timestamp": "2026-09-10T04:16:01.519Z",
+  "gitRev": "29e9dc4f",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 516,
+  "results": {
+    "AC-280": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-281": {
+      "status": "pass",
+      "testName": "Inventory uses distinct Axon command, event, and query paths @spec:AC-281",
+      "method": "tap"
+    },
+    "AC-282": {
+      "status": "pass",
+      "testName": "Inventory event streams and projections are replayable and durable @spec:AC-282",
+      "method": "tap"
+    },
+    "AC-283": {
+      "status": "pass",
+      "testName": "Payment invariants and provider idempotency survive Axon conversion @spec:AC-283",
+      "method": "tap"
+    },
+    "AC-284": {
+      "status": "pass",
+      "testName": "Inventory converges independently for duplicate, stale, and concurrent work @spec:AC-284",
+      "method": "tap"
+    },
+    "AC-293": {
+      "status": "pass",
+      "testName": "AC-110: RabbitMQ delivers the durable choreographed lifecycle @spec:AC-110 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-285": {
+      "status": "pass",
+      "testName": "Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285 @spec:AC-229 @spec:AC-243",
+      "method": "tap"
+    },
+    "AC-286": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-287": {
+      "status": "pass",
+      "testName": "Replayable projections use distinct command, event, and query paths @spec:AC-281 @spec:AC-287",
+      "method": "tap"
+    },
+    "AC-288": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-289": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-290": {
+      "status": "pass",
+      "testName": "Final repository and operations evidence covers every T-253 quality gate @spec:AC-280 @spec:AC-282 @spec:AC-286 @spec:AC-288 @spec:AC-289 @spec:AC-290 @spec:AC-291 @spec:AC-292 @spec:AC-293",
+      "method": "tap"
+    },
+    "AC-291": {
+      "status": "pass",
+      "testName": "Java is the sole deployed Transaction owner after Node retirement @spec:AC-291",
+      "method": "tap"
+    },
+    "AC-292": {
+      "status": "pass",
+      "testName": "Inventory migration passes its focused repository quality gates @spec:AC-292",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "pass",
+      "testName": "AC-268: characterized Gateway behavior moves behind application orchestration @spec:AC-268 @principle:P-003"
+    },
+    "P-006": {
+      "status": "pass",
+      "testName": "the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006"
+    },
+    "P-007": {
+      "status": "pass",
+      "testName": "unlayered orchestration and unknown production roots fail the repository gate @spec:AC-261 @principle:P-007"
+    },
+    "P-005": {
+      "status": "pass",
+      "testName": "AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005"
+    },
+    "P-004": {
+      "status": "pass",
+      "testName": "AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004"
+    }
+  }
+}

@@ -11,7 +11,6 @@ test('AC-078: acceptance executes the production topology @spec:AC-078', async (
   for (const component of [
     'gateway',
     'identity-subgraph',
-    'order-workflow-subgraph',
     'order-workflow-database',
     'rabbitmq',
     'payment-federation',

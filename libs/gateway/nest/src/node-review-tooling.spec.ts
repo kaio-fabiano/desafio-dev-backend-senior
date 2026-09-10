@@ -25,7 +25,6 @@ describe('Node review tooling', () => {
       [
         'apps/gateway/project.json',
         'apps/identity-subgraph/project.json',
-        'apps/order-workflow-subgraph/project.json',
       ].map(source),
     );
 
@@ -40,7 +39,6 @@ describe('Node review tooling', () => {
       [
         'apps/gateway/project.json',
         'apps/identity-subgraph/project.json',
-        'apps/order-workflow-subgraph/project.json',
       ].map(
         async (path) =>
           JSON.parse(await source(path)) as {
@@ -61,10 +59,6 @@ describe('Node review tooling', () => {
     const applications = [
       ['@desafio-dev-backend-senior/gateway', 'gateway'],
       ['@desafio-dev-backend-senior/identity-subgraph', 'identity-subgraph'],
-      [
-        '@desafio-dev-backend-senior/order-workflow-subgraph',
-        'order-workflow-subgraph',
-      ],
     ];
     const cwd = new URL('../../../../', import.meta.url);
 
@@ -95,7 +89,6 @@ describe('Node review tooling', () => {
     const applications = [
       ['apps/gateway/project.json', 'gateway'],
       ['apps/identity-subgraph/project.json', 'identity-subgraph'],
-      ['apps/order-workflow-subgraph/project.json', 'order-workflow-subgraph'],
     ];
 
     for (const [path, application] of applications) {
@@ -187,14 +180,14 @@ describe('Node review tooling', () => {
     );
   });
 
-  it('loads workflow decorators in a tsx subprocess and resolves an injected Nest provider @spec:AC-225', async () => {
+  it('loads active decorators in a tsx subprocess and resolves an injected Nest provider @spec:AC-225', async () => {
     const { stdout } = await execFileAsync(
       process.execPath,
       [
         '--import',
         'tsx',
         '-e',
-        "import('reflect-metadata').then(() => import('./apps/order-workflow-subgraph/src/health.controller.ts')).then(({ HealthController }) => console.log(Reflect.getMetadata('path', HealthController)))",
+        "import('reflect-metadata').then(() => import('./apps/gateway/src/health.controller.ts')).then(({ HealthController }) => console.log(Reflect.getMetadata('path', HealthController)))",
       ],
       {
         cwd: new URL('../../../../', import.meta.url),

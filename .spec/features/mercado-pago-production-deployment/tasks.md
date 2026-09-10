@@ -23,7 +23,7 @@
 - Refs: US-096, AC-191, AC-192
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: infra/sst.config.ts, infra/package.json, apps/payment-federation/Dockerfile, apps/order-workflow-subgraph/Dockerfile, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/apollo-mcp/Dockerfile, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
+- Arquivos: infra/sst.config.ts, infra/package.json, apps/payment-federation/Dockerfile, docs/runbooks/java-axon-order-workflow-operations.md, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/apollo-mcp/Dockerfile, test/mercado-pago-production-deployment.test.mjs, docs/runbooks/deployment.md
 - Notas: Represent the complete required topology, bind managed secrets to Payment Federation, expose only required entry points, validate and diff before any deploy, and preserve production protection.
 
 ## T-149 — Deploy the approved stage and run release smoke tests [concluida]
@@ -111,7 +111,7 @@
 - Refs: US-096, AC-191, AC-192, AC-193
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, apps/order-workflow-subgraph/src/persistence/mikro-orm.config.ts, apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, test/mercado-pago-production-deployment.test.mjs
+- Arquivos: infra/sst.config.ts, apps/apollo-mcp/Dockerfile, apps/wordpress-integration/scripts/production-entrypoint.sh, docs/runbooks/java-axon-order-workflow-operations.md, libs/identity/nest/src/better-auth/better-auth.factory.ts, apps/e2e/src/journey.ts, apps/e2e/src/sandbox-bearer.ts, apps/e2e/src/sandbox-bearer.test.ts, test/mercado-pago-production-deployment.test.mjs
 - Notas: Fix the observed ECS startup failures at their source, preserve non-root containers where supported, prove database credentials are passed without stringifying secret outputs, keep durable broker data writable, permit sandbox bearer issuance only through HTTPS or loopback Identity endpoints, and require public health checks to succeed before release evidence is accepted.
 
 ## T-161 — Validate the merged sandbox release operationally [concluida]

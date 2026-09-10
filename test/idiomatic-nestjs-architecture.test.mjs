@@ -22,70 +22,6 @@ const expectedModules = {
     providers: [],
     exports: [],
   },
-  'apps/order-workflow-subgraph/src/app.module.ts': {
-    imports: [
-      'ConfigModule.forRoot',
-      'PersistenceModule',
-      'OrderEventsModule',
-      'MessagingModule',
-      'OrderWorkflowGraphqlModule',
-    ],
-    providers: [],
-    exports: [],
-  },
-  'apps/order-workflow-subgraph/src/checkout/checkout.module.ts': {
-    imports: ['PersistenceModule'],
-    providers: [
-      'WOO_CHECKOUT',
-      'CHECKOUT_REPOSITORY',
-      'OUTBOX_REPOSITORY',
-      'CheckoutService',
-    ],
-    exports: ['CheckoutService'],
-  },
-  'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts': {
-    imports: [
-      'PersistenceModule',
-      'CheckoutModule',
-      'OrderEventsModule',
-      'OAuthResourceModule.register',
-      'GraphQLModule.forRoot',
-    ],
-    providers: [
-      'OrderWorkflowOperationsService',
-      'ORDER_WORKFLOW_OPERATIONS',
-      'OrderWorkflowResolver',
-      'OrderWorkflowSubscriptionResolver',
-      'OrderWorkflowSseConnections',
-      'OrderWorkflowSseMiddleware',
-      'APP_GUARD',
-    ],
-    exports: [],
-  },
-  'apps/order-workflow-subgraph/src/messaging/messaging.module.ts': {
-    imports: ['PersistenceModule'],
-    providers: ['OrderWorkflowRuntimeLifecycle'],
-    exports: ['OrderWorkflowRuntimeLifecycle'],
-  },
-  'apps/order-workflow-subgraph/src/order-events/order-events.module.ts': {
-    imports: ['PersistenceModule'],
-    providers: [
-      'OrderEventBroker',
-      'MikroOrmOrderEventReplay',
-      'PostgresOrderEventRelay',
-      'OrderEventsSubscription',
-    ],
-    exports: [
-      'OrderEventBroker',
-      'OrderEventsSubscription',
-      'PostgresOrderEventRelay',
-    ],
-  },
-  'apps/order-workflow-subgraph/src/persistence/persistence.module.ts': {
-    imports: [],
-    providers: ['ORDER_WORKFLOW_ORM', 'ORDER_WORKFLOW_ENTITY_MANAGER'],
-    exports: ['ORDER_WORKFLOW_ORM', 'ORDER_WORKFLOW_ENTITY_MANAGER'],
-  },
   'libs/gateway/nest/src/auth/gateway-auth.module.ts': {
     imports: ['ConfigModule', 'OAuthResourceModule.register'],
     providers: [
@@ -202,7 +138,6 @@ const expectedModules = {
 
 const expectedManualUseCases = [];
 const expectedRuntimeBoundaries = [
-  'apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts',
   'libs/gateway/nest/src/federation/gateway-federation.configuration.ts',
   'libs/identity/nest/src/registration/registration.service.ts',
 ];

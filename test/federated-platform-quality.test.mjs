@@ -45,7 +45,6 @@ test('AC-103: quality gates explain and enforce the architecture walkthrough @sp
       'Gateway',
       'Identity Federation',
       'Payment Federation',
-      'Order Workflow Federation',
     ],
   );
 

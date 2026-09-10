@@ -28,7 +28,7 @@ async function javaSources(directory) {
   ).flat();
 }
 
-test('AC-170: Payment and Inventory use consistent inward layers @spec:AC-170', async () => {
+test('AC-170: Transaction, Payment and Inventory use consistent inward layers @spec:AC-170', async () => {
   const sources = await javaSources(transactionRoot);
   const contexts = new Set();
   const violations = [];
@@ -36,11 +36,11 @@ test('AC-170: Payment and Inventory use consistent inward layers @spec:AC-170', 
   for (const { path, source } of sources) {
     const relative = path.slice(transactionRoot.length + 1);
     const [context] = relative.split('/');
-    if (context === 'payment' || context === 'inventory') contexts.add(context);
+    if (['transaction', 'payment', 'inventory'].includes(context)) contexts.add(context);
 
     if (
       relative !== 'PaymentFederationApplication.java' &&
-      !/^(?:payment|inventory)\/(?:domain|application|adapter|configuration)\//.test(
+      !/^(?:(?:payment|inventory|transaction)\/(?:domain|application|adapter|configuration|checkout|infrastructure|interfaces)\/|configuration\/[^/]+\.java$|contracts\/integration\/v1\/[^/]+\.java$|shared\/(?:infrastructure|interfaces)\/[^/]+\/[^/]+\.java$|migration\/[^/]+\.java$)/.test(
         relative,
       )
     ) {
@@ -64,7 +64,7 @@ test('AC-170: Payment and Inventory use consistent inward layers @spec:AC-170', 
     }
   }
 
-  assert.deepEqual([...contexts].sort(), ['inventory', 'payment']);
+  assert.deepEqual([...contexts].sort(), ['inventory', 'payment', 'transaction']);
   assert.deepEqual(violations, []);
 });
 

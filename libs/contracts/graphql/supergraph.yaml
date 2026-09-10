@@ -15,6 +15,6 @@ subgraphs:
     schema:
       file: ./payment/schema.graphql
   order-workflow:
-    routing_url: http://order-workflow-subgraph:3003/graphql
+    routing_url: http://payment-federation:8080/graphql
     schema:
       file: ./order-workflow/schema.graphql

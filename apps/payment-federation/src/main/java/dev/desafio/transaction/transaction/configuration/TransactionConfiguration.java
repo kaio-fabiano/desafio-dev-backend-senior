@@ -1,0 +1,143 @@
+package dev.desafio.transaction.transaction.configuration;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.desafio.transaction.transaction.adapter.persistence.JdbcCheckoutOperationRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.JdbcTransactionOutbox;
+import dev.desafio.transaction.transaction.adapter.persistence.JdbcTransactionViewStore;
+import dev.desafio.transaction.transaction.application.TransactionOutbox;
+import dev.desafio.transaction.transaction.application.TransactionViewStore;
+import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcomeHandler;
+import dev.desafio.transaction.transaction.application.command.StartTransactionHandler;
+import dev.desafio.transaction.transaction.application.event.TransactionEventHandler;
+import dev.desafio.transaction.transaction.application.query.FindTransactionHandler;
+import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
+import dev.desafio.transaction.transaction.checkout.CheckoutService;
+import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.adapter.woocommerce.WooCommerceGraphQlOrderAdapter;
+import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;
+import dev.desafio.transaction.shared.infrastructure.messaging.IntegrationEventJson;
+import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelay;
+import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelayScheduler;
+import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
+import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
+import java.net.URI;
+import java.time.Clock;
+import java.time.Duration;
+
+@Configuration(proxyBeanMethods = false)
+public class TransactionConfiguration {
+    @Bean
+    @ConditionalOnMissingBean(Clock.class)
+    Clock transactionClock() {
+        return Clock.systemUTC();
+    }
+
+    @Bean
+    StartTransactionHandler startTransactionHandler(Clock clock) {
+        return new StartTransactionHandler(clock);
+    }
+
+    @Bean
+    RecordTransactionOutcomeHandler recordTransactionOutcomeHandler(Clock clock) {
+        return new RecordTransactionOutcomeHandler(clock);
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    CheckoutOperationRepository checkoutOperationRepository(DataSource dataSource, ObjectMapper json) {
+        return new JdbcCheckoutOperationRepository(dataSource, json);
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    TransactionViewStore transactionViewStore(DataSource dataSource) {
+        return new JdbcTransactionViewStore(dataSource);
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    TransactionOutbox transactionOutbox(DataSource dataSource, ObjectMapper json) {
+        return new JdbcTransactionOutbox(dataSource, json);
+    }
+
+    @Bean("transactionOutboxRelay")
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    OutboxRelay transactionOutboxRelay(
+        DataSource dataSource,
+        ObjectMapper json,
+        RabbitTemplate rabbit,
+        Clock clock
+    ) {
+        var codec = new IntegrationEventJson(json);
+        return new OutboxRelay(
+            new JdbcOutboxStore(dataSource, json, "transaction"),
+            new ConfirmedAmqpPublisher(rabbit, codec), codec, clock, "transaction-relay"
+        );
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    OutboxRelayScheduler transactionOutboxRelayScheduler(
+        @Qualifier("transactionOutboxRelay") OutboxRelay relay
+    ) {
+        return new OutboxRelayScheduler(relay);
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    TransactionEventHandler transactionEventHandler(TransactionViewStore views, TransactionOutbox outbox) {
+        return new TransactionEventHandler(views, outbox);
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    FindTransactionHandler findTransactionHandler(TransactionViewStore views) {
+        return new FindTransactionHandler(views);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = {
+        "transaction.checkout.wordpress-url",
+        "transaction.checkout.site-token"
+    })
+    WooCommerceOrderPort wooCommerceOrderPort(
+        @Value("${transaction.checkout.wordpress-url}") URI wordpress,
+        @Value("${transaction.checkout.service-identity:payment-federation}") String serviceIdentity,
+        @Value("${transaction.checkout.site-token}") String siteToken,
+        ObjectMapper json
+    ) {
+        return WooCommerceGraphQlOrderAdapter.connect(wordpress, serviceIdentity, siteToken, json);
+    }
+
+    @Bean
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    @ConditionalOnProperty(name = {
+        "transaction.checkout.wordpress-url",
+        "transaction.checkout.site-token"
+    })
+    CheckoutService checkoutService(
+        CheckoutOperationRepository operations,
+        WooCommerceOrderPort woo,
+        CommandGateway commands,
+        Clock clock,
+        @Value("${transaction.checkout.wait-timeout:PT2S}") Duration waitTimeout
+    ) {
+        return new CheckoutService(
+            operations,
+            woo,
+            command -> commands.sendAndWait(command, String.class),
+            clock,
+            waitTimeout
+        );
+    }
+}

@@ -17,16 +17,17 @@ test('AC-116: final records describe the delivered runtime @spec:AC-116', () => 
   assert.doesNotMatch(requirements, /pending T-/);
   assert.match(deadline, /2026-09-03/);
   assert.match(deadline, /date only/);
-  assert.match(readme, /five deployable applications/);
-  assert.match(boundaries, /"name": "Order Workflow Federation"/);
+  assert.match(readme, /four deployable applications/);
+  assert.doesNotMatch(boundaries, /"name": "Order Workflow Federation"/);
   assert.match(
     boundaries,
-    /"retiredApplications": \["apps\/stock-worker", "apps\/wordpress-federation"\]/,
+    /"retiredApplications":[\s\S]*"apps\/order-workflow-subgraph"/,
   );
   assert.match(tasks, /T-090[^\n]*\[concluida\]/);
-  assert.match(compose, /^  order-workflow-subgraph:/m);
-  assert.match(compose, /^  rabbitmq:/m);
+  assert.doesNotMatch(compose, /^  order-workflow-subgraph:/m);
   assert.match(compose, /^  payment-federation:/m);
+  assert.equal(existsSync('apps/order-workflow-subgraph'), false);
+  assert.match(compose, /^  rabbitmq:/m);
   assert.doesNotMatch(compose, /^  stock-worker:/m);
   assert.equal(
     existsSync('apps/wordpress-integration/marketplace-inventory.php'),

@@ -29,7 +29,7 @@ import { GatewaySseMiddleware } from './subscriptions/sse.middleware.ts';
       useFactory: (config: ConfigService) =>
         new OrderWorkflowSubscriptionClient(
           config.get<string>('ORDER_WORKFLOW_SUBSCRIPTION_URL') ??
-            'http://order-workflow-subgraph:3003/graphql/stream',
+            'http://payment-federation:8080/graphql',
         ),
     },
     {

@@ -20,7 +20,7 @@
 - Refs: US-088, US-090, AC-176, AC-178
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/order-workflow-subgraph/src/graphql, apps/order-workflow-subgraph/src/graphql/sse, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/project.json, test/oauth-resource-server-auth.spec.test.mjs, test/production-happy-path-hardening.spec.test.js
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, test/oauth-resource-server-auth.spec.test.mjs, test/production-happy-path-hardening.spec.test.js
 - Notas: Replace FederationAuthGuard with the shared OAuth integration while preserving SubjectOwnerGuard as bounded-context authorization.
 
 ## T-136 — Forward bearer credentials through the Gateway [concluida]
@@ -55,7 +55,7 @@
 - Refs: US-092, AC-181, AC-183
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/order-workflow-subgraph/src/graphql/authenticated-subject.decorator.ts, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts, libs/identity/nest/src/identity.module.ts, test/oauth-resource-server-auth.spec.test.mjs
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, libs/identity/nest/src/identity.module.ts, test/oauth-resource-server-auth.spec.test.mjs
 - Notas: Use the shared OAuth subject decorator, keep only workflow-session extraction locally, and make the GraphQL-only guard specialization explicit at every consumer.
 
 ## T-141 — Consolidate Gateway verification on the shared OAuth service [concluida]
@@ -76,5 +76,5 @@
 - Refs: US-092, AC-176, AC-179, AC-184
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/oauth-issuer/oauth-resources.ts, libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/Dockerfile, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/persistence/JdbcPaymentRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, apps/order-workflow-subgraph/Dockerfile, apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts, apps/order-workflow-subgraph/src/outbox/outbox.repository.ts, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, compose.yaml, test/delivery-closure-rabbitmq.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs, test/production-happy-path-hardening.spec.test.js, test/structural-commerce-review.test.mjs, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
+- Arquivos: libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/oauth-issuer/oauth-resources.ts, libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/Dockerfile, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/persistence/JdbcPaymentRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java, apps/gateway/Dockerfile, apps/identity-subgraph/Dockerfile, docs/runbooks/java-axon-order-workflow-operations.md, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts, compose.yaml, test/delivery-closure-rabbitmq.test.mjs, test/oauth-resource-server-auth.spec.test.mjs, test/payment-federation-clean-architecture.spec.test.mjs, test/production-happy-path-hardening.spec.test.js, test/structural-commerce-review.test.mjs, graphify-out, .spec/features/oauth-resource-server-auth, .spec/verification/oauth-resource-server-auth.json
 - Notas: Preserve NestJS module metadata without unsupported decorator syntax, give the structural Java test its actual unique name, run the exact failing Nx targets locally, refresh Graphify after commit, and require the fork PR CI to pass before merge.

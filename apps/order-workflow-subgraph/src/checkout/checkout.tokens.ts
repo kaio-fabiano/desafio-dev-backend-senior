@@ -1,3 +1,0 @@
-export const WOO_CHECKOUT = Symbol('WOO_CHECKOUT');
-export const CHECKOUT_REPOSITORY = Symbol('CHECKOUT_REPOSITORY');
-export const OUTBOX_REPOSITORY = Symbol('OUTBOX_REPOSITORY');

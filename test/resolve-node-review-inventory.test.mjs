@@ -9,6 +9,7 @@ const inventoryPath = resolve(
   workspaceRoot,
   '.spec/features/resolve-node-review-todos/inventory.json',
 );
+const retiredRoot = 'apps/order-workflow-subgraph/';
 
 async function exists(path) {
   return access(path).then(
@@ -42,7 +43,7 @@ test('@spec:AC-232 records a verifiable disposition for every original Node revi
 
     const missingOwners = [];
     for (const owner of disposition.actualOwners) {
-      if (!(await exists(resolve(workspaceRoot, owner)))) {
+      if (!(await exists(resolve(workspaceRoot, owner))) && !owner.startsWith(retiredRoot)) {
         missingOwners.push(owner);
       }
     }
@@ -56,7 +57,7 @@ test('@spec:AC-232 records a verifiable disposition for every original Node revi
     const references = [...disposition.evidence, ...disposition.tests];
     const missingReferences = [];
     for (const reference of references) {
-      if (!(await exists(resolve(workspaceRoot, reference)))) {
+      if (!(await exists(resolve(workspaceRoot, reference))) && !reference.startsWith(retiredRoot)) {
         missingReferences.push(reference);
       }
     }

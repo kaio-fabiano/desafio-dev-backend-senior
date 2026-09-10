@@ -4,8 +4,8 @@
 
 An authenticated buyer uses native WooCommerce cart and order capabilities,
 executes an idempotent payment command, and observes order transitions through
-GraphQL over SSE. The final query and stream agree without a Commerce subgraph,
-Stock worker, or Gateway subscription proxy. The process boundaries follow
+GraphQL over SSE. The final query and stream agree without a Node Order Workflow
+subgraph, Stock worker, or Gateway-owned workflow state. The process boundaries follow
 [ADR 007](../adrs/007-federated-platform-boundaries.md).
 
 ## Ownership and invariants
@@ -37,24 +37,20 @@ Stock worker, or Gateway subscription proxy. The process boundaries follow
 
 ## Checkout and payment flow
 
-The composed graph exposes owner operations rather than hiding orchestration in
-Gateway:
+The composed graph exposes owner operations while the Java contexts react by
+strict RabbitMQ choreography rather than a central saga coordinator:
 
-1. the buyer opens the WordPress Federation subscription endpoint;
+1. the buyer opens the Gateway subscription endpoint backed by the Java Transaction context;
 2. through Gateway, the buyer uses the native cart/checkout mutation and obtains
    the WordPress-owned order identifier;
 3. through Gateway, the buyer executes the Payment Federation command with that
    order reference and an operation key;
-4. the owning federation applies each commercial or payment transition through
-   its explicit API and authorization rules;
-5. WordPress Federation publishes authorized order transitions to the open SSE
+4. Transaction, Inventory, and Payment exchange versioned integration events over RabbitMQ;
+5. Transaction publishes authorized order transitions to the open SSE
    subscription, and the final federated query returns the same state.
 
-The acceptance client may coordinate these explicit operations. Gateway does
-not become a workflow engine, and one subgraph does not access another
-subgraph's database. If a server-side coordinator later becomes necessary, a
-failing acceptance test must identify the owner and recovery requirement before
-a specific application use case is introduced.
+Gateway does not become a workflow engine, no context accesses another
+context's database, and no central saga coordinator owns the lifecycle.
 
 ## Failure and compensation
 
@@ -72,17 +68,11 @@ This design does not claim an atomic transaction across PostgreSQL and
 WordPress. It makes the boundary visible and testable without installing a
 generic distributed saga.
 
-## Deliberately retired event design
+## Choreographed event design
 
-The previous RabbitMQ choreography, Commerce outbox/inbox, and Stock consumer
-were implementation scaffolding for runtimes that no longer own the behavior.
-They are not target components. Payment idempotency applies equally to repeated
-GraphQL or future message delivery, but it does not require a broker.
-
-Add asynchronous delivery only when a measured requirement cannot be satisfied
-by owner APIs and native WooCommerce transitions. Such a change must define one
-versioned event, its owner, retry semantics, and executable recovery evidence;
-it is not permission to restore a generic event framework.
+Transaction, Inventory, and Payment communicate only with versioned RabbitMQ
+integration events. Each context persists its own outbox/inbox boundary and
+reacts independently; Axon records durable, replayable context state.
 
 ## GraphQL-over-SSE subscription
 
@@ -94,9 +84,8 @@ type Subscription {
 }
 ```
 
-- WordPress Federation, not Gateway, hosts the endpoint.
-- The official `graphql-sse` handler receives the executable schema already
-  created by NestJS Apollo through `GraphQLSchemaHost`.
+- Payment Federation hosts the GraphQL subscription; Gateway proxies the SSE transport.
+- Axon subscription queries isolate updates by authenticated owner and transaction.
 - Authentication succeeds before stream resources are reserved.
 - Events are filtered by authenticated subject and operation key; another
   buyer's key does not reveal whether an order exists.
@@ -124,10 +113,9 @@ HTTP. No runtime relabels one protocol as the other.
 
 ## Deliberate omissions
 
-There is no separate Stock worker, generic saga framework, distributed command
-bus, or event-sourcing layer. Commerce keeps only the workflow state and
-transactional outbox required for RabbitMQ choreography. Payment Federation
-hosts both consumers, and Gateway owns only the authenticated SSE transport.
+There is no Node Order Workflow runtime, separate Stock worker, generic saga
+framework, distributed command bus, or central coordinator. Payment Federation
+is the sole Java deployment owner, and Gateway owns only the authenticated SSE transport.
 
 ## Executable evidence
 

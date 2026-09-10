@@ -1,11 +1,11 @@
 {
   "feature": "graphql-only-woocommerce",
-  "timestamp": "2026-09-08T02:44:48.206Z",
-  "gitRev": "fcd96e4",
-  "command": "cat /tmp/strict-ddd-full-green.tap",
+  "timestamp": "2026-09-10T04:23:55.756Z",
+  "gitRev": "29e9dc4f",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 674,
+  "testsParsed": 516,
   "results": {
     "AC-241": {
       "status": "pass",
@@ -19,7 +19,7 @@
     },
     "AC-243": {
       "status": "pass",
-      "testName": "finds and validates a WooCommerce order by its exact reference through GraphQL @spec:AC-229 @spec:AC-241 @spec:AC-243 # time=5.39ms",
+      "testName": "Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285 @spec:AC-229 @spec:AC-243",
       "method": "tap"
     }
   },

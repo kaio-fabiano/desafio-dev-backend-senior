@@ -1,11 +1,11 @@
 {
   "feature": "transaction-federation-refactor",
-  "timestamp": "2026-09-08T20:12:49.126Z",
-  "gitRev": "7aa899f",
-  "command": "cat /tmp/onp-final-green.tap",
+  "timestamp": "2026-09-10T01:23:17.626Z",
+  "gitRev": "e3972aac",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 677,
+  "testsParsed": 515,
   "results": {
     "AC-139": {
       "status": "pass",
@@ -19,12 +19,12 @@
     },
     "AC-141": {
       "status": "pass",
-      "testName": "AC-141: Order Workflow remains an independent focused service @spec:AC-141",
+      "testName": "AC-141: Order Workflow is a logical contract owned by the Java deployment @spec:AC-141",
       "method": "tap"
     },
     "AC-142": {
       "status": "pass",
-      "testName": "AC-142: Order Workflow persists process state, not commerce aggregates @spec:AC-142",
+      "testName": "AC-142: Java Transaction persists process state, not commerce aggregates @spec:AC-142",
       "method": "tap"
     },
     "AC-143": {
@@ -39,7 +39,7 @@
     },
     "AC-145": {
       "status": "pass",
-      "testName": "AC-145: workflow, payment and inventory progress through RabbitMQ @spec:AC-145",
+      "testName": "AC-145: transaction, payment and inventory progress through RabbitMQ @spec:AC-145",
       "method": "tap"
     },
     "AC-146": {

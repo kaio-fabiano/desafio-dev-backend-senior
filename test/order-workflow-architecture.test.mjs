@@ -16,15 +16,15 @@ async function sources(root) {
   );
 }
 
-test('AC-145: workflow, payment and inventory progress through RabbitMQ @spec:AC-145', async () => {
-  const [workflowRuntime, workflowOutbox, paymentListener, inventoryListener] =
+test('AC-145: transaction, payment and inventory progress through RabbitMQ @spec:AC-145', async () => {
+  const [transactionListener, transactionOutbox, paymentListener, inventoryListener] =
     await Promise.all([
       readFile(
-        'apps/order-workflow-subgraph/src/messaging/order-workflow-messaging.runtime.ts',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/messaging/TransactionRabbitListener.java',
         'utf8',
       ),
       readFile(
-        'apps/order-workflow-subgraph/src/outbox/outbox.repository.ts',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JdbcTransactionOutbox.java',
         'utf8',
       ),
       readFile(
@@ -37,10 +37,11 @@ test('AC-145: workflow, payment and inventory progress through RabbitMQ @spec:AC
       ),
     ]);
 
-  assert.match(workflowOutbox, /payment\.requested/);
+  assert.match(transactionOutbox, /transaction\.order-received\.v1/);
+  assert.match(transactionListener, /RabbitListener/);
   assert.match(paymentListener, /RabbitListener/);
   assert.match(inventoryListener, /RabbitListener/);
-  assert.doesNotMatch(workflowRuntime, /fetch\(|payment-federation/);
+  assert.doesNotMatch(`${transactionListener}\n${paymentListener}\n${inventoryListener}`, /SagaManager|Coordinator/);
 });
 
 test('AC-148: Payment application depends on a provider port, not a vendor SDK @spec:AC-148', async () => {

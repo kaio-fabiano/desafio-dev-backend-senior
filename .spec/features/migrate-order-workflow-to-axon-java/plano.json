@@ -1,0 +1,70 @@
+{
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtuy75w9",
+  "feature": "migrate-order-workflow-to-axon-java",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 03:08",
+  "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
+  "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-255",
+      "titulo": "Refresh the architecture graph and close the pull request",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "graphify-out",
+        ".spec/features/migrate-order-workflow-to-axon-java",
+        ".spec/verification/keep-graphify-current.json"
+      ],
+      "refs": [
+        "US-136",
+        "AC-291",
+        "AC-292"
+      ]
+    },
+    {
+      "id": "T-256",
+      "titulo": "Serialize Java quality targets and complete the pull request",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/project.json",
+        "test/migrate-order-workflow-to-axon-java.test.mjs",
+        ".spec/features/migrate-order-workflow-to-axon-java",
+        ".spec/verification/migrate-order-workflow-to-axon-java.json"
+      ],
+      "refs": [
+        "US-136",
+        "AC-291",
+        "AC-292"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-240",
+    "T-241",
+    "T-242",
+    "T-243",
+    "T-244",
+    "T-245",
+    "T-246",
+    "T-247",
+    "T-248",
+    "T-249",
+    "T-250",
+    "T-251",
+    "T-252",
+    "T-253",
+    "T-254"
+  ],
+  "avisos": []
+}

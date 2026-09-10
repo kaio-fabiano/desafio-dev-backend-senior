@@ -8,6 +8,8 @@ plugins {
 
 group = "dev.desafio"
 version = "0.0.1-SNAPSHOT"
+extra["jackson-bom.version"] = "2.22.1"
+extra["testcontainers.version"] = "1.21.4"
 
 java {
     toolchain {
@@ -20,12 +22,16 @@ repositories {
 }
 
 dependencies {
+    implementation(platform("org.axonframework:axon-framework-bom:5.3.1"))
+    implementation("org.axonframework.extensions.spring:axon-spring-boot-starter")
+    implementation("org.axonframework.extensions.reactor:axon-reactor:5.3.1")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("com.mercadopago:sdk-java:3.3.1")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
@@ -35,6 +41,10 @@ dependencies {
     implementation("org.flywaydb:flyway-database-postgresql")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.axonframework:axon-test")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
     testRuntimeOnly("com.h2database:h2")
 }
 

@@ -604,7 +604,7 @@ async function setProductStock(
     `mutation LoginOrderWorkflow($input: LoginInput!) {
       login(input: $input) { authToken }
     }`,
-    { input: { identity: 'order-workflow', provider: 'SITETOKEN' } },
+    { input: { identity: 'payment-federation', provider: 'SITETOKEN' } },
   );
   const authToken = (authentication.login as { authToken?: string } | undefined)
     ?.authToken;

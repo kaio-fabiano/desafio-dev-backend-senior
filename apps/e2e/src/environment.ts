@@ -17,7 +17,6 @@ const COMPOSE_SERVICES = [
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'order-workflow-subgraph',
   'payment-federation',
   'gateway',
   'apollo-mcp',
@@ -64,21 +63,18 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
     const identity = startedEnvironment.getContainer('identity-subgraph-1');
     const mcp = startedEnvironment.getContainer('apollo-mcp-1');
     const wordpress = startedEnvironment.getContainer('wordpress-1');
-    const commerce = startedEnvironment.getContainer(
-      'order-workflow-subgraph-1',
-    );
+    const commerce = startedEnvironment.getContainer('payment-federation-1');
     return {
       identityUrl: `http://${identity.getHost()}:${identity.getMappedPort(3001)}`,
       gatewayUrl: `http://${gateway.getHost()}:${gateway.getMappedPort(3000)}`,
       mcpUrl: `http://${mcp.getHost()}:${mcp.getMappedPort(8000)}/mcp`,
       wordpressUrl: `http://${wordpress.getHost()}:${wordpress.getMappedPort(80)}`,
       wordpressSiteToken: 'wordpress-local-only',
-      commerceUrl: `http://${commerce.getHost()}:${commerce.getMappedPort(3003)}`,
+      commerceUrl: `http://${commerce.getHost()}:${commerce.getMappedPort(8080)}`,
       startedComponents: COMPOSE_SERVICES,
       isStopped: () => stopped,
       diagnostics: async () => {
         const services = [
-          'order-workflow-subgraph',
           'payment-federation',
           'wordpress',
         ];
@@ -98,9 +94,8 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
             }),
           )
         ).join('\n');
-        const rabbit = await startedEnvironment
-          .getContainer('rabbitmq-1')
-          .exec([
+        const rabbitContainer = startedEnvironment.getContainer('rabbitmq-1');
+        const rabbit = await rabbitContainer.exec([
             'rabbitmqctl',
             'list_queues',
             'name',
@@ -108,7 +103,25 @@ export async function startMilestone7Environment(): Promise<Milestone7Environmen
             'messages_unacknowledged',
             'consumers',
           ]);
-        return `${serviceLogs}\n--- rabbitmq ---\n${rabbit.output}\n--- retired components ---\n${RETIRED_COMPONENTS.join(', ')}`;
+        const retryHeaders = await Promise.all(
+          ['inventory', 'payment', 'transaction'].map(async (consumer) => {
+            const retry = await rabbitContainer.exec([
+              'rabbitmqadmin',
+              '--format=raw_json',
+              'get',
+              `queue=${consumer}.events.v1.retry.3`,
+              'count=1',
+              'ackmode=ack_requeue_true',
+            ]);
+            const headers = (
+              JSON.parse(retry.output || '[]') as Array<{
+                properties?: { headers?: Record<string, unknown> };
+              }>
+            )[0]?.properties?.headers;
+            return `${consumer}: ${JSON.stringify(headers ?? {})}`;
+          }),
+        );
+        return `${serviceLogs}\n--- rabbitmq ---\n${rabbit.output}\n--- retry headers ---\n${retryHeaders.join('\n')}\n--- retired components ---\n${RETIRED_COMPONENTS.join(', ')}`;
       },
       stop,
     };

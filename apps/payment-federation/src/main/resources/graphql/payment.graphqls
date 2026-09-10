@@ -1,5 +1,8 @@
 extend schema
-  @link(url: "https://specs.apollo.dev/federation/v2.11", import: ["@key"])
+  @link(
+    url: "https://specs.apollo.dev/federation/v2.11"
+    import: ["@key", "@external", "@shareable"]
+  )
 
 type Payment @key(fields: "id") {
   id: ID!
@@ -38,10 +41,92 @@ enum PaymentStatus {
   REJECTED
 }
 
+type CheckoutOperation @key(fields: "id") {
+  id: ID!
+  operationKey: ID!
+  status: CheckoutStatus!
+}
+
+type Order @key(fields: "id") {
+  id: ID!
+  wooOrderId: ID! @shareable
+  paymentMethod: PaymentMethod!
+  workflow: OrderWorkflow!
+  pixCode: String
+}
+
+type OrderWorkflow {
+  state: WorkflowState!
+}
+
+enum CheckoutStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum WorkflowState {
+  CREATED
+  PAYMENT_PENDING
+  PAYMENT_AUTHORIZED
+  STOCK_PENDING
+  COMPLETED
+  STOCK_FAILED
+  REFUND_PENDING
+  REFUNDED
+  CANCELLED
+  PIX_PENDING
+  PIX_GENERATED
+}
+
+input OrderWorkflowCheckoutInput {
+  operationKey: ID!
+  paymentMethod: PaymentMethod!
+  payerEmail: String!
+  providerToken: String
+  paymentMethodId: String
+}
+
 type Query {
   payment(id: ID!): Payment
+  checkout(id: ID!): CheckoutOperation
 }
 
 type Mutation {
   authorizePayment(input: AuthorizePaymentInput!): Payment!
+  startCheckout(input: OrderWorkflowCheckoutInput!): Order!
+}
+
+type Subscription {
+  orderEvents(operationKey: ID!): OrderEvent!
+  onTransactionUpdated(transactionId: ID!): TransactionUpdate!
+}
+
+type TransactionUpdate {
+  transactionId: ID!
+  operationKey: ID!
+  wooOrderId: ID!
+  amount: Float!
+  currency: String!
+  paymentMethod: PaymentMethod!
+  status: TransactionStatus!
+  outcomeReference: ID
+  version: Int!
+}
+
+enum TransactionStatus {
+  ACCEPTED
+  INVENTORY_RESERVED
+  PAYMENT_PENDING
+  PAYMENT_APPROVED
+  COMPLETED
+  REJECTED
+}
+
+type OrderEvent {
+  operationKey: ID!
+  orderId: ID!
+  state: WorkflowState!
+  pixCode: String
+  eventTime: String!
 }

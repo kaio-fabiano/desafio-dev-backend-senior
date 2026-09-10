@@ -19,7 +19,7 @@
 - Refs: US-047, AC-092, US-052, AC-103
 - Modelo: gpt-5.6-terra
 - Esforço: medio
-- Arquivos: apps/gateway/src/app.module.ts, apps/identity-subgraph/src/app.module.ts, apps/order-workflow-subgraph/src/app.module.ts, libs/platform/nest/src/index.ts, libs/platform/nest/project.json, libs/platform/nest/tsconfig.json, libs/platform/nest/tsconfig.lib.json, test/nest-provider-composition.test.mjs
+- Arquivos: apps/gateway/src/app.module.ts, apps/identity-subgraph/src/app.module.ts, docs/runbooks/java-axon-order-workflow-operations.md, libs/platform/nest/src/index.ts, libs/platform/nest/project.json, libs/platform/nest/tsconfig.json, libs/platform/nest/tsconfig.lib.json, test/nest-provider-composition.test.mjs
 - Notas: Add only providers shared by at least two NestJS applications. Do not create generic base services, repositories, or speculative factories.
 
 ## T-067 — Refactor Identity Federation around NestJSBetterAuth providers [concluida]
@@ -59,7 +59,7 @@
 - Refs: US-051, AC-102, US-048, AC-095
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/order-workflow-subscription.client.ts, apps/order-workflow-subgraph/src/graphql/sse/sse-handler.ts, test/remove-wordpress-federation-runtime.spec.test.mjs
+- Arquivos: apps/gateway/src/subscriptions/sse-handler.ts, apps/gateway/src/subscriptions/order-workflow-subscription.client.ts, docs/runbooks/java-axon-order-workflow-operations.md, test/remove-wordpress-federation-runtime.spec.test.mjs
 - Notas: Preserve GraphQL-over-SSE at the authenticated gateway edge while Commerce remains the single owner of order-event publication and filtering.
 
 ## T-072 — Integrate the federated topology and retire the Stock runtime [concluida]
@@ -99,7 +99,7 @@
 - Refs: US-051, AC-102, US-048, AC-096
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: compose.yaml, apps/order-workflow-subgraph/src/graphql/sse, apps/gateway/src/subscriptions, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
+- Arquivos: compose.yaml, docs/runbooks/java-axon-order-workflow-operations.md, apps/gateway/src/subscriptions, test/remove-wordpress-federation-runtime.spec.test.mjs, test/milestone-7-e2e-contract.test.mjs
 - Notas: Publish authorized GraphQL-over-SSE events from Commerce and preserve cleanup, isolation, and terminal-event semantics through the gateway edge.
 
 ## T-077 — Delete the marketplace MU-plugin and prove the plugin-first topology [concluida]

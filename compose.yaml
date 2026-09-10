@@ -175,8 +175,6 @@ services:
         wp option update wpgraphql_login_access_control '{"shouldBlockUnauthorizedDomains":true,"hasSiteAddressInOrigin":true,"additionalAuthorizedDomains":["http://wordpress"],"customHeaders":[]}' --format=json
         wp user get payment-federation || wp user create payment-federation payment-federation@example.test --role=shop_manager --user_pass=payment-federation-local-only
         wp user meta update payment-federation better_auth_user_id payment-federation
-        wp user get order-workflow || wp user create order-workflow order-workflow@example.test --role=shop_manager --user_pass=order-workflow-local-only
-        wp user meta update order-workflow better_auth_user_id order-workflow
         wp role create identity_registrar 'Identity Registrar' || true
         wp cap add identity_registrar read list_users edit_users delete_users
         wp user get identity-registrar || wp user create identity-registrar identity-registrar@marketplace.local --role=identity_registrar --user_pass=identity-registrar-local-only
@@ -233,11 +231,11 @@ services:
       GATEWAY_AUDIENCE: https://gateway.marketplace.local
       IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
       OAUTH_ISSUER: http://identity.localhost:3001/api/auth
+      ORDER_WORKFLOW_GRAPHQL_URL: ${ORDER_WORKFLOW_GRAPHQL_URL:-http://payment-federation:8080/graphql}
+      ORDER_WORKFLOW_SUBSCRIPTION_URL: ${ORDER_WORKFLOW_SUBSCRIPTION_URL:-http://payment-federation:8080/graphql}
       PORT: 3000
       WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
     depends_on:
-      order-workflow-subgraph:
-        condition: service_healthy
       wordpress-setup:
         condition: service_healthy
       payment-federation:
@@ -325,48 +323,6 @@ services:
       timeout: 2s
       retries: 30
 
-  order-workflow-subgraph:
-    build:
-      context: .
-      dockerfile: apps/order-workflow-subgraph/Dockerfile
-    environment:
-      NODE_OPTIONS: ${OTEL_NODE_OPTIONS:-}
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
-      OTEL_SERVICE_NAME: order-workflow-subgraph
-      ORDER_WORKFLOW_DB_HOST: order-workflow-database
-      ORDER_WORKFLOW_DB_NAME: order_workflow
-      ORDER_WORKFLOW_DB_PASSWORD: postgres
-      ORDER_WORKFLOW_DB_SSL: 'false'
-      ORDER_WORKFLOW_DB_USER: postgres
-      IDENTITY_JWKS_URL: http://identity.localhost:3001/api/auth/jwks
-      OAUTH_ISSUER: http://identity.localhost:3001/api/auth
-      ORDER_WORKFLOW_OAUTH_AUDIENCE: https://order-workflow.marketplace.local
-      PORT: 3003
-      RABBITMQ_URL: amqp://rabbitmq:5672
-      WORDPRESS_URL: http://wordpress
-      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
-    depends_on:
-      order-workflow-database:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      wordpress-setup:
-        condition: service_healthy
-    ports:
-      - '3003'
-    healthcheck:
-      test:
-        [
-          'CMD',
-          'node',
-          '-e',
-          "fetch('http://127.0.0.1:3003/ready').then(response => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
-        ]
-      interval: 2s
-      timeout: 2s
-      retries: 30
-    stop_grace_period: 35s
-
   payment-federation:
     build:
       context: .
@@ -386,16 +342,26 @@ services:
       MERCADO_PAGO_API_BASE_URL: ${MERCADO_PAGO_API_BASE_URL:-https://api.mercadopago.com}
       MERCADO_PAGO_CONNECTION_TIMEOUT: ${MERCADO_PAGO_CONNECTION_TIMEOUT:-5s}
       MERCADO_PAGO_READ_TIMEOUT: ${MERCADO_PAGO_READ_TIMEOUT:-15s}
+      MIGRATION_LEGACY_CLEAN_START_ENABLED: ${MIGRATION_LEGACY_CLEAN_START_ENABLED:-true}
+      MIGRATION_LEGACY_CLEAN_START_PASSWORD: postgres
+      MIGRATION_LEGACY_CLEAN_START_URL: jdbc:postgresql://order-workflow-database:5432/order_workflow
+      MIGRATION_LEGACY_CLEAN_START_USERNAME: postgres
+      PAYMENT_LEGACY_MESSAGING_ENABLED: ${PAYMENT_LEGACY_MESSAGING_ENABLED:-false}
+      INVENTORY_LEGACY_LISTENER_ENABLED: ${INVENTORY_LEGACY_LISTENER_ENABLED:-false}
       SERVER_PORT: 8080
       RABBITMQ_URL: amqp://rabbitmq:5672
       SPRING_PROFILES_ACTIVE: local
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_DATASOURCE_URL: jdbc:postgresql://payment-database:5432/payment
       SPRING_DATASOURCE_USERNAME: postgres
+      TRANSACTION_CHECKOUT_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
+      TRANSACTION_CHECKOUT_WORDPRESS_URL: http://wordpress/graphql
       WORDPRESS_URL: http://wordpress
       WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
       WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
     depends_on:
+      order-workflow-database:
+        condition: service_healthy
       payment-database:
         condition: service_healthy
       rabbitmq:

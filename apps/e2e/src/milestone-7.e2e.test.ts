@@ -15,7 +15,6 @@ const requiredComponents = [
   'wordpress',
   'wordpress-setup',
   'identity-subgraph',
-  'order-workflow-subgraph',
   'payment-federation',
   'gateway',
   'apollo-mcp',
@@ -40,7 +39,7 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     if (!process.env.KEEP_E2E_ON_FAILURE) await environment?.stop();
   }, 120_000);
 
-  it('starts the complete isolated topology from one target @spec:AC-067 @spec:AC-078 @spec:AC-113', async () => {
+  it('starts the complete isolated topology with Java as sole Transaction owner @spec:AC-067 @spec:AC-078 @spec:AC-113 @spec:AC-291', async () => {
     if (!environment) throw new Error('Acceptance environment is not ready');
     expect(new Set(environment.startedComponents)).toEqual(
       new Set(requiredComponents),

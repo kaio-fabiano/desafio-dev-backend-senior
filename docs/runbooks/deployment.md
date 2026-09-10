@@ -87,8 +87,8 @@ request:
 1. Exact stage, Git revision, AWS account, and `us-east-1` region.
 2. Every create, update, replacement, and deletion in the generated diff.
 3. Estimated monthly cost and an approved maximum, including the VPC NAT
-   instance, ECS/Fargate services, RDS PostgreSQL for Payment, Aurora PostgreSQL
-   for Identity and Order Workflow, Aurora MySQL for WordPress, storage, data
+   instance, ECS/Fargate services, RDS PostgreSQL for Axon and the three Java
+   contexts, Aurora PostgreSQL for Identity, Aurora MySQL for WordPress, storage, data
    transfer, and the API Gateway HTTP API.
 4. One API Gateway HTTPS endpoint exposes Gateway by default, OAuth under
    `/api/auth`, Apollo MCP under `/mcp`, and only the exact Mercado Pago webhook
@@ -97,7 +97,7 @@ request:
 5. Secret bindings. Mercado Pago access-token and webhook-secret resources bind
    only to Payment Federation; secret values must not appear in the diff.
 6. Healthcheck paths and rollback owner. Payment Federation uses
-   `/actuator/health`; the Node services use `/ready`; Apollo MCP uses `/health`.
+   `/actuator/health`; Gateway and Identity use `/ready`; Apollo MCP uses `/health`.
 
 Any source, configuration, credential, account, stage, or infrastructure change
 invalidates the review. Run the review command again and approve the new digest.

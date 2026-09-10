@@ -1,20 +1,20 @@
 {
   "feature": "modularize-order-workflow-subgraph",
-  "timestamp": "2026-09-08T02:44:49.876Z",
-  "gitRev": "fcd96e4",
-  "command": "cat /tmp/strict-ddd-full-green.tap",
+  "timestamp": "2026-09-10T01:23:17.626Z",
+  "gitRev": "e3972aac",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 674,
+  "testsParsed": 515,
   "results": {
     "AC-246": {
       "status": "pass",
-      "testName": "AC-246: persistence has its own module @spec:AC-246",
+      "testName": "AC-246: persistence has its own boundary @spec:AC-246",
       "method": "tap"
     },
     "AC-247": {
       "status": "pass",
-      "testName": "AC-247: checkout has its own module @spec:AC-247",
+      "testName": "AC-247: checkout has its own application boundary @spec:AC-247",
       "method": "tap"
     },
     "AC-248": {
@@ -24,7 +24,7 @@
     },
     "AC-249": {
       "status": "pass",
-      "testName": "AC-249: messaging and saga processing are separated @spec:AC-249",
+      "testName": "AC-249: messaging participants are separated without a saga coordinator @spec:AC-249",
       "method": "tap"
     },
     "AC-250": {

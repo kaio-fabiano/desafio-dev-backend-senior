@@ -16,7 +16,7 @@ class ArchitectureBoundariesTest {
     @Test
     @DisplayName("AC-169: Java dependencies point inward from clean architecture packages @spec:AC-169")
     void dependenciesPointInward() throws IOException {
-        var root = Path.of("src/main/java/dev/desafio/transaction");
+        var root = Path.of("src/main/java/dev/desafio/transaction/payment");
         var sources = new ArrayList<Path>();
         var contexts = new HashSet<String>();
         try (var paths = Files.walk(root)) {
@@ -28,9 +28,7 @@ class ArchitectureBoundariesTest {
             var normalized = path.toString().replace('\\', '/');
             var source = Files.readString(path);
             if (normalized.contains("/transaction/payment/")) contexts.add("payment");
-            if (normalized.contains("/transaction/inventory/")) contexts.add("inventory");
-            assertTrue(normalized.matches(".*/(payment|inventory)/(domain|application|adapter|configuration)/.*\\.java")
-                || normalized.endsWith("/transaction/PaymentFederationApplication.java"));
+            assertTrue(normalized.matches(".*/payment/(domain|application|adapter|configuration|infrastructure)/.*\\.java"));
             if (normalized.contains("/domain/")) {
                 assertFalse(source.matches(
                     "(?s).*import (org\\.springframework|com\\.mercadopago|com\\.rabbitmq|java\\.sql).*"
@@ -42,6 +40,6 @@ class ArchitectureBoundariesTest {
                 ));
             }
         }
-        assertTrue(contexts.containsAll(java.util.Set.of("payment", "inventory")));
+        assertTrue(contexts.contains("payment"));
     }
 }

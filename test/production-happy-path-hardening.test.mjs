@@ -36,15 +36,15 @@ test('AC-132: WordPress owns cart mutations @spec:AC-132', async () => {
 
 test('AC-133: checkout recovery has durable ownership @spec:AC-133', async () => {
   const [repository, migration, adapter] = await Promise.all([
-    source('apps/order-workflow-subgraph/src/checkout/checkout.repository.ts'),
+    source('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JdbcCheckoutOperationRepository.java'),
     source(
-      'apps/order-workflow-subgraph/src/persistence/migrations/Migration202609010001.ts',
+      'apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql',
     ),
-    source('apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts'),
+    source('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java'),
   ]);
-  assert.match(repository, /ownerToken/);
+  assert.match(repository, /owner_token/);
   assert.match(migration, /owner_token/);
-  assert.match(repository, /wooReference/);
+  assert.match(repository, /woo_reference/);
   assert.match(adapter, /findByReference/);
 });
 
@@ -66,20 +66,20 @@ test('AC-134: inventory recovery is durable @spec:AC-134', async () => {
 });
 
 test('AC-135: subscriptions replay durable state @spec:AC-135', async () => {
-  const [relay, replay, consumer] = await Promise.all([
+  const [gateway, replay, integration] = await Promise.all([
     source(
-      'apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription/TransactionSubscriptionGateway.java',
     ),
     source(
-      'apps/order-workflow-subgraph/src/order-events/postgres/mikro-orm-order-event.replay.ts',
+      'apps/payment-federation/src/test/java/dev/desafio/transaction/projection/TransactionProjectionReplayTest.java',
     ),
     source(
-      'apps/order-workflow-subgraph/src/saga/postgres-order-event.notifier.ts',
+      'apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java',
     ),
   ]);
-  assert.match(relay, /listen \$\{ORDER_TRANSITION_CHANNEL\}/);
-  assert.match(replay, /version/);
-  assert.match(consumer, /pg_notify/);
+  assert.match(gateway, /Flux<TransactionView>/);
+  assert.match(replay, /replay/i);
+  assert.match(integration, /reconnect/i);
 });
 
 test('AC-136: the quality loop has executable evidence @spec:AC-136', async () => {
@@ -92,16 +92,16 @@ test('AC-136: the quality loop has executable evidence @spec:AC-136', async () =
 });
 
 test('AC-137: dependencies point to application contracts @spec:AC-137', async () => {
-  const [resolver, module, service] = await Promise.all([
+  const [controller, configuration, service] = await Promise.all([
     source(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow.resolver.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java',
     ),
     source(
-      'apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java',
     ),
-    source('apps/order-workflow-subgraph/src/checkout/checkout.service.ts'),
+    source('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java'),
   ]);
-  assert.match(resolver, /@Inject\(ORDER_WORKFLOW_OPERATIONS\)/);
-  assert.match(module, /provide: ORDER_WORKFLOW_OPERATIONS/);
-  assert.doesNotMatch(service, /@nestjs|@mikro-orm/);
+  assert.match(controller, /OnTransactionUpdatedHandler/);
+  assert.match(configuration, /WooCommerceOrderPort/);
+  assert.doesNotMatch(service, /org\.springframework|java\.sql/);
 });

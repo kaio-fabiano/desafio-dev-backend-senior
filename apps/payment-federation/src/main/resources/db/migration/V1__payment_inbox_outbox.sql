@@ -1,3 +1,10 @@
+create schema if not exists transaction;
+create schema if not exists inventory;
+create schema if not exists payment;
+create schema if not exists axon;
+
+set local search_path = payment, pg_catalog;
+
 create table payment_record (
     payment_id text primary key,
     operation_key text not null unique,

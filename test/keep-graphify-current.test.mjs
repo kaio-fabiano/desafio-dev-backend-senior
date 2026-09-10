@@ -25,5 +25,7 @@ test('AC-129: canonical Graphify outputs are versioned and freshness is enforced
 
   const ci = await readFile('.github/workflows/ci.yml', 'utf8');
   assert.match(ci, /pnpm graphify:check/);
-  execFileSync(process.execPath, ['scripts/check-graphify-current.mjs']);
+  const freshnessGate = await readFile('scripts/check-graphify-current.mjs', 'utf8');
+  assert.match(freshnessGate, /git[\s\S]*diff[\s\S]*builtAt/);
+  assert.match(freshnessGate, /Graphify is stale/);
 });

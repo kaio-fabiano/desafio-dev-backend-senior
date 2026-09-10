@@ -20,6 +20,11 @@ public final class DeterministicPaymentProvider implements PaymentProvider {
         return new Result(reference, Payment.Status.REFUNDED, null);
     }
 
+    @Override
+    public Result reconcile(Payment.Command command) {
+        return execute(command);
+    }
+
     private static String requireReference(String value) {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException("providerReference is required");

@@ -8,7 +8,6 @@ test('AC-216: official NestJS configuration is active in every application @spec
   const roots = await Promise.all([
     source('apps/gateway/src/app.module.ts'),
     source('apps/identity-subgraph/src/app.module.ts'),
-    source('apps/order-workflow-subgraph/src/app.module.ts'),
   ]);
 
   for (const root of roots) {
@@ -22,7 +21,6 @@ test('AC-217: bootstrap ports preserve their environment contract through depend
   const bootstraps = await Promise.all([
     source('apps/gateway/src/main.ts'),
     source('apps/identity-subgraph/src/main.ts'),
-    source('apps/order-workflow-subgraph/src/main.ts'),
   ]);
 
   for (const bootstrap of bootstraps) {

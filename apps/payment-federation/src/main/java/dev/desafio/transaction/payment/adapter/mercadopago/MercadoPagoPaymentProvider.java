@@ -46,6 +46,13 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
         }
     }
 
+    @Override
+    public Result reconcile(Payment.Command command) {
+        return command instanceof Payment.PaymentRequested requested
+            ? recoverCreation(requested, new IllegalStateException("provider payment is not yet visible"))
+            : findByProviderReference(((Payment.RefundRequested) command).providerReference());
+    }
+
     private Result create(Payment.PaymentRequested command) {
         var request = paymentRequest(command);
         try {

@@ -11,9 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Base64;
 import java.util.Map;
 
 public final class WooInventoryAdapter implements StockPort {
@@ -107,13 +105,10 @@ public final class WooInventoryAdapter implements StockPort {
 
     private void assertAvailable(Inventory.ReservationRequested request) {
         for (var item : request.items()) {
-            var globalId = Base64.getEncoder().encodeToString(
-                ("post:" + item.productId()).getBytes(StandardCharsets.UTF_8)
-            );
             var operation = Map.of(
                 "operationName", "InventoryAvailability",
-                "query", "query InventoryAvailability($id: ID!) { product(id: $id) { databaseId ... on SimpleProduct { stockQuantity stockStatus } ... on VariableProduct { stockQuantity stockStatus } } }",
-                "variables", Map.of("id", globalId)
+                "query", "query InventoryAvailability($id: ID!) { product(id: $id, idType: DATABASE_ID) { databaseId ... on SimpleProduct { stockQuantity stockStatus } ... on VariableProduct { stockQuantity stockStatus } } }",
+                "variables", Map.of("id", item.productId())
             );
             var product = send(operation).path("data").path("product");
             if (product.isMissingNode() || product.isNull()) {

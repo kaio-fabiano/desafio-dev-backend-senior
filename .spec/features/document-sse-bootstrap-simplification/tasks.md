@@ -21,7 +21,7 @@
 ## T-167 — Preserve resolved SSE bootstrap evidence [concluida]
 
 - Refs: US-101, AC-201
-- Arquivos: apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts, apps/order-workflow-subgraph/src/graphql/sse/sse.middleware.ts, apps/order-workflow-subgraph/src/graphql/sse/sse.integration.spec.ts, test/document-sse-bootstrap-simplification.test.mjs
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, test/document-sse-bootstrap-simplification.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: T-189 replaced the former deferred-route TODO with Nest-owned middleware and real HTTP lifecycle proof while preserving the graphql-sse protocol.
