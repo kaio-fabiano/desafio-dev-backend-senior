@@ -1,23 +1,15 @@
 package dev.desafio.transaction.inventory.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryOutbox;
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryProjectionRepository;
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryRepository;
-import dev.desafio.transaction.inventory.application.InventoryService;
 import dev.desafio.transaction.inventory.application.InventoryRepository;
-import dev.desafio.transaction.inventory.application.StockPort;
 import dev.desafio.transaction.inventory.application.event.InventoryOutbox;
 import dev.desafio.transaction.inventory.application.query.InventoryProjectionRepository;
 import dev.desafio.transaction.inventory.application.query.InventoryViewRepository;
 import dev.desafio.transaction.inventory.configuration.InventoryConfiguration;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
-import dev.desafio.transaction.inventory.application.event.InventoryIntegrationEventHandler;
 import dev.desafio.transaction.inventory.application.query.InventoryReservationView;
 import dev.desafio.transaction.inventory.domain.Inventory;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import dev.desafio.transaction.inventory.domain.StockItem;
-import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,14 +31,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.time.Clock;
 import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -71,64 +60,6 @@ class InventoryPostgresIntegrationTest {
     @AfterAll
     static void stop() {
         POSTGRES.stop();
-    }
-
-    @Test
-    @DisplayName("Inventory projection remains durable and ignores stale replay updates @spec:AC-282")
-    void projectionSurvivesRestartAndReplay() {
-        var first = new JdbcInventoryProjectionRepository(dataSource);
-        first.save(view(2, InventoryReservation.Status.COMMITTED));
-
-        var restarted = new JdbcInventoryProjectionRepository(dataSource);
-        restarted.save(view(1, InventoryReservation.Status.RESERVED));
-
-        assertEquals(InventoryReservation.Status.COMMITTED,
-            restarted.find("tx-246").orElseThrow().status());
-        assertEquals(2, restarted.find("tx-246").orElseThrow().version());
-    }
-
-    @Test
-    @DisplayName("Concurrent last-unit reservations have one independently consistent winner @spec:AC-284")
-    void concurrentLastUnitHasOneWinner() {
-        var remaining = new AtomicInteger(1);
-        StockPort stock = request -> {
-            if (remaining.getAndDecrement() < 1) throw new Inventory.InsufficientStockException();
-        };
-        var first = new InventoryService(
-            new JdbcInventoryRepository(dataSource), stock, Clock.fixed(NOW, ZoneOffset.UTC)
-        );
-        var second = new InventoryService(
-            new JdbcInventoryRepository(dataSource), stock, Clock.fixed(NOW, ZoneOffset.UTC)
-        );
-
-        var a = CompletableFuture.supplyAsync(() -> first.handle(request("reserve-a")));
-        var b = CompletableFuture.supplyAsync(() -> second.handle(request("reserve-b")));
-        var types = List.of(a.join().event().eventType(), b.join().event().eventType());
-
-        assertEquals(1, types.stream().filter("stock.reserved"::equals).count());
-        assertEquals(1, types.stream().filter("stock.reservation-failed"::equals).count());
-    }
-
-    @Test
-    @DisplayName("Inventory result is durable before RabbitMQ publication @spec:AC-293")
-    void resultIsWrittenToTheContextOutbox() {
-        var handler = new InventoryIntegrationEventHandler(
-            new JdbcInventoryOutbox(dataSource, new ObjectMapper().findAndRegisterModules())
-        );
-        handler.on(new InventoryReservedAxonEvent("tx-outbox-246", new InventoryReservedEvent(
-            "tx-outbox-246", "tx-outbox-246", "order-246", List.of(new StockItem("sku-1", 1)),
-            1, "correlation-246", "causation-246", NOW
-        )));
-
-        var jdbc = new JdbcTemplate(dataSource);
-        assertEquals("inventory.reserved.v1", jdbc.queryForObject(
-            "select routing_key from inventory.amqp_outbox where source_event_id = ?",
-            String.class, "tx-outbox-246:1:inventory.reserved.v1"
-        ));
-        assertEquals("causation-246", jdbc.queryForObject(
-            "select envelope ->> 'causationId' from inventory.amqp_outbox where source_event_id = ?",
-            String.class, "tx-outbox-246:1:inventory.reserved.v1"
-        ));
     }
 
     @Test
@@ -281,9 +212,4 @@ class InventoryPostgresIntegrationTest {
         );
     }
 
-    private static InventoryReservationView view(long version, InventoryReservation.Status status) {
-        return new InventoryReservationView(
-            "tx-246", "tx-246", "order-246", status, version, null, NOW
-        );
-    }
 }

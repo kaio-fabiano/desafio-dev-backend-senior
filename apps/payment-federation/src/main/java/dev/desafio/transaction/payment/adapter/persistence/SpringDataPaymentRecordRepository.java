@@ -13,22 +13,22 @@ public interface SpringDataPaymentRecordRepository
     extends JpaRepository<PaymentRecordEntity, String> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select payment from PaymentRecordEntity payment "
-        + "where payment.paymentId = :paymentId or payment.operationKey = :operationKey")
+    @Query("select record from PaymentRecordEntity record "
+        + "where record.paymentId = :paymentId or record.operationKey = :operationKey")
     List<PaymentRecordEntity> lockByPaymentIdOrOperationKey(
         @Param("paymentId") String paymentId,
         @Param("operationKey") String operationKey
     );
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select payment from PaymentRecordEntity payment "
-        + "where payment.providerReference = :providerReference")
+    @Query("select record from PaymentRecordEntity record "
+        + "where record.providerReference = :providerReference")
     Optional<PaymentRecordEntity> lockByProviderReference(
         @Param("providerReference") String providerReference
     );
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select payment from PaymentRecordEntity payment where payment.paymentId = :paymentId")
+    @Query("select record from PaymentRecordEntity record where record.paymentId = :paymentId")
     Optional<PaymentRecordEntity> lockByPaymentId(@Param("paymentId") String paymentId);
 
     Optional<PaymentRecordEntity> findByTransactionId(String transactionId);

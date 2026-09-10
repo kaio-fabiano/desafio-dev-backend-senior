@@ -5,16 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope;
 import dev.desafio.transaction.payment.application.PaymentIntegrationEventPublisher;
 import dev.desafio.transaction.payment.domain.Payment;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.OutboxStore;
 
 import java.time.Instant;
 import java.util.Map;
 
-public final class JdbcPaymentIntegrationEventPublisher implements PaymentIntegrationEventPublisher {
-    private final JdbcOutboxStore outbox;
+public final class OutboxPaymentIntegrationEventPublisher implements PaymentIntegrationEventPublisher {
+    private final OutboxStore outbox;
     private final ObjectMapper json;
 
-    public JdbcPaymentIntegrationEventPublisher(JdbcOutboxStore outbox, ObjectMapper json) {
+    public OutboxPaymentIntegrationEventPublisher(OutboxStore outbox, ObjectMapper json) {
         this.outbox = java.util.Objects.requireNonNull(outbox, "outbox");
         this.json = java.util.Objects.requireNonNull(json, "json");
     }

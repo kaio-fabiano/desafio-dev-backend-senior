@@ -2,8 +2,14 @@ package dev.desafio.transaction.payment.configuration;
 
 import dev.desafio.transaction.payment.adapter.mercadopago.MercadoPagoPaymentProvider;
 import dev.desafio.transaction.payment.adapter.messaging.PaymentConsumer;
-import dev.desafio.transaction.payment.adapter.persistence.JdbcPaymentRepository;
-import dev.desafio.transaction.payment.adapter.persistence.JdbcProviderNotificationRepository;
+import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentRepository;
+import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentViewRepository;
+import dev.desafio.transaction.payment.adapter.persistence.JpaProviderNotificationRepository;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentEffectRepository;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentInboxRepository;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentOutboxRepository;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentRecordRepository;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataProviderNotificationRepository;
 import dev.desafio.transaction.payment.adapter.provider.DeterministicPaymentProvider;
 import dev.desafio.transaction.payment.application.PaymentHandler;
 import dev.desafio.transaction.payment.application.PaymentProvider;
@@ -11,38 +17,42 @@ import dev.desafio.transaction.payment.application.PaymentRepository;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import dev.desafio.transaction.payment.application.command.AuthorizePaymentHandler;
 import dev.desafio.transaction.payment.application.query.FindPaymentHandler;
-import dev.desafio.transaction.payment.application.query.PaymentView;
-import dev.desafio.transaction.payment.domain.Payment;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(MercadoPagoProperties.class)
 public class PaymentConfiguration {
-    private static final String FIND_PAYMENT_SQL = """
-        select payment_id, operation_key, order_id, method, amount, currency,
-               status, provider_reference, pix_code
-          from payment.payment_record
-         where payment_id = ?
-        """;
-
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
-    PaymentRepository paymentRepository(DataSource dataSource) {
-        return new JdbcPaymentRepository(dataSource);
+    PaymentRepository paymentRepository(
+        SpringDataPaymentRecordRepository payments,
+        SpringDataPaymentEffectRepository effects,
+        SpringDataPaymentInboxRepository inbox,
+        SpringDataPaymentOutboxRepository outbox
+    ) {
+        return new JpaPaymentRepository(payments, effects, inbox, outbox);
     }
 
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
-    ProviderNotificationHandler.Repository providerNotificationRepository(DataSource dataSource) {
-        return new JdbcProviderNotificationRepository(dataSource);
+    ProviderNotificationHandler.Repository providerNotificationRepository(
+        SpringDataProviderNotificationRepository notifications,
+        SpringDataPaymentRecordRepository payments,
+        SpringDataPaymentEffectRepository effects,
+        SpringDataPaymentOutboxRepository outbox
+    ) {
+        return new JpaProviderNotificationRepository(notifications, payments, effects, outbox);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url")
+    JpaPaymentViewRepository paymentViewRepository(SpringDataPaymentRecordRepository payments) {
+        return new JpaPaymentViewRepository(payments);
     }
 
     @Bean
@@ -87,22 +97,8 @@ public class PaymentConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
-    FindPaymentHandler findPaymentHandler(JdbcTemplate jdbcTemplate) {
-        return new FindPaymentHandler(paymentId -> jdbcTemplate.query(
-            FIND_PAYMENT_SQL,
-            (row, index) -> new PaymentView(
-                row.getString("payment_id"),
-                row.getString("operation_key"),
-                row.getString("order_id"),
-                Payment.Method.valueOf(row.getString("method")),
-                row.getBigDecimal("amount"),
-                row.getString("currency"),
-                Payment.Status.valueOf(row.getString("status")),
-                row.getString("provider_reference"),
-                row.getString("pix_code")
-            ),
-            paymentId
-        ).stream().findFirst());
+    FindPaymentHandler findPaymentHandler(JpaPaymentViewRepository views) {
+        return new FindPaymentHandler(views::findByPaymentId);
     }
 
 }

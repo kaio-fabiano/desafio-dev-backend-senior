@@ -23,7 +23,14 @@ import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPubl
 import dev.desafio.transaction.shared.infrastructure.messaging.IntegrationEventJson;
 import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelay;
 import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelayScheduler;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
+import dev.desafio.transaction.shared.infrastructure.messaging.AmqpRetryRouter;
+import dev.desafio.transaction.shared.infrastructure.messaging.ReliableAmqpConsumer;
+import dev.desafio.transaction.shared.infrastructure.persistence.InboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.JpaInboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.JpaOutboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.OutboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpInboxJpaRepository;
+import dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpOutboxJpaRepository;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -36,7 +43,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import jakarta.persistence.EntityManager;
-import javax.sql.DataSource;
 import java.net.URI;
 import java.time.Clock;
 import java.time.Duration;
@@ -102,15 +108,51 @@ public class TransactionConfiguration {
     @Bean("transactionOutboxRelay")
     @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
     OutboxRelay transactionOutboxRelay(
-        DataSource dataSource,
+        @Qualifier("transactionOutboxStore") OutboxStore outbox,
         ObjectMapper json,
         RabbitTemplate rabbit,
         Clock clock
     ) {
         var codec = new IntegrationEventJson(json);
         return new OutboxRelay(
-            new JdbcOutboxStore(dataSource, json, "transaction"),
+            outbox,
             new ConfirmedAmqpPublisher(rabbit, codec), codec, clock, "transaction-relay"
+        );
+    }
+
+    @Bean("transactionInboxStore")
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    InboxStore transactionInboxStore(
+        TransactionAmqpInboxJpaRepository records,
+        EntityManager entityManager,
+        ObjectMapper json,
+        Clock clock,
+        PlatformTransactionManager transactionManager
+    ) {
+        return JpaInboxStore.transaction(records, entityManager, json, clock, transactionManager);
+    }
+
+    @Bean("transactionOutboxStore")
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    OutboxStore transactionOutboxStore(
+        TransactionAmqpOutboxJpaRepository records,
+        EntityManager entityManager,
+        ObjectMapper json,
+        PlatformTransactionManager transactionManager
+    ) {
+        return JpaOutboxStore.transaction(records, entityManager, json, transactionManager);
+    }
+
+    @Bean("transactionReliableAmqpConsumer")
+    @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
+    ReliableAmqpConsumer transactionReliableAmqpConsumer(
+        @Qualifier("transactionInboxStore") InboxStore inbox,
+        ObjectMapper json,
+        RabbitTemplate rabbit,
+        Clock clock
+    ) {
+        return new ReliableAmqpConsumer(
+            inbox, new IntegrationEventJson(json), new AmqpRetryRouter(rabbit, clock)
         );
     }
 
