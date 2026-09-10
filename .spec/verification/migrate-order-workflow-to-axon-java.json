@@ -1,7 +1,7 @@
 {
   "feature": "migrate-order-workflow-to-axon-java",
-  "timestamp": "2026-09-09T23:17:45.002Z",
-  "gitRev": "142101c1",
+  "timestamp": "2026-09-10T00:04:34.008Z",
+  "gitRev": "7206b9ce",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
@@ -39,7 +39,7 @@
     },
     "AC-285": {
       "status": "pass",
-      "testName": "Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285",
+      "testName": "Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285 @spec:AC-229 @spec:AC-243",
       "method": "tap"
     },
     "AC-286": {
