@@ -1,0 +1,48 @@
+{
+  "runId": "desafio-dev-backend-senior-fix-payment-federation-ide-compiler-mtvjz54w",
+  "feature": "fix-payment-federation-ide-compiler",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 13:18",
+  "branchTrabalho": "spec/fix-payment-federation-ide-compiler",
+  "baseDir": ".spec/features/fix-payment-federation-ide-compiler",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-fix-payment-federation-ide-compiler-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-258",
+      "titulo": "Align Payment Federation builds with Java 26",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "apps/payment-federation/build.gradle.kts",
+        "apps/payment-federation/Dockerfile",
+        "apps/payment-federation/project.json",
+        "apps/payment-federation/gradlew",
+        "apps/payment-federation/gradlew.bat",
+        "apps/payment-federation/gradle/wrapper/gradle-wrapper.jar",
+        "apps/payment-federation/gradle/wrapper/gradle-wrapper.properties",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/AxonBaselineContractTest.java",
+        "apps/e2e/project.json",
+        "test/payment-federation-gradle-wrapper.test.mjs",
+        "test/milestone-7-coverage.test.mjs",
+        "test/milestone-8-quality-gate.test.mjs"
+      ],
+      "refs": [
+        "US-137",
+        "AC-294",
+        "AC-295"
+      ]
+    }
+  ],
+  "concluidas": [
+    "T-257"
+  ],
+  "avisos": []
+}
