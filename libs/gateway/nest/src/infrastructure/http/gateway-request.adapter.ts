@@ -1,13 +1,14 @@
 import { randomUUID } from 'node:crypto';
 
 import { GatewayAuthenticationRequest } from '../../application/dto/gateway-authentication-request.dto.ts';
+import { GatewayErrorMessages } from '../../application/gateway-error-messages.ts';
 import type { GatewayRequest } from './gateway-request.dto.ts';
 
 export class GatewayRequestAdapter {
   static trustedOrigin(value: string): string {
     const origin = new URL(value);
     if (origin.protocol !== 'http:' && origin.protocol !== 'https:') {
-      throw new Error('Gateway origin must use HTTP or HTTPS');
+      throw new Error(GatewayErrorMessages.originMustUseHttpOrHttps);
     }
     return origin.origin;
   }
@@ -42,7 +43,7 @@ export class GatewayRequestAdapter {
       target.startsWith('//') ||
       target.includes('\\')
     ) {
-      throw new Error('Gateway request target must be an absolute path');
+      throw new Error(GatewayErrorMessages.requestTargetMustBeAbsolutePath);
     }
     return new Request(new URL(target, origin), {
       headers,

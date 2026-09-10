@@ -8,6 +8,7 @@ import {
   ForwardGatewaySubscriptionUseCase,
   type GatewayContext,
 } from '@desafio-dev-backend-senior/source/gateway-nest';
+import { GatewayRuntimeMessages } from '../presentation/gateway-runtime-messages.ts';
 
 @Injectable()
 export class GatewaySseHandler {
@@ -26,12 +27,14 @@ export class GatewaySseHandler {
     },
     context: ({ raw }) => {
       const context = this.authenticated.get(raw);
-      if (!context) throw new Error('Unauthenticated subscription');
+      if (!context)
+        throw new Error(GatewayRuntimeMessages.subscriptionUnauthenticated);
       return context;
     },
     onSubscribe: (request, params) => {
       const context = this.authenticated.get(request.raw);
-      if (!context) throw new Error('Unauthenticated subscription');
+      if (!context)
+        throw new Error(GatewayRuntimeMessages.subscriptionUnauthenticated);
       const subscription = this.subscriptions.execute(params, context);
       this.active.set(request.raw, subscription);
       return subscription as AsyncGenerator<ExecutionResult>;

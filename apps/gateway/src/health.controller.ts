@@ -5,6 +5,8 @@ import {
   type OnApplicationBootstrap,
 } from '@nestjs/common';
 
+import { GatewayRuntimeMessages } from './presentation/gateway-runtime-messages.ts';
+
 @Controller()
 export class HealthController implements OnApplicationBootstrap {
   private initialized = false;
@@ -20,7 +22,10 @@ export class HealthController implements OnApplicationBootstrap {
 
   @Get('ready')
   ready(): { status: string } {
-    if (!this.initialized) throw new ServiceUnavailableException();
+    if (!this.initialized)
+      throw new ServiceUnavailableException(
+        GatewayRuntimeMessages.serviceUnavailableResponse,
+      );
     return { status: 'ready' };
   }
 }

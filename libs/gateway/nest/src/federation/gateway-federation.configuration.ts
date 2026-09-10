@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 import type { FederationCapabilities } from '../application/dto/federation-capabilities.dto.ts';
+import { GatewayErrorMessages } from '../application/gateway-error-messages.ts';
 import { CaptureFederationResponseUseCase } from '../application/use-cases/capture-federation-response.use-case.ts';
 import { PrepareFederationRequestUseCase } from '../application/use-cases/prepare-federation-request.use-case.ts';
 import { AuthContextFactory } from '../auth/auth-context.factory.ts';
@@ -54,7 +55,8 @@ export class GatewayFederationConfiguration {
           })),
         }),
         buildService: ({ name, url }: ServiceEndpointDefinition) => {
-          if (!url) throw new Error(`Subgraph ${name} URL is required`);
+          if (!url)
+            throw new Error(GatewayErrorMessages.subgraphUrlIsRequired(name));
           return new AuthenticatedDataSource(
             {
               capabilities: GatewayFederationConfiguration.capabilities(
