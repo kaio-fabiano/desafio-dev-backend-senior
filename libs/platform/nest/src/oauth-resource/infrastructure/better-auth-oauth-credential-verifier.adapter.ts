@@ -33,6 +33,7 @@ export class BetterAuthOAuthCredentialVerifierAdapter
     credential: OAuthCredentialVerification,
   ): Promise<Readonly<Record<string, unknown>>> {
     return verifyAccessTokenRequest(credential, {
+      ...(this.options.dpop ? { dpop: this.options.dpop } : {}),
       jwksUrl: this.options.jwksUrl,
       verifyOptions: {
         algorithms: ['ES256'],

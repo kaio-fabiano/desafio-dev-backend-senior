@@ -21,6 +21,41 @@ class AuthConsumer {
 class ConsumerModule {}
 
 describe('GatewayAuthModule', () => {
+  it('AC-307: fails closed without shared replay storage in production @spec:AC-307', async () => {
+    await expect(
+      Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            ignoreEnvFile: true,
+            load: [() => ({ NODE_ENV: 'production' })],
+            skipProcessEnv: true,
+          }),
+          GatewayAuthModule,
+        ],
+      }).compile(),
+    ).rejects.toThrow('DPOP_REPLAY_TABLE is required in production');
+  });
+
+  it('starts in production with configured shared replay storage', async () => {
+    const testingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          ignoreEnvFile: true,
+          load: [
+            () => ({
+              DPOP_REPLAY_TABLE: 'gateway-dpop-replay',
+              NODE_ENV: 'production',
+            }),
+          ],
+          skipProcessEnv: true,
+        }),
+        GatewayAuthModule,
+      ],
+    }).compile();
+
+    await testingModule.close();
+  });
+
   it('resolves OAuth settings after ConfigModule loading @spec:AC-305', async () => {
     const configured = {
       GATEWAY_AUDIENCE: 'https://configured-gateway.example.test',

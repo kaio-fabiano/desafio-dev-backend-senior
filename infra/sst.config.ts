@@ -41,6 +41,11 @@ export default $config({
       engine: 'mysql',
       vpc,
     });
+    const gatewayDpopReplay = new sst.aws.Dynamo('GatewayDpopReplay', {
+      fields: { key: 'string' },
+      primaryIndex: { hashKey: 'key' },
+      ttl: 'expiresAt',
+    });
 
     const oauthSigningSecret = new sst.Secret('OAuthSigningSecret');
     const identitySeedAdminPassword = new sst.Secret(
@@ -187,7 +192,9 @@ export default $config({
     const gateway = new sst.aws.Service('Gateway', {
       cluster,
       environment: {
+        DPOP_REPLAY_TABLE: gatewayDpopReplay.name,
         GATEWAY_AUDIENCE: 'https://gateway.marketplace.local',
+        GATEWAY_ORIGIN: publicApi.url,
         IDENTITY_GRAPHQL_URL: `${serviceHost('IdentitySubgraph', 3001)}/graphql`,
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         NODE_ENV: 'production',
@@ -215,7 +222,7 @@ export default $config({
           options.retainOnDelete = true;
         },
       },
-      link: [identity, paymentFederation, wordpress],
+      link: [gatewayDpopReplay, identity, paymentFederation, wordpress],
       serviceRegistry: { port: 3000 },
     });
 

@@ -85,4 +85,19 @@ describe('BetterAuthOAuthCredentialVerifierAdapter', () => {
       },
     });
   });
+
+  it('AC-306: delegates DPoP replay reservations to the configured shared store @spec:AC-306', async () => {
+    const replayStore = { reserve: vi.fn().mockResolvedValue(true) };
+    verifyAccessToken.mockResolvedValue({ sub: 'buyer-1' });
+
+    await new BetterAuthOAuthCredentialVerifierAdapter({
+      ...options,
+      dpop: { replayStore },
+    }).verifyCredential(credential);
+
+    expect(verifyAccessToken).toHaveBeenCalledWith(
+      credential,
+      expect.objectContaining({ dpop: { replayStore } }),
+    );
+  });
 });
