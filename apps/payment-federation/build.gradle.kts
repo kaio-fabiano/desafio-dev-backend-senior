@@ -1,6 +1,7 @@
 plugins {
     java
     jacoco
+    id("dev.nx.gradle.project-graph") version "0.1.24"
     id("org.sonarqube") version "7.0.1.6134"
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
@@ -13,8 +14,12 @@ extra["testcontainers.version"] = "1.21.4"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(26)
     }
+}
+
+tasks.withType<JavaCompile> {
+    options.release = 21
 }
 
 repositories {

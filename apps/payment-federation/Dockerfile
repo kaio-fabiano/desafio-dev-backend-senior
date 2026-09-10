@@ -1,9 +1,9 @@
-FROM gradle:8.14.3-jdk21 AS build
+FROM gradle:9.7.1-jdk26-ubi AS build
 WORKDIR /workspace
 COPY apps/payment-federation/ .
 RUN gradle clean --no-daemon bootJar
 
-FROM eclipse-temurin:21.0.8_9-jre AS runtime
+FROM eclipse-temurin:26-jre AS runtime
 RUN apt-get update && apt-get install --yes --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 RUN groupadd --gid 10001 app && useradd --uid 10001 --gid app --create-home app

@@ -11,7 +11,7 @@ test('@spec:AC-085 quality commands use workspace and containerized tools', asyn
 
   assert.match(rootPackage, /build,typecheck,lint,test/);
   assert.doesNotMatch(paymentProject, /"command":\s*"gradle /);
-  assert.match(paymentProject, /gradle:8\.14\.3-jdk21/);
+  assert.match(paymentProject, /gradle:9\.7\.1-jdk26-ubi/);
   assert.match(eslintConfig, /flat\/typescript/);
 });
 

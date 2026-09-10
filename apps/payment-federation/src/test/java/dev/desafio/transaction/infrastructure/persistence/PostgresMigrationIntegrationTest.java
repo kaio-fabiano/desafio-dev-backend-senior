@@ -109,7 +109,7 @@ class PostgresMigrationIntegrationTest {
             assertInstanceOf(ReserveInventoryCommandHandler.class,
                 context.getBean(ReserveInventoryCommandHandler.class));
             assertEquals(3, context.getBeansOfType(OutboxRelayScheduler.class).size());
-            assertEquals(21, Runtime.version().feature());
+            assertEquals(26, Runtime.version().feature());
         }
     }
 

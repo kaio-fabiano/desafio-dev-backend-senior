@@ -54,14 +54,14 @@ class AxonBaselineContractTest {
     }
 
     @Test
-    @DisplayName("The Java baseline uses Java 21 and real PostgreSQL quality gates @spec:AC-292")
-    void javaBaselineUsesJava21AndRealPostgresQualityGates() throws Exception {
+    @DisplayName("The Java baseline uses Java 26 and real PostgreSQL quality gates @spec:AC-292")
+    void javaBaselineUsesJava26AndRealPostgresQualityGates() throws Exception {
         var build = Files.readString(BUILD);
         var persistenceTest = Files.readString(Path.of(
             "src/test/java/dev/desafio/transaction/infrastructure/axon/AxonPersistenceRestartTest.java"
         ));
 
-        assertTrue(build.contains("JavaLanguageVersion.of(21)"));
+        assertTrue(build.contains("JavaLanguageVersion.of(26)"));
         assertTrue(build.contains("com.tngtech.archunit:archunit-junit5"));
         assertTrue(build.contains("testcontainers.version\"] = \"1.21.4"));
         assertTrue(persistenceTest.contains("PostgreSQLContainer"));
