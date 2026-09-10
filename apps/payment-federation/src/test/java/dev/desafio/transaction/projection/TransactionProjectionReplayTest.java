@@ -1,6 +1,8 @@
 package dev.desafio.transaction.projection;
 
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryProjectionRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.InventoryReservationProjectionJpaRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryProjectionRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryViewRepository;
 import dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.application.event.InventoryProjectionHandler;
@@ -10,8 +12,9 @@ import dev.desafio.transaction.inventory.application.query.InventoryViewReposito
 import dev.desafio.transaction.inventory.domain.StockItem;
 import dev.desafio.transaction.inventory.domain.event.InventoryCommittedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
-import dev.desafio.transaction.inventory.infrastructure.persistence.JdbcInventoryViewRepository;
-import dev.desafio.transaction.payment.adapter.persistence.JdbcPaymentProjection;
+import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentProjection;
+import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentViewRepository;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentRecordRepository;
 import dev.desafio.transaction.payment.application.axon.PaymentProjectionHandler;
 import dev.desafio.transaction.payment.application.event.PaymentPending;
 import dev.desafio.transaction.payment.application.event.PaymentRequested;
@@ -19,8 +22,10 @@ import dev.desafio.transaction.payment.application.query.FindPaymentByTransactio
 import dev.desafio.transaction.payment.application.query.FindPaymentByTransactionHandler;
 import dev.desafio.transaction.payment.application.query.PaymentViewRepository;
 import dev.desafio.transaction.payment.domain.Payment;
-import dev.desafio.transaction.payment.infrastructure.persistence.JdbcPaymentViewRepository;
-import dev.desafio.transaction.transaction.adapter.persistence.JdbcTransactionViewStore;
+import dev.desafio.transaction.transaction.adapter.persistence.CheckoutOperationJpaRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionReadRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionViewStore;
+import dev.desafio.transaction.transaction.adapter.persistence.TransactionViewJpaRepository;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.application.event.TransactionEvent;
 import dev.desafio.transaction.transaction.application.event.TransactionEventHandler;
@@ -30,24 +35,36 @@ import dev.desafio.transaction.transaction.application.query.FindOwnedTransactio
 import dev.desafio.transaction.transaction.application.query.FindOwnedTransactionHandler;
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.domain.Transaction;
-import dev.desafio.transaction.transaction.infrastructure.persistence.JdbcTransactionReadRepository;
 import dev.desafio.transaction.shared.interfaces.graphql.GraphQlReadConfiguration;
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.MapPropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+
+import javax.sql.DataSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,18 +73,15 @@ class TransactionProjectionReplayTest {
     private static final PostgreSQLContainer<?> POSTGRES =
         new PostgreSQLContainer<>("postgres:16-alpine");
     private static final Instant NOW = Instant.parse("2026-09-09T12:00:00Z");
-    private static DriverManagerDataSource dataSource;
+    private static DataSource dataSource;
     private static JdbcTemplate jdbc;
+    private static ConfigurableApplicationContext persistence;
 
     @BeforeAll
     static void migrate() {
         POSTGRES.start();
-        dataSource = new DriverManagerDataSource(
-            POSTGRES.getJdbcUrl(), POSTGRES.getUsername(), POSTGRES.getPassword()
-        );
-        Flyway.configure().dataSource(dataSource).defaultSchema("axon")
-            .schemas("axon", "transaction", "inventory", "payment")
-            .locations("classpath:db/migration").load().migrate();
+        persistence = persistenceContext();
+        dataSource = persistence.getBean(DataSource.class);
         jdbc = new JdbcTemplate(dataSource);
     }
 
@@ -79,6 +93,7 @@ class TransactionProjectionReplayTest {
 
     @AfterAll
     static void stop() {
+        if (persistence != null) persistence.close();
         POSTGRES.stop();
     }
 
@@ -122,11 +137,11 @@ class TransactionProjectionReplayTest {
                 Map.of("spring.datasource.url", POSTGRES.getJdbcUrl())
             ));
             context.registerBean(TransactionReadRepository.class,
-                () -> new JdbcTransactionReadRepository(dataSource));
+                TransactionProjectionReplayTest::transactionReads);
             context.registerBean(PaymentViewRepository.class,
-                () -> new JdbcPaymentViewRepository(dataSource));
+                TransactionProjectionReplayTest::paymentViews);
             context.registerBean(InventoryViewRepository.class,
-                () -> new JdbcInventoryViewRepository(dataSource));
+                TransactionProjectionReplayTest::inventoryViews);
             context.register(GraphQlReadConfiguration.class);
             context.refresh();
 
@@ -156,7 +171,7 @@ class TransactionProjectionReplayTest {
             3
         );
         var transactionHandler = new TransactionEventHandler(
-            new JdbcTransactionViewStore(dataSource), ignored -> {}
+            transactionViews(), ignored -> {}
         );
         transactionHandler.on(started);
         transactionHandler.on(reservedTransaction);
@@ -178,7 +193,7 @@ class TransactionProjectionReplayTest {
             )
         );
         var inventoryHandler = new InventoryProjectionHandler(
-            new JdbcInventoryProjectionRepository(dataSource)
+            inventoryProjections()
         );
         inventoryHandler.on(reservedInventory);
         inventoryHandler.on(committedInventory);
@@ -192,7 +207,7 @@ class TransactionProjectionReplayTest {
             "payment-249", "transaction-249", "provider-249", "pix-code-249",
             "operation-249", "payment-249", NOW.plusSeconds(3)
         );
-        var paymentHandler = new PaymentProjectionHandler(new JdbcPaymentProjection(dataSource));
+        var paymentHandler = new PaymentProjectionHandler(paymentProjection());
         paymentHandler.on(requestedPayment);
         paymentHandler.on(pendingPayment);
 
@@ -200,24 +215,24 @@ class TransactionProjectionReplayTest {
     }
 
     private void projectStaleEvents(History events) {
-        new TransactionEventHandler(new JdbcTransactionViewStore(dataSource), ignored -> {})
+        new TransactionEventHandler(transactionViews(), ignored -> {})
             .on(events.transaction());
-        new InventoryProjectionHandler(new JdbcInventoryProjectionRepository(dataSource))
+        new InventoryProjectionHandler(inventoryProjections())
             .on(events.inventory());
-        new PaymentProjectionHandler(new JdbcPaymentProjection(dataSource))
+        new PaymentProjectionHandler(paymentProjection())
             .on(events.payment());
     }
 
     private Snapshot snapshot() {
-        var transactions = new JdbcTransactionReadRepository(dataSource);
+        var transactions = transactionReads();
         var transaction = new FindOwnedTransactionHandler(transactions)
             .handle(new FindOwnedTransaction("transaction-249", "buyer-249"));
         var checkout = new FindCheckoutOperationHandler(transactions)
             .handle(new FindCheckoutOperation("transaction-249", "buyer-249"));
         var inventory = new FindInventoryReservationByTransactionHandler(
-            new JdbcInventoryViewRepository(dataSource)
+            inventoryViews()
         ).handle(new FindInventoryReservationByTransaction("transaction-249"));
-        var payment = new FindPaymentByTransactionHandler(new JdbcPaymentViewRepository(dataSource))
+        var payment = new FindPaymentByTransactionHandler(paymentViews())
             .handle(new FindPaymentByTransaction("transaction-249"));
         return new Snapshot(
             checkout.status(), transaction.status().name(), payment.status().name(),
@@ -248,6 +263,74 @@ class TransactionProjectionReplayTest {
             outcome, reference, status, version, NOW.plusSeconds(version - 1L)
         );
     }
+
+    private static JpaTransactionViewStore transactionViews() {
+        return new JpaTransactionViewStore(
+            persistence.getBean(TransactionViewJpaRepository.class),
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static JpaTransactionReadRepository transactionReads() {
+        return new JpaTransactionReadRepository(
+            persistence.getBean(CheckoutOperationJpaRepository.class),
+            persistence.getBean(TransactionViewJpaRepository.class)
+        );
+    }
+
+    private static JpaInventoryProjectionRepository inventoryProjections() {
+        return new JpaInventoryProjectionRepository(
+            persistence.getBean(InventoryReservationProjectionJpaRepository.class),
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static JpaInventoryViewRepository inventoryViews() {
+        return new JpaInventoryViewRepository(
+            persistence.getBean(InventoryReservationProjectionJpaRepository.class)
+        );
+    }
+
+    private static JpaPaymentProjection paymentProjection() {
+        return new JpaPaymentProjection(
+            persistence.getBean(SpringDataPaymentRecordRepository.class)
+        );
+    }
+
+    private static JpaPaymentViewRepository paymentViews() {
+        return new JpaPaymentViewRepository(
+            persistence.getBean(SpringDataPaymentRecordRepository.class)
+        );
+    }
+
+    private static ConfigurableApplicationContext persistenceContext() {
+        return new SpringApplicationBuilder(ProjectionPersistenceTestApplication.class)
+            .web(WebApplicationType.NONE)
+            .properties(
+                "spring.datasource.url=" + POSTGRES.getJdbcUrl(),
+                "spring.datasource.username=" + POSTGRES.getUsername(),
+                "spring.datasource.password=" + POSTGRES.getPassword(),
+                "spring.jpa.hibernate.ddl-auto=validate",
+                "spring.jpa.open-in-view=false",
+                "spring.flyway.enabled=true",
+                "spring.flyway.create-schemas=true",
+                "spring.flyway.default-schema=axon",
+                "spring.flyway.schemas=axon,transaction,inventory,payment"
+            )
+            .run();
+    }
+
+    @SpringBootConfiguration
+    @ImportAutoConfiguration({
+        DataSourceAutoConfiguration.class,
+        FlywayAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class,
+        TransactionAutoConfiguration.class,
+        JacksonAutoConfiguration.class
+    })
+    @EntityScan("dev.desafio.transaction")
+    @EnableJpaRepositories("dev.desafio.transaction")
+    static class ProjectionPersistenceTestApplication {}
 
     private record History(
         TransactionEvent transaction,

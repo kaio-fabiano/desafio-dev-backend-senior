@@ -11,9 +11,14 @@ import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPubl
 import dev.desafio.transaction.shared.infrastructure.messaging.IntegrationEventJson;
 import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelay;
 import dev.desafio.transaction.shared.infrastructure.messaging.ReliableAmqpConsumer;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcInboxStore;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
-import org.flywaydb.core.Flyway;
+import dev.desafio.transaction.shared.infrastructure.persistence.InboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.InventoryAmqpInboxJpaRepository;
+import dev.desafio.transaction.shared.infrastructure.persistence.JpaInboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.JpaOutboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.OutboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpInboxEntity;
+import dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpOutboxJpaRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -27,9 +32,21 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.DefaultMessagePropertiesConverter;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.testcontainers.containers.GenericContainer;
@@ -65,6 +82,7 @@ class RabbitMqBoundaryIntegrationTest {
     );
 
     private static DataSource dataSource;
+    private static ConfigurableApplicationContext persistence;
     private static CachingConnectionFactory connectionFactory;
     private static RabbitTemplate rabbit;
     private static ObjectMapper objectMapper;
@@ -74,19 +92,8 @@ class RabbitMqBoundaryIntegrationTest {
         POSTGRES.start();
         RABBIT.start();
 
-        var source = new DriverManagerDataSource();
-        source.setDriverClassName("org.postgresql.Driver");
-        source.setUrl(POSTGRES.getJdbcUrl());
-        source.setUsername(POSTGRES.getUsername());
-        source.setPassword(POSTGRES.getPassword());
-        dataSource = source;
-        Flyway.configure()
-            .dataSource(dataSource)
-            .defaultSchema("axon")
-            .schemas("axon", "transaction", "inventory", "payment")
-            .locations("classpath:db/migration")
-            .load()
-            .migrate();
+        persistence = persistenceContext();
+        dataSource = persistence.getBean(DataSource.class);
 
         connectionFactory = connectionFactory(RABBIT.getMappedPort(5672));
         rabbit = new RabbitTemplate(connectionFactory);
@@ -98,6 +105,7 @@ class RabbitMqBoundaryIntegrationTest {
     @AfterAll
     static void stopInfrastructure() {
         if (connectionFactory != null) connectionFactory.destroy();
+        if (persistence != null) persistence.close();
         RABBIT.stop();
         POSTGRES.stop();
     }
@@ -106,8 +114,8 @@ class RabbitMqBoundaryIntegrationTest {
     @DisplayName("Outbox recovery, duplicate delivery, retry, and DLQ preserve the V1 envelope @spec:AC-293 @spec:AC-292 @spec:AC-230")
     void outboxRecoveryDuplicateDeliveryRetryAndDlqPreserveTheV1Envelope() throws Exception {
         var codec = new IntegrationEventJson(objectMapper);
-        var outbox = new JdbcOutboxStore(dataSource, objectMapper, "transaction");
-        var inbox = new JdbcInboxStore(dataSource, objectMapper, "inventory");
+        var outbox = transactionOutbox();
+        var inbox = inventoryInbox();
         var event = event("event-245");
         IntegrationEventEnvelope<com.fasterxml.jackson.databind.JsonNode> credentialEvent =
             new IntegrationEventEnvelope<>(
@@ -299,4 +307,49 @@ class RabbitMqBoundaryIntegrationTest {
             body
         );
     }
+
+    private static OutboxStore transactionOutbox() {
+        return JpaOutboxStore.transaction(
+            persistence.getBean(TransactionAmqpOutboxJpaRepository.class),
+            persistence.getBean(EntityManager.class), objectMapper,
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static InboxStore inventoryInbox() {
+        return JpaInboxStore.inventory(
+            persistence.getBean(InventoryAmqpInboxJpaRepository.class),
+            persistence.getBean(EntityManager.class), objectMapper, CLOCK,
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static ConfigurableApplicationContext persistenceContext() {
+        return new SpringApplicationBuilder(AmqpPersistenceTestApplication.class)
+            .web(WebApplicationType.NONE)
+            .properties(
+                "spring.datasource.url=" + POSTGRES.getJdbcUrl(),
+                "spring.datasource.username=" + POSTGRES.getUsername(),
+                "spring.datasource.password=" + POSTGRES.getPassword(),
+                "spring.jpa.hibernate.ddl-auto=validate",
+                "spring.jpa.open-in-view=false",
+                "spring.flyway.enabled=true",
+                "spring.flyway.create-schemas=true",
+                "spring.flyway.default-schema=axon",
+                "spring.flyway.schemas=axon,transaction,inventory,payment"
+            )
+            .run();
+    }
+
+    @SpringBootConfiguration
+    @ImportAutoConfiguration({
+        DataSourceAutoConfiguration.class,
+        FlywayAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class,
+        TransactionAutoConfiguration.class,
+        JacksonAutoConfiguration.class
+    })
+    @EntityScan(basePackageClasses = TransactionAmqpInboxEntity.class)
+    @EnableJpaRepositories(basePackageClasses = TransactionAmqpOutboxJpaRepository.class)
+    static class AmqpPersistenceTestApplication {}
 }

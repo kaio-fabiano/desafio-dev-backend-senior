@@ -5,7 +5,8 @@ import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.configuration.AmqpTopologyConfiguration;
 import dev.desafio.transaction.configuration.MarketplaceAmqp;
 import dev.desafio.transaction.inventory.adapter.messaging.InventoryRabbitListener;
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryOutbox;
+import dev.desafio.transaction.inventory.adapter.persistence.InventoryAmqpOutboxJpaRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryOutbox;
 import dev.desafio.transaction.inventory.application.InventoryService;
 import dev.desafio.transaction.inventory.application.axon.InventoryAxonEvents;
 import dev.desafio.transaction.inventory.application.axon.InventoryCommitRejectedAxonEvent;
@@ -21,8 +22,10 @@ import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedEvent;
 import dev.desafio.transaction.payment.adapter.axon.PaymentProviderEffectHandler;
 import dev.desafio.transaction.payment.adapter.messaging.AxonPaymentRabbitListener;
-import dev.desafio.transaction.payment.adapter.persistence.JdbcPaymentEffectLedger;
-import dev.desafio.transaction.payment.adapter.persistence.JdbcPaymentProjection;
+import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentEffectLedger;
+import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentProjection;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentEffectRepository;
+import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentRecordRepository;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.axon.PaymentAggregate;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
@@ -33,21 +36,26 @@ import dev.desafio.transaction.payment.application.event.PaymentApproved;
 import dev.desafio.transaction.payment.application.event.PaymentRequested;
 import dev.desafio.transaction.payment.application.event.PaymentRejected;
 import dev.desafio.transaction.payment.application.axon.PaymentProjectionHandler;
-import dev.desafio.transaction.payment.adapter.messaging.JdbcPaymentIntegrationEventPublisher;
+import dev.desafio.transaction.payment.adapter.messaging.OutboxPaymentIntegrationEventPublisher;
 import dev.desafio.transaction.shared.infrastructure.messaging.AmqpRetryRouter;
 import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;
 import dev.desafio.transaction.shared.infrastructure.messaging.IntegrationEventJson;
 import dev.desafio.transaction.shared.infrastructure.messaging.OutboxRelay;
 import dev.desafio.transaction.shared.infrastructure.messaging.ReliableAmqpConsumer;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcInboxStore;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
-import dev.desafio.transaction.transaction.adapter.persistence.JdbcTransactionOutbox;
+import dev.desafio.transaction.shared.infrastructure.persistence.InboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.JpaInboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.JpaOutboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.OutboxStore;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionOutbox;
 import dev.desafio.transaction.transaction.adapter.messaging.TransactionRabbitListener;
-import dev.desafio.transaction.transaction.adapter.persistence.JdbcTransactionViewStore;
+import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionViewStore;
+import dev.desafio.transaction.transaction.adapter.persistence.TransactionOutboxJpaRepository;
+import dev.desafio.transaction.transaction.adapter.persistence.TransactionViewJpaRepository;
 import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcome;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.application.event.TransactionEvent;
 import dev.desafio.transaction.transaction.domain.Transaction;
+import jakarta.persistence.EntityManager;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -63,8 +71,20 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
@@ -103,6 +123,7 @@ class ChoreographedLifecycleE2ETest {
     private static ObjectMapper json;
     private static CachingConnectionFactory connectionFactory;
     private static RabbitTemplate rabbit;
+    private static ConfigurableApplicationContext persistence;
 
     @BeforeAll
     static void startInfrastructure() {
@@ -115,6 +136,7 @@ class ChoreographedLifecycleE2ETest {
         Flyway.configure().dataSource(dataSource).defaultSchema("axon")
             .schemas("axon", "transaction", "inventory", "payment")
             .locations("classpath:db/migration").load().migrate();
+        persistence = persistenceContext();
         json = new ObjectMapper().findAndRegisterModules();
         connectionFactory = new CachingConnectionFactory("localhost", RABBIT.getMappedPort(5672));
         connectionFactory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);
@@ -145,6 +167,7 @@ class ChoreographedLifecycleE2ETest {
     @AfterAll
     static void stopInfrastructure() {
         if (connectionFactory != null) connectionFactory.destroy();
+        if (persistence != null) persistence.close();
         RABBIT.stop();
         POSTGRES.stop();
     }
@@ -156,9 +179,9 @@ class ChoreographedLifecycleE2ETest {
             "transaction-251", "operation-251", "buyer@example.test", "order-251",
             List.of(new Transaction.Item("sku-251", 1)), new BigDecimal("42.50"), "BRL", "PIX"
         ), CLOCK.instant());
-        new JdbcTransactionOutbox(dataSource, json).enqueueOrderReceived(started);
+        transactionOutbox().enqueueOrderReceived(started);
         var transaction = new AtomicReference<>(Transaction.replay(List.of(started.toDomainEvent())));
-        var transactionViews = new JdbcTransactionViewStore(dataSource);
+        var transactionViews = transactionViews();
         transactionViews.upsert(started);
         relay("transaction");
 
@@ -166,7 +189,7 @@ class ChoreographedLifecycleE2ETest {
         var reservation = new AtomicReference<InventoryReservation>();
         when(inventoryCommands.send(any(), eq(Object.class))).thenAnswer(invocation -> {
             var command = invocation.getArgument(0);
-            var integration = new InventoryIntegrationEventHandler(new JdbcInventoryOutbox(dataSource, json));
+            var integration = new InventoryIntegrationEventHandler(inventoryOutbox());
             if (command instanceof ReserveInventoryCommand reserve) {
                 assertEquals("inventory:transaction-251", reserve.inventoryReservationId());
                 assertEquals("payment:transaction-251", reserve.paymentId());
@@ -188,10 +211,7 @@ class ChoreographedLifecycleE2ETest {
             );
             return CompletableFuture.completedFuture(reservation.get().status());
         });
-        var inventoryConsumer = new ReliableAmqpConsumer(
-            new JdbcInboxStore(dataSource, json, "inventory"), new IntegrationEventJson(json),
-            new AmqpRetryRouter(rabbit, CLOCK)
-        );
+        var inventoryConsumer = reliable("inventory");
         var inventory = new InventoryRabbitListener(
             inventoryConsumer, inventoryCommands, legacyInventory(), rabbit, json
         );
@@ -204,10 +224,7 @@ class ChoreographedLifecycleE2ETest {
             requested.set((RequestPayment) invocation.getArgument(0));
             return CompletableFuture.completedFuture("payment-251");
         });
-        var paymentConsumer = new ReliableAmqpConsumer(
-            new JdbcInboxStore(dataSource, json, "payment"), new IntegrationEventJson(json),
-            new AmqpRetryRouter(rabbit, CLOCK)
-        );
+        var paymentConsumer = reliable("payment");
         var payment = new AxonPaymentRabbitListener(paymentConsumer, paymentCommands);
         consume(MarketplaceAmqp.eventQueue("payment"), payment::receive);
 
@@ -216,9 +233,7 @@ class ChoreographedLifecycleE2ETest {
         assertEquals("operation-251", requested.get().correlationId());
         assertEquals("PIX", requested.get().method().name());
 
-        new PaymentIntegrationEventHandler(new JdbcPaymentIntegrationEventPublisher(
-            new JdbcOutboxStore(dataSource, json, "payment"), json
-        )).on(new PaymentApproved(
+        new PaymentIntegrationEventHandler(paymentPublisher()).on(new PaymentApproved(
             requested.get().paymentId(), requested.get().transactionId(), "provider-251",
             requested.get().correlationId(), requested.get().causationId(), CLOCK.instant()
         ));
@@ -248,7 +263,7 @@ class ChoreographedLifecycleE2ETest {
         apply(transaction, Transaction.Outcome.INVENTORY_RESERVED, "reservation-refund");
         apply(transaction, Transaction.Outcome.PAYMENT_APPROVED, "provider-refund");
         var transactionRef = new AtomicReference<>(transaction);
-        var views = new JdbcTransactionViewStore(dataSource);
+        var views = transactionViews();
         views.upsert(started);
 
         var reserved = new InventoryReservedEvent(
@@ -263,7 +278,7 @@ class ChoreographedLifecycleE2ETest {
             "STOCK_COMMIT_REJECTED", "operation-refund", "payment-approved", CLOCK.instant(), events::add
         ));
         var rejected = (InventoryCommitRejectedAxonEvent) InventoryAxonEvents.wrap(events.getFirst());
-        new InventoryIntegrationEventHandler(new JdbcInventoryOutbox(dataSource, json)).on(rejected);
+        new InventoryIntegrationEventHandler(inventoryOutbox()).on(rejected);
         relay("inventory");
         duplicatePublished("inventory", "inventory.commit-rejected.v1");
 
@@ -301,7 +316,7 @@ class ChoreographedLifecycleE2ETest {
         aggregate.on(approved);
         var refundRequested = aggregate.refund(refund.get(), CLOCK.instant());
         aggregate.on(refundRequested);
-        var projection = new PaymentProjectionHandler(new JdbcPaymentProjection(dataSource));
+        var projection = new PaymentProjectionHandler(paymentProjection());
         projection.on(requested);
         projection.on(approved);
         assertEquals(PaymentAggregate.Stage.REFUND_PENDING, aggregate.stage());
@@ -319,7 +334,7 @@ class ChoreographedLifecycleE2ETest {
             return CompletableFuture.completedFuture(null);
         });
         var effects = new PaymentProviderEffectHandler(
-            new JdbcPaymentEffectLedger(dataSource), provider, outcomeGateway, CLOCK
+            paymentEffects(), provider, outcomeGateway, CLOCK
         );
         effects.execute(refundRequested).join();
         effects.execute(refundRequested).join();
@@ -329,9 +344,7 @@ class ChoreographedLifecycleE2ETest {
             aggregate.record(outcome.get(), CLOCK.instant());
         aggregate.on(refunded);
         projection.on(refunded);
-        new PaymentIntegrationEventHandler(new JdbcPaymentIntegrationEventPublisher(
-            new JdbcOutboxStore(dataSource, json, "payment"), json
-        )).on(refunded);
+        new PaymentIntegrationEventHandler(paymentPublisher()).on(refunded);
         relay("payment");
         consume(MarketplaceAmqp.eventQueue("transaction"), transactionListener::receive);
 
@@ -351,14 +364,14 @@ class ChoreographedLifecycleE2ETest {
             List.of(new Transaction.Item("sku-empty", 1)), new BigDecimal("10.00"), "BRL", "PIX"
         ), CLOCK.instant());
         var noStockTransaction = new AtomicReference<>(Transaction.replay(List.of(firstStarted.toDomainEvent())));
-        var noStockViews = new JdbcTransactionViewStore(dataSource);
+        var noStockViews = transactionViews();
         noStockViews.upsert(firstStarted);
         var rejectedReservation = new InventoryReservationRejectedEvent(
             "transaction-no-stock", "transaction-no-stock", "order-no-stock",
             List.of(new dev.desafio.transaction.inventory.domain.StockItem("sku-empty", 1)),
             "INSUFFICIENT_STOCK", 1, "operation-no-stock", firstStarted.eventId().toString(), CLOCK.instant()
         );
-        var inventoryEvents = new InventoryIntegrationEventHandler(new JdbcInventoryOutbox(dataSource, json));
+        var inventoryEvents = new InventoryIntegrationEventHandler(inventoryOutbox());
         inventoryEvents.on(new InventoryReservationRejectedAxonEvent(
             "transaction-no-stock", rejectedReservation
         ));
@@ -377,7 +390,7 @@ class ChoreographedLifecycleE2ETest {
         var paymentRejectedTransaction = Transaction.replay(List.of(secondStarted.toDomainEvent()));
         apply(paymentRejectedTransaction, Transaction.Outcome.INVENTORY_RESERVED, "reservation-rejected");
         var transactionRef = new AtomicReference<>(paymentRejectedTransaction);
-        var views = new JdbcTransactionViewStore(dataSource);
+        var views = transactionViews();
         views.upsert(secondStarted);
         var reserved = new InventoryReservedEvent(
             "transaction-payment-rejected", "transaction-payment-rejected", "order-payment-rejected",
@@ -387,9 +400,7 @@ class ChoreographedLifecycleE2ETest {
             "operation-payment-rejected", secondStarted.eventId().toString(), CLOCK.instant()
         );
         var reservation = new InventoryReservation(reserved);
-        new PaymentIntegrationEventHandler(new JdbcPaymentIntegrationEventPublisher(
-            new JdbcOutboxStore(dataSource, json, "payment"), json
-        )).on(new PaymentRejected(
+        new PaymentIntegrationEventHandler(paymentPublisher()).on(new PaymentRejected(
             "transaction-payment-rejected", "transaction-payment-rejected", "provider-rejected",
             "PROVIDER_REJECTED", "operation-payment-rejected", "provider-effect", CLOCK.instant()
         ));
@@ -427,13 +438,11 @@ class ChoreographedLifecycleE2ETest {
             new BigDecimal("12.00"), "BRL", "PIX"
         ), CLOCK.instant());
         var transaction = new AtomicReference<>(Transaction.replay(List.of(started.toDomainEvent())));
-        var views = new JdbcTransactionViewStore(dataSource);
+        var views = transactionViews();
         views.upsert(started);
         var listener = transactionListener(transaction, views);
 
-        new PaymentIntegrationEventHandler(new JdbcPaymentIntegrationEventPublisher(
-            new JdbcOutboxStore(dataSource, json, "payment"), json
-        )).on(new PaymentApproved(
+        new PaymentIntegrationEventHandler(paymentPublisher()).on(new PaymentApproved(
             "transaction-out-of-order", "transaction-out-of-order", "provider-order",
             "operation-out-of-order", "payment-effect", CLOCK.instant()
         ));
@@ -448,7 +457,7 @@ class ChoreographedLifecycleE2ETest {
             new BigDecimal("12.00"), "BRL", "buyer@example.test", 1,
             "operation-out-of-order", started.eventId().toString(), CLOCK.instant()
         );
-        new InventoryIntegrationEventHandler(new JdbcInventoryOutbox(dataSource, json)).on(
+        new InventoryIntegrationEventHandler(inventoryOutbox()).on(
             new InventoryReservedAxonEvent("transaction-out-of-order", reserved)
         );
         relay("inventory");
@@ -470,7 +479,7 @@ class ChoreographedLifecycleE2ETest {
     private static void relay(String context) {
         var codec = new IntegrationEventJson(json);
         var relay = new OutboxRelay(
-            new JdbcOutboxStore(dataSource, json, context),
+            outbox(context),
             new ConfirmedAmqpPublisher(rabbit, codec), codec, CLOCK, context + "-relay"
         );
         assertEquals(1, relay.publishAvailable(10));
@@ -500,7 +509,7 @@ class ChoreographedLifecycleE2ETest {
 
     private static TransactionRabbitListener transactionListener(
         AtomicReference<Transaction> transaction,
-        JdbcTransactionViewStore views
+        JpaTransactionViewStore views
     ) {
         var commands = mock(org.axonframework.messaging.commandhandling.gateway.CommandGateway.class);
         when(commands.sendAndWait(any())).thenAnswer(invocation -> {
@@ -515,15 +524,127 @@ class ChoreographedLifecycleE2ETest {
             });
             return null;
         });
-        return new TransactionRabbitListener(dataSource, json, rabbit, commands);
+        return new TransactionRabbitListener(reliable("transaction"), commands);
     }
 
     private static ReliableAmqpConsumer reliable(String context) {
         return new ReliableAmqpConsumer(
-            new JdbcInboxStore(dataSource, json, context), new IntegrationEventJson(json),
+            inbox(context), new IntegrationEventJson(json),
             new AmqpRetryRouter(rabbit, CLOCK)
         );
     }
+
+    private static JpaTransactionOutbox transactionOutbox() {
+        return new JpaTransactionOutbox(
+            json,
+            persistence.getBean(TransactionOutboxJpaRepository.class),
+            persistence.getBean(EntityManager.class),
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static JpaTransactionViewStore transactionViews() {
+        return new JpaTransactionViewStore(
+            persistence.getBean(TransactionViewJpaRepository.class),
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static JpaInventoryOutbox inventoryOutbox() {
+        return new JpaInventoryOutbox(
+            persistence.getBean(InventoryAmqpOutboxJpaRepository.class),
+            json,
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static JpaPaymentProjection paymentProjection() {
+        return new JpaPaymentProjection(
+            persistence.getBean(SpringDataPaymentRecordRepository.class)
+        );
+    }
+
+    private static JpaPaymentEffectLedger paymentEffects() {
+        return new JpaPaymentEffectLedger(
+            persistence.getBean(SpringDataPaymentEffectRepository.class),
+            persistence.getBean(PlatformTransactionManager.class)
+        );
+    }
+
+    private static OutboxPaymentIntegrationEventPublisher paymentPublisher() {
+        return new OutboxPaymentIntegrationEventPublisher(outbox("payment"), json);
+    }
+
+    private static OutboxStore outbox(String context) {
+        var entityManager = persistence.getBean(EntityManager.class);
+        var transactions = persistence.getBean(PlatformTransactionManager.class);
+        return switch (context) {
+            case "transaction" -> JpaOutboxStore.transaction(
+                persistence.getBean(
+                    dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpOutboxJpaRepository.class
+                ), entityManager, json, transactions
+            );
+            case "inventory" -> JpaOutboxStore.inventory(
+                persistence.getBean(
+                    dev.desafio.transaction.shared.infrastructure.persistence.InventoryAmqpOutboxJpaRepository.class
+                ), entityManager, json, transactions
+            );
+            case "payment" -> JpaOutboxStore.payment(
+                persistence.getBean(
+                    dev.desafio.transaction.shared.infrastructure.persistence.PaymentAmqpOutboxJpaRepository.class
+                ), entityManager, json, transactions
+            );
+            default -> throw new IllegalArgumentException("unknown context " + context);
+        };
+    }
+
+    private static InboxStore inbox(String context) {
+        var entityManager = persistence.getBean(EntityManager.class);
+        var transactions = persistence.getBean(PlatformTransactionManager.class);
+        return switch (context) {
+            case "transaction" -> JpaInboxStore.transaction(
+                persistence.getBean(
+                    dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpInboxJpaRepository.class
+                ), entityManager, json, CLOCK, transactions
+            );
+            case "inventory" -> JpaInboxStore.inventory(
+                persistence.getBean(
+                    dev.desafio.transaction.shared.infrastructure.persistence.InventoryAmqpInboxJpaRepository.class
+                ), entityManager, json, CLOCK, transactions
+            );
+            case "payment" -> JpaInboxStore.payment(
+                persistence.getBean(
+                    dev.desafio.transaction.shared.infrastructure.persistence.PaymentAmqpInboxJpaRepository.class
+                ), entityManager, json, CLOCK, transactions
+            );
+            default -> throw new IllegalArgumentException("unknown context " + context);
+        };
+    }
+
+    private static ConfigurableApplicationContext persistenceContext() {
+        return new SpringApplicationBuilder(ChoreographyPersistenceTestApplication.class)
+            .web(WebApplicationType.NONE)
+            .properties(
+                "spring.datasource.url=" + POSTGRES.getJdbcUrl(),
+                "spring.datasource.username=" + POSTGRES.getUsername(),
+                "spring.datasource.password=" + POSTGRES.getPassword(),
+                "spring.jpa.hibernate.ddl-auto=validate",
+                "spring.jpa.open-in-view=false",
+                "spring.flyway.enabled=false"
+            )
+            .run();
+    }
+
+    @SpringBootConfiguration
+    @ImportAutoConfiguration({
+        DataSourceAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class,
+        TransactionAutoConfiguration.class,
+        JacksonAutoConfiguration.class
+    })
+    @EntityScan("dev.desafio.transaction")
+    @EnableJpaRepositories("dev.desafio.transaction")
+    static class ChoreographyPersistenceTestApplication {}
 
     @SuppressWarnings("unchecked")
     private static ObjectProvider<InventoryService> legacyInventory() {

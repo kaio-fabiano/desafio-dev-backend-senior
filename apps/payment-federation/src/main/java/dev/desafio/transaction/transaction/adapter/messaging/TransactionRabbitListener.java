@@ -1,23 +1,17 @@
 package dev.desafio.transaction.transaction.adapter.messaging;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope;
-import dev.desafio.transaction.shared.infrastructure.messaging.AmqpRetryRouter;
-import dev.desafio.transaction.shared.infrastructure.messaging.IntegrationEventJson;
 import dev.desafio.transaction.shared.infrastructure.messaging.ReliableAmqpConsumer;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcInboxStore;
 import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcome;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 
 @Component
 @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
@@ -27,16 +21,10 @@ public final class TransactionRabbitListener {
     private final CommandGateway commands;
 
     public TransactionRabbitListener(
-        DataSource dataSource,
-        ObjectMapper json,
-        RabbitTemplate rabbit,
+        @Qualifier("transactionReliableAmqpConsumer") ReliableAmqpConsumer consumer,
         CommandGateway commands
     ) {
-        this.consumer = new ReliableAmqpConsumer(
-            new JdbcInboxStore(dataSource, json, "transaction"),
-            new IntegrationEventJson(json),
-            new AmqpRetryRouter(rabbit, java.time.Clock.systemUTC())
-        );
+        this.consumer = consumer;
         this.commands = commands;
     }
 
