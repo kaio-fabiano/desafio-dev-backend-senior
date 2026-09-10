@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtupzk98",
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtut0fvw",
   "feature": "migrate-order-workflow-to-axon-java",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-09 23:18",
+  "geradoEm": "2026-09-10 00:43",
   "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
   "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
   "specDir": ".spec",
@@ -16,35 +16,20 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-253",
-      "titulo": "Retire Node Workflow and close all quality gates",
+      "id": "T-254",
+      "titulo": "Reanchor retired Node evidence and refresh the global verification ledger",
       "modelo": "gpt-5.6-sol",
       "esforco": "high",
       "arquivos": [
-        "apps/order-workflow-subgraph",
-        "apps/gateway",
-        "apps/payment-federation",
-        "apps/wordpress-integration",
-        "libs/contracts",
-        "infra/sst.config.ts",
-        "compose.yaml",
-        "README.md",
-        "docs",
-        "test",
         ".spec/features",
-        ".spec/verification"
+        ".spec/verification",
+        "docs/adrs/008-native-commerce-and-order-workflow.md",
+        "docs/runbooks/java-axon-order-workflow-operations.md"
       ],
       "refs": [
         "US-136",
-        "AC-280",
-        "AC-282",
-        "AC-286",
-        "AC-288",
-        "AC-289",
-        "AC-290",
         "AC-291",
-        "AC-292",
-        "AC-293"
+        "AC-292"
       ]
     }
   ],
@@ -61,7 +46,8 @@
     "T-249",
     "T-250",
     "T-251",
-    "T-252"
+    "T-252",
+    "T-253"
   ],
   "avisos": []
 }

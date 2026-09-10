@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-09 23:18
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-10 00:43
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtupzk98'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtut0fvw'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,17 +168,17 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-253 (ordem do tasks.md) ──
-executar_seq_T_253() {
-  info 'sequencial T-253 — Retire Node Workflow and close all quality gates'
-  if rodar_tarefa seq 'T-253' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-254 (ordem do tasks.md) ──
+executar_seq_T_254() {
+  info 'sequencial T-254 — Reanchor retired Node evidence and refresh the global verification ledger'
+  if rodar_tarefa seq 'T-254' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-253 — "Retire Node Workflow and close all quality gates"
-  critérios/refs: AC-280 (Java sources follow the approved boundaries), AC-282 (Axon state is durable and replayable), AC-286 (The distributed lifecycle is strictly choreographed), AC-288 (Existing GraphQL operations remain compatible during cutover), AC-289 (Axon subscription queries isolate transaction updates), AC-290 (Existing durable state has an explicit migration decision), AC-291 (One Java deployment becomes the sole owner), AC-292 (Repository quality gates prove the migration), AC-293 (Bounded contexts communicate through RabbitMQ AMQP)
-  arquivos permitidos (e seus testes): apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, infra/sst.config.ts, compose.yaml, README.md, docs, test, .spec/features, .spec/verification
-  mensagem de commit: "T-253 migrate-order-workflow-to-axon-java: Retire Node Workflow and close all quality gates"
+T-254 — "Reanchor retired Node evidence and refresh the global verification ledger"
+  critérios/refs: AC-291 (One Java deployment becomes the sole owner), AC-292 (Repository quality gates prove the migration)
+  arquivos permitidos (e seus testes): .spec/features, .spec/verification, docs/adrs/008-native-commerce-and-order-workflow.md, docs/runbooks/java-axon-order-workflow-operations.md
+  mensagem de commit: "T-254 migrate-order-workflow-to-axon-java: Reanchor retired Node evidence and refresh the global verification ledger"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -188,15 +188,15 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-253 migrate-order-workflow-to-axon-java: Retire Node Workflow and close all quality gates (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-254 migrate-order-workflow-to-axon-java: Reanchor retired Node evidence and refresh the global verification ledger (auto-commit do plano)'
     fi
-    marcar_concluidas T-253
-    verde "✔ T-253 concluída"
+    marcar_concluidas T-254
+    verde "✔ T-254 concluída"
     return 0
   fi
-  vermelho "✘ T-253 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-253"
-  FALHAS="$FALHAS T-253"
+  vermelho "✘ T-254 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-254"
+  FALHAS="$FALHAS T-254"
   return 1
 }
 
@@ -253,13 +253,13 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_253 || true
+  executar_seq_T_254 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-253 (sequencial)"
+  echo "  seq       T-254 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -294,7 +294,7 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-253) evento --tipo inicio --escopo "seq:T-253"; iniciar_resumos; executar_seq_T_253 || true; encerrar "seq:T-253" ;;
+      T-254) evento --tipo inicio --escopo "seq:T-254"; iniciar_resumos; executar_seq_T_254 || true; encerrar "seq:T-254" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac
