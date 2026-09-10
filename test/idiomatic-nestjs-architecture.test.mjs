@@ -23,7 +23,7 @@ const expectedModules = {
     exports: [],
   },
   'libs/gateway/nest/src/auth/gateway-auth.module.ts': {
-    imports: ['ConfigModule', 'OAuthResourceModule.register'],
+    imports: ['ConfigModule', 'OAuthResourceModule.registerAsync'],
     providers: [
       'CommerceCookieAdapter',
       'CommerceCookiePort',
@@ -78,7 +78,7 @@ const expectedModules = {
     imports: [
       'BetterAuthModule',
       'OAuthIssuerModule',
-      'OAuthResourceModule.register',
+      'OAuthResourceModule.registerAsync',
       'GraphQLModule.forRoot',
     ],
     providers: [
@@ -87,7 +87,6 @@ const expectedModules = {
       'FindIdentityUsersUseCase',
       'ListIdentityUsersUseCase',
       'IdentityResolver',
-      'UserLoader',
       'APP_GUARD',
     ],
     exports: [],
@@ -181,21 +180,68 @@ function moduleMetadata(path, source) {
     true,
   );
   const metadata = { imports: [], providers: [], exports: [] };
+  const providerFactories = new Map();
+
+  function collectProviderFactories(node) {
+    if (ts.isMethodDeclaration(node) && node.name) {
+      let entries;
+      function findReturnedArray(child) {
+        if (
+          ts.isReturnStatement(child) &&
+          child.expression &&
+          ts.isArrayLiteralExpression(child.expression)
+        ) {
+          entries = child.expression.elements.map((entry) =>
+            metadataEntry(entry, sourceFile),
+          );
+        }
+        ts.forEachChild(child, findReturnedArray);
+      }
+      findReturnedArray(node);
+      if (entries)
+        providerFactories.set(node.name.getText(sourceFile), entries);
+    }
+    ts.forEachChild(node, collectProviderFactories);
+  }
+  collectProviderFactories(sourceFile);
 
   function collect(object) {
     for (const property of object.properties) {
-      if (
-        !ts.isPropertyAssignment(property) ||
-        !ts.isArrayLiteralExpression(property.initializer)
-      )
-        continue;
+      if (!ts.isPropertyAssignment(property)) continue;
       const name = property.name.getText(sourceFile);
-      if (name in metadata) {
+      if (!(name in metadata)) continue;
+      if (ts.isArrayLiteralExpression(property.initializer)) {
         metadata[name].push(
           ...property.initializer.elements.map((entry) =>
             metadataEntry(entry, sourceFile),
           ),
         );
+      } else if (
+        name === 'providers' &&
+        ts.isCallExpression(property.initializer) &&
+        ts.isPropertyAccessExpression(property.initializer.expression)
+      ) {
+        const entries = providerFactories.get(
+          property.initializer.expression.name.getText(sourceFile),
+        );
+        const [argument] = property.initializer.arguments;
+        const token =
+          argument && ts.isObjectLiteralExpression(argument)
+            ? argument.properties
+                .find(
+                  (entry) =>
+                    ts.isPropertyAssignment(entry) &&
+                    entry.name.getText(sourceFile) === 'provide',
+                )
+                ?.initializer.getText(sourceFile)
+            : undefined;
+        if (entries) {
+          metadata.providers.push(
+            ...entries.map((entry) =>
+              entry === 'optionsProvider' && token ? token : entry,
+            ),
+          );
+        }
       }
     }
   }
@@ -224,6 +270,9 @@ function moduleMetadata(path, source) {
   }
 
   visit(sourceFile);
+  for (const name of Object.keys(metadata)) {
+    metadata[name] = [...new Set(metadata[name])];
+  }
   return metadata;
 }
 
@@ -312,7 +361,6 @@ test('AC-276: every task starts one fresh Codex session and commits atomically @
     executor.indexOf('\nlistar() {'),
   );
   assert.ok(
-    runAll.indexOf('executar_seq_T_227') <
-      runAll.indexOf('executar_seq_T_229'),
+    runAll.indexOf('executar_seq_T_227') < runAll.indexOf('executar_seq_T_229'),
   );
 });

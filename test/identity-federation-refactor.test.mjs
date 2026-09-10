@@ -75,7 +75,7 @@ test('AC-093: Better Auth uses direct plugins and its NestJS integration @spec:A
 test('AC-094: Identity reads and links Better Auth models without duplicate persistence @spec:AC-094 @spec:AC-268', async () => {
   const [
     { IdentityResolver },
-    { UserLoader },
+    { FindIdentityUsersUseCase },
     { RegistrationService },
     { IdentityBootstrap },
     { RegisterIdentityUseCase },
@@ -83,7 +83,9 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
     { WordPressCustomerIdentityAdapter },
   ] = await Promise.all([
     import(`../${libraryRoot}/graphql/identity.resolver.ts`),
-    import(`../${libraryRoot}/graphql/user.loader.ts`),
+    import(
+      `../${libraryRoot}/application/use-cases/find-identity-users.use-case.ts`
+    ),
     import(`../${libraryRoot}/registration/registration.service.ts`),
     import(`../${libraryRoot}/registration/identity-bootstrap.ts`),
     import(
@@ -117,12 +119,22 @@ test('AC-094: Identity reads and links Better Auth models without duplicate pers
       };
     },
   };
-  const resolver = new IdentityResolver(repository, new UserLoader(repository));
-  const context = { subject: 'u-1', scopes: ['marketplace:read'] };
+  const resolver = new IdentityResolver(
+    repository,
+    new FindIdentityUsersUseCase(repository),
+  );
+  const context = {
+    auth: {
+      audience: [],
+      claims: {},
+      subject: 'admin',
+      scopes: ['identity:users:read'],
+    },
+  };
 
-  assert.deepEqual(await resolver.me(context.subject), users[0]);
+  assert.deepEqual(await resolver.me('u-1'), users[0]);
   assert.deepEqual(await resolver.user('u-2', context), users[1]);
-  assert.equal((await resolver.users(1, undefined, context)).edges.length, 1);
+  assert.equal((await resolver.users(1)).edges.length, 1);
 
   const linked = [];
   const wordpress = {
@@ -357,14 +369,16 @@ test('AC-096: Identity Federation rejects sensitive operations without propagate
       'utf8',
     ),
   ]);
-  for (const operation of ['users', 'user', 'me', 'resolveReference']) {
-    assert.match(
-      resolver,
-      new RegExp(
-        `@RequireScopes\\(OAuthResources.marketplaceReadScope\\)[\\s\\S]*${operation}`,
-      ),
-    );
-  }
+  assert.match(
+    resolver,
+    /@RequireScopes\(OAuthResources\.identityUsersReadScope\)[\s\S]*users/,
+  );
+  assert.match(
+    resolver,
+    /@RequireScopes\(OAuthResources\.marketplaceReadScope\)[\s\S]*me/,
+  );
+  assert.match(resolver, /@RequireScopes\(\)[\s\S]*user/);
+  assert.match(resolver, /@RequireScopes\(\)[\s\S]*resolveReference/);
   assert.match(
     guard,
     /this\.resources\.verify\(\s*OAuthRequestAdapter\.toRequest\(context\.req\),?\s*\)/,

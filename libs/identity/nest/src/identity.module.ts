@@ -16,7 +16,6 @@ import { IdentityUserQueryPort } from './application/ports/identity-user-query.p
 import { FindIdentityUsersUseCase } from './application/use-cases/find-identity-users.use-case.ts';
 import { ListIdentityUsersUseCase } from './application/use-cases/list-identity-users.use-case.ts';
 import { IdentityResolver } from './graphql/identity.resolver.ts';
-import { UserLoader } from './graphql/user.loader.ts';
 import { BetterAuthIdentityUserAdapter } from './infrastructure/persistence/better-auth-identity-user.adapter.ts';
 import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
 
@@ -64,7 +63,6 @@ import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
     },
     ListIdentityUsersUseCase,
     IdentityResolver,
-    UserLoader,
     { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },
   ],
 })

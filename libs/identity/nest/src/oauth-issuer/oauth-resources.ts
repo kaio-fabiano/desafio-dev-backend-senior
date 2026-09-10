@@ -1,4 +1,5 @@
 import { OAuthClientProvisioningPolicy } from '../application/policies/oauth-client-provisioning.policy.ts';
+import { IdentityUserVisibilityPolicy } from '../application/policies/identity-user-visibility.policy.ts';
 
 export class OAuthResources {
   static readonly resources = {
@@ -8,7 +9,9 @@ export class OAuthResources {
     orderWorkflow: 'https://order-workflow.marketplace.local',
     payment: 'https://payment.marketplace.local',
   } as const;
-  static readonly marketplaceReadScope = 'marketplace:read';
+  static readonly marketplaceReadScope = IdentityUserVisibilityPolicy.selfScope;
+  static readonly identityUsersReadScope =
+    IdentityUserVisibilityPolicy.administrativeScope;
   static readonly delegatedScopes = [
     'mcp:tools',
     OAuthResources.marketplaceReadScope,
@@ -20,7 +23,10 @@ export class OAuthResources {
   static readonly mcpAudience = OAuthResources.resources.mcp;
   static readonly resourceScopes = {
     [OAuthResources.resources.gateway]: OAuthResources.delegatedScopes,
-    [OAuthResources.resources.identity]: OAuthResources.delegatedScopes,
+    [OAuthResources.resources.identity]: [
+      ...OAuthResources.delegatedScopes,
+      OAuthResources.identityUsersReadScope,
+    ],
     [OAuthResources.resources.mcp]: OAuthResources.delegatedScopes,
     [OAuthResources.resources.orderWorkflow]: OAuthResources.delegatedScopes,
     [OAuthResources.resources.payment]: OAuthResources.delegatedScopes,

@@ -1,15 +1,23 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+import { FindIdentityUsersUseCase } from '../libs/identity/nest/src/application/use-cases/find-identity-users.use-case.ts';
 import { IdentityResolver } from '../libs/identity/nest/src/graphql/identity.resolver.ts';
-import { UserLoader } from '../libs/identity/nest/src/graphql/user.loader.ts';
 
 const records = [
   { id: 'user-1', email: 'one@example.com' },
   { id: 'user-2', email: 'two@example.com' },
   { id: 'user-3', email: 'three@example.com' },
 ];
+const adminContext = {
+  auth: {
+    audience: [],
+    claims: {},
+    scopes: ['identity:users:read'],
+    subject: 'admin',
+  },
+};
 
 function authWithCounter() {
   const calls = [];
@@ -24,12 +32,19 @@ function authWithCounter() {
         .filter(({ id }) => !after || id > after)
         .slice(0, first);
       return {
-        edges: page.map((node) => ({ cursor: Buffer.from(node.id).toString('base64url'), node })),
+        edges: page.map((node) => ({
+          cursor: Buffer.from(node.id).toString('base64url'),
+          node,
+        })),
         pageInfo: {
           hasNextPage: records.length > page.length,
           hasPreviousPage: after !== undefined,
-          startCursor: page[0] ? Buffer.from(page[0].id).toString('base64url') : null,
-          endCursor: page.at(-1) ? Buffer.from(page.at(-1).id).toString('base64url') : null,
+          startCursor: page[0]
+            ? Buffer.from(page[0].id).toString('base64url')
+            : null,
+          endCursor: page.at(-1)
+            ? Buffer.from(page.at(-1).id).toString('base64url')
+            : null,
         },
       };
     },
@@ -42,7 +57,10 @@ function authWithCounter() {
 
 test('AC-197: User pages expose complete Relay cursors and PageInfo @spec:AC-197', async () => {
   const { repository } = authWithCounter();
-  const resolver = new IdentityResolver(repository, new UserLoader(repository));
+  const resolver = new IdentityResolver(
+    repository,
+    new FindIdentityUsersUseCase(repository),
+  );
   const first = await resolver.users(2, undefined);
   const second = await resolver.users(2, first.pageInfo.endCursor);
 
@@ -69,7 +87,7 @@ test('AC-197: User pages expose complete Relay cursors and PageInfo @spec:AC-197
 
 test('AC-198: User references batch and cache only within one request @spec:AC-198', async () => {
   const firstRequest = authWithCounter();
-  const firstLoader = new UserLoader(firstRequest.repository);
+  const firstLoader = new FindIdentityUsersUseCase(firstRequest.repository);
   const [one, two, repeated] = await Promise.all([
     firstLoader.load('user-1'),
     firstLoader.load('user-2'),
@@ -83,7 +101,7 @@ test('AC-198: User references batch and cache only within one request @spec:AC-1
   assert.deepEqual(firstRequest.calls[0].ids, ['user-1', 'user-2']);
 
   const secondRequest = authWithCounter();
-  await new UserLoader(secondRequest.repository).load('user-1');
+  await new FindIdentityUsersUseCase(secondRequest.repository).load('user-1');
   assert.equal(secondRequest.calls.length, 1);
 });
 
@@ -91,13 +109,13 @@ test('AC-199: Production Identity references keep datasource calls constant @spe
   const request = authWithCounter();
   const resolver = new IdentityResolver(
     request.repository,
-    new UserLoader(request.repository),
+    new FindIdentityUsersUseCase(request.repository),
   );
   const resolved = await Promise.all([
-    resolver.resolveReference({ id: 'user-1' }),
-    resolver.resolveReference({ id: 'user-2' }),
-    resolver.resolveReference({ id: 'user-3' }),
-    resolver.user('user-1'),
+    resolver.resolveReference({ id: 'user-1' }, adminContext),
+    resolver.resolveReference({ id: 'user-2' }, adminContext),
+    resolver.resolveReference({ id: 'user-3' }, adminContext),
+    resolver.user('user-1', adminContext),
     resolver.me('user-2'),
   ]);
 
@@ -115,12 +133,22 @@ test('AC-199: Production Identity references keep datasource calls constant @spe
     'libs/identity/nest/src/identity.module.ts',
     'utf8',
   );
-  const loaderSource = await readFile(
-    'libs/identity/nest/src/graphql/user.loader.ts',
-    'utf8',
+  assert.match(
+    moduleSource,
+    /provide: FindIdentityUsersUseCase,[\s\S]*scope: Scope\.REQUEST/,
   );
-  assert.match(moduleSource, /UserLoader/);
-  assert.match(loaderSource, /Injectable\(\{ scope: Scope\.REQUEST \}\)/);
+  assert.doesNotMatch(moduleSource, /UserLoader/);
+});
+
+test('AC-311: Production batching has no legacy loader or repository alias @spec:AC-311', async () => {
+  await assert.rejects(
+    access('libs/identity/nest/src/graphql/user.loader.ts'),
+    { code: 'ENOENT' },
+  );
+  await assert.rejects(
+    access('libs/identity/nest/src/graphql/user.repository.ts'),
+    { code: 'ENOENT' },
+  );
 });
 
 test('AC-200: Commercial connections preserve Relay edges through federation @spec:AC-200', async () => {

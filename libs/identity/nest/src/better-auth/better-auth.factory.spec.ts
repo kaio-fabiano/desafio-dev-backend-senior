@@ -13,6 +13,7 @@ import type { IdentityAuth } from './identity-auth.types.d.ts';
 import { IdentityDatabasePool } from './identity-database-pool.provider.ts';
 
 const DELEGATED_OAUTH_SCOPES = OAuthResources.delegatedScopes;
+const IDENTITY_USERS_READ_SCOPE = OAuthResources.identityUsersReadScope;
 const OAUTH_RESOURCES = OAuthResources.resources;
 
 const createMemoryDatabase = () =>
@@ -41,7 +42,7 @@ describe('BetterAuthFactory', () => {
     vi.unstubAllEnvs();
   });
 
-  it('configures the supported Nest Better Auth instance and shared delegated resource scopes @spec:AC-227', async () => {
+  it('configures Better Auth with the administrative scope only on Identity user data @spec:AC-227 @spec:AC-309', async () => {
     const auth = new BetterAuthFactory().create({
       baseURL: 'https://identity.test',
       database: createMemoryDatabase(),
@@ -56,9 +57,18 @@ describe('BetterAuthFactory', () => {
       'jwt',
       'oauth-provider',
     ]);
+    expect(oauth?.options?.scopes).toEqual([
+      'openid',
+      'profile',
+      ...DELEGATED_OAUTH_SCOPES,
+      IDENTITY_USERS_READ_SCOPE,
+    ]);
     expect(oauth?.options?.resources).toEqual(
       Object.values(OAUTH_RESOURCES).map((identifier) => ({
-        allowedScopes: [...DELEGATED_OAUTH_SCOPES],
+        allowedScopes:
+          identifier === OAUTH_RESOURCES.identity
+            ? [...DELEGATED_OAUTH_SCOPES, IDENTITY_USERS_READ_SCOPE]
+            : [...DELEGATED_OAUTH_SCOPES],
         identifier,
         signingAlgorithm: 'ES256',
       })),

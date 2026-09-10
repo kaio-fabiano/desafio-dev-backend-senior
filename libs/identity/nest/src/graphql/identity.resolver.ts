@@ -1,10 +1,19 @@
 import { BadRequestException, Inject } from '@nestjs/common';
-import { Args, Query, ResolveReference, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Context,
+  Parent,
+  Query,
+  ResolveReference,
+  Resolver,
+} from '@nestjs/graphql';
 
 import {
   OAuthSubject,
   RequireScopes,
+  type OAuthGraphQLContext,
 } from '@desafio-dev-backend-senior/source/platform-nest';
+import { IdentityUserVisibilityPolicy } from '../application/policies/identity-user-visibility.policy.ts';
 import { IdentityUserQueryPort } from '../application/ports/identity-user-query.port.ts';
 import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
 import { FindIdentityUsersUseCase } from '../application/use-cases/find-identity-users.use-case.ts';
@@ -24,7 +33,7 @@ export class IdentityResolver {
   ) {}
 
   @Query('users')
-  @RequireScopes(OAuthResources.marketplaceReadScope)
+  @RequireScopes(OAuthResources.identityUsersReadScope)
   async users(@Args('first') first = 20, @Args('after') after?: string) {
     if (!Number.isInteger(first) || first < 1 || first > 100) {
       throw new BadRequestException(IdentityErrorMessages.invalidUserPageSize);
@@ -36,8 +45,9 @@ export class IdentityResolver {
   }
 
   @Query('user')
-  @RequireScopes(OAuthResources.marketplaceReadScope)
-  user(@Args('id') id: string) {
+  @RequireScopes()
+  async user(@Args('id') id: string, @Context() context: OAuthGraphQLContext) {
+    if (!this.canRead(id, context)) return null;
     return this.usersById.load(id);
   }
 
@@ -48,8 +58,22 @@ export class IdentityResolver {
   }
 
   @ResolveReference()
-  @RequireScopes(OAuthResources.marketplaceReadScope)
-  resolveReference(reference: { id: string }) {
+  @RequireScopes()
+  async resolveReference(
+    @Parent() reference: { id: string },
+    @Context() context: OAuthGraphQLContext,
+  ) {
+    if (!this.canRead(reference.id, context)) return null;
     return this.usersById.load(reference.id);
+  }
+
+  private canRead(userId: string, context: OAuthGraphQLContext): boolean {
+    return context.auth
+      ? IdentityUserVisibilityPolicy.allows(
+          userId,
+          context.auth.subject,
+          context.auth.scopes,
+        )
+      : false;
   }
 }

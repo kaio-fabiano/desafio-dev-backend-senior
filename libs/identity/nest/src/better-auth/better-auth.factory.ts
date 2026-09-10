@@ -59,7 +59,12 @@ export class BetterAuthFactory {
         oauthProvider({
           loginPage: '/sign-in',
           consentPage: '/consent',
-          scopes: ['openid', 'profile', ...OAuthResources.delegatedScopes],
+          scopes: [
+            'openid',
+            'profile',
+            ...OAuthResources.delegatedScopes,
+            OAuthResources.identityUsersReadScope,
+          ],
           resources: Object.values(OAuthResources.resources).map(
             (identifier) => ({
               identifier,

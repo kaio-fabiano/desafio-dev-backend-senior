@@ -28,17 +28,26 @@ export class BetterAuthIdentityUserAdapter implements IdentityUserQueryPort {
   }
 
   async findPage(first: number, afterId?: string) {
-    const users = await (
-      await this.auth.instance.$context
-    ).adapter.findMany<IdentityUser>({
-      model: 'user',
-      where: afterId
-        ? [{ field: 'id', operator: 'gt', value: afterId }]
-        : undefined,
-      limit: first + 1,
-      select: ['id', 'email'],
-      sortBy: { field: 'id', direction: 'asc' },
-    });
+    const adapter = (await this.auth.instance.$context).adapter;
+    const [users, previousUsers] = await Promise.all([
+      adapter.findMany<IdentityUser>({
+        model: 'user',
+        where: afterId
+          ? [{ field: 'id', operator: 'gt', value: afterId }]
+          : undefined,
+        limit: first + 1,
+        select: ['id', 'email'],
+        sortBy: { field: 'id', direction: 'asc' },
+      }),
+      afterId
+        ? adapter.findMany<IdentityUser>({
+            model: 'user',
+            where: [{ field: 'id', operator: 'lte', value: afterId }],
+            limit: 1,
+            select: ['id'],
+          })
+        : Promise.resolve([]),
+    ]);
     const page = users
       .slice(0, first)
       .map(({ id, email }) => new IdentityUser(id, email));
@@ -51,7 +60,7 @@ export class BetterAuthIdentityUserAdapter implements IdentityUserQueryPort {
       })),
       {
         hasNextPage: users.length > first,
-        hasPreviousPage: afterId !== undefined,
+        hasPreviousPage: previousUsers.length > 0,
         startCursor: firstUser ? UserCursorEncoder.encode(firstUser.id) : null,
         endCursor: last ? UserCursorEncoder.encode(last.id) : null,
       },
