@@ -274,3 +274,26 @@
 - Acceptance: AC-291 and AC-292 remain green, no completed task maps a missing file, every verification record is current, and the repository-wide `audit --ci` exits zero without restoring Node artifacts.
 - Risks/blockers: Historical tasks may describe artifacts that intentionally no longer exist; map them to explicit retirement evidence rather than falsifying their original implementation or adding compatibility scaffolding.
 - Rollback: Revert the metadata/evidence commit; runtime remains unaffected because this task never changes production code.
+
+## T-255 — Refresh the architecture graph and close the pull request [pendente]
+- Refs: US-136, AC-291, AC-292
+- Arquivos: graphify-out, .spec/features/migrate-order-workflow-to-axon-java, .spec/verification/keep-graphify-current.json
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Approval: The user explicitly approved sequential execution with `gpt-5.6-sol` and high effort in a new clean-context chat.
+- Dependencies: T-254, pull request 12, and review of its failed GitHub checks.
+- Objective: Incrementally refresh the repository architecture graph after the Java cutover, restore the Graphify CI gate, and provide verified evidence for merging pull request 12.
+- Bounded context: Repository knowledge-graph and delivery-governance technical boundaries; no runtime ownership changes.
+- Use case: Remove retired Node artifacts from the current architecture graph, include the surviving Java Axon structure, and close the pull request only after the required checks are understood.
+- Aggregate: None; generated architecture evidence and delivery metadata only.
+- Invariants: `apps/order-workflow-subgraph` remains absent; Graphify contains no stale source entries; the Java-only architecture remains the repository truth; no production infrastructure is deployed by this task; merge occurs only after the Graphify gate passes and the sandbox SST removal diff is explicitly accounted for.
+- Consistency boundary: One incremental Graphify update and its manifest/report outputs, followed by pull-request check and merge verification.
+- Affected ports: None; CI architecture evidence and GitHub pull-request state only.
+- Behavior: `pnpm graphify:check` passes against the refreshed graph; the SST review records that sandbox removes the retired Node service/database and routes Gateway order traffic to Payment Federation; pull request 12 becomes mergeable and is merged into `main`.
+- Red: Preserve the pull-request failures showing a stale Graphify manifest and the expected sandbox SST diff caused by the approved Java-only cutover.
+- Green: Run the official incremental Graphify workflow and commit only its current generated outputs and task evidence; rerun the GitHub checks.
+- Refactor: Do not rebuild unrelated architecture evidence or change runtime/infrastructure merely to silence a review-only diff.
+- Validation: `pnpm graphify:check`; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs verify migrate-order-workflow-to-axon-java`; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci`; pull-request checks and post-merge `main` revision.
+- Acceptance: Graphify CI passes, the sandbox SST deletion/reroute matches the approved cutover, all spec gates remain green, pull request 12 is merged, and remote `main` contains the T-255 commit.
+- Risks/blockers: The SST review check intentionally reports a non-empty destructive sandbox diff; do not deploy it here, and do not treat its expected failure as permission to change production state.
+- Rollback: Revert the Graphify evidence commit before merge, or revert the merge commit afterward; no cloud deployment is performed.
