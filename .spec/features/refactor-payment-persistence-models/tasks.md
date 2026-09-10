@@ -23,8 +23,7 @@
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/refactor-payment-persistence-transaction.test.mjs
 - Notas: Use a fresh Codex context and follow Red, Green, Refactor. Bounded context: Transaction. Use cases: claim/recover checkout work, record WooCommerce creation, complete checkout, project transaction events, and perform owner-scoped reads. Aggregates: Transaction owns event-sourced transaction state; checkout operation is the checkout idempotency/lease consistency boundary; transaction view is a projection, not an aggregate. Invariants: validated transaction, operation, owner, WooCommerce order, and owner-token identities; one operation key and Woo reference; lease owner controls transitions; expired work is reclaimable; JSON items round-trip; event versions never regress; owner-scoped queries cannot leak records. Consistency boundary: one database transaction per checkout claim/transition or projection upsert. Affected ports: CheckoutOperationRepository, TransactionViewStore, TransactionReadRepository, and TransactionOutbox. Use Hibernate JSON mapping and ORM locking, explicit reload where returned state depends on persistence, and no cross-context association.
 
-## T-263 — Model shared AMQP delivery persistence with JPA [pendente]
-
+## T-263 — Model shared AMQP delivery persistence with JPA [em-andamento]
 - Refs: US-139, AC-298, AC-302, AC-304
 - Modelo: gpt-5.6-sol
 - Esforço: alto
