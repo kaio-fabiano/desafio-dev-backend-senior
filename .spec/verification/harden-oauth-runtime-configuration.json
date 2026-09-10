@@ -1,0 +1,57 @@
+{
+  "feature": "harden-oauth-runtime-configuration",
+  "timestamp": "2026-09-10T20:27:17.022Z",
+  "gitRev": "a4339258",
+  "command": "NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap --test-name-pattern='AC-(161|305|307|308|311|313|314|315)' test/harden-oauth-runtime-configuration.test.mjs test/production-deployment.test.mjs test/harden-oauth-resource-service.test.mjs test/graphql-relay-dataloader-closure.test.mjs test/mercado-pago-payment-provider.spec.test.mjs && pnpm exec vitest run libs/gateway/nest/src/auth/gateway-auth.module.spec.ts libs/gateway/nest/src/infrastructure/auth/dynamo-dpop-replay.store.spec.ts libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.spec.ts libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts libs/identity/nest/src/application/policies/identity-user-visibility.policy.spec.ts libs/identity/nest/src/graphql/identity.resolver.spec.ts libs/identity/nest/src/graphql/identity.graphql.integration.spec.ts libs/identity/nest/src/infrastructure/persistence/better-auth-identity-user.adapter.spec.ts --reporter=tap && pnpm exec vitest run libs/identity/nest/src/better-auth/better-auth.factory.spec.ts -t 'administrative scope only' --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 0,
+  "testsParsed": 87,
+  "results": {
+    "AC-305": {
+      "status": "pass",
+      "testName": "OAuth providers share an HTTP issuer default and resolve Nest configuration lazily @spec:AC-305",
+      "method": "tap"
+    },
+    "AC-306": {
+      "status": "pass",
+      "testName": "AC-306: atomically accepts one shared reservation and rejects its replay @spec:AC-306 # time=3.24ms",
+      "method": "tap"
+    },
+    "AC-307": {
+      "status": "pass",
+      "testName": "AC-307: Gateway deploys with its public origin and a linked expiring DPoP replay table @spec:AC-307",
+      "method": "tap"
+    },
+    "AC-308": {
+      "status": "pass",
+      "testName": "AC-308: request orchestration is separate from Better Auth verification @spec:AC-308",
+      "method": "tap"
+    },
+    "AC-309": {
+      "status": "pass",
+      "testName": "restricts users to identity:users:read @spec:AC-309 # time=7.00ms",
+      "method": "tap"
+    },
+    "AC-310": {
+      "status": "pass",
+      "testName": "hides cross-user lookups like missing users while preserving self and me @spec:AC-310 # time=16.24ms",
+      "method": "tap"
+    },
+    "AC-311": {
+      "status": "pass",
+      "testName": "AC-311: Production batching has no legacy loader or repository alias @spec:AC-311",
+      "method": "tap"
+    },
+    "AC-312": {
+      "status": "pass",
+      "testName": "derives hasPreviousPage from persisted rows for non-matching cursors @spec:AC-312 # time=1.03ms",
+      "method": "tap"
+    },
+    "AC-313": {
+      "status": "pass",
+      "testName": "documents federated audiences and DPoP presentation guidance @spec:AC-313",
+      "method": "tap"
+    }
+  },
+  "principles": {}
+}

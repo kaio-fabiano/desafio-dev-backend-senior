@@ -2,8 +2,7 @@
 
 > feature: propagate-checkout-card-credentials
 
-## T-273 — Propagate tokenized Card credentials through the asynchronous workflow [pendente]
-
+## T-273 — Propagate tokenized Card credentials through the asynchronous workflow [concluida]
 - Refs: US-145, AC-314, AC-315, AC-161
 - Modelo: gpt-5.6-sol
 - Esforço: alto

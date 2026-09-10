@@ -109,8 +109,8 @@ Identity subgraph.
 |---|---|---|---|
 | ASM-112 | The SST public API URL is the canonical external Gateway origin used in DPoP `htu`. | confirmada | The public API routes `$default` traffic to Gateway and already defines the public OAuth issuer. |
 | ASM-113 | Production DPoP hardening in this change applies to the Gateway resource server only. | confirmada | The reported gap and canonical-origin setting are Gateway-specific; other resource servers remain outside scope. |
-| ASM-114 | `identity:users:read` is the narrow administrative scope for `users` and cross-user visibility. | aberta | Awaiting user confirmation before execution. |
-| ASM-115 | Unauthorized cross-user lookup returns `null`, matching a missing user and avoiding an enumeration oracle. | aberta | Awaiting user confirmation before execution. |
+| ASM-114 | `identity:users:read` is the narrow administrative scope for `users` and cross-user visibility. | confirmada | Confirmed by the user before T-271 execution. |
+| ASM-115 | Unauthorized cross-user lookup returns `null`, matching a missing user and avoiding an enumeration oracle. | confirmada | Confirmed by the user before T-271 execution. |
 
 ## Perguntas em aberto
 
