@@ -1,11 +1,11 @@
 # Plano de execução — migrate-order-workflow-to-axon-java
 
-> gerado por `onp-spec plano` em 2026-09-10 02:22 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-10 03:08 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano migrate-order-workflow-to-axon-java --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (15 já concluída(s): T-240, T-241, T-242, T-243, T-244, T-245, T-246, T-247, T-248, T-249, T-250, T-251, T-252, T-253, T-254)
+- **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (15 já concluída(s): T-240, T-241, T-242, T-243, T-244, T-245, T-246, T-247, T-248, T-249, T-250, T-251, T-252, T-253, T-254)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/migrate-order-workflow-to-axon-java`; levar para a main é decisão sua
 
@@ -14,6 +14,7 @@
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
 | T-255 | Refresh the architecture graph and close the pull request | `gpt-5.6-sol` | high |
+| T-256 | Serialize Java quality targets and complete the pull request | `gpt-5.6-sol` | high |
 
 ## Gestão de branches e commits
 

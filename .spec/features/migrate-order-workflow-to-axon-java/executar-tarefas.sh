@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-10 02:22
+# executar-tarefas.sh — gerado por `onp-spec plano migrate-order-workflow-to-axon-java` em 2026-09-10 03:08
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtuwjdtm'
+RUN_ID='desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtuy75w9'
 FEATURE='migrate-order-workflow-to-axon-java'
 BASE_BRANCH='spec/migrate-order-workflow-to-axon-java'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -200,6 +200,38 @@ Regras inegociáveis:
   return 1
 }
 
+# ── sequencial T-256 (ordem do tasks.md) ──
+executar_seq_T_256() {
+  info 'sequencial T-256 — Serialize Java quality targets and complete the pull request'
+  if rodar_tarefa seq 'T-256' 'Você executa UMA tarefa da feature "migrate-order-workflow-to-axon-java" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/migrate-order-workflow-to-axon-java/spec.md, .spec/features/migrate-order-workflow-to-axon-java/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-256 — "Serialize Java quality targets and complete the pull request"
+  critérios/refs: AC-291 (One Java deployment becomes the sole owner), AC-292 (Repository quality gates prove the migration)
+  arquivos permitidos (e seus testes): apps/payment-federation/project.json, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/migrate-order-workflow-to-axon-java, .spec/verification/migrate-order-workflow-to-axon-java.json
+  mensagem de commit: "T-256 migrate-order-workflow-to-axon-java: Serialize Java quality targets and complete the pull request"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-256 migrate-order-workflow-to-axon-java: Serialize Java quality targets and complete the pull request (auto-commit do plano)'
+    fi
+    marcar_concluidas T-256
+    verde "✔ T-256 concluída"
+    return 0
+  fi
+  vermelho "✘ T-256 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/migrate-order-workflow-to-axon-java/executar-tarefas.sh --seq T-256"
+  FALHAS="$FALHAS T-256"
+  return 1
+}
+
 # ── gate: quem decide é a máquina ────────────────────────────────────
 rodar_gate() {
   echo
@@ -254,12 +286,14 @@ executar_tudo() {
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
   executar_seq_T_255 || true
+  executar_seq_T_256 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
   echo "  seq       T-255 (sequencial)"
+  echo "  seq       T-256 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -295,6 +329,7 @@ case "$MODO" in
   seq)
     case "$ALVO" in
       T-255) evento --tipo inicio --escopo "seq:T-255"; iniciar_resumos; executar_seq_T_255 || true; encerrar "seq:T-255" ;;
+      T-256) evento --tipo inicio --escopo "seq:T-256"; iniciar_resumos; executar_seq_T_256 || true; encerrar "seq:T-256" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac
