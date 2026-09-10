@@ -54,6 +54,90 @@ test('AC-161: Card requests contain only a provider token @spec:AC-161', async (
   );
 });
 
+test('AC-314: checkout carries the exact tokenized Card credentials to Payment @spec:AC-314', async () => {
+  const [checkout, transactionOutbox, inventoryListener, inventoryHandler] =
+    await Promise.all([
+      readFile(
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java',
+        'utf8',
+      ),
+      readFile(
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java',
+        'utf8',
+      ),
+      readFile(
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+        'utf8',
+      ),
+      readFile(
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/event/InventoryIntegrationEventHandler.java',
+        'utf8',
+      ),
+    ]);
+
+  assert.match(
+    checkout,
+    /command\.paymentMethod\(\),\s*command\.providerToken\(\), command\.paymentMethodId\(\)/,
+  );
+  assert.match(
+    transactionOutbox,
+    /payload\.put\("providerCredentialReference", event\.providerToken\(\)\)/,
+  );
+  assert.match(
+    inventoryListener,
+    /required\(payload, "providerCredentialReference"\)/,
+  );
+  assert.match(
+    inventoryHandler,
+    /payload\.put\("providerCredentialReference", event\.providerToken\(\)\)/,
+  );
+  assert.match(
+    inventoryHandler,
+    /payload\.put\("paymentMethodId", event\.paymentMethodId\(\)\)/,
+  );
+  assert.doesNotMatch(
+    [checkout, transactionOutbox, inventoryListener, inventoryHandler].join(
+      '\n',
+    ),
+    /\b(?:pan|cardNumber|card_number|securityCode|security_code|cvv|cvc|expiry|expiration)\b/i,
+  );
+});
+
+test('AC-315: credential propagation preserves deterministic operation keys @spec:AC-315', async () => {
+  const [hash, transactionOutbox, inventoryListener] = await Promise.all([
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java',
+      'utf8',
+    ),
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java',
+      'utf8',
+    ),
+    readFile(
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+      'utf8',
+    ),
+  ]);
+
+  assert.match(
+    hash,
+    /semanticCommand\.put\("providerToken", command\.providerToken\(\)\)/,
+  );
+  assert.match(
+    hash,
+    /semanticCommand\.put\("paymentMethodId", command\.paymentMethodId\(\)\)/,
+  );
+  assert.match(transactionOutbox, /event\.operationKey\(\) \+ ":payment"/);
+  assert.match(
+    inventoryListener,
+    /event\.correlationId\(\) \+ ":inventory-reserve"/,
+  );
+  assert.doesNotMatch(
+    [hash, transactionOutbox, inventoryListener].join('\n'),
+    /randomUUID|new\s+Random/,
+  );
+});
+
 test('AC-162: Pix result uses Mercado Pago reference and QR payload @spec:AC-162', async () => {
   const provider = await readFile(providerPath, 'utf8');
 
@@ -255,7 +339,11 @@ test('AC-169: Java packages enforce inward dependencies for Payment and Inventor
     }
   }
 
-  assert.deepEqual([...contexts].sort(), ['inventory', 'payment', 'transaction']);
+  assert.deepEqual([...contexts].sort(), [
+    'inventory',
+    'payment',
+    'transaction',
+  ]);
   assert.deepEqual(violations, []);
   assert.match(
     await readFile(providerPath, 'utf8'),

@@ -29,9 +29,13 @@ public final class InventoryErrorMessages {
     public static final String OWNER_TOKEN_REQUIRED = "an acquired inventory claim requires an owner token";
     public static final String PAYMENT_ID_REQUIRED = "paymentId is required";
     public static final String PAYMENT_METHOD_REQUIRED = "paymentMethod is required";
+    public static final String PAYMENT_METHOD_ID_REQUIRED = "paymentMethodId is required";
     public static final String PAYMENT_OPERATION_KEY_REQUIRED = "paymentOperationKey is required";
     public static final String PAYER_EMAIL_REQUIRED = "payerEmail is required";
+    public static final String PIX_CARD_FIELDS_FORBIDDEN =
+        "Pix reservation does not accept Card provider fields";
     public static final String PRODUCT_ID_REQUIRED = "productId is required";
+    public static final String PROVIDER_TOKEN_REQUIRED = "providerToken is required";
     public static final String QUANTITY_MUST_BE_POSITIVE = "quantity must be positive";
     public static final String REPOSITORY = "repository";
     public static final String REQUEST = "request";

@@ -48,6 +48,10 @@ public final class JpaTransactionOutbox implements TransactionOutbox {
         payload.put("paymentId", "payment:" + event.transactionId());
         payload.put("paymentOperationKey", event.operationKey() + ":payment");
         payload.put("payerEmail", event.owner());
+        if ("CARD".equals(event.paymentMethod())) {
+            payload.put("providerCredentialReference", event.providerToken());
+            payload.put("paymentMethodId", event.paymentMethodId());
+        }
         payload.set("items", json.valueToTree(event.items()));
         var envelope = new IntegrationEventEnvelope<JsonNode>(
             event.eventId(), "transaction.order-received.v1", 1, event.transactionId(),

@@ -19,4 +19,5 @@
 - The production request-scoped batch provider is tested, legacy aliases are removed, and
   `hasPreviousPage` is based on persisted rows.
 
-Checkout card credential propagation is a separate tracked fix (T-273); it is not complete yet.
+Checkout card credential propagation (T-273) is resolved: the asynchronous workflow preserves
+the exact tokenized Card credentials without carrying raw Card data.

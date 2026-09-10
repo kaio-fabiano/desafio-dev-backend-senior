@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -49,6 +50,22 @@ class CheckoutServiceTest {
             "order-workflow-55481d1f7ae76f7a8f235a304f5980deaa321a9c3d42d73430ccb34df8ac15f8",
             CheckoutCommandHash.wooReference("buyer-1", "operation-1")
         );
+    }
+
+    @Test
+    @DisplayName("Checkout starts Transaction with exact Card credentials and operation key @spec:AC-314 @spec:AC-315")
+    void checkoutStartsTransactionWithExactCardCredentialsAndOperationKey() {
+        var started = new AtomicReference<StartTransaction>();
+        var service = service(new MemoryCheckoutRepository(), request -> ORDER, command -> {
+            started.set(command);
+            return command.transactionId();
+        });
+
+        service.checkout(COMMAND);
+
+        assertEquals("operation-1", started.get().operationKey());
+        assertEquals("provider-token", started.get().providerToken());
+        assertEquals("visa", started.get().paymentMethodId());
     }
 
     @Test
@@ -89,7 +106,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("Checkout conflicts deterministically and bounds a busy lease wait @spec:AC-285 @spec:AC-229")
+    @DisplayName("Checkout credential retries conflict deterministically and bound a busy lease wait @spec:AC-285 @spec:AC-229 @spec:AC-315")
     void checkoutConflictsDeterministicallyAndBoundsABusyLeaseWait() {
         var repository = new MemoryCheckoutRepository();
         var service = service(repository, request -> ORDER, command -> command.transactionId());
@@ -98,7 +115,7 @@ class CheckoutServiceTest {
         assertThrows(
             CheckoutIdempotencyConflictException.class,
             () -> service.checkout(new CheckoutCommand(
-                "buyer-2", "operation-1", "CARD", "buyer@example.test", "provider-token", "visa"
+                "buyer-1", "operation-1", "CARD", "buyer@example.test", "another-provider-token", "visa"
             ))
         );
 

@@ -31,8 +31,8 @@ public final class InventoryIntegrationEventHandler {
         payload.put("currency", event.currency());
         payload.put("payerEmail", event.payerEmail());
         if ("CARD".equals(event.paymentMethod())) {
-            payload.put("providerCredentialReference", event.paymentId());
-            payload.put("paymentMethodId", "card");
+            payload.put("providerCredentialReference", event.providerToken());
+            payload.put("paymentMethodId", event.paymentMethodId());
         }
         enqueue("inventory.reserved.v1", event.inventoryReservationId(), event.transactionId(),
             event.correlationId(), event.causationId(), event.occurredAt(), event.version(),

@@ -156,7 +156,7 @@ class TransactionProjectionReplayTest {
     private History projectHistory() {
         var started = TransactionEvent.started(new StartTransaction(
             "transaction-249", "operation-249", "buyer-249", "42",
-            List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX"
+            List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX", null, null
         ), NOW);
         var reservedTransaction = outcome(
             Transaction.Outcome.INVENTORY_RESERVED,
@@ -260,6 +260,7 @@ class TransactionProjectionReplayTest {
         return TransactionEvent.outcome(
             "transaction-249", "operation-249", "buyer-249", "42",
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX",
+            null, null,
             outcome, reference, status, version, NOW.plusSeconds(version - 1L)
         );
     }

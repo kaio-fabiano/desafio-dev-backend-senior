@@ -68,7 +68,8 @@ public final class CheckoutService {
                 var order = requireOrder(operation);
                 commands.start(new StartTransaction(
                     operation.transactionId(), operation.operationKey(), operation.subject(), order.id(),
-                    order.items(), order.amount(), order.currency(), command.paymentMethod()
+                    order.items(), order.amount(), order.currency(), command.paymentMethod(),
+                    command.providerToken(), command.paymentMethodId()
                 ));
                 operation = operations.complete(operation.transactionId(), owner, clock.instant());
             }

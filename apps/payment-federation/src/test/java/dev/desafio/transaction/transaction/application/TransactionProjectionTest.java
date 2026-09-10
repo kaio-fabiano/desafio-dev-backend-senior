@@ -27,7 +27,7 @@ class TransactionProjectionTest {
         var event = TransactionEvent.started(new StartTransaction(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)),
-            new BigDecimal("19.90"), "BRL", "PIX"
+            new BigDecimal("19.90"), "BRL", "PIX", null, null
         ), Instant.parse("2026-09-09T12:00:00Z"));
         TransactionView expected = TransactionView.from(event);
         TransactionViewStore views = new TransactionViewStore() {
@@ -51,7 +51,7 @@ class TransactionProjectionTest {
         var event = TransactionEvent.started(new StartTransaction(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)),
-            new BigDecimal("19.90"), "BRL", "CARD"
+            new BigDecimal("19.90"), "BRL", "CARD", "provider-token", "visa"
         ), Instant.parse("2026-09-09T12:00:00Z"));
         TransactionViewStore views = new TransactionViewStore() {
             @Override public void upsert(TransactionEvent ignored) {}
@@ -63,6 +63,7 @@ class TransactionProjectionTest {
         handler.on(TransactionEvent.outcome(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
+            "provider-token", "visa",
             Transaction.Outcome.INVENTORY_RESERVED, "reservation-1",
             Transaction.Status.INVENTORY_RESERVED, 2, event.occurredAt().plusSeconds(1)
         ));

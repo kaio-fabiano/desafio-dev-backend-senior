@@ -272,7 +272,8 @@ A aplicação **sobe seu próprio servidor OAuth2** usando o
 - Identity findings: `users` requires `identity:users:read`; `user(id)` is self/admin and denied
   cross-user reads return `null`; the production provider is tested, legacy aliases are removed,
   and `hasPreviousPage` is based on persisted rows.
-- Checkout card credential propagation is a separate tracked fix (T-273), not yet complete.
+- Checkout card credential propagation (T-273) is resolved: the asynchronous workflow preserves
+  the exact tokenized Card credentials without carrying raw Card data.
 - **Clients OAuth2 seedáveis** por script/fixture (ver seção 15): ao menos um client para o
   **Apollo MCP** e outro para o **cliente de teste**.
 

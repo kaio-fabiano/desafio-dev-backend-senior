@@ -14,7 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -41,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
     "spring.flyway.schemas=axon,transaction,inventory,payment"
 })
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ContextConfiguration(classes = JpaTransactionPersistenceTest.TransactionPersistenceTestConfiguration.class)
 class JpaTransactionPersistenceTest {
     private static final PostgreSQLContainer<?> POSTGRES =
         new PostgreSQLContainer<>("postgres:16-alpine");
@@ -139,16 +144,18 @@ class JpaTransactionPersistenceTest {
     }
 
     @Test
-    @DisplayName("stale projection events cannot regress owner-scoped views @spec:AC-301")
+    @DisplayName("Transaction outbox preserves Card credentials and deterministic keys @spec:AC-301 @spec:AC-314 @spec:AC-315")
     void staleProjectionEventsCannotRegressOwnerScopedViews() {
         var suffix = java.util.UUID.randomUUID().toString();
         var started = TransactionEvent.started(new StartTransaction(
             "transaction-" + suffix, "operation-" + suffix, "buyer-1", "woo-" + suffix,
-            List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX"
+            List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
+            "provider-token-" + suffix, "visa"
         ), NOW);
         var reserved = TransactionEvent.outcome(
             started.transactionId(), started.operationKey(), started.owner(), started.wooOrderId(),
             started.items(), started.amount(), started.currency(), started.paymentMethod(),
+            started.providerToken(), started.paymentMethodId(),
             Transaction.Outcome.INVENTORY_RESERVED, "reservation-1", Transaction.Status.INVENTORY_RESERVED,
             2, NOW.plusSeconds(1)
         );
@@ -172,11 +179,18 @@ class JpaTransactionPersistenceTest {
         );
         outbox.enqueueOrderReceived(started);
         outbox.enqueueOrderReceived(started);
+        var stored = outboxRecords.findBySourceEventId(started.eventId().toString()).orElseThrow();
+        assertEquals("provider-token-" + suffix,
+            stored.envelope().path("payload").path("providerCredentialReference").asText());
+        assertEquals("visa", stored.envelope().path("payload").path("paymentMethodId").asText());
+        assertEquals("operation-" + suffix + ":payment",
+            stored.envelope().path("payload").path("paymentOperationKey").asText());
         assertEquals(1, outboxRecords.findBySourceEventId(started.eventId().toString()).stream().count());
         var collision = new TransactionEvent(
             started.eventId(), started.transactionId(), started.operationKey(), "another-buyer",
             started.wooOrderId(), started.items(), started.amount(), started.currency(),
-            started.paymentMethod(), started.outcome(), started.reference(), started.status(),
+            started.paymentMethod(), started.providerToken(), started.paymentMethodId(),
+            started.outcome(), started.reference(), started.status(),
             started.version(), started.occurredAt()
         );
         assertThrows(IllegalArgumentException.class, () -> outbox.enqueueOrderReceived(collision));
@@ -200,4 +214,9 @@ class JpaTransactionPersistenceTest {
     private JpaCheckoutOperationRepository checkoutRepository() {
         return new JpaCheckoutOperationRepository(checkoutRecords, entityManager, transactionManager);
     }
+
+    @TestConfiguration(proxyBeanMethods = false)
+    @EntityScan(basePackageClasses = CheckoutOperationEntity.class)
+    @EnableJpaRepositories(basePackageClasses = CheckoutOperationJpaRepository.class)
+    static class TransactionPersistenceTestConfiguration {}
 }

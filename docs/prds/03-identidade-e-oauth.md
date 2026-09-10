@@ -83,8 +83,8 @@ This must be decided through an integration test, not an assumption.
   removed, and `hasPreviousPage` is based on persisted rows.
 - the user's orders are resolved by the order-workflow-subgraph through federation.
 
-Checkout card credential propagation is a separate tracked fix (T-273) and is not
-claimed complete here.
+Checkout card credential propagation (T-273) is resolved: the asynchronous workflow
+preserves the exact tokenized Card credentials without carrying raw Card data.
 
 ## Required tests
 

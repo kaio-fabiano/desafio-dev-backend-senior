@@ -63,5 +63,5 @@ test('documents federated audiences and DPoP presentation guidance @spec:AC-313'
   assert.match(presentation, /production[^.]*provider is tested/i);
   assert.match(presentation, /legacy aliases (?:removed|are removed)/i);
   assert.match(presentation, /hasPreviousPage[^.]*persisted rows/i);
-  assert.match(presentation, /T-273[^.]*not complete/i);
+  assert.match(presentation, /T-273[^.]*resolved/i);
 });

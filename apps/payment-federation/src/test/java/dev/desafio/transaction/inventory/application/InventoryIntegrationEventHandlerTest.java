@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class InventoryIntegrationEventHandlerTest {
     @Test
-    @DisplayName("Inventory maps only its result facts into its durable AMQP outbox @spec:AC-293")
+    @DisplayName("Pix Inventory events omit Card credentials @spec:AC-293 @spec:AC-314")
     void mapsOwnedResultWithCausalMetadata() {
         var published = new ArrayList<InventoryIntegrationEvent>();
         var handler = new InventoryIntegrationEventHandler((source, event) -> published.add(event));
@@ -34,23 +34,26 @@ class InventoryIntegrationEventHandlerTest {
         assertEquals("tx-246", published.getFirst().transactionId());
         assertEquals("correlation-246", published.getFirst().correlationId());
         assertEquals("causation-246", published.getFirst().causationId());
+        assertFalse(published.getFirst().payload().containsKey("providerCredentialReference"));
+        assertFalse(published.getFirst().payload().containsKey("paymentMethodId"));
     }
 
     @Test
-    @DisplayName("Card reservation publishes only an opaque Payment credential reference @spec:AC-286 @spec:AC-293")
+    @DisplayName("Card reservation publishes the exact tokenized credentials @spec:AC-286 @spec:AC-293 @spec:AC-314")
     void cardReservationPublishesOpaquePaymentReference() {
         var published = new ArrayList<InventoryIntegrationEvent>();
         var handler = new InventoryIntegrationEventHandler((source, event) -> published.add(event));
 
         handler.on(new InventoryReservedAxonEvent("tx-card", new InventoryReservedEvent(
             "inventory:tx-card", "tx-card", "order-card", List.of(new StockItem("1001", 1)),
-            "payment:tx-card", "operation-card:payment", "CARD", new BigDecimal("19.90"),
-            "BRL", "buyer@example.test", 1, "operation-card", "event-card", Instant.EPOCH
+            "payment:tx-card", "operation-card:payment", "CARD", "provider-token-card", "visa",
+            new BigDecimal("19.90"), "BRL", "buyer@example.test", 1,
+            "operation-card", "event-card", Instant.EPOCH
         )));
 
         var payload = published.getFirst().payload();
-        assertEquals("payment:tx-card", payload.get("providerCredentialReference"));
-        assertEquals("card", payload.get("paymentMethodId"));
+        assertEquals("provider-token-card", payload.get("providerCredentialReference"));
+        assertEquals("visa", payload.get("paymentMethodId"));
         assertFalse(payload.containsKey("providerToken"));
     }
 }

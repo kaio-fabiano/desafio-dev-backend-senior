@@ -20,6 +20,8 @@ public record ReserveInventoryCommand(
     String paymentId,
     String paymentOperationKey,
     String paymentMethod,
+    String providerToken,
+    String paymentMethodId,
     BigDecimal amount,
     String currency,
     String payerEmail,
@@ -38,7 +40,7 @@ public record ReserveInventoryCommand(
     ) {
         this(
             inventoryReservationId, incomingEventId, operationKey, transactionId, orderId, items,
-            transactionId, correlationId + ":payment", "PIX", BigDecimal.ONE, "BRL",
+            transactionId, correlationId + ":payment", "PIX", null, null, BigDecimal.ONE, "BRL",
             transactionId + "@example.test", correlationId, causationId
         );
     }
@@ -53,6 +55,17 @@ public record ReserveInventoryCommand(
         }
         if (paymentMethod == null || paymentMethod.isBlank()) {
             throw new IllegalArgumentException(InventoryErrorMessages.PAYMENT_METHOD_REQUIRED);
+        }
+        if ("CARD".equals(paymentMethod)) {
+            if (providerToken == null || providerToken.isBlank()) {
+                throw new IllegalArgumentException(InventoryErrorMessages.PROVIDER_TOKEN_REQUIRED);
+            }
+            if (paymentMethodId == null || paymentMethodId.isBlank()) {
+                throw new IllegalArgumentException(InventoryErrorMessages.PAYMENT_METHOD_ID_REQUIRED);
+            }
+        } else if ((providerToken != null && !providerToken.isBlank())
+            || (paymentMethodId != null && !paymentMethodId.isBlank())) {
+            throw new IllegalArgumentException(InventoryErrorMessages.PIX_CARD_FIELDS_FORBIDDEN);
         }
         if (amount == null || amount.signum() <= 0) {
             throw new IllegalArgumentException(InventoryErrorMessages.AMOUNT_MUST_BE_POSITIVE);

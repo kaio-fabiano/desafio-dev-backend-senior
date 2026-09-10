@@ -88,6 +88,8 @@ class TransactionAxonTest {
                 new BigDecimal("19.90"),
                 "BRL",
                 "CARD",
+                "provider-token",
+                "visa",
                 Transaction.Outcome.INVENTORY_RESERVED,
                 "reservation-1",
                 Transaction.Status.INVENTORY_RESERVED,
@@ -105,7 +107,9 @@ class TransactionAxonTest {
             List.of(new Transaction.Item("1001", 2)),
             new BigDecimal("19.90"),
             "BRL",
-            "CARD"
+            "CARD",
+            "provider-token",
+            "visa"
         );
     }
 

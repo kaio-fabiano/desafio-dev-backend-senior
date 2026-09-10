@@ -5,8 +5,6 @@ import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.configuration.AmqpTopologyConfiguration;
 import dev.desafio.transaction.configuration.MarketplaceAmqp;
 import dev.desafio.transaction.inventory.adapter.messaging.InventoryRabbitListener;
-import dev.desafio.transaction.inventory.adapter.persistence.InventoryAmqpOutboxJpaRepository;
-import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryOutbox;
 import dev.desafio.transaction.inventory.application.InventoryService;
 import dev.desafio.transaction.inventory.application.axon.InventoryAxonEvents;
 import dev.desafio.transaction.inventory.application.axon.InventoryCommitRejectedAxonEvent;
@@ -17,6 +15,7 @@ import dev.desafio.transaction.inventory.application.command.CommitInventoryComm
 import dev.desafio.transaction.inventory.application.command.ReleaseInventoryCommand;
 import dev.desafio.transaction.inventory.application.command.ReserveInventoryCommand;
 import dev.desafio.transaction.inventory.application.event.InventoryIntegrationEventHandler;
+import dev.desafio.transaction.inventory.application.event.InventoryOutbox;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedEvent;
@@ -173,11 +172,12 @@ class ChoreographedLifecycleE2ETest {
     }
 
     @Test
-    @DisplayName("Inventory-first RabbitMQ lifecycle completes a replayable Transaction projection @spec:AC-286 @spec:AC-287 @spec:AC-293")
+    @DisplayName("RabbitMQ lifecycle preserves tokenized Card credentials and operation keys @spec:AC-286 @spec:AC-287 @spec:AC-293 @spec:AC-314 @spec:AC-315")
     void inventoryFirstEventsReachPaymentOnlyThroughRabbitMqWithCausalMetadata() throws Exception {
         var started = TransactionEvent.started(new StartTransaction(
             "transaction-251", "operation-251", "buyer@example.test", "order-251",
-            List.of(new Transaction.Item("sku-251", 1)), new BigDecimal("42.50"), "BRL", "PIX"
+            List.of(new Transaction.Item("sku-251", 1)), new BigDecimal("42.50"), "BRL", "CARD",
+            "provider-token-251", "visa"
         ), CLOCK.instant());
         transactionOutbox().enqueueOrderReceived(started);
         var transaction = new AtomicReference<>(Transaction.replay(List.of(started.toDomainEvent())));
@@ -196,8 +196,9 @@ class ChoreographedLifecycleE2ETest {
                 var reserved = new InventoryReservedEvent(
                     reserve.inventoryReservationId(), reserve.transactionId(), reserve.orderId(),
                     reserve.items(), reserve.paymentId(), reserve.paymentOperationKey(),
-                    reserve.paymentMethod(), reserve.amount(), reserve.currency(), reserve.payerEmail(),
-                    1, reserve.correlationId(), reserve.causationId(), CLOCK.instant()
+                    reserve.paymentMethod(), reserve.providerToken(), reserve.paymentMethodId(),
+                    reserve.amount(), reserve.currency(), reserve.payerEmail(), 1,
+                    reserve.correlationId(), reserve.causationId(), CLOCK.instant()
                 );
                 reservation.set(new InventoryReservation(reserved));
                 integration.on(new InventoryReservedAxonEvent(reserve.inventoryReservationId(), reserved));
@@ -231,7 +232,10 @@ class ChoreographedLifecycleE2ETest {
         assertNotNull(requested.get());
         assertEquals("transaction-251", requested.get().transactionId());
         assertEquals("operation-251", requested.get().correlationId());
-        assertEquals("PIX", requested.get().method().name());
+        assertEquals("operation-251:payment", requested.get().operationKey());
+        assertEquals("CARD", requested.get().method().name());
+        assertEquals("provider-token-251", requested.get().providerToken());
+        assertEquals("visa", requested.get().paymentMethodId());
 
         new PaymentIntegrationEventHandler(paymentPublisher()).on(new PaymentApproved(
             requested.get().paymentId(), requested.get().transactionId(), "provider-251",
@@ -257,7 +261,8 @@ class ChoreographedLifecycleE2ETest {
     void commitRejectionTriggersOneProviderRefundAndConvergesWithoutRegression() throws Exception {
         var started = TransactionEvent.started(new StartTransaction(
             "transaction-refund", "operation-refund", "buyer@example.test", "order-refund",
-            List.of(new Transaction.Item("sku-refund", 1)), new BigDecimal("42.50"), "BRL", "CARD"
+            List.of(new Transaction.Item("sku-refund", 1)), new BigDecimal("42.50"), "BRL", "CARD",
+            "provider-token-refund", "visa"
         ), CLOCK.instant());
         var transaction = Transaction.replay(List.of(started.toDomainEvent()));
         apply(transaction, Transaction.Outcome.INVENTORY_RESERVED, "reservation-refund");
@@ -269,8 +274,9 @@ class ChoreographedLifecycleE2ETest {
         var reserved = new InventoryReservedEvent(
             "transaction-refund", "transaction-refund", "order-refund",
             List.of(new dev.desafio.transaction.inventory.domain.StockItem("sku-refund", 1)),
-            "transaction-refund", "operation-refund:payment", "CARD", new BigDecimal("42.50"),
-            "BRL", "buyer@example.test", 1, "operation-refund", started.eventId().toString(), CLOCK.instant()
+            "transaction-refund", "operation-refund:payment", "CARD", "provider-token-refund", "visa",
+            new BigDecimal("42.50"), "BRL", "buyer@example.test", 1,
+            "operation-refund", started.eventId().toString(), CLOCK.instant()
         );
         var reservation = new InventoryReservation(reserved);
         var events = new ArrayList<Object>();
@@ -361,7 +367,7 @@ class ChoreographedLifecycleE2ETest {
     void inventoryAndPaymentRejectionsRemainIndependentOverRabbitMq() throws Exception {
         var firstStarted = TransactionEvent.started(new StartTransaction(
             "transaction-no-stock", "operation-no-stock", "buyer@example.test", "order-no-stock",
-            List.of(new Transaction.Item("sku-empty", 1)), new BigDecimal("10.00"), "BRL", "PIX"
+            List.of(new Transaction.Item("sku-empty", 1)), new BigDecimal("10.00"), "BRL", "PIX", null, null
         ), CLOCK.instant());
         var noStockTransaction = new AtomicReference<>(Transaction.replay(List.of(firstStarted.toDomainEvent())));
         var noStockViews = transactionViews();
@@ -385,7 +391,7 @@ class ChoreographedLifecycleE2ETest {
         var secondStarted = TransactionEvent.started(new StartTransaction(
             "transaction-payment-rejected", "operation-payment-rejected", "buyer@example.test",
             "order-payment-rejected", List.of(new Transaction.Item("sku-available", 1)),
-            new BigDecimal("10.00"), "BRL", "CARD"
+            new BigDecimal("10.00"), "BRL", "CARD", "provider-token-rejected", "master"
         ), CLOCK.instant());
         var paymentRejectedTransaction = Transaction.replay(List.of(secondStarted.toDomainEvent()));
         apply(paymentRejectedTransaction, Transaction.Outcome.INVENTORY_RESERVED, "reservation-rejected");
@@ -396,7 +402,8 @@ class ChoreographedLifecycleE2ETest {
             "transaction-payment-rejected", "transaction-payment-rejected", "order-payment-rejected",
             List.of(new dev.desafio.transaction.inventory.domain.StockItem("sku-available", 1)),
             "transaction-payment-rejected", "operation-payment-rejected:payment", "CARD",
-            new BigDecimal("10.00"), "BRL", "buyer@example.test", 1,
+            "provider-token-rejected", "master", new BigDecimal("10.00"), "BRL",
+            "buyer@example.test", 1,
             "operation-payment-rejected", secondStarted.eventId().toString(), CLOCK.instant()
         );
         var reservation = new InventoryReservation(reserved);
@@ -435,7 +442,7 @@ class ChoreographedLifecycleE2ETest {
         var started = TransactionEvent.started(new StartTransaction(
             "transaction-out-of-order", "operation-out-of-order", "buyer@example.test",
             "order-out-of-order", List.of(new Transaction.Item("sku-order", 1)),
-            new BigDecimal("12.00"), "BRL", "PIX"
+            new BigDecimal("12.00"), "BRL", "PIX", null, null
         ), CLOCK.instant());
         var transaction = new AtomicReference<>(Transaction.replay(List.of(started.toDomainEvent())));
         var views = transactionViews();
@@ -453,7 +460,7 @@ class ChoreographedLifecycleE2ETest {
         var reserved = new InventoryReservedEvent(
             "transaction-out-of-order", "transaction-out-of-order", "order-out-of-order",
             List.of(new dev.desafio.transaction.inventory.domain.StockItem("sku-order", 1)),
-            "transaction-out-of-order", "operation-out-of-order:payment", "PIX",
+            "transaction-out-of-order", "operation-out-of-order:payment", "PIX", null, null,
             new BigDecimal("12.00"), "BRL", "buyer@example.test", 1,
             "operation-out-of-order", started.eventId().toString(), CLOCK.instant()
         );
@@ -550,12 +557,14 @@ class ChoreographedLifecycleE2ETest {
         );
     }
 
-    private static JpaInventoryOutbox inventoryOutbox() {
-        return new JpaInventoryOutbox(
-            persistence.getBean(InventoryAmqpOutboxJpaRepository.class),
-            json,
-            persistence.getBean(PlatformTransactionManager.class)
-        );
+    private static InventoryOutbox inventoryOutbox() {
+        var store = outbox("inventory");
+        return (sourceEventId, event) -> store.enqueue(sourceEventId,
+            new dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope<>(
+                java.util.UUID.nameUUIDFromBytes(sourceEventId.getBytes(java.nio.charset.StandardCharsets.UTF_8)),
+                event.eventType(), 1, event.aggregateId(), event.transactionId(), event.correlationId(),
+                event.causationId(), event.occurredAt(), json.valueToTree(event.payload())
+            ));
     }
 
     private static JpaPaymentProjection paymentProjection() {
@@ -642,8 +651,16 @@ class ChoreographedLifecycleE2ETest {
         TransactionAutoConfiguration.class,
         JacksonAutoConfiguration.class
     })
-    @EntityScan("dev.desafio.transaction")
-    @EnableJpaRepositories("dev.desafio.transaction")
+    @EntityScan(basePackageClasses = {
+        TransactionOutboxJpaRepository.class,
+        SpringDataPaymentRecordRepository.class,
+        dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpOutboxJpaRepository.class
+    })
+    @EnableJpaRepositories(basePackageClasses = {
+        TransactionOutboxJpaRepository.class,
+        SpringDataPaymentRecordRepository.class,
+        dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpOutboxJpaRepository.class
+    })
     static class ChoreographyPersistenceTestApplication {}
 
     @SuppressWarnings("unchecked")

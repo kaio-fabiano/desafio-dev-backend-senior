@@ -21,6 +21,8 @@ public record TransactionEvent(
     BigDecimal amount,
     String currency,
     String paymentMethod,
+    String providerToken,
+    String paymentMethodId,
     Transaction.Outcome outcome,
     String reference,
     Transaction.Status status,
@@ -30,7 +32,8 @@ public record TransactionEvent(
     public static TransactionEvent started(StartTransaction command, Instant occurredAt) {
         return from(Transaction.start(
             command.transactionId(), command.operationKey(), command.owner(), command.wooOrderId(),
-            command.items(), command.amount(), command.currency(), command.paymentMethod(), occurredAt
+            command.items(), command.amount(), command.currency(), command.paymentMethod(),
+            command.providerToken(), command.paymentMethodId(), occurredAt
         ));
     }
 
@@ -43,6 +46,8 @@ public record TransactionEvent(
         BigDecimal amount,
         String currency,
         String paymentMethod,
+        String providerToken,
+        String paymentMethodId,
         Transaction.Outcome outcome,
         String reference,
         Transaction.Status status,
@@ -54,22 +59,24 @@ public record TransactionEvent(
         );
         return new TransactionEvent(
             eventId, transactionId, operationKey, owner, wooOrderId, List.copyOf(items), amount,
-            currency, paymentMethod, outcome, reference, status, version, occurredAt
+            currency, paymentMethod, providerToken, paymentMethodId,
+            outcome, reference, status, version, occurredAt
         );
     }
 
     public static TransactionEvent from(Transaction.Event event) {
         return new TransactionEvent(
             event.eventId(), event.transactionId(), event.operationKey(), event.owner(), event.wooOrderId(),
-            event.items(), event.amount(), event.currency(), event.paymentMethod(), event.outcome(),
-            event.reference(), event.status(), event.version(), event.occurredAt()
+            event.items(), event.amount(), event.currency(), event.paymentMethod(), event.providerToken(),
+            event.paymentMethodId(), event.outcome(), event.reference(), event.status(), event.version(),
+            event.occurredAt()
         );
     }
 
     public Transaction.Event toDomainEvent() {
         return new Transaction.Event(
             eventId, transactionId, operationKey, owner, wooOrderId, items, amount, currency,
-            paymentMethod, outcome, reference, status, version, occurredAt
+            paymentMethod, providerToken, paymentMethodId, outcome, reference, status, version, occurredAt
         );
     }
 }

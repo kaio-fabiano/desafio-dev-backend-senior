@@ -18,7 +18,9 @@ public record StartTransaction(
     List<Transaction.Item> items,
     BigDecimal amount,
     String currency,
-    String paymentMethod
+    String paymentMethod,
+    String providerToken,
+    String paymentMethodId
 ) {
     public StartTransaction {
         transactionId = required(transactionId, "transactionId");
@@ -28,13 +30,23 @@ public record StartTransaction(
         items = List.copyOf(Objects.requireNonNull(items, "items"));
         Objects.requireNonNull(amount, "amount");
         currency = required(currency, "currency");
-        paymentMethod = required(paymentMethod, "paymentMethod");
+        paymentMethod = required(paymentMethod, "paymentMethod").toUpperCase(java.util.Locale.ROOT);
+        if (paymentMethod.equals("CARD")) {
+            providerToken = required(providerToken, "providerToken");
+            paymentMethodId = required(paymentMethodId, "paymentMethodId");
+        } else if (hasText(providerToken) || hasText(paymentMethodId)) {
+            throw new IllegalArgumentException(TransactionErrorMessages.PIX_CARD_FIELDS_FORBIDDEN);
+        }
     }
 
     private static String required(String value, String name) {
-        if (value == null || value.isBlank()) {
+        if (!hasText(value)) {
             throw new IllegalArgumentException(TransactionErrorMessages.required(name));
         }
         return value;
+    }
+
+    private static boolean hasText(String value) {
+        return value != null && !value.isBlank();
     }
 }

@@ -107,6 +107,7 @@ public final class InventoryRabbitListener {
 
     private ReserveInventoryCommand reserve(IntegrationEventEnvelope<JsonNode> event) {
         var payload = event.payload();
+        var paymentMethod = required(payload, "paymentMethod");
         var items = new ArrayList<StockItem>();
         payload.path("items").forEach(item -> items.add(new StockItem(
             required(item, "productId"), item.path("quantity").asInt()
@@ -116,7 +117,10 @@ public final class InventoryRabbitListener {
             event.correlationId() + ":inventory-reserve",
             event.transactionId(), required(payload, "orderId"), items,
             required(payload, "paymentId"), required(payload, "paymentOperationKey"),
-            required(payload, "paymentMethod"), new BigDecimal(required(payload, "amount")),
+            paymentMethod,
+            "CARD".equals(paymentMethod) ? required(payload, "providerCredentialReference") : null,
+            "CARD".equals(paymentMethod) ? required(payload, "paymentMethodId") : null,
+            new BigDecimal(required(payload, "amount")),
             required(payload, "currency"), required(payload, "payerEmail"),
             event.correlationId(), event.eventId().toString()
         );
