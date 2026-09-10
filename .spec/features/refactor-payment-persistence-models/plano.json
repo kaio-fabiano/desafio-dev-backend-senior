@@ -1,0 +1,164 @@
+{
+  "runId": "desafio-dev-backend-senior-refactor-payment-orm-refactor-payment-persistence-models-mtvmdgu1",
+  "feature": "refactor-payment-persistence-models",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-260",
+    "T-261",
+    "T-262",
+    "T-263"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 14:25",
+  "branchTrabalho": "spec/refactor-payment-persistence-models",
+  "baseDir": ".spec/features/refactor-payment-persistence-models",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior-refactor-payment-orm",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-refactor-payment-orm-refactor-payment-persistence-models-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ],
+    [
+      "faixa-4"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/refactor-payment-persistence-models-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-refactor-payment-orm-refactor-payment-persistence-models-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-260",
+          "titulo": "Model Inventory persistence with JPA",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory",
+            "apps/payment-federation/src/main/resources/db/migration/inventory",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory",
+            "test/refactor-payment-persistence-inventory.test.mjs"
+          ],
+          "refs": [
+            "US-139",
+            "AC-298",
+            "AC-299",
+            "AC-304"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/refactor-payment-persistence-models-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-refactor-payment-orm-refactor-payment-persistence-models-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-261",
+          "titulo": "Model Payment persistence with JPA",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment",
+            "apps/payment-federation/src/main/resources/db/migration/payment",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/payment",
+            "apps/payment-federation/src/test/java/dev/desafio/payment",
+            "test/refactor-payment-persistence-payment.test.mjs"
+          ],
+          "refs": [
+            "US-139",
+            "AC-298",
+            "AC-300",
+            "AC-304"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/refactor-payment-persistence-models-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-refactor-payment-orm-refactor-payment-persistence-models-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-262",
+          "titulo": "Model Transaction persistence with JPA",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction",
+            "apps/payment-federation/src/main/resources/db/migration/transaction",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction",
+            "test/refactor-payment-persistence-transaction.test.mjs"
+          ],
+          "refs": [
+            "US-139",
+            "AC-298",
+            "AC-301",
+            "AC-304"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-4",
+      "branch": "spec/refactor-payment-persistence-models-faixa-4",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-refactor-payment-orm-refactor-payment-persistence-models-faixa-4",
+      "tarefas": [
+        {
+          "id": "T-263",
+          "titulo": "Model shared AMQP delivery persistence with JPA",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/persistence",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging",
+            "test/refactor-payment-persistence-amqp.test.mjs"
+          ],
+          "refs": [
+            "US-139",
+            "AC-298",
+            "AC-302",
+            "AC-304"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-264",
+      "titulo": "Integrate ORM adapters and enforce the zero-SQL runtime boundary",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/build.gradle.kts",
+        "apps/payment-federation/src/main/resources/application.yaml",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/configuration",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/migration",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/projection",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence",
+        "test/refactor-payment-persistence-models.test.mjs"
+      ],
+      "refs": [
+        "US-139",
+        "AC-298",
+        "AC-299",
+        "AC-300",
+        "AC-301",
+        "AC-302",
+        "AC-303",
+        "AC-304"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
