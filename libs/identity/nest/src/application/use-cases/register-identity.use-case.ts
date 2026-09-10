@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 
 import { RegisterIdentityCommand } from '../commands/register-identity.command.ts';
+import { IdentityErrorMessages } from '../errors/identity-error-messages.ts';
 import { RegistrationError } from '../errors/registration.error.ts';
 import { CustomerIdentityPort } from '../ports/customer-identity.port.ts';
 import { IdentityAccountPort } from '../ports/identity-account.port.ts';
@@ -41,7 +42,11 @@ export class RegisterIdentityUseCase {
     command: RegisterIdentityCommand,
     identity = this.legacyIdentity,
   ): Promise<void> {
-    if (!identity) throw new Error('Identity account adapter is required');
+    if (!identity) {
+      throw new Error(
+        IdentityErrorMessages.registration.IDENTITY_ACCOUNT_ADAPTER_REQUIRED,
+      );
+    }
     let customerId: string | undefined;
     try {
       customerId = await this.customer.createCustomer(command);
@@ -56,7 +61,7 @@ export class RegisterIdentityUseCase {
       if (!failures.length) throw cause;
       throw new RegistrationError(
         'REGISTRATION_COMPENSATION_FAILED',
-        'Registration failed and compensation was incomplete',
+        IdentityErrorMessages.registration.REGISTRATION_COMPENSATION_FAILED,
         { cause, failures },
       );
     }

@@ -1,10 +1,12 @@
+import { IdentityErrorMessages } from './identity-error-messages.ts';
+
 export class OAuthError extends Error {
   constructor(
     readonly code:
       | 'OAUTH_CLIENT_SEED_FAILED'
       | 'OAUTH_CLIENTS_NOT_READY'
       | 'SEED_ADMIN_PASSWORD_REQUIRED',
-    message: string,
+    message: string = IdentityErrorMessages.oauth[code],
     options?: ErrorOptions,
   ) {
     super(message, options);

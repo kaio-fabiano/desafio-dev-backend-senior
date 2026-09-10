@@ -1,4 +1,5 @@
 import { OAuthSeedCredentials } from '../../application/dto/oauth-seed-credentials.dto.ts';
+import { IdentityErrorMessages } from '../../application/errors/identity-error-messages.ts';
 import { OAuthError } from '../../application/errors/oauth.error.ts';
 import { OAuthSeedCredentialsPort } from '../../application/ports/oauth-seed-credentials.port.ts';
 
@@ -10,7 +11,7 @@ export class EnvironmentOAuthSeedCredentialsAdapter
     if (!password) {
       throw new OAuthError(
         'SEED_ADMIN_PASSWORD_REQUIRED',
-        'SEED_ADMIN_PASSWORD is required to create OAuth clients',
+        IdentityErrorMessages.oauth.SEED_ADMIN_PASSWORD_REQUIRED,
       );
     }
     return new OAuthSeedCredentials(

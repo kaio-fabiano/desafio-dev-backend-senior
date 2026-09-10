@@ -1,4 +1,5 @@
 import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
+import { IdentityErrorMessages } from '@desafio-dev-backend-senior/source/identity-nest';
 
 @Controller()
 export class HealthController {
@@ -15,7 +16,11 @@ export class HealthController {
 
   @Get('ready')
   ready() {
-    if (!this.initialized) throw new ServiceUnavailableException();
+    if (!this.initialized) {
+      throw new ServiceUnavailableException(
+        IdentityErrorMessages.healthNotReady,
+      );
+    }
     return { status: 'ready' };
   }
 }

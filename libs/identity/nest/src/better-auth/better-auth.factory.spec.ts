@@ -162,6 +162,20 @@ describe('BetterAuthFactory', () => {
     expect(end).not.toHaveBeenCalled();
   });
 
+  it('uses its internal pool when its caller does not supply a database', async () => {
+    const pools = new IdentityDatabasePool();
+    const end = vi
+      .spyOn(Pool.prototype, 'end')
+      .mockImplementation(async () => undefined);
+    const auth = new BetterAuthFactory(pools).create({
+      secret: 'identity-test-secret-with-at-least-32-characters',
+    });
+
+    expect(auth.options.database).toBe(pools.connection);
+    await pools.onModuleDestroy();
+    expect(end).toHaveBeenCalledOnce();
+  });
+
   it('reports missing production secrets as typed configuration failures', () => {
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv('BETTER_AUTH_SECRET', '');

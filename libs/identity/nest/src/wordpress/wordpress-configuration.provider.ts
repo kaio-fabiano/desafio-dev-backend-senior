@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
 import { WordPressError } from './wordpress.error.ts';
 
 @Injectable()
@@ -19,7 +20,7 @@ export class WordPressConfiguration {
     if (config.get<string>('NODE_ENV') === 'production' && !this.siteToken) {
       throw new WordPressError(
         'WORDPRESS_CONFIGURATION_INVALID',
-        'WPGRAPHQL_SITE_TOKEN is required in production',
+        IdentityErrorMessages.wordpress.WORDPRESS_CONFIGURATION_INVALID,
       );
     }
   }

@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
 import { WordPressConfiguration } from './wordpress-configuration.provider.ts';
 import { WordPressError } from './wordpress.error.ts';
 
@@ -49,19 +50,19 @@ export class WordPressIdentityService {
       ) {
         throw new WordPressError(
           'WORDPRESS_IDENTITY_ALREADY_EXISTS',
-          'WordPress identity already exists',
+          IdentityErrorMessages.wordpress.WORDPRESS_IDENTITY_ALREADY_EXISTS,
         );
       }
       throw new WordPressError(
         'WORDPRESS_CREATE_FAILED',
-        'WordPress identity creation failed',
+        IdentityErrorMessages.wordpress.WORDPRESS_CREATE_FAILED,
       );
     }
     const id = result.data?.registerCustomer?.customer?.id;
     if (!id) {
       throw new WordPressError(
         'WORDPRESS_CREATE_FAILED',
-        'WordPress identity creation returned no customer',
+        IdentityErrorMessages.wordpress.WORDPRESS_CREATE_RETURNED_NO_CUSTOMER,
       );
     }
     return { id };
@@ -84,7 +85,7 @@ export class WordPressIdentityService {
     ) {
       throw new WordPressError(
         'WORDPRESS_DELETE_FAILED',
-        'WordPress identity rollback failed',
+        IdentityErrorMessages.wordpress.WORDPRESS_DELETE_FAILED,
       );
     }
   }
@@ -113,7 +114,7 @@ export class WordPressIdentityService {
     ) {
       throw new WordPressError(
         'WORDPRESS_LINK_FAILED',
-        'WordPress identity link failed',
+        IdentityErrorMessages.wordpress.WORDPRESS_LINK_FAILED,
       );
     }
   }
@@ -138,7 +139,7 @@ export class WordPressIdentityService {
     if (result.errors?.length || !authToken) {
       throw new WordPressError(
         errorCode,
-        'WordPress registrar authentication failed',
+        IdentityErrorMessages.wordpress.WORDPRESS_REGISTRAR_AUTHENTICATION_FAILED,
       );
     }
     return authToken;

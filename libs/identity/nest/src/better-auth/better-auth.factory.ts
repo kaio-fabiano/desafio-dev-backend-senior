@@ -4,6 +4,7 @@ import { betterAuth } from 'better-auth';
 import { jwt } from 'better-auth/plugins';
 
 import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
+import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
 import { BetterAuthError } from './better-auth.error.ts';
 import type {
   IdentityAuth,
@@ -34,7 +35,7 @@ export class BetterAuthFactory {
     if (process.env.NODE_ENV === 'production' && !secret) {
       throw new BetterAuthError(
         'BETTER_AUTH_SECRET_REQUIRED',
-        'BETTER_AUTH_SECRET is required in production',
+        IdentityErrorMessages.betterAuth.BETTER_AUTH_SECRET_REQUIRED,
       );
     }
     return betterAuth({

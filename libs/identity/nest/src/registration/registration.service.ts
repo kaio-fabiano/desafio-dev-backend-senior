@@ -7,6 +7,7 @@ import {
 import { APIError } from 'better-auth/api';
 
 import { RegisterIdentityCommand } from '../application/commands/register-identity.command.ts';
+import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
 import { RegisterIdentityUseCase } from '../application/use-cases/register-identity.use-case.ts';
 import { IdentityRegistrationPolicy } from '../domain/policies/identity-registration.policy.ts';
 import { BetterAuthIdentityAccountAdapter } from '../infrastructure/better-auth/better-auth-identity-account.adapter.ts';
@@ -52,7 +53,9 @@ export class RegistrationService {
       throw new APIError('SERVICE_UNAVAILABLE', {
         cause,
         code: 'WORDPRESS_IDENTITY_LINK_FAILED',
-        message: 'Registration could not be completed',
+        message:
+          IdentityErrorMessages.registration
+            .REGISTRATION_COULD_NOT_BE_COMPLETED,
       });
     }
   }

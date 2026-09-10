@@ -3,6 +3,7 @@ import { AuthService } from '@thallesp/nestjs-better-auth';
 
 import { OAuthClientDefinition } from '../../application/dto/oauth-client-definition.dto.ts';
 import { OAuthSeedCredentials } from '../../application/dto/oauth-seed-credentials.dto.ts';
+import { IdentityErrorMessages } from '../../application/errors/identity-error-messages.ts';
 import { OAuthError } from '../../application/errors/oauth.error.ts';
 import { OAuthClientProvisioningPort } from '../../application/ports/oauth-client-provisioning.port.ts';
 import type { IdentityAuth } from '../../better-auth/identity-auth.types.d.ts';
@@ -91,7 +92,7 @@ export class BetterAuthOAuthClientProvisioningAdapter
     if (!response.ok) {
       throw new OAuthError(
         'OAUTH_CLIENT_SEED_FAILED',
-        `Identity client seed failed: ${response.status}`,
+        IdentityErrorMessages.oauthClientSeedFailed(response.status),
       );
     }
     return response.headers

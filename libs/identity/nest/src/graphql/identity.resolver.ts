@@ -6,6 +6,7 @@ import {
   RequireScopes,
 } from '@desafio-dev-backend-senior/source/platform-nest';
 import { IdentityUserQueryPort } from '../application/ports/identity-user-query.port.ts';
+import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
 import { FindIdentityUsersUseCase } from '../application/use-cases/find-identity-users.use-case.ts';
 import { ListIdentityUsersUseCase } from '../application/use-cases/list-identity-users.use-case.ts';
 import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
@@ -26,7 +27,7 @@ export class IdentityResolver {
   @RequireScopes(OAuthResources.marketplaceReadScope)
   async users(@Args('first') first = 20, @Args('after') after?: string) {
     if (!Number.isInteger(first) || first < 1 || first > 100) {
-      throw new BadRequestException('first must be between 1 and 100');
+      throw new BadRequestException(IdentityErrorMessages.invalidUserPageSize);
     }
     const afterId = UserCursorDecoder.decode(after);
     return 'execute' in this.userQueries

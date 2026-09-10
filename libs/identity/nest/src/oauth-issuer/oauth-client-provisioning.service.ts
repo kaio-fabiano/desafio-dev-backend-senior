@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { OAuthClientIds } from '../application/dto/oauth-client-ids.dto.ts';
+import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
 import { ProvisionOAuthClientsUseCase } from '../application/use-cases/provision-oauth-clients.use-case.ts';
 import { OAuthError } from './oauth.error.ts';
 
@@ -37,7 +38,7 @@ export class OAuthClientProvisioningService implements OnApplicationBootstrap {
     if (!this.clients) {
       throw new OAuthError(
         'OAUTH_CLIENTS_NOT_READY',
-        'Identity OAuth clients are not ready',
+        IdentityErrorMessages.oauth.OAUTH_CLIENTS_NOT_READY,
       );
     }
     return { ...this.clients };
