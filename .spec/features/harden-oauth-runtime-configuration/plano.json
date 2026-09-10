@@ -1,0 +1,136 @@
+{
+  "runId": "desafio-dev-backend-senior-auth-payment-fixes-harden-oauth-runtime-configuration-mtvvq49w",
+  "feature": "harden-oauth-runtime-configuration",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 18:47",
+  "branchTrabalho": "spec/harden-oauth-runtime-configuration",
+  "baseDir": ".spec/features/harden-oauth-runtime-configuration",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior-auth-payment-fixes",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-auth-payment-fixes-harden-oauth-runtime-configuration-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-268",
+      "titulo": "Align OAuth defaults and resolve configuration lazily",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/identity/nest/src/better-auth/better-auth.factory.ts",
+        "libs/identity/nest/src/better-auth/better-auth.factory.spec.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts",
+        "libs/gateway/nest/src/auth/gateway-auth.module.ts",
+        "libs/gateway/nest/src/auth/gateway-auth.module.spec.ts",
+        "libs/identity/nest/src/identity.module.ts",
+        "test/harden-oauth-runtime-configuration.test.mjs",
+        "docs/evidence/harden-oauth-runtime-configuration/T-268.md"
+      ],
+      "refs": [
+        "US-140",
+        "AC-305"
+      ]
+    },
+    {
+      "id": "T-269",
+      "titulo": "Separate OAuth request orchestration from vendor verification",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.ts",
+        "libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.spec.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.spec.ts",
+        "libs/platform/nest/src/oauth-resource/verification/oauth-resource.service.integration.spec.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts",
+        "test/harden-oauth-resource-service.test.mjs",
+        "docs/evidence/harden-oauth-runtime-configuration/T-269.md"
+      ],
+      "refs": [
+        "US-142",
+        "AC-308"
+      ]
+    },
+    {
+      "id": "T-270",
+      "titulo": "Add canonical and replay-safe Gateway DPoP configuration",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "package.json",
+        "pnpm-lock.yaml",
+        "infra/sst.config.ts",
+        "libs/platform/nest/src/oauth-resource/oauth-resource.types.ts",
+        "libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.ts",
+        "libs/platform/nest/src/oauth-resource/infrastructure/better-auth-oauth-credential-verifier.adapter.spec.ts",
+        "libs/gateway/nest/src/auth/gateway-auth.module.ts",
+        "libs/gateway/nest/src/auth/gateway-auth.module.spec.ts",
+        "libs/gateway/nest/src/infrastructure/auth/dynamo-dpop-replay.store.ts",
+        "libs/gateway/nest/src/infrastructure/auth/dynamo-dpop-replay.store.spec.ts",
+        "test/production-deployment.test.mjs",
+        "docs/evidence/harden-oauth-runtime-configuration/T-270.md"
+      ],
+      "refs": [
+        "US-141",
+        "AC-306",
+        "AC-307"
+      ]
+    },
+    {
+      "id": "T-271",
+      "titulo": "Enforce Identity query visibility and use the production batch provider",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/identity/nest/src/application/policies/identity-user-visibility.policy.ts",
+        "libs/identity/nest/src/application/policies/identity-user-visibility.policy.spec.ts",
+        "libs/identity/nest/src/oauth-issuer/oauth-resources.ts",
+        "libs/identity/nest/src/better-auth/better-auth.factory.ts",
+        "libs/identity/nest/src/better-auth/better-auth.factory.spec.ts",
+        "libs/identity/nest/src/graphql/identity.resolver.ts",
+        "libs/identity/nest/src/graphql/identity.resolver.spec.ts",
+        "libs/identity/nest/src/graphql/identity.graphql.integration.spec.ts",
+        "libs/identity/nest/src/infrastructure/persistence/better-auth-identity-user.adapter.ts",
+        "libs/identity/nest/src/infrastructure/persistence/better-auth-identity-user.adapter.spec.ts",
+        "libs/identity/nest/src/identity.module.ts",
+        "libs/identity/nest/src/graphql/user.loader.ts",
+        "libs/identity/nest/src/graphql/user.repository.ts",
+        "test/graphql-relay-dataloader-closure.test.mjs",
+        "test/identity-federation-refactor.test.mjs",
+        "test/idiomatic-nestjs-architecture.test.mjs",
+        "docs/evidence/harden-oauth-runtime-configuration/T-271.md"
+      ],
+      "refs": [
+        "US-143",
+        "AC-309",
+        "AC-310",
+        "AC-311",
+        "AC-312"
+      ]
+    },
+    {
+      "id": "T-272",
+      "titulo": "Correct OAuth audience and DPoP presentation guidance",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "README.md",
+        "docs/prds/03-identidade-e-oauth.md",
+        "docs/evidence/harden-oauth-runtime-configuration/presentation.md",
+        "test/harden-oauth-runtime-configuration.test.mjs"
+      ],
+      "refs": [
+        "US-144",
+        "AC-313"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

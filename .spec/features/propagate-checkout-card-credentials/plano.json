@@ -1,0 +1,51 @@
+{
+  "runId": "desafio-dev-backend-senior-auth-payment-fixes-propagate-checkout-card-credentials-mtvvq4di",
+  "feature": "propagate-checkout-card-credentials",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 18:47",
+  "branchTrabalho": "spec/propagate-checkout-card-credentials",
+  "baseDir": ".spec/features/propagate-checkout-card-credentials",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior-auth-payment-fixes",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-auth-payment-fixes-propagate-checkout-card-credentials-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-273",
+      "titulo": "Propagate tokenized Card credentials through the asynchronous workflow",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransaction.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event/TransactionEvent.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/Transaction.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/command/ReserveInventoryCommand.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/command/ReserveInventoryCommandHandler.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event/InventoryReservedEvent.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/event/InventoryIntegrationEventHandler.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory/application/InventoryIntegrationEventHandlerTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java",
+        "test/mercado-pago-payment-provider.spec.test.mjs",
+        "docs/evidence/propagate-checkout-card-credentials/T-273.md"
+      ],
+      "refs": [
+        "US-145",
+        "AC-314",
+        "AC-315",
+        "AC-161"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
