@@ -11,7 +11,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.sql.DataSource;
 import java.util.Set;
 
-public final class JdbcInboxStore {
+public final class JdbcInboxStore implements InboxStore {
     private static final Set<String> OWNED_SCHEMAS = Set.of("transaction", "inventory", "payment");
 
     private final String table;
@@ -100,13 +100,4 @@ public final class JdbcInboxStore {
         }
     }
 
-    public enum Disposition {
-        COMPLETED,
-        BUSINESS_REJECTED
-    }
-
-    @FunctionalInterface
-    public interface Handler {
-        Disposition handle(IntegrationEventEnvelope<JsonNode> event);
-    }
 }

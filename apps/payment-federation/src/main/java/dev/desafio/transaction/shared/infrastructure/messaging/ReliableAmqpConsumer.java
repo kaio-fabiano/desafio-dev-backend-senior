@@ -3,16 +3,16 @@ package dev.desafio.transaction.shared.infrastructure.messaging;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope;
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcInboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.InboxStore;
 import org.springframework.amqp.core.Message;
 
 public final class ReliableAmqpConsumer {
-    private final JdbcInboxStore inbox;
+    private final InboxStore inbox;
     private final IntegrationEventJson json;
     private final AmqpRetryRouter retryRouter;
 
     public ReliableAmqpConsumer(
-        JdbcInboxStore inbox,
+        InboxStore inbox,
         IntegrationEventJson json,
         AmqpRetryRouter retryRouter
     ) {
@@ -33,9 +33,9 @@ public final class ReliableAmqpConsumer {
             inbox.processOnce(consumer, event, received -> {
                 try {
                     dispatcher.dispatch(received);
-                    return JdbcInboxStore.Disposition.COMPLETED;
+                    return InboxStore.Disposition.COMPLETED;
                 } catch (BusinessRejection rejection) {
-                    return JdbcInboxStore.Disposition.BUSINESS_REJECTED;
+                    return InboxStore.Disposition.BUSINESS_REJECTED;
                 }
             });
             channel.basicAck(deliveryTag, false);

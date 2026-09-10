@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public final class JdbcOutboxStore {
+public final class JdbcOutboxStore implements OutboxStore {
     private static final Set<String> OWNED_SCHEMAS = Set.of("transaction", "inventory", "payment");
 
     private final String table;
@@ -115,5 +115,4 @@ public final class JdbcOutboxStore {
         }
     }
 
-    public record PendingMessage(UUID eventId, String routingKey, String envelope) {}
 }

@@ -19,4 +19,10 @@ alter table payment.payment_effect
     add constraint payment_effect_state_check check (state in ('CLAIMED', 'COMPLETED'));
 
 alter table payment.payment_record
-    add column if not exists event_sequence bigint not null default 0;
+    add column if not exists event_sequence bigint not null default 0,
+    add column if not exists transaction_id text,
+    alter column order_id drop not null;
+
+create unique index if not exists payment_record_transaction_id_unique
+    on payment.payment_record (transaction_id)
+    where transaction_id is not null;

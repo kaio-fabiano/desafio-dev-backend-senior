@@ -52,6 +52,23 @@ class JdbcCheckoutOperationRepositoryTest {
     }
 
     @Test
+    @DisplayName("Checkout persistence rejects invalid identities @spec:AC-301")
+    void checkoutPersistenceRejectsInvalidIdentities() {
+        assertThrows(IllegalArgumentException.class, () -> new CheckoutOperationRepository.ClaimRequest(
+            " ", "operation-1", "a".repeat(64), "reference-1"
+        ));
+        assertThrows(IllegalArgumentException.class, () -> new CheckoutOperationRepository.ClaimRequest(
+            "buyer-1", " ", "a".repeat(64), "reference-1"
+        ));
+        assertThrows(IllegalArgumentException.class, () -> new CheckoutOperationRepository.ClaimRequest(
+            "buyer-1", "operation-1", "invalid", "reference-1"
+        ));
+        assertThrows(IllegalArgumentException.class, () -> new CheckoutOperationRepository.ClaimRequest(
+            "buyer-1", "operation-1", "a".repeat(64), " "
+        ));
+    }
+
+    @Test
     @DisplayName("PostgreSQL grants one checkout lease and survives repository restart @spec:AC-285 @spec:AC-292 @spec:AC-229")
     void postgresGrantsOneCheckoutLeaseAndSurvivesRepositoryRestart() {
         var operationKey = "operation-" + java.util.UUID.randomUUID();

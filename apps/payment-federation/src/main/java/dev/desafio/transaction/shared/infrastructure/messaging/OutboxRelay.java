@@ -1,6 +1,6 @@
 package dev.desafio.transaction.shared.infrastructure.messaging;
 
-import dev.desafio.transaction.shared.infrastructure.persistence.JdbcOutboxStore;
+import dev.desafio.transaction.shared.infrastructure.persistence.OutboxStore;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
@@ -9,14 +9,14 @@ import java.time.Duration;
 public final class OutboxRelay {
     private static final Duration CLAIM_LEASE = Duration.ofMinutes(1);
 
-    private final JdbcOutboxStore outbox;
+    private final OutboxStore outbox;
     private final ConfirmedAmqpPublisher publisher;
     private final IntegrationEventJson json;
     private final Clock clock;
     private final String relayId;
 
     public OutboxRelay(
-        JdbcOutboxStore outbox,
+        OutboxStore outbox,
         ConfirmedAmqpPublisher publisher,
         IntegrationEventJson json,
         Clock clock,

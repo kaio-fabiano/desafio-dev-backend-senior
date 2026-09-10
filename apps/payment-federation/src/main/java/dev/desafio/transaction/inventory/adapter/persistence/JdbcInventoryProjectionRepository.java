@@ -19,39 +19,33 @@ public final class JdbcInventoryProjectionRepository implements InventoryProject
     @Override
     public void save(InventoryReservationView view) {
         jdbc.update("""
-            insert into inventory.inventory_operation
-                (operation_key, order_id, request_fingerprint, state,
-                 projection_status, projection_version, projection_reason, projection_updated_at)
-            values (?, ?, ?, 'PROJECTION', ?, ?, ?, ?)
-            on conflict (operation_key) do update
-               set projection_status = excluded.projection_status,
-                   projection_version = excluded.projection_version,
-                   projection_reason = excluded.projection_reason,
-                   projection_updated_at = excluded.projection_updated_at,
-                   updated_at = current_timestamp
-             where inventory.inventory_operation.state = 'PROJECTION'
-               and inventory.inventory_operation.projection_version < excluded.projection_version
-            """, key(view.inventoryReservationId()), view.orderId(), view.transactionId(),
+            insert into inventory.inventory_reservation_projection
+                (inventory_reservation_id, transaction_id, order_id, status, version, reason, updated_at)
+            values (?, ?, ?, ?, ?, ?, ?)
+            on conflict (inventory_reservation_id) do update
+               set transaction_id = excluded.transaction_id,
+                   order_id = excluded.order_id,
+                   status = excluded.status,
+                   version = excluded.version,
+                   reason = excluded.reason,
+                   updated_at = excluded.updated_at
+             where inventory.inventory_reservation_projection.version < excluded.version
+            """, view.inventoryReservationId(), view.transactionId(), view.orderId(),
             view.status().name(), view.version(), view.reason(), Timestamp.from(view.updatedAt()));
     }
 
     @Override
     public Optional<InventoryReservationView> find(String inventoryReservationId) {
         return jdbc.query("""
-            select operation_key, request_fingerprint, order_id, projection_status,
-                   projection_version, projection_reason, projection_updated_at
-              from inventory.inventory_operation
-             where operation_key = ? and state = 'PROJECTION'
+            select transaction_id, order_id, status, version, reason, updated_at
+              from inventory.inventory_reservation_projection
+             where inventory_reservation_id = ?
             """, (rows, row) -> new InventoryReservationView(
-                inventoryReservationId, rows.getString("request_fingerprint"),
+                inventoryReservationId, rows.getString("transaction_id"),
                 rows.getString("order_id"),
-                InventoryReservation.Status.valueOf(rows.getString("projection_status")),
-                rows.getLong("projection_version"), rows.getString("projection_reason"),
-                rows.getTimestamp("projection_updated_at").toInstant()
-            ), key(inventoryReservationId)).stream().findFirst();
-    }
-
-    private static String key(String inventoryReservationId) {
-        return "projection:" + inventoryReservationId;
+                InventoryReservation.Status.valueOf(rows.getString("status")),
+                rows.getLong("version"), rows.getString("reason"),
+                rows.getTimestamp("updated_at").toInstant()
+            ), inventoryReservationId).stream().findFirst();
     }
 }

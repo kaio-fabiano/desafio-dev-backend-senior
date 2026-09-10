@@ -19,7 +19,17 @@ public interface CheckoutOperationRepository {
     Operation complete(String transactionId, String ownerToken, Instant now);
     void release(String transactionId, String ownerToken, Instant now);
 
-    record ClaimRequest(String subject, String operationKey, String commandHash, String wooReference) {}
+    record ClaimRequest(String subject, String operationKey, String commandHash, String wooReference) {
+        public ClaimRequest {
+            subject = required(subject, "subject");
+            operationKey = required(operationKey, "operationKey");
+            commandHash = required(commandHash, "commandHash");
+            wooReference = required(wooReference, "wooReference");
+            if (!commandHash.matches("[0-9a-f]{64}")) {
+                throw new IllegalArgumentException("commandHash must be a SHA-256 hex value");
+            }
+        }
+    }
     record Claim(Operation operation, String ownerToken) {}
 
     record Operation(
@@ -65,4 +75,9 @@ public interface CheckoutOperationRepository {
     }
 
     enum Status { PENDING_WOO, CREATING_WOO, WOO_CONFIRMED, COMPLETED }
+
+    private static String required(String value, String name) {
+        if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");
+        return value;
+    }
 }
