@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtutug3b",
+  "runId": "desafio-dev-backend-senior-migrate-order-workflow-to-axon-java-mtuwjdtm",
   "feature": "migrate-order-workflow-to-axon-java",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-10 01:06",
+  "geradoEm": "2026-09-10 02:22",
   "branchTrabalho": "spec/migrate-order-workflow-to-axon-java",
   "baseDir": ".spec/features/migrate-order-workflow-to-axon-java",
   "specDir": ".spec",
@@ -16,15 +16,14 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-254",
-      "titulo": "Reanchor retired Node evidence and refresh the global verification ledger",
+      "id": "T-255",
+      "titulo": "Refresh the architecture graph and close the pull request",
       "modelo": "gpt-5.6-sol",
       "esforco": "high",
       "arquivos": [
-        ".spec/features",
-        ".spec/verification",
-        "docs/adrs/008-native-commerce-and-order-workflow.md",
-        "docs/runbooks/java-axon-order-workflow-operations.md"
+        "graphify-out",
+        ".spec/features/migrate-order-workflow-to-axon-java",
+        ".spec/verification/keep-graphify-current.json"
       ],
       "refs": [
         "US-136",
@@ -47,7 +46,8 @@
     "T-250",
     "T-251",
     "T-252",
-    "T-253"
+    "T-253",
+    "T-254"
   ],
   "avisos": []
 }
