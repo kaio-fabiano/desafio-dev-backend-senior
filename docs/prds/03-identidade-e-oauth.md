@@ -22,9 +22,13 @@ bootstrap test because a global configuration can break GraphQL or webhooks.
 
 | Client           | Type                                       | Grants                            | Resource/audience | Minimum scopes                               |
 | ---------------- | ------------------------------------------ | --------------------------------- | ----------------- | -------------------------------------------- |
-| cliente-e2e      | public or confidential for testing         | authorization_code + PKCE         | gateway           | `openid profile marketplace:read cart:write` |
+| cliente-e2e      | public or confidential for testing         | authorization_code + PKCE         | Gateway           | `openid profile marketplace:read cart:write` |
 | apollo-mcp       | public/confidential according to transport | authorization_code + PKCE         | MCP               | `openid mcp:tools cart:write`                |
 | internal workers | confidential                               | client_credentials when necessary | internal APIs     | smallest possible set                        |
+
+Gateway-only operations require the Gateway audience. Gateway-to-Identity federated
+operations, including user operations, require the Identity audience as applicable;
+clients should request both audiences when one flow calls both resource servers.
 
 Client Credentials is enabled only with its own administrative scopes; delegated
 user scopes must not automatically authorize machine-to-machine access.
@@ -39,9 +43,10 @@ Each resource server validates:
 - propagated identity without accepting external user headers;
 - fail closed if discovery/JWKS cannot be validated beyond the safe cache.
 
-Better Auth provides access-token verification with `issuer`, `audience`, and
-`requiredScopes`. If DPoP is enabled, `jti` replay requires a shared store across
-multiple instances; DPoP remains outside the minimum scope until there is a clear need.
+Bearer OAuth is delivered. DPoP transport is prepared/implemented, but production
+support depends on the canonical external Gateway origin and a shared replay store.
+`htu` must match the effective request URI, `htm` must match the HTTP method, and
+replayed `jti` values must be rejected. DPoP is not required for current clients.
 
 ## Sign-up and WordPress link
 
@@ -69,11 +74,17 @@ This must be decided through an integration test, not an assumption.
 
 ## `users`, `user`, and `me`
 
-- `users` requires a defined administrative scope/role; it must not be public by
-  default merely because it appears in the minimum schema.
-- `user(id)` applies field and enumeration policy.
+- `users` requires `identity:users:read`; it must not be public by default merely
+  because it appears in the minimum schema.
+- `user(id)` is visible to the authenticated subject for self lookup or to an
+  administrator with `identity:users:read`; denied cross-user reads return `null`.
 - `me` ignores any external `userId` and uses the validated `sub`.
+- The production request-scoped batch provider is tested; legacy aliases are
+  removed, and `hasPreviousPage` is based on persisted rows.
 - the user's orders are resolved by the order-workflow-subgraph through federation.
+
+Checkout card credential propagation is a separate tracked fix (T-273) and is not
+claimed complete here.
 
 ## Required tests
 

@@ -27,13 +27,13 @@ flowchart LR
   Gateway -->|Axon subscription query over SSE| Java
 ```
 
-| Runtime                   | Single responsibility                                                           | Composition boundary                                                                                             |
-| ------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Apollo MCP                | Expose curated authenticated graph operations to agents                         | Apollo MCP configuration and its Gateway endpoint                                                                |
-| Gateway                   | Authenticate, propagate safe context, and compose queries and mutations         | NestJS authentication providers and Apollo Gateway                                                               |
-| Identity Federation       | Own identity, sessions, OAuth, registration, and identity graph fields          | `NestJSBetterAuth`, plugin factories, and Identity providers                                                     |
-| Java Transaction Federation | Own Transaction, Inventory, and Payment decisions without a central workflow coordinator | Axon 5 event sourcing/CQRS, Spring GraphQL, Spring AMQP, and isolated PostgreSQL schemas                      |
-| WordPress / WPGraphQL     | Expose authoritative product, cart, order, customer, and inventory capabilities | Native `/graphql` endpoint federated by `wp-graphql-federations`; external infrastructure, not a Node deployable |
+| Runtime                     | Single responsibility                                                                    | Composition boundary                                                                                             |
+| --------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Apollo MCP                  | Expose curated authenticated graph operations to agents                                  | Apollo MCP configuration and its Gateway endpoint                                                                |
+| Gateway                     | Authenticate, propagate safe context, and compose queries and mutations                  | NestJS authentication providers and Apollo Gateway                                                               |
+| Identity Federation         | Own identity, sessions, OAuth, registration, and identity graph fields                   | `NestJSBetterAuth`, plugin factories, and Identity providers                                                     |
+| Java Transaction Federation | Own Transaction, Inventory, and Payment decisions without a central workflow coordinator | Axon 5 event sourcing/CQRS, Spring GraphQL, Spring AMQP, and isolated PostgreSQL schemas                         |
+| WordPress / WPGraphQL       | Expose authoritative product, cart, order, customer, and inventory capabilities          | Native `/graphql` endpoint federated by `wp-graphql-federations`; external infrastructure, not a Node deployable |
 
 The domain rule is ownership, not uniformity: Better Auth owns its records,
 WooCommerce owns commercial state, while the Java Transaction, Inventory, and
@@ -264,6 +264,15 @@ A aplicação **sobe seu próprio servidor OAuth2** usando o
 - Emissão de **JWT** verificável pelos consumidores (gateway e MCP) — expor discovery e JWKS.
 - **Escopos** e **`audience`** por client: o gateway e o servidor MCP são _resource servers_
   distintos e devem validar `aud` e `scope`.
+- Gateway-only operations use the Gateway audience. Gateway-to-Identity federated operations
+  require the Identity audience as applicable; request both audiences when one flow calls both.
+- Bearer OAuth is delivered. DPoP transport is prepared/implemented, but production support
+  depends on the canonical external Gateway origin and a shared replay store: `htu` must match
+  the effective request URI, `htm` the method, and replayed `jti` values must be rejected.
+- Identity findings: `users` requires `identity:users:read`; `user(id)` is self/admin and denied
+  cross-user reads return `null`; the production provider is tested, legacy aliases are removed,
+  and `hasPreviousPage` is based on persisted rows.
+- Checkout card credential propagation is a separate tracked fix (T-273), not yet complete.
 - **Clients OAuth2 seedáveis** por script/fixture (ver seção 15): ao menos um client para o
   **Apollo MCP** e outro para o **cliente de teste**.
 
