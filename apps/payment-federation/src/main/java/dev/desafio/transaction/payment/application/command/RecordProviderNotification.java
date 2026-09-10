@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.application.command;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.domain.Payment;
 import org.axonframework.messaging.commandhandling.annotation.Command;
 import org.axonframework.modelling.annotation.TargetEntityId;
@@ -22,7 +23,7 @@ public record RecordProviderNotification(
     }
 
     private static String required(String value, String name) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");
+        if (value == null || value.isBlank()) throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         return value;
     }
 }

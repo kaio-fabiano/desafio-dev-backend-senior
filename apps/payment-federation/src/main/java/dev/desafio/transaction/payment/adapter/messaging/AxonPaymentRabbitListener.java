@@ -3,6 +3,7 @@ package dev.desafio.transaction.payment.adapter.messaging;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope;
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
 import dev.desafio.transaction.payment.application.command.RefundPayment;
 import dev.desafio.transaction.payment.domain.Payment;
@@ -32,7 +33,7 @@ public final class AxonPaymentRabbitListener {
             case "inventory.reserved.v1" -> request(event);
             case "inventory.commit-rejected.v1", "transaction.cancelled.v1" -> refund(event);
             default -> throw new ReliableAmqpConsumer.BusinessRejection(
-                "Payment does not consume " + event.eventType()
+                PaymentErrorMessages.paymentDoesNotConsume(event.eventType())
             );
         };
         commands.send(command, String.class).join();
@@ -65,7 +66,7 @@ public final class AxonPaymentRabbitListener {
 
     private String required(JsonNode payload, String field) {
         var value = payload.path(field).asText();
-        if (value.isBlank()) throw new IllegalArgumentException(field + " is required");
+        if (value.isBlank()) throw new IllegalArgumentException(PaymentErrorMessages.required(field));
         return value;
     }
 }

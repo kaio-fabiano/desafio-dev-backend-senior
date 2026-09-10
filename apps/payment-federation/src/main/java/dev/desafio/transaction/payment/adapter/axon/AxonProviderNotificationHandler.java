@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.adapter.axon;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import dev.desafio.transaction.payment.application.command.RecordProviderNotification;
@@ -33,7 +34,7 @@ public final class AxonProviderNotificationHandler {
         Objects.requireNonNull(notification, "notification");
         var state = provider.findByProviderReference(notification.providerReference());
         if (!notification.providerReference().equals(state.providerReference())) {
-            throw new IllegalStateException("provider notification resolved to a different payment");
+            throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_RESOLVED_TO_A_DIFFERENT_PAYMENT);
         }
         var claim = notifications.claimForAxon(
             notification.providerRequestId(), state, clock.instant()

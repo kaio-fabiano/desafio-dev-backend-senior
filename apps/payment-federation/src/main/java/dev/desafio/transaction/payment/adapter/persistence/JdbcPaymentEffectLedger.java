@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.adapter.persistence;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentEffectLedger;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.domain.Payment;
@@ -39,7 +40,7 @@ public final class JdbcPaymentEffectLedger implements PaymentEffectLedger {
              where effect_id = ?
             """, Boolean.class, effect.paymentId(), effect.operationKey(), effect.type().name(), effect.effectId());
         if (!Boolean.TRUE.equals(sameIntent)) {
-            throw new IllegalArgumentException("effectId identifies a conflicting payment intent");
+            throw new IllegalArgumentException(PaymentErrorMessages.EFFECT_ID_IDENTIFIES_CONFLICTING_PAYMENT_INTENT);
         }
         return false;
     }
@@ -71,7 +72,11 @@ public final class JdbcPaymentEffectLedger implements PaymentEffectLedger {
             """, result.providerReference(), result.status().name(), result.pixCode(),
             Timestamp.from(completedAt), effectId);
         if (updated == 1) return;
-        var stored = completed(effectId).orElseThrow(() -> new IllegalStateException("payment effect claim is missing"));
-        if (!stored.equals(result)) throw new IllegalArgumentException("payment effect completed with another result");
+        var stored = completed(effectId).orElseThrow(
+            () -> new IllegalStateException(PaymentErrorMessages.PAYMENT_EFFECT_CLAIM_IS_MISSING)
+        );
+        if (!stored.equals(result)) {
+            throw new IllegalArgumentException(PaymentErrorMessages.PAYMENT_EFFECT_COMPLETED_WITH_ANOTHER_RESULT);
+        }
     }
 }

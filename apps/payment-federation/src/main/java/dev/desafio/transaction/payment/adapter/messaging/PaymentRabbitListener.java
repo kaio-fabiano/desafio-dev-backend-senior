@@ -3,6 +3,7 @@ package dev.desafio.transaction.payment.adapter.messaging;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -186,7 +187,7 @@ public final class PaymentRabbitListener {
 
     private static String required(JsonNode node, String field) {
         var value = node.path(field).asText();
-        if (value.isBlank()) throw new IllegalArgumentException(field + " is required");
+        if (value.isBlank()) throw new IllegalArgumentException(PaymentErrorMessages.required(field));
         return value;
     }
 
@@ -197,7 +198,7 @@ public final class PaymentRabbitListener {
 
     private static JsonNode requiredObject(JsonNode node, String field) {
         var value = node.path(field);
-        if (!value.isObject()) throw new IllegalArgumentException(field + " is required");
+        if (!value.isObject()) throw new IllegalArgumentException(PaymentErrorMessages.required(field));
         return value;
     }
 }

@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.adapter.persistence;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentProjection;
 import dev.desafio.transaction.payment.application.event.PaymentApproved;
 import dev.desafio.transaction.payment.application.event.PaymentPending;
@@ -76,7 +77,7 @@ public final class JdbcPaymentProjection implements PaymentProjection {
                 sequence
             );
             if (exists == null || exists == 0) {
-                throw new IllegalStateException("Payment projection has no requested event");
+                throw new IllegalStateException(PaymentErrorMessages.PAYMENT_PROJECTION_HAS_NO_REQUESTED_EVENT);
             }
         }
     }

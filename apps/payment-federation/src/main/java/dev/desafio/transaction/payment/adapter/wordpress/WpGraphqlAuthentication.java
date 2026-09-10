@@ -1,6 +1,7 @@
 package dev.desafio.transaction.payment.adapter.wordpress;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,14 +32,16 @@ public final class WpGraphqlAuthentication {
             var payload = json.readTree(response.body());
             var token = payload.path("data").path("login").path("authToken").asText();
             if (response.statusCode() < 200 || response.statusCode() >= 300 || token.isBlank()) {
-                throw new IllegalStateException("WordPress service authentication failed: " + response.statusCode());
+                throw new IllegalStateException(
+                    PaymentErrorMessages.wordpressServiceAuthenticationFailed(response.statusCode())
+                );
             }
             return token;
         } catch (InterruptedException error) {
             Thread.currentThread().interrupt();
-            throw new IllegalStateException("WordPress service authentication interrupted", error);
+            throw new IllegalStateException(PaymentErrorMessages.WORDPRESS_SERVICE_AUTHENTICATION_INTERRUPTED, error);
         } catch (IOException error) {
-            throw new IllegalStateException("WordPress service authentication failed", error);
+            throw new IllegalStateException(PaymentErrorMessages.WORDPRESS_SERVICE_AUTHENTICATION_FAILED, error);
         }
     }
 }

@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.adapter.persistence;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 
@@ -56,10 +57,10 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             } catch (RuntimeException | SQLException error) {
                 rollback(connection, error);
                 if (error instanceof RuntimeException runtime) throw runtime;
-                throw new IllegalStateException("provider notification transaction failed", error);
+                throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_TRANSACTION_FAILED, error);
             }
         } catch (SQLException error) {
-            throw new IllegalStateException("payment database is unavailable", error);
+            throw new IllegalStateException(PaymentErrorMessages.PAYMENT_DATABASE_IS_UNAVAILABLE, error);
         }
     }
 
@@ -82,10 +83,10 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             } catch (RuntimeException | SQLException error) {
                 rollback(connection, error);
                 if (error instanceof RuntimeException runtime) throw runtime;
-                throw new IllegalStateException("provider notification claim failed", error);
+                throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_CLAIM_FAILED, error);
             }
         } catch (SQLException error) {
-            throw new IllegalStateException("payment database is unavailable", error);
+            throw new IllegalStateException(PaymentErrorMessages.PAYMENT_DATABASE_IS_UNAVAILABLE, error);
         }
     }
 
@@ -98,7 +99,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
         try (var connection = dataSource.getConnection()) {
             completeNotification(connection, providerRequestId, outcome, processedAt);
         } catch (SQLException error) {
-            throw new IllegalStateException("provider notification completion failed", error);
+            throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_COMPLETION_FAILED, error);
         }
     }
 
@@ -111,7 +112,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             """)) {
             statement.setString(1, providerRequestId);
             try (var rows = statement.executeQuery()) {
-                if (!rows.next()) throw new IllegalStateException("provider notification claim is missing");
+                if (!rows.next()) throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_CLAIM_IS_MISSING);
                 return rows.getString("processing_outcome") != null;
             }
         }
@@ -148,11 +149,11 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             statement.setString(1, providerReference);
             try (var rows = statement.executeQuery()) {
                 if (!rows.next()) {
-                    throw new IllegalStateException("provider notification does not match a stored payment");
+                    throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_DOES_NOT_MATCH_A_STORED_PAYMENT);
                 }
                 var payment = readPayment(rows);
                 if (rows.next()) {
-                    throw new IllegalStateException("provider reference matches more than one payment");
+                    throw new IllegalStateException(PaymentErrorMessages.PROVIDER_REFERENCE_MATCHES_MORE_THAN_ONE_PAYMENT);
                 }
                 return payment;
             }
@@ -198,7 +199,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             statement.setString(4, payment.currentStatus());
             statement.setString(5, payment.providerReference());
             if (statement.executeUpdate() != 1) {
-                throw new IllegalStateException("payment state changed while processing provider notification");
+                throw new IllegalStateException(PaymentErrorMessages.PAYMENT_STATE_CHANGED_WHILE_PROCESSING_PROVIDER_NOTIFICATION);
             }
         }
     }
@@ -288,7 +289,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             case "PIX_GENERATED" -> "payment.pix-generated";
             case "REFUNDED" -> "payment.refunded";
             case "REJECTED" -> "payment.failed";
-            default -> throw new IllegalArgumentException("status does not produce a payment event");
+            default -> throw new IllegalArgumentException(PaymentErrorMessages.STATUS_DOES_NOT_PRODUCE_A_PAYMENT_EVENT);
         };
     }
 
@@ -298,7 +299,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             case "PIX_GENERATED" -> "PIX_CODE_GENERATION";
             case "REFUNDED" -> "REFUND";
             case "REJECTED" -> "PAYMENT_REJECTION";
-            default -> throw new IllegalArgumentException("status does not produce a payment effect");
+            default -> throw new IllegalArgumentException(PaymentErrorMessages.STATUS_DOES_NOT_PRODUCE_A_PAYMENT_EFFECT);
         };
     }
 
@@ -317,7 +318,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
             statement.setTimestamp(2, Timestamp.from(processedAt));
             statement.setString(3, providerRequestId);
             if (statement.executeUpdate() != 1) {
-                throw new IllegalStateException("provider notification inbox record was not completed");
+                throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_INBOX_RECORD_WAS_NOT_COMPLETED);
             }
         }
     }
@@ -331,7 +332,7 @@ public final class JdbcProviderNotificationRepository implements ProviderNotific
 
     private String requireText(String value, String name) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(name + " is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         }
         return value;
     }

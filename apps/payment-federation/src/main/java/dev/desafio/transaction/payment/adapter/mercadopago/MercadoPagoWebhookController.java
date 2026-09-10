@@ -2,6 +2,7 @@ package dev.desafio.transaction.payment.adapter.mercadopago;
 
 import com.mercadopago.exceptions.MPInvalidWebhookSignatureException;
 import com.mercadopago.webhook.WebhookSignatureValidator;
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.adapter.axon.AxonProviderNotificationHandler;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
 import dev.desafio.transaction.payment.configuration.MercadoPagoProperties;
@@ -49,7 +50,7 @@ public final class MercadoPagoWebhookController {
     ) {
         this.handler = java.util.Objects.requireNonNull(handler, "handler");
         if (webhookSecret == null || webhookSecret.isBlank()) {
-            throw new IllegalArgumentException("webhookSecret is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required("webhookSecret"));
         }
         this.webhookSecret = webhookSecret;
     }

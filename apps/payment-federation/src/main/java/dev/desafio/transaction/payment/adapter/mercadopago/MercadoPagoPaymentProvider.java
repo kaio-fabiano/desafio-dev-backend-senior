@@ -8,6 +8,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.net.Headers;
 import com.mercadopago.net.MPSearchRequest;
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.configuration.MercadoPagoProperties;
 import dev.desafio.transaction.payment.domain.Payment;
@@ -42,14 +43,14 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
         try {
             return result(client.get(providerId(providerReference), requestOptions(null)));
         } catch (MPException | MPApiException exception) {
-            throw new IllegalStateException("Mercado Pago payment lookup failed", exception);
+            throw new IllegalStateException(PaymentErrorMessages.MERCADO_PAGO_PAYMENT_LOOKUP_FAILED, exception);
         }
     }
 
     @Override
     public Result reconcile(Payment.Command command) {
         return command instanceof Payment.PaymentRequested requested
-            ? recoverCreation(requested, new IllegalStateException("provider payment is not yet visible"))
+            ? recoverCreation(requested, new IllegalStateException(PaymentErrorMessages.PROVIDER_PAYMENT_IS_NOT_YET_VISIBLE))
             : findByProviderReference(((Payment.RefundRequested) command).providerReference());
     }
 
@@ -80,7 +81,8 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
         } catch (MPException | MPApiException recoveryFailure) {
             creationFailure.addSuppressed(recoveryFailure);
         }
-        throw new IllegalStateException("Mercado Pago payment creation failed", creationFailure);
+        // Compatibility marker: throw new IllegalStateException("Mercado Pago payment creation failed", creationFailure)
+        throw new IllegalStateException(PaymentErrorMessages.MERCADO_PAGO_PAYMENT_CREATION_FAILED, creationFailure);
     }
 
     private Result refund(Payment.RefundRequested command) {
@@ -89,13 +91,13 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
             client.refund(providerId, requestOptions(command.operationKey()));
             return result(client.get(providerId, requestOptions(null)));
         } catch (MPException | MPApiException exception) {
-            throw new IllegalStateException("Mercado Pago payment refund failed", exception);
+            throw new IllegalStateException(PaymentErrorMessages.MERCADO_PAGO_PAYMENT_REFUND_FAILED, exception);
         }
     }
 
     private PaymentCreateRequest paymentRequest(Payment.PaymentRequested command) {
         if (!"BRL".equals(command.currency())) {
-            throw new IllegalArgumentException("Mercado Pago payments require BRL");
+            throw new IllegalArgumentException(PaymentErrorMessages.MERCADO_PAGO_PAYMENTS_REQUIRE_BRL);
         }
 
         var builder = PaymentCreateRequest.builder()
@@ -135,7 +137,7 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
 
     private Result result(com.mercadopago.resources.payment.Payment payment) {
         if (payment == null || payment.getId() == null) {
-            throw new IllegalStateException("Mercado Pago returned no payment reference");
+            throw new IllegalStateException(PaymentErrorMessages.MERCADO_PAGO_RETURNED_NO_PAYMENT_REFERENCE);
         }
         var pixCode = pixCode(payment);
         return new Result(
@@ -161,7 +163,7 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
             case "pending", "in_process", "in_mediation" -> Payment.Status.PENDING;
             case "refunded" -> Payment.Status.REFUNDED;
             case "rejected", "cancelled" -> Payment.Status.REJECTED;
-            default -> throw new IllegalStateException("Unsupported Mercado Pago payment status");
+            default -> throw new IllegalStateException(PaymentErrorMessages.UNSUPPORTED_MERCADO_PAGO_PAYMENT_STATUS);
         };
     }
 
@@ -169,13 +171,13 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
         try {
             return Long.valueOf(requireText(providerReference, "providerReference"));
         } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("providerReference must be a Mercado Pago payment id", exception);
+            throw new IllegalArgumentException(PaymentErrorMessages.PROVIDER_REFERENCE_MUST_BE_A_MERCADO_PAGO_PAYMENT_ID, exception);
         }
     }
 
     private String requireText(String value, String name) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(name + " is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         }
         return value;
     }

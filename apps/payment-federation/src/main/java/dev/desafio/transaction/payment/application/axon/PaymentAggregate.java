@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.application.axon;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.command.RecordPaymentOutcome;
 import dev.desafio.transaction.payment.application.command.RefundPayment;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
@@ -56,22 +57,22 @@ public final class PaymentAggregate {
             || method != command.method()
             || amount.compareTo(command.amount()) != 0
             || !currency.equals(command.currency())) {
-            throw new IllegalArgumentException("payment identifiers identify a conflicting intent");
+            throw new IllegalArgumentException(PaymentErrorMessages.PAYMENT_IDENTIFIERS_IDENTIFY_A_CONFLICTING_INTENT);
         }
     }
 
     public Object record(RecordPaymentOutcome command, Instant now) {
         Objects.requireNonNull(command, "command");
         Objects.requireNonNull(now, "now");
-        if (!paymentId.equals(command.paymentId())) throw new IllegalArgumentException("paymentId does not match");
+        if (!paymentId.equals(command.paymentId())) throw new IllegalArgumentException(PaymentErrorMessages.PAYMENT_ID_DOES_NOT_MATCH);
         if (isSameOutcome(command)) return null;
         if (stage == Stage.APPROVED || stage == Stage.REJECTED || stage == Stage.REFUNDED) {
-            throw new IllegalStateException("terminal payment state cannot change");
+            throw new IllegalStateException(PaymentErrorMessages.TERMINAL_PAYMENT_STATE_CANNOT_CHANGE);
         }
         if (stage == Stage.REFUND_PENDING) {
             if (command.status() != Payment.Status.REFUNDED
                 || !providerReference.equals(command.providerReference())) {
-                throw new IllegalStateException("refund must preserve the approved provider reference");
+                throw new IllegalStateException(PaymentErrorMessages.REFUND_MUST_PRESERVE_APPROVED_PROVIDER_REFERENCE);
             }
             return new PaymentRefunded(
                 paymentId, transactionId, providerReference,
@@ -79,13 +80,13 @@ public final class PaymentAggregate {
             );
         }
         if (command.status() == Payment.Status.REFUNDED) {
-            throw new IllegalStateException("refund requires an approved payment");
+            throw new IllegalStateException(PaymentErrorMessages.REFUND_REQUIRES_APPROVED_PAYMENT);
         }
         if (method == Payment.Method.CARD && command.status() == Payment.Status.PIX_GENERATED) {
-            throw new IllegalArgumentException("Card payments cannot have Pix status");
+            throw new IllegalArgumentException(PaymentErrorMessages.CARD_PAYMENTS_CANNOT_HAVE_PIX_STATUS);
         }
         if (method == Payment.Method.PIX && command.status() == Payment.Status.AUTHORIZED) {
-            throw new IllegalArgumentException("Pix payments cannot have Card status");
+            throw new IllegalArgumentException(PaymentErrorMessages.PIX_PAYMENTS_CANNOT_HAVE_CARD_STATUS);
         }
         return switch (command.status()) {
             case PENDING, PIX_GENERATED -> new PaymentPending(
@@ -100,7 +101,7 @@ public final class PaymentAggregate {
                 paymentId, transactionId, command.providerReference(), "PROVIDER_REJECTED",
                 command.correlationId(), command.causationId(), now
             );
-            case REFUNDED -> throw new IllegalStateException("refund requires an approved payment");
+            case REFUNDED -> throw new IllegalStateException(PaymentErrorMessages.REFUND_REQUIRES_APPROVED_PAYMENT);
         };
     }
 
@@ -110,11 +111,11 @@ public final class PaymentAggregate {
         if (!paymentId.equals(command.paymentId())
             || !operationKey.equals(command.operationKey())
             || !transactionId.equals(command.transactionId())) {
-            throw new IllegalArgumentException("refund identifiers do not match the payment");
+            throw new IllegalArgumentException(PaymentErrorMessages.REFUND_IDENTIFIERS_DO_NOT_MATCH_PAYMENT);
         }
         if (stage == Stage.REFUND_PENDING || stage == Stage.REFUNDED) return null;
         if (method != Payment.Method.CARD || stage != Stage.APPROVED) {
-            throw new IllegalStateException("refund requires an approved Card payment");
+            throw new IllegalStateException(PaymentErrorMessages.REFUND_REQUIRES_APPROVED_CARD_PAYMENT);
         }
         return new PaymentRefundRequested(
             paymentId, operationKey, transactionId, providerReference, command.reason(),

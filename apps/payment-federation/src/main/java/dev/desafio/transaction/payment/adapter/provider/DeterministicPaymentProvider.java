@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.adapter.provider;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.domain.Payment;
 
@@ -27,7 +28,7 @@ public final class DeterministicPaymentProvider implements PaymentProvider {
 
     private static String requireReference(String value) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException("providerReference is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required("providerReference"));
         }
         return value;
     }

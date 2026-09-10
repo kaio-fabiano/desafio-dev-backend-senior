@@ -26,21 +26,21 @@ public record Payment(
         orderId = requireText(orderId, "orderId");
         Objects.requireNonNull(method, "method");
         Objects.requireNonNull(amount, "amount");
-        if (amount.signum() <= 0) throw new IllegalArgumentException("amount must be positive");
+        if (amount.signum() <= 0) throw new IllegalArgumentException(PaymentErrorMessages.AMOUNT_MUST_BE_POSITIVE);
         currency = requireText(currency, "currency").toUpperCase(Locale.ROOT);
         if (!currency.matches("[A-Z]{3}")) {
-            throw new IllegalArgumentException("currency must be ISO-4217");
+            throw new IllegalArgumentException(PaymentErrorMessages.CURRENCY_MUST_BE_ISO_4217);
         }
         Objects.requireNonNull(status, "status");
         providerReference = requireText(providerReference, "providerReference");
         if (method == Method.CARD && status == Status.PIX_GENERATED) {
-            throw new IllegalArgumentException("Card payments cannot have Pix status");
+            throw new IllegalArgumentException(PaymentErrorMessages.CARD_PAYMENTS_CANNOT_HAVE_PIX_STATUS);
         }
         if (method == Method.PIX && status == Status.AUTHORIZED) {
-            throw new IllegalArgumentException("Pix payments cannot have Card status");
+            throw new IllegalArgumentException(PaymentErrorMessages.PIX_PAYMENTS_CANNOT_HAVE_CARD_STATUS);
         }
         if ((status == Status.PIX_GENERATED) != hasText(pixCode)) {
-            throw new IllegalArgumentException("only generated Pix payments have a Pix code");
+            throw new IllegalArgumentException(PaymentErrorMessages.ONLY_GENERATED_PIX_PAYMENTS_HAVE_A_PIX_CODE);
         }
     }
 
@@ -50,7 +50,7 @@ public record Payment(
         if (result.status() == Status.REFUNDED
             || (command.method() == Method.CARD && result.status() == Status.PIX_GENERATED)
             || (command.method() == Method.PIX && result.status() == Status.AUTHORIZED)) {
-            throw new IllegalArgumentException("provider result is incompatible with the payment request");
+            throw new IllegalArgumentException(PaymentErrorMessages.PROVIDER_RESULT_IS_INCOMPATIBLE_WITH_PAYMENT_REQUEST);
         }
         return new Payment(
             command.paymentId(),
@@ -69,15 +69,15 @@ public record Payment(
         Objects.requireNonNull(command, "command");
         Objects.requireNonNull(result, "result");
         if (method != Method.CARD || (status != Status.AUTHORIZED && status != Status.REFUNDED)) {
-            throw new IllegalStateException("only an authorized Card payment can be refunded");
+            throw new IllegalStateException(PaymentErrorMessages.ONLY_AN_AUTHORIZED_CARD_PAYMENT_CAN_BE_REFUNDED);
         }
         if (!paymentId.equals(command.paymentId())
             || !operationKey.equals(command.operationKey())
             || !orderId.equals(command.orderId())) {
-            throw new IllegalArgumentException("refund identifiers do not match the authorized payment");
+            throw new IllegalArgumentException(PaymentErrorMessages.REFUND_IDENTIFIERS_DO_NOT_MATCH_AUTHORIZED_PAYMENT);
         }
         if (!providerReference.equals(result.providerReference()) || result.status() != Status.REFUNDED) {
-            throw new IllegalArgumentException("refund result does not match the authorized payment");
+            throw new IllegalArgumentException(PaymentErrorMessages.REFUND_RESULT_DOES_NOT_MATCH_AUTHORIZED_PAYMENT);
         }
         return status == Status.REFUNDED
             ? this
@@ -119,7 +119,7 @@ public record Payment(
             case PIX_GENERATED -> "payment.pix-generated";
             case REFUNDED -> "payment.refunded";
             case REJECTED -> "payment.failed";
-            case PENDING -> throw new IllegalStateException("pending payments do not emit result events");
+            case PENDING -> throw new IllegalStateException(PaymentErrorMessages.PENDING_PAYMENTS_DO_NOT_EMIT_RESULT_EVENTS);
         };
         var payload = new LinkedHashMap<String, String>();
         payload.put("paymentId", payment.paymentId);
@@ -150,7 +150,7 @@ public record Payment(
     }
 
     private static String requireText(String value, String name) {
-        if (!hasText(value)) throw new IllegalArgumentException(name + " is required");
+        if (!hasText(value)) throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         return value;
     }
 
@@ -191,7 +191,7 @@ public record Payment(
                 providerToken = requireText(providerToken, "providerToken");
                 paymentMethodId = requireText(paymentMethodId, "paymentMethodId");
             } else if (hasText(providerToken) || hasText(paymentMethodId)) {
-                throw new IllegalArgumentException("Pix payments do not accept Card provider fields");
+                throw new IllegalArgumentException(PaymentErrorMessages.PIX_PAYMENTS_DO_NOT_ACCEPT_CARD_PROVIDER_FIELDS);
             }
         }
     }
@@ -224,7 +224,7 @@ public record Payment(
             providerReference = requireText(providerReference, "providerReference");
             Objects.requireNonNull(status, "status");
             if ((status == Status.PIX_GENERATED) != hasText(pixCode)) {
-                throw new IllegalArgumentException("only generated Pix results have a Pix code");
+                throw new IllegalArgumentException(PaymentErrorMessages.ONLY_GENERATED_PIX_RESULTS_HAVE_A_PIX_CODE);
             }
         }
     }

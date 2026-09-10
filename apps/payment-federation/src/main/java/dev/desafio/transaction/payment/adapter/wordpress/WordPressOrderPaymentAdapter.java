@@ -1,6 +1,7 @@
 package dev.desafio.transaction.payment.adapter.wordpress;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.command.AuthorizePayment;
 import dev.desafio.transaction.payment.application.command.OrderPaymentPort;
 import dev.desafio.transaction.payment.application.query.PaymentView;
@@ -64,18 +65,20 @@ public final class WordPressOrderPaymentAdapter implements OrderPaymentPort {
             var payload = json.readTree(response.body());
             if (response.statusCode() < 200 || response.statusCode() >= 300
                 || !payload.path("errors").isMissingNode()) {
-                throw new IllegalStateException("WordPress federation payment update failed: " + response.statusCode());
+                throw new IllegalStateException(
+                    PaymentErrorMessages.wordpressFederationPaymentUpdateFailed(response.statusCode())
+                );
             }
         } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
-            throw new IllegalStateException("WordPress federation payment update interrupted", exception);
+            throw new IllegalStateException(PaymentErrorMessages.WORDPRESS_FEDERATION_PAYMENT_UPDATE_INTERRUPTED, exception);
         } catch (java.io.IOException exception) {
-            throw new IllegalStateException("WordPress federation payment update failed", exception);
+            throw new IllegalStateException(PaymentErrorMessages.WORDPRESS_FEDERATION_PAYMENT_UPDATE_FAILED, exception);
         }
     }
 
     private static String requireText(String value, String name) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");
+        if (value == null || value.isBlank()) throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         return value;
     }
 }

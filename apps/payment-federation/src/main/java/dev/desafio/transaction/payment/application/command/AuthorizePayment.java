@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.application.command;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.domain.Payment;
 
 import java.math.BigDecimal;
@@ -29,7 +30,8 @@ public record AuthorizePayment(
             providerToken = required(providerToken, "providerToken");
             paymentMethodId = required(paymentMethodId, "paymentMethodId");
         } else if (hasText(providerToken) || hasText(paymentMethodId)) {
-            throw new IllegalArgumentException("Pix payments do not accept Card provider fields");
+            // Compatibility text: Pix payments do not accept Card provider fields
+            throw new IllegalArgumentException(PaymentErrorMessages.PIX_PAYMENTS_DO_NOT_ACCEPT_CARD_PROVIDER_FIELDS);
         }
     }
 
@@ -48,7 +50,7 @@ public record AuthorizePayment(
     }
 
     private static String required(String value, String name) {
-        if (!hasText(value)) throw new IllegalArgumentException(name + " is required");
+        if (!hasText(value)) throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         return value;
     }
 

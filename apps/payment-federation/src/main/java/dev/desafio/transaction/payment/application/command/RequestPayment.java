@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.application.command;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.domain.Payment;
 import org.axonframework.messaging.commandhandling.annotation.Command;
 import org.axonframework.modelling.annotation.TargetEntityId;
@@ -27,9 +28,9 @@ public record RequestPayment(
         transactionId = required(transactionId, "transactionId");
         Objects.requireNonNull(method, "method");
         Objects.requireNonNull(amount, "amount");
-        if (amount.signum() <= 0) throw new IllegalArgumentException("amount must be positive");
+        if (amount.signum() <= 0) throw new IllegalArgumentException(PaymentErrorMessages.AMOUNT_MUST_BE_POSITIVE);
         currency = required(currency, "currency").toUpperCase(java.util.Locale.ROOT);
-        if (!currency.matches("[A-Z]{3}")) throw new IllegalArgumentException("currency must be ISO-4217");
+        if (!currency.matches("[A-Z]{3}")) throw new IllegalArgumentException(PaymentErrorMessages.CURRENCY_MUST_BE_ISO_4217);
         payerEmail = required(payerEmail, "payerEmail");
         correlationId = required(correlationId, "correlationId");
         causationId = required(causationId, "causationId");
@@ -37,7 +38,7 @@ public record RequestPayment(
             providerToken = required(providerToken, "providerToken");
             paymentMethodId = required(paymentMethodId, "paymentMethodId");
         } else if (hasText(providerToken) || hasText(paymentMethodId)) {
-            throw new IllegalArgumentException("Pix payments do not accept Card provider fields");
+            throw new IllegalArgumentException(PaymentErrorMessages.PIX_PAYMENTS_DO_NOT_ACCEPT_CARD_PROVIDER_FIELDS);
         }
     }
 
@@ -49,7 +50,7 @@ public record RequestPayment(
     }
 
     private static String required(String value, String field) {
-        if (!hasText(value)) throw new IllegalArgumentException(field + " is required");
+        if (!hasText(value)) throw new IllegalArgumentException(PaymentErrorMessages.required(field));
         return value;
     }
 

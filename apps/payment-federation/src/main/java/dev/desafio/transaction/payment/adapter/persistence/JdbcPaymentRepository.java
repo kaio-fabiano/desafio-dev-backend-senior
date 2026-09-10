@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.adapter.persistence;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.PaymentRepository;
 import dev.desafio.transaction.payment.domain.Payment;
@@ -33,7 +34,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
                     : Optional.empty();
             }
         } catch (SQLException error) {
-            throw new IllegalStateException("payment database is unavailable", error);
+            throw new IllegalStateException(PaymentErrorMessages.PAYMENT_DATABASE_IS_UNAVAILABLE, error);
         }
     }
 
@@ -42,15 +43,15 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         java.util.Objects.requireNonNull(command, "command");
         try (var connection = dataSource.getConnection()) {
             var payment = findPaymentForUpdate(connection, command.paymentId(), command.operationKey())
-                .orElseThrow(() -> new IllegalStateException("authorized payment does not exist"));
+                .orElseThrow(() -> new IllegalStateException(PaymentErrorMessages.AUTHORIZED_PAYMENT_DOES_NOT_EXIST));
             if (!payment.orderId().equals(command.orderId())
                 || (payment.status() != Payment.Status.AUTHORIZED
                     && payment.status() != Payment.Status.REFUNDED)) {
-                throw new IllegalStateException("authorized payment does not match the refund request");
+                throw new IllegalStateException(PaymentErrorMessages.AUTHORIZED_PAYMENT_DOES_NOT_MATCH_REFUND_REQUEST);
             }
             return payment.providerReference();
         } catch (SQLException error) {
-            throw new IllegalStateException("payment database is unavailable", error);
+            throw new IllegalStateException(PaymentErrorMessages.PAYMENT_DATABASE_IS_UNAVAILABLE, error);
         }
     }
 
@@ -84,7 +85,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
                     effectId = ensureEffect(connection, payment, effectType(payment.status()), occurredAt);
                     insertOutbox(connection, effectId, event);
                     event = findOutbox(connection, effectId, payment)
-                        .orElseThrow(() -> new IllegalStateException("payment outbox event was not persisted"));
+                        .orElseThrow(() -> new IllegalStateException(PaymentErrorMessages.PAYMENT_OUTBOX_EVENT_WAS_NOT_PERSISTED));
                 }
                 completeInbox(connection, incomingEventId, payment.paymentId(), effectId,
                     event == null ? null : event.eventId());
@@ -93,10 +94,10 @@ public final class JdbcPaymentRepository implements PaymentRepository {
             } catch (RuntimeException | SQLException error) {
                 rollback(connection, error);
                 if (error instanceof RuntimeException runtime) throw runtime;
-                throw new IllegalStateException("payment transaction failed", error);
+                throw new IllegalStateException(PaymentErrorMessages.PAYMENT_TRANSACTION_FAILED, error);
             }
         } catch (SQLException error) {
-            throw new IllegalStateException("payment database is unavailable", error);
+            throw new IllegalStateException(PaymentErrorMessages.PAYMENT_DATABASE_IS_UNAVAILABLE, error);
         }
     }
 
@@ -110,11 +111,11 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         if (stored.isEmpty()) {
             insertPayment(connection, proposed);
             return findPaymentForUpdate(connection, command.paymentId(), command.operationKey())
-                .orElseThrow(() -> new IllegalStateException("payment was not persisted"));
+                .orElseThrow(() -> new IllegalStateException(PaymentErrorMessages.PAYMENT_WAS_NOT_PERSISTED));
         }
         var payment = stored.orElseThrow();
         if (!payment.hasSameIdentity(proposed)) {
-            throw new IllegalArgumentException("operationKey and paymentId identify a different payment");
+            throw new IllegalArgumentException(PaymentErrorMessages.OPERATION_KEY_AND_PAYMENT_ID_IDENTIFY_A_DIFFERENT_PAYMENT);
         }
         if (payment.status() == Payment.Status.PENDING && proposed.status() != Payment.Status.PENDING) {
             updatePayment(connection, proposed, Payment.Status.PENDING);
@@ -129,7 +130,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         PaymentProvider.Result providerResult
     ) throws SQLException {
         var stored = findPaymentForUpdate(connection, command.paymentId(), command.operationKey())
-            .orElseThrow(() -> new IllegalStateException("authorized payment does not exist"));
+            .orElseThrow(() -> new IllegalStateException(PaymentErrorMessages.AUTHORIZED_PAYMENT_DOES_NOT_EXIST));
         var refunded = stored.refund(command, providerResult.toDomainResult());
         if (stored.status() == Payment.Status.AUTHORIZED) {
             updatePayment(connection, refunded, Payment.Status.AUTHORIZED);
@@ -143,18 +144,18 @@ public final class JdbcPaymentRepository implements PaymentRepository {
         Payment.Command command
     ) throws SQLException {
         var payment = findPaymentForUpdate(connection, command.paymentId(), command.operationKey())
-            .orElseThrow(() -> new IllegalStateException("claimed payment inbox record is incomplete"));
+            .orElseThrow(() -> new IllegalStateException(PaymentErrorMessages.CLAIMED_PAYMENT_INBOX_RECORD_IS_INCOMPLETE));
         try (var statement = connection.prepareStatement("""
             select result_event_id from payment.payment_inbox where event_id = ?
             """)) {
             statement.setObject(1, incomingEventId);
             try (var rows = statement.executeQuery()) {
-                if (!rows.next()) throw new IllegalStateException("claimed payment inbox record is missing");
+                if (!rows.next()) throw new IllegalStateException(PaymentErrorMessages.CLAIMED_PAYMENT_INBOX_RECORD_IS_MISSING);
                 var resultEventId = rows.getObject("result_event_id", UUID.class);
                 var event = resultEventId == null
                     ? null
                     : findOutboxById(connection, resultEventId, payment)
-                        .orElseThrow(() -> new IllegalStateException("claimed payment result is incomplete"));
+                        .orElseThrow(() -> new IllegalStateException(PaymentErrorMessages.CLAIMED_PAYMENT_RESULT_IS_INCOMPLETE));
                 return new ProcessingResult(payment, event, true);
             }
         }
@@ -178,7 +179,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
                 if (!rows.next()) return Optional.empty();
                 var payment = readPayment(rows);
                 if (rows.next()) {
-                    throw new IllegalArgumentException("paymentId and operationKey identify different payments");
+                    throw new IllegalArgumentException(PaymentErrorMessages.PAYMENT_ID_AND_OPERATION_KEY_IDENTIFY_DIFFERENT_PAYMENTS);
                 }
                 return Optional.of(payment);
             }
@@ -214,7 +215,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
             statement.setString(4, payment.paymentId());
             statement.setString(5, expectedStatus.name());
             if (statement.executeUpdate() != 1) {
-                throw new IllegalStateException("payment state changed while processing provider result");
+                throw new IllegalStateException(PaymentErrorMessages.PAYMENT_STATE_CHANGED_WHILE_PROCESSING_PROVIDER_RESULT);
             }
         }
     }
@@ -349,7 +350,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
                     case "payment.pix-generated" -> Payment.Status.PIX_GENERATED;
                     case "payment.refunded" -> Payment.Status.REFUNDED;
                     case "payment.failed" -> Payment.Status.REJECTED;
-                    default -> throw new IllegalStateException("unsupported payment outbox event");
+                    default -> throw new IllegalStateException(PaymentErrorMessages.UNSUPPORTED_PAYMENT_OUTBOX_EVENT);
                 };
                 var stored = Payment.resultEvent(payment, status, rows.getTimestamp("occurred_at").toInstant());
                 return Optional.of(new Payment.OutgoingEvent(
@@ -391,7 +392,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
             statement.setObject(3, resultEventId);
             statement.setObject(4, incomingEventId);
             if (statement.executeUpdate() != 1) {
-                throw new IllegalStateException("payment inbox record was not completed");
+                throw new IllegalStateException(PaymentErrorMessages.PAYMENT_INBOX_RECORD_WAS_NOT_COMPLETED);
             }
         }
     }
@@ -416,7 +417,7 @@ public final class JdbcPaymentRepository implements PaymentRepository {
             case PIX_GENERATED -> "PIX_CODE_GENERATION";
             case REFUNDED -> "REFUND";
             case REJECTED -> "PAYMENT_REJECTION";
-            case PENDING -> throw new IllegalArgumentException("pending payments have no effect");
+            case PENDING -> throw new IllegalArgumentException(PaymentErrorMessages.PENDING_PAYMENTS_HAVE_NO_EFFECT);
         };
     }
 

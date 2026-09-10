@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.application;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Objects;
@@ -23,7 +24,7 @@ public final class ProviderNotificationHandler {
         Objects.requireNonNull(notification, "notification");
         var authoritativeState = provider.findByProviderReference(notification.providerReference());
         if (!notification.providerReference().equals(authoritativeState.providerReference())) {
-            throw new IllegalStateException("provider notification resolved to a different payment");
+            throw new IllegalStateException(PaymentErrorMessages.PROVIDER_NOTIFICATION_RESOLVED_TO_A_DIFFERENT_PAYMENT);
         }
         return repository.apply(notification.providerRequestId(), authoritativeState, clock.instant());
     }
@@ -47,11 +48,11 @@ public final class ProviderNotificationHandler {
             PaymentProvider.Result authoritativeState,
             Instant receivedAt
         ) {
-            throw new UnsupportedOperationException("Axon notification claims are not supported");
+            throw new UnsupportedOperationException(PaymentErrorMessages.AXON_NOTIFICATION_CLAIMS_ARE_NOT_SUPPORTED);
         }
 
         default void completeForAxon(String providerRequestId, Outcome outcome, Instant processedAt) {
-            throw new UnsupportedOperationException("Axon notification completion is not supported");
+            throw new UnsupportedOperationException(PaymentErrorMessages.AXON_NOTIFICATION_COMPLETION_IS_NOT_SUPPORTED);
         }
     }
 
@@ -66,7 +67,7 @@ public final class ProviderNotificationHandler {
 
     private static String requireText(String value, String name) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(name + " is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         }
         return value;
     }

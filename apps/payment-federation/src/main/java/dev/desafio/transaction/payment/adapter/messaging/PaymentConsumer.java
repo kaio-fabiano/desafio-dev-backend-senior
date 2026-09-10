@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.adapter.messaging;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.application.PaymentHandler;
 import dev.desafio.transaction.payment.application.PaymentRepository;
 import dev.desafio.transaction.payment.application.command.AuthorizePayment;
@@ -42,7 +43,7 @@ public final class PaymentConsumer {
                 required(delivery.reason(), "reason")
             );
             default -> throw new IllegalArgumentException(
-                "unsupported payment event: " + delivery.eventType()
+                PaymentErrorMessages.unsupportedPaymentEvent(delivery.eventType())
             );
         };
 
@@ -53,7 +54,7 @@ public final class PaymentConsumer {
 
     private static String required(String value, String name) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(name + " is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required(name));
         }
         return value;
     }

@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.application.command;
 
+import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.domain.Payment;
 import org.axonframework.messaging.commandhandling.annotation.Command;
 import org.axonframework.modelling.annotation.TargetEntityId;
@@ -16,16 +17,16 @@ public record RecordPaymentOutcome(
     String causationId
 ) {
     public RecordPaymentOutcome {
-        if (paymentId == null || paymentId.isBlank()) throw new IllegalArgumentException("paymentId is required");
+        if (paymentId == null || paymentId.isBlank()) throw new IllegalArgumentException(PaymentErrorMessages.required("paymentId"));
         if (providerReference == null || providerReference.isBlank()) {
-            throw new IllegalArgumentException("providerReference is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required("providerReference"));
         }
         Objects.requireNonNull(status, "status");
         if (correlationId == null || correlationId.isBlank()) {
-            throw new IllegalArgumentException("correlationId is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required("correlationId"));
         }
         if (causationId == null || causationId.isBlank()) {
-            throw new IllegalArgumentException("causationId is required");
+            throw new IllegalArgumentException(PaymentErrorMessages.required("causationId"));
         }
     }
 }
