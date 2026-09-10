@@ -23,9 +23,34 @@ public record ReserveInventoryCommand(
     BigDecimal amount,
     String currency,
     String payerEmail,
+    String providerToken,
+    String paymentMethodId,
     String correlationId,
     String causationId
 ) {
+    public ReserveInventoryCommand(
+        String inventoryReservationId,
+        UUID incomingEventId,
+        String operationKey,
+        String transactionId,
+        String orderId,
+        List<StockItem> items,
+        String paymentId,
+        String paymentOperationKey,
+        String paymentMethod,
+        BigDecimal amount,
+        String currency,
+        String payerEmail,
+        String correlationId,
+        String causationId
+    ) {
+        this(
+            inventoryReservationId, incomingEventId, operationKey, transactionId, orderId, items,
+            paymentId, paymentOperationKey, paymentMethod, amount, currency, payerEmail, null, null,
+            correlationId, causationId
+        );
+    }
+
     public ReserveInventoryCommand(
         String inventoryReservationId,
         UUID incomingEventId,
@@ -39,7 +64,7 @@ public record ReserveInventoryCommand(
         this(
             inventoryReservationId, incomingEventId, operationKey, transactionId, orderId, items,
             transactionId, correlationId + ":payment", "PIX", BigDecimal.ONE, "BRL",
-            transactionId + "@example.test", correlationId, causationId
+            transactionId + "@example.test", null, null, correlationId, causationId
         );
     }
 

@@ -45,12 +45,13 @@ class InventoryIntegrationEventHandlerTest {
         handler.on(new InventoryReservedAxonEvent("tx-card", new InventoryReservedEvent(
             "inventory:tx-card", "tx-card", "order-card", List.of(new StockItem("1001", 1)),
             "payment:tx-card", "operation-card:payment", "CARD", new BigDecimal("19.90"),
-            "BRL", "buyer@example.test", 1, "operation-card", "event-card", Instant.EPOCH
+            "BRL", "buyer@example.test", "provider-token", "visa", 1, "operation-card",
+            "event-card", Instant.EPOCH
         )));
 
         var payload = published.getFirst().payload();
-        assertEquals("payment:tx-card", payload.get("providerCredentialReference"));
-        assertEquals("card", payload.get("paymentMethodId"));
+        assertEquals("provider-token", payload.get("providerCredentialReference"));
+        assertEquals("visa", payload.get("paymentMethodId"));
         assertFalse(payload.containsKey("providerToken"));
     }
 }

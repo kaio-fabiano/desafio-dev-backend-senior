@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -49,6 +50,21 @@ class CheckoutServiceTest {
             "order-workflow-55481d1f7ae76f7a8f235a304f5980deaa321a9c3d42d73430ccb34df8ac15f8",
             CheckoutCommandHash.wooReference("buyer-1", "operation-1")
         );
+    }
+
+    @Test
+    @DisplayName("Card checkout preserves provider credentials in StartTransaction @spec:AC-306")
+    void cardCheckoutPreservesProviderCredentialsInStartTransaction() {
+        var started = new AtomicReference<StartTransaction>();
+        var service = service(new MemoryCheckoutRepository(), request -> ORDER, command -> {
+            started.set(command);
+            return command.transactionId();
+        });
+
+        service.checkout(COMMAND);
+
+        assertEquals("provider-token", started.get().providerToken());
+        assertEquals("visa", started.get().paymentMethodId());
     }
 
     @Test

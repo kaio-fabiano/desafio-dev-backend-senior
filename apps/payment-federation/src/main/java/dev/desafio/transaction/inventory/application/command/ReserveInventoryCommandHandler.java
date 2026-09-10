@@ -54,8 +54,8 @@ public final class ReserveInventoryCommandHandler {
         var event = new dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent(
             command.inventoryReservationId(), command.transactionId(), command.orderId(), command.items(),
             command.paymentId(), command.paymentOperationKey(), command.paymentMethod(), command.amount(),
-            command.currency(), command.payerEmail(), 1, command.correlationId(), command.causationId(),
-            clock.instant()
+            command.currency(), command.payerEmail(), command.providerToken(), command.paymentMethodId(),
+            1, command.correlationId(), command.causationId(), clock.instant()
         );
         appender.append(new dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent(
             command.inventoryReservationId(), event

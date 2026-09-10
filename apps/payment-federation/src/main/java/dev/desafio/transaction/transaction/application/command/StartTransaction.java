@@ -18,8 +18,26 @@ public record StartTransaction(
     List<Transaction.Item> items,
     BigDecimal amount,
     String currency,
-    String paymentMethod
+    String paymentMethod,
+    String providerToken,
+    String paymentMethodId
 ) {
+    public StartTransaction(
+        String transactionId,
+        String operationKey,
+        String owner,
+        String wooOrderId,
+        List<Transaction.Item> items,
+        BigDecimal amount,
+        String currency,
+        String paymentMethod
+    ) {
+        this(
+            transactionId, operationKey, owner, wooOrderId, items, amount, currency,
+            paymentMethod, null, null
+        );
+    }
+
     public StartTransaction {
         transactionId = required(transactionId, "transactionId");
         operationKey = required(operationKey, "operationKey");
