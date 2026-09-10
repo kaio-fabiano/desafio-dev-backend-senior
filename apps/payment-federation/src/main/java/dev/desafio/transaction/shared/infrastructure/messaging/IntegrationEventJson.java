@@ -34,7 +34,7 @@ public final class IntegrationEventJson {
         try {
             return json.writeValueAsBytes(event);
         } catch (JsonProcessingException error) {
-            throw new IllegalArgumentException("integration event cannot be serialized", error);
+            throw new IllegalArgumentException(MessagingErrorMessages.SERIALIZATION_FAILED, error);
         }
     }
 
@@ -43,7 +43,7 @@ public final class IntegrationEventJson {
         if (node.isObject()) {
             node.fieldNames().forEachRemaining(field -> {
                 if (FORBIDDEN_CREDENTIAL_FIELDS.contains(field)) {
-                    throw new IllegalArgumentException("reusable credentials are forbidden in integration events");
+                    throw new IllegalArgumentException(MessagingErrorMessages.REUSABLE_CREDENTIALS);
                 }
                 rejectReusableCredentials(node.get(field));
             });

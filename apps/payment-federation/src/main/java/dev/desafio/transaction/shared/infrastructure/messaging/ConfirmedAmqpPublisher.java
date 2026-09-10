@@ -40,7 +40,9 @@ public final class ConfirmedAmqpPublisher {
                 body
             );
             channel.waitForConfirmsOrDie(10_000);
-            if (returned.get() != null) throw new AmqpException("unroutable event: " + returned.get());
+            if (returned.get() != null) {
+                throw new AmqpException(MessagingErrorMessages.unroutableEvent(returned.get()));
+            }
             return null;
         });
     }

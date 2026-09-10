@@ -25,7 +25,9 @@ public final class JdbcOutboxStore {
     private final ObjectMapper json;
 
     public JdbcOutboxStore(DataSource dataSource, ObjectMapper json, String schema) {
-        if (!OWNED_SCHEMAS.contains(schema)) throw new IllegalArgumentException("unknown context schema");
+        if (!OWNED_SCHEMAS.contains(schema)) {
+            throw new IllegalArgumentException(PersistenceErrorMessages.UNKNOWN_CONTEXT_SCHEMA);
+        }
         this.table = schema + ".amqp_outbox";
         this.jdbc = new JdbcTemplate(dataSource);
         this.transaction = new TransactionTemplate(new DataSourceTransactionManager(dataSource));
@@ -48,7 +50,7 @@ public final class JdbcOutboxStore {
                 sourceEventId
             );
             if (!Boolean.TRUE.equals(sameEnvelope)) {
-                throw new IllegalArgumentException("sourceEventId identifies a different envelope");
+                throw new IllegalArgumentException(PersistenceErrorMessages.OUTBOX_EVENT_CONFLICT);
             }
         }
     }
@@ -84,7 +86,9 @@ public final class JdbcOutboxStore {
                 + " where event_id = ? and claimed_by = ? and published_at is null",
             Timestamp.from(publishedAt), eventId, relayId
         );
-        if (updated != 1) throw new IllegalStateException("outbox claim was lost");
+        if (updated != 1) {
+            throw new IllegalStateException(PersistenceErrorMessages.OUTBOX_CLAIM_LOST);
+        }
     }
 
     public void release(UUID eventId, String relayId, Exception error) {
@@ -107,7 +111,7 @@ public final class JdbcOutboxStore {
         try {
             return json.writeValueAsString(event);
         } catch (JsonProcessingException error) {
-            throw new IllegalArgumentException("integration event cannot be serialized", error);
+            throw new IllegalArgumentException(PersistenceErrorMessages.SERIALIZATION_FAILED, error);
         }
     }
 

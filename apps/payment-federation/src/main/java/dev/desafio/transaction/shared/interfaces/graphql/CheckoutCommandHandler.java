@@ -16,7 +16,9 @@ public final class CheckoutCommandHandler {
 
     @CommandHandler
     public CheckoutResult handle(CheckoutCommand command) {
-        return checkout.orElseThrow(() -> new IllegalStateException("Checkout writes are unavailable"))
+        return checkout.orElseThrow(
+            () -> new IllegalStateException(GraphQlErrorMessages.CHECKOUT_WRITES_UNAVAILABLE)
+        )
             .checkout(command);
     }
 }

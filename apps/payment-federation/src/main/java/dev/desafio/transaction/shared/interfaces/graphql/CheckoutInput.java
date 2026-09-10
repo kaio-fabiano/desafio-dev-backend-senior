@@ -17,13 +17,13 @@ public record CheckoutInput(
         paymentMethod = required(paymentMethod, "paymentMethod").toUpperCase(Locale.ROOT);
         payerEmail = required(payerEmail, "payerEmail");
         if (!paymentMethod.equals("CARD") && !paymentMethod.equals("PIX")) {
-            throw new IllegalArgumentException("paymentMethod must be CARD or PIX");
+            throw new IllegalArgumentException(GraphQlErrorMessages.PAYMENT_METHOD);
         }
         if (paymentMethod.equals("CARD")) {
             providerToken = required(providerToken, "providerToken");
             paymentMethodId = required(paymentMethodId, "paymentMethodId");
         } else if (hasText(providerToken) || hasText(paymentMethodId)) {
-            throw new IllegalArgumentException("Pix checkout does not accept Card provider fields");
+            throw new IllegalArgumentException(GraphQlErrorMessages.PIX_CARD_FIELDS);
         }
     }
 
@@ -34,7 +34,9 @@ public record CheckoutInput(
     }
 
     private static String required(String value, String name) {
-        if (!hasText(value)) throw new IllegalArgumentException(name + " is required");
+        if (!hasText(value)) {
+            throw new IllegalArgumentException(GraphQlErrorMessages.required(name));
+        }
         return value;
     }
 

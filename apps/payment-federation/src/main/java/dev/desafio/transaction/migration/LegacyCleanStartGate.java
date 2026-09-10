@@ -69,9 +69,7 @@ public final class LegacyCleanStartGate implements ApplicationRunner {
             if (!audit.passed()) throw new BlockedException(audit);
             return audit;
         } catch (SQLException error) {
-            throw new IllegalStateException(
-                "Legacy clean-start blocked because durable state could not be inspected", error
-            );
+            throw new IllegalStateException(MigrationErrorMessages.INSPECTION_BLOCKED, error);
         }
     }
 
@@ -95,7 +93,9 @@ public final class LegacyCleanStartGate implements ApplicationRunner {
     }
 
     private static String required(String value, String property) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(property + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(MigrationErrorMessages.required(property));
+        }
         return value;
     }
 
@@ -116,7 +116,7 @@ public final class LegacyCleanStartGate implements ApplicationRunner {
         private final Audit audit;
 
         BlockedException(Audit audit) {
-            super("Legacy clean-start blocked: " + audit);
+            super(MigrationErrorMessages.blocked(audit));
             this.audit = audit;
         }
 

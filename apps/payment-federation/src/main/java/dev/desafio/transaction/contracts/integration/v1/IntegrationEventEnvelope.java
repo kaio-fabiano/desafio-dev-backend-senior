@@ -16,22 +16,24 @@ public record IntegrationEventEnvelope<T>(
     T payload
 ) {
     public IntegrationEventEnvelope {
-        Objects.requireNonNull(eventId, "eventId");
+        Objects.requireNonNull(eventId, IntegrationEventErrorMessages.EVENT_ID_REQUIRED);
         eventType = required(eventType, "eventType");
         if (!eventType.endsWith(".v1")) {
-            throw new IllegalArgumentException("eventType must end with .v1");
+            throw new IllegalArgumentException(IntegrationEventErrorMessages.EVENT_TYPE_VERSION);
         }
-        if (version != 1) throw new IllegalArgumentException("version must be 1");
+        if (version != 1) throw new IllegalArgumentException(IntegrationEventErrorMessages.VERSION);
         aggregateId = required(aggregateId, "aggregateId");
         transactionId = required(transactionId, "transactionId");
         correlationId = required(correlationId, "correlationId");
         causationId = required(causationId, "causationId");
-        Objects.requireNonNull(occurredAt, "occurredAt");
-        Objects.requireNonNull(payload, "payload");
+        Objects.requireNonNull(occurredAt, IntegrationEventErrorMessages.OCCURRED_AT_REQUIRED);
+        Objects.requireNonNull(payload, IntegrationEventErrorMessages.PAYLOAD_REQUIRED);
     }
 
     private static String required(String value, String field) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(field + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(IntegrationEventErrorMessages.required(field));
+        }
         return value;
     }
 }

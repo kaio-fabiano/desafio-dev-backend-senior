@@ -36,7 +36,7 @@ public final class OutboxRelay {
             try {
                 var event = json.read(message.envelope().getBytes(StandardCharsets.UTF_8));
                 if (!message.routingKey().equals(event.eventType())) {
-                    throw new IllegalArgumentException("outbox routing key does not match event type");
+                    throw new IllegalArgumentException(MessagingErrorMessages.ROUTING_KEY_MISMATCH);
                 }
                 publisher.publish(event);
                 outbox.markPublished(message.eventId(), relayId, clock.instant());
@@ -45,7 +45,7 @@ public final class OutboxRelay {
                 outbox.release(message.eventId(), relayId, error);
                 throw error instanceof RuntimeException runtime
                     ? runtime
-                    : new IllegalStateException("outbox publication failed", error);
+                    : new IllegalStateException(MessagingErrorMessages.PUBLICATION_FAILED, error);
             }
         }
         return published;

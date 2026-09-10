@@ -20,7 +20,9 @@ public final class JdbcInboxStore {
     private final ObjectMapper json;
 
     public JdbcInboxStore(DataSource dataSource, ObjectMapper json, String schema) {
-        if (!OWNED_SCHEMAS.contains(schema)) throw new IllegalArgumentException("unknown context schema");
+        if (!OWNED_SCHEMAS.contains(schema)) {
+            throw new IllegalArgumentException(PersistenceErrorMessages.UNKNOWN_CONTEXT_SCHEMA);
+        }
         this.table = schema + ".amqp_inbox";
         this.jdbc = new JdbcTemplate(dataSource);
         this.transaction = new TransactionTemplate(new DataSourceTransactionManager(dataSource));
@@ -52,7 +54,7 @@ public final class JdbcInboxStore {
                     event.eventId()
                 );
                 if (!Boolean.TRUE.equals(sameEnvelope)) {
-                    throw new IllegalArgumentException("eventId identifies a different envelope");
+                    throw new IllegalArgumentException(PersistenceErrorMessages.INBOX_EVENT_CONFLICT);
                 }
                 return "PROCESSING".equals(jdbc.queryForObject(
                     "select disposition from " + table
@@ -75,7 +77,9 @@ public final class JdbcInboxStore {
             consumer,
             event.eventId()
         ));
-        if (updated != 1) throw new IllegalStateException("inbox completion was not persisted");
+        if (updated != 1) {
+            throw new IllegalStateException(PersistenceErrorMessages.INBOX_COMPLETION_LOST);
+        }
         return true;
     }
 
@@ -92,7 +96,7 @@ public final class JdbcInboxStore {
         try {
             return json.writeValueAsString(event);
         } catch (JsonProcessingException error) {
-            throw new IllegalArgumentException("integration event cannot be serialized", error);
+            throw new IllegalArgumentException(PersistenceErrorMessages.SERIALIZATION_FAILED, error);
         }
     }
 
