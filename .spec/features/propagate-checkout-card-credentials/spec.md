@@ -1,7 +1,7 @@
 # Spec: Propagate checkout card credentials
 
 > feature: propagate-checkout-card-credentials
-> status: rascunho
+> status: implementada
 
 ## Contexto
 

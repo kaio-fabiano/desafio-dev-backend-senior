@@ -8,7 +8,8 @@
     "libs/**/*.spec.ts",
     "src/**/*.test.*",
     "src/**/*.spec.*",
-    "__tests__/**"
+    "__tests__/**",
+    "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java"
   ],
   "srcGlobs": [
     "apps/**/src/**/*.ts",
