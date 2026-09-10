@@ -10,6 +10,7 @@ import dev.desafio.transaction.shared.infrastructure.messaging.ReliableAmqpConsu
 import dev.desafio.transaction.shared.infrastructure.persistence.JdbcInboxStore;
 import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcome;
 import dev.desafio.transaction.transaction.domain.Transaction;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -56,7 +57,7 @@ public final class TransactionRabbitListener {
             case "inventory.commit-rejected.v1" -> Transaction.Outcome.INVENTORY_COMMIT_REJECTED;
             case "payment.refunded.v1" -> Transaction.Outcome.PAYMENT_REFUNDED;
             default -> throw new ReliableAmqpConsumer.BusinessRejection(
-                "Transaction does not consume " + event.eventType()
+                TransactionErrorMessages.unsupportedEvent(event.eventType())
             );
         };
         commands.sendAndWait(new RecordTransactionOutcome(

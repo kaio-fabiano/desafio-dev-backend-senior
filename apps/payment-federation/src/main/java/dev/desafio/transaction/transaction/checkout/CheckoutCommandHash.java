@@ -2,6 +2,7 @@ package dev.desafio.transaction.transaction.checkout;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -35,7 +36,7 @@ public final class CheckoutCommandHash {
             var bytes = JSON.writeValueAsBytes(value);
             return java.util.HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(bytes));
         } catch (JsonProcessingException | NoSuchAlgorithmException error) {
-            throw new IllegalStateException("checkout command cannot be hashed", error);
+            throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_COMMAND_HASH_FAILED, error);
         }
     }
 }

@@ -1,6 +1,7 @@
 package dev.desafio.transaction.transaction.application.command;
 
 import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.axonframework.messaging.eventhandling.gateway.EventAppender;
 import org.axonframework.modelling.annotation.InjectEntity;
@@ -24,7 +25,7 @@ public final class StartTransactionHandler {
     ) {
         if (existing.isPresent()) {
             if (!existing.orElseThrow().matches(command)) {
-                throw new IllegalArgumentException("transactionId identifies a different checkout");
+                throw new IllegalArgumentException(TransactionErrorMessages.TRANSACTION_ID_CHECKOUT_MISMATCH);
             }
             return command.transactionId();
         }

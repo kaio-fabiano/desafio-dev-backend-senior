@@ -1,5 +1,7 @@
 package dev.desafio.transaction.transaction.checkout;
 
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
+
 public record CheckoutCommand(
     String subject,
     String operationKey,
@@ -26,18 +28,18 @@ public record CheckoutCommand(
         paymentMethod = required(paymentMethod, "paymentMethod").toUpperCase(java.util.Locale.ROOT);
         payerEmail = required(payerEmail, "payerEmail");
         if (!paymentMethod.equals("CARD") && !paymentMethod.equals("PIX")) {
-            throw new IllegalArgumentException("paymentMethod must be CARD or PIX");
+            throw new IllegalArgumentException(TransactionErrorMessages.PAYMENT_METHOD_INVALID);
         }
         if (paymentMethod.equals("CARD")) {
             providerToken = required(providerToken, "providerToken");
             paymentMethodId = required(paymentMethodId, "paymentMethodId");
         } else if (hasText(providerToken) || hasText(paymentMethodId)) {
-            throw new IllegalArgumentException("Pix checkout does not accept Card provider fields");
+            throw new IllegalArgumentException(TransactionErrorMessages.PIX_CARD_FIELDS_FORBIDDEN);
         }
     }
 
     private static String required(String value, String name) {
-        if (!hasText(value)) throw new IllegalArgumentException(name + " is required");
+        if (!hasText(value)) throw new IllegalArgumentException(TransactionErrorMessages.required(name));
         return value;
     }
 

@@ -1,6 +1,7 @@
 package dev.desafio.transaction.transaction.checkout;
 
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -77,7 +78,7 @@ public final class CheckoutService {
             throw error;
         } catch (Exception error) {
             operations.release(operation.transactionId(), owner, clock.instant());
-            throw new IllegalStateException("WooCommerce checkout failed", error);
+            throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_CHECKOUT_FAILED, error);
         }
     }
 

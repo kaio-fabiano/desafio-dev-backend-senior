@@ -42,7 +42,7 @@ public final class Transaction {
 
     public static Transaction replay(List<Event> events) {
         if (events == null || events.isEmpty()) {
-            throw new IllegalArgumentException("transaction event history is required");
+            throw new IllegalArgumentException(TransactionErrorMessages.TRANSACTION_EVENT_HISTORY_REQUIRED);
         }
         var transaction = new Transaction();
         events.forEach(transaction::apply);
@@ -64,17 +64,17 @@ public final class Transaction {
     public void apply(Event event) {
         Objects.requireNonNull(event, "event");
         if (version > 0 && !transactionId.equals(event.transactionId())) {
-            throw new IllegalArgumentException("event belongs to another transaction");
+            throw new IllegalArgumentException(TransactionErrorMessages.EVENT_TRANSACTION_MISMATCH);
         }
         if (event.version() <= version) return;
         if (event.version() != version + 1) {
-            throw new IllegalArgumentException("transaction event version is not contiguous");
+            throw new IllegalArgumentException(TransactionErrorMessages.EVENT_VERSION_NOT_CONTIGUOUS);
         }
         if (version > 0 && !matches(
             event.operationKey(), event.owner(), event.wooOrderId(), event.items(),
             event.amount(), event.currency(), event.paymentMethod()
         )) {
-            throw new IllegalArgumentException("transaction identity and checkout facts are immutable");
+            throw new IllegalArgumentException(TransactionErrorMessages.TRANSACTION_FACTS_IMMUTABLE);
         }
         transactionId = event.transactionId();
         operationKey = event.operationKey();
@@ -166,14 +166,16 @@ public final class Transaction {
         owner = required(owner, "owner");
         wooOrderId = required(wooOrderId, "wooOrderId");
         items = List.copyOf(Objects.requireNonNull(items, "items"));
-        if (items.isEmpty()) throw new IllegalArgumentException("items are required");
+        if (items.isEmpty()) throw new IllegalArgumentException(TransactionErrorMessages.ITEMS_REQUIRED);
         Objects.requireNonNull(amount, "amount");
-        if (amount.signum() <= 0) throw new IllegalArgumentException("amount must be positive");
+        if (amount.signum() <= 0) throw new IllegalArgumentException(TransactionErrorMessages.AMOUNT_MUST_BE_POSITIVE);
         currency = required(currency, "currency").toUpperCase(Locale.ROOT);
-        if (!currency.matches("[A-Z]{3}")) throw new IllegalArgumentException("currency must be ISO-4217");
+        if (!currency.matches("[A-Z]{3}")) {
+            throw new IllegalArgumentException(TransactionErrorMessages.CURRENCY_MUST_BE_ISO_4217);
+        }
         paymentMethod = required(paymentMethod, "paymentMethod").toUpperCase(Locale.ROOT);
         if (!paymentMethod.equals("CARD") && !paymentMethod.equals("PIX")) {
-            throw new IllegalArgumentException("paymentMethod must be CARD or PIX");
+            throw new IllegalArgumentException(TransactionErrorMessages.PAYMENT_METHOD_INVALID);
         }
         Objects.requireNonNull(status, "status");
         Objects.requireNonNull(occurredAt, "occurredAt");
@@ -186,7 +188,9 @@ public final class Transaction {
     }
 
     private static String required(String value, String name) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(TransactionErrorMessages.required(name));
+        }
         return value;
     }
 
@@ -226,14 +230,16 @@ public final class Transaction {
 
     public static final class OutcomeNotReadyException extends RuntimeException {
         public OutcomeNotReadyException(Status status, Outcome outcome) {
-            super(outcome + " is not ready while Transaction is " + status);
+            super(TransactionErrorMessages.outcomeNotReady(outcome, status));
         }
     }
 
     public record Item(String productId, int quantity) {
         public Item {
             productId = required(productId, "productId");
-            if (quantity < 1) throw new IllegalArgumentException("quantity must be positive");
+            if (quantity < 1) {
+                throw new IllegalArgumentException(TransactionErrorMessages.QUANTITY_MUST_BE_POSITIVE);
+            }
         }
     }
 
@@ -265,12 +271,12 @@ public final class Transaction {
             paymentMethod = required(paymentMethod, "paymentMethod");
             Objects.requireNonNull(status, "status");
             if ((version == 1) != (outcome == null && reference == null)) {
-                throw new IllegalArgumentException("only the initial event omits outcome metadata");
+                throw new IllegalArgumentException(TransactionErrorMessages.INITIAL_EVENT_OUTCOME_INVALID);
             }
             if (version > 1 && (outcome == null || reference == null || reference.isBlank())) {
-                throw new IllegalArgumentException("outcome events require outcome metadata");
+                throw new IllegalArgumentException(TransactionErrorMessages.OUTCOME_METADATA_REQUIRED);
             }
-            if (version < 1) throw new IllegalArgumentException("version must be positive");
+            if (version < 1) throw new IllegalArgumentException(TransactionErrorMessages.VERSION_MUST_BE_POSITIVE);
             Objects.requireNonNull(occurredAt, "occurredAt");
         }
     }

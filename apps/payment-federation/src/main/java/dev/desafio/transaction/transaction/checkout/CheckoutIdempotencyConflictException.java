@@ -1,7 +1,9 @@
 package dev.desafio.transaction.transaction.checkout;
 
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
+
 public final class CheckoutIdempotencyConflictException extends RuntimeException {
     public CheckoutIdempotencyConflictException() {
-        super("The operation key is already bound to a different checkout command");
+        super(TransactionErrorMessages.CHECKOUT_IDEMPOTENCY_CONFLICT);
     }
 }

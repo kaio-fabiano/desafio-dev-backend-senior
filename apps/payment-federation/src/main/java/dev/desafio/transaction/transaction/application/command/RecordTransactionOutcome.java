@@ -1,6 +1,7 @@
 package dev.desafio.transaction.transaction.application.command;
 
 import dev.desafio.transaction.transaction.domain.Transaction;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 import org.axonframework.messaging.commandhandling.annotation.Command;
 import org.axonframework.modelling.annotation.TargetEntityId;
 
@@ -14,9 +15,11 @@ public record RecordTransactionOutcome(
 ) {
     public RecordTransactionOutcome {
         if (transactionId == null || transactionId.isBlank()) {
-            throw new IllegalArgumentException("transactionId is required");
+            throw new IllegalArgumentException(TransactionErrorMessages.TRANSACTION_ID_REQUIRED);
         }
         Objects.requireNonNull(outcome, "outcome");
-        if (reference == null || reference.isBlank()) throw new IllegalArgumentException("reference is required");
+        if (reference == null || reference.isBlank()) {
+            throw new IllegalArgumentException(TransactionErrorMessages.REFERENCE_REQUIRED);
+        }
     }
 }

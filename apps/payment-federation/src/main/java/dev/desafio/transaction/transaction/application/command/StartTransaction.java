@@ -1,6 +1,7 @@
 package dev.desafio.transaction.transaction.application.command;
 
 import dev.desafio.transaction.transaction.domain.Transaction;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 import org.axonframework.messaging.commandhandling.annotation.Command;
 import org.axonframework.modelling.annotation.TargetEntityId;
 
@@ -31,7 +32,9 @@ public record StartTransaction(
     }
 
     private static String required(String value, String name) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(TransactionErrorMessages.required(name));
+        }
         return value;
     }
 }

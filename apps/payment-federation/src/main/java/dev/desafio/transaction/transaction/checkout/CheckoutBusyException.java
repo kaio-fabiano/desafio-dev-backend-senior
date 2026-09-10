@@ -1,7 +1,9 @@
 package dev.desafio.transaction.transaction.checkout;
 
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
+
 public final class CheckoutBusyException extends RuntimeException {
     public CheckoutBusyException() {
-        super("Checkout creation did not complete before the bounded wait expired");
+        super(TransactionErrorMessages.CHECKOUT_BUSY);
     }
 }

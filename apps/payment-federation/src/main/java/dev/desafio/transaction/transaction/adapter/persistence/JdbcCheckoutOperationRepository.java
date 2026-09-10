@@ -7,6 +7,7 @@ import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictE
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.domain.Transaction;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -53,10 +54,10 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
             } catch (RuntimeException | SQLException error) {
                 rollback(connection, error);
                 if (error instanceof RuntimeException runtime) throw runtime;
-                throw new IllegalStateException("checkout claim transaction failed", error);
+                throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_CLAIM_TRANSACTION_FAILED, error);
             }
         } catch (SQLException error) {
-            throw new IllegalStateException("checkout database is unavailable", error);
+            throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_DATABASE_UNAVAILABLE, error);
         }
     }
 
@@ -94,10 +95,12 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
             statement.setString(6, transactionId);
             statement.setString(7, ownerToken);
             statement.setTimestamp(8, Timestamp.from(now));
-            if (statement.executeUpdate() != 1) throw new IllegalStateException("checkout lease was lost");
+            if (statement.executeUpdate() != 1) {
+                throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_LEASE_LOST);
+            }
             return read(connection, transactionId, true);
         } catch (SQLException error) {
-            throw new IllegalStateException("Woo order confirmation could not be persisted", error);
+            throw new IllegalStateException(TransactionErrorMessages.WOO_ORDER_CONFIRMATION_NOT_PERSISTED, error);
         }
     }
 
@@ -114,7 +117,7 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
         try (var connection = dataSource.getConnection()) {
             return read(connection, transactionId, true);
         } catch (SQLException error) {
-            throw new IllegalStateException("completed checkout could not be read", error);
+            throw new IllegalStateException(TransactionErrorMessages.COMPLETED_CHECKOUT_NOT_READ, error);
         }
     }
 
@@ -130,7 +133,7 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
             statement.setString(3, ownerToken);
             statement.executeUpdate();
         } catch (SQLException error) {
-            throw new IllegalStateException("checkout lease could not be released", error);
+            throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_LEASE_NOT_RELEASED, error);
         }
     }
 
@@ -194,7 +197,9 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
             """.formatted(column))) {
             statement.setString(1, identity);
             try (var rows = statement.executeQuery()) {
-                if (!rows.next()) throw new IllegalStateException("checkout operation was not persisted");
+                if (!rows.next()) {
+                    throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_OPERATION_NOT_PERSISTED);
+                }
                 return operation(rows);
             }
         }
@@ -229,9 +234,11 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
             statement.setString(index++, ownerToken);
             statement.setString(index++, expectedStatus.name());
             statement.setTimestamp(index, Timestamp.from(now));
-            if (statement.executeUpdate() != 1) throw new IllegalStateException("checkout lease was lost");
+            if (statement.executeUpdate() != 1) {
+                throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_LEASE_LOST);
+            }
         } catch (SQLException error) {
-            throw new IllegalStateException("checkout operation could not be updated", error);
+            throw new IllegalStateException(TransactionErrorMessages.CHECKOUT_OPERATION_NOT_UPDATED, error);
         }
     }
 
@@ -239,7 +246,7 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
         try {
             return json.writeValueAsString(items);
         } catch (JsonProcessingException error) {
-            throw new IllegalArgumentException("checkout items cannot be serialized", error);
+            throw new IllegalArgumentException(TransactionErrorMessages.CHECKOUT_ITEMS_NOT_SERIALIZED, error);
         }
     }
 
@@ -247,7 +254,7 @@ public final class JdbcCheckoutOperationRepository implements CheckoutOperationR
         try {
             return json.readValue(value, new TypeReference<List<Transaction.Item>>() {});
         } catch (JsonProcessingException error) {
-            throw new IllegalStateException("stored checkout items are invalid", error);
+            throw new IllegalStateException(TransactionErrorMessages.STORED_CHECKOUT_ITEMS_INVALID, error);
         }
     }
 

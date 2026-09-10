@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.domain.Transaction;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -87,7 +88,7 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
             Map.of("origin", origin, "x-wpgraphql-site-token", siteToken)
         ));
         var token = login.path("login").path("authToken").asText();
-        if (token.isBlank()) throw new IllegalStateException("WooGraphQL service login failed");
+        if (token.isBlank()) throw new IllegalStateException(TransactionErrorMessages.WOO_GRAPHQL_LOGIN_FAILED);
         var data = client.execute(new Call(
             """
                 query FindOrderByTransactionReference($reference: String!) {
@@ -104,7 +105,7 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
         ));
         var matches = new ArrayList<JsonNode>();
         var nodes = data.path("orders").path("nodes");
-        if (!nodes.isArray()) throw new IllegalStateException("WooCommerce orders are invalid");
+        if (!nodes.isArray()) throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_ORDERS_INVALID);
         nodes.forEach(order -> {
             for (var metadata : order.path("metaData")) {
                 if (REFERENCE_KEY.equals(metadata.path("key").asText())
@@ -114,7 +115,9 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
                 }
             }
         });
-        if (matches.size() > 1) throw new IllegalStateException("WooCommerce operation reference is not unique");
+        if (matches.size() > 1) {
+            throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_REFERENCE_NOT_UNIQUE);
+        }
         return matches.isEmpty() ? null : order(matches.getFirst());
     }
 
@@ -132,13 +135,15 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
             sessionHeaders(request)
         ));
         var cart = data.path("cart");
-        if (cart.isMissingNode() || cart.isNull()) throw new IllegalStateException("WooCommerce cart is missing");
+        if (cart.isMissingNode() || cart.isNull()) {
+            throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_CART_MISSING);
+        }
         return new Cart(items(cart.path("contents").path("nodes")), amount(cart.path("total").asText()), "BRL");
     }
 
     private Order order(JsonNode order) {
         var id = order.path("databaseId").asLong();
-        if (id < 1) throw new IllegalStateException("Stored Woo order id is invalid");
+        if (id < 1) throw new IllegalStateException(TransactionErrorMessages.STORED_WOO_ORDER_ID_INVALID);
         var currency = order.path("currency").asText("BRL");
         return new Order(
             Long.toString(id), items(order.path("lineItems").path("nodes")),
@@ -147,7 +152,9 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
     }
 
     private List<Transaction.Item> items(JsonNode nodes) {
-        if (!nodes.isArray() || nodes.isEmpty()) throw new IllegalStateException("WooCommerce items are invalid");
+        if (!nodes.isArray() || nodes.isEmpty()) {
+            throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_ITEMS_INVALID);
+        }
         var items = new ArrayList<Transaction.Item>();
         nodes.forEach(item -> items.add(new Transaction.Item(
             item.path("product").path("node").path("databaseId").asText(),
@@ -159,7 +166,7 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
     private BigDecimal amount(String value) {
         var amount = new BigDecimal(value);
         if (amount.signum() <= 0 || amount.scale() > 2) {
-            throw new IllegalStateException("WooCommerce amount is invalid");
+            throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_AMOUNT_INVALID);
         }
         return amount;
     }
@@ -177,7 +184,9 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
     }
 
     private static String required(String value, String name) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(TransactionErrorMessages.required(name));
+        }
         return value;
     }
 
@@ -213,12 +222,14 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
             call.headers().forEach(request::header);
             var response = http.send(request.build(), HttpResponse.BodyHandlers.ofByteArray());
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
-                throw new IllegalStateException("WooGraphQL request failed: " + response.statusCode());
+                throw new IllegalStateException(
+                    TransactionErrorMessages.wooGraphQlRequestFailed(response.statusCode())
+                );
             }
             var payload = json.readTree(response.body());
             if ((payload.path("errors").isArray() && !payload.path("errors").isEmpty())
                 || payload.path("data").isMissingNode()) {
-                throw new IllegalStateException("WooGraphQL returned errors");
+                throw new IllegalStateException(TransactionErrorMessages.WOO_GRAPHQL_ERRORS);
             }
             return payload.path("data");
         }

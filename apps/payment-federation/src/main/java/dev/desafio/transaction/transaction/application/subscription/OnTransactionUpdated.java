@@ -1,6 +1,7 @@
 package dev.desafio.transaction.transaction.application.subscription;
 
 import dev.desafio.transaction.transaction.application.query.TransactionView;
+import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 import org.axonframework.messaging.queryhandling.annotation.Query;
 
 @Query(namespace = "transaction", name = "OnTransactionUpdated", version = "1.0.0")
@@ -12,7 +13,7 @@ public record OnTransactionUpdated(String transactionId, String operationKey, St
     public OnTransactionUpdated {
         owner = required(owner, "owner");
         if ((transactionId == null) == (operationKey == null)) {
-            throw new IllegalArgumentException("exactly one transaction selector is required");
+            throw new IllegalArgumentException(TransactionErrorMessages.TRANSACTION_SELECTOR_INVALID);
         }
     }
 
@@ -28,7 +29,9 @@ public record OnTransactionUpdated(String transactionId, String operationKey, St
     }
 
     private static String required(String value, String name) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(TransactionErrorMessages.required(name));
+        }
         return value;
     }
 }
