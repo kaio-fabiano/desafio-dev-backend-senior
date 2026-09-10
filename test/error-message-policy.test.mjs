@@ -8,6 +8,10 @@ import {
   scanErrorMessagePolicy,
 } from '../tools/error-messages/error-message-policy.mjs';
 
+test('production sources comply with the error-message policy', async () => {
+  assertErrorMessagePolicy(await scanErrorMessagePolicy());
+});
+
 async function fixture(files) {
   const root = await mkdtemp(join(process.cwd(), '.error-message-policy-'));
   await Promise.all(
