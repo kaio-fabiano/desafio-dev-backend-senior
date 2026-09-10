@@ -252,7 +252,7 @@
 - Risks/blockers: Destructive removal requires an approved backup/restore and retention checkpoint; any unresolved critical `NOT VERIFIED` item prevents task completion.
 - Rollback: Restore deleted source/deployment artifacts from version control only before legacy data/topology retirement; after retention cleanup use the approved backup/restore or forward-recovery runbook, not ad hoc reversal.
 
-## T-254 — Reanchor retired Node evidence and refresh the global verification ledger [pendente]
+## T-254 — Reanchor retired Node evidence and refresh the global verification ledger [concluida]
 - Refs: US-136, AC-291, AC-292
 - Arquivos: .spec/features, .spec/verification, docs/adrs/008-native-commerce-and-order-workflow.md, docs/runbooks/java-axon-order-workflow-operations.md
 - Modelo: gpt-5.6-sol
