@@ -9,8 +9,7 @@
 - Arquivos: libs/identity/nest/src/better-auth/better-auth.factory.ts, libs/identity/nest/src/better-auth/better-auth.factory.spec.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.ts, libs/platform/nest/src/oauth-resource/oauth-resource.module.spec.ts, libs/gateway/nest/src/auth/gateway-auth.module.ts, libs/gateway/nest/src/auth/gateway-auth.module.spec.ts, libs/identity/nest/src/identity.module.ts, test/harden-oauth-runtime-configuration.test.mjs, docs/evidence/harden-oauth-runtime-configuration/T-268.md
 - Notas: Follow Red, Green, Refactor. Bounded contexts: Identity issuer and Edge authentication. Use case: build resource-server configuration after Nest config loading. Aggregate: none; this is composition-time configuration. Invariants: Identity and Gateway default to the same issuer; explicit configuration wins; malformed URLs still fail closed. Consistency boundary: one Nest application bootstrap. Affected ports: none. Add `registerAsync` by extending the existing dynamic module; add no configuration library.
 
-## T-269 — Separate OAuth request orchestration from vendor verification [pendente]
-
+## T-269 — Separate OAuth request orchestration from vendor verification [concluida]
 - Refs: US-142, AC-308
 - Modelo: gpt-5.6-sol
 - Esforço: alto
