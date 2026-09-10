@@ -275,7 +275,7 @@
 - Risks/blockers: Historical tasks may describe artifacts that intentionally no longer exist; map them to explicit retirement evidence rather than falsifying their original implementation or adding compatibility scaffolding.
 - Rollback: Revert the metadata/evidence commit; runtime remains unaffected because this task never changes production code.
 
-## T-255 — Refresh the architecture graph and close the pull request [pendente]
+## T-255 — Refresh the architecture graph and close the pull request [concluida]
 - Refs: US-136, AC-291, AC-292
 - Arquivos: graphify-out, .spec/features/migrate-order-workflow-to-axon-java, .spec/verification/keep-graphify-current.json
 - Modelo: gpt-5.6-sol
@@ -298,7 +298,7 @@
 - Risks/blockers: The SST review check intentionally reports a non-empty destructive sandbox diff; do not deploy it here, and do not treat its expected failure as permission to change production state.
 - Rollback: Revert the Graphify evidence commit before merge, or revert the merge commit afterward; no cloud deployment is performed.
 
-## T-256 — Serialize Java quality targets and complete the pull request [pendente]
+## T-256 — Serialize Java quality targets and complete the pull request [concluida]
 - Refs: US-136, AC-291, AC-292
 - Arquivos: apps/payment-federation/project.json, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/migrate-order-workflow-to-axon-java, .spec/verification/migrate-order-workflow-to-axon-java.json
 - Modelo: gpt-5.6-sol

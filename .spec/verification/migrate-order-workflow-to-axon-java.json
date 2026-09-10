@@ -1,11 +1,11 @@
 {
   "feature": "migrate-order-workflow-to-axon-java",
-  "timestamp": "2026-09-10T01:34:06.439Z",
-  "gitRev": "e3972aac",
+  "timestamp": "2026-09-10T04:16:01.519Z",
+  "gitRev": "29e9dc4f",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 515,
+  "testsParsed": 516,
   "results": {
     "AC-280": {
       "status": "pass",

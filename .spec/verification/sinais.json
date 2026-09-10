@@ -5783,10 +5783,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resolve-node-review-todos",
       "ref": "—",
-      "ocorrencias": 51,
+      "ocorrencias": 52,
       "primeiraVez": "2026-09-05T13:04:48.384Z",
-      "ultimaVez": "2026-09-10T00:53:49.561Z",
-      "gitRev": "e3972aac"
+      "ultimaVez": "2026-09-10T04:16:07.652Z",
+      "gitRev": "29e9dc4f"
     },
     "TASK_CONCLUIDA_SEM_PROVA::resolve-node-review-todos::T-183": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6593,10 +6593,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "graphql-only-woocommerce",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 29,
       "primeiraVez": "2026-09-05T17:46:38.085Z",
-      "ultimaVez": "2026-09-10T00:53:49.561Z",
-      "gitRev": "e3972aac"
+      "ultimaVez": "2026-09-10T04:16:07.652Z",
+      "gitRev": "29e9dc4f"
     },
     "VERIFY_OBSOLETO::modularize-order-workflow-subgraph::—": {
       "codigo": "VERIFY_OBSOLETO",
