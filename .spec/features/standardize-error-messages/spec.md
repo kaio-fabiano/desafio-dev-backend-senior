@@ -1,7 +1,7 @@
 # Spec: Standardize error messages
 
 > feature: standardize-error-messages
-> status: pronta
+> status: em-implementacao
 
 ## Context
 
