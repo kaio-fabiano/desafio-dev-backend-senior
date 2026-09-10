@@ -2,24 +2,21 @@
 
 > feature: refactor-payment-persistence-models
 
-## T-260 — Model Inventory persistence with JPA [pendente]
-
+## T-260 — Model Inventory persistence with JPA [concluida]
 - Refs: US-139, AC-298, AC-299, AC-304
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/refactor-payment-persistence-inventory.test.mjs
 - Notas: Use a fresh Codex context and follow Red, Green, Refactor. Bounded context: Inventory. Use case: claim and complete inventory work and maintain the reservation projection. Aggregate: InventoryReservation for reservation state; claim/lease and projection records are persistence models with no invented domain aggregate. Invariants: validated reservation, transaction, order, operation, event, and owner identities; one operation key per request; one completed event per claim; lease ownership and expiry; projection state supports every domain status including COMMIT_REJECTED; command state and read projection use separate tables/models. Consistency boundary: one Inventory database transaction for claim or completion, and one projection update per event version. Affected ports: InventoryRepository, InventoryProjectionRepository, InventoryViewRepository, and InventoryOutbox. Create infrastructure-only JPA entities/repositories and explicit Domain/Application mappers; use identity references rather than cross-context associations. Preserve PostgreSQL concurrency and save-clear-reload behavior with Testcontainers tests. Do not add handwritten SQL or change shared AMQP stores.
 
-## T-261 — Model Payment persistence with JPA [pendente]
-
+## T-261 — Model Payment persistence with JPA [concluida]
 - Refs: US-139, AC-298, AC-300, AC-304
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/payment, test/refactor-payment-persistence-payment.test.mjs
 - Notas: Use a fresh Codex context and follow Red, Green, Refactor. Bounded context: Payment. Use cases: process payment/refund requests, persist provider effects, project payment state, record provider notifications, and query reloaded payments. Aggregate: Payment owns payment lifecycle invariants; provider-effect, inbox, outbox, and notification records are dedicated consistency artifacts. Invariants: positive money and ISO currency; typed payment, operation, transaction, order, provider, effect, and event identities; payment and refund effects never collide; identifier collisions are rejected under lock; duplicate deliveries reuse the original result; event sequence never regresses; `transaction_id` and external `order_id` have distinct meanings; no cascade or ORM relationship crosses into Transaction or external commerce ownership. Consistency boundary: one Payment database transaction per command/effect/notification transition. Affected ports: PaymentRepository, PaymentEffectLedger, PaymentProjection, PaymentViewRepository, ProviderNotificationHandler.Repository, and PaymentIntegrationEventPublisher. Keep provider-effect execution behavior outside this task. Use Spring Data/JPQL/ORM locks only and prove save-clear-reload plus concurrent idempotency on PostgreSQL.
 
-## T-262 — Model Transaction persistence with JPA [pendente]
-
+## T-262 — Model Transaction persistence with JPA [concluida]
 - Refs: US-139, AC-298, AC-301, AC-304
 - Modelo: gpt-5.6-sol
 - Esforço: alto
