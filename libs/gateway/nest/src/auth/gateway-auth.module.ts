@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { OAuthResourceModule } from '@desafio-dev-backend-senior/source/platform-nest';
 import { CommerceCookiePort } from '../application/ports/commerce-cookie.port.ts';
 import { GatewayTokenVerifierPort } from '../application/ports/gateway-token-verifier.port.ts';
 import { CreateGatewayContextUseCase } from '../application/use-cases/create-gateway-context.use-case.ts';
+import { DynamoDpopReplayStore } from '../infrastructure/auth/dynamo-dpop-replay.store.ts';
 import { CommerceCookieAdapter } from '../infrastructure/http/commerce-cookie.adapter.ts';
 import { AuthContextFactory } from './auth-context.factory.ts';
 import { TokenVerifierService } from './token-verifier.service.ts';
@@ -12,14 +13,33 @@ import { TokenVerifierService } from './token-verifier.service.ts';
 @Module({
   imports: [
     ConfigModule,
-    OAuthResourceModule.register({
-      issuer:
-        process.env.OAUTH_ISSUER ?? 'http://identity-subgraph:3001/api/auth',
-      jwksUrl:
-        process.env.IDENTITY_JWKS_URL ??
-        'http://identity-subgraph:3001/api/auth/jwks',
-      audience:
-        process.env.GATEWAY_AUDIENCE ?? 'https://gateway.marketplace.local',
+    OAuthResourceModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        const replayTable = config
+          .get<string>('GATEWAY_DPOP_REPLAY_TABLE')
+          ?.trim();
+        if (config.get<string>('NODE_ENV') === 'production' && !replayTable) {
+          throw new Error(
+            'Gateway DPoP replay table is required in production',
+          );
+        }
+        return {
+          audience:
+            config.get<string>('GATEWAY_AUDIENCE') ??
+            'https://gateway.marketplace.local',
+          dpopReplayStore: replayTable
+            ? new DynamoDpopReplayStore(replayTable)
+            : undefined,
+          issuer:
+            config.get<string>('OAUTH_ISSUER') ??
+            'http://identity-subgraph:3001/api/auth',
+          jwksUrl:
+            config.get<string>('IDENTITY_JWKS_URL') ??
+            'http://identity-subgraph:3001/api/auth/jwks',
+        };
+      },
     }),
   ],
   providers: [

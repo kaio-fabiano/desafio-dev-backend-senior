@@ -104,6 +104,22 @@ describe('BetterAuthFactory', () => {
     });
   });
 
+  it('uses the shared HTTP issuer default when no issuer is configured @spec:AC-308', () => {
+    vi.stubEnv('OAUTH_ISSUER', undefined);
+
+    const auth = new BetterAuthFactory().create({
+      database: createMemoryDatabase(),
+      secret: 'identity-test-secret-with-at-least-32-characters',
+    });
+    const jwtPlugin = auth.options.plugins?.find(
+      (plugin) => plugin.id === 'jwt',
+    );
+
+    expect(jwtPlugin?.options?.jwt).toMatchObject({
+      issuer: 'http://identity-subgraph:3001/api/auth',
+    });
+  });
+
   it('owns and disposes its internal PostgreSQL pool once @spec:AC-227', async () => {
     vi.stubEnv('NODE_ENV', 'production');
     vi.stubEnv(

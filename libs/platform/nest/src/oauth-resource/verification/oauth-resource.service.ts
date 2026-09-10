@@ -46,6 +46,9 @@ export class OAuthResourceService extends OAuthCredentialVerifierPort {
   ): Promise<Readonly<Record<string, unknown>>> {
     const claims = await verifyAccessTokenRequest(credential, {
       jwksUrl: this.options.jwksUrl,
+      ...(this.options.dpopReplayStore
+        ? { dpop: { replayStore: this.options.dpopReplayStore } }
+        : {}),
       verifyOptions: {
         algorithms: ['ES256'],
         audience: this.options.audience,

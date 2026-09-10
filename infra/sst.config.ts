@@ -26,6 +26,11 @@ export default $config({
     const cluster = new sst.aws.Cluster('MarketplaceCluster', { vpc });
     const publicApi = new sst.aws.ApiGatewayV2('PublicApi', { vpc });
     const publicOAuthIssuer = $interpolate`${publicApi.url}/api/auth`;
+    const gatewayDpopReplay = new sst.aws.Dynamo('GatewayDpopReplay', {
+      fields: { replayKey: 'string' },
+      primaryIndex: { hashKey: 'replayKey' },
+      ttl: 'expiresAt',
+    });
     const identityDatabase = new sst.aws.Aurora('IdentityDatabase', {
       database: 'identity_service',
       engine: 'postgres',
@@ -188,6 +193,8 @@ export default $config({
       cluster,
       environment: {
         GATEWAY_AUDIENCE: 'https://gateway.marketplace.local',
+        GATEWAY_DPOP_REPLAY_TABLE: gatewayDpopReplay.name,
+        GATEWAY_ORIGIN: publicApi.url,
         IDENTITY_GRAPHQL_URL: `${serviceHost('IdentitySubgraph', 3001)}/graphql`,
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         NODE_ENV: 'production',
@@ -215,7 +222,7 @@ export default $config({
           options.retainOnDelete = true;
         },
       },
-      link: [identity, paymentFederation, wordpress],
+      link: [gatewayDpopReplay, identity, paymentFederation, wordpress],
       serviceRegistry: { port: 3000 },
     });
 

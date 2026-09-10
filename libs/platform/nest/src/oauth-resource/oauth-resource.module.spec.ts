@@ -1,4 +1,5 @@
 import { Inject, Injectable, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -33,6 +34,56 @@ class OAuthConsumer {
 class ConsumerModule {}
 
 describe('OAuthResourceModule', () => {
+  it('resolves async options after Nest configuration loads @spec:AC-308', async () => {
+    const configured = {
+      GATEWAY_AUDIENCE: 'https://configured-gateway.example.test',
+      IDENTITY_JWKS_URL: 'https://configured-identity.example.test/jwks',
+      OAUTH_ISSUER: 'https://configured-identity.example.test/api/auth',
+    };
+    const module = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          ignoreEnvFile: true,
+          load: [() => configured],
+        }),
+        OAuthResourceModule.registerAsync({
+          imports: [ConfigModule],
+          inject: [ConfigService],
+          useFactory: (config: ConfigService) => ({
+            audience: config.getOrThrow<string>('GATEWAY_AUDIENCE'),
+            issuer: config.getOrThrow<string>('OAUTH_ISSUER'),
+            jwksUrl: config.getOrThrow<string>('IDENTITY_JWKS_URL'),
+          }),
+        }),
+      ],
+    }).compile();
+
+    try {
+      expect(
+        module.get<OAuthResourceOptions>(OAuthResourceOptionsToken),
+      ).toEqual({
+        audience: configured.GATEWAY_AUDIENCE,
+        issuer: configured.OAUTH_ISSUER,
+        jwksUrl: configured.IDENTITY_JWKS_URL,
+      });
+    } finally {
+      await module.close();
+    }
+  });
+
+  it('resolves async options without injected dependencies @spec:AC-308', async () => {
+    const module = await Test.createTestingModule({
+      imports: [
+        OAuthResourceModule.registerAsync({ useFactory: () => options }),
+      ],
+    }).compile();
+
+    expect(module.get<OAuthResourceOptions>(OAuthResourceOptionsToken)).toEqual(
+      options,
+    );
+    await module.close();
+  });
+
   it('AC-273: resolves credential verification through NestJS providers @spec:AC-273', async () => {
     const verifyCredential = vi.fn().mockResolvedValue({
       aud: options.audience,

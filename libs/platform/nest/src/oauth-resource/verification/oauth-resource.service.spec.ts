@@ -86,6 +86,28 @@ describe('OAuthResourceService', () => {
     );
   });
 
+  it('passes the configured shared DPoP replay store to Better Auth @spec:AC-309', async () => {
+    const replayStore = { reserve: vi.fn().mockResolvedValue(true) };
+    verifyAccessToken.mockResolvedValue({ sub: 'buyer-1' });
+    const service = new OAuthResourceService({
+      ...options,
+      dpopReplayStore: replayStore,
+    });
+
+    await service.verify(
+      new Request('https://gateway.marketplace.local/graphql', {
+        headers: { authorization: 'Bearer token' },
+      }),
+    );
+
+    expect(verifyAccessToken).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        dpop: { replayStore },
+      }),
+    );
+  });
+
   it('rejects a verified payload whose subject is not a non-empty string', async () => {
     const service = new OAuthResourceService(options);
     const malformedClaims = { sub: 42 } as unknown as Awaited<
