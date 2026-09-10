@@ -5,7 +5,12 @@ import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryOutbox
 import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryProjectionRepository;
 import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryRepository;
 import dev.desafio.transaction.inventory.application.InventoryService;
+import dev.desafio.transaction.inventory.application.InventoryRepository;
 import dev.desafio.transaction.inventory.application.StockPort;
+import dev.desafio.transaction.inventory.application.event.InventoryOutbox;
+import dev.desafio.transaction.inventory.application.query.InventoryProjectionRepository;
+import dev.desafio.transaction.inventory.application.query.InventoryViewRepository;
+import dev.desafio.transaction.inventory.configuration.InventoryConfiguration;
 import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.application.event.InventoryIntegrationEventHandler;
 import dev.desafio.transaction.inventory.application.query.InventoryReservationView;
@@ -20,17 +25,31 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InventoryPostgresIntegrationTest {
     private static final PostgreSQLContainer<?> POSTGRES =
@@ -116,10 +135,16 @@ class InventoryPostgresIntegrationTest {
     @DisplayName("Inventory PostgreSQL migration passes the repository quality gate @spec:AC-292")
     void migrationCreatesOwnedTablesWithoutCrossSchemaReferences() {
         var jdbc = new JdbcTemplate(dataSource);
-        assertEquals(1, jdbc.queryForObject("""
+        assertEquals(0, jdbc.queryForObject("""
             select count(*) from information_schema.columns
              where table_schema = 'inventory' and table_name = 'inventory_operation'
                and column_name = 'projection_version'
+            """, Integer.class));
+        assertEquals(1, jdbc.queryForObject("""
+            select count(*) from information_schema.columns
+             where table_schema = 'inventory'
+               and table_name = 'inventory_reservation_projection'
+               and column_name = 'version'
             """, Integer.class));
         assertEquals(0, jdbc.queryForObject("""
             select count(*)
@@ -133,6 +158,121 @@ class InventoryPostgresIntegrationTest {
                and referenced_schema.nspname <> 'inventory'
             """, Integer.class));
     }
+
+    @Test
+    @DisplayName("Inventory JPA ports round-trip claims and dedicated reservation projections @spec:AC-299")
+    void jpaPortsRoundTripAfterClearingThePersistenceContext() {
+        try (var context = persistenceContext()) {
+            var claims = context.getBean(InventoryRepository.class);
+            var projections = context.getBean(InventoryProjectionRepository.class);
+            var views = context.getBean(InventoryViewRepository.class);
+            var outbox = context.getBean(InventoryOutbox.class);
+
+            assertEquals("JpaInventoryRepository", claims.getClass().getSimpleName());
+            assertEquals("JpaInventoryProjectionRepository", projections.getClass().getSimpleName());
+            assertEquals("JpaInventoryViewRepository", views.getClass().getSimpleName());
+            assertEquals("JpaInventoryOutbox", outbox.getClass().getSimpleName());
+
+            var concurrentRequest = request("jpa-concurrent");
+            var firstClaim = CompletableFuture.supplyAsync(() ->
+                claims.claim(concurrentRequest, "fingerprint-jpa-concurrent")
+            );
+            var secondClaim = CompletableFuture.supplyAsync(() ->
+                claims.claim(concurrentRequest, "fingerprint-jpa-concurrent")
+            );
+            var statuses = List.of(firstClaim.join().status(), secondClaim.join().status());
+            assertEquals(1, statuses.stream()
+                .filter(InventoryRepository.ClaimStatus.ACQUIRED::equals).count());
+            assertEquals(1, statuses.stream()
+                .filter(InventoryRepository.ClaimStatus.BUSY::equals).count());
+
+            var request = request("jpa-round-trip");
+            var acquired = claims.claim(request, "fingerprint-jpa-round-trip");
+            var event = new Inventory.OutgoingEvent(
+                UUID.randomUUID(), "stock.reserved", "v1", request.operationKey(), NOW,
+                Map.of("orderId", request.orderId(), "reservationId", request.operationKey())
+            );
+            assertEquals(event, claims.complete(acquired, event));
+
+            context.getBean(jakarta.persistence.EntityManager.class).clear();
+            var duplicate = claims.claim(
+                new Inventory.ReservationRequested(
+                    UUID.randomUUID(), request.operationKey(), request.orderId(), request.items()
+                ),
+                "fingerprint-jpa-round-trip"
+            );
+            assertEquals(InventoryRepository.ClaimStatus.COMPLETED, duplicate.status());
+            assertEquals(event, duplicate.completedEvent());
+
+            for (var status : InventoryReservation.Status.values()) {
+                var reason = status == InventoryReservation.Status.REJECTED
+                    || status == InventoryReservation.Status.COMMIT_REJECTED
+                    ? "STOCK_CHANGED"
+                    : null;
+                projections.save(new InventoryReservationView(
+                    "reservation-jpa-" + status, "transaction-jpa-" + status, "order-jpa",
+                    status, 2, reason, NOW
+                ));
+            }
+            context.getBean(jakarta.persistence.EntityManager.class).clear();
+
+            for (var status : InventoryReservation.Status.values()) {
+                assertEquals(status, projections.find("reservation-jpa-" + status)
+                    .orElseThrow().status());
+            }
+            assertEquals(
+                InventoryReservation.Status.COMMIT_REJECTED,
+                views.findByTransactionId("transaction-jpa-COMMIT_REJECTED").orElseThrow().status()
+            );
+        }
+    }
+
+    @Test
+    @DisplayName("Flyway schema validates all Inventory JPA mappings across restart @spec:AC-304")
+    void flywaySchemaValidatesJpaMappingsAcrossRestart() {
+        try (var first = persistenceContext()) {
+            assertNotNull(first.getBean(jakarta.persistence.EntityManagerFactory.class));
+        }
+        try (var restarted = persistenceContext()) {
+            assertNotNull(restarted.getBean(jakarta.persistence.EntityManagerFactory.class));
+            var jdbc = new JdbcTemplate(restarted.getBean(javax.sql.DataSource.class));
+            assertEquals(1, jdbc.queryForObject("""
+                select count(*) from information_schema.tables
+                 where table_schema = 'inventory'
+                   and table_name = 'inventory_reservation_projection'
+                """, Integer.class));
+        }
+    }
+
+    private static org.springframework.context.ConfigurableApplicationContext persistenceContext() {
+        return new SpringApplicationBuilder(InventoryJpaTestApplication.class)
+            .web(WebApplicationType.NONE)
+            .properties(
+                "spring.datasource.url=" + POSTGRES.getJdbcUrl(),
+                "spring.datasource.username=" + POSTGRES.getUsername(),
+                "spring.datasource.password=" + POSTGRES.getPassword(),
+                "spring.jpa.hibernate.ddl-auto=validate",
+                "spring.flyway.enabled=true",
+                "spring.flyway.create-schemas=true",
+                "spring.flyway.default-schema=axon",
+                "spring.flyway.schemas=axon,transaction,inventory,payment",
+                "management.health.rabbit.enabled=false"
+            )
+            .run();
+    }
+
+    @SpringBootConfiguration
+    @ImportAutoConfiguration({
+        DataSourceAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class,
+        FlywayAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class,
+        JacksonAutoConfiguration.class
+    })
+    @EntityScan("dev.desafio.transaction.inventory")
+    @EnableJpaRepositories("dev.desafio.transaction.inventory")
+    @Import(InventoryConfiguration.class)
+    static class InventoryJpaTestApplication {}
 
     private static Inventory.ReservationRequested request(String operationKey) {
         return new Inventory.ReservationRequested(

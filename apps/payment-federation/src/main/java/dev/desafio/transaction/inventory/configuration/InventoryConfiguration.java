@@ -1,9 +1,15 @@
 package dev.desafio.transaction.inventory.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryRepository;
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryOutbox;
-import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryProjectionRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.InventoryAmqpOutboxJpaRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.InventoryInboxJpaRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.InventoryOperationJpaRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.InventoryReservationProjectionJpaRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.InventoryResultEventJpaRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryOutbox;
+import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryProjectionRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryRepository;
+import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryViewRepository;
 import dev.desafio.transaction.inventory.adapter.wordpress.WooInventoryAdapter;
 import dev.desafio.transaction.inventory.application.InventoryRepository;
 import dev.desafio.transaction.inventory.application.InventoryService;
@@ -16,12 +22,14 @@ import dev.desafio.transaction.inventory.application.event.InventoryOutbox;
 import dev.desafio.transaction.inventory.application.event.InventoryProjectionHandler;
 import dev.desafio.transaction.inventory.application.query.FindInventoryReservationQueryHandler;
 import dev.desafio.transaction.inventory.application.query.InventoryProjectionRepository;
+import dev.desafio.transaction.inventory.application.query.InventoryViewRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.sql.DataSource;
 import java.net.URI;
 import java.time.Clock;
 
@@ -34,8 +42,14 @@ public class InventoryConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
-    InventoryRepository inventoryRepository(DataSource dataSource) {
-        return new JdbcInventoryRepository(dataSource);
+    InventoryRepository inventoryRepository(
+        InventoryOperationJpaRepository operations,
+        InventoryResultEventJpaRepository results,
+        InventoryInboxJpaRepository inbox,
+        @Qualifier("transactionManager") PlatformTransactionManager transactions,
+        Clock clock
+    ) {
+        return new JpaInventoryRepository(operations, results, inbox, transactions, clock);
     }
 
     @Bean
@@ -56,14 +70,29 @@ public class InventoryConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
-    InventoryProjectionRepository inventoryProjectionRepository(DataSource dataSource) {
-        return new JdbcInventoryProjectionRepository(dataSource);
+    InventoryProjectionRepository inventoryProjectionRepository(
+        InventoryReservationProjectionJpaRepository projections,
+        @Qualifier("transactionManager") PlatformTransactionManager transactions
+    ) {
+        return new JpaInventoryProjectionRepository(projections, transactions);
     }
 
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
-    InventoryOutbox inventoryOutbox(DataSource dataSource, ObjectMapper json) {
-        return new JdbcInventoryOutbox(dataSource, json);
+    InventoryViewRepository inventoryViewRepository(
+        InventoryReservationProjectionJpaRepository projections
+    ) {
+        return new JpaInventoryViewRepository(projections);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url")
+    InventoryOutbox inventoryOutbox(
+        InventoryAmqpOutboxJpaRepository outbox,
+        ObjectMapper json,
+        @Qualifier("transactionManager") PlatformTransactionManager transactions
+    ) {
+        return new JpaInventoryOutbox(outbox, json, transactions);
     }
 
     @Bean
