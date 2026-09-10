@@ -297,3 +297,26 @@
 - Acceptance: Graphify CI passes, the sandbox SST deletion/reroute matches the approved cutover, all spec gates remain green, pull request 12 is merged, and remote `main` contains the T-255 commit.
 - Risks/blockers: The SST review check intentionally reports a non-empty destructive sandbox diff; do not deploy it here, and do not treat its expected failure as permission to change production state.
 - Rollback: Revert the Graphify evidence commit before merge, or revert the merge commit afterward; no cloud deployment is performed.
+
+## T-256 — Serialize Java quality targets and complete the pull request [pendente]
+- Refs: US-136, AC-291, AC-292
+- Arquivos: apps/payment-federation/project.json, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/migrate-order-workflow-to-axon-java, .spec/verification/migrate-order-workflow-to-axon-java.json
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Approval: The user explicitly approved sequential execution with `gpt-5.6-sol` and high effort in a new clean-context chat.
+- Dependencies: T-255 implementation commit, pull request 12, and three CI reproductions of concurrent Gradle targets corrupting the shared `apps/payment-federation/build` directory.
+- Objective: Prevent Nx from running Payment Federation Gradle targets concurrently on the same workspace and complete the verified merge of pull request 12.
+- Bounded context: Build and delivery governance technical boundary; no business ownership or runtime behavior changes.
+- Use case: Make the repository quality command deterministic when it requests Java lint, test, and build targets together.
+- Aggregate: None; build orchestration configuration only.
+- Invariants: Existing Gradle commands and quality coverage remain intact; only targets sharing the Java build directory are serialized; no dependency or custom coordination layer is added; no production infrastructure is deployed.
+- Consistency boundary: The Payment Federation Nx target scheduler on one CI worker and its shared Gradle build directory.
+- Affected ports: None; CI/Nx orchestration only.
+- Behavior: Nx never overlaps Payment Federation `build`, `test`, and `lint`; the aggregate quality command completes without missing-class races; all repository and spec gates pass before merge.
+- Red: Add a focused `@spec:AC-292` structural assertion that fails while the three Java targets permit parallel execution, retaining the three failed GitHub Actions runs as integration evidence.
+- Green: Use the native Nx target-level parallelism control on the existing Java targets, with no new script or dependency.
+- Refactor: Keep the change declarative and local to the Payment Federation project configuration.
+- Validation: Focused structural test; `pnpm exec nx run-many -t lint test build typecheck`; `pnpm graphify:check`; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs verify migrate-order-workflow-to-axon-java`; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci`; pull-request checks and post-merge remote `main` ancestry.
+- Acceptance: The structural proof requires non-parallel execution for all three Java quality targets; the aggregate CI quality command passes; the reviewed SST preview remains deployment-free; pull request 12 is merged and remote `main` contains the T-255 and T-256 implementation commits.
+- Risks/blockers: Serialization increases the Java portion of CI duration but avoids nondeterministic workspace corruption; the intentional SST preview diff remains a reviewed non-deployment signal.
+- Rollback: Revert the target configuration and proof commit only if each Gradle target receives an isolated build directory or CI stops requesting them concurrently.
