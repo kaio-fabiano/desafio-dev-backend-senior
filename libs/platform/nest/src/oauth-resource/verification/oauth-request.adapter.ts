@@ -1,4 +1,5 @@
 import type { OAuthHttpRequest } from '../infrastructure/http/oauth-http-request.ts';
+import { OAuthResourceVerificationMessages } from '../infrastructure/errors/oauth-resource-verification-messages.ts';
 
 export class OAuthRequestAdapter {
   static toRequest(request: OAuthHttpRequest): Request {
@@ -10,13 +11,13 @@ export class OAuthRequestAdapter {
     }
     const protocol = request.protocol ?? 'http';
     if (protocol !== 'http' && protocol !== 'https') {
-      throw new Error('OAuth request protocol must be HTTP or HTTPS');
+      throw new Error(OAuthResourceVerificationMessages.invalidRequestProtocol);
     }
     const host =
       OAuthRequestAdapter.firstHeader(request.headers.host) ?? 'resource.local';
     const target = request.originalUrl ?? request.url ?? '/';
     if (!target.startsWith('/') || target.startsWith('//')) {
-      throw new Error('OAuth request target must be an absolute path');
+      throw new Error(OAuthResourceVerificationMessages.invalidRequestTarget);
     }
     return new Request(new URL(target, `${protocol}://${host}`), {
       headers,

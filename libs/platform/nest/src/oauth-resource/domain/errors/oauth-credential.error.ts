@@ -1,3 +1,5 @@
+import { OAuthCredentialMessages } from './oauth-credential-messages.ts';
+
 export class OAuthCredentialError extends Error {
   private static readonly joseCodes = new Set([
     'ERR_JOSE_ALG_NOT_ALLOWED',
@@ -8,6 +10,10 @@ export class OAuthCredentialError extends Error {
     'ERR_JWT_INVALID',
     'ERR_JWKS_NO_MATCHING_KEY',
   ]);
+
+  constructor(message = OAuthCredentialMessages.invalidCredential) {
+    super(message);
+  }
 
   static isCredential(error: unknown): boolean {
     return (

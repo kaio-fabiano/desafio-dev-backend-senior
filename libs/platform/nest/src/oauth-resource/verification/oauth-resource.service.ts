@@ -8,7 +8,9 @@ import { OAuthCredentialVerification } from '../application/dto/oauth-credential
 import { OAuthCredentialVerifierPort } from '../application/ports/oauth-credential-verifier.port.ts';
 import { VerifyOAuthCredentialUseCase } from '../application/use-cases/verify-oauth-credential.use-case.ts';
 import { OAuthCredentialError } from '../domain/errors/oauth-credential.error.ts';
+import { OAuthCredentialMessages } from '../domain/errors/oauth-credential-messages.ts';
 import { OAuthClaims } from '../domain/value-objects/oauth-claims.ts';
+import { OAuthResourceVerificationMessages } from '../infrastructure/errors/oauth-resource-verification-messages.ts';
 import { OAuthResourceOptionsToken as OAUTH_RESOURCE_OPTIONS } from '../oauth-resource.tokens.ts';
 import type { OAuthResourceOptions } from '../oauth-resource.types.ts';
 
@@ -52,24 +54,24 @@ export class OAuthResourceService extends OAuthCredentialVerifierPort {
       },
     });
     if (typeof claims.sub !== 'string' || claims.sub.trim().length === 0) {
-      throw new OAuthCredentialError(
-        'Access token subject must be a non-empty string',
-      );
+      throw new OAuthCredentialError(OAuthCredentialMessages.invalidSubject);
     }
     const scope = claims.scope;
     if (scope !== undefined && typeof scope !== 'string') {
-      throw new OAuthCredentialError('Access token scope must be a string');
+      throw new OAuthCredentialError(OAuthCredentialMessages.invalidScope);
     }
     return claims as Readonly<Record<string, unknown>>;
   }
 
   private static assertHttpUrl(value: string, label: string): void {
+    let url: URL;
     try {
-      const url = new URL(value);
-      if (url.protocol !== 'http:' && url.protocol !== 'https:')
-        throw new Error();
+      url = new URL(value);
     } catch {
-      throw new Error(`${label} must be a valid URL`);
+      throw new Error(OAuthResourceVerificationMessages.invalidUrl(label));
+    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+      throw new Error(OAuthResourceVerificationMessages.invalidUrl(label));
     }
   }
 }

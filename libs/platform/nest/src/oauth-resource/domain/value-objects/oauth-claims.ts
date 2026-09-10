@@ -1,4 +1,5 @@
 import { OAuthCredentialError } from '../errors/oauth-credential.error.ts';
+import { OAuthCredentialMessages } from '../errors/oauth-credential-messages.ts';
 
 export class OAuthClaims {
   private constructor(
@@ -10,12 +11,10 @@ export class OAuthClaims {
 
   static from(claims: Readonly<Record<string, unknown>>): OAuthClaims {
     if (typeof claims.sub !== 'string' || claims.sub.trim().length === 0) {
-      throw new OAuthCredentialError(
-        'Access token subject must be a non-empty string',
-      );
+      throw new OAuthCredentialError(OAuthCredentialMessages.invalidSubject);
     }
     if (claims.scope !== undefined && typeof claims.scope !== 'string') {
-      throw new OAuthCredentialError('Access token scope must be a string');
+      throw new OAuthCredentialError(OAuthCredentialMessages.invalidScope);
     }
     const audience = Array.isArray(claims.aud)
       ? claims.aud.filter((value): value is string => typeof value === 'string')
