@@ -1,0 +1,43 @@
+# Tasks: Refactor Payment Federation persistence models
+
+> feature: refactor-payment-persistence-models
+
+## T-260 — Model Inventory persistence with JPA [pendente]
+
+- Refs: US-139, AC-298, AC-299, AC-304
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/inventory, apps/payment-federation/src/main/resources/db/migration/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, test/refactor-payment-persistence-inventory.test.mjs
+- Notas: Use a fresh Codex context and follow Red, Green, Refactor. Bounded context: Inventory. Use case: claim and complete inventory work and maintain the reservation projection. Aggregate: InventoryReservation for reservation state; claim/lease and projection records are persistence models with no invented domain aggregate. Invariants: validated reservation, transaction, order, operation, event, and owner identities; one operation key per request; one completed event per claim; lease ownership and expiry; projection state supports every domain status including COMMIT_REJECTED; command state and read projection use separate tables/models. Consistency boundary: one Inventory database transaction for claim or completion, and one projection update per event version. Affected ports: InventoryRepository, InventoryProjectionRepository, InventoryViewRepository, and InventoryOutbox. Create infrastructure-only JPA entities/repositories and explicit Domain/Application mappers; use identity references rather than cross-context associations. Preserve PostgreSQL concurrency and save-clear-reload behavior with Testcontainers tests. Do not add handwritten SQL or change shared AMQP stores.
+
+## T-261 — Model Payment persistence with JPA [pendente]
+
+- Refs: US-139, AC-298, AC-300, AC-304
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment, apps/payment-federation/src/main/resources/db/migration/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/payment, test/refactor-payment-persistence-payment.test.mjs
+- Notas: Use a fresh Codex context and follow Red, Green, Refactor. Bounded context: Payment. Use cases: process payment/refund requests, persist provider effects, project payment state, record provider notifications, and query reloaded payments. Aggregate: Payment owns payment lifecycle invariants; provider-effect, inbox, outbox, and notification records are dedicated consistency artifacts. Invariants: positive money and ISO currency; typed payment, operation, transaction, order, provider, effect, and event identities; payment and refund effects never collide; identifier collisions are rejected under lock; duplicate deliveries reuse the original result; event sequence never regresses; `transaction_id` and external `order_id` have distinct meanings; no cascade or ORM relationship crosses into Transaction or external commerce ownership. Consistency boundary: one Payment database transaction per command/effect/notification transition. Affected ports: PaymentRepository, PaymentEffectLedger, PaymentProjection, PaymentViewRepository, ProviderNotificationHandler.Repository, and PaymentIntegrationEventPublisher. Keep provider-effect execution behavior outside this task. Use Spring Data/JPQL/ORM locks only and prove save-clear-reload plus concurrent idempotency on PostgreSQL.
+
+## T-262 — Model Transaction persistence with JPA [pendente]
+
+- Refs: US-139, AC-298, AC-301, AC-304
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/refactor-payment-persistence-transaction.test.mjs
+- Notas: Use a fresh Codex context and follow Red, Green, Refactor. Bounded context: Transaction. Use cases: claim/recover checkout work, record WooCommerce creation, complete checkout, project transaction events, and perform owner-scoped reads. Aggregates: Transaction owns event-sourced transaction state; checkout operation is the checkout idempotency/lease consistency boundary; transaction view is a projection, not an aggregate. Invariants: validated transaction, operation, owner, WooCommerce order, and owner-token identities; one operation key and Woo reference; lease owner controls transitions; expired work is reclaimable; JSON items round-trip; event versions never regress; owner-scoped queries cannot leak records. Consistency boundary: one database transaction per checkout claim/transition or projection upsert. Affected ports: CheckoutOperationRepository, TransactionViewStore, TransactionReadRepository, and TransactionOutbox. Use Hibernate JSON mapping and ORM locking, explicit reload where returned state depends on persistence, and no cross-context association.
+
+## T-263 — Model shared AMQP delivery persistence with JPA [pendente]
+
+- Refs: US-139, AC-298, AC-302, AC-304
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging, test/refactor-payment-persistence-amqp.test.mjs
+- Notas: Use a fresh Codex context and follow Red, Green, Refactor. Bounded context: shared delivery is an explicit technical boundary serving three owners without owning business state. Use cases: deduplicate incoming integration events and claim/publish/recover outgoing events. Aggregate: none; inbox and outbox rows are transactional delivery records. Invariants: each context keeps separate schema ownership; consumer/event pairs are unique; source events are unique; only the claim owner completes/fails a record; retry timestamps and attempt counts are monotonic; concurrent relays do not block on or publish the same row. Consistency boundary: one context-local inbox or outbox transaction. Affected ports: the persistence collaborators used by ReliableAmqpConsumer and OutboxRelay. Use a narrow mapped superclass only for genuinely identical columns, concrete context entities/repositories for fixed schemas, and ORM lock/query hints instead of native SQL. Preserve the current public store API until the integration task removes JDBC-named compatibility surfaces.
+
+## T-264 — Integrate ORM adapters and enforce the zero-SQL runtime boundary [pendente]
+
+- Refs: US-139, AC-298, AC-299, AC-300, AC-301, AC-302, AC-303, AC-304
+- Modelo: gpt-5.6-sol
+- Esforço: alto
+- Arquivos: apps/payment-federation/build.gradle.kts, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture, apps/payment-federation/src/test/java/dev/desafio/transaction/e2e, apps/payment-federation/src/test/java/dev/desafio/transaction/projection, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/persistence, test/refactor-payment-persistence-models.test.mjs
+- Notas: Run only after T-260 through T-263, in a fresh Codex context, and follow Red, Green, Refactor for integration behavior. Bounded contexts: Payment, Inventory, Transaction, plus the shared delivery and migration technical boundaries. Use case: wire and verify all ORM adapters as one deployable application. Aggregates: no new aggregate; this task composes existing boundaries. Invariants: Domain/Application contain no ORM dependency; production Java contains no JdbcTemplate, SQL statement API, native query, or embedded SQL; all JDBC-named compatibility classes are removed; Flyway remains authoritative with Hibernate validate and open-in-view disabled; Axon-owned persistence is unchanged; public GraphQL/AMQP/provider behavior, replay, restart, idempotency, and choreography remain green. Consistency boundary: one fresh migrated PostgreSQL database plus the complete application quality suite. Affected ports: all persistence ports implemented by T-260 through T-263. Resolve configuration only after all four context branches merge, add ArchUnit/source checks, enforce relevant JaCoCo coverage without lowering existing evidence, and run unit, integration, coverage, compile/typecheck equivalent, lint/check, `onp-spec verify`, and `onp-spec audit --ci`.
