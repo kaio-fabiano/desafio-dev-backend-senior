@@ -2,8 +2,7 @@
 
 > feature: harden-oauth-runtime-configuration
 
-## T-268 — Align OAuth defaults and resolve configuration lazily [pendente]
-
+## T-268 — Align OAuth defaults and resolve configuration lazily [concluida]
 - Refs: US-140, AC-305
 - Modelo: gpt-5.6-sol
 - Esforço: alto
