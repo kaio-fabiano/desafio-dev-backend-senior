@@ -7,12 +7,14 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
+      "parallelism": false,
       "options": {
         "command": "docker run --rm --user $(id -u):$(id -g) -e GRADLE_USER_HOME=/tmp/gradle-cache -v $PWD/apps/payment-federation:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon bootJar"
       }
     },
     "test": {
       "executor": "nx:run-commands",
+      "parallelism": false,
       "dependsOn": ["build"],
       "options": {
         "command": "docker run --rm --network host --user $(id -u):$(id -g) --group-add $(stat -c %g /var/run/docker.sock) -e GRADLE_USER_HOME=/tmp/gradle-cache -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/apps/payment-federation:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon test --rerun-tasks"
@@ -20,6 +22,7 @@
     },
     "lint": {
       "executor": "nx:run-commands",
+      "parallelism": false,
       "options": {
         "command": "docker run --rm --network host --user $(id -u):$(id -g) --group-add $(stat -c %g /var/run/docker.sock) -e GRADLE_USER_HOME=/tmp/gradle-cache -v /var/run/docker.sock:/var/run/docker.sock -v $PWD/apps/payment-federation:/workspace -w /workspace gradle:8.14.3-jdk21 gradle --no-daemon check"
       }

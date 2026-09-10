@@ -11,6 +11,16 @@ const javaBaseline = execute(
   { maxBuffer: 16 * 1024 * 1024 },
 );
 
+test('Payment Federation Java quality targets are serialized @spec:AC-292', async () => {
+  const project = JSON.parse(
+    await readFile('apps/payment-federation/project.json', 'utf8'),
+  );
+
+  for (const target of ['build', 'test', 'lint']) {
+    assert.equal(project.targets[target].parallelism, false, `${target} must not overlap`);
+  }
+});
+
 async function report(className) {
   await javaBaseline;
   return readFile(
