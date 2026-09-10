@@ -27,7 +27,7 @@ export class BetterAuthFactory {
     const issuer =
       options.issuer ??
       process.env.OAUTH_ISSUER ??
-      'https://identity-subgraph:3001/api/auth';
+      'http://identity-subgraph:3001/api/auth';
     const secret = options.secret ?? process.env.BETTER_AUTH_SECRET;
     const trustedOrigins = process.env.IDENTITY_TRUSTED_ORIGINS?.split(',')
       .map((origin) => origin.trim())

@@ -7,6 +7,7 @@ import {
   type ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { Module, Scope } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 
@@ -23,15 +24,20 @@ import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
   imports: [
     BetterAuthModule,
     OAuthIssuerModule,
-    OAuthResourceModule.register({
-      audience:
-        process.env.IDENTITY_OAUTH_AUDIENCE ??
-        'https://identity.marketplace.local',
-      issuer:
-        process.env.OAUTH_ISSUER ?? 'http://identity-subgraph:3001/api/auth',
-      jwksUrl:
-        process.env.IDENTITY_JWKS_URL ??
-        'http://identity-subgraph:3001/api/auth/jwks',
+    OAuthResourceModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        audience:
+          config.get<string>('IDENTITY_OAUTH_AUDIENCE') ??
+          'https://identity.marketplace.local',
+        issuer:
+          config.get<string>('OAUTH_ISSUER') ??
+          'http://identity-subgraph:3001/api/auth',
+        jwksUrl:
+          config.get<string>('IDENTITY_JWKS_URL') ??
+          'http://identity-subgraph:3001/api/auth/jwks',
+      }),
     }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,

@@ -1,4 +1,5 @@
 import { Inject, Injectable, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { describe, expect, it } from 'vitest';
 
@@ -20,6 +21,28 @@ class AuthConsumer {
 class ConsumerModule {}
 
 describe('GatewayAuthModule', () => {
+  it('resolves OAuth settings after ConfigModule loading @spec:AC-305', async () => {
+    const configured = {
+      GATEWAY_AUDIENCE: 'https://configured-gateway.example.test',
+      IDENTITY_JWKS_URL: 'https://configured-identity.example.test/jwks',
+      OAUTH_ISSUER: 'urn:configured-after-module-evaluation',
+    };
+
+    await expect(
+      Test.createTestingModule({
+        imports: [
+          ConfigModule.forRoot({
+            ignoreEnvFile: true,
+            isGlobal: true,
+            load: [() => configured],
+            skipProcessEnv: true,
+          }),
+          GatewayAuthModule,
+        ],
+      }).compile(),
+    ).rejects.toThrow('OAuth issuer must be a valid URL');
+  });
+
   it('exports the gateway authentication providers', async () => {
     const testingModule = await Test.createTestingModule({
       imports: [ConsumerModule],

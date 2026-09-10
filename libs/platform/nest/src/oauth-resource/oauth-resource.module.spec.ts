@@ -1,4 +1,5 @@
 import { Inject, Injectable, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -33,6 +34,53 @@ class OAuthConsumer {
 class ConsumerModule {}
 
 describe('OAuthResourceModule', () => {
+  it('resolves and freezes options after imported providers initialize', async () => {
+    const configured = {
+      audience: 'https://configured-orders.example.test',
+      issuer: 'https://configured-identity.example.test/api/auth',
+      jwksUrl: 'https://configured-identity.example.test/api/auth/jwks',
+    };
+    const module = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          ignoreEnvFile: true,
+          load: [() => configured],
+          skipProcessEnv: true,
+        }),
+        OAuthResourceModule.registerAsync({
+          imports: [ConfigModule],
+          inject: [ConfigService],
+          useFactory: async (config: ConfigService) => ({
+            audience: config.getOrThrow<string>('audience'),
+            issuer: config.getOrThrow<string>('issuer'),
+            jwksUrl: config.getOrThrow<string>('jwksUrl'),
+          }),
+        }),
+      ],
+    }).compile();
+
+    try {
+      const resolved = module.get<OAuthResourceOptions>(
+        OAuthResourceOptionsToken,
+      );
+      expect(resolved).toEqual(configured);
+      expect(Object.isFrozen(resolved)).toBe(true);
+    } finally {
+      await module.close();
+    }
+  });
+
+  it('supports async factories without injected dependencies', async () => {
+    const module = await Test.createTestingModule({
+      imports: [
+        OAuthResourceModule.registerAsync({ useFactory: () => options }),
+      ],
+    }).compile();
+
+    expect(module.get(OAuthResourceOptionsToken)).toEqual(options);
+    await module.close();
+  });
+
   it('AC-308: resolves one vendor adapter behind the verifier port @spec:AC-308', async () => {
     const module = await Test.createTestingModule({
       imports: [OAuthResourceModule.register(options)],
