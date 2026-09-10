@@ -2,6 +2,7 @@ package dev.desafio.transaction.inventory.adapter.persistence;
 
 import dev.desafio.transaction.inventory.application.InventoryRepository;
 import dev.desafio.transaction.inventory.domain.Inventory;
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -16,13 +17,13 @@ public final class JdbcInventoryRepository implements InventoryRepository {
     private final DataSource dataSource;
 
     public JdbcInventoryRepository(DataSource dataSource) {
-        this.dataSource = Objects.requireNonNull(dataSource, "dataSource");
+        this.dataSource = Objects.requireNonNull(dataSource, InventoryErrorMessages.DATA_SOURCE);
     }
 
     @Override
     public Claim claim(Inventory.ReservationRequested request, String requestFingerprint) {
-        Objects.requireNonNull(request, "request");
-        Objects.requireNonNull(requestFingerprint, "requestFingerprint");
+        Objects.requireNonNull(request, InventoryErrorMessages.REQUEST);
+        Objects.requireNonNull(requestFingerprint, InventoryErrorMessages.REQUEST_FINGERPRINT);
         var ownerToken = UUID.randomUUID();
         try (var connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
@@ -38,19 +39,19 @@ public final class JdbcInventoryRepository implements InventoryRepository {
             } catch (RuntimeException | SQLException error) {
                 rollback(connection, error);
                 if (error instanceof RuntimeException runtime) throw runtime;
-                throw new IllegalStateException("inventory claim transaction failed", error);
+                throw new IllegalStateException(InventoryErrorMessages.CLAIM_TRANSACTION_FAILED, error);
             }
         } catch (SQLException error) {
-            throw new IllegalStateException("inventory database is unavailable", error);
+            throw new IllegalStateException(InventoryErrorMessages.DATABASE_UNAVAILABLE, error);
         }
     }
 
     @Override
     public Inventory.OutgoingEvent complete(Claim claim, Inventory.OutgoingEvent event) {
-        Objects.requireNonNull(claim, "claim");
-        Objects.requireNonNull(event, "event");
+        Objects.requireNonNull(claim, InventoryErrorMessages.CLAIM);
+        Objects.requireNonNull(event, InventoryErrorMessages.EVENT);
         if (claim.status() != ClaimStatus.ACQUIRED || !claim.operationKey().equals(event.operationKey())) {
-            throw new IllegalArgumentException("only the acquired inventory claim can be completed");
+            throw new IllegalArgumentException(InventoryErrorMessages.ONLY_ACQUIRED_CLAIM_CAN_BE_COMPLETED);
         }
         try (var connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
@@ -67,7 +68,7 @@ public final class JdbcInventoryRepository implements InventoryRepository {
                     statement.setString(2, claim.operationKey());
                     statement.setObject(3, claim.ownerToken());
                     if (statement.executeUpdate() != 1) {
-                        throw new IllegalStateException("inventory claim ownership was lost before completion");
+                        throw new IllegalStateException(InventoryErrorMessages.CLAIM_OWNERSHIP_LOST);
                     }
                 }
                 recordInbox(connection, claim.incomingEventId(), stored.eventId());
@@ -76,10 +77,10 @@ public final class JdbcInventoryRepository implements InventoryRepository {
             } catch (RuntimeException | SQLException error) {
                 rollback(connection, error);
                 if (error instanceof RuntimeException runtime) throw runtime;
-                throw new IllegalStateException("inventory completion transaction failed", error);
+                throw new IllegalStateException(InventoryErrorMessages.COMPLETION_TRANSACTION_FAILED, error);
             }
         } catch (SQLException error) {
-            throw new IllegalStateException("inventory database is unavailable", error);
+            throw new IllegalStateException(InventoryErrorMessages.DATABASE_UNAVAILABLE, error);
         }
     }
 
@@ -141,10 +142,14 @@ public final class JdbcInventoryRepository implements InventoryRepository {
             """)) {
             statement.setString(1, request.operationKey());
             try (var rows = statement.executeQuery()) {
-                if (!rows.next()) throw new IllegalStateException("inventory claim was not persisted");
+                if (!rows.next()) {
+                    throw new IllegalStateException(InventoryErrorMessages.CLAIM_NOT_PERSISTED);
+                }
                 if (!request.orderId().equals(rows.getString("order_id"))
                     || !fingerprint.equals(rows.getString("request_fingerprint"))) {
-                    throw new IllegalArgumentException("operationKey identifies a different inventory request");
+                    throw new IllegalArgumentException(
+                        InventoryErrorMessages.OPERATION_KEY_IDENTIFIES_DIFFERENT_REQUEST
+                    );
                 }
                 if ("COMPLETED".equals(rows.getString("state"))) {
                     return new Claim(
@@ -195,7 +200,9 @@ public final class JdbcInventoryRepository implements InventoryRepository {
             """)) {
             statement.setString(1, operationKey);
             try (var rows = statement.executeQuery()) {
-                if (!rows.next()) throw new IllegalStateException("inventory result was not persisted");
+                if (!rows.next()) {
+                    throw new IllegalStateException(InventoryErrorMessages.RESULT_NOT_PERSISTED);
+                }
                 return readEvent(rows);
             }
         }

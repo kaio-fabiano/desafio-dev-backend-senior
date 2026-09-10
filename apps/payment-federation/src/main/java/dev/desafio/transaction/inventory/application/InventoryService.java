@@ -1,6 +1,7 @@
 package dev.desafio.transaction.inventory.application;
 
 import dev.desafio.transaction.inventory.domain.Inventory;
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
@@ -19,13 +20,13 @@ public final class InventoryService {
     }
 
     public InventoryService(InventoryRepository repository, StockPort stock, Clock clock) {
-        this.repository = Objects.requireNonNull(repository, "repository");
-        this.stock = Objects.requireNonNull(stock, "stock");
-        this.clock = Objects.requireNonNull(clock, "clock");
+        this.repository = Objects.requireNonNull(repository, InventoryErrorMessages.REPOSITORY);
+        this.stock = Objects.requireNonNull(stock, InventoryErrorMessages.STOCK);
+        this.clock = Objects.requireNonNull(clock, InventoryErrorMessages.CLOCK);
     }
 
     public Inventory.ProcessingResult handle(Inventory.ReservationRequested request) {
-        Objects.requireNonNull(request, "request");
+        Objects.requireNonNull(request, InventoryErrorMessages.REQUEST);
         var claim = repository.claim(request, fingerprint(request));
         if (claim.status() == InventoryRepository.ClaimStatus.COMPLETED) {
             return new Inventory.ProcessingResult(claim.completedEvent(), true);
@@ -107,7 +108,7 @@ public final class InventoryService {
 
     public static final class WorkInProgressException extends RuntimeException {
         public WorkInProgressException() {
-            super("Inventory operation is already claimed");
+            super(InventoryErrorMessages.OPERATION_ALREADY_CLAIMED);
         }
     }
 }

@@ -1,5 +1,6 @@
 package dev.desafio.transaction.inventory.application.axon;
 
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 import dev.desafio.transaction.inventory.domain.event.InventoryCommittedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryCommitRejectedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReleasedEvent;
@@ -21,7 +22,7 @@ public final class InventoryAxonEvents {
                 new InventoryCommitRejectedAxonEvent(rejected.inventoryReservationId(), rejected);
             case InventoryReleasedEvent released ->
                 new InventoryReleasedAxonEvent(released.inventoryReservationId(), released);
-            default -> throw new IllegalArgumentException("unsupported Inventory domain event");
+            default -> throw new IllegalArgumentException(InventoryErrorMessages.UNSUPPORTED_DOMAIN_EVENT);
         };
     }
 }

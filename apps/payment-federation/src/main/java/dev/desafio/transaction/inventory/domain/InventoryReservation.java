@@ -32,9 +32,11 @@ public final class InventoryReservation {
         Instant occurredAt,
         InventoryEventPublisher events
     ) {
-        if (items == null || items.isEmpty()) throw new IllegalArgumentException("items are required");
-        Objects.requireNonNull(occurredAt, "occurredAt");
-        Objects.requireNonNull(events, "events");
+        if (items == null || items.isEmpty()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.ITEMS_ARE_REQUIRED);
+        }
+        Objects.requireNonNull(occurredAt, InventoryErrorMessages.OCCURRED_AT);
+        Objects.requireNonNull(events, InventoryErrorMessages.EVENTS);
         Object event = available
             ? new InventoryReservedEvent(
                 required(id, "id"), required(transactionId, "transactionId"),
@@ -146,7 +148,9 @@ public final class InventoryReservation {
     public enum Status { RESERVED, REJECTED, COMMITTED, COMMIT_REJECTED, RELEASED }
 
     private static String required(String value, String field) {
-        if (value == null || value.isBlank()) throw new IllegalArgumentException(field + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.required(field));
+        }
         return value;
     }
 }

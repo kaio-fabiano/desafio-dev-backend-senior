@@ -1,6 +1,7 @@
 package dev.desafio.transaction.inventory.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryRepository;
 import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryOutbox;
 import dev.desafio.transaction.inventory.adapter.persistence.JdbcInventoryProjectionRepository;
@@ -109,7 +110,9 @@ public class InventoryConfiguration {
 
     private static String requiredEnvironment(String name) {
         var value = System.getenv(name);
-        if (value == null || value.isBlank()) throw new IllegalStateException(name + " is required");
+        if (value == null || value.isBlank()) {
+            throw new IllegalStateException(InventoryErrorMessages.required(name));
+        }
         return value;
     }
 }

@@ -1,9 +1,11 @@
 package dev.desafio.transaction.inventory.application.query;
 
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
+
 public record FindInventoryReservationByTransaction(String transactionId) {
     public FindInventoryReservationByTransaction {
         if (transactionId == null || transactionId.isBlank()) {
-            throw new IllegalArgumentException("transactionId is required");
+            throw new IllegalArgumentException(InventoryErrorMessages.TRANSACTION_ID_REQUIRED);
         }
     }
 }

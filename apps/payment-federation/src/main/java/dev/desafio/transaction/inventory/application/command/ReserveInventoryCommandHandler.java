@@ -4,6 +4,7 @@ import dev.desafio.transaction.inventory.application.InventoryService;
 import dev.desafio.transaction.inventory.application.axon.InventoryAxonEvents;
 import dev.desafio.transaction.inventory.application.axon.InventoryEventSourcedEntity;
 import dev.desafio.transaction.inventory.domain.Inventory;
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.axonframework.modelling.annotation.InjectEntity;
@@ -29,7 +30,9 @@ public final class ReserveInventoryCommandHandler {
         if (existing.isPresent()) {
             var reservation = existing.orElseThrow();
             if (!reservation.isSameRequest(command.orderId(), command.items())) {
-                throw new IllegalArgumentException("transactionId identifies a different Inventory reservation");
+                throw new IllegalArgumentException(
+                    InventoryErrorMessages.TRANSACTION_ID_IDENTIFIES_DIFFERENT_RESERVATION
+                );
             }
             return reservation.status();
         }

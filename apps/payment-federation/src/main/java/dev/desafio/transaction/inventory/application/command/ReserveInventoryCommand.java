@@ -1,5 +1,6 @@
 package dev.desafio.transaction.inventory.application.command;
 
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 import dev.desafio.transaction.inventory.domain.StockItem;
 import org.axonframework.messaging.commandhandling.annotation.Command;
 import org.axonframework.modelling.annotation.TargetEntityId;
@@ -44,13 +45,23 @@ public record ReserveInventoryCommand(
 
     public ReserveInventoryCommand {
         items = List.copyOf(items);
-        if (paymentId == null || paymentId.isBlank()) throw new IllegalArgumentException("paymentId is required");
-        if (paymentOperationKey == null || paymentOperationKey.isBlank()) {
-            throw new IllegalArgumentException("paymentOperationKey is required");
+        if (paymentId == null || paymentId.isBlank()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.PAYMENT_ID_REQUIRED);
         }
-        if (paymentMethod == null || paymentMethod.isBlank()) throw new IllegalArgumentException("paymentMethod is required");
-        if (amount == null || amount.signum() <= 0) throw new IllegalArgumentException("amount must be positive");
-        if (currency == null || currency.isBlank()) throw new IllegalArgumentException("currency is required");
-        if (payerEmail == null || payerEmail.isBlank()) throw new IllegalArgumentException("payerEmail is required");
+        if (paymentOperationKey == null || paymentOperationKey.isBlank()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.PAYMENT_OPERATION_KEY_REQUIRED);
+        }
+        if (paymentMethod == null || paymentMethod.isBlank()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.PAYMENT_METHOD_REQUIRED);
+        }
+        if (amount == null || amount.signum() <= 0) {
+            throw new IllegalArgumentException(InventoryErrorMessages.AMOUNT_MUST_BE_POSITIVE);
+        }
+        if (currency == null || currency.isBlank()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.CURRENCY_REQUIRED);
+        }
+        if (payerEmail == null || payerEmail.isBlank()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.PAYER_EMAIL_REQUIRED);
+        }
     }
 }

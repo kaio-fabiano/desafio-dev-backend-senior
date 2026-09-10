@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.inventory.application.StockPort;
 import dev.desafio.transaction.inventory.domain.Inventory;
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 
 import java.io.IOException;
 import java.net.URI;
@@ -66,14 +67,14 @@ public final class WooInventoryAdapter implements StockPort {
                 || response.statusCode() >= 300
                 || !errors.isMissingNode() && !errors.isEmpty()) {
                 throw new IllegalStateException(
-                    "WordPress federation inventory request failed: " + response.statusCode()
+                    InventoryErrorMessages.inventoryRequestFailed(response.statusCode())
                 );
             }
         } catch (InterruptedException error) {
             Thread.currentThread().interrupt();
-            throw new IllegalStateException("WooCommerce inventory request interrupted", error);
+            throw new IllegalStateException(InventoryErrorMessages.INVENTORY_REQUEST_INTERRUPTED, error);
         } catch (IOException error) {
-            throw new IllegalStateException("WordPress federation inventory request failed", error);
+            throw new IllegalStateException(InventoryErrorMessages.INVENTORY_REQUEST_FAILED, error);
         }
     }
 
@@ -86,7 +87,7 @@ public final class WooInventoryAdapter implements StockPort {
         );
         var order = send(operation).path("data").path("order");
         if (order.isMissingNode() || order.isNull()) {
-            throw new IllegalStateException("WordPress federation did not resolve order " + request.orderId());
+            throw new IllegalStateException(InventoryErrorMessages.orderNotResolved(request.orderId()));
         }
         for (var metadata : order.path("metaData")) {
             if (!"inventory_operation_key".equals(metadata.path("key").asText())) continue;
@@ -113,7 +114,7 @@ public final class WooInventoryAdapter implements StockPort {
             var product = send(operation).path("data").path("product");
             if (product.isMissingNode() || product.isNull()) {
                 throw new IllegalStateException(
-                    "WordPress federation did not resolve product " + item.productId()
+                    InventoryErrorMessages.productNotResolved(item.productId())
                 );
             }
             if ("OUT_OF_STOCK".equals(product.path("stockStatus").asText())
@@ -133,16 +134,15 @@ public final class WooInventoryAdapter implements StockPort {
                 || response.statusCode() >= 300
                 || !errors.isMissingNode() && !errors.isEmpty()) {
                 throw new IllegalStateException(
-                    "WordPress federation inventory query failed: "
-                        + response.statusCode() + " " + errors
+                    InventoryErrorMessages.inventoryQueryFailed(response.statusCode(), errors)
                 );
             }
             return payload;
         } catch (InterruptedException error) {
             Thread.currentThread().interrupt();
-            throw new IllegalStateException("WooCommerce inventory request interrupted", error);
+            throw new IllegalStateException(InventoryErrorMessages.INVENTORY_REQUEST_INTERRUPTED, error);
         } catch (IOException error) {
-            throw new IllegalStateException("WordPress federation inventory request failed", error);
+            throw new IllegalStateException(InventoryErrorMessages.INVENTORY_REQUEST_FAILED, error);
         }
     }
 
@@ -174,15 +174,15 @@ public final class WooInventoryAdapter implements StockPort {
             var token = payload.path("data").path("login").path("authToken").asText();
             if (response.statusCode() < 200 || response.statusCode() >= 300 || token.isBlank()) {
                 throw new IllegalStateException(
-                    "WordPress service authentication failed: " + response.statusCode()
+                    InventoryErrorMessages.authenticationFailed(response.statusCode())
                 );
             }
             return token;
         } catch (InterruptedException error) {
             Thread.currentThread().interrupt();
-            throw new IllegalStateException("WordPress service authentication interrupted", error);
+            throw new IllegalStateException(InventoryErrorMessages.AUTHENTICATION_INTERRUPTED, error);
         } catch (IOException error) {
-            throw new IllegalStateException("WordPress service authentication failed", error);
+            throw new IllegalStateException(InventoryErrorMessages.AUTHENTICATION_FAILED, error);
         }
     }
 
@@ -190,7 +190,7 @@ public final class WooInventoryAdapter implements StockPort {
         try {
             return json.writeValueAsString(value);
         } catch (JsonProcessingException error) {
-            throw new IllegalArgumentException("inventory request could not be serialized", error);
+            throw new IllegalArgumentException(InventoryErrorMessages.REQUEST_SERIALIZATION_FAILED, error);
         }
     }
 }

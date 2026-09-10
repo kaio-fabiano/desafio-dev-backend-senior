@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope;
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 import dev.desafio.transaction.inventory.application.InventoryService;
 import dev.desafio.transaction.inventory.application.command.CommitInventoryCommand;
 import dev.desafio.transaction.inventory.application.command.ReleaseInventoryCommand;
@@ -99,7 +100,7 @@ public final class InventoryRabbitListener {
                 "inventory:" + event.transactionId(), event.correlationId(), event.eventId().toString()
             );
             default -> throw new ReliableAmqpConsumer.BusinessRejection(
-                "unsupported Inventory integration event " + event.eventType()
+                InventoryErrorMessages.unsupportedIntegrationEvent(event.eventType())
             );
         };
     }
@@ -149,13 +150,15 @@ public final class InventoryRabbitListener {
         if (traceparent != null && !traceparent.toString().matches(
             "00-[0-9a-f]{32}-[0-9a-f]{16}-[0-9a-f]{2}"
         )) {
-            throw new IllegalArgumentException("traceparent is invalid");
+            throw new IllegalArgumentException(InventoryErrorMessages.TRACEPARENT_INVALID);
         }
     }
 
     private static String required(JsonNode node, String field) {
         var value = node.path(field).asText();
-        if (value.isBlank()) throw new IllegalArgumentException(field + " is required");
+        if (value.isBlank()) {
+            throw new IllegalArgumentException(InventoryErrorMessages.required(field));
+        }
         return value;
     }
 }

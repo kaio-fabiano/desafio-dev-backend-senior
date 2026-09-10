@@ -3,8 +3,10 @@ package dev.desafio.transaction.inventory.domain;
 public record StockItem(String productId, int quantity) {
     public StockItem {
         if (productId == null || productId.isBlank()) {
-            throw new IllegalArgumentException("productId is required");
+            throw new IllegalArgumentException(InventoryErrorMessages.PRODUCT_ID_REQUIRED);
         }
-        if (quantity < 1) throw new IllegalArgumentException("quantity must be positive");
+        if (quantity < 1) {
+            throw new IllegalArgumentException(InventoryErrorMessages.QUANTITY_MUST_BE_POSITIVE);
+        }
     }
 }

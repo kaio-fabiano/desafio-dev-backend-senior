@@ -1,6 +1,7 @@
 package dev.desafio.transaction.inventory.application;
 
 import dev.desafio.transaction.inventory.domain.Inventory;
+import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -20,14 +21,14 @@ public interface InventoryRepository {
         Inventory.OutgoingEvent completedEvent
     ) {
         public Claim {
-            Objects.requireNonNull(status, "status");
-            Objects.requireNonNull(incomingEventId, "incomingEventId");
-            Objects.requireNonNull(operationKey, "operationKey");
+            Objects.requireNonNull(status, InventoryErrorMessages.STATUS);
+            Objects.requireNonNull(incomingEventId, InventoryErrorMessages.INCOMING_EVENT_ID);
+            Objects.requireNonNull(operationKey, InventoryErrorMessages.OPERATION_KEY);
             if (status == ClaimStatus.ACQUIRED && ownerToken == null) {
-                throw new IllegalArgumentException("an acquired inventory claim requires an owner token");
+                throw new IllegalArgumentException(InventoryErrorMessages.OWNER_TOKEN_REQUIRED);
             }
             if (status == ClaimStatus.COMPLETED && completedEvent == null) {
-                throw new IllegalArgumentException("a completed inventory claim requires its event");
+                throw new IllegalArgumentException(InventoryErrorMessages.COMPLETED_CLAIM_REQUIRES_EVENT);
             }
         }
     }
