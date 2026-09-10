@@ -42,7 +42,7 @@
 
 ## T-122 — Make the bounded-context migration safe on fresh databases [concluida]
 - Refs: US-077, AC-158
-- Arquivos: apps/order-workflow-subgraph/src/persistence/migrations/Migration202609010003.ts, test/align-payment-federation-naming.spec.test.mjs
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, test/align-payment-federation-naming.spec.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Preserve the legacy upgrade path while making the migration a no-op when canonical tables already exist.

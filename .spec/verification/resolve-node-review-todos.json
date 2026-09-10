@@ -1,45 +1,45 @@
 {
   "feature": "resolve-node-review-todos",
-  "timestamp": "2026-09-08T20:12:48.958Z",
-  "gitRev": "7aa899f",
-  "command": "cat /tmp/onp-final-green.tap",
+  "timestamp": "2026-09-10T01:23:17.626Z",
+  "gitRev": "e3972aac",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 677,
+  "testsParsed": 515,
   "results": {
     "AC-225": {
       "status": "pass",
-      "testName": "loads Nest controller metadata @spec:AC-225 # time=3.66ms",
+      "testName": "loads Nest controller metadata @spec:AC-225 # time=3.20ms",
       "method": "tap"
     },
     "AC-226": {
       "status": "pass",
-      "testName": "AC-226: verifies claims, reuses rotated JWKS, and propagates the allowed edge context @spec:AC-226 # time=228.56ms",
+      "testName": "AC-226: verifies claims, reuses rotated JWKS, and propagates the allowed edge context @spec:AC-226 # time=249.73ms",
       "method": "tap"
     },
     "AC-227": {
       "status": "pass",
-      "testName": "configures the supported Nest Better Auth instance and shared delegated resource scopes @spec:AC-227 # time=137.54ms",
+      "testName": "configures the supported Nest Better Auth instance and shared delegated resource scopes @spec:AC-227 # time=159.91ms",
       "method": "tap"
     },
     "AC-228": {
       "status": "pass",
-      "testName": "seeds idempotent PKCE clients with every delegated resource @spec:AC-063 @spec:AC-081 @spec:AC-228 # time=517.03ms",
+      "testName": "seeds idempotent PKCE clients with every delegated resource @spec:AC-063 @spec:AC-081 @spec:AC-228 # time=583.94ms",
       "method": "tap"
     },
     "AC-229": {
       "status": "pass",
-      "testName": "grants one lease for concurrent claims of an operation key @spec:AC-229 # time=162.65ms",
+      "testName": "Checkout concurrency, conflicts, bounded waits, and ambiguity remain idempotent @spec:AC-285 @spec:AC-229 @spec:AC-243",
       "method": "tap"
     },
     "AC-230": {
       "status": "pass",
-      "testName": "rolls back a claim when work after its insert fails @spec:AC-229 @spec:AC-230 # time=47.68ms",
+      "testName": "Real RabbitMQ and PostgreSQL prove reliable AMQP delivery @spec:AC-293 @spec:AC-230",
       "method": "tap"
     },
     "AC-231": {
       "status": "pass",
-      "testName": "reports liveness independently and readiness after all dependencies connect @spec:AC-231 # time=13.52ms",
+      "testName": "Axon subscription queries isolate each transaction over GraphQL SSE @spec:AC-289 @spec:AC-231",
       "method": "tap"
     },
     "AC-232": {

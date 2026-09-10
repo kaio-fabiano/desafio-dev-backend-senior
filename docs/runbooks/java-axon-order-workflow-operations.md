@@ -6,6 +6,16 @@ contract and SSE subscriptions to its `/graphql` endpoint. Cross-context facts
 use `marketplace.events.v1` and context-owned RabbitMQ queues; no operator may
 re-enable the retired Node writer.
 
+## Retired Node evidence
+
+`apps/order-workflow-subgraph` was deliberately removed after the Java cutover.
+Its surviving runtime responsibilities are implemented under
+`apps/payment-federation/src/main/java/dev/desafio/transaction`, and the current
+retirement, routing, compatibility, and quality-gate evidence is exercised by
+`test/migrate-order-workflow-to-axon-java.test.mjs`. Historical task records may
+reference this section as durable evidence of the removed source paths; they do
+not imply that the Node application remains deployable.
+
 Run commands from the repository root. Any failed check blocks release and is
 owned by the release operator until the relevant context owner accepts it.
 

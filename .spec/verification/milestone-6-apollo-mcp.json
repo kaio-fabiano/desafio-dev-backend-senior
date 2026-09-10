@@ -1,11 +1,11 @@
 {
   "feature": "milestone-6-apollo-mcp",
-  "timestamp": "2026-09-08T20:12:47.749Z",
-  "gitRev": "7aa899f",
-  "command": "cat /tmp/onp-final-green.tap",
+  "timestamp": "2026-09-10T01:23:17.626Z",
+  "gitRev": "e3972aac",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 677,
+  "testsParsed": 515,
   "results": {
     "AC-060": {
       "status": "pass",

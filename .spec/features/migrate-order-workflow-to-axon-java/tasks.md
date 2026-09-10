@@ -11,7 +11,7 @@
 
 ## T-241 — Audit the current Workflow and integration contracts [concluida]
 - Refs: US-134, US-135, US-136
-- Arquivos: apps/order-workflow-subgraph, apps/gateway, apps/identity-subgraph, apps/wordpress-integration, libs/contracts, compose.yaml, .spec/features/migrate-order-workflow-to-axon-java/audit-current-workflow.md
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, apps/gateway, apps/identity-subgraph, apps/wordpress-integration, libs/contracts, compose.yaml, .spec/features/migrate-order-workflow-to-axon-java/audit-current-workflow.md
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notas: Documentation-only audit, parallel with T-240. Treat the three approved source documents under `/home/kaiosilva/Downloads/` as authoritative requirements. Inventory behavior and contracts that the Java migration must preserve: checkout idempotency, state transitions, choreography, inbox/outbox, RabbitMQ topology, GraphQL Federation, OAuth ownership, SSE replay, WordPress/WooCommerce integration, schemas, tables, deployment, and tests. Do not alter production code.
@@ -120,7 +120,7 @@
 
 ## T-248 — Migrate checkout and Transaction decisions [concluida]
 - Refs: US-132, US-134, AC-281, AC-282, AC-285, AC-286, AC-293, AC-292
-- Arquivos: apps/order-workflow-subgraph/src/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java-transaction.test.mjs
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction, apps/payment-federation/src/main/resources/db/migration/transaction, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/migrate-order-workflow-to-axon-java-transaction.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-244, T-245.
@@ -142,7 +142,7 @@
 
 ## T-249 — Build replayable projections and compatible GraphQL [concluida]
 - Refs: US-132, US-134, US-135, AC-281, AC-287, AC-288, AC-292
-- Arquivos: libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/*/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/*/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/*/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/projection, test/migrate-order-workflow-to-axon-java.test.mjs
+- Arquivos: libs/contracts/graphql/order-workflow/schema.graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/infrastructure/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/resources/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/projection, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-246, T-247, T-248.
@@ -208,7 +208,7 @@
 
 ## T-252 — Import or clean-start legacy state and perform reversible cutover [concluida]
 - Refs: US-134, US-135, US-136, AC-285, AC-287, AC-288, AC-289, AC-290, AC-291, AC-292, AC-293
-- Arquivos: apps/order-workflow-subgraph/src/persistence, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e, test/migrate-order-workflow-to-axon-java.test.mjs
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, apps/payment-federation/src/main/java/dev/desafio/transaction/migration, apps/payment-federation/src/main/resources/db/migration, apps/payment-federation/src/test/java/dev/desafio/transaction/migration, apps/gateway, compose.yaml, apps/e2e, test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Dependencies: T-251 and explicit resolution of Q-022, Q-024, Q-025, and applicable Q-026 policies.
@@ -230,7 +230,7 @@
 
 ## T-253 — Retire Node Workflow and close all quality gates [concluida]
 - Refs: US-136, AC-280, AC-282, AC-286, AC-288, AC-289, AC-290, AC-291, AC-292, AC-293
-- Arquivos: apps/order-workflow-subgraph, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, infra/sst.config.ts, compose.yaml, README.md, docs, test, .spec/features, .spec/verification
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, apps/gateway, apps/payment-federation, apps/wordpress-integration, libs/contracts, infra/sst.config.ts, compose.yaml, README.md, docs, test, .spec/features, .spec/verification
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Approval: The user explicitly approved sequential execution with `gpt-5.6-sol` and high effort before this clean-context run; do not request that confirmation again.
@@ -268,9 +268,9 @@
 - Affected ports: None; only specification-to-code traceability and generated verification records are affected.
 - Behavior: Every retired Node path is reanchored to the surviving Java implementation, retirement ADR/runbook, or current executable test that proves its disposition; wildcard-like mappings resolve to concrete existing paths; obsolete feature proofs are regenerated from their real runners.
 - Red: Preserve the failing global audit output reporting `ARQUIVO_INEXISTENTE` and `VERIFY_OBSOLETO` as the baseline evidence.
-- Green: Apply the smallest truthful mapping updates and run `onp-spec verify` for each obsolete feature until those two audit categories are eliminated.
+- Green: Apply the smallest truthful mapping updates and refresh every obsolete feature from one successful shared runner output because all features use the same global `testCommand`; each generated record must still contain only that feature's parsed criteria.
 - Refactor: Consolidate repeated retired-path mappings on existing durable evidence without inventing placeholder files or restoring dead Node code.
-- Validation: `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs verify <feature>` for each obsolete feature; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs verify migrate-order-workflow-to-axon-java`; `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci`; `git diff --check`.
+- Validation: Run the configured global `testCommand` once, parse its real TAP output with the onp-spec verifier library, regenerate each obsolete feature record from that same successful run, then run `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs verify migrate-order-workflow-to-axon-java`, `node .agents/skills/onp-spec-driven/scripts/onp-spec.mjs audit --ci`, and `git diff --check`.
 - Acceptance: AC-291 and AC-292 remain green, no completed task maps a missing file, every verification record is current, and the repository-wide `audit --ci` exits zero without restoring Node artifacts.
 - Risks/blockers: Historical tasks may describe artifacts that intentionally no longer exist; map them to explicit retirement evidence rather than falsifying their original implementation or adding compatibility scaffolding.
 - Rollback: Revert the metadata/evidence commit; runtime remains unaffected because this task never changes production code.

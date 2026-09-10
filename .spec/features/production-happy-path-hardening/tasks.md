@@ -8,7 +8,7 @@
 
 ## T-102 — Make cart ownership and session propagation federated [concluida]
 - Refs: US-063, AC-131, AC-132, US-067, AC-136
-- Arquivos: libs/contracts/graphql, libs/gateway/nest/src/federation, apps/order-workflow-subgraph/src/graphql, apps/apollo-mcp/operations, apps/e2e/src, test
+- Arquivos: libs/contracts/graphql, libs/gateway/nest/src/federation, docs/runbooks/java-axon-order-workflow-operations.md, apps/apollo-mcp/operations, apps/e2e/src, test
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Route cart mutations to WordPress, forward session headers to Commerce, inject GraphQL request context, remove the subject-to-token map, then run focused tests, affected ESLint, and code review.
@@ -16,7 +16,7 @@
 ## T-103 — Make WooCommerce order creation recoverable [concluida]
 
 - Refs: US-064, AC-133, US-067, AC-136
-- Arquivos: apps/order-workflow-subgraph/src/checkout, apps/order-workflow-subgraph/src/persistence, apps/order-workflow-subgraph/src/graphql, test
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, test
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Use a durable operation owner/lease and stable external reference with reconciliation after ambiguous results; never proceed after a blind timeout. Run focused tests, affected ESLint, and code review.
@@ -31,7 +31,7 @@
 
 ## T-105 — Make order subscriptions distributed and replayable [concluida]
 - Refs: US-066, AC-135, US-067, AC-136
-- Arquivos: apps/order-workflow-subgraph/src/graphql/sse, apps/order-workflow-subgraph/src/messaging, apps/order-workflow-subgraph/src/main.ts, apps/order-workflow-subgraph/src/graphql, test
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, test
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Keep GraphQL-over-SSE, replace process-local latest state with persisted replay plus cross-replica notification, and own connections through Nest lifecycle providers. Run focused tests, affected ESLint, and code review.
@@ -39,14 +39,14 @@
 ## T-106 — Refactor NestJS composition and close all quality gates [concluida]
 
 - Refs: US-067, AC-136, AC-137
-- Arquivos: apps/order-workflow-subgraph/src, libs/platform/nest/src, libs/gateway/nest/src, test, docs/evidence/production-happy-path-hardening, .spec/features/production-happy-path-hardening, .spec/verification/production-happy-path-hardening.json
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, libs/platform/nest/src, libs/gateway/nest/src, test, docs/evidence/production-happy-path-hardening, .spec/features/production-happy-path-hardening, .spec/verification/production-happy-path-hardening.json
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Replace the request-scoped manual object graph with ports, typed injection tokens, injectable singleton adapters, and the smallest request-scoped GraphQL context provider. Enable and use idiomatic NestJS decorator syntax instead of manual decorator function calls, while keeping explicit injection tokens at port boundaries. Move authentication/authorization into guards and context extraction into parameter decorators; use pipes, filters, interceptors, and lifecycle providers only for their proper cross-cutting roles. Promote a primitive to libs/platform/nest only when two real consumers share identical semantics. Add dependency-direction tests, review the full happy path, run all Nx ESLint targets and acceptance tests, refresh Graphify, then pass onp-spec verify and audit --ci.
 
 ## T-123 — Reconcile checkout without a WordPress customer session [concluida]
 - Refs: US-064, AC-133, US-067, AC-136
-- Arquivos: apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts, apps/order-workflow-subgraph/src/graphql/order-workflow-graphql.module.ts, apps/wordpress-integration/plugins/order-workflow-reconciliation, apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, docs/adrs/003-wordpress-federation.md, test/production-happy-path-hardening.spec.test.js, apps/e2e/src
+- Arquivos: docs/runbooks/java-axon-order-workflow-operations.md, apps/wordpress-integration/plugins/order-workflow-reconciliation, apps/wordpress-integration/scripts/install-plugins.sh, compose.yaml, docs/adrs/003-wordpress-federation.md, test/production-happy-path-hardening.spec.test.js, apps/e2e/src
 - Modelo: gpt-5.6-sol
 - Esforço: alto
 - Notes: Preserve one-order idempotency by extending WooCommerce's native order search filters for both CPT and HPOS, then query the native REST collection with scoped service credentials instead of relying on an authenticated WordPress customer session. Document why the small private plugin is required.

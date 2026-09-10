@@ -1,11 +1,11 @@
 {
   "feature": "retire-milestone-zero-poc-gates",
-  "timestamp": "2026-09-08T19:30:19.083Z",
-  "gitRev": "40700c7",
+  "timestamp": "2026-09-10T01:23:17.626Z",
+  "gitRev": "e3972aac",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 0,
-  "testsParsed": 677,
+  "testsParsed": 515,
   "results": {
     "AC-277": {
       "status": "pass",

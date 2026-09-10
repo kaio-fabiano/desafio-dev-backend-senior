@@ -27,7 +27,7 @@
 - Refs: US-079, US-080, AC-161, AC-162, AC-164
 - Modelo: gpt-5.6-sol
 - Esforço: alto
-- Arquivos: libs/contracts/events/payment-requested.v1.schema.json, libs/contracts/events/payment-authorized.v1.schema.json, libs/contracts/events/payment-pix-generated.v1.schema.json, libs/contracts/graphql/payment/schema.graphql, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/command/AuthorizePayment.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentConsumer.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java, apps/order-workflow-subgraph/src/messaging/rabbitmq.ts, apps/order-workflow-subgraph/src/saga/order-saga.ts
+- Arquivos: libs/contracts/events/payment-requested.v1.schema.json, libs/contracts/events/payment-authorized.v1.schema.json, libs/contracts/events/payment-pix-generated.v1.schema.json, libs/contracts/graphql/payment/schema.graphql, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/command/AuthorizePayment.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentConsumer.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java, docs/runbooks/java-axon-order-workflow-operations.md
 - Notas: Carry only provider tokens and minimum payer data; preserve Card-approved and Pix-generated challenge outcomes.
 
 ## T-128 — Prove the boundary and document operation [concluida]
