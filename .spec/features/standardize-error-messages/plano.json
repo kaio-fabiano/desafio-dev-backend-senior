@@ -1,0 +1,229 @@
+{
+  "runId": "desafio-dev-backend-senior-standardize-error-messages-mtvndleg",
+  "feature": "standardize-error-messages",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-261",
+    "T-262",
+    "T-263",
+    "T-264",
+    "T-265",
+    "T-266",
+    "T-267"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 14:53",
+  "branchTrabalho": "spec/standardize-error-messages",
+  "baseDir": ".spec/features/standardize-error-messages",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3",
+      "faixa-4",
+      "faixa-5",
+      "faixa-6",
+      "faixa-7"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/standardize-error-messages-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-261",
+          "titulo": "Standardize Gateway TypeScript errors",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "test/error-message-gateway.test.mjs",
+            "apps/gateway/src",
+            "libs/gateway/nest/src"
+          ],
+          "refs": [
+            "US-139",
+            "AC-298",
+            "AC-300",
+            "AC-301",
+            "AC-302"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/standardize-error-messages-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-262",
+          "titulo": "Standardize Java Transaction errors",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "test/error-message-java-transaction.test.mjs",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction"
+          ],
+          "refs": [
+            "US-139",
+            "AC-299",
+            "AC-300",
+            "AC-301",
+            "AC-302"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/standardize-error-messages-faixa-3",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-263",
+          "titulo": "Standardize Java Inventory errors",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "test/error-message-java-inventory.test.mjs",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory"
+          ],
+          "refs": [
+            "US-139",
+            "AC-299",
+            "AC-300",
+            "AC-301",
+            "AC-302"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-4",
+      "branch": "spec/standardize-error-messages-faixa-4",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-4",
+      "tarefas": [
+        {
+          "id": "T-264",
+          "titulo": "Standardize Java Payment errors",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "test/error-message-java-payment.test.mjs",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment"
+          ],
+          "refs": [
+            "US-139",
+            "AC-299",
+            "AC-300",
+            "AC-301",
+            "AC-302"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-5",
+      "branch": "spec/standardize-error-messages-faixa-5",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-5",
+      "tarefas": [
+        {
+          "id": "T-265",
+          "titulo": "Standardize Java shared-boundary errors",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "test/error-message-java-shared.test.mjs",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/contracts",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/shared",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/migration"
+          ],
+          "refs": [
+            "US-139",
+            "AC-299",
+            "AC-300",
+            "AC-301",
+            "AC-302"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-6",
+      "branch": "spec/standardize-error-messages-faixa-6",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-6",
+      "tarefas": [
+        {
+          "id": "T-266",
+          "titulo": "Standardize Identity TypeScript errors",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "test/error-message-identity.test.mjs",
+            "apps/identity-subgraph/src",
+            "libs/identity/nest/src"
+          ],
+          "refs": [
+            "US-139",
+            "AC-298",
+            "AC-300",
+            "AC-301"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-7",
+      "branch": "spec/standardize-error-messages-faixa-7",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-7",
+      "tarefas": [
+        {
+          "id": "T-267",
+          "titulo": "Standardize Platform OAuth TypeScript errors",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "test/error-message-platform-oauth.test.mjs",
+            "libs/platform/nest/src"
+          ],
+          "refs": [
+            "US-139",
+            "AC-298",
+            "AC-300",
+            "AC-301"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-260",
+      "titulo": "Add final executable error-message governance",
+      "modelo": "gpt-5.6-terra",
+      "esforco": "medium",
+      "arquivos": [
+        "tools/error-messages/error-message-policy.mjs",
+        "test/error-message-policy.test.mjs",
+        "docs/standards/error-message-catalogs.md"
+      ],
+      "refs": [
+        "US-139",
+        "AC-298",
+        "AC-299",
+        "AC-300",
+        "AC-301",
+        "AC-302"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
