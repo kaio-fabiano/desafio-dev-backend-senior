@@ -1,0 +1,37 @@
+{
+  "runId": "desafio-dev-backend-senior-align-milestone-7-checkout-contract-mtx02yn6",
+  "feature": "align-milestone-7-checkout-contract",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 13:36",
+  "branchTrabalho": "spec/align-milestone-7-checkout-contract",
+  "baseDir": ".spec/features/align-milestone-7-checkout-contract",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-align-milestone-7-checkout-contract-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-303",
+      "titulo": "Align Gateway and E2E checkout operation shapes",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/contracts/graphql/order-workflow/schema.graphql",
+        "apps/e2e/src/journey.ts",
+        "apps/e2e/src/milestone-7.e2e.test.ts",
+        "test/milestone-7-e2e-contract.test.mjs"
+      ],
+      "refs": [
+        "US-158",
+        "AC-352"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
