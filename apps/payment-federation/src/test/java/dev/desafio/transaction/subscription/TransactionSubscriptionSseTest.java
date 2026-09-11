@@ -106,6 +106,7 @@ class TransactionSubscriptionSseTest {
         var names = fields(response.getBody()).stream().map(field -> field.get("name")).toList();
         assertTrue(names.contains("onTransactionUpdated"), names.toString());
         assertTrue(names.contains("orderEvents"), names.toString());
+        assertTrue(names.contains("checkoutUpdated"), names.toString());
     }
 
     @Test

@@ -17,6 +17,7 @@ import dev.desafio.transaction.transaction.application.query.FindTransactionHand
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutService;
+import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationUpdatePublisher;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.adapter.woocommerce.WooCommerceGraphQlOrderAdapter;
 import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;
@@ -79,9 +80,10 @@ public class TransactionConfiguration {
     CheckoutOperationRepository checkoutOperationRepository(
         CheckoutOperationJpaRepository records,
         EntityManager entityManager,
-        PlatformTransactionManager transactionManager
+        PlatformTransactionManager transactionManager,
+        org.axonframework.messaging.eventhandling.gateway.EventGateway events
     ) {
-        return new JpaCheckoutOperationRepository(records, entityManager, transactionManager);
+        return new JpaCheckoutOperationRepository(records, entityManager, transactionManager, events);
     }
 
     @Bean

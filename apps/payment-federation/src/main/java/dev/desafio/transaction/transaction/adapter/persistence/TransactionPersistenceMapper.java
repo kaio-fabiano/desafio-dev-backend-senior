@@ -23,7 +23,7 @@ final class TransactionPersistenceMapper {
                 case FAILED -> "FAILED";
                 default -> "PROCESSING";
             },
-            entity.wooOrderId(), entity.paymentId(), entity.errorReason()
+            entity.wooOrderId(), entity.paymentId(), entity.errorReason(), entity.subject()
         );
     }
 

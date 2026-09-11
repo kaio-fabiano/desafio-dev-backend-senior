@@ -3,6 +3,10 @@ package dev.desafio.transaction.transaction.adapter.persistence;
 import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictException;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.application.query.CheckoutOperationView;
+import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationUpdatePublisher;
+import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationCommitted;
+import org.axonframework.messaging.eventhandling.gateway.EventGateway;
 import jakarta.persistence.EntityManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,7 +22,21 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
     private final CheckoutOperationJpaRepository records;
     private final EntityManager entityManager;
     private final TransactionTemplate transaction;
+    private final CheckoutOperationUpdatePublisher publisher;
     private final ObjectMapper json = new ObjectMapper();
+
+    public JpaCheckoutOperationRepository(
+        CheckoutOperationJpaRepository records,
+        EntityManager entityManager,
+        PlatformTransactionManager manager,
+        EventGateway events
+    ) {
+        this.records = records;
+        this.entityManager = entityManager;
+        transaction = new TransactionTemplate(manager);
+        transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        this.publisher = view -> events.publish(java.util.List.of(new CheckoutOperationCommitted(view)));
+    }
 
     public JpaCheckoutOperationRepository(
         CheckoutOperationJpaRepository records,
@@ -29,6 +47,7 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
         this.entityManager = entityManager;
         transaction = new TransactionTemplate(manager);
         transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        this.publisher = view -> {};
     }
 
     @Override
@@ -49,12 +68,14 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
 
     @Override
     public boolean markWooCreationRequested(String id, Instant now) {
-        return transaction.execute(ignored -> records.markWooCreationRequested(id, now) == 1);
+        var changed = transaction.execute(ignored -> records.markWooCreationRequested(id, now) == 1);
+        if (changed) publish(id);
+        return changed;
     }
 
     @Override
     public Operation recordWooOrder(String id, WooCommerceOrderPort.Order order, Instant now) {
-        return transaction.execute(ignored -> {
+        var operation = transaction.execute(ignored -> {
             try {
                 records.recordWooOrder(id, order.id(), json.writeValueAsString(order.items()), order.amount(), order.currency(), now);
             } catch (JsonProcessingException error) {
@@ -63,24 +84,41 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
             entityManager.clear();
             return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
         });
+        publisher.publish(view(operation));
+        return operation;
     }
 
     @Override
     public Operation complete(String id, Instant now) {
-        return transaction.execute(ignored -> {
+        var operation = transaction.execute(ignored -> {
             records.complete(id, now);
             entityManager.clear();
             return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
         });
+        publisher.publish(view(operation));
+        return operation;
     }
 
     @Override
     public Operation fail(String id, String reason, Instant now) {
-        return transaction.execute(ignored -> {
+        var operation = transaction.execute(ignored -> {
             records.fail(id, reason, now);
             entityManager.clear();
             return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
         });
+        publisher.publish(view(operation));
+        return operation;
+    }
+
+    private void publish(String id) {
+        records.findByOperationId(id).map(TransactionPersistenceMapper::checkoutView).ifPresent(publisher::publish);
+    }
+
+    private CheckoutOperationView view(Operation operation) {
+        return new CheckoutOperationView(operation.operationId(), operation.operationKey(),
+            operation.status() == CheckoutOperationRepository.Status.COMPLETED ? "COMPLETED"
+                : operation.status() == CheckoutOperationRepository.Status.FAILED ? "FAILED" : "PROCESSING",
+            operation.wooOrderId(), operation.paymentId(), operation.errorReason(), operation.subject());
     }
 
     @Override

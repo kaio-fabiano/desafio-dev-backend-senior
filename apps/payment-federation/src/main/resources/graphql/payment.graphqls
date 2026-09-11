@@ -103,6 +103,7 @@ type Mutation {
 type Subscription {
   orderEvents(operationKey: ID!): OrderEvent!
   onTransactionUpdated(transactionId: ID!): TransactionUpdate!
+  checkoutUpdated(operationId: ID!): CheckoutOperation!
 }
 
 type TransactionUpdate {

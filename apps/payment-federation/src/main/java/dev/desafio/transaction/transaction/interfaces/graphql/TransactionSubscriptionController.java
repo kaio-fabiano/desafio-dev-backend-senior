@@ -2,6 +2,8 @@ package dev.desafio.transaction.transaction.interfaces.graphql;
 
 import dev.desafio.transaction.transaction.application.query.TransactionView;
 import dev.desafio.transaction.transaction.application.subscription.OnTransactionUpdatedHandler;
+import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationUpdatedHandler;
+import dev.desafio.transaction.transaction.application.query.CheckoutOperationView;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,9 +15,11 @@ import java.security.Principal;
 @Controller
 public class TransactionSubscriptionController {
     private final OnTransactionUpdatedHandler subscriptions;
+    private final CheckoutOperationUpdatedHandler checkoutSubscriptions;
 
-    public TransactionSubscriptionController(OnTransactionUpdatedHandler subscriptions) {
+    public TransactionSubscriptionController(OnTransactionUpdatedHandler subscriptions, CheckoutOperationUpdatedHandler checkoutSubscriptions) {
         this.subscriptions = subscriptions;
+        this.checkoutSubscriptions = checkoutSubscriptions;
     }
 
     @SubscriptionMapping
@@ -35,5 +39,11 @@ public class TransactionSubscriptionController {
     ) {
         return subscriptions.subscribeByOperationKey(operationKey, principal.getName())
             .map(OrderEventView::from);
+    }
+
+    @SubscriptionMapping
+    @PreAuthorize("authentication.name != null && !authentication.name.isBlank() && hasAuthority('SCOPE_orders:read')")
+    public Flux<CheckoutOperationView> checkoutUpdated(@Argument String operationId, Principal principal) {
+        return checkoutSubscriptions.subscribe(operationId, principal.getName());
     }
 }
