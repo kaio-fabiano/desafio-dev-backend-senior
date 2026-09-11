@@ -1,16 +1,14 @@
-package dev.desafio.transaction.migration;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+package dev.desafio.transaction.configuration;
 
 import java.time.Clock;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 @Configuration(proxyBeanMethods = false)
-public class CutoverRuntimeConfiguration {
+public class ApplicationClockConfiguration {
     @Bean
-    @Primary
-    Clock cutoverClock() {
+    Clock applicationClock() {
         return Clock.systemUTC();
     }
 }
