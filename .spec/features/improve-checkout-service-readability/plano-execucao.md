@@ -1,6 +1,6 @@
 # Plano de execução — improve-checkout-service-readability
 
-> gerado por `onp-spec plano` em 2026-09-11 06:41 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-11 06:42 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano improve-checkout-service-readability --sequencial`
 
 ## Resumo — o que vai acontecer

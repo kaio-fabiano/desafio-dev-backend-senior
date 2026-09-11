@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano improve-checkout-service-readability` em 2026-09-11 06:41
+# executar-tarefas.sh — gerado por `onp-spec plano improve-checkout-service-readability` em 2026-09-11 06:42
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-improve-checkout-service-readability-mtwl8h3c'
+RUN_ID='desafio-dev-backend-senior-improve-checkout-service-readability-mtwl9twx'
 FEATURE='improve-checkout-service-readability'
 BASE_BRANCH='spec/improve-checkout-service-readability'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -209,7 +209,7 @@ Leia primeiro: .spec/features/improve-checkout-service-readability/spec.md, .spe
 Sua tarefa (somente ela):
 T-275 — "Expose checkout JUnit evidence to the TAP verifier"
   critérios/refs: AC-316 (Refatoração preserva o comportamento do checkout)
-  arquivos permitidos (e seus testes): test/improve-checkout-service-readability.test.mjs
+  arquivos permitidos (e seus testes): test/migrate-order-workflow-to-axon-java.test.mjs
   mensagem de commit: "T-275 improve-checkout-service-readability: Expose checkout JUnit evidence to the TAP verifier"
 
 Regras inegociáveis:

@@ -12,7 +12,7 @@
 ## T-275 — Expose checkout JUnit evidence to the TAP verifier [pendente]
 
 - Refs: US-146, AC-316
-- Arquivos: test/improve-checkout-service-readability.test.mjs
+- Arquivos: test/migrate-order-workflow-to-axon-java.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
-- Notas: Run the focused existing JUnit checkout suite and expose its generated XML through TAP; add no dependency or duplicate behavior assertion. This is a mechanical verification change and must not alter production behavior.
+- Notas: Reuse the existing Java-to-TAP evidence adapter and the generated `CheckoutServiceTest` XML; add no runner, dependency, or duplicate behavior test. This is a mechanical verification change and must not alter production behavior.

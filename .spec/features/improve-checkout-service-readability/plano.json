@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-improve-checkout-service-readability-mtwl8h3c",
+  "runId": "desafio-dev-backend-senior-improve-checkout-service-readability-mtwl9twx",
   "feature": "improve-checkout-service-readability",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": null,
   "esforcoForcado": null,
-  "geradoEm": "2026-09-11 06:41",
+  "geradoEm": "2026-09-11 06:42",
   "branchTrabalho": "spec/improve-checkout-service-readability",
   "baseDir": ".spec/features/improve-checkout-service-readability",
   "specDir": ".spec",
@@ -35,7 +35,7 @@
       "modelo": "gpt-5.6-luna",
       "esforco": "low",
       "arquivos": [
-        "test/improve-checkout-service-readability.test.mjs"
+        "test/migrate-order-workflow-to-axon-java.test.mjs"
       ],
       "refs": [
         "US-146",
