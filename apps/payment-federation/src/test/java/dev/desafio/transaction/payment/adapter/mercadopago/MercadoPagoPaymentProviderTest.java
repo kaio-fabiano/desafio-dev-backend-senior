@@ -103,6 +103,44 @@ class MercadoPagoPaymentProviderTest {
     }
 
     @Test
+    @DisplayName("A lost local result reuses one provider idempotency key @spec:AC-338")
+    void lostLocalResultReusesOneProviderIdempotencyKey() throws Exception {
+        var client = mock(PaymentClient.class);
+        var payment = providerPayment(42L, "approved", null);
+        when(client.create(any(), any())).thenReturn(payment);
+        var provider = new MercadoPagoPaymentProvider(client, properties());
+
+        provider.execute(cardRequest());
+        provider.execute(cardRequest());
+
+        var options = ArgumentCaptor.forClass(MPRequestOptions.class);
+        verify(client, times(2)).create(any(PaymentCreateRequest.class), options.capture());
+        assertEquals(java.util.List.of("operation-card", "operation-card"), options.getAllValues().stream()
+            .map(value -> value.getCustomHeaders().get(Headers.IDEMPOTENCY_KEY)).toList());
+    }
+
+    @Test
+    @DisplayName("Payment requests retain one correlation identity across boundaries @spec:AC-350")
+    void paymentRequestRetainsCorrelationIdentityAcrossBoundaries() throws Exception {
+        var client = mock(PaymentClient.class);
+        var payment = providerPayment(42L, "approved", null);
+        when(client.create(any(), any())).thenReturn(payment);
+        var provider = new MercadoPagoPaymentProvider(client, properties());
+
+        provider.execute(new Payment.PaymentRequested(
+            "operation-transaction:payment", "payment:transaction-1", "order-1", Payment.Method.CARD,
+            new BigDecimal("42.50"), "BRL", "short-lived-token", "buyer@example.test", "visa"));
+
+        var request = ArgumentCaptor.forClass(PaymentCreateRequest.class);
+        var options = ArgumentCaptor.forClass(MPRequestOptions.class);
+        verify(client).create(request.capture(), options.capture());
+        assertEquals("payment:transaction-1", request.getValue().getExternalReference());
+        assertEquals("operation-transaction:payment", request.getValue().getMetadata().get("operation_key"));
+        assertEquals("payment:transaction-1", request.getValue().getMetadata().get("payment_id"));
+        assertEquals("operation-transaction:payment", options.getValue().getCustomHeaders().get(Headers.IDEMPOTENCY_KEY));
+    }
+
+    @Test
     @DisplayName("AC-165: ambiguous creation recovers the existing provider payment @spec:AC-165")
     void ambiguousCreationRecoversTheExistingPayment() throws Exception {
         var client = mock(PaymentClient.class);

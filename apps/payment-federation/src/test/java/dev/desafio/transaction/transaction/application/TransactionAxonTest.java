@@ -82,6 +82,21 @@ class TransactionAxonTest {
     }
 
     @Test
+    @DisplayName("One checkout creates at most one internal Transaction @spec:AC-339")
+    void oneCheckoutCreatesAtMostOneInternalTransaction() {
+        fixture = fixture("single-transaction-per-checkout", config -> new StartTransactionHandler(CLOCK));
+        var command = startCommand();
+
+        fixture.given()
+            .event(TransactionEvent.started(command, NOW))
+            .when()
+            .command(command)
+            .then()
+            .success()
+            .noEvents();
+    }
+
+    @Test
     @DisplayName("Axon outcome command emits only a Transaction-owned fact after InventoryReserved @spec:AC-286")
     void axonOutcomeCommandEmitsOnlyATransactionOwnedFactAfterInventoryReserved() {
         fixture = fixture("record-transaction-outcome", config -> new RecordTransactionOutcomeHandler(CLOCK));
