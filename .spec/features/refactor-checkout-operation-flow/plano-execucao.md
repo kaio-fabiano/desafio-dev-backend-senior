@@ -1,6 +1,6 @@
 # Plano de execução — refactor-checkout-operation-flow
 
-> gerado por `onp-spec plano` em 2026-09-11 07:37 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-11 07:53 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano refactor-checkout-operation-flow --sequencial --modelo gpt-5.6-luna --esforco low`
 
 ## Resumo — o que vai acontecer

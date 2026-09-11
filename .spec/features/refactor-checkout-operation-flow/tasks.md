@@ -2,13 +2,24 @@
 
 > feature: refactor-checkout-operation-flow
 
+## Execution authorization
+
+- The owner explicitly approved sequential execution of T-287 through T-295
+  with `gpt-5.6-luna` and low effort on 2026-09-11.
+- A clean Codex session launched for one task is already executing that
+  approval. It must not ask for model, effort, parallelism, or execution
+  confirmation again; it must start only its assigned task immediately.
+- The supervising context validates the production/test diff and evidence
+  before marking a task complete. A task that cannot implement its scope must
+  exit non-zero and remain pending; an empty or status-only commit is invalid.
+
 ## T-287 — Add the complete failing checkout acceptance matrix [pendente]
 
 - Refs: US-152, US-153, US-154, US-155, US-156, AC-333, AC-334, AC-335, AC-336, AC-337, AC-338, AC-339, AC-340, AC-341, AC-342, AC-343, AC-344, AC-345, AC-346, AC-347, AC-348, AC-349, AC-350
 - Arquivos: apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/refactor-checkout-operation-flow
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
-- Notas: Red-only task. Read `design.md` completely and add exactly the matrix listed there to the existing fixtures. Every AC-333 through AC-350 appears in a JUnit display name and in one existing Java-to-TAP bridge test. Use two real repository instances for distributed PostgreSQL races, barriers/latches for concurrency, and the existing PostgreSQL/RabbitMQ containers. Run focused tests and record at least one expected behavioral failure caused by the legacy checkout; compilation, Docker setup, timing, or false assertions do not count as Red. Do not edit production, delete tests, create a second test runner, or touch unrelated dirty files.
+- Notas: Red-only task. Read `design.md` completely and add the exact behavioral matrix listed there to the existing fixtures. Preserve every existing `@spec` tag and assertion; never relabel an old test as proof for a new criterion. Add focused test methods whose assertions directly prove the referenced behavior. Every AC-333 through AC-350 must appear on genuine executable evidence and in the existing Java-to-TAP bridge. Use two real repository instances for distributed PostgreSQL races, barriers/latches for concurrency, and the existing PostgreSQL/RabbitMQ containers. Run focused tests and record at least one expected behavioral failure caused by the legacy checkout; compilation, Docker setup, timing, unrelated baseline failure, or a passing assertion renamed with a new tag do not count as Red. Do not edit production, delete tests, create a second test runner, or touch unrelated dirty files.
 
 ## T-288 — Introduce deterministic checkout identity and Axon routing [pendente]
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano refactor-checkout-operation-flow` em 2026-09-11 07:37
+# executar-tarefas.sh — gerado por `onp-spec plano refactor-checkout-operation-flow` em 2026-09-11 07:53
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwn8wsn'
+RUN_ID='desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwnslys'
 FEATURE='refactor-checkout-operation-flow'
 BASE_BRANCH='spec/refactor-checkout-operation-flow'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
