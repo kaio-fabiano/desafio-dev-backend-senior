@@ -257,8 +257,9 @@ class JpaTransactionPersistenceTest {
             throw new IllegalStateException("forced outbox failure");
         });
 
-        assertThrows(IllegalStateException.class, () -> new org.springframework.transaction.support.TransactionTemplate(transactionManager)
-            .executeWithoutResult(status -> handler.on(event)));
+        var boundary = new org.springframework.transaction.support.TransactionTemplate(transactionManager);
+        boundary.setPropagationBehavior(org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        assertThrows(IllegalStateException.class, () -> boundary.executeWithoutResult(status -> handler.on(event)));
 
         entityManager.clear();
         assertTrue(transactionRecords.findByTransactionId(event.transactionId()).isEmpty());
@@ -266,7 +267,7 @@ class JpaTransactionPersistenceTest {
     }
 
     @Test
-    @DisplayName("Flyway migrations validate Transaction JPA mappings on PostgreSQL @spec:AC-304")
+    @DisplayName("Flyway migrations remove checkout leases and validate Transaction mappings @spec:AC-304 @spec:AC-348")
     void flywayMigrationsValidateTransactionJpaMappingsOnPostgres() {
         assertTrue((localUrl() != null ? localUrl() : POSTGRES.getJdbcUrl()).startsWith("jdbc:postgresql:"));
         assertEquals(3, jdbc.queryForObject("""

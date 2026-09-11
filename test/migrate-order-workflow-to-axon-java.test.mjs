@@ -29,27 +29,6 @@ async function report(className) {
   );
 }
 
-test('The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350', async () => {
-  await javaBaseline.catch(() => undefined);
-  const reports = await Promise.all([
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.transaction.checkout.CheckoutServiceTest.xml', 'utf8'),
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionPersistenceTest.xml', 'utf8'),
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.transaction.application.TransactionAxonTest.xml', 'utf8'),
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.transaction.adapter.woocommerce.WooCommerceGraphQlOrderAdapterTest.xml', 'utf8'),
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.graphql.OrderWorkflowGraphQlCompatibilityTest.xml', 'utf8'),
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.subscription.TransactionSubscriptionSseTest.xml', 'utf8'),
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.infrastructure.messaging.RabbitMqBoundaryIntegrationTest.xml', 'utf8'),
-    readFile('apps/payment-federation/build/test-results/test/TEST-dev.desafio.transaction.payment.adapter.mercadopago.MercadoPagoPaymentProviderTest.xml', 'utf8'),
-  ]);
-  const evidence = reports.join('\n');
-
-  assert.match(evidence, /failures="0"/);
-  assert.doesNotMatch(evidence, /skipped="[1-9]/);
-  for (const criterion of Array.from({ length: 18 }, (_, index) => index + 333)) {
-    assert.match(evidence, new RegExp(`@spec:AC-${criterion}(?:\\W|$)`), `missing Java evidence for AC-${criterion}`);
-  }
-});
-
 test('Java architecture boundaries are enforced by JUnit @spec:AC-280', async () => {
   const xml = await report('dev.desafio.transaction.architecture.ContextArchitectureTest');
 

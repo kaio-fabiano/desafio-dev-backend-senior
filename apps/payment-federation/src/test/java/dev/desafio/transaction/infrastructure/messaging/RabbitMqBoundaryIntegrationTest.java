@@ -59,7 +59,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -75,12 +77,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RabbitMqBoundaryIntegrationTest {
     private static final PostgreSQLContainer<?> POSTGRES =
-        new PostgreSQLContainer<>("postgres:16-alpine");
+        env("TEST_POSTGRES_URL") == null ? new PostgreSQLContainer<>("postgres:16-alpine") : null;
     private static final GenericContainer<?> RABBIT =
-        new GenericContainer<>("rabbitmq:4.1.3-management-alpine").withExposedPorts(5672);
+        env("TEST_RABBIT_HOST") == null
+            ? new GenericContainer<>("rabbitmq:4.1.3-management-alpine").withExposedPorts(5672)
+            : null;
     private static final Clock CLOCK = Clock.fixed(
         Instant.parse("2026-09-09T12:00:00Z"), ZoneOffset.UTC
     );
+    private static final String RUN = UUID.randomUUID().toString();
 
     private static DataSource dataSource;
     private static ConfigurableApplicationContext persistence;
@@ -90,13 +95,13 @@ class RabbitMqBoundaryIntegrationTest {
 
     @BeforeAll
     static void startInfrastructure() {
-        POSTGRES.start();
-        RABBIT.start();
+        if (POSTGRES != null) POSTGRES.start();
+        if (RABBIT != null) RABBIT.start();
 
         persistence = persistenceContext();
         dataSource = persistence.getBean(DataSource.class);
 
-        connectionFactory = connectionFactory(RABBIT.getMappedPort(5672));
+        connectionFactory = connectionFactory(rabbitPort());
         rabbit = new RabbitTemplate(connectionFactory);
         rabbit.setMandatory(true);
         declareTopology(connectionFactory);
@@ -107,8 +112,8 @@ class RabbitMqBoundaryIntegrationTest {
     static void stopInfrastructure() {
         if (connectionFactory != null) connectionFactory.destroy();
         if (persistence != null) persistence.close();
-        RABBIT.stop();
-        POSTGRES.stop();
+        if (RABBIT != null) RABBIT.stop();
+        if (POSTGRES != null) POSTGRES.stop();
     }
 
     @Test
@@ -117,7 +122,7 @@ class RabbitMqBoundaryIntegrationTest {
         var codec = new IntegrationEventJson(objectMapper);
         var outbox = transactionOutbox();
         var inbox = inventoryInbox();
-        var event = event("event-245");
+        var event = event("event-245-" + RUN);
         IntegrationEventEnvelope<com.fasterxml.jackson.databind.JsonNode> credentialEvent =
             new IntegrationEventEnvelope<>(
             event.eventId(), event.eventType(), event.version(), event.aggregateId(),
@@ -125,9 +130,9 @@ class RabbitMqBoundaryIntegrationTest {
             objectMapper.valueToTree(Map.of("providerToken", "must-not-leave-payment"))
             );
         assertThrows(IllegalArgumentException.class, () -> codec.write(credentialEvent));
-        outbox.enqueue("source-event-245", event);
+        outbox.enqueue("source-event-245-" + RUN, event);
         assertThrows(IllegalArgumentException.class, () ->
-            outbox.enqueue("source-event-245", event("different-event-245"))
+            outbox.enqueue("source-event-245-" + RUN, event("different-event-245-" + RUN))
         );
 
         var unavailableConnection = connectionFactory(unusedPort());
@@ -153,6 +158,7 @@ class RabbitMqBoundaryIntegrationTest {
         var retryRouter = new AmqpRetryRouter(rabbit, CLOCK);
         var consumer = new ReliableAmqpConsumer(inbox, codec, retryRouter);
         var deliveries = new AtomicInteger();
+        var retryEvent = event("retry-event-245-" + RUN);
         try (var channel = connectionFactory.createConnection().createChannel(false)) {
             var first = receive(channel, MarketplaceAmqp.eventQueue("inventory"));
             consumer.receive("inventory", first, channel, ignored -> {
@@ -176,7 +182,6 @@ class RabbitMqBoundaryIntegrationTest {
             consumer.receive("inventory", duplicate, channel, ignored -> deliveries.incrementAndGet());
             assertEquals(1, deliveries.get());
 
-            var retryEvent = event("retry-event-245");
             publisher.publish(retryEvent);
             var failed = receive(channel, MarketplaceAmqp.eventQueue("inventory"));
             var originalBody = failed.getBody().clone();
@@ -191,7 +196,7 @@ class RabbitMqBoundaryIntegrationTest {
             consumer.receive("inventory", retried, channel, ignored -> deliveries.incrementAndGet());
             assertEquals("COMPLETED", inbox.disposition("inventory", retryEvent.eventId()));
 
-            var rejectedEvent = event("business-rejection-245");
+            var rejectedEvent = event("business-rejection-245-" + RUN);
             publisher.publish(rejectedEvent);
             var rejected = receive(channel, MarketplaceAmqp.eventQueue("inventory"));
             consumer.receive("inventory", rejected, channel, ignored -> {
@@ -227,8 +232,8 @@ class RabbitMqBoundaryIntegrationTest {
         assertEquals(2, deliveries.get());
         var jdbc = new JdbcTemplate(dataSource);
         assertEquals(2, jdbc.queryForObject(
-            "select count(*) from inventory.amqp_inbox where disposition = 'COMPLETED'",
-            Integer.class
+            "select count(*) from inventory.amqp_inbox where disposition = 'COMPLETED' and event_id in (?, ?)",
+            Integer.class, event.eventId(), retryEvent.eventId()
         ));
         assertTrue(Arrays.equals(codec.write(event), codec.write(codec.read(codec.write(event)))));
     }
@@ -238,8 +243,8 @@ class RabbitMqBoundaryIntegrationTest {
     void twoOutboxRelaysPublishEachPendingRowAtLeastOnce() throws Exception {
         var codec = new IntegrationEventJson(objectMapper);
         var outbox = transactionOutbox();
-        outbox.enqueue("source-event-346-a", event("event-346-a"));
-        outbox.enqueue("source-event-346-b", event("event-346-b"));
+        outbox.enqueue("source-event-346-a-" + RUN, event("event-346-a-" + RUN));
+        outbox.enqueue("source-event-346-b-" + RUN, event("event-346-b-" + RUN));
 
         var publisher = new ConfirmedAmqpPublisher(rabbit, codec);
         var relayA = new OutboxRelay(outbox, publisher, codec, CLOCK, "relay-346-a");
@@ -251,6 +256,18 @@ class RabbitMqBoundaryIntegrationTest {
             assertEquals(1, second.get());
         }
         assertEquals(0, outbox.pendingCount());
+        try (var channel = connectionFactory.createConnection().createChannel(false)) {
+            var published = new HashSet<String>();
+            for (var ignored = 0; ignored < 2; ignored++) {
+                var message = receive(channel, MarketplaceAmqp.eventQueue("inventory"));
+                published.add(message.getMessageProperties().getMessageId());
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            }
+            assertEquals(Set.of(
+                event("event-346-a-" + RUN).eventId().toString(),
+                event("event-346-b-" + RUN).eventId().toString()
+            ), published);
+        }
     }
 
     private static IntegrationEventEnvelope<com.fasterxml.jackson.databind.JsonNode> event(
@@ -278,7 +295,9 @@ class RabbitMqBoundaryIntegrationTest {
     }
 
     private static CachingConnectionFactory connectionFactory(int port) {
-        var factory = new CachingConnectionFactory(RABBIT.getHost(), port);
+        var factory = new CachingConnectionFactory(
+            env("TEST_RABBIT_HOST") == null ? RABBIT.getHost() : env("TEST_RABBIT_HOST"), port
+        );
         factory.setUsername("guest");
         factory.setPassword("guest");
         factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.SIMPLE);
@@ -355,9 +374,13 @@ class RabbitMqBoundaryIntegrationTest {
         return new SpringApplicationBuilder(AmqpPersistenceTestApplication.class)
             .web(WebApplicationType.NONE)
             .properties(
-                "spring.datasource.url=" + POSTGRES.getJdbcUrl(),
-                "spring.datasource.username=" + POSTGRES.getUsername(),
-                "spring.datasource.password=" + POSTGRES.getPassword(),
+                "spring.datasource.url=" + (env("TEST_POSTGRES_URL") == null ? POSTGRES.getJdbcUrl() : env("TEST_POSTGRES_URL")),
+                "spring.datasource.username=" + valueOr(
+                    "TEST_POSTGRES_USER", POSTGRES == null ? "postgres" : POSTGRES.getUsername()
+                ),
+                "spring.datasource.password=" + valueOr(
+                    "TEST_POSTGRES_PASSWORD", POSTGRES == null ? "postgres" : POSTGRES.getPassword()
+                ),
                 "spring.jpa.hibernate.ddl-auto=validate",
                 "spring.jpa.open-in-view=false",
                 "spring.flyway.enabled=true",
@@ -366,6 +389,20 @@ class RabbitMqBoundaryIntegrationTest {
                 "spring.flyway.schemas=axon,transaction,inventory,payment"
             )
             .run();
+    }
+
+    private static int rabbitPort() {
+        return env("TEST_RABBIT_PORT") == null ? RABBIT.getMappedPort(5672) : Integer.parseInt(env("TEST_RABBIT_PORT"));
+    }
+
+    private static String env(String name) {
+        var value = System.getenv(name);
+        return value == null || value.isBlank() ? null : value;
+    }
+
+    private static String valueOr(String name, String fallback) {
+        var value = env(name);
+        return value == null ? fallback : value;
     }
 
     @SpringBootConfiguration

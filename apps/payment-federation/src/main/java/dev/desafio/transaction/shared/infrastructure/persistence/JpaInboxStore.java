@@ -21,6 +21,7 @@ public final class JpaInboxStore<T extends AmqpInboxEntity> implements InboxStor
     private final Clock clock;
     private final InboxEntityFactory<T> entityFactory;
     private final TransactionTemplate transactions;
+    private final TransactionTemplate dispatch;
 
     private JpaInboxStore(
         AmqpInboxJpaRepository<T> records,
@@ -39,6 +40,8 @@ public final class JpaInboxStore<T extends AmqpInboxEntity> implements InboxStor
             Objects.requireNonNull(transactionManager, "transactionManager")
         );
         transactions.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        dispatch = new TransactionTemplate(transactionManager);
+        dispatch.setPropagationBehavior(TransactionDefinition.PROPAGATION_NOT_SUPPORTED);
     }
 
     public static JpaInboxStore<TransactionAmqpInboxEntity> transaction(
@@ -141,7 +144,7 @@ public final class JpaInboxStore<T extends AmqpInboxEntity> implements InboxStor
     ) {
         requireSameEnvelope(record, envelope);
         if (!record.isProcessing()) return false;
-        record.complete(handler.handle(event), clock.instant());
+        record.complete(dispatch.execute(ignored -> handler.handle(event)), clock.instant());
         return true;
     }
 
