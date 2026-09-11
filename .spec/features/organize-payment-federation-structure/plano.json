@@ -1,117 +1,96 @@
 {
-  "runId": "desafio-dev-backend-senior-organize-payment-federation-structure-mtwvud41",
+  "runId": "desafio-dev-backend-senior-organize-payment-federation-structure-mtww5xl4",
   "feature": "organize-payment-federation-structure",
   "agent": "codex",
-  "modo": "paralelo",
-  "paralelizar": [
-    "T-276",
-    "T-277",
-    "T-282"
-  ],
+  "modo": "sequencial",
+  "paralelizar": null,
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-09-11 11:38",
+  "geradoEm": "2026-09-11 11:47",
   "branchTrabalho": "spec/organize-payment-federation-structure",
   "baseDir": ".spec/features/organize-payment-federation-structure",
   "specDir": ".spec",
   "repoName": "desafio-dev-backend-senior",
   "logsDir": "../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-logs",
-  "ondas": [
-    [
-      "faixa-1",
-      "faixa-2"
-    ]
-  ],
-  "faixas": [
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
     {
-      "id": "faixa-1",
-      "branch": "spec/organize-payment-federation-structure-faixa-1",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-1",
-      "tarefas": [
-        {
-          "id": "T-276",
-          "titulo": "Codify the Java architecture allowance and failing structure gates",
-          "modelo": "gpt-5.6-luna",
-          "esforco": "low",
-          "arquivos": [
-            "AGENTS.md",
-            "docs/domain/context-map.md",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java",
-            "test/organize-payment-federation-structure.test.mjs"
-          ],
-          "refs": [
-            "US-147",
-            "AC-317",
-            "AC-318",
-            "AC-319",
-            "US-148",
-            "AC-320",
-            "AC-321"
-          ]
-        },
-        {
-          "id": "T-282",
-          "titulo": "Place CQRS messages in their owning layers",
-          "modelo": "gpt-5.6-luna",
-          "esforco": "low",
-          "arquivos": [
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/payment",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction",
-            "test/organize-payment-federation-structure.test.mjs"
-          ],
-          "refs": [
-            "US-147",
-            "AC-317",
-            "AC-321",
-            "AC-322"
-          ]
-        }
+      "id": "T-276",
+      "titulo": "Codify the Java architecture allowance and failing structure gates",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "AGENTS.md",
+        "docs/domain/context-map.md",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java",
+        "test/organize-payment-federation-structure.test.mjs"
+      ],
+      "refs": [
+        "US-147",
+        "AC-317",
+        "AC-318",
+        "AC-319",
+        "US-148",
+        "AC-320",
+        "AC-321"
       ]
     },
     {
-      "id": "faixa-2",
-      "branch": "spec/organize-payment-federation-structure-faixa-2",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-2",
-      "tarefas": [
-        {
-          "id": "T-277",
-          "titulo": "Move GraphQL composition and checkout artifacts to their owners",
-          "modelo": "gpt-5.6-luna",
-          "esforco": "low",
-          "arquivos": [
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/edge",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/interfaces/graphql",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/axon",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java",
-            "apps/payment-federation/src/main/resources/graphql/payment.graphqls",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/subscription"
-          ],
-          "refs": [
-            "US-147",
-            "AC-318",
-            "AC-319",
-            "US-148",
-            "AC-322"
-          ]
-        }
+      "id": "T-282",
+      "titulo": "Place CQRS messages in their owning layers",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/axon",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction",
+        "test/organize-payment-federation-structure.test.mjs"
+      ],
+      "refs": [
+        "US-147",
+        "AC-317",
+        "AC-321",
+        "AC-322"
+      ]
+    },
+    {
+      "id": "T-301",
+      "titulo": "Repair merged structure and active redelivery coverage",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/command",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/event",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/projection/TransactionProjectionReplayTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRedeliveryTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/checkout/CheckoutServiceTest.java",
+        "test/organize-payment-federation-structure.test.mjs"
+      ],
+      "refs": [
+        "US-147",
+        "US-148",
+        "AC-317",
+        "AC-318",
+        "AC-319",
+        "AC-321",
+        "AC-322"
       ]
     }
   ],
-  "sequenciais": [],
   "concluidas": [
+    "T-277",
     "T-278",
     "T-279",
     "T-280",

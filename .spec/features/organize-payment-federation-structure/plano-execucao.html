@@ -38,12 +38,10 @@
 </style>
 <main>
   <h1>Plano de execução — organize-payment-federation-structure</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 11:38 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 11:47 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>3</b> tarefa(s) em paralelo</div>
-    <div><b>2</b> faixa(s) · <b>1</b> onda(s)</div>
-    <div><b>0</b> sequencial(is)</div>
-    <div>seleção do usuário: <b>T-276, T-277, T-282</b></div>
+    <div><b>3</b> tarefa(s), uma após a outra</div>
+    <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/organize-payment-federation-structure</code></div>
   </div>
   
@@ -51,19 +49,17 @@
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
     <div><code id="cmd">bash .spec/features/organize-payment-federation-structure/executar-tarefas.sh</code></div>
-    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
+    <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
     (<code>onp-spec resumo organize-payment-federation-structure --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo organize-payment-federation-structure</code>).</p>
   </div>
   
+  
     <section class="onda">
-      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 — em paralelo, janelas limpas</small></h3>
-      <div class="grade">
-      <div class="faixa">
-        <h4>faixa-1 <small>branch <code>spec/organize-payment-federation-structure-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-1</code></small></h4>
-        
+      <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
         <div class="tarefa">
           <span class="tid">T-276</span>
           <span class="ttitulo">Codify the Java architecture allowance and failing structure gates</span>
@@ -74,27 +70,20 @@
           <span class="tid">T-282</span>
           <span class="ttitulo">Place CQRS messages in their owning layers</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
         </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-2 <small>branch <code>spec/organize-payment-federation-structure-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-2</code></small></h4>
-        
         <div class="tarefa">
-          <span class="tid">T-277</span>
-          <span class="ttitulo">Move GraphQL composition and checkout artifacts to their owners</span>
+          <span class="tid">T-301</span>
+          <span class="ttitulo">Repair merged structure and active redelivery coverage</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/edge</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/interfaces/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java</code> <code>apps/payment-federation/src/main/resources/graphql/payment.graphqls</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/subscription</code></span>
-        </div>
-      </div></div>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/command</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/projection/TransactionProjectionReplayTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRedeliveryTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/checkout/CheckoutServiceTest.java</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
+        </div></div></div>
     </section>
-  
   <section class="onda">
     <h3>Branches e commits</h3>
     <ol>
       <li>tudo parte da branch de trabalho <code>spec/organize-payment-federation-structure</code></li>
-      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx organize-payment-federation-structure: título</code></li>
-      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
+      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx organize-payment-federation-structure: título</code></li>
       <li>gate final: <code>onp-spec verify organize-payment-federation-structure</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano organize-payment-federation-structure` em 2026-09-11 11:38
+# executar-tarefas.sh — gerado por `onp-spec plano organize-payment-federation-structure` em 2026-09-11 11:47
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-organize-payment-federation-structure-mtwvud41'
+RUN_ID='desafio-dev-backend-senior-organize-payment-federation-structure-mtww5xl4'
 FEATURE='organize-payment-federation-structure'
 BASE_BRANCH='spec/organize-payment-federation-structure'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,15 +168,10 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-276 T-282 ──
-executar_faixa_1() {
-  local WT="$WT_BASE-faixa-1"
-  preparar_worktree 'faixa-1' 'spec/organize-payment-federation-structure-faixa-1' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-1' --estado executando --tentativa "$(tentativa 'faixa-1')"
-  : > "$LOG_DIR/faixa-1.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-1' 'T-276' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-276 (ordem do tasks.md) ──
+executar_seq_T_276() {
+  info 'sequencial T-276 — Codify the Java architecture allowance and failing structure gates'
+  if rodar_tarefa seq 'T-276' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
@@ -190,14 +185,31 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low &&
-    rodar_tarefa 'faixa-1' 'T-282' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-276 organize-payment-federation-structure: Codify the Java architecture allowance and failing structure gates (auto-commit do plano)'
+    fi
+    marcar_concluidas T-276
+    verde "✔ T-276 concluída"
+    return 0
+  fi
+  vermelho "✘ T-276 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/organize-payment-federation-structure/executar-tarefas.sh --seq T-276"
+  FALHAS="$FALHAS T-276"
+  return 1
+}
+
+# ── sequencial T-282 (ordem do tasks.md) ──
+executar_seq_T_282() {
+  info 'sequencial T-282 — Place CQRS messages in their owning layers'
+  if rodar_tarefa seq 'T-282' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
 T-282 — "Place CQRS messages in their owning layers"
   critérios/refs: AC-317 (Framework metadata has a narrow explicit allowance), AC-321 (Source paths match Java package declarations), AC-322 (Public behavior and quality gates remain green)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/organize-payment-federation-structure.test.mjs
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/organize-payment-federation-structure.test.mjs
   mensagem de commit: "T-282 organize-payment-federation-structure: Place CQRS messages in their owning layers"
 
 Regras inegociáveis:
@@ -205,42 +217,51 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low
-  ) >> "$LOG_DIR/faixa-1.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-1' 'spec/organize-payment-federation-structure-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-276 T-282
-  return 0
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-282 organize-payment-federation-structure: Place CQRS messages in their owning layers (auto-commit do plano)'
+    fi
+    marcar_concluidas T-282
+    verde "✔ T-282 concluída"
+    return 0
+  fi
+  vermelho "✘ T-282 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/organize-payment-federation-structure/executar-tarefas.sh --seq T-282"
+  FALHAS="$FALHAS T-282"
+  return 1
 }
 
-# ── faixa-2: T-277 ──
-executar_faixa_2() {
-  local WT="$WT_BASE-faixa-2"
-  preparar_worktree 'faixa-2' 'spec/organize-payment-federation-structure-faixa-2' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
-  : > "$LOG_DIR/faixa-2.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-2' 'T-277' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
+# ── sequencial T-301 (ordem do tasks.md) ──
+executar_seq_T_301() {
+  info 'sequencial T-301 — Repair merged structure and active redelivery coverage'
+  if rodar_tarefa seq 'T-301' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-277 — "Move GraphQL composition and checkout artifacts to their owners"
-  critérios/refs: AC-318 (GraphQL and checkout classes have explicit owners), AC-319 (Spring composition is located and named consistently), AC-322 (Public behavior and quality gates remain green)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/edge, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/interfaces/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription
-  mensagem de commit: "T-277 organize-payment-federation-structure: Move GraphQL composition and checkout artifacts to their owners"
+T-301 — "Repair merged structure and active redelivery coverage"
+  critérios/refs: AC-317 (Framework metadata has a narrow explicit allowance), AC-318 (GraphQL and checkout classes have explicit owners), AC-319 (Spring composition is located and named consistently), AC-321 (Source paths match Java package declarations), AC-322 (Public behavior and quality gates remain green)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/command, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/projection/TransactionProjectionReplayTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRedeliveryTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/checkout/CheckoutServiceTest.java, test/organize-payment-federation-structure.test.mjs
+  mensagem de commit: "T-301 organize-payment-federation-structure: Repair merged structure and active redelivery coverage"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low
-  ) >> "$LOG_DIR/faixa-2.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-2' 'spec/organize-payment-federation-structure-faixa-2' "$WT" "$st" || return 1
-  marcar_concluidas T-277
-  return 0
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-301 organize-payment-federation-structure: Repair merged structure and active redelivery coverage (auto-commit do plano)'
+    fi
+    marcar_concluidas T-301
+    verde "✔ T-301 concluída"
+    return 0
+  fi
+  vermelho "✘ T-301 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/organize-payment-federation-structure/executar-tarefas.sh --seq T-301"
+  FALHAS="$FALHAS T-301"
+  return 1
 }
 
 # ── gate: quem decide é a máquina ────────────────────────────────────
@@ -296,19 +317,17 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  # onda 1: faixa-1 ∥ faixa-2
-  info "onda 1: faixa-1 ∥ faixa-2 — janelas limpas em paralelo"
-  executar_faixa_1 & PID_FAIXA_1=$!
-  executar_faixa_2 & PID_FAIXA_2=$!
-  wait "$PID_FAIXA_1" || true
-  wait "$PID_FAIXA_2" || true
+  executar_seq_T_276 || true
+  executar_seq_T_282 || true
+  executar_seq_T_301 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-276, T-282"
-  echo "  faixa-2  onda 1  T-277"
+  echo "  seq       T-276 (sequencial)"
+  echo "  seq       T-282 (sequencial)"
+  echo "  seq       T-301 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -339,12 +358,13 @@ case "$MODO" in
   gate) COM_GATE=1; iniciar_resumos; encerrar gate ;;
   faixa)
     case "$ALVO" in
-      faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
-      faixa-2) evento --tipo inicio --escopo "faixa:faixa-2"; iniciar_resumos; executar_faixa_2 || true; encerrar "faixa:faixa-2" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)
     case "$ALVO" in
+      T-276) evento --tipo inicio --escopo "seq:T-276"; iniciar_resumos; executar_seq_T_276 || true; encerrar "seq:T-276" ;;
+      T-282) evento --tipo inicio --escopo "seq:T-282"; iniciar_resumos; executar_seq_T_282 || true; encerrar "seq:T-282" ;;
+      T-301) evento --tipo inicio --escopo "seq:T-301"; iniciar_resumos; executar_seq_T_301 || true; encerrar "seq:T-301" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac
