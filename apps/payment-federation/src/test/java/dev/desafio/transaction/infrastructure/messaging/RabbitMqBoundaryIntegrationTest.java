@@ -63,6 +63,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.Executors;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -111,7 +112,7 @@ class RabbitMqBoundaryIntegrationTest {
     }
 
     @Test
-    @DisplayName("Outbox recovery, duplicate delivery, retry, and DLQ preserve the V1 envelope @spec:AC-293 @spec:AC-292 @spec:AC-230")
+    @DisplayName("Outbox recovery, duplicate delivery, retry, and DLQ preserve the V1 envelope @spec:AC-293 @spec:AC-292 @spec:AC-230 @spec:AC-347 @spec:AC-350")
     void outboxRecoveryDuplicateDeliveryRetryAndDlqPreserveTheV1Envelope() throws Exception {
         var codec = new IntegrationEventJson(objectMapper);
         var outbox = transactionOutbox();
@@ -161,6 +162,12 @@ class RabbitMqBoundaryIntegrationTest {
                 );
                 deliveries.incrementAndGet();
             });
+            assertEquals(event.eventId().toString(), first.getMessageProperties().getMessageId());
+            assertEquals(event.correlationId(), first.getMessageProperties().getCorrelationId());
+            assertEquals(event.eventType(), first.getMessageProperties().getType());
+            assertEquals(event.aggregateId(), first.getMessageProperties().getHeader("aggregateId"));
+            assertEquals(event.transactionId(), first.getMessageProperties().getHeader("transactionId"));
+            assertEquals(event.causationId(), first.getMessageProperties().getHeader("causationId"));
             assertEquals("COMPLETED", inbox.disposition("inventory", event.eventId()));
             assertEquals(1, deliveries.get());
 
@@ -224,6 +231,26 @@ class RabbitMqBoundaryIntegrationTest {
             Integer.class
         ));
         assertTrue(Arrays.equals(codec.write(event), codec.write(codec.read(codec.write(event)))));
+    }
+
+    @Test
+    @DisplayName("Two outbox relays claim different rows and recover every publication @spec:AC-346")
+    void twoOutboxRelaysPublishEachPendingRowAtLeastOnce() throws Exception {
+        var codec = new IntegrationEventJson(objectMapper);
+        var outbox = transactionOutbox();
+        outbox.enqueue("source-event-346-a", event("event-346-a"));
+        outbox.enqueue("source-event-346-b", event("event-346-b"));
+
+        var publisher = new ConfirmedAmqpPublisher(rabbit, codec);
+        var relayA = new OutboxRelay(outbox, publisher, codec, CLOCK, "relay-346-a");
+        var relayB = new OutboxRelay(outbox, publisher, codec, CLOCK, "relay-346-b");
+        try (var executor = Executors.newFixedThreadPool(2)) {
+            var first = executor.submit(() -> relayA.publishAvailable(1));
+            var second = executor.submit(() -> relayB.publishAvailable(1));
+            assertEquals(1, first.get());
+            assertEquals(1, second.get());
+        }
+        assertEquals(0, outbox.pendingCount());
     }
 
     private static IntegrationEventEnvelope<com.fasterxml.jackson.databind.JsonNode> event(
