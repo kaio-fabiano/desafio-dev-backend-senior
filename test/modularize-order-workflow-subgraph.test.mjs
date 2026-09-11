@@ -36,7 +36,7 @@ test('AC-248: order events have a coherent boundary @spec:AC-248', async () => {
 test('AC-249: messaging participants are separated without a saga coordinator @spec:AC-249', async () => {
   const [transaction, inventory, payment] = await Promise.all([
     source(`${java}/transaction/adapter/messaging/TransactionRabbitListener.java`),
-    source(`${java}/inventory/adapter/messaging/InventoryRabbitListener.java`),
+    source(`${java}/inventory/adapter/messaging/AxonInventoryRabbitListener.java`),
     source(`${java}/payment/adapter/messaging/AxonPaymentRabbitListener.java`),
   ]);
   for (const participant of [transaction, inventory, payment]) assert.match(participant, /RabbitListener/);

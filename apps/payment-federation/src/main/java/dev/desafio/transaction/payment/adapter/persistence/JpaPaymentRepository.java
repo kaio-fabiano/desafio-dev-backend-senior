@@ -29,7 +29,7 @@ public class JpaPaymentRepository implements PaymentRepository {
 
     @Override
     @Transactional
-    public Optional<ProcessingResult> processed(UUID incomingEventId, Payment.Command command) {
+    public Optional<ProcessingResult> processed(UUID incomingEventId, Payment.ProviderRequest command) {
         return inbox.findLockedByEventId(incomingEventId)
             .filter(PaymentInboxEntity::completed)
             .map(stored -> duplicateResult(stored, command));
@@ -52,7 +52,7 @@ public class JpaPaymentRepository implements PaymentRepository {
     @Transactional
     public ProcessingResult process(
         UUID incomingEventId,
-        Payment.Command command,
+        Payment.ProviderRequest command,
         PaymentProvider.Result providerResult,
         Instant occurredAt
     ) {
@@ -141,7 +141,7 @@ public class JpaPaymentRepository implements PaymentRepository {
         return Optional.of(match);
     }
 
-    private ProcessingResult duplicateResult(PaymentInboxEntity delivery, Payment.Command command) {
+    private ProcessingResult duplicateResult(PaymentInboxEntity delivery, Payment.ProviderRequest command) {
         var payment = findPayment(command.paymentId(), command.operationKey())
             .orElseThrow(() -> new IllegalStateException("claimed payment inbox record is incomplete"));
         var event = delivery.resultEventId() == null

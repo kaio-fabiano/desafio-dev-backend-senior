@@ -87,7 +87,7 @@ class ProviderNotificationHandlerTest {
     private PaymentProvider providerReturning(String reference) {
         return new PaymentProvider() {
             @Override
-            public Result execute(Payment.Command command) {
+            public Result execute(Payment.ProviderRequest command) {
                 throw new UnsupportedOperationException("not used by notification tests");
             }
 

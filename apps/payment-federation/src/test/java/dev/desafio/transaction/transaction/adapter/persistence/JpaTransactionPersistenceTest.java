@@ -1,5 +1,7 @@
 package dev.desafio.transaction.transaction.adapter.persistence;
 
+import dev.desafio.transaction.transaction.application.event.TransactionalTransactionEventHandler;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.application.checkout.CheckoutIdempotencyConflictException;
@@ -190,7 +192,7 @@ class JpaTransactionPersistenceTest {
     @DisplayName("Transaction outbox preserves Card credentials and deterministic keys @spec:AC-301 @spec:AC-314 @spec:AC-315")
     void staleProjectionEventsCannotRegressOwnerScopedViews() {
         var suffix = java.util.UUID.randomUUID().toString();
-        var started = TransactionEvent.started(new StartTransaction(
+        var started = StartTransaction.started(new StartTransaction(
             "transaction-" + suffix, "operation-" + suffix, "buyer-1", "woo-" + suffix,
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
             "provider-token-" + suffix, "visa"
@@ -243,7 +245,7 @@ class JpaTransactionPersistenceTest {
     @DisplayName("projection and integration outbox rollback together on handler failure @spec:AC-345")
     void projectionAndOutboxRollbackTogetherOnHandlerFailure() {
         var suffix = java.util.UUID.randomUUID().toString();
-        var event = TransactionEvent.started(new StartTransaction(
+        var event = StartTransaction.started(new StartTransaction(
             "transaction-" + suffix, "operation-" + suffix, "buyer-1", "woo-" + suffix,
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
             "provider-token-" + suffix, "visa"

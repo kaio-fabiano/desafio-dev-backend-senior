@@ -2,7 +2,7 @@ package dev.desafio.transaction.inventory.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.inventory.application.InventoryService;
-import dev.desafio.transaction.inventory.adapter.messaging.InventoryRabbitListener;
+import dev.desafio.transaction.inventory.adapter.messaging.AxonInventoryRabbitListener;
 import org.springframework.beans.factory.ObjectProvider;
 import dev.desafio.transaction.shared.infrastructure.messaging.AmqpRetryRouter;
 import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;
@@ -52,14 +52,14 @@ public class InventoryMessagingConfiguration {
     }
 
     @Bean
-    InventoryRabbitListener inventoryRabbitListener(
+    AxonInventoryRabbitListener inventoryRabbitListener(
         @Qualifier("inventoryReliableAmqpConsumer") ReliableAmqpConsumer consumer,
         CommandGateway commands,
         ObjectProvider<InventoryService> ignoredLegacyInventory,
         RabbitTemplate ignoredRabbit,
         ObjectMapper ignoredJson
     ) {
-        return new InventoryRabbitListener(consumer, commands);
+        return new AxonInventoryRabbitListener(consumer, commands);
     }
 
     @Bean("inventoryInboxStore")

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 
-public record InventoryIntegrationEvent(
+public record InventoryIntegrationMessage(
     String eventType,
     String aggregateId,
     String transactionId,
@@ -13,7 +13,7 @@ public record InventoryIntegrationEvent(
     Instant occurredAt,
     Map<String, Object> payload
 ) {
-    public InventoryIntegrationEvent {
+    public InventoryIntegrationMessage {
         eventType = required(eventType, "eventType");
         aggregateId = required(aggregateId, "aggregateId");
         transactionId = required(transactionId, "transactionId");

@@ -1,4 +1,7 @@
-package dev.desafio.transaction.transaction.application.checkout;
+package dev.desafio.transaction.transaction.application.command;
+
+import dev.desafio.transaction.transaction.application.checkout.CheckoutOperationId;
+import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 
 import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 import org.axonframework.messaging.commandhandling.annotation.Command;

@@ -3,8 +3,8 @@ package dev.desafio.transaction.projection;
 import dev.desafio.transaction.inventory.adapter.persistence.InventoryReservationProjectionJpaRepository;
 import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryProjectionRepository;
 import dev.desafio.transaction.inventory.adapter.persistence.JpaInventoryViewRepository;
-import dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommittedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.application.event.InventoryProjectionHandler;
 import dev.desafio.transaction.inventory.application.query.FindInventoryReservationByTransaction;
 import dev.desafio.transaction.inventory.application.query.FindInventoryReservationByTransactionHandler;
@@ -15,7 +15,7 @@ import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentProjection;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentViewRepository;
 import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentRecordRepository;
-import dev.desafio.transaction.payment.application.axon.PaymentProjectionHandler;
+import dev.desafio.transaction.payment.application.event.PaymentProjectionHandler;
 import dev.desafio.transaction.payment.domain.event.PaymentPending;
 import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 import dev.desafio.transaction.payment.application.query.FindPaymentByTransaction;
@@ -35,7 +35,7 @@ import dev.desafio.transaction.transaction.application.query.FindOwnedTransactio
 import dev.desafio.transaction.transaction.application.query.FindOwnedTransactionHandler;
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.domain.Transaction;
-import dev.desafio.transaction.edge.GraphQlReadConfiguration;
+import dev.desafio.transaction.edge.configuration.GraphQlReadConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -154,7 +154,7 @@ class TransactionProjectionReplayTest {
     }
 
     private History projectHistory() {
-        var started = TransactionEvent.started(new StartTransaction(
+        var started = StartTransaction.started(new StartTransaction(
             "transaction-249", "operation-249", "buyer-249", "42",
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX", null, null
         ), NOW);

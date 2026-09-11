@@ -162,7 +162,7 @@ public record Payment(
 
     public enum Status { PENDING, AUTHORIZED, PIX_GENERATED, REFUNDED, REJECTED }
 
-    public sealed interface Command permits PaymentRequested, RefundRequested {
+    public sealed interface ProviderRequest permits PaymentRequested, RefundRequested {
         String operationKey();
         String paymentId();
         String orderId();
@@ -178,7 +178,7 @@ public record Payment(
         String providerToken,
         String payerEmail,
         String paymentMethodId
-    ) implements Command {
+    ) implements ProviderRequest {
         public PaymentRequested {
             operationKey = requireText(operationKey, "operationKey");
             paymentId = requireText(paymentId, "paymentId");
@@ -202,7 +202,7 @@ public record Payment(
         String orderId,
         String reason,
         String providerReference
-    ) implements Command {
+    ) implements ProviderRequest {
         public RefundRequested(String operationKey, String paymentId, String orderId, String reason) {
             this(operationKey, paymentId, orderId, reason, null);
         }

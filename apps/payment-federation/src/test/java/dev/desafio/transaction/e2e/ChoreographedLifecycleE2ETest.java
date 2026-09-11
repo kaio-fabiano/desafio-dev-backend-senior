@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import dev.desafio.transaction.configuration.AmqpTopologyConfiguration;
 import dev.desafio.transaction.configuration.MarketplaceAmqp;
-import dev.desafio.transaction.inventory.adapter.messaging.InventoryRabbitListener;
+import dev.desafio.transaction.inventory.adapter.messaging.AxonInventoryRabbitListener;
 import dev.desafio.transaction.inventory.application.InventoryService;
-import dev.desafio.transaction.inventory.application.axon.InventoryAxonEvents;
-import dev.desafio.transaction.inventory.application.axon.InventoryCommitRejectedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReleasedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservationRejectedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
+import dev.desafio.transaction.inventory.application.event.InventoryAxonEvents;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommitRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReleasedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.application.command.CommitInventoryCommand;
 import dev.desafio.transaction.inventory.application.command.ReleaseInventoryCommand;
 import dev.desafio.transaction.inventory.application.command.ReserveInventoryCommand;
@@ -19,7 +19,7 @@ import dev.desafio.transaction.inventory.application.event.InventoryOutbox;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedEvent;
-import dev.desafio.transaction.payment.adapter.axon.PaymentProviderEffectHandler;
+import dev.desafio.transaction.payment.application.event.PaymentProviderEffectHandler;
 import dev.desafio.transaction.payment.adapter.messaging.AxonPaymentRabbitListener;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentEffectLedger;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentProjection;
@@ -30,11 +30,11 @@ import dev.desafio.transaction.payment.application.axon.PaymentAggregate;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
 import dev.desafio.transaction.payment.application.command.RecordPaymentOutcome;
 import dev.desafio.transaction.payment.application.command.RefundPayment;
-import dev.desafio.transaction.payment.application.axon.PaymentIntegrationEventHandler;
+import dev.desafio.transaction.payment.application.event.PaymentIntegrationEventHandler;
 import dev.desafio.transaction.payment.domain.event.PaymentApproved;
 import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 import dev.desafio.transaction.payment.domain.event.PaymentRejected;
-import dev.desafio.transaction.payment.application.axon.PaymentProjectionHandler;
+import dev.desafio.transaction.payment.application.event.PaymentProjectionHandler;
 import dev.desafio.transaction.payment.adapter.messaging.OutboxPaymentIntegrationEventPublisher;
 import dev.desafio.transaction.shared.infrastructure.messaging.AmqpRetryRouter;
 import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;
@@ -174,7 +174,7 @@ class ChoreographedLifecycleE2ETest {
     @Test
     @DisplayName("RabbitMQ lifecycle preserves tokenized Card credentials and operation keys @spec:AC-286 @spec:AC-287 @spec:AC-293 @spec:AC-314 @spec:AC-315")
     void inventoryFirstEventsReachPaymentOnlyThroughRabbitMqWithCausalMetadata() throws Exception {
-        var started = TransactionEvent.started(new StartTransaction(
+        var started = StartTransaction.started(new StartTransaction(
             "transaction-251", "operation-251", "buyer@example.test", "order-251",
             List.of(new Transaction.Item("sku-251", 1)), new BigDecimal("42.50"), "BRL", "CARD",
             "provider-token-251", "visa"
@@ -213,7 +213,7 @@ class ChoreographedLifecycleE2ETest {
             return CompletableFuture.completedFuture(reservation.get().status());
         });
         var inventoryConsumer = reliable("inventory");
-        var inventory = new InventoryRabbitListener(
+        var inventory = new AxonInventoryRabbitListener(
             inventoryConsumer, inventoryCommands, legacyInventory(), rabbit, json
         );
         consume(MarketplaceAmqp.eventQueue("inventory"), inventory::receive);
@@ -259,7 +259,7 @@ class ChoreographedLifecycleE2ETest {
     @Test
     @DisplayName("Commit rejection triggers one provider refund and converges without regression @spec:AC-283 @spec:AC-284 @spec:AC-286 @spec:AC-287")
     void commitRejectionTriggersOneProviderRefundAndConvergesWithoutRegression() throws Exception {
-        var started = TransactionEvent.started(new StartTransaction(
+        var started = StartTransaction.started(new StartTransaction(
             "transaction-refund", "operation-refund", "buyer@example.test", "order-refund",
             List.of(new Transaction.Item("sku-refund", 1)), new BigDecimal("42.50"), "BRL", "CARD",
             "provider-token-refund", "visa"
@@ -365,7 +365,7 @@ class ChoreographedLifecycleE2ETest {
     @Test
     @DisplayName("Inventory and Payment rejection reactions remain independent over RabbitMQ @spec:AC-283 @spec:AC-284 @spec:AC-286 @spec:AC-293")
     void inventoryAndPaymentRejectionsRemainIndependentOverRabbitMq() throws Exception {
-        var firstStarted = TransactionEvent.started(new StartTransaction(
+        var firstStarted = StartTransaction.started(new StartTransaction(
             "transaction-no-stock", "operation-no-stock", "buyer@example.test", "order-no-stock",
             List.of(new Transaction.Item("sku-empty", 1)), new BigDecimal("10.00"), "BRL", "PIX", null, null
         ), CLOCK.instant());
@@ -388,7 +388,7 @@ class ChoreographedLifecycleE2ETest {
         assertEquals(Transaction.Status.REJECTED, noStockTransaction.get().status());
         assertQueueEmpty(MarketplaceAmqp.eventQueue("payment"));
 
-        var secondStarted = TransactionEvent.started(new StartTransaction(
+        var secondStarted = StartTransaction.started(new StartTransaction(
             "transaction-payment-rejected", "operation-payment-rejected", "buyer@example.test",
             "order-payment-rejected", List.of(new Transaction.Item("sku-available", 1)),
             new BigDecimal("10.00"), "BRL", "CARD", "provider-token-rejected", "master"
@@ -425,7 +425,7 @@ class ChoreographedLifecycleE2ETest {
             );
             return CompletableFuture.completedFuture(reservation.status());
         });
-        var inventoryListener = new InventoryRabbitListener(
+        var inventoryListener = new AxonInventoryRabbitListener(
             reliable("inventory"), inventoryGateway, legacyInventory(), rabbit, json
         );
         consume(MarketplaceAmqp.eventQueue("inventory"), inventoryListener::receive);
@@ -439,7 +439,7 @@ class ChoreographedLifecycleE2ETest {
     @Test
     @DisplayName("Out-of-order outcomes retry and converge without projection regression @spec:AC-284 @spec:AC-286 @spec:AC-287 @spec:AC-293")
     void outOfOrderOutcomesRetryAndConvergeWithoutProjectionRegression() throws Exception {
-        var started = TransactionEvent.started(new StartTransaction(
+        var started = StartTransaction.started(new StartTransaction(
             "transaction-out-of-order", "operation-out-of-order", "buyer@example.test",
             "order-out-of-order", List.of(new Transaction.Item("sku-order", 1)),
             new BigDecimal("12.00"), "BRL", "PIX", null, null
@@ -692,7 +692,7 @@ class ChoreographedLifecycleE2ETest {
         InventoryIntegrationEventHandler handler,
         Object event
     ) {
-        if (event instanceof dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent committed) {
+        if (event instanceof dev.desafio.transaction.inventory.domain.event.InventoryCommittedAxonEvent committed) {
             handler.on(committed);
         } else if (event instanceof InventoryCommitRejectedAxonEvent rejected) {
             handler.on(rejected);

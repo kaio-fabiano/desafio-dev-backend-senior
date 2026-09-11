@@ -1,5 +1,6 @@
 package dev.desafio.transaction.transaction.application.command;
 
+import dev.desafio.transaction.transaction.application.axon.TransactionEventSourcedEntity;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 import org.axonframework.messaging.eventhandling.gateway.EventAppender;
 import org.axonframework.modelling.annotation.InjectEntity;

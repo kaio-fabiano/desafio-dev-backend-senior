@@ -1,6 +1,6 @@
 package dev.desafio.transaction.payment.application.axon;
 
-import dev.desafio.transaction.payment.adapter.axon.PaymentCommandHandler;
+import dev.desafio.transaction.payment.application.command.PaymentCommandHandler;
 import dev.desafio.transaction.payment.application.command.RecordPaymentOutcome;
 import dev.desafio.transaction.payment.application.command.RecordProviderNotification;
 import dev.desafio.transaction.payment.application.command.RefundPayment;
@@ -35,7 +35,7 @@ class PaymentAxonFixtureTest {
         var fixture = fixture();
         try {
             var request = request("card", Payment.Method.CARD);
-            var requested = PaymentRequested.from(request, NOW);
+            var requested = RequestPayment.event(request, NOW);
 
             fixture.given()
                 .event(requested)
@@ -61,7 +61,7 @@ class PaymentAxonFixtureTest {
         var fixture = fixture();
         try {
             var card = request("card", Payment.Method.CARD);
-            var cardRequested = PaymentRequested.from(card, NOW);
+            var cardRequested = RequestPayment.event(card, NOW);
 
             fixture.given()
                 .noPriorActivity()
@@ -105,7 +105,7 @@ class PaymentAxonFixtureTest {
                 .exceptionSatisfies(error -> assertTrue(hasCause(error, IllegalStateException.class)));
 
             var pix = request("pix", Payment.Method.PIX);
-            var pixRequested = PaymentRequested.from(pix, NOW);
+            var pixRequested = RequestPayment.event(pix, NOW);
             fixture.given()
                 .event(pixRequested)
                 .when()
@@ -167,7 +167,7 @@ class PaymentAxonFixtureTest {
         var fixture = fixture();
         try {
             var request = request("webhook", Payment.Method.CARD);
-            var requested = PaymentRequested.from(request, NOW);
+            var requested = RequestPayment.event(request, NOW);
             var pending = new PaymentPending(
                 request.paymentId(), request.transactionId(), "provider-webhook", null,
                 request.correlationId(), "effect-webhook", NOW

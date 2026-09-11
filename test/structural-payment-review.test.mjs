@@ -53,7 +53,7 @@ test('AC-320: retired legacy messaging paths are absent @spec:AC-320', async () 
 test('AC-322: active Axon messaging remains registered @spec:AC-322', async () => {
   const [payment, inventory] = await Promise.all([
     readFile('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/AxonPaymentMessagingConfiguration.java', 'utf8'),
-    readFile('apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java', 'utf8'),
+    readFile('apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java', 'utf8'),
   ]);
   assert.match(payment, /AxonPaymentRabbitListener/);
   assert.match(inventory, /queues = "inventory\.events\.v1"/);

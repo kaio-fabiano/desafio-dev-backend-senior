@@ -55,7 +55,7 @@ class PaymentRedeliveryTest {
         private int effectCount;
 
         @Override
-        public java.util.Optional<ProcessingResult> processed(UUID eventId, Payment.Command command) {
+        public java.util.Optional<ProcessingResult> processed(UUID eventId, Payment.ProviderRequest command) {
             var result = inbox.get(eventId);
             return result == null
                 ? java.util.Optional.empty()
@@ -71,7 +71,7 @@ class PaymentRedeliveryTest {
         @Override
         public synchronized ProcessingResult process(
             UUID incomingEventId,
-            Payment.Command command,
+            Payment.ProviderRequest command,
             PaymentProvider.Result providerResult,
             Instant occurredAt
         ) {

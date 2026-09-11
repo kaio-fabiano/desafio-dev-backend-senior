@@ -320,7 +320,7 @@ class PaymentFederationTest {
         @Override
         public synchronized ProcessingResult process(
             UUID eventId,
-            Payment.Command command,
+            Payment.ProviderRequest command,
             PaymentProvider.Result providerResult,
             Instant occurredAt
         ) {

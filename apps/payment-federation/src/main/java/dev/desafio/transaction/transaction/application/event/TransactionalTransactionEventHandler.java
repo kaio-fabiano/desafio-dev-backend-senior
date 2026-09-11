@@ -1,4 +1,4 @@
-package dev.desafio.transaction.transaction.adapter.persistence;
+package dev.desafio.transaction.transaction.application.event;
 
 import dev.desafio.transaction.transaction.application.TransactionOutbox;
 import dev.desafio.transaction.transaction.application.TransactionViewStore;

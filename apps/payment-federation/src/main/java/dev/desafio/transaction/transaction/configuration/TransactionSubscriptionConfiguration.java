@@ -1,4 +1,4 @@
-package dev.desafio.transaction.transaction.interfaces.graphql;
+package dev.desafio.transaction.transaction.configuration;
 
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.application.query.TransactionView;

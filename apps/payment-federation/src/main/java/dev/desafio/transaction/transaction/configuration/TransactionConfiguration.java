@@ -6,7 +6,7 @@ import dev.desafio.transaction.transaction.adapter.persistence.JpaCheckoutOperat
 import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionOutbox;
 import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionReadRepository;
 import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionViewStore;
-import dev.desafio.transaction.transaction.adapter.persistence.TransactionalTransactionEventHandler;
+import dev.desafio.transaction.transaction.application.event.TransactionalTransactionEventHandler;
 import dev.desafio.transaction.transaction.adapter.persistence.TransactionOutboxJpaRepository;
 import dev.desafio.transaction.transaction.adapter.persistence.TransactionViewJpaRepository;
 import dev.desafio.transaction.transaction.application.TransactionOutbox;

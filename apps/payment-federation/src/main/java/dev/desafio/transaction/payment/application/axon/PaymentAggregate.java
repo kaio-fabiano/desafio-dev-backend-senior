@@ -47,7 +47,7 @@ public final class PaymentAggregate {
     public static PaymentRequested request(RequestPayment command, Instant now) {
         Objects.requireNonNull(command, "command");
         Objects.requireNonNull(now, "now");
-        return PaymentRequested.from(command, now);
+        return RequestPayment.event(command, now);
     }
 
     public void assertSameIntent(RequestPayment command) {

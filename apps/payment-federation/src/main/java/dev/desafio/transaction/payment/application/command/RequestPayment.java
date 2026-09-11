@@ -2,10 +2,12 @@ package dev.desafio.transaction.payment.application.command;
 
 import dev.desafio.transaction.payment.domain.PaymentErrorMessages;
 import dev.desafio.transaction.payment.domain.Payment;
+import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 import org.axonframework.messaging.commandhandling.annotation.Command;
 import org.axonframework.modelling.annotation.TargetEntityId;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Objects;
 
 @Command(namespace = "payment", name = "RequestPayment", version = "1.0.0")
@@ -46,6 +48,14 @@ public record RequestPayment(
         return new Payment.PaymentRequested(
             operationKey, paymentId, transactionId, method, amount, currency,
             providerToken, payerEmail, paymentMethodId
+        );
+    }
+
+    public static PaymentRequested event(RequestPayment command, Instant occurredAt) {
+        return new PaymentRequested(
+            command.paymentId(), command.operationKey(), command.transactionId(), command.method(),
+            command.amount(), command.currency(), command.providerToken(), command.payerEmail(),
+            command.paymentMethodId(), command.correlationId(), command.causationId(), occurredAt
         );
     }
 

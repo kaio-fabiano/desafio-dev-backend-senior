@@ -23,11 +23,11 @@ import java.util.UUID;
 import java.math.BigDecimal;
 import java.util.concurrent.CompletionException;
 
-public final class InventoryRabbitListener {
+public final class AxonInventoryRabbitListener {
     private final ReliableAmqpConsumer consumer;
     private final CommandGateway commands;
 
-    public InventoryRabbitListener(
+    public AxonInventoryRabbitListener(
         @Qualifier("inventoryReliableAmqpConsumer") ReliableAmqpConsumer consumer,
         CommandGateway commands
     ) {
@@ -35,7 +35,7 @@ public final class InventoryRabbitListener {
         this.commands = commands;
     }
 
-    public InventoryRabbitListener(
+    public AxonInventoryRabbitListener(
         ReliableAmqpConsumer consumer,
         CommandGateway commands,
         ObjectProvider<InventoryService> ignoredLegacyInventory,

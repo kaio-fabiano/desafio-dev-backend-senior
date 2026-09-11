@@ -1,4 +1,4 @@
-package dev.desafio.transaction.payment.adapter.axon;
+package dev.desafio.transaction.payment.application.event;
 
 import dev.desafio.transaction.payment.application.PaymentEffectLedger;
 import dev.desafio.transaction.payment.application.PaymentProvider;
@@ -75,7 +75,7 @@ public final class PaymentProviderEffectHandler {
 
     private PaymentProvider.Result effectResult(
         PaymentEffectLedger.Effect effect,
-        dev.desafio.transaction.payment.domain.Payment.Command providerCommand
+        dev.desafio.transaction.payment.domain.Payment.ProviderRequest providerCommand
     ) {
         var completed = effects.completed(effect.effectId());
         if (completed.isPresent()) return completed.orElseThrow();

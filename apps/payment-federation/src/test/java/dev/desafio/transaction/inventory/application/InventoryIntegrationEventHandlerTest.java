@@ -1,8 +1,8 @@
 package dev.desafio.transaction.inventory.application;
 
-import dev.desafio.transaction.inventory.application.event.InventoryIntegrationEvent;
+import dev.desafio.transaction.inventory.application.event.InventoryIntegrationMessage;
 import dev.desafio.transaction.inventory.application.event.InventoryIntegrationEventHandler;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.domain.StockItem;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ class InventoryIntegrationEventHandlerTest {
     @Test
     @DisplayName("Pix Inventory events omit Card credentials @spec:AC-293 @spec:AC-314")
     void mapsOwnedResultWithCausalMetadata() {
-        var published = new ArrayList<InventoryIntegrationEvent>();
+        var published = new ArrayList<InventoryIntegrationMessage>();
         var handler = new InventoryIntegrationEventHandler((source, event) -> published.add(event));
         var occurredAt = Instant.parse("2026-09-09T12:00:00Z");
 
@@ -41,7 +41,7 @@ class InventoryIntegrationEventHandlerTest {
     @Test
     @DisplayName("Card reservation publishes the exact tokenized credentials @spec:AC-286 @spec:AC-293 @spec:AC-314")
     void cardReservationPublishesOpaquePaymentReference() {
-        var published = new ArrayList<InventoryIntegrationEvent>();
+        var published = new ArrayList<InventoryIntegrationMessage>();
         var handler = new InventoryIntegrationEventHandler((source, event) -> published.add(event));
 
         handler.on(new InventoryReservedAxonEvent("tx-card", new InventoryReservedEvent(

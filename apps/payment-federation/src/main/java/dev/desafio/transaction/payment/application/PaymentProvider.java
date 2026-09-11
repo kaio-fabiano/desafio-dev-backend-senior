@@ -5,13 +5,13 @@ import dev.desafio.transaction.payment.domain.Payment;
 
 @FunctionalInterface
 public interface PaymentProvider {
-    Result execute(Payment.Command command);
+    Result execute(Payment.ProviderRequest command);
 
     default Result findByProviderReference(String providerReference) {
         throw new UnsupportedOperationException(PaymentErrorMessages.PROVIDER_LOOKUP_IS_UNAVAILABLE);
     }
 
-    default Result reconcile(Payment.Command command) {
+    default Result reconcile(Payment.ProviderRequest command) {
         if (command instanceof Payment.RefundRequested refund && refund.providerReference() != null) {
             return findByProviderReference(refund.providerReference());
         }

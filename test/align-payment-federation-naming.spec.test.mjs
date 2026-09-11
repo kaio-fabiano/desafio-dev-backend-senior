@@ -57,7 +57,7 @@ test('AC-153: Payment and Inventory remain internal participants @spec:AC-153', 
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
         'utf8',
       ),
     ],

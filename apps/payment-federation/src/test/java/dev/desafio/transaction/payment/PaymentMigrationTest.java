@@ -132,7 +132,7 @@ class PaymentMigrationTest {
         @Override
         public ProcessingResult process(
             UUID incomingEventId,
-            Payment.Command command,
+            Payment.ProviderRequest command,
             PaymentProvider.Result providerResult,
             Instant occurredAt
         ) {

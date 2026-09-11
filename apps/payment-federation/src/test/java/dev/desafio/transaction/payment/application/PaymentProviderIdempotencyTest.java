@@ -48,7 +48,7 @@ class PaymentProviderIdempotencyTest {
         @Override
         public synchronized java.util.Optional<ProcessingResult> processed(
             UUID incomingEventId,
-            Payment.Command command
+            Payment.ProviderRequest command
         ) {
             return java.util.Optional.ofNullable(processed.get(incomingEventId))
                 .map(result -> new ProcessingResult(result.payment(), result.outgoingEvent(), true));
@@ -62,7 +62,7 @@ class PaymentProviderIdempotencyTest {
         @Override
         public synchronized ProcessingResult process(
             UUID incomingEventId,
-            Payment.Command command,
+            Payment.ProviderRequest command,
             PaymentProvider.Result providerResult,
             Instant occurredAt
         ) {

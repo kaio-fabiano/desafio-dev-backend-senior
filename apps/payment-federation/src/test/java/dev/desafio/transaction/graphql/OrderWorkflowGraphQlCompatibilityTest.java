@@ -11,7 +11,7 @@ import dev.desafio.transaction.transaction.application.query.FindCheckoutOperati
 import dev.desafio.transaction.transaction.application.query.FindOwnedTransaction;
 import dev.desafio.transaction.transaction.application.query.FindTransactionByWooOrder;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
-import dev.desafio.transaction.transaction.application.checkout.CheckoutCommand;
+import dev.desafio.transaction.transaction.application.command.CheckoutCommand;
 import dev.desafio.transaction.transaction.application.checkout.CheckoutResult;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import org.axonframework.extension.reactor.messaging.commandhandling.gateway.ReactorCommandGateway;
@@ -182,7 +182,7 @@ class OrderWorkflowGraphQlCompatibilityTest {
             """, "buyer-249", "orders:read");
         assertNull(entity.get("errors"), entity.toString());
         var entities = (List<?>) nested(entity, "data").get("_entities");
-        assertEquals("42", ((Map<?, ?>) entities.getFirst()).get("wooOrderId"));
+        assertEquals("42", ((Map<?, ?>) entities.getFirst()).get("wooOrderId"), entity.toString());
 
         var command = org.mockito.ArgumentCaptor.forClass(CheckoutCommand.class);
         verify(commandGateway).send(command.capture(), eq(CheckoutResult.class));

@@ -1,6 +1,6 @@
 package dev.desafio.transaction.payment.application.axon;
 
-import dev.desafio.transaction.payment.adapter.axon.PaymentProviderEffectHandler;
+import dev.desafio.transaction.payment.application.event.PaymentProviderEffectHandler;
 import dev.desafio.transaction.payment.application.PaymentEffectLedger;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
@@ -59,13 +59,13 @@ class PaymentProviderEffectHandlerTest {
         var reconciliations = new AtomicInteger();
         var provider = new PaymentProvider() {
             @Override
-            public Result execute(Payment.Command command) {
+            public Result execute(Payment.ProviderRequest command) {
                 executions.incrementAndGet();
                 throw new IllegalStateException("timeout after provider success");
             }
 
             @Override
-            public Result reconcile(Payment.Command command) {
+            public Result reconcile(Payment.ProviderRequest command) {
                 reconciliations.incrementAndGet();
                 return approved();
             }
@@ -88,7 +88,7 @@ class PaymentProviderEffectHandlerTest {
     }
 
     private PaymentRequested requested() {
-        return PaymentRequested.from(new RequestPayment(
+        return RequestPayment.event(new RequestPayment(
             "payment-247",
             "operation-283",
             "transaction-283",

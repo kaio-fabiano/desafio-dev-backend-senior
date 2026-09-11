@@ -1,5 +1,7 @@
 package dev.desafio.transaction.transaction.application.checkout;
 
+import dev.desafio.transaction.transaction.application.command.CheckoutCommand;
+import dev.desafio.transaction.transaction.application.command.CheckoutCommandHash;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import org.junit.jupiter.api.DisplayName;

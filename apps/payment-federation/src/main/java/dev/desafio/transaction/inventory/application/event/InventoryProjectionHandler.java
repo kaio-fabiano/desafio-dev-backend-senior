@@ -2,11 +2,11 @@ package dev.desafio.transaction.inventory.application.event;
 
 import dev.desafio.transaction.inventory.application.query.InventoryProjectionRepository;
 import dev.desafio.transaction.inventory.application.query.InventoryReservationView;
-import dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryCommitRejectedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReleasedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservationRejectedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommittedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommitRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReleasedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 

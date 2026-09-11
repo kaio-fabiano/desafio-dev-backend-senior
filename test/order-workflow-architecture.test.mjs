@@ -32,7 +32,7 @@ test('AC-145: transaction, payment and inventory progress through RabbitMQ @spec
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
         'utf8',
       ),
     ]);
@@ -85,7 +85,7 @@ test('AC-149: Inventory is an independent asynchronous participant @spec:AC-149'
       'utf8',
     ),
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
       'utf8',
     ),
     readFile(

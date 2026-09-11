@@ -1,5 +1,10 @@
 package dev.desafio.transaction.inventory.application.axon;
 
+import dev.desafio.transaction.inventory.domain.event.InventoryCommittedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommitRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReleasedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.domain.InventoryEventPublisher;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler;

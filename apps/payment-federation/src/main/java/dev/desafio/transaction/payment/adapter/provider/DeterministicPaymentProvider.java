@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public final class DeterministicPaymentProvider implements PaymentProvider {
     @Override
-    public Result execute(Payment.Command command) {
+    public Result execute(Payment.ProviderRequest command) {
         Objects.requireNonNull(command, "command");
         var reference = command instanceof Payment.RefundRequested refund
             ? requireReference(refund.providerReference())
@@ -22,7 +22,7 @@ public final class DeterministicPaymentProvider implements PaymentProvider {
     }
 
     @Override
-    public Result reconcile(Payment.Command command) {
+    public Result reconcile(Payment.ProviderRequest command) {
         return execute(command);
     }
 

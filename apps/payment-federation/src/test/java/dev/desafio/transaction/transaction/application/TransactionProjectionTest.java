@@ -24,7 +24,7 @@ class TransactionProjectionTest {
     void domainEventProjectionAndQueryUsePathsDistinctFromAggregateLoading() {
         var writes = new AtomicInteger();
         var outboxWrites = new AtomicInteger();
-        var event = TransactionEvent.started(new StartTransaction(
+        var event = StartTransaction.started(new StartTransaction(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)),
             new BigDecimal("19.90"), "BRL", "PIX", null, null
@@ -48,7 +48,7 @@ class TransactionProjectionTest {
     @DisplayName("OrderReceived is mapped once to the Transaction AMQP outbox without credentials @spec:AC-293")
     void orderReceivedIsMappedOnceToTheTransactionAmqpOutboxWithoutCredentials() {
         var outboxWrites = new AtomicInteger();
-        var event = TransactionEvent.started(new StartTransaction(
+        var event = StartTransaction.started(new StartTransaction(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)),
             new BigDecimal("19.90"), "BRL", "CARD", "provider-token", "visa"

@@ -3,7 +3,7 @@ package dev.desafio.transaction.inventory.adapter.persistence;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.contracts.integration.v1.IntegrationEventEnvelope;
-import dev.desafio.transaction.inventory.application.event.InventoryIntegrationEvent;
+import dev.desafio.transaction.inventory.application.event.InventoryIntegrationMessage;
 import dev.desafio.transaction.inventory.application.event.InventoryOutbox;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -30,7 +30,7 @@ public final class JpaInventoryOutbox implements InventoryOutbox {
     }
 
     @Override
-    public void enqueue(String sourceEventId, InventoryIntegrationEvent event) {
+    public void enqueue(String sourceEventId, InventoryIntegrationMessage event) {
         var envelope = new IntegrationEventEnvelope<>(
             UUID.nameUUIDFromBytes(sourceEventId.getBytes(StandardCharsets.UTF_8)),
             event.eventType(), 1, event.aggregateId(), event.transactionId(),

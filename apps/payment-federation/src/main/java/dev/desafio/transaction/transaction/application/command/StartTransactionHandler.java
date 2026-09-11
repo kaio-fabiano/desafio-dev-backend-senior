@@ -1,5 +1,6 @@
 package dev.desafio.transaction.transaction.application.command;
 
+import dev.desafio.transaction.transaction.application.axon.TransactionEventSourcedEntity;
 import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
@@ -29,7 +30,7 @@ public final class StartTransactionHandler {
             }
             return command.transactionId();
         }
-        events.append(TransactionEvent.started(command, clock.instant()));
+        events.append(StartTransaction.started(command, clock.instant()));
         return command.transactionId();
     }
 }

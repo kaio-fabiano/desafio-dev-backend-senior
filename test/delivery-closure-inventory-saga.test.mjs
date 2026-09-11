@@ -23,7 +23,7 @@ test('AC-112: Payment Federation compensates inventory failure without duplicate
       'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration/InventoryMessagingConfiguration.java',
     ),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
     ),
     read(
       'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/persistence/JdbcInventoryRepository.java',
@@ -90,7 +90,7 @@ test('AC-113: one Java Payment Federation image starts payment and inventory con
     ),
     read('apps/payment-federation/Dockerfile'),
     read(
-      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
     ),
     read(
       'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java',

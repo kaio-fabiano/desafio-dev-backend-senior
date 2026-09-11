@@ -1,7 +1,7 @@
 package dev.desafio.transaction.infrastructure.persistence;
 
 import dev.desafio.transaction.PaymentFederationApplication;
-import dev.desafio.transaction.inventory.adapter.messaging.InventoryRabbitListener;
+import dev.desafio.transaction.inventory.adapter.messaging.AxonInventoryRabbitListener;
 import dev.desafio.transaction.inventory.application.StockPort;
 import dev.desafio.transaction.inventory.application.command.ReserveInventoryCommand;
 import dev.desafio.transaction.inventory.application.command.ReserveInventoryCommandHandler;
@@ -104,8 +104,8 @@ class PostgresMigrationIntegrationTest {
             assertInstanceOf(JpaTokenStore.class, context.getBean(TokenStore.class));
             assertInstanceOf(PaymentHandler.class, context.getBean(PaymentHandler.class));
             assertInstanceOf(PaymentRepository.class, context.getBean(PaymentRepository.class));
-            assertInstanceOf(InventoryRabbitListener.class,
-                context.getBean(InventoryRabbitListener.class));
+            assertInstanceOf(AxonInventoryRabbitListener.class,
+                context.getBean(AxonInventoryRabbitListener.class));
             assertInstanceOf(ReserveInventoryCommandHandler.class,
                 context.getBean(ReserveInventoryCommandHandler.class));
             assertEquals(3, context.getBeansOfType(OutboxRelayScheduler.class).size());

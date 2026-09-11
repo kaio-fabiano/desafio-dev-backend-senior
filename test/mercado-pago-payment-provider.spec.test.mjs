@@ -66,7 +66,7 @@ test('AC-314: checkout carries the exact tokenized Card credentials to Payment @
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
         'utf8',
       ),
       readFile(
@@ -114,7 +114,7 @@ test('AC-315: credential propagation preserves deterministic operation keys @spe
       'utf8',
     ),
     readFile(
-      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+      'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
       'utf8',
     ),
   ]);

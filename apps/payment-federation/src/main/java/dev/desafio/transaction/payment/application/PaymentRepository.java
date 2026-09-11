@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface PaymentRepository {
     default java.util.Optional<ProcessingResult> processed(
         UUID incomingEventId,
-        Payment.Command command
+        Payment.ProviderRequest command
     ) {
         return java.util.Optional.empty();
     }
@@ -18,7 +18,7 @@ public interface PaymentRepository {
 
     ProcessingResult process(
         UUID incomingEventId,
-        Payment.Command command,
+        Payment.ProviderRequest command,
         PaymentProvider.Result providerResult,
         Instant occurredAt
     );

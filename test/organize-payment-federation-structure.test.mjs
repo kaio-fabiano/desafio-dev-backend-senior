@@ -32,18 +32,18 @@ test('AC-317: framework metadata allowance stays narrow @spec:AC-317', async () 
 });
 
 test('AC-318: GraphQL and checkout classes have explicit owners @spec:AC-318', async () => {
-  const checkout = await readdir('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout');
+  const checkout = await readdir('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout');
   assert.ok(checkout.length > 0);
   assert.ok(checkout.every((name) => name.endsWith('.java')));
-  assert.equal(await exists('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java'), true);
-  assert.equal(await exists('apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutGraphQlController.java'), true);
+  assert.equal(await exists('apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout/CheckoutService.java'), true);
+  assert.equal(await exists('apps/payment-federation/src/main/java/dev/desafio/transaction/edge/CheckoutGraphQlController.java'), true);
 });
 
 test('AC-319: Spring composition has one named application Clock and direct federation configuration @spec:AC-319', async () => {
   const java = (await javaSources('apps/payment-federation/src/main/java')).map(({ source }) => source).join('\n');
   assert.equal((java.match(/Clock\s+(?:\w*Clock)\s*\(/g) ?? []).length, 1);
   assert.doesNotMatch(java, /implements\s+BeanPostProcessor|extends\s+BeanPostProcessor/);
-  assert.equal(await exists('apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java'), true);
+  assert.equal(await exists('apps/payment-federation/src/main/java/dev/desafio/transaction/edge/configuration/FederationGraphqlConfiguration.java'), true);
 });
 
 test('AC-320: retired Payment and Inventory execution paths are absent @spec:AC-320', async () => {

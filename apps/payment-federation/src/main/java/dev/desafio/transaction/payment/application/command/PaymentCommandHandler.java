@@ -1,4 +1,4 @@
-package dev.desafio.transaction.payment.adapter.axon;
+package dev.desafio.transaction.payment.application.command;
 
 import dev.desafio.transaction.payment.application.axon.PaymentAggregate;
 import dev.desafio.transaction.payment.application.command.RecordPaymentOutcome;

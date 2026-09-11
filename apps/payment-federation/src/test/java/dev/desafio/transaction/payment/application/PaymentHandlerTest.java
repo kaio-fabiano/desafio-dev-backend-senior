@@ -107,7 +107,7 @@ class PaymentHandlerTest {
         @Override
         public synchronized ProcessingResult process(
             UUID incomingEventId,
-            Payment.Command command,
+            Payment.ProviderRequest command,
             PaymentProvider.Result providerResult,
             Instant occurredAt
         ) {

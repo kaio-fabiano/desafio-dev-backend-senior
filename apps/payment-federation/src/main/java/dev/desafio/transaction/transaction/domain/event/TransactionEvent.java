@@ -1,6 +1,5 @@
 package dev.desafio.transaction.transaction.domain.event;
 
-import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import org.axonframework.eventsourcing.annotation.EventTag;
 import org.axonframework.messaging.eventhandling.annotation.Event;
@@ -29,14 +28,6 @@ public record TransactionEvent(
     int version,
     Instant occurredAt
 ) {
-    public static TransactionEvent started(StartTransaction command, Instant occurredAt) {
-        return from(Transaction.start(
-            command.transactionId(), command.operationKey(), command.owner(), command.wooOrderId(),
-            command.items(), command.amount(), command.currency(), command.paymentMethod(),
-            command.providerToken(), command.paymentMethodId(), occurredAt
-        ));
-    }
-
     public static TransactionEvent outcome(
         String transactionId,
         String operationKey,

@@ -1,7 +1,7 @@
 package dev.desafio.transaction.inventory.application.command;
 
 import dev.desafio.transaction.inventory.application.InventoryService;
-import dev.desafio.transaction.inventory.application.axon.InventoryAxonEvents;
+import dev.desafio.transaction.inventory.application.event.InventoryAxonEvents;
 import dev.desafio.transaction.inventory.application.axon.InventoryEventSourcedEntity;
 import dev.desafio.transaction.inventory.domain.Inventory;
 import dev.desafio.transaction.inventory.domain.InventoryErrorMessages;
@@ -57,7 +57,7 @@ public final class ReserveInventoryCommandHandler {
             command.providerToken(), command.paymentMethodId(), command.amount(), command.currency(),
             command.payerEmail(), 1, command.correlationId(), command.causationId(), clock.instant()
         );
-        appender.append(new dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent(
+        appender.append(new dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent(
             command.inventoryReservationId(), event
         ));
         return InventoryReservation.Status.RESERVED;

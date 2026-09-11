@@ -21,7 +21,7 @@ public final class PaymentHandler {
         this.clock = Objects.requireNonNull(clock, "clock");
     }
 
-    public PaymentRepository.ProcessingResult handle(UUID eventId, Payment.Command command) {
+    public PaymentRepository.ProcessingResult handle(UUID eventId, Payment.ProviderRequest command) {
         Objects.requireNonNull(eventId, "eventId");
         Objects.requireNonNull(command, "command");
         var processed = repository.processed(eventId, command);

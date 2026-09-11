@@ -13,7 +13,7 @@ test('AC-115: optional telemetry crosses RabbitMQ and Payment Federation @spec:A
     'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java',
   );
   const inventory = read(
-    'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java',
+    'apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java',
   );
   const collector = read('infra/observability/otel-collector.yaml');
   const runbook = read('docs/runbooks/observability.md');

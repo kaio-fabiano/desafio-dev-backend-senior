@@ -1,4 +1,4 @@
-package dev.desafio.transaction.inventory.application.axon;
+package dev.desafio.transaction.inventory.domain.event;
 
 import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedEvent;
 import org.axonframework.eventsourcing.annotation.EventTag;

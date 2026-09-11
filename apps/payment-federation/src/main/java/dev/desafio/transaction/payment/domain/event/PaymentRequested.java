@@ -1,6 +1,5 @@
 package dev.desafio.transaction.payment.domain.event;
 
-import dev.desafio.transaction.payment.application.command.RequestPayment;
 import dev.desafio.transaction.payment.domain.Payment;
 import org.axonframework.eventsourcing.annotation.EventTag;
 import org.axonframework.messaging.eventhandling.annotation.Event;
@@ -23,14 +22,6 @@ public record PaymentRequested(
     String causationId,
     Instant occurredAt
 ) {
-    public static PaymentRequested from(RequestPayment command, Instant occurredAt) {
-        return new PaymentRequested(
-            command.paymentId(), command.operationKey(), command.transactionId(), command.method(),
-            command.amount(), command.currency(), command.providerToken(), command.payerEmail(),
-            command.paymentMethodId(), command.correlationId(), command.causationId(), occurredAt
-        );
-    }
-
     public Payment.PaymentRequested providerCommand() {
         return new Payment.PaymentRequested(
             operationKey, paymentId, transactionId, method, amount, currency,

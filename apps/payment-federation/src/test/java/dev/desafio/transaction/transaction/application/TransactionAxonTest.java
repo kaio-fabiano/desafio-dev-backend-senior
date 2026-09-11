@@ -4,7 +4,7 @@ import dev.desafio.transaction.transaction.application.command.RecordTransaction
 import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcomeHandler;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.application.command.StartTransactionHandler;
-import dev.desafio.transaction.transaction.application.command.TransactionEventSourcedEntity;
+import dev.desafio.transaction.transaction.application.axon.TransactionEventSourcedEntity;
 import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import org.axonframework.eventsourcing.configuration.EventSourcedEntityModule;
@@ -62,7 +62,7 @@ class TransactionAxonTest {
             .then()
             .success()
             .resultMessagePayload("transaction-1")
-            .events(TransactionEvent.started(command, NOW));
+            .events(StartTransaction.started(command, NOW));
     }
 
     @Test
@@ -72,7 +72,7 @@ class TransactionAxonTest {
         var command = startCommand();
 
         fixture.given()
-            .event(TransactionEvent.started(command, NOW))
+            .event(StartTransaction.started(command, NOW))
             .when()
             .command(command)
             .then()
@@ -88,7 +88,7 @@ class TransactionAxonTest {
         var command = startCommand();
 
         fixture.given()
-            .event(TransactionEvent.started(command, NOW))
+            .event(StartTransaction.started(command, NOW))
             .when()
             .command(command)
             .then()
@@ -100,7 +100,7 @@ class TransactionAxonTest {
     @DisplayName("Axon outcome command emits only a Transaction-owned fact after InventoryReserved @spec:AC-286")
     void axonOutcomeCommandEmitsOnlyATransactionOwnedFactAfterInventoryReserved() {
         fixture = fixture("record-transaction-outcome", config -> new RecordTransactionOutcomeHandler(CLOCK));
-        var started = TransactionEvent.started(startCommand(), NOW);
+        var started = StartTransaction.started(startCommand(), NOW);
 
         fixture.given()
             .event(started)

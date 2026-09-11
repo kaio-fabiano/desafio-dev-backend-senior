@@ -1,6 +1,6 @@
 package dev.desafio.transaction.inventory.application.command;
 
-import dev.desafio.transaction.inventory.application.axon.InventoryAxonEvents;
+import dev.desafio.transaction.inventory.application.event.InventoryAxonEvents;
 import dev.desafio.transaction.inventory.application.axon.InventoryEventSourcedEntity;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;

@@ -1,6 +1,6 @@
 package dev.desafio.transaction.edge;
 
-import dev.desafio.transaction.transaction.application.checkout.CheckoutCommand;
+import dev.desafio.transaction.transaction.application.command.CheckoutCommand;
 import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 
 import java.util.Locale;

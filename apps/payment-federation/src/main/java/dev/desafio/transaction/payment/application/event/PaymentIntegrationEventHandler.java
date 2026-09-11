@@ -1,4 +1,4 @@
-package dev.desafio.transaction.payment.application.axon;
+package dev.desafio.transaction.payment.application.event;
 
 import dev.desafio.transaction.payment.application.PaymentIntegrationEventPublisher;
 import dev.desafio.transaction.payment.domain.event.PaymentApproved;

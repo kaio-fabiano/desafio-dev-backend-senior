@@ -31,7 +31,7 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
     }
 
     @Override
-    public Result execute(Payment.Command command) {
+    public Result execute(Payment.ProviderRequest command) {
         Objects.requireNonNull(command, "command");
         return switch (command) {
             case Payment.PaymentRequested requested -> create(requested);
@@ -48,7 +48,7 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
     }
 
     @Override
-    public Result reconcile(Payment.Command command) {
+    public Result reconcile(Payment.ProviderRequest command) {
         return command instanceof Payment.PaymentRequested requested
             ? recoverCreation(requested, new IllegalStateException(PaymentErrorMessages.PROVIDER_PAYMENT_IS_NOT_YET_VISIBLE))
             : findByProviderReference(((Payment.RefundRequested) command).providerReference());

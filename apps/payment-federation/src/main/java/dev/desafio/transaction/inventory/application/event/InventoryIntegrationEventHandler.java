@@ -1,10 +1,10 @@
 package dev.desafio.transaction.inventory.application.event;
 
-import dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryCommitRejectedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReleasedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservationRejectedAxonEvent;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommittedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommitRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReleasedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservationRejectedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 
 import java.util.LinkedHashMap;
@@ -77,7 +77,7 @@ public final class InventoryIntegrationEventHandler {
                          long version, Map<String, Object> payload) {
         outbox.enqueue(
             aggregateId + ":" + version + ":" + eventType,
-            new InventoryIntegrationEvent(
+            new InventoryIntegrationMessage(
                 eventType, aggregateId, transactionId, correlationId, causationId, occurredAt, payload
             )
         );

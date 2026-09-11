@@ -5,9 +5,9 @@ import dev.desafio.transaction.inventory.application.command.CommitInventoryComm
 import dev.desafio.transaction.inventory.application.command.ReleaseInventoryCommandHandler;
 import dev.desafio.transaction.inventory.application.command.ReserveInventoryCommand;
 import dev.desafio.transaction.inventory.application.command.ReserveInventoryCommandHandler;
-import dev.desafio.transaction.inventory.application.axon.InventoryCommittedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryCommittedAxonEvent;
 import dev.desafio.transaction.inventory.application.axon.InventoryEventSourcedEntity;
-import dev.desafio.transaction.inventory.application.axon.InventoryReservedAxonEvent;
+import dev.desafio.transaction.inventory.domain.event.InventoryReservedAxonEvent;
 import dev.desafio.transaction.inventory.application.query.FindInventoryReservationQuery;
 import dev.desafio.transaction.inventory.application.query.FindInventoryReservationQueryHandler;
 import dev.desafio.transaction.inventory.application.query.InventoryProjectionRepository;

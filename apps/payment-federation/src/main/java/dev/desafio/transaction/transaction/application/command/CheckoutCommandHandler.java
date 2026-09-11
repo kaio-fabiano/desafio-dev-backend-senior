@@ -1,12 +1,13 @@
-package dev.desafio.transaction.transaction.adapter.axon;
+package dev.desafio.transaction.transaction.application.command;
 
-import dev.desafio.transaction.transaction.application.checkout.CheckoutCommand;
 import dev.desafio.transaction.transaction.application.checkout.CheckoutResult;
 import dev.desafio.transaction.transaction.application.checkout.CheckoutService;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public final class CheckoutCommandHandler {
     private final Optional<CheckoutService> checkout;
 

@@ -1,4 +1,4 @@
-package dev.desafio.transaction.transaction.application.checkout;
+package dev.desafio.transaction.transaction.application.command;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
