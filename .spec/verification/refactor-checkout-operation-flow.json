@@ -1,99 +1,99 @@
 {
   "feature": "refactor-checkout-operation-flow",
-  "timestamp": "2026-09-11T10:17:03.195Z",
-  "gitRev": "a5dc1152",
+  "timestamp": "2026-09-11T10:38:08.340Z",
+  "gitRev": "05bf5221",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
-  "testsParsed": 339,
+  "testsParsed": 340,
   "results": {
     "AC-333": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-334": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-335": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-336": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-337": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-338": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-339": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-340": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-341": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-342": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-343": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-344": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-345": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-346": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-347": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-348": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-349": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     },
     "AC-350": {
-      "status": "fail",
+      "status": "pass",
       "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
       "method": "tap"
     }
