@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwrc4y0",
+  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwrlgdx",
   "feature": "refactor-checkout-operation-flow",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-09-11 09:32",
+  "geradoEm": "2026-09-11 09:39",
   "branchTrabalho": "spec/refactor-checkout-operation-flow",
   "baseDir": ".spec/features/refactor-checkout-operation-flow",
   "specDir": ".spec",
@@ -15,29 +15,6 @@
   "ondas": [],
   "faixas": [],
   "sequenciais": [
-    {
-      "id": "T-295",
-      "titulo": "Expose checkout operation through GraphQL mutation and query",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutGraphQlController.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/CheckoutOperationView.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperation.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperationHandler.java",
-        "apps/payment-federation/src/main/resources/graphql/payment.graphqls",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java"
-      ],
-      "refs": [
-        "US-152",
-        "AC-337",
-        "US-154",
-        "AC-343",
-        "US-156",
-        "AC-350"
-      ]
-    },
     {
       "id": "T-296",
       "titulo": "Stream checkout operation updates over existing SSE",
@@ -155,7 +132,8 @@
     "T-287",
     "T-288",
     "T-289",
-    "T-290"
+    "T-290",
+    "T-295"
   ],
   "avisos": []
 }
