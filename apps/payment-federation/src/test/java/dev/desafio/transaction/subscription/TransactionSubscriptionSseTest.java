@@ -1,8 +1,11 @@
 package dev.desafio.transaction.subscription;
 
 import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.application.query.CheckoutOperationView;
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
+import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationCommitted;
+import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationSubscriptionEventHandler;
 import dev.desafio.transaction.transaction.application.subscription.OnTransactionUpdated;
 import dev.desafio.transaction.transaction.application.subscription.OnTransactionUpdatedHandler;
 import dev.desafio.transaction.transaction.application.subscription.TransactionSubscriptionEventHandler;
@@ -107,6 +110,37 @@ class TransactionSubscriptionSseTest {
         assertTrue(names.contains("onTransactionUpdated"), names.toString());
         assertTrue(names.contains("orderEvents"), names.toString());
         assertTrue(names.contains("checkoutUpdated"), names.toString());
+    }
+
+    @Test
+    @DisplayName("Checkout SSE streams durable PROCESSING to COMPLETED updates @spec:AC-344")
+    void streamsCheckoutUpdatesThroughRealSse() {
+        acceptSubscriptionToken();
+        var processing = new CheckoutOperationView(
+            "operation-1", "key-1", "PROCESSING", null,
+            "payment:operation-1", null, "buyer-250"
+        );
+        var completed = new CheckoutOperationView(
+            "operation-1", "key-1", "COMPLETED", "42",
+            "payment:operation-1", null, "buyer-250"
+        );
+        when(views.findCheckout("operation-1", "buyer-250")).thenReturn(Optional.of(processing));
+
+        var payloads = new ConcurrentLinkedQueue<String>();
+        var subscription = sse(
+            "subscription { checkoutUpdated(operationId: \"operation-1\") { id status orderId } }",
+            new AtomicBoolean()
+        ).subscribe(payloads::add, ignored -> {});
+        await().atMost(Duration.ofSeconds(30)).until(() -> !payloads.isEmpty());
+        var initial = payloads.remove();
+        assertTrue(initial.contains("\"status\":\"PROCESSING\""), initial);
+
+        events.publish(List.of(new CheckoutOperationCommitted(completed))).join();
+        await().atMost(Duration.ofSeconds(30)).until(() -> !payloads.isEmpty());
+        var update = payloads.remove();
+        assertTrue(update.contains("\"status\":\"COMPLETED\""), update);
+        assertTrue(update.contains("\"orderId\":\"42\""), update);
+        subscription.dispose();
     }
 
     @Test
@@ -256,6 +290,10 @@ class TransactionSubscriptionSseTest {
                         request(query, true), HttpResponse.BodyHandlers.ofInputStream()
                     ).body();
                     responseStream.set(stream);
+                    if (sink.isCancelled()) {
+                        close(responseStream.getAndSet(null));
+                        return;
+                    }
                     connected.set(true);
                     try (var lines = new BufferedReader(
                         new InputStreamReader(stream, StandardCharsets.UTF_8)
@@ -337,6 +375,11 @@ class TransactionSubscriptionSseTest {
         @Bean
         TransactionSubscriptionEventHandler transactionSubscriptionEventHandler() {
             return new TransactionSubscriptionEventHandler();
+        }
+
+        @Bean
+        CheckoutOperationSubscriptionEventHandler checkoutOperationSubscriptionEventHandler() {
+            return new CheckoutOperationSubscriptionEventHandler();
         }
     }
 }

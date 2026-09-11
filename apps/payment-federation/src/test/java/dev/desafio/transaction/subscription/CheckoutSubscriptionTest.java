@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +25,7 @@ class CheckoutSubscriptionTest {
     }
 
     @Test
+    @DisplayName("Reconnect reads durable state and suppresses stale updates @spec:AC-344")
     void reconnectReadsTheDurableOwnedValueAndSuppressesStaleStatusesUntilCancelled() {
         var views = mock(TransactionReadRepository.class);
         var current = new CheckoutOperationView("operation-1", "key-1", "COMPLETED", "42", "payment:operation-1", null, "buyer-1");
@@ -51,5 +53,24 @@ class CheckoutSubscriptionTest {
         when(views.findCheckout("operation-1", "other-buyer")).thenReturn(Optional.empty());
         var handler = new CheckoutOperationUpdatedHandler(query -> Flux.empty(), views);
         assertTrue(handler.initialResult(new CheckoutOperationUpdated("operation-1", "other-buyer")).isEmpty());
+    }
+
+    @Test
+    @DisplayName("Terminal checkout status cannot regress to processing @spec:AC-344")
+    void suppressesStatusRegressionAndEmitsFailedTerminalUpdate() {
+        CheckoutSubscriptionGateway gateway = query -> Flux.just(
+            view("PROCESSING"), view("FAILED"), view("PROCESSING")
+        );
+        var statuses = new CheckoutOperationUpdatedHandler(gateway, mock(TransactionReadRepository.class))
+            .subscribe("operation-1", "buyer-1")
+            .map(CheckoutOperationView::status)
+            .collectList()
+            .block();
+
+        assertEquals(java.util.List.of("PROCESSING", "FAILED"), statuses);
+    }
+
+    private static CheckoutOperationView view(String status) {
+        return new CheckoutOperationView("operation-1", "key-1", status, null, "payment:operation-1", null, "buyer-1");
     }
 }

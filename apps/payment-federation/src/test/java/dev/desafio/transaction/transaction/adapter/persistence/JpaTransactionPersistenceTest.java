@@ -23,6 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.axonframework.messaging.eventhandling.gateway.EventGateway;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.math.BigDecimal;
@@ -38,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 @DataJpaTest(properties = {
     "spring.jpa.hibernate.ddl-auto=validate",
@@ -158,8 +160,18 @@ class JpaTransactionPersistenceTest {
         var request = request("buyer-1", "monotonic-" + java.util.UUID.randomUUID(), "d".repeat(64));
         first.createOrLoad(request, NOW);
         first.markWooCreationRequested(request.operationId(), NOW);
-        var firstOrder = new WooCommerceOrderPort.Order("woo-first", List.of(new Transaction.Item("1001", 1)), new BigDecimal("10.00"), "BRL");
-        var secondOrder = new WooCommerceOrderPort.Order("woo-second", List.of(new Transaction.Item("1002", 1)), new BigDecimal("20.00"), "BRL");
+        var firstOrder = new WooCommerceOrderPort.Order(
+            "woo-first-" + request.operationKey(),
+            List.of(new Transaction.Item("1001", 1)),
+            new BigDecimal("10.00"),
+            "BRL"
+        );
+        var secondOrder = new WooCommerceOrderPort.Order(
+            "woo-second-" + request.operationKey(),
+            List.of(new Transaction.Item("1002", 1)),
+            new BigDecimal("20.00"),
+            "BRL"
+        );
         var barrier = new CyclicBarrier(2);
         List.of(
             CompletableFuture.runAsync(() -> { await(barrier); first.recordWooOrder(request.operationId(), firstOrder, NOW.plusSeconds(1)); }),
@@ -168,7 +180,7 @@ class JpaTransactionPersistenceTest {
 
         var confirmed = first.createOrLoad(request, NOW.plusSeconds(2));
         assertEquals(CheckoutOperationRepository.Status.WOO_CONFIRMED, confirmed.status());
-        assertTrue(confirmed.wooOrderId().equals("woo-first") || confirmed.wooOrderId().equals("woo-second"));
+        assertTrue(confirmed.wooOrderId().equals(firstOrder.id()) || confirmed.wooOrderId().equals(secondOrder.id()));
         first.complete(request.operationId(), NOW.plusSeconds(3));
         second.recordWooOrder(request.operationId(), secondOrder, NOW.plusSeconds(4));
         assertEquals(CheckoutOperationRepository.Status.COMPLETED, second.createOrLoad(request, NOW.plusSeconds(5)).status());
@@ -248,7 +260,7 @@ class JpaTransactionPersistenceTest {
     }
 
     private JpaCheckoutOperationRepository checkoutRepository() {
-        return new JpaCheckoutOperationRepository(checkoutRecords, entityManager, transactionManager);
+        return new JpaCheckoutOperationRepository(checkoutRecords, entityManager, transactionManager, mock(EventGateway.class));
     }
 
     private static CheckoutOperationRepository.CreateRequest request(

@@ -17,7 +17,6 @@ import dev.desafio.transaction.transaction.application.query.FindTransactionHand
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutService;
-import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationUpdatePublisher;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.adapter.woocommerce.WooCommerceGraphQlOrderAdapter;
 import dev.desafio.transaction.shared.infrastructure.messaging.ConfirmedAmqpPublisher;

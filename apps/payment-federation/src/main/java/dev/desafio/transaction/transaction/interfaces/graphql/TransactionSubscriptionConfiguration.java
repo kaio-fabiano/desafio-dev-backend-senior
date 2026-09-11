@@ -30,12 +30,13 @@ class TransactionSubscriptionConfiguration {
 
     @Bean
     CheckoutOperationUpdatedHandler checkoutOperationUpdatedHandler(
-        CheckoutSubscriptionGateway subscriptions, TransactionReadRepository views
+        CheckoutSubscriptionGateway subscriptions, Optional<TransactionReadRepository> views
     ) {
         return new CheckoutOperationUpdatedHandler(subscriptions, views);
     }
 
     @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url")
     CheckoutOperationSubscriptionEventHandler checkoutOperationSubscriptionEventHandler() {
         return new CheckoutOperationSubscriptionEventHandler();
     }

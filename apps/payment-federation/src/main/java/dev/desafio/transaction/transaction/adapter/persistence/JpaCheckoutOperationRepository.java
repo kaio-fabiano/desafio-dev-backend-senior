@@ -4,7 +4,6 @@ import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictE
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.application.query.CheckoutOperationView;
-import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationUpdatePublisher;
 import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationCommitted;
 import org.axonframework.messaging.eventhandling.gateway.EventGateway;
 import jakarta.persistence.EntityManager;
@@ -22,7 +21,7 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
     private final CheckoutOperationJpaRepository records;
     private final EntityManager entityManager;
     private final TransactionTemplate transaction;
-    private final CheckoutOperationUpdatePublisher publisher;
+    private final EventGateway events;
     private final ObjectMapper json = new ObjectMapper();
 
     public JpaCheckoutOperationRepository(
@@ -35,19 +34,7 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
         this.entityManager = entityManager;
         transaction = new TransactionTemplate(manager);
         transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-        this.publisher = view -> events.publish(java.util.List.of(new CheckoutOperationCommitted(view)));
-    }
-
-    public JpaCheckoutOperationRepository(
-        CheckoutOperationJpaRepository records,
-        EntityManager entityManager,
-        PlatformTransactionManager manager
-    ) {
-        this.records = records;
-        this.entityManager = entityManager;
-        transaction = new TransactionTemplate(manager);
-        transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
-        this.publisher = view -> {};
+        this.events = events;
     }
 
     @Override
@@ -84,7 +71,7 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
             entityManager.clear();
             return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
         });
-        publisher.publish(view(operation));
+        publish(view(operation));
         return operation;
     }
 
@@ -95,7 +82,7 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
             entityManager.clear();
             return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
         });
-        publisher.publish(view(operation));
+        publish(view(operation));
         return operation;
     }
 
@@ -106,12 +93,16 @@ public final class JpaCheckoutOperationRepository implements CheckoutOperationRe
             entityManager.clear();
             return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
         });
-        publisher.publish(view(operation));
+        publish(view(operation));
         return operation;
     }
 
     private void publish(String id) {
-        records.findByOperationId(id).map(TransactionPersistenceMapper::checkoutView).ifPresent(publisher::publish);
+        records.findByOperationId(id).map(TransactionPersistenceMapper::checkoutView).ifPresent(this::publish);
+    }
+
+    private void publish(CheckoutOperationView view) {
+        events.publish(java.util.List.of(new CheckoutOperationCommitted(view)));
     }
 
     private CheckoutOperationView view(Operation operation) {
