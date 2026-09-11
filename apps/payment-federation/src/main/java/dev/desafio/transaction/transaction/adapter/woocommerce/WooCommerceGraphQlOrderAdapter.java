@@ -2,7 +2,7 @@ package dev.desafio.transaction.transaction.adapter.woocommerce;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 

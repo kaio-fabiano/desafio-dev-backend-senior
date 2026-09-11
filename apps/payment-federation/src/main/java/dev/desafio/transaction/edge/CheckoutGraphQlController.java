@@ -1,4 +1,4 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.edge;
 
 import dev.desafio.transaction.inventory.application.query.FindInventoryReservationByTransaction;
 import dev.desafio.transaction.inventory.application.query.InventoryReservationView;
@@ -9,8 +9,8 @@ import dev.desafio.transaction.transaction.application.query.FindCheckoutOperati
 import dev.desafio.transaction.transaction.application.query.FindOwnedTransaction;
 import dev.desafio.transaction.transaction.application.query.FindTransactionByWooOrder;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
-import dev.desafio.transaction.transaction.checkout.CheckoutResult;
-import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutResult;
+import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 import graphql.schema.DataFetchingEnvironment;
 import org.axonframework.extension.reactor.messaging.commandhandling.gateway.ReactorCommandGateway;
 import org.axonframework.extension.reactor.messaging.queryhandling.gateway.ReactorQueryGateway;

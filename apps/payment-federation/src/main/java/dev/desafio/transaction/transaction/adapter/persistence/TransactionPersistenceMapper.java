@@ -2,7 +2,7 @@ package dev.desafio.transaction.transaction.adapter.persistence;
 
 import dev.desafio.transaction.transaction.application.query.CheckoutOperationView;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
-import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutOperationRepository;
 
 final class TransactionPersistenceMapper {
     private TransactionPersistenceMapper() {}

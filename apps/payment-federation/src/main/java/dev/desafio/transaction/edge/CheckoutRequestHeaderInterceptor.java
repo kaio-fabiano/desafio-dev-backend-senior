@@ -1,4 +1,4 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.edge;
 
 import org.springframework.graphql.server.WebGraphQlInterceptor;
 import org.springframework.graphql.server.WebGraphQlRequest;

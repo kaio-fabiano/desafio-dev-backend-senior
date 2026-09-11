@@ -11,8 +11,8 @@ import dev.desafio.transaction.transaction.application.query.FindCheckoutOperati
 import dev.desafio.transaction.transaction.application.query.FindOwnedTransaction;
 import dev.desafio.transaction.transaction.application.query.FindTransactionByWooOrder;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
-import dev.desafio.transaction.transaction.checkout.CheckoutCommand;
-import dev.desafio.transaction.transaction.checkout.CheckoutResult;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutCommand;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutResult;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import org.axonframework.extension.reactor.messaging.commandhandling.gateway.ReactorCommandGateway;
 import org.axonframework.extension.reactor.messaging.queryhandling.gateway.ReactorQueryGateway;

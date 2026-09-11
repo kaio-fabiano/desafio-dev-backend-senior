@@ -1,4 +1,4 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.edge;
 
 final class GraphQlErrorMessages {
     static final String PAYMENT_METHOD = "paymentMethod must be CARD or PIX";
