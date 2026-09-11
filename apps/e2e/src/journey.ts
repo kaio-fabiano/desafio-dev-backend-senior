@@ -31,6 +31,7 @@ export type AcceptanceProof = {
   pix: {
     subscriptionOpenedBeforeCheckout: boolean;
     checkout: JsonObject;
+    retry: JsonObject;
     event: JsonObject;
     meOrder: JsonObject;
     products: JsonObject[];
@@ -55,9 +56,9 @@ async function graphql(
 ) {
   const documents: Record<string, { query: string; responseField?: string }> = {
     me: { query: 'query me { me { id email } }', responseField: 'me' },
-    meAndProducts: {
+    orderAndProducts: {
       query:
-        'query meAndProducts { me { id email } products(first: 20) { edges { cursor node { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } } }',
+        'query orderAndProducts($orderId: ID!) { order(id: $orderId, idType: DATABASE_ID) { id wooOrderId paymentMethod workflow { state } pixCode } products(first: 20) { edges { cursor node { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } } }',
       responseField: undefined,
     },
     addToCart: {
@@ -67,7 +68,7 @@ async function graphql(
     },
     startCheckout: {
       query:
-        'mutation startCheckout($input: OrderWorkflowCheckoutInput!) { startCheckout(input: $input) { id wooOrderId paymentMethod workflow { state } pixCode } }',
+        'mutation startCheckout($input: OrderWorkflowCheckoutInput!) { startCheckout(input: $input) { id operationKey status orderId paymentId errorReason } }',
       responseField: 'startCheckout',
     },
   };
@@ -664,11 +665,12 @@ export async function runAcceptanceJourney(
     accessToken,
     commerceSession,
   );
-  const meAfterCard = await graphql(
+  const cardOrderAndProducts = await graphql(
     environment,
-    'meAndProducts',
-    {},
+    'orderAndProducts',
+    { orderId: card.checkout.orderId },
     accessToken,
+    commerceSession,
   );
 
   const pixOperationKey = 'milestone-7-pix';
@@ -714,11 +716,12 @@ export async function runAcceptanceJourney(
   } finally {
     await setProductStock(environment, 100);
   }
-  const meAfterPix = await graphql(
+  const pixOrderAndProducts = await graphql(
     environment,
-    'meAndProducts',
-    {},
+    'orderAndProducts',
+    { orderId: pix.checkout.orderId },
     accessToken,
+    commerceSession,
   );
 
   const gatewayOnly = await issueToken(
@@ -767,17 +770,18 @@ export async function runAcceptanceJourney(
       checkout: card.checkout,
       retry: cardRetry,
       event: card.event,
-      meOrder: cardRetry,
-      products: meAfterCard.products.edges.map(
+      meOrder: cardOrderAndProducts.order,
+      products: cardOrderAndProducts.products.edges.map(
         ({ node }: { node: JsonObject }) => node,
       ),
     },
     pix: {
       subscriptionOpenedBeforeCheckout: pix.subscriptionOpenedBeforeCheckout,
       checkout: pix.checkout,
+      retry: pixRetry,
       event: pix.event,
-      meOrder: pixRetry,
-      products: meAfterPix.products.edges.map(
+      meOrder: pixOrderAndProducts.order,
+      products: pixOrderAndProducts.products.edges.map(
         ({ node }: { node: JsonObject }) => node,
       ),
     },
