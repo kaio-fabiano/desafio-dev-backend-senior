@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwpp386",
+  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwpzqvm",
   "feature": "refactor-checkout-operation-flow",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-09-11 08:46",
+  "geradoEm": "2026-09-11 08:54",
   "branchTrabalho": "spec/refactor-checkout-operation-flow",
   "baseDir": ".spec/features/refactor-checkout-operation-flow",
   "specDir": ".spec",
@@ -17,76 +17,44 @@
   "sequenciais": [
     {
       "id": "T-290",
-      "titulo": "Implement the durable race-safe checkout persistence slice",
+      "titulo": "Refactor the complete checkout core as one compilable slice",
       "modelo": "gpt-5.6-luna",
       "esforco": "low",
       "arquivos": [
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java",
-        "apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java"
-      ],
-      "refs": [
-        "US-152",
-        "AC-335",
-        "US-154",
-        "AC-343",
-        "US-156",
-        "AC-348",
-        "AC-349"
-      ]
-    },
-    {
-      "id": "T-293",
-      "titulo": "Return current checkout state and dispatch Transaction asynchronously",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java",
+        "apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java"
-      ],
-      "refs": [
-        "US-152",
-        "AC-334",
-        "AC-337",
-        "US-153",
-        "AC-339",
-        "US-154",
-        "AC-343",
-        "US-156",
-        "AC-348",
-        "AC-349",
-        "AC-350"
-      ]
-    },
-    {
-      "id": "T-294",
-      "titulo": "Preserve WooCommerce uncertain-result reconciliation",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java",
         "docs/adrs/006-woocommerce-idempotent-checkout.md"
       ],
       "refs": [
+        "US-152",
+        "AC-334",
+        "AC-335",
+        "AC-337",
         "US-153",
+        "AC-339",
         "AC-340",
         "AC-341",
         "AC-342",
+        "US-154",
+        "AC-343",
         "US-156",
+        "AC-348",
         "AC-349",
         "AC-350"
       ]

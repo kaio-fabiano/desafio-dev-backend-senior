@@ -38,9 +38,9 @@
 </style>
 <main>
   <h1>Plano de execução — refactor-checkout-operation-flow</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 08:46 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 08:54 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>9</b> tarefa(s), uma após a outra</div>
+    <div><b>7</b> tarefa(s), uma após a outra</div>
     <div>modo <b>sequencial</b> (escolha do usuário)</div>
     <div>branch <code>spec/refactor-checkout-operation-flow</code></div>
   </div>
@@ -62,21 +62,9 @@
       <div class="grade"><div class="faixa">
         <div class="tarefa">
           <span class="tid">T-290</span>
-          <span class="ttitulo">Implement the durable race-safe checkout persistence slice</span>
+          <span class="ttitulo">Refactor the complete checkout core as one compilable slice</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java</code> <code>apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-293</span>
-          <span class="ttitulo">Return current checkout state and dispatch Transaction asynchronously</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-294</span>
-          <span class="ttitulo">Preserve WooCommerce uncertain-result reconciliation</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java</code> <code>docs/adrs/006-woocommerce-idempotent-checkout.md</code></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java</code> <code>apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java</code> <code>docs/adrs/006-woocommerce-idempotent-checkout.md</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-295</span>
