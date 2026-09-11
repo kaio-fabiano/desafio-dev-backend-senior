@@ -1,4 +1,4 @@
-package dev.desafio.transaction.payment.configuration;
+package dev.desafio.transaction.edge.configuration;
 
 import org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.data.federation.FederationSchemaFactory;
 
 @Configuration(proxyBeanMethods = false)
-public class PaymentGraphqlConfiguration {
+public class FederationGraphqlConfiguration {
     @Bean
     FederationSchemaFactory paymentFederationSchemaFactory() {
         var factory = new FederationSchemaFactory();

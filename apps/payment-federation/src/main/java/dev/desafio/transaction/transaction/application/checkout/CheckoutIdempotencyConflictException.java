@@ -1,4 +1,4 @@
-package dev.desafio.transaction.transaction.checkout;
+package dev.desafio.transaction.transaction.application.checkout;
 
 import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
 

@@ -1,11 +1,11 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.edge;
 
 import dev.desafio.transaction.inventory.application.query.InventoryReservationView;
 import dev.desafio.transaction.inventory.domain.InventoryReservation;
 import dev.desafio.transaction.payment.application.query.PaymentView;
 import dev.desafio.transaction.payment.domain.Payment;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
-import dev.desafio.transaction.transaction.checkout.CheckoutResult;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutResult;
 import dev.desafio.transaction.transaction.domain.Transaction;
 
 import java.nio.charset.StandardCharsets;

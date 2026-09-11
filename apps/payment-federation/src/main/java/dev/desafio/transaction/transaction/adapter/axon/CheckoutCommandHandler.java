@@ -1,8 +1,8 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.transaction.adapter.axon;
 
-import dev.desafio.transaction.transaction.checkout.CheckoutCommand;
-import dev.desafio.transaction.transaction.checkout.CheckoutResult;
-import dev.desafio.transaction.transaction.checkout.CheckoutService;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutCommand;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutResult;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutService;
 import org.axonframework.messaging.commandhandling.annotation.CommandHandler;
 
 import java.util.Optional;
@@ -17,7 +17,7 @@ public final class CheckoutCommandHandler {
     @CommandHandler
     public CheckoutResult handle(CheckoutCommand command) {
         return checkout.orElseThrow(
-            () -> new IllegalStateException(GraphQlErrorMessages.CHECKOUT_WRITES_UNAVAILABLE)
+            () -> new IllegalStateException("Checkout writes are unavailable")
         )
             .checkout(command);
     }

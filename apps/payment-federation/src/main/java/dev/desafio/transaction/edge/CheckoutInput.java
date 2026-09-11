@@ -1,7 +1,7 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.edge;
 
-import dev.desafio.transaction.transaction.checkout.CheckoutCommand;
-import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutCommand;
+import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 
 import java.util.Locale;
 

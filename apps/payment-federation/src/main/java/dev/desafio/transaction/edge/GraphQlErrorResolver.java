@@ -1,7 +1,7 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.edge;
 
-import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictException;
-import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutIdempotencyConflictException;
+import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;

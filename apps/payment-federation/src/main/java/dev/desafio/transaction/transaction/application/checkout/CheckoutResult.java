@@ -1,4 +1,4 @@
-package dev.desafio.transaction.transaction.checkout;
+package dev.desafio.transaction.transaction.application.checkout;
 
 public record CheckoutResult(
     String operationId,

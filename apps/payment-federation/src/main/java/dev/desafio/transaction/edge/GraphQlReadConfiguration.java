@@ -1,4 +1,4 @@
-package dev.desafio.transaction.shared.interfaces.graphql;
+package dev.desafio.transaction.edge;
 
 import dev.desafio.transaction.inventory.application.query.FindInventoryReservationByTransactionHandler;
 import dev.desafio.transaction.inventory.application.query.InventoryViewRepository;
@@ -8,7 +8,8 @@ import dev.desafio.transaction.transaction.application.query.FindCheckoutOperati
 import dev.desafio.transaction.transaction.application.query.FindOwnedTransactionHandler;
 import dev.desafio.transaction.transaction.application.query.FindTransactionByWooOrderHandler;
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
-import dev.desafio.transaction.transaction.checkout.CheckoutService;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutService;
+import dev.desafio.transaction.transaction.adapter.axon.CheckoutCommandHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

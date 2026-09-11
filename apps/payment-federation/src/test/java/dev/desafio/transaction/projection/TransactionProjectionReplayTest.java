@@ -35,7 +35,7 @@ import dev.desafio.transaction.transaction.application.query.FindOwnedTransactio
 import dev.desafio.transaction.transaction.application.query.FindOwnedTransactionHandler;
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.domain.Transaction;
-import dev.desafio.transaction.shared.interfaces.graphql.GraphQlReadConfiguration;
+import dev.desafio.transaction.edge.GraphQlReadConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

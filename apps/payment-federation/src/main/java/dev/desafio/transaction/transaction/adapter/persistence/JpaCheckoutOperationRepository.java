@@ -1,8 +1,8 @@
 package dev.desafio.transaction.transaction.adapter.persistence;
 
-import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictException;
-import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
-import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutIdempotencyConflictException;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutOperationRepository;
+import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.application.query.CheckoutOperationView;
 import dev.desafio.transaction.transaction.application.subscription.CheckoutOperationCommitted;
 import org.axonframework.messaging.eventhandling.gateway.EventGateway;

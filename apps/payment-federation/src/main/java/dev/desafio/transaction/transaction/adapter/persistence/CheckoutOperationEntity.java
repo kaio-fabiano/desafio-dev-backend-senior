@@ -1,7 +1,7 @@
 package dev.desafio.transaction.transaction.adapter.persistence;
 
-import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
-import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.application.checkout.CheckoutOperationRepository;
+import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

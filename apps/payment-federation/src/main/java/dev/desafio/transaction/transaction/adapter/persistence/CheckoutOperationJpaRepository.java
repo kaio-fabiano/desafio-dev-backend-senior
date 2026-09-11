@@ -13,7 +13,7 @@ public interface CheckoutOperationJpaRepository extends JpaRepository<CheckoutOp
     Optional<CheckoutOperationEntity> findByOperationId(String operationId);
 
     @Modifying
-    @Query("update CheckoutOperationEntity e set e.status = dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository$Status.WOO_CREATION_REQUESTED, e.updatedAt = :now where e.operationId = :id and e.status = dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository$Status.PENDING_WOO")
+    @Query("update CheckoutOperationEntity e set e.status = dev.desafio.transaction.transaction.application.checkout.CheckoutOperationRepository$Status.WOO_CREATION_REQUESTED, e.updatedAt = :now where e.operationId = :id and e.status = dev.desafio.transaction.transaction.application.checkout.CheckoutOperationRepository$Status.PENDING_WOO")
     int markWooCreationRequested(@Param("id") String id, @Param("now") java.time.Instant now);
 
     @Modifying
