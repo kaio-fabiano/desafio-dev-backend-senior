@@ -1,0 +1,1616 @@
+{
+  "build.gradle.kts": {
+    "mtime": 1789060573.0652766,
+    "seen": 1789063959.5034218,
+    "ast_hash": "01bde2af80baa129a3bb961e20d07a67",
+    "semantic_hash": "01bde2af80baa129a3bb961e20d07a67"
+  },
+  "gradlew": {
+    "mtime": 1789046568.8903203,
+    "seen": 1789063959.503427,
+    "ast_hash": "a43be8432bac3ffd05b3769aa42fe996",
+    "semantic_hash": "a43be8432bac3ffd05b3769aa42fe996"
+  },
+  "project.json": {
+    "mtime": 1789046447.6029372,
+    "seen": 1789063959.5034294,
+    "ast_hash": "8fe74281dde5a18df610e933579717d4",
+    "semantic_hash": "8fe74281dde5a18df610e933579717d4"
+  },
+  "settings.gradle.kts": {
+    "mtime": 1788417949.6018775,
+    "seen": 1789063959.5034306,
+    "ast_hash": "12b69b07d2e884e7ce26643da019c069",
+    "semantic_hash": "12b69b07d2e884e7ce26643da019c069"
+  },
+  "src/main/java/dev/desafio/transaction/PaymentFederationApplication.java": {
+    "mtime": 1789044552.8673184,
+    "seen": 1789063959.5034313,
+    "ast_hash": "079deb3ded42e21f5565e7b0d40c6a7d",
+    "semantic_hash": "079deb3ded42e21f5565e7b0d40c6a7d"
+  },
+  "src/main/java/dev/desafio/transaction/configuration/AmqpTopologyConfiguration.java": {
+    "mtime": 1788946593.1944637,
+    "seen": 1789063959.503432,
+    "ast_hash": "100e8c467f5f00a4bbf09bc704a6f505",
+    "semantic_hash": "100e8c467f5f00a4bbf09bc704a6f505"
+  },
+  "src/main/java/dev/desafio/transaction/configuration/MarketplaceAmqp.java": {
+    "mtime": 1788946593.1928308,
+    "seen": 1789063959.503433,
+    "ast_hash": "0e065179c2102616561bff39e0592f28",
+    "semantic_hash": "0e065179c2102616561bff39e0592f28"
+  },
+  "src/main/java/dev/desafio/transaction/contracts/integration/v1/IntegrationEventEnvelope.java": {
+    "mtime": 1789056750.4273612,
+    "seen": 1789063959.503434,
+    "ast_hash": "97b506d96216006ff1eaee94dc4f3ebb",
+    "semantic_hash": "97b506d96216006ff1eaee94dc4f3ebb"
+  },
+  "src/main/java/dev/desafio/transaction/contracts/integration/v1/IntegrationEventErrorMessages.java": {
+    "mtime": 1789056750.4273612,
+    "seen": 1789063959.5034344,
+    "ast_hash": "cc56a17e410a10435e67e287872e7735",
+    "semantic_hash": "cc56a17e410a10435e67e287872e7735"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/messaging/InventoryRabbitListener.java": {
+    "mtime": 1789056750.403361,
+    "seen": 1789063959.5034354,
+    "ast_hash": "6b765f397fc9ea4e83d429298579a379",
+    "semantic_hash": "6b765f397fc9ea4e83d429298579a379"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryAmqpOutboxEntity.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.503436,
+    "ast_hash": "f428a8ec1ba9ae9bfb34731b54823a73",
+    "semantic_hash": "f428a8ec1ba9ae9bfb34731b54823a73"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryAmqpOutboxJpaRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034368,
+    "ast_hash": "d65a8ebd1c829d20aac4bf5ccaed78fe",
+    "semantic_hash": "d65a8ebd1c829d20aac4bf5ccaed78fe"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryInboxEntity.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034375,
+    "ast_hash": "d4e168adb0f6de6f3a8ae77366d26791",
+    "semantic_hash": "d4e168adb0f6de6f3a8ae77366d26791"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryInboxJpaRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.503438,
+    "ast_hash": "236cade9d98aebfa165b434bedfe21dd",
+    "semantic_hash": "236cade9d98aebfa165b434bedfe21dd"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryOperationEntity.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.503439,
+    "ast_hash": "6028ffb687be5fefbc6ff5be5b974ace",
+    "semantic_hash": "6028ffb687be5fefbc6ff5be5b974ace"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryOperationJpaRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034394,
+    "ast_hash": "8e9719c40dd5507cf7b10950231bcd60",
+    "semantic_hash": "8e9719c40dd5507cf7b10950231bcd60"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryReservationProjectionEntity.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.50344,
+    "ast_hash": "c2e2ba3a96e235474f6d6b0a1e49fa95",
+    "semantic_hash": "c2e2ba3a96e235474f6d6b0a1e49fa95"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryReservationProjectionJpaRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034406,
+    "ast_hash": "562868d035f4adc4e0150245b4b6086d",
+    "semantic_hash": "562868d035f4adc4e0150245b4b6086d"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryReservationProjectionMapper.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.503441,
+    "ast_hash": "891797f0181dc18710c2cf0cad314320",
+    "semantic_hash": "891797f0181dc18710c2cf0cad314320"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryResultEventEntity.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034418,
+    "ast_hash": "9127fb50de3e64826e4144602a68bfc9",
+    "semantic_hash": "9127fb50de3e64826e4144602a68bfc9"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryResultEventJpaRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034425,
+    "ast_hash": "24ddff7be5831454750abb9ea859a004",
+    "semantic_hash": "24ddff7be5831454750abb9ea859a004"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/InventoryResultEventMapper.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034432,
+    "ast_hash": "274605ddd440a0660e12e1162d385f84",
+    "semantic_hash": "274605ddd440a0660e12e1162d385f84"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/JpaInventoryOutbox.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034442,
+    "ast_hash": "ef7bf0babdd4c1e35a423ea9fba9345c",
+    "semantic_hash": "ef7bf0babdd4c1e35a423ea9fba9345c"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/JpaInventoryProjectionRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.503445,
+    "ast_hash": "f1712ce3214af9f8fc06167c19145531",
+    "semantic_hash": "f1712ce3214af9f8fc06167c19145531"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/JpaInventoryRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034459,
+    "ast_hash": "8ade0157b0de98bb5c5f84a4278fb8db",
+    "semantic_hash": "8ade0157b0de98bb5c5f84a4278fb8db"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/persistence/JpaInventoryViewRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034463,
+    "ast_hash": "025f5f8299d8c96d61b7b653bcf6571c",
+    "semantic_hash": "025f5f8299d8c96d61b7b653bcf6571c"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/adapter/wordpress/WooInventoryAdapter.java": {
+    "mtime": 1789056750.403361,
+    "seen": 1789063959.503447,
+    "ast_hash": "fea913ad4054ffd8f672aa7f19ee8e07",
+    "semantic_hash": "fea913ad4054ffd8f672aa7f19ee8e07"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/InventoryRepository.java": {
+    "mtime": 1789056750.403361,
+    "seen": 1789063959.5034478,
+    "ast_hash": "72d8d22e23beb9a1e6fe0b381fb9cec5",
+    "semantic_hash": "72d8d22e23beb9a1e6fe0b381fb9cec5"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/InventoryService.java": {
+    "mtime": 1789056750.403361,
+    "seen": 1789063959.5034482,
+    "ast_hash": "b7b1bba5eaca2367086a619b9e7fef02",
+    "semantic_hash": "b7b1bba5eaca2367086a619b9e7fef02"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/StockPort.java": {
+    "mtime": 1788417949.6024787,
+    "seen": 1789063959.5034492,
+    "ast_hash": "80252039f4e4f4b1edd404ba1ceb688c",
+    "semantic_hash": "80252039f4e4f4b1edd404ba1ceb688c"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/axon/InventoryAxonEvents.java": {
+    "mtime": 1789056750.403361,
+    "seen": 1789063959.5034497,
+    "ast_hash": "32affc7138fc53bd9a5756d0bde0586e",
+    "semantic_hash": "32affc7138fc53bd9a5756d0bde0586e"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/axon/InventoryCommitRejectedAxonEvent.java": {
+    "mtime": 1788968824.726942,
+    "seen": 1789063959.5034504,
+    "ast_hash": "c75c906fad14eb170df2d812ee4656b4",
+    "semantic_hash": "c75c906fad14eb170df2d812ee4656b4"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/axon/InventoryCommittedAxonEvent.java": {
+    "mtime": 1788955993.56226,
+    "seen": 1789063959.503451,
+    "ast_hash": "b19e74b47400ce3948f460dd79696a9f",
+    "semantic_hash": "b19e74b47400ce3948f460dd79696a9f"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/axon/InventoryEventSourcedEntity.java": {
+    "mtime": 1788968824.726942,
+    "seen": 1789063959.5034516,
+    "ast_hash": "1672ab1dbe6cac65f362c23b879d691d",
+    "semantic_hash": "1672ab1dbe6cac65f362c23b879d691d"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/axon/InventoryReleasedAxonEvent.java": {
+    "mtime": 1788955993.56226,
+    "seen": 1789063959.5034523,
+    "ast_hash": "931986116efdfafd211f9da47d096a0c",
+    "semantic_hash": "931986116efdfafd211f9da47d096a0c"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/axon/InventoryReservationRejectedAxonEvent.java": {
+    "mtime": 1788955993.56226,
+    "seen": 1789063959.503453,
+    "ast_hash": "233158b4f79f61917d4c14cd4b61a869",
+    "semantic_hash": "233158b4f79f61917d4c14cd4b61a869"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/axon/InventoryReservedAxonEvent.java": {
+    "mtime": 1788955993.56226,
+    "seen": 1789063959.5034537,
+    "ast_hash": "855bef1a2d5708ea99fe3391d01f6156",
+    "semantic_hash": "855bef1a2d5708ea99fe3391d01f6156"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/command/CommitInventoryCommand.java": {
+    "mtime": 1788955993.56226,
+    "seen": 1789063959.5034542,
+    "ast_hash": "8628dd87c65447522781ab70c8568c40",
+    "semantic_hash": "8628dd87c65447522781ab70c8568c40"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/command/CommitInventoryCommandHandler.java": {
+    "mtime": 1788968824.726942,
+    "seen": 1789063959.503455,
+    "ast_hash": "ee87409fa4b5a52428e7da4b6e3b3268",
+    "semantic_hash": "ee87409fa4b5a52428e7da4b6e3b3268"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/command/ReleaseInventoryCommand.java": {
+    "mtime": 1788955993.5625877,
+    "seen": 1789063959.5034556,
+    "ast_hash": "361da3f6adb2e3a6356f77314bcc0c13",
+    "semantic_hash": "361da3f6adb2e3a6356f77314bcc0c13"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/command/ReleaseInventoryCommandHandler.java": {
+    "mtime": 1788955993.5625877,
+    "seen": 1789063959.5034564,
+    "ast_hash": "b6386d6adb5a7e8223cc24ced5c67549",
+    "semantic_hash": "b6386d6adb5a7e8223cc24ced5c67549"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/command/ReserveInventoryCommand.java": {
+    "mtime": 1789056750.403361,
+    "seen": 1789063959.503457,
+    "ast_hash": "bf46e27a4e6ad695c6f8bf1eaae3c339",
+    "semantic_hash": "bf46e27a4e6ad695c6f8bf1eaae3c339"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/command/ReserveInventoryCommandHandler.java": {
+    "mtime": 1789056750.403361,
+    "seen": 1789063959.5034575,
+    "ast_hash": "d4dc824cf5a6fd8a5f5edb28f7439ed2",
+    "semantic_hash": "d4dc824cf5a6fd8a5f5edb28f7439ed2"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/event/InventoryIntegrationEvent.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034587,
+    "ast_hash": "3645b6eff108ec0e47da0a18bda970be",
+    "semantic_hash": "3645b6eff108ec0e47da0a18bda970be"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/event/InventoryIntegrationEventHandler.java": {
+    "mtime": 1788991862.135504,
+    "seen": 1789063959.5034592,
+    "ast_hash": "fd4fe6cb8f85555de975538bb98e44c1",
+    "semantic_hash": "fd4fe6cb8f85555de975538bb98e44c1"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/event/InventoryOutbox.java": {
+    "mtime": 1788955993.5628483,
+    "seen": 1789063959.50346,
+    "ast_hash": "3448ddc38c35178e3b03ce91ce39d895",
+    "semantic_hash": "3448ddc38c35178e3b03ce91ce39d895"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/event/InventoryProjectionHandler.java": {
+    "mtime": 1788968824.7279422,
+    "seen": 1789063959.5034606,
+    "ast_hash": "06b4028ea2f25f6c3bd9db4829c5b55a",
+    "semantic_hash": "06b4028ea2f25f6c3bd9db4829c5b55a"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/query/FindInventoryReservationByTransaction.java": {
+    "mtime": 1789056750.4043612,
+    "seen": 1789063959.5034614,
+    "ast_hash": "607a5632d6a5680d894ae8037d6a3e0c",
+    "semantic_hash": "607a5632d6a5680d894ae8037d6a3e0c"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/query/FindInventoryReservationByTransactionHandler.java": {
+    "mtime": 1789056750.4043612,
+    "seen": 1789063959.503462,
+    "ast_hash": "e9b984549d4b9e2f6010c95c6c6e2c80",
+    "semantic_hash": "e9b984549d4b9e2f6010c95c6c6e2c80"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/query/FindInventoryReservationQuery.java": {
+    "mtime": 1788955993.5628483,
+    "seen": 1789063959.503463,
+    "ast_hash": "fb3644d9d65d3b8fc9570951f4d389ac",
+    "semantic_hash": "fb3644d9d65d3b8fc9570951f4d389ac"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/query/FindInventoryReservationQueryHandler.java": {
+    "mtime": 1788955993.5630267,
+    "seen": 1789063959.5034637,
+    "ast_hash": "950b4e1e41fae5791b33052e7c6d3db2",
+    "semantic_hash": "950b4e1e41fae5791b33052e7c6d3db2"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/query/InventoryProjectionRepository.java": {
+    "mtime": 1788955993.5630267,
+    "seen": 1789063959.5034642,
+    "ast_hash": "f96133a05ec5229a1dcb6564687af36e",
+    "semantic_hash": "f96133a05ec5229a1dcb6564687af36e"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/query/InventoryReservationView.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034647,
+    "ast_hash": "42168cb5fccb23ef5d4a49160ebd0e08",
+    "semantic_hash": "42168cb5fccb23ef5d4a49160ebd0e08"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/application/query/InventoryViewRepository.java": {
+    "mtime": 1788958346.495539,
+    "seen": 1789063959.5034654,
+    "ast_hash": "c3c19331a459a3d72c5ecce9045697fb",
+    "semantic_hash": "c3c19331a459a3d72c5ecce9045697fb"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/configuration/InventoryConfiguration.java": {
+    "mtime": 1789059091.3590086,
+    "seen": 1789063959.503466,
+    "ast_hash": "c8efc2d1b37a5aa10f5d35a5d8fc316e",
+    "semantic_hash": "c8efc2d1b37a5aa10f5d35a5d8fc316e"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/configuration/InventoryMessagingConfiguration.java": {
+    "mtime": 1789060573.0652766,
+    "seen": 1789063959.5034668,
+    "ast_hash": "03b36084ae0867986aa089bfcc330f4e",
+    "semantic_hash": "03b36084ae0867986aa089bfcc330f4e"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/Inventory.java": {
+    "mtime": 1789056750.4043612,
+    "seen": 1789063959.5034676,
+    "ast_hash": "d50c981a58d3ab46a680709140686573",
+    "semantic_hash": "d50c981a58d3ab46a680709140686573"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/InventoryErrorMessages.java": {
+    "mtime": 1789056750.4043612,
+    "seen": 1789063959.503468,
+    "ast_hash": "a29478348365f7253690b40e70a13d14",
+    "semantic_hash": "a29478348365f7253690b40e70a13d14"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/InventoryEventPublisher.java": {
+    "mtime": 1788955993.5630267,
+    "seen": 1789063959.5034688,
+    "ast_hash": "fd16982858c8d63e503d46922edf0c6c",
+    "semantic_hash": "fd16982858c8d63e503d46922edf0c6c"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/InventoryReservation.java": {
+    "mtime": 1789056750.4043612,
+    "seen": 1789063959.5034692,
+    "ast_hash": "6a2c12d4fb3906dc0eeab265499d63dd",
+    "semantic_hash": "6a2c12d4fb3906dc0eeab265499d63dd"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/StockItem.java": {
+    "mtime": 1789056750.4043612,
+    "seen": 1789063959.5034697,
+    "ast_hash": "b4dca201a68b66f0e38ec6956b72c6bc",
+    "semantic_hash": "b4dca201a68b66f0e38ec6956b72c6bc"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/event/InventoryCommitRejectedEvent.java": {
+    "mtime": 1788968824.726942,
+    "seen": 1789063959.5034707,
+    "ast_hash": "9f52530cdc1a306387d2cf883b274bfc",
+    "semantic_hash": "9f52530cdc1a306387d2cf883b274bfc"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/event/InventoryCommittedEvent.java": {
+    "mtime": 1788955993.5630267,
+    "seen": 1789063959.5034711,
+    "ast_hash": "9e33a5c4ca193cb609df990a421ba175",
+    "semantic_hash": "9e33a5c4ca193cb609df990a421ba175"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/event/InventoryReleasedEvent.java": {
+    "mtime": 1788955993.5635264,
+    "seen": 1789063959.5034719,
+    "ast_hash": "3768fd5e2e392ad242daec179bfc2962",
+    "semantic_hash": "3768fd5e2e392ad242daec179bfc2962"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/event/InventoryReservationRejectedEvent.java": {
+    "mtime": 1788955993.5635264,
+    "seen": 1789063959.5034723,
+    "ast_hash": "b3df9d89e575c89008475c21f77b429b",
+    "semantic_hash": "b3df9d89e575c89008475c21f77b429b"
+  },
+  "src/main/java/dev/desafio/transaction/inventory/domain/event/InventoryReservedEvent.java": {
+    "mtime": 1788968613.8553338,
+    "seen": 1789063959.503473,
+    "ast_hash": "82654e3d573a5afe23a09a89c9529520",
+    "semantic_hash": "82654e3d573a5afe23a09a89c9529520"
+  },
+  "src/main/java/dev/desafio/transaction/migration/CutoverRuntimeConfiguration.java": {
+    "mtime": 1788977607.4301803,
+    "seen": 1789063959.5034738,
+    "ast_hash": "c2537091e2733eac96f65d64de930a09",
+    "semantic_hash": "c2537091e2733eac96f65d64de930a09"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/axon/AxonProviderNotificationHandler.java": {
+    "mtime": 1789056750.4143612,
+    "seen": 1789063959.5034745,
+    "ast_hash": "0facd412a4aefca612e0aa0faa7fd682",
+    "semantic_hash": "0facd412a4aefca612e0aa0faa7fd682"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/axon/PaymentCommandHandler.java": {
+    "mtime": 1788957071.713852,
+    "seen": 1789063959.503475,
+    "ast_hash": "a915b05deb43ddaf98d1d5382da93cde",
+    "semantic_hash": "a915b05deb43ddaf98d1d5382da93cde"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/axon/PaymentProviderEffectHandler.java": {
+    "mtime": 1789056750.3603609,
+    "seen": 1789063959.5034757,
+    "ast_hash": "929b9edd980925d6f1b5bc270547a7b5",
+    "semantic_hash": "929b9edd980925d6f1b5bc270547a7b5"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/graphql/PaymentController.java": {
+    "mtime": 1788417949.602661,
+    "seen": 1789063959.5034761,
+    "ast_hash": "7eae9d845e6849c6e622d7bd596f39a4",
+    "semantic_hash": "7eae9d845e6849c6e622d7bd596f39a4"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProvider.java": {
+    "mtime": 1789056750.4143612,
+    "seen": 1789063959.503477,
+    "ast_hash": "b69d18ccc5463c2a2ef9acaad1f5afa4",
+    "semantic_hash": "b69d18ccc5463c2a2ef9acaad1f5afa4"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookController.java": {
+    "mtime": 1789056750.4153612,
+    "seen": 1789063959.5034776,
+    "ast_hash": "dacbfa4912db574739a348be3ed28480",
+    "semantic_hash": "dacbfa4912db574739a348be3ed28480"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/messaging/AxonPaymentRabbitListener.java": {
+    "mtime": 1789056750.4153612,
+    "seen": 1789063959.5034783,
+    "ast_hash": "7dd115e37af5f68dff35283fa43a897f",
+    "semantic_hash": "7dd115e37af5f68dff35283fa43a897f"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/messaging/OutboxPaymentIntegrationEventPublisher.java": {
+    "mtime": 1789060573.0652766,
+    "seen": 1789063959.5034788,
+    "ast_hash": "8e8b31d395dc4accecb962a5a0daed19",
+    "semantic_hash": "8e8b31d395dc4accecb962a5a0daed19"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentConsumer.java": {
+    "mtime": 1789056750.4153612,
+    "seen": 1789063959.5034792,
+    "ast_hash": "6ffe6eb03429541114cbdb069a6746dc",
+    "semantic_hash": "6ffe6eb03429541114cbdb069a6746dc"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java": {
+    "mtime": 1789056750.4153612,
+    "seen": 1789063959.50348,
+    "ast_hash": "d81ddab2683af80b0bee3f30a7ce0b56",
+    "semantic_hash": "d81ddab2683af80b0bee3f30a7ce0b56"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/JpaPaymentEffectLedger.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034807,
+    "ast_hash": "b78788e7ced92327a457e7aa6fb4a63a",
+    "semantic_hash": "b78788e7ced92327a457e7aa6fb4a63a"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/JpaPaymentProjection.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034814,
+    "ast_hash": "f8efc3b8ce4003100ddc2b28b6f127a2",
+    "semantic_hash": "f8efc3b8ce4003100ddc2b28b6f127a2"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/JpaPaymentRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034819,
+    "ast_hash": "76ccc97241f61ac6a8ac026107b69113",
+    "semantic_hash": "76ccc97241f61ac6a8ac026107b69113"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/JpaPaymentViewRepository.java": {
+    "mtime": 1789059070.4725416,
+    "seen": 1789063959.5034826,
+    "ast_hash": "84f89f4b7fb229c61a1293f37b1d8875",
+    "semantic_hash": "84f89f4b7fb229c61a1293f37b1d8875"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/JpaProviderNotificationRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034833,
+    "ast_hash": "f74e2aa83f4ca77839e5a7f3c9e9d1ca",
+    "semantic_hash": "f74e2aa83f4ca77839e5a7f3c9e9d1ca"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/PaymentEffectEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503484,
+    "ast_hash": "f7b11ab34d518e11a2b88fb3b6d97ca6",
+    "semantic_hash": "f7b11ab34d518e11a2b88fb3b6d97ca6"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/PaymentInboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034845,
+    "ast_hash": "d8694bab1e72be5c6baaeaced7484da4",
+    "semantic_hash": "d8694bab1e72be5c6baaeaced7484da4"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/PaymentOutboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034852,
+    "ast_hash": "3ddc71eefe7112d6c2060a90a9aaa4ad",
+    "semantic_hash": "3ddc71eefe7112d6c2060a90a9aaa4ad"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/PaymentRecordEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034857,
+    "ast_hash": "d9871e03567389daf8ac2f1148d38929",
+    "semantic_hash": "d9871e03567389daf8ac2f1148d38929"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/ProviderNotificationEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034869,
+    "ast_hash": "4c5f0118e8259ecb728c28fa143ad3ba",
+    "semantic_hash": "4c5f0118e8259ecb728c28fa143ad3ba"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/SpringDataPaymentEffectRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034878,
+    "ast_hash": "70cf9e50c8bff70e8467edc160b7f641",
+    "semantic_hash": "70cf9e50c8bff70e8467edc160b7f641"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/SpringDataPaymentInboxRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034885,
+    "ast_hash": "b2fc29e8e87dc248cf8212ee622c31c6",
+    "semantic_hash": "b2fc29e8e87dc248cf8212ee622c31c6"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/SpringDataPaymentOutboxRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503489,
+    "ast_hash": "98ecb5a1f794b84c3084eed42e60bd0d",
+    "semantic_hash": "98ecb5a1f794b84c3084eed42e60bd0d"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/SpringDataPaymentRecordRepository.java": {
+    "mtime": 1789060573.0652766,
+    "seen": 1789063959.5034897,
+    "ast_hash": "2565ce66efcd9c494cd6d33da53af8f8",
+    "semantic_hash": "2565ce66efcd9c494cd6d33da53af8f8"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/persistence/SpringDataProviderNotificationRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5034902,
+    "ast_hash": "8cdfefb26cb3a107c70250d7aed20a76",
+    "semantic_hash": "8cdfefb26cb3a107c70250d7aed20a76"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/provider/DeterministicPaymentProvider.java": {
+    "mtime": 1789056750.4163613,
+    "seen": 1789063959.503491,
+    "ast_hash": "c2fc040ed8053446bd7d70f4fb63bf88",
+    "semantic_hash": "c2fc040ed8053446bd7d70f4fb63bf88"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/wordpress/WordPressOrderPaymentAdapter.java": {
+    "mtime": 1789056750.4163613,
+    "seen": 1789063959.5034916,
+    "ast_hash": "9997ee0b85589a7589dbfea3180ebdaf",
+    "semantic_hash": "9997ee0b85589a7589dbfea3180ebdaf"
+  },
+  "src/main/java/dev/desafio/transaction/payment/adapter/wordpress/WpGraphqlAuthentication.java": {
+    "mtime": 1789056750.4163613,
+    "seen": 1789063959.503492,
+    "ast_hash": "bbdd2ad110c7597bccf724592d44991f",
+    "semantic_hash": "bbdd2ad110c7597bccf724592d44991f"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/PaymentEffectLedger.java": {
+    "mtime": 1788957071.714515,
+    "seen": 1789063959.5034928,
+    "ast_hash": "b2289b6b1dc0fb3b953db016bb113cce",
+    "semantic_hash": "b2289b6b1dc0fb3b953db016bb113cce"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/PaymentHandler.java": {
+    "mtime": 1788957071.714515,
+    "seen": 1789063959.5034933,
+    "ast_hash": "6ace93f197626ce768d438c757d2644f",
+    "semantic_hash": "6ace93f197626ce768d438c757d2644f"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/PaymentIntegrationEventPublisher.java": {
+    "mtime": 1788957071.714515,
+    "seen": 1789063959.5034943,
+    "ast_hash": "594bb6c23e87717a27e8a11c020df74b",
+    "semantic_hash": "594bb6c23e87717a27e8a11c020df74b"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/PaymentProjection.java": {
+    "mtime": 1788969508.7251766,
+    "seen": 1789063959.5034947,
+    "ast_hash": "bcf722d934b03f5e802d4dc600d50c85",
+    "semantic_hash": "bcf722d934b03f5e802d4dc600d50c85"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/PaymentProvider.java": {
+    "mtime": 1789056750.4163613,
+    "seen": 1789063959.5034955,
+    "ast_hash": "92c7f727a83b8ca40fc7acfbf640e404",
+    "semantic_hash": "92c7f727a83b8ca40fc7acfbf640e404"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/PaymentRepository.java": {
+    "mtime": 1788957071.714515,
+    "seen": 1789063959.503496,
+    "ast_hash": "09239370da89750bda970168337b4257",
+    "semantic_hash": "09239370da89750bda970168337b4257"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/ProviderNotificationHandler.java": {
+    "mtime": 1789056750.4163613,
+    "seen": 1789063959.5034964,
+    "ast_hash": "c1ce1674fcd2fd43936a3804a6b1b781",
+    "semantic_hash": "c1ce1674fcd2fd43936a3804a6b1b781"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/axon/PaymentAggregate.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5034971,
+    "ast_hash": "f87f10d6fc6a3c17136266e83f448e6c",
+    "semantic_hash": "f87f10d6fc6a3c17136266e83f448e6c"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/axon/PaymentIntegrationEventHandler.java": {
+    "mtime": 1788957071.7150612,
+    "seen": 1789063959.5034978,
+    "ast_hash": "e08a19252ff4c28ed7838dc618aebc46",
+    "semantic_hash": "e08a19252ff4c28ed7838dc618aebc46"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/axon/PaymentProjectionHandler.java": {
+    "mtime": 1788969508.7251766,
+    "seen": 1789063959.5034986,
+    "ast_hash": "0bc4c632378997ed699c7ebdbc8ef765",
+    "semantic_hash": "0bc4c632378997ed699c7ebdbc8ef765"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/command/AuthorizePayment.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.503499,
+    "ast_hash": "7662f5369ddee4ea62c06dea867cf83e",
+    "semantic_hash": "7662f5369ddee4ea62c06dea867cf83e"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/command/AuthorizePaymentHandler.java": {
+    "mtime": 1788957071.7150612,
+    "seen": 1789063959.5034997,
+    "ast_hash": "6a51eb0f69f8ff18a864ab3b58b31e6d",
+    "semantic_hash": "6a51eb0f69f8ff18a864ab3b58b31e6d"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/command/OrderPaymentPort.java": {
+    "mtime": 1788417949.6032534,
+    "seen": 1789063959.5035002,
+    "ast_hash": "779c638515f505ac3e870b7e2f7bc7e1",
+    "semantic_hash": "779c638515f505ac3e870b7e2f7bc7e1"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/command/RecordPaymentOutcome.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.503501,
+    "ast_hash": "5166de605a13d083d02b7c7651804f58",
+    "semantic_hash": "5166de605a13d083d02b7c7651804f58"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/command/RecordProviderNotification.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5035017,
+    "ast_hash": "a5bed2129ed3abadf363ee3ba2731cd6",
+    "semantic_hash": "a5bed2129ed3abadf363ee3ba2731cd6"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/command/RefundPayment.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5035021,
+    "ast_hash": "762c084be4ad71d25c0d5e7bcdf1a94a",
+    "semantic_hash": "762c084be4ad71d25c0d5e7bcdf1a94a"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/command/RequestPayment.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5035028,
+    "ast_hash": "4cd4b72b267a33371cd5eee50603bcf4",
+    "semantic_hash": "4cd4b72b267a33371cd5eee50603bcf4"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/event/PaymentApproved.java": {
+    "mtime": 1788957071.7150612,
+    "seen": 1789063959.5035033,
+    "ast_hash": "38e42fd131404851e4b6895049fbb781",
+    "semantic_hash": "38e42fd131404851e4b6895049fbb781"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/event/PaymentPending.java": {
+    "mtime": 1788957071.7153091,
+    "seen": 1789063959.5035043,
+    "ast_hash": "cdc0ba4e99880e36b48b7a094b24faa9",
+    "semantic_hash": "cdc0ba4e99880e36b48b7a094b24faa9"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/event/PaymentRefundRequested.java": {
+    "mtime": 1788957071.7153091,
+    "seen": 1789063959.503505,
+    "ast_hash": "8506d3b7f6f51d2dac23464b0be73e25",
+    "semantic_hash": "8506d3b7f6f51d2dac23464b0be73e25"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/event/PaymentRefunded.java": {
+    "mtime": 1788957071.7153091,
+    "seen": 1789063959.5035057,
+    "ast_hash": "761a0035f39c362e0cf7307da6c4e3d4",
+    "semantic_hash": "761a0035f39c362e0cf7307da6c4e3d4"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/event/PaymentRejected.java": {
+    "mtime": 1788957071.7153091,
+    "seen": 1789063959.5035062,
+    "ast_hash": "502121917e8a5b39b90cc826a6f48bbc",
+    "semantic_hash": "502121917e8a5b39b90cc826a6f48bbc"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/event/PaymentRequested.java": {
+    "mtime": 1788957071.7153091,
+    "seen": 1789063959.503507,
+    "ast_hash": "a914f6d6e24ecfd140175027c7107e18",
+    "semantic_hash": "a914f6d6e24ecfd140175027c7107e18"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/query/FindPayment.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5035074,
+    "ast_hash": "1eddfd0e8f1787246e18145970bc5dda",
+    "semantic_hash": "1eddfd0e8f1787246e18145970bc5dda"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/query/FindPaymentByTransaction.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5035083,
+    "ast_hash": "efd97cd62a2fcb24d3b599c3b99448bf",
+    "semantic_hash": "efd97cd62a2fcb24d3b599c3b99448bf"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/query/FindPaymentByTransactionHandler.java": {
+    "mtime": 1788958346.495539,
+    "seen": 1789063959.5035088,
+    "ast_hash": "53444b3eb57d067c3dbc155df2674a72",
+    "semantic_hash": "53444b3eb57d067c3dbc155df2674a72"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/query/FindPaymentHandler.java": {
+    "mtime": 1788957071.7153091,
+    "seen": 1789063959.5035095,
+    "ast_hash": "d367c48e10db260d2e86916c15e32c51",
+    "semantic_hash": "d367c48e10db260d2e86916c15e32c51"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/query/PaymentView.java": {
+    "mtime": 1788417949.6033206,
+    "seen": 1789063959.50351,
+    "ast_hash": "0108f963f40d783bed321a28d939c912",
+    "semantic_hash": "0108f963f40d783bed321a28d939c912"
+  },
+  "src/main/java/dev/desafio/transaction/payment/application/query/PaymentViewRepository.java": {
+    "mtime": 1788958346.495539,
+    "seen": 1789063959.5035107,
+    "ast_hash": "b24364669ce78332930bc2d3fac6051d",
+    "semantic_hash": "b24364669ce78332930bc2d3fac6051d"
+  },
+  "src/main/java/dev/desafio/transaction/payment/configuration/AxonPaymentMessagingConfiguration.java": {
+    "mtime": 1789060573.0652766,
+    "seen": 1789063959.5035112,
+    "ast_hash": "607de96484fd44baafbff52c28fcc01f",
+    "semantic_hash": "607de96484fd44baafbff52c28fcc01f"
+  },
+  "src/main/java/dev/desafio/transaction/payment/configuration/MercadoPagoProperties.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5035121,
+    "ast_hash": "2be874415fd34c06bfb88204e7aae68c",
+    "semantic_hash": "2be874415fd34c06bfb88204e7aae68c"
+  },
+  "src/main/java/dev/desafio/transaction/payment/configuration/PaymentConfiguration.java": {
+    "mtime": 1789060573.0662766,
+    "seen": 1789063959.5035126,
+    "ast_hash": "b5d74d5d98cf280e13d9528bf509cb53",
+    "semantic_hash": "b5d74d5d98cf280e13d9528bf509cb53"
+  },
+  "src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java": {
+    "mtime": 1788417949.603396,
+    "seen": 1789063959.503513,
+    "ast_hash": "b08089167409e03110675020ce6feb47",
+    "semantic_hash": "b08089167409e03110675020ce6feb47"
+  },
+  "src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java": {
+    "mtime": 1788957071.715515,
+    "seen": 1789063959.5035138,
+    "ast_hash": "a7c9d60830c4396829505c7ea722a211",
+    "semantic_hash": "a7c9d60830c4396829505c7ea722a211"
+  },
+  "src/main/java/dev/desafio/transaction/payment/configuration/PaymentSecurityConfiguration.java": {
+    "mtime": 1788516678.6929286,
+    "seen": 1789063959.5035143,
+    "ast_hash": "6562e000e59b63b106cad97392c9b963",
+    "semantic_hash": "6562e000e59b63b106cad97392c9b963"
+  },
+  "src/main/java/dev/desafio/transaction/payment/domain/Payment.java": {
+    "mtime": 1789056750.4173613,
+    "seen": 1789063959.5035152,
+    "ast_hash": "c030fa5d6aa689de74a20b9bca7cbf1e",
+    "semantic_hash": "c030fa5d6aa689de74a20b9bca7cbf1e"
+  },
+  "src/main/java/dev/desafio/transaction/payment/domain/PaymentErrorMessages.java": {
+    "mtime": 1789056750.4183612,
+    "seen": 1789063959.5035157,
+    "ast_hash": "80ff7cd747ade4987b7155759a06d7d6",
+    "semantic_hash": "80ff7cd747ade4987b7155759a06d7d6"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/AmqpRetryRouter.java": {
+    "mtime": 1788990094.9538355,
+    "seen": 1789063959.5035164,
+    "ast_hash": "4c0640eae7f3048c226c7801c1c8157b",
+    "semantic_hash": "4c0640eae7f3048c226c7801c1c8157b"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/ConfirmedAmqpPublisher.java": {
+    "mtime": 1789056750.4283614,
+    "seen": 1789063959.503517,
+    "ast_hash": "684d8dcf79b733244e7dd731c6a06b53",
+    "semantic_hash": "684d8dcf79b733244e7dd731c6a06b53"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/IntegrationEventJson.java": {
+    "mtime": 1789056750.4283614,
+    "seen": 1789063959.5035176,
+    "ast_hash": "58d5c513eb2b2123cf4c7927c826b953",
+    "semantic_hash": "58d5c513eb2b2123cf4c7927c826b953"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/MessagingErrorMessages.java": {
+    "mtime": 1789056750.4283614,
+    "seen": 1789063959.503518,
+    "ast_hash": "5037f6b981f7c415ea41d0ebc405f38d",
+    "semantic_hash": "5037f6b981f7c415ea41d0ebc405f38d"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/OutboxRelay.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503519,
+    "ast_hash": "9f2b74800fb1fe1f69b0d3d0d9ce30a1",
+    "semantic_hash": "9f2b74800fb1fe1f69b0d3d0d9ce30a1"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/OutboxRelayScheduler.java": {
+    "mtime": 1788986557.8775737,
+    "seen": 1789063959.5035198,
+    "ast_hash": "9574c526afce485d5f477863e0da30a7",
+    "semantic_hash": "9574c526afce485d5f477863e0da30a7"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/ReliableAmqpConsumer.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035203,
+    "ast_hash": "a686401371f49fa07590ad9668e3bc3a",
+    "semantic_hash": "a686401371f49fa07590ad9668e3bc3a"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/AmqpInboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503521,
+    "ast_hash": "700b1ab0bc453d1dea7f8a83897e8984",
+    "semantic_hash": "700b1ab0bc453d1dea7f8a83897e8984"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/AmqpInboxId.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035214,
+    "ast_hash": "1f6dec2ad2d83056326d72c9789c4fe8",
+    "semantic_hash": "1f6dec2ad2d83056326d72c9789c4fe8"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/AmqpInboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035222,
+    "ast_hash": "67efefe2b2f7d1225b0022215c14c72d",
+    "semantic_hash": "67efefe2b2f7d1225b0022215c14c72d"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/AmqpOutboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035229,
+    "ast_hash": "aa2bde886dc4139bf76f8cf8be4826df",
+    "semantic_hash": "aa2bde886dc4139bf76f8cf8be4826df"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/AmqpOutboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035236,
+    "ast_hash": "d42a78621a2039713a593c865fa58d78",
+    "semantic_hash": "d42a78621a2039713a593c865fa58d78"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/InboxStore.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503524,
+    "ast_hash": "ed12d6fb68dff4a876093fbd147ae033",
+    "semantic_hash": "ed12d6fb68dff4a876093fbd147ae033"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/InventoryAmqpInboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035248,
+    "ast_hash": "364ab7b6534526516b6470f732f74075",
+    "semantic_hash": "364ab7b6534526516b6470f732f74075"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/InventoryAmqpInboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035253,
+    "ast_hash": "9f9b60004f6b5f5579b0969e1dacddd2",
+    "semantic_hash": "9f9b60004f6b5f5579b0969e1dacddd2"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/InventoryAmqpOutboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035262,
+    "ast_hash": "1d3b97bd0ebb53591103d9b60546f69b",
+    "semantic_hash": "1d3b97bd0ebb53591103d9b60546f69b"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/InventoryAmqpOutboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503527,
+    "ast_hash": "d603ed683351c37a032bc0915961558c",
+    "semantic_hash": "d603ed683351c37a032bc0915961558c"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/JpaInboxStore.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035274,
+    "ast_hash": "c0ac6d80c44e24c4bcd623faf239404c",
+    "semantic_hash": "c0ac6d80c44e24c4bcd623faf239404c"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/JpaOutboxStore.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503528,
+    "ast_hash": "3f59230ed2c0dcccff40355d8f8b62d5",
+    "semantic_hash": "3f59230ed2c0dcccff40355d8f8b62d5"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/OutboxStore.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035286,
+    "ast_hash": "9f6c3de3d471b179d9062cd775081350",
+    "semantic_hash": "9f6c3de3d471b179d9062cd775081350"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/PaymentAmqpInboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035295,
+    "ast_hash": "b5d69cc0cf04bad3a20f0a263af30cf2",
+    "semantic_hash": "b5d69cc0cf04bad3a20f0a263af30cf2"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/PaymentAmqpInboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.50353,
+    "ast_hash": "da778deeaf2eb4546f52a4f4076d4a0a",
+    "semantic_hash": "da778deeaf2eb4546f52a4f4076d4a0a"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/PaymentAmqpOutboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035307,
+    "ast_hash": "ac2f9f0d51d67e04359845c097efa360",
+    "semantic_hash": "ac2f9f0d51d67e04359845c097efa360"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/PaymentAmqpOutboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035315,
+    "ast_hash": "2db07fe0274308ce28c9ed689f1c76d8",
+    "semantic_hash": "2db07fe0274308ce28c9ed689f1c76d8"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/PersistenceErrorMessages.java": {
+    "mtime": 1789056750.4283614,
+    "seen": 1789063959.503532,
+    "ast_hash": "919824c20879bb35774735ee9c7e8fe3",
+    "semantic_hash": "919824c20879bb35774735ee9c7e8fe3"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/TransactionAmqpInboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503533,
+    "ast_hash": "1f2714f3ae61dbd42adb2730983f3256",
+    "semantic_hash": "1f2714f3ae61dbd42adb2730983f3256"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/TransactionAmqpInboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035334,
+    "ast_hash": "f4eff8c951cf2633db2ab1ea58b07dcd",
+    "semantic_hash": "f4eff8c951cf2633db2ab1ea58b07dcd"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/TransactionAmqpOutboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503534,
+    "ast_hash": "4b715884f62486692666a3ceac170653",
+    "semantic_hash": "4b715884f62486692666a3ceac170653"
+  },
+  "src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/TransactionAmqpOutboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035346,
+    "ast_hash": "dc892866844218b45c204b26fa84b8c7",
+    "semantic_hash": "dc892866844218b45c204b26fa84b8c7"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java": {
+    "mtime": 1789056750.4283614,
+    "seen": 1789063959.5035353,
+    "ast_hash": "f7c38c55fb0a3cfbf7f07bbbbf85ef77",
+    "semantic_hash": "f7c38c55fb0a3cfbf7f07bbbbf85ef77"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutGraphQlController.java": {
+    "mtime": 1789063500.851,
+    "seen": 1789063959.503536,
+    "ast_hash": "e176468ee1c7f31b76b6406bc5250576",
+    "semantic_hash": "e176468ee1c7f31b76b6406bc5250576"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutInput.java": {
+    "mtime": 1789056750.4283614,
+    "seen": 1789063959.5035367,
+    "ast_hash": "d02cc52084b824c4db8a525ab4c3e503",
+    "semantic_hash": "d02cc52084b824c4db8a525ab4c3e503"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutRequestHeaderInterceptor.java": {
+    "mtime": 1788958567.734146,
+    "seen": 1789063959.5035374,
+    "ast_hash": "a48c8a090178fa778bb6f60dd1843901",
+    "semantic_hash": "a48c8a090178fa778bb6f60dd1843901"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/FederationEntityTypeResolver.java": {
+    "mtime": 1788958694.8780572,
+    "seen": 1789063959.503538,
+    "ast_hash": "0d6f42f9cba89d4e485f2752cecc11d5",
+    "semantic_hash": "0d6f42f9cba89d4e485f2752cecc11d5"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/GraphQlErrorMessages.java": {
+    "mtime": 1789056750.4283614,
+    "seen": 1789063959.5035384,
+    "ast_hash": "033e9c9318b4cf89787384b74b26b52f",
+    "semantic_hash": "033e9c9318b4cf89787384b74b26b52f"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/GraphQlErrorResolver.java": {
+    "mtime": 1788959469.622709,
+    "seen": 1789063959.503539,
+    "ast_hash": "8dc18e19ed5bbe06040e170a87fa91c1",
+    "semantic_hash": "8dc18e19ed5bbe06040e170a87fa91c1"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/GraphQlReadConfiguration.java": {
+    "mtime": 1788959631.7852588,
+    "seen": 1789063959.5035398,
+    "ast_hash": "69b0c9c022c2174a33e04c9c6bb3729c",
+    "semantic_hash": "69b0c9c022c2174a33e04c9c6bb3729c"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/OrderStateView.java": {
+    "mtime": 1788958544.9039817,
+    "seen": 1789063959.5035405,
+    "ast_hash": "e489dceab643ccf4294098ac4d13ab76",
+    "semantic_hash": "e489dceab643ccf4294098ac4d13ab76"
+  },
+  "src/main/java/dev/desafio/transaction/shared/interfaces/graphql/OrderView.java": {
+    "mtime": 1788984144.9827678,
+    "seen": 1789063959.503541,
+    "ast_hash": "80595da40907107479ab79ce5146c699",
+    "semantic_hash": "80595da40907107479ab79ce5146c699"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/messaging/TransactionRabbitListener.java": {
+    "mtime": 1789060573.0662766,
+    "seen": 1789063959.50355,
+    "ast_hash": "6f2a0e8addbfe8f82e73b6799e2d3e3a",
+    "semantic_hash": "6f2a0e8addbfe8f82e73b6799e2d3e3a"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035508,
+    "ast_hash": "0738c69c836abb05ff86d1b1e8460579",
+    "semantic_hash": "0738c69c836abb05ff86d1b1e8460579"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035515,
+    "ast_hash": "5b10ea375d2bae4151424c179712ba63",
+    "semantic_hash": "5b10ea375d2bae4151424c179712ba63"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503552,
+    "ast_hash": "bef3bb5f71166c82f426244b497d1dc6",
+    "semantic_hash": "bef3bb5f71166c82f426244b497d1dc6"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503553,
+    "ast_hash": "a872a28ede6aab85a5ddd1912fb3f769",
+    "semantic_hash": "a872a28ede6aab85a5ddd1912fb3f769"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035539,
+    "ast_hash": "6092da8719320bd94b4d1c03455dc5b9",
+    "semantic_hash": "6092da8719320bd94b4d1c03455dc5b9"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionViewStore.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035543,
+    "ast_hash": "d73cea2615cc43f2b2749689a1fcbb44",
+    "semantic_hash": "d73cea2615cc43f2b2749689a1fcbb44"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionOutboxEntity.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.503555,
+    "ast_hash": "0ec5f87c9d6602d0c5efe23b3782223d",
+    "semantic_hash": "0ec5f87c9d6602d0c5efe23b3782223d"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionOutboxJpaRepository.java": {
+    "mtime": 1789059070.472775,
+    "seen": 1789063959.5035555,
+    "ast_hash": "aec97b69b26808b9146a44a5a398831c",
+    "semantic_hash": "aec97b69b26808b9146a44a5a398831c"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.5035563,
+    "ast_hash": "9c282b691dab70b8e0f8ec3ccd37a2be",
+    "semantic_hash": "9c282b691dab70b8e0f8ec3ccd37a2be"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionViewEntity.java": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.503557,
+    "ast_hash": "38cca8892804ff344f03e6f81d0312e4",
+    "semantic_hash": "38cca8892804ff344f03e6f81d0312e4"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionViewJpaRepository.java": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.5035577,
+    "ast_hash": "aa2d8d2f8237efce81010bf76217faf5",
+    "semantic_hash": "aa2d8d2f8237efce81010bf76217faf5"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.5035582,
+    "ast_hash": "363e7436abfb352d55046e6e078fb63d",
+    "semantic_hash": "363e7436abfb352d55046e6e078fb63d"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/TransactionOutbox.java": {
+    "mtime": 1788955482.8101556,
+    "seen": 1789063959.5035589,
+    "ast_hash": "bb98c3f8a78672e18d56d1b929f5f04b",
+    "semantic_hash": "bb98c3f8a78672e18d56d1b929f5f04b"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/TransactionViewStore.java": {
+    "mtime": 1788955482.810772,
+    "seen": 1789063959.5035594,
+    "ast_hash": "4bd3041b9e15ce30b7b4f9830cd3dd47",
+    "semantic_hash": "4bd3041b9e15ce30b7b4f9830cd3dd47"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/command/RecordTransactionOutcome.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.5035603,
+    "ast_hash": "f14b855bc0d7c07010c1c817c86c41a9",
+    "semantic_hash": "f14b855bc0d7c07010c1c817c86c41a9"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/command/RecordTransactionOutcomeHandler.java": {
+    "mtime": 1788970393.5122542,
+    "seen": 1789063959.5035608,
+    "ast_hash": "7713557eb12a9da16414728cafd2e247",
+    "semantic_hash": "7713557eb12a9da16414728cafd2e247"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/command/StartTransaction.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.5035613,
+    "ast_hash": "bd2ce1ad1098037fa9805b1e12d04a72",
+    "semantic_hash": "bd2ce1ad1098037fa9805b1e12d04a72"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/command/StartTransactionHandler.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.503562,
+    "ast_hash": "5d4f0e59b9c0c929d623ee345c04c6ee",
+    "semantic_hash": "5d4f0e59b9c0c929d623ee345c04c6ee"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/command/TransactionEventSourcedEntity.java": {
+    "mtime": 1788970393.5122542,
+    "seen": 1789063959.5035625,
+    "ast_hash": "4d3fe07b1f0899ad1ec9b69efa361299",
+    "semantic_hash": "4d3fe07b1f0899ad1ec9b69efa361299"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/event/TransactionEvent.java": {
+    "mtime": 1788955482.812047,
+    "seen": 1789063959.5035632,
+    "ast_hash": "6338158b2d8917ad7dacc0e14441484f",
+    "semantic_hash": "6338158b2d8917ad7dacc0e14441484f"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/event/TransactionEventHandler.java": {
+    "mtime": 1789061344.009,
+    "seen": 1789063959.5035641,
+    "ast_hash": "ba1cee92c20afd86731e846947ce7f60",
+    "semantic_hash": "ba1cee92c20afd86731e846947ce7f60"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/CheckoutOperationView.java": {
+    "mtime": 1788958346.4935389,
+    "seen": 1789063959.5035646,
+    "ast_hash": "d3cb15644eb42949c3fe670d0e2d885e",
+    "semantic_hash": "d3cb15644eb42949c3fe670d0e2d885e"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperation.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.5035653,
+    "ast_hash": "4a5074f559d4449d079c5bd6c71b494c",
+    "semantic_hash": "4a5074f559d4449d079c5bd6c71b494c"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperationHandler.java": {
+    "mtime": 1788958346.4945388,
+    "seen": 1789063959.503566,
+    "ast_hash": "0aaf3c9da3cd6f45c16bbf83933e36ab",
+    "semantic_hash": "0aaf3c9da3cd6f45c16bbf83933e36ab"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindOwnedTransaction.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.5035665,
+    "ast_hash": "6386fafa382a94b6609c070447db5484",
+    "semantic_hash": "6386fafa382a94b6609c070447db5484"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindOwnedTransactionHandler.java": {
+    "mtime": 1788958346.4945388,
+    "seen": 1789063959.5035672,
+    "ast_hash": "cbd686c53c5fffa6f453e59a874b773b",
+    "semantic_hash": "cbd686c53c5fffa6f453e59a874b773b"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindTransaction.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.503568,
+    "ast_hash": "01ded68e9e0d9f8197e63bfcdc741fa7",
+    "semantic_hash": "01ded68e9e0d9f8197e63bfcdc741fa7"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindTransactionByWooOrder.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.5035686,
+    "ast_hash": "19e887f9d7d70cad043307f7a44f1fd2",
+    "semantic_hash": "19e887f9d7d70cad043307f7a44f1fd2"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindTransactionByWooOrderHandler.java": {
+    "mtime": 1788958346.4945388,
+    "seen": 1789063959.5035694,
+    "ast_hash": "c58546c4bfc8c6f6e65fe3badf1c677a",
+    "semantic_hash": "c58546c4bfc8c6f6e65fe3badf1c677a"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/FindTransactionHandler.java": {
+    "mtime": 1788955482.812453,
+    "seen": 1789063959.5035698,
+    "ast_hash": "f0ac6999890468741e1cddbda12b86c2",
+    "semantic_hash": "f0ac6999890468741e1cddbda12b86c2"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/TransactionReadRepository.java": {
+    "mtime": 1788958346.4945388,
+    "seen": 1789063959.5035708,
+    "ast_hash": "b6246c46ebfa8ff5865f2695849939c9",
+    "semantic_hash": "b6246c46ebfa8ff5865f2695849939c9"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/query/TransactionView.java": {
+    "mtime": 1788955482.812453,
+    "seen": 1789063959.5035713,
+    "ast_hash": "366dfb559be65653ca1422b4d6f00736",
+    "semantic_hash": "366dfb559be65653ca1422b4d6f00736"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/subscription/OnTransactionUpdated.java": {
+    "mtime": 1789056750.390361,
+    "seen": 1789063959.503572,
+    "ast_hash": "26bc8eac979659941bd23ac384e55b1e",
+    "semantic_hash": "26bc8eac979659941bd23ac384e55b1e"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/subscription/OnTransactionUpdatedHandler.java": {
+    "mtime": 1788964153.9760814,
+    "seen": 1789063959.5035725,
+    "ast_hash": "13478441fa94bfd74b6d1dbb19bde229",
+    "semantic_hash": "13478441fa94bfd74b6d1dbb19bde229"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/subscription/TransactionSubscriptionEventHandler.java": {
+    "mtime": 1788965375.3279054,
+    "seen": 1789063959.503573,
+    "ast_hash": "91bc8e905a126f04943616d55ad834f8",
+    "semantic_hash": "91bc8e905a126f04943616d55ad834f8"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/application/subscription/TransactionSubscriptionGateway.java": {
+    "mtime": 1788963469.230053,
+    "seen": 1789063959.5035737,
+    "ast_hash": "2eff64bfbdb94d1cad1072fe11ed1e80",
+    "semantic_hash": "2eff64bfbdb94d1cad1072fe11ed1e80"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.5035746,
+    "ast_hash": "509fb5d15292dc9474acf2ef1335b01b",
+    "semantic_hash": "509fb5d15292dc9474acf2ef1335b01b"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.503575,
+    "ast_hash": "a725e9ce8c9947eaa1ad56d95b491317",
+    "semantic_hash": "a725e9ce8c9947eaa1ad56d95b491317"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.5035756,
+    "ast_hash": "1b887c5f78d1306e6c1176e794f342fc",
+    "semantic_hash": "1b887c5f78d1306e6c1176e794f342fc"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.5035763,
+    "ast_hash": "138ad03e39b280d3f5b6cf5cde086bea",
+    "semantic_hash": "138ad03e39b280d3f5b6cf5cde086bea"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.503577,
+    "ast_hash": "b49be0f4701950ee2a5b4fe14065a758",
+    "semantic_hash": "b49be0f4701950ee2a5b4fe14065a758"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutResult.java": {
+    "mtime": 1788955482.812667,
+    "seen": 1789063959.5035777,
+    "ast_hash": "d88c01fb5891da3c811278e159ec9001",
+    "semantic_hash": "d88c01fb5891da3c811278e159ec9001"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.5035784,
+    "ast_hash": "15597b8858ba53de0a70f2f889674e7b",
+    "semantic_hash": "15597b8858ba53de0a70f2f889674e7b"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.5035791,
+    "ast_hash": "c111e7d92c11728448743c3b089996a0",
+    "semantic_hash": "c111e7d92c11728448743c3b089996a0"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java": {
+    "mtime": 1789060573.0662766,
+    "seen": 1789063959.5035796,
+    "ast_hash": "b234cee0120750a880d1f6441a2bc719",
+    "semantic_hash": "b234cee0120750a880d1f6441a2bc719"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/domain/Transaction.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.5035803,
+    "ast_hash": "6978b383776ef0617ddc2dea1afaff48",
+    "semantic_hash": "6978b383776ef0617ddc2dea1afaff48"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/domain/TransactionErrorMessages.java": {
+    "mtime": 1789056750.391361,
+    "seen": 1789063959.503581,
+    "ast_hash": "ee83cf2b876c098e1da8343812490a48",
+    "semantic_hash": "ee83cf2b876c098e1da8343812490a48"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/OrderEventView.java": {
+    "mtime": 1789045008.8560402,
+    "seen": 1789063959.5035818,
+    "ast_hash": "fa98b5857e3962ad65afeb03e16ec338",
+    "semantic_hash": "fa98b5857e3962ad65afeb03e16ec338"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionConfiguration.java": {
+    "mtime": 1788965124.6653337,
+    "seen": 1789063959.5035822,
+    "ast_hash": "7c90931aed985a2bb63a4129e996b2fb",
+    "semantic_hash": "7c90931aed985a2bb63a4129e996b2fb"
+  },
+  "src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java": {
+    "mtime": 1788964153.9760814,
+    "seen": 1789063959.503583,
+    "ast_hash": "23e1a1128320f934671ce2b6f00796ae",
+    "semantic_hash": "23e1a1128320f934671ce2b6f00796ae"
+  },
+  "src/main/resources/db/migration/V1__payment_inbox_outbox.sql": {
+    "mtime": 1788941180.286254,
+    "seen": 1789063959.5035834,
+    "ast_hash": "4f16f9f4db4100fdf7b748ba24744d7c",
+    "semantic_hash": "4f16f9f4db4100fdf7b748ba24744d7c"
+  },
+  "src/main/resources/db/migration/V2__inventory_inbox_outbox.sql": {
+    "mtime": 1788941180.286254,
+    "seen": 1789063959.503584,
+    "ast_hash": "c864d4dd4600d4c26629a6c45a191d1e",
+    "semantic_hash": "c864d4dd4600d4c26629a6c45a191d1e"
+  },
+  "src/main/resources/db/migration/V3__mercado_pago_payment_lifecycle.sql": {
+    "mtime": 1788938747.5737848,
+    "seen": 1789063959.5035849,
+    "ast_hash": "d4a78c1b47dde9b2bfac1af0c09e3bf4",
+    "semantic_hash": "d4a78c1b47dde9b2bfac1af0c09e3bf4"
+  },
+  "src/main/resources/db/migration/V4__provider_notification_inbox.sql": {
+    "mtime": 1788938747.5737848,
+    "seen": 1789063959.5035853,
+    "ast_hash": "e0c677fb39c6a1e5d9cd81e463946395",
+    "semantic_hash": "e0c677fb39c6a1e5d9cd81e463946395"
+  },
+  "src/main/resources/db/migration/V5__axon_persistence_baseline.sql": {
+    "mtime": 1788939164.9975333,
+    "seen": 1789063959.503586,
+    "ast_hash": "83bc6f5b42335bb2fc087cc9813bc871",
+    "semantic_hash": "83bc6f5b42335bb2fc087cc9813bc871"
+  },
+  "src/main/resources/db/migration/V6__reliable_amqp_boundaries.sql": {
+    "mtime": 1788946703.599818,
+    "seen": 1789063959.5035865,
+    "ast_hash": "5ed870488d0a0984b317ca8788d176cd",
+    "semantic_hash": "5ed870488d0a0984b317ca8788d176cd"
+  },
+  "src/main/resources/db/migration/inventory/afterMigrate__inventory_axon_participant.sql": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.5035872,
+    "ast_hash": "c0df5204ba50d232479335535c15d074",
+    "semantic_hash": "c0df5204ba50d232479335535c15d074"
+  },
+  "src/main/resources/db/migration/payment/R__axon_payment_provider_effect_protocol.sql": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.5035877,
+    "ast_hash": "0e2fd2ef8525ac849e31d74458a812ea",
+    "semantic_hash": "0e2fd2ef8525ac849e31d74458a812ea"
+  },
+  "src/main/resources/db/migration/transaction/R__transaction_checkout.sql": {
+    "mtime": 1788955482.8144841,
+    "seen": 1789063959.5035887,
+    "ast_hash": "cc09b3bed94b1f9e75aa864f3a27fa43",
+    "semantic_hash": "cc09b3bed94b1f9e75aa864f3a27fa43"
+  },
+  "src/test/java/dev/desafio/payment/PaymentFederationApplicationTest.java": {
+    "mtime": 1788417949.6037462,
+    "seen": 1789063959.5035894,
+    "ast_hash": "8efa71c7658b09522cd656327f10c5d3",
+    "semantic_hash": "8efa71c7658b09522cd656327f10c5d3"
+  },
+  "src/test/java/dev/desafio/payment/PaymentFederationTest.java": {
+    "mtime": 1788417949.603829,
+    "seen": 1789063959.5035899,
+    "ast_hash": "b8311dad0c1dc58f8c8ba98a4943d6d3",
+    "semantic_hash": "b8311dad0c1dc58f8c8ba98a4943d6d3"
+  },
+  "src/test/java/dev/desafio/payment/SonarConfigurationTest.java": {
+    "mtime": 1788516678.6929286,
+    "seen": 1789063959.5035906,
+    "ast_hash": "d725095c64277df2b53601bfcbafb833",
+    "semantic_hash": "d725095c64277df2b53601bfcbafb833"
+  },
+  "src/test/java/dev/desafio/payment/adapter/messaging/PaymentRedeliveryTest.java": {
+    "mtime": 1788417949.603862,
+    "seen": 1789063959.503591,
+    "ast_hash": "fb72ea2ff154816667a13107b2245b10",
+    "semantic_hash": "fb72ea2ff154816667a13107b2245b10"
+  },
+  "src/test/java/dev/desafio/payment/application/PaymentHandlerTest.java": {
+    "mtime": 1788417949.603862,
+    "seen": 1789063959.503592,
+    "ast_hash": "498ce67f9fa26dfc6803cbf3b8ff6170",
+    "semantic_hash": "498ce67f9fa26dfc6803cbf3b8ff6170"
+  },
+  "src/test/java/dev/desafio/payment/inventory/InventoryServiceTest.java": {
+    "mtime": 1788417949.603862,
+    "seen": 1789063959.5035925,
+    "ast_hash": "91e7db58e0fd476eaaec68f5998d2750",
+    "semantic_hash": "91e7db58e0fd476eaaec68f5998d2750"
+  },
+  "src/test/java/dev/desafio/transaction/architecture/AxonBaselineContractTest.java": {
+    "mtime": 1789046417.1171806,
+    "seen": 1789063959.5035932,
+    "ast_hash": "0be46c4db0c52ded8b603301bdaf79ba",
+    "semantic_hash": "0be46c4db0c52ded8b603301bdaf79ba"
+  },
+  "src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java": {
+    "mtime": 1788969346.5568411,
+    "seen": 1789063959.5035937,
+    "ast_hash": "5f61a9efe9b7a43b427dd39347e31fb8",
+    "semantic_hash": "5f61a9efe9b7a43b427dd39347e31fb8"
+  },
+  "src/test/java/dev/desafio/transaction/contracts/IntegrationEventEnvelopeContractTest.java": {
+    "mtime": 1788946548.460429,
+    "seen": 1789063959.5035944,
+    "ast_hash": "f67b00641dbe3c1d165b860d9841f3e4",
+    "semantic_hash": "f67b00641dbe3c1d165b860d9841f3e4"
+  },
+  "src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java": {
+    "mtime": 1789060573.0662766,
+    "seen": 1789063959.503595,
+    "ast_hash": "ab382480fb06e040a3ef9d6859b4eba5",
+    "semantic_hash": "ab382480fb06e040a3ef9d6859b4eba5"
+  },
+  "src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java": {
+    "mtime": 1788997186.2948112,
+    "seen": 1789063959.5035956,
+    "ast_hash": "f0d0c118cb2aee76210226c863484e3b",
+    "semantic_hash": "f0d0c118cb2aee76210226c863484e3b"
+  },
+  "src/test/java/dev/desafio/transaction/infrastructure/axon/AxonPersistenceRestartTest.java": {
+    "mtime": 1788940814.551843,
+    "seen": 1789063959.5035963,
+    "ast_hash": "da4ce778aeca96b4e1facedb13dd924f",
+    "semantic_hash": "da4ce778aeca96b4e1facedb13dd924f"
+  },
+  "src/test/java/dev/desafio/transaction/infrastructure/messaging/JpaAmqpDeliveryPersistenceTest.java": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.503597,
+    "ast_hash": "427a196a98ed2bf6fc1060968ed0433f",
+    "semantic_hash": "427a196a98ed2bf6fc1060968ed0433f"
+  },
+  "src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java": {
+    "mtime": 1789060573.0662766,
+    "seen": 1789063959.5035975,
+    "ast_hash": "70484a0b55b708bb93b394c5dba3a82d",
+    "semantic_hash": "70484a0b55b708bb93b394c5dba3a82d"
+  },
+  "src/test/java/dev/desafio/transaction/infrastructure/persistence/PostgresMigrationIntegrationTest.java": {
+    "mtime": 1789047844.4359107,
+    "seen": 1789063959.5035985,
+    "ast_hash": "0a0b9459d36f4027b73820991c6cda35",
+    "semantic_hash": "0a0b9459d36f4027b73820991c6cda35"
+  },
+  "src/test/java/dev/desafio/transaction/inventory/adapter/wordpress/WooInventoryAdapterTest.java": {
+    "mtime": 1788987488.1885235,
+    "seen": 1789063959.503599,
+    "ast_hash": "8f0cea7bb09bf1364a396395ab0dd83e",
+    "semantic_hash": "8f0cea7bb09bf1364a396395ab0dd83e"
+  },
+  "src/test/java/dev/desafio/transaction/inventory/application/InventoryAxonPathsTest.java": {
+    "mtime": 1788955993.5637069,
+    "seen": 1789063959.5035996,
+    "ast_hash": "05742e358e1c722d7aa07e894483f34c",
+    "semantic_hash": "05742e358e1c722d7aa07e894483f34c"
+  },
+  "src/test/java/dev/desafio/transaction/inventory/application/InventoryIntegrationEventHandlerTest.java": {
+    "mtime": 1788991659.4221272,
+    "seen": 1789063959.5036001,
+    "ast_hash": "41358b2b2c9acf5c1a1194e603eb4699",
+    "semantic_hash": "41358b2b2c9acf5c1a1194e603eb4699"
+  },
+  "src/test/java/dev/desafio/transaction/inventory/domain/InventoryReservationTest.java": {
+    "mtime": 1788955993.563772,
+    "seen": 1789063959.5036008,
+    "ast_hash": "18bc69428fd9d108fe8d03cfcf8ef8e1",
+    "semantic_hash": "18bc69428fd9d108fe8d03cfcf8ef8e1"
+  },
+  "src/test/java/dev/desafio/transaction/inventory/infrastructure/InventoryPostgresIntegrationTest.java": {
+    "mtime": 1789060573.0662766,
+    "seen": 1789063959.5036013,
+    "ast_hash": "613e76717b0308142d12006008873030",
+    "semantic_hash": "613e76717b0308142d12006008873030"
+  },
+  "src/test/java/dev/desafio/transaction/payment/PaymentMigrationTest.java": {
+    "mtime": 1788980371.8941317,
+    "seen": 1789063959.5036023,
+    "ast_hash": "8c79f2e3184ffdfcad48b0bda6d30dad",
+    "semantic_hash": "8c79f2e3184ffdfcad48b0bda6d30dad"
+  },
+  "src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java": {
+    "mtime": 1788516678.6929286,
+    "seen": 1789063959.5036027,
+    "ast_hash": "ea5ae464999925265b92b06c3cd84c66",
+    "semantic_hash": "ea5ae464999925265b92b06c3cd84c66"
+  },
+  "src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoWebhookControllerTest.java": {
+    "mtime": 1788516678.6929286,
+    "seen": 1789063959.5036032,
+    "ast_hash": "2fc23ddc6e0ea22017d534a8ddd6cb09",
+    "semantic_hash": "2fc23ddc6e0ea22017d534a8ddd6cb09"
+  },
+  "src/test/java/dev/desafio/transaction/payment/adapter/persistence/JpaPaymentPersistenceTest.java": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.503604,
+    "ast_hash": "ba600f4cb1df67348b976f93d03763f8",
+    "semantic_hash": "ba600f4cb1df67348b976f93d03763f8"
+  },
+  "src/test/java/dev/desafio/transaction/payment/application/ArchitectureBoundariesTest.java": {
+    "mtime": 1788980371.8941317,
+    "seen": 1789063959.5036044,
+    "ast_hash": "1a4ff0880946a73b15c531c1eca6d965",
+    "semantic_hash": "1a4ff0880946a73b15c531c1eca6d965"
+  },
+  "src/test/java/dev/desafio/transaction/payment/application/PaymentProviderIdempotencyTest.java": {
+    "mtime": 1788957071.715515,
+    "seen": 1789063959.5036054,
+    "ast_hash": "b8e7513268ac84b6fb115625bab860e2",
+    "semantic_hash": "b8e7513268ac84b6fb115625bab860e2"
+  },
+  "src/test/java/dev/desafio/transaction/payment/application/ProviderNotificationHandlerTest.java": {
+    "mtime": 1788417949.6042466,
+    "seen": 1789063959.503606,
+    "ast_hash": "e0de5ca4e2aef5cabbb6d7597e385eac",
+    "semantic_hash": "e0de5ca4e2aef5cabbb6d7597e385eac"
+  },
+  "src/test/java/dev/desafio/transaction/payment/application/axon/PaymentAxonFixtureTest.java": {
+    "mtime": 1788957071.715515,
+    "seen": 1789063959.5036066,
+    "ast_hash": "12adf9b9bb36ed092e9eba8fadbbc994",
+    "semantic_hash": "12adf9b9bb36ed092e9eba8fadbbc994"
+  },
+  "src/test/java/dev/desafio/transaction/payment/application/axon/PaymentProviderEffectHandlerTest.java": {
+    "mtime": 1789056750.3653607,
+    "seen": 1789063959.5036073,
+    "ast_hash": "1d6b58599e2be3872ffa05d964ed2f35",
+    "semantic_hash": "1d6b58599e2be3872ffa05d964ed2f35"
+  },
+  "src/test/java/dev/desafio/transaction/projection/TransactionProjectionReplayTest.java": {
+    "mtime": 1789060573.0662766,
+    "seen": 1789063959.503608,
+    "ast_hash": "87620e7775449e6262c59f40e7636f90",
+    "semantic_hash": "87620e7775449e6262c59f40e7636f90"
+  },
+  "src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java": {
+    "mtime": 1788997186.2958112,
+    "seen": 1789063959.5036085,
+    "ast_hash": "b4c31a61626b91390f12050cfe15f3ef",
+    "semantic_hash": "b4c31a61626b91390f12050cfe15f3ef"
+  },
+  "src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java": {
+    "mtime": 1789059070.473775,
+    "seen": 1789063959.5036094,
+    "ast_hash": "b1df915f2a41bb4064f289676975b71e",
+    "semantic_hash": "b1df915f2a41bb4064f289676975b71e"
+  },
+  "src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java": {
+    "mtime": 1788997186.2908113,
+    "seen": 1789063959.50361,
+    "ast_hash": "fdbcb19845ca2f78169b829c10111762",
+    "semantic_hash": "fdbcb19845ca2f78169b829c10111762"
+  },
+  "src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java": {
+    "mtime": 1788955482.8157718,
+    "seen": 1789063959.5036106,
+    "ast_hash": "356f0d964985ab618b04240eb380f39b",
+    "semantic_hash": "356f0d964985ab618b04240eb380f39b"
+  },
+  "src/test/java/dev/desafio/transaction/transaction/application/TransactionProjectionTest.java": {
+    "mtime": 1788955482.8157718,
+    "seen": 1789063959.503611,
+    "ast_hash": "d0975d4c0cae569141da3299dc135355",
+    "semantic_hash": "d0975d4c0cae569141da3299dc135355"
+  },
+  "src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java": {
+    "mtime": 1788997186.2898111,
+    "seen": 1789063959.5036118,
+    "ast_hash": "cf9d404c32df53b9c2fee86e13514d70",
+    "semantic_hash": "cf9d404c32df53b9c2fee86e13514d70"
+  },
+  "src/test/java/dev/desafio/transaction/transaction/domain/TransactionTest.java": {
+    "mtime": 1788955482.8157718,
+    "seen": 1789063959.5036125,
+    "ast_hash": "519d80c3cf92bb4f7f2cc3fc4c7c1eff",
+    "semantic_hash": "519d80c3cf92bb4f7f2cc3fc4c7c1eff"
+  },
+  "src/main/resources/application.yaml": {
+    "mtime": 1788940686.9053733,
+    "seen": 1789063959.5036132,
+    "ast_hash": "0d9036fb60ce308e1b84386065c50305",
+    "semantic_hash": "0d9036fb60ce308e1b84386065c50305"
+  }
+}
