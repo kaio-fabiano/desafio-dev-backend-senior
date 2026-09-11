@@ -1,7 +1,7 @@
 {
   "feature": "organize-payment-federation-structure",
-  "timestamp": "2026-09-11T11:36:05.456Z",
-  "gitRev": "3098a5bd",
+  "timestamp": "2026-09-11T11:44:36.524Z",
+  "gitRev": "d17fe2d1",
   "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
   "reporter": "tap",
   "exitCode": 123,
@@ -13,12 +13,12 @@
       "method": "tap"
     },
     "AC-318": {
-      "status": "pass",
+      "status": "fail",
       "testName": "AC-318: GraphQL and checkout classes have explicit owners @spec:AC-318",
       "method": "tap"
     },
     "AC-319": {
-      "status": "pass",
+      "status": "fail",
       "testName": "AC-319: Spring composition has one named application Clock and direct federation configuration @spec:AC-319",
       "method": "tap"
     },
@@ -28,7 +28,7 @@
       "method": "tap"
     },
     "AC-321": {
-      "status": "pass",
+      "status": "fail",
       "testName": "AC-321: source paths match Java package declarations @spec:AC-321",
       "method": "tap"
     },
