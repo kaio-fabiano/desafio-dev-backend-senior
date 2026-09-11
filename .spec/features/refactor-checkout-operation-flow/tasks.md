@@ -13,8 +13,7 @@
   before marking a task complete. A task that cannot implement its scope must
   exit non-zero and remain pending; an empty or status-only commit is invalid.
 
-## T-287 — Add focused Red tests for checkout identity and non-blocking duplicates [pendente]
-
+## T-287 — Add focused Red tests for checkout identity and non-blocking duplicates [concluida]
 - Refs: US-152, AC-333, AC-335, AC-337
 - Arquivos: apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java
 - Modelo: gpt-5.6-luna
