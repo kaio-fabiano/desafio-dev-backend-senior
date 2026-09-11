@@ -99,7 +99,7 @@ class JpaTransactionPersistenceTest {
     }
 
     @Test
-    @DisplayName("concurrent checkout claims preserve one lease and JSON items across reload @spec:AC-301")
+    @DisplayName("Concurrent checkout creation uses subject-scoped uniqueness and one conditional transition @spec:AC-335 @spec:AC-340 @spec:AC-345 @spec:AC-348")
     void concurrentCheckoutClaimsPreserveOneLeaseAndJsonItemsAcrossReload() {
         var repository = checkoutRepository();
         var operationKey = "operation-" + java.util.UUID.randomUUID();
@@ -144,7 +144,7 @@ class JpaTransactionPersistenceTest {
     }
 
     @Test
-    @DisplayName("Transaction outbox preserves Card credentials and deterministic keys @spec:AC-301 @spec:AC-314 @spec:AC-315")
+    @DisplayName("Transaction outbox preserves deterministic identities and queryable operation outcomes @spec:AC-339 @spec:AC-343 @spec:AC-345 @spec:AC-346")
     void staleProjectionEventsCannotRegressOwnerScopedViews() {
         var suffix = java.util.UUID.randomUUID().toString();
         var started = TransactionEvent.started(new StartTransaction(

@@ -111,7 +111,7 @@ class RabbitMqBoundaryIntegrationTest {
     }
 
     @Test
-    @DisplayName("Outbox recovery, duplicate delivery, retry, and DLQ preserve the V1 envelope @spec:AC-293 @spec:AC-292 @spec:AC-230")
+    @DisplayName("Atomic outbox publication is recoverable, at-least-once, and harmless on redelivery @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-350")
     void outboxRecoveryDuplicateDeliveryRetryAndDlqPreserveTheV1Envelope() throws Exception {
         var codec = new IntegrationEventJson(objectMapper);
         var outbox = transactionOutbox();

@@ -48,7 +48,7 @@ class TransactionAxonTest {
     }
 
     @Test
-    @DisplayName("Repeated StartTransaction returns the same stream without another event @spec:AC-285")
+    @DisplayName("Repeated StartTransaction routes and sequences by deterministic operation identity @spec:AC-336 @spec:AC-339 @spec:AC-350")
     void repeatedStartTransactionReturnsTheSameStreamWithoutAnotherEvent() {
         fixture = fixture("start-transaction-retry", config -> new StartTransactionHandler(CLOCK));
         var command = startCommand();
