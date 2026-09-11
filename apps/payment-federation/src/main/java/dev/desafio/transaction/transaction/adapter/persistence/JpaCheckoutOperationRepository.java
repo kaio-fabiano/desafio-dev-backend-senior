@@ -4,142 +4,95 @@ import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictE
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import jakarta.persistence.EntityManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.Optional;
 
 public final class JpaCheckoutOperationRepository implements CheckoutOperationRepository {
     private final CheckoutOperationJpaRepository records;
     private final EntityManager entityManager;
     private final TransactionTemplate transaction;
+    private final ObjectMapper json = new ObjectMapper();
 
     public JpaCheckoutOperationRepository(
         CheckoutOperationJpaRepository records,
         EntityManager entityManager,
-        PlatformTransactionManager transactionManager
+        PlatformTransactionManager manager
     ) {
         this.records = records;
         this.entityManager = entityManager;
-        transaction = new TransactionTemplate(transactionManager);
+        transaction = new TransactionTemplate(manager);
         transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
 
     @Override
-    public Claim claim(ClaimRequest request, Instant now, Duration lease) {
-        Objects.requireNonNull(request, "request");
-        Objects.requireNonNull(now, "now");
-        Objects.requireNonNull(lease, "lease");
-        if (lease.isNegative() || lease.isZero()) throw new IllegalArgumentException("lease must be positive");
+    public Operation createOrLoad(CreateRequest request, Instant now) {
         try {
-            return transaction.execute(ignored -> claimOnce(request, now, lease));
+            return transaction.execute(ignored -> records.findBySubjectAndOperationKey(request.subject(), request.operationKey())
+                .map(e -> validate(e, request))
+                .orElseGet(() -> {
+                    var entity = new CheckoutOperationEntity(request.operationId(), request.subject(), request.operationKey(), request.commandHash(), request.wooReference(), now);
+                    records.saveAndFlush(entity);
+                    return TransactionPersistenceMapper.operation(entity);
+                }));
         } catch (DataIntegrityViolationException collision) {
-            return transaction.execute(ignored -> records.findByOperationKey(request.operationKey())
-                .map(entity -> claimExisting(entity, request, now, lease))
-                .orElseThrow(() -> records.findByWooReference(request.wooReference()).isPresent()
-                    ? new CheckoutIdempotencyConflictException()
-                    : collision));
+            return transaction.execute(ignored -> records.findBySubjectAndOperationKey(request.subject(), request.operationKey())
+                .map(e -> validate(e, request)).orElseThrow(() -> collision));
         }
     }
 
     @Override
-    public void beginWooCreation(String transactionId, String ownerToken, Instant now) {
-        var token = UUID.fromString(ownerToken);
-        transaction.executeWithoutResult(ignored -> {
-            var entity = owned(transactionId, token, now, Status.PENDING_WOO);
-            entity.beginWooCreation(now);
-            records.saveAndFlush(entity);
-        });
+    public boolean markWooCreationRequested(String id, Instant now) {
+        return transaction.execute(ignored -> records.markWooCreationRequested(id, now) == 1);
     }
 
     @Override
-    public Operation recordWooOrder(
-        String transactionId,
-        String ownerToken,
-        WooCommerceOrderPort.Order order,
-        Instant now
-    ) {
-        var token = UUID.fromString(ownerToken);
+    public Operation recordWooOrder(String id, WooCommerceOrderPort.Order order, Instant now) {
         return transaction.execute(ignored -> {
-            var entity = owned(transactionId, token, now, Status.CREATING_WOO);
-            entity.recordWooOrder(order, now);
-            records.saveAndFlush(entity);
-            entityManager.clear();
-            return TransactionPersistenceMapper.operation(records.findByTransactionId(transactionId).orElseThrow());
-        });
-    }
-
-    @Override
-    public Operation complete(String transactionId, String ownerToken, Instant now) {
-        var token = UUID.fromString(ownerToken);
-        return transaction.execute(ignored -> {
-            var entity = owned(transactionId, token, now, Status.WOO_CONFIRMED);
-            entity.complete(now);
-            records.saveAndFlush(entity);
-            entityManager.clear();
-            return TransactionPersistenceMapper.operation(records.findByTransactionId(transactionId).orElseThrow());
-        });
-    }
-
-    @Override
-    public void release(String transactionId, String ownerToken, Instant now) {
-        var token = UUID.fromString(ownerToken);
-        transaction.executeWithoutResult(ignored -> records.findByTransactionId(transactionId).ifPresent(entity -> {
-            if (entity.status() != Status.COMPLETED && token.equals(entity.ownerToken())) {
-                entity.release(now);
-                records.saveAndFlush(entity);
+            try {
+                records.recordWooOrder(id, order.id(), json.writeValueAsString(order.items()), order.amount(), order.currency(), now);
+            } catch (JsonProcessingException error) {
+                throw new IllegalStateException("Unable to serialize WooCommerce order items", error);
             }
-        }));
+            entityManager.clear();
+            return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
+        });
     }
 
-    private Claim claimOnce(ClaimRequest request, Instant now, Duration lease) {
-        return records.findByOperationKey(request.operationKey())
-            .map(entity -> claimExisting(entity, request, now, lease))
-            .orElseGet(() -> {
-                var token = UUID.randomUUID();
-                var entity = new CheckoutOperationEntity(
-                    UUID.randomUUID().toString(), request, token, now.plus(lease), now
-                );
-                records.saveAndFlush(entity);
-                return new Claim(TransactionPersistenceMapper.operation(entity), token.toString());
-            });
+    @Override
+    public Operation complete(String id, Instant now) {
+        return transaction.execute(ignored -> {
+            records.complete(id, now);
+            entityManager.clear();
+            return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
+        });
     }
 
-    private Claim claimExisting(CheckoutOperationEntity entity, ClaimRequest request, Instant now, Duration lease) {
-        if (!entity.subject().equals(request.subject())
-            || !entity.commandHash().equals(request.commandHash())
-            || !entity.wooReference().equals(request.wooReference())) {
+    @Override
+    public Operation fail(String id, String reason, Instant now) {
+        return transaction.execute(ignored -> {
+            records.fail(id, reason, now);
+            entityManager.clear();
+            return TransactionPersistenceMapper.operation(records.findByOperationId(id).orElseThrow());
+        });
+    }
+
+    @Override
+    public Optional<Operation> find(String id, String subject) {
+        return records.findByOperationIdAndSubject(id, subject).map(TransactionPersistenceMapper::operation);
+    }
+
+    private Operation validate(CheckoutOperationEntity e, CreateRequest request) {
+        if (!e.operationId().equals(request.operationId()) || !e.commandHash().equals(request.commandHash())
+            || !e.wooReference().equals(request.wooReference())) {
             throw new CheckoutIdempotencyConflictException();
         }
-        if (entity.status() != Status.COMPLETED
-            && (entity.ownerToken() == null || !entity.leaseUntil().isAfter(now))) {
-            var token = UUID.randomUUID();
-            entity.claim(token, now.plus(lease), now);
-            records.saveAndFlush(entity);
-            return new Claim(TransactionPersistenceMapper.operation(entity), token.toString());
-        }
-        return new Claim(TransactionPersistenceMapper.operation(entity), null);
-    }
-
-    private CheckoutOperationEntity owned(
-        String transactionId,
-        UUID ownerToken,
-        Instant now,
-        Status expectedStatus
-    ) {
-        var entity = records.findByTransactionId(transactionId)
-            .orElseThrow(() -> new IllegalStateException("checkout lease was lost"));
-        if (!ownerToken.equals(entity.ownerToken())
-            || entity.status() != expectedStatus
-            || entity.leaseUntil() == null
-            || !entity.leaseUntil().isAfter(now)) {
-            throw new IllegalStateException("checkout lease was lost");
-        }
-        return entity;
+        return TransactionPersistenceMapper.operation(e);
     }
 }

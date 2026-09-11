@@ -20,7 +20,7 @@ public final class JpaTransactionReadRepository implements TransactionReadReposi
 
     @Override
     public Optional<CheckoutOperationView> findCheckout(String id, String owner) {
-        return checkouts.findByTransactionIdAndSubject(id, owner)
+        return checkouts.findByOperationIdAndSubject(id, owner)
             .map(TransactionPersistenceMapper::checkoutView);
     }
 

@@ -208,15 +208,13 @@ public class TransactionConfiguration {
         CheckoutOperationRepository operations,
         WooCommerceOrderPort woo,
         CommandGateway commands,
-        Clock clock,
-        @Value("${transaction.checkout.wait-timeout:PT2S}") Duration waitTimeout
+        Clock clock
     ) {
         return new CheckoutService(
             operations,
             woo,
-            command -> commands.sendAndWait(command, String.class),
-            clock,
-            waitTimeout
+            command -> commands.send(command, String.class),
+            clock
         );
     }
 }

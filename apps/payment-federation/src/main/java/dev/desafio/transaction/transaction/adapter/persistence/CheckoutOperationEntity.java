@@ -15,16 +15,15 @@ import org.hibernate.type.SqlTypes;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "checkout_operation", schema = "transaction")
 final class CheckoutOperationEntity {
     @Id
-    @Column(name = "transaction_id", nullable = false)
-    private String transactionId;
+    @Column(name = "operation_id", nullable = false)
+    private String operationId;
 
-    @Column(name = "operation_key", nullable = false, unique = true)
+    @Column(name = "operation_key", nullable = false)
     private String operationKey;
 
     @Column(name = "subject", nullable = false)
@@ -55,11 +54,10 @@ final class CheckoutOperationEntity {
     @Column(name = "status", nullable = false)
     private CheckoutOperationRepository.Status status;
 
-    @Column(name = "owner_token")
-    private UUID ownerToken;
-
-    @Column(name = "lease_until")
-    private Instant leaseUntil;
+    @Column(name = "payment_id")
+    private String paymentId;
+    @Column(name = "error_reason")
+    private String errorReason;
 
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
@@ -67,35 +65,25 @@ final class CheckoutOperationEntity {
     protected CheckoutOperationEntity() {}
 
     CheckoutOperationEntity(
-        String transactionId,
-        CheckoutOperationRepository.ClaimRequest request,
-        UUID ownerToken,
-        Instant leaseUntil,
+        String operationId, String subject, String operationKey, String commandHash, String wooReference,
         Instant now
     ) {
-        this.transactionId = required(transactionId, "transactionId");
-        this.operationKey = request.operationKey();
-        this.subject = request.subject();
-        this.commandHash = request.commandHash();
-        this.wooReference = request.wooReference();
+        this.operationId = required(operationId, "operationId"); this.operationKey = required(operationKey, "operationKey"); this.subject = required(subject, "subject"); this.commandHash = required(commandHash, "commandHash"); this.wooReference = required(wooReference, "wooReference");
         this.status = CheckoutOperationRepository.Status.PENDING_WOO;
-        this.ownerToken = ownerToken;
-        this.leaseUntil = leaseUntil;
+        this.paymentId = "payment:" + operationId;
         this.updatedAt = now;
     }
 
-    void claim(UUID token, Instant until, Instant now) {
-        ownerToken = token;
-        leaseUntil = until;
-        updatedAt = now;
-    }
-
     void beginWooCreation(Instant now) {
-        status = CheckoutOperationRepository.Status.CREATING_WOO;
+        status = CheckoutOperationRepository.Status.WOO_CREATION_REQUESTED;
         updatedAt = now;
     }
 
     void recordWooOrder(WooCommerceOrderPort.Order order, Instant now) {
+        if (status == CheckoutOperationRepository.Status.WOO_CONFIRMED || status == CheckoutOperationRepository.Status.COMPLETED) return;
+        if (status != CheckoutOperationRepository.Status.WOO_CREATION_REQUESTED) {
+            throw new IllegalStateException("Woo order cannot be recorded before creation is requested");
+        }
         wooOrderId = order.id();
         items = List.copyOf(order.items());
         amount = order.amount();
@@ -105,19 +93,16 @@ final class CheckoutOperationEntity {
     }
 
     void complete(Instant now) {
+        if (status == CheckoutOperationRepository.Status.COMPLETED) return;
+        if (status != CheckoutOperationRepository.Status.WOO_CONFIRMED) {
+            throw new IllegalStateException("Checkout cannot complete before WooCommerce confirmation");
+        }
         status = CheckoutOperationRepository.Status.COMPLETED;
-        ownerToken = null;
-        leaseUntil = null;
         updatedAt = now;
     }
 
-    void release(Instant now) {
-        ownerToken = null;
-        leaseUntil = null;
-        updatedAt = now;
-    }
 
-    String transactionId() { return transactionId; }
+    String operationId() { return operationId; }
     String operationKey() { return operationKey; }
     String subject() { return subject; }
     String commandHash() { return commandHash; }
@@ -127,8 +112,12 @@ final class CheckoutOperationEntity {
     BigDecimal amount() { return amount; }
     String currency() { return currency; }
     CheckoutOperationRepository.Status status() { return status; }
-    UUID ownerToken() { return ownerToken; }
-    Instant leaseUntil() { return leaseUntil; }
+    String paymentId() { return paymentId; }
+    String errorReason() { return errorReason; }
+    void fail(String reason, Instant now) {
+        if (status == CheckoutOperationRepository.Status.COMPLETED || status == CheckoutOperationRepository.Status.FAILED) return;
+        errorReason = required(reason, "errorReason"); status = CheckoutOperationRepository.Status.FAILED; updatedAt = now;
+    }
 
     private static String required(String value, String name) {
         if (value == null || value.isBlank()) throw new IllegalArgumentException(name + " is required");

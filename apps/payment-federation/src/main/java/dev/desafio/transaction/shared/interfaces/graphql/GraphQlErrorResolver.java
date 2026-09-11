@@ -1,6 +1,5 @@
 package dev.desafio.transaction.shared.interfaces.graphql;
 
-import dev.desafio.transaction.transaction.checkout.CheckoutBusyException;
 import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictException;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import graphql.GraphQLError;
@@ -19,7 +18,6 @@ public final class GraphQlErrorResolver extends DataFetcherExceptionResolverAdap
         var cause = unwrap(error);
         var code = switch (cause) {
             case CheckoutIdempotencyConflictException ignored -> "CHECKOUT_IDEMPOTENCY_CONFLICT";
-            case CheckoutBusyException ignored -> "CHECKOUT_RECONCILIATION_PENDING";
             case WooCommerceOrderPort.AmbiguousResponseException ignored -> "CHECKOUT_RECONCILIATION_PENDING";
             case IllegalArgumentException ignored -> "CHECKOUT_INPUT_INVALID";
             case AccessDeniedException ignored -> "FORBIDDEN";

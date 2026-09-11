@@ -9,15 +9,15 @@ final class TransactionPersistenceMapper {
 
     static CheckoutOperationRepository.Operation operation(CheckoutOperationEntity entity) {
         return new CheckoutOperationRepository.Operation(
-            entity.transactionId(), entity.operationKey(), entity.subject(), entity.commandHash(),
+            entity.operationId(), entity.operationKey(), entity.subject(), entity.commandHash(),
             entity.wooReference(), entity.wooOrderId(), entity.items(), entity.amount(), entity.currency(),
-            entity.status()
+            entity.paymentId(), entity.errorReason(), entity.status()
         );
     }
 
     static CheckoutOperationView checkoutView(CheckoutOperationEntity entity) {
         return new CheckoutOperationView(
-            entity.transactionId(), entity.operationKey(),
+            entity.operationId(), entity.operationKey(),
             entity.status() == CheckoutOperationRepository.Status.COMPLETED ? "COMPLETED" : "PENDING"
         );
     }
