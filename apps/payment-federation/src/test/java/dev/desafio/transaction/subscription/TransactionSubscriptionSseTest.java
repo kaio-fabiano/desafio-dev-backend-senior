@@ -89,7 +89,7 @@ class TransactionSubscriptionSseTest {
     private TransactionReadRepository views;
 
     @Test
-    @DisplayName("Checkout operation updates use the existing owner-scoped GraphQL SSE @spec:AC-337 @spec:AC-344 @spec:AC-350")
+    @DisplayName("Spring GraphQL exposes transaction-filtered SSE without removing the legacy subscription @spec:AC-289 @spec:AC-288")
     void exposesTransactionFilteredSubscriptionContract() {
         acceptSubscriptionToken();
 

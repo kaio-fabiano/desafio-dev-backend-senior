@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 class MercadoPagoPaymentProviderTest {
     @Test
-    @DisplayName("Payment retry after crash reuses one operation-derived provider idempotency key @spec:AC-338")
+    @DisplayName("AC-160: creation sends the operation key as the provider idempotency key @spec:AC-160")
     void creationUsesTheOperationKey() throws Exception {
         var client = mock(PaymentClient.class);
         var payment = providerPayment(42L, "approved", null);

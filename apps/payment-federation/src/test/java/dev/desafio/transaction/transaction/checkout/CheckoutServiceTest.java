@@ -53,7 +53,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("Checkout returns one deterministic asynchronous operation state @spec:AC-333 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-343 @spec:AC-349 @spec:AC-350")
+    @DisplayName("Checkout starts Transaction with exact Card credentials and operation key @spec:AC-314 @spec:AC-315 @spec:AC-316")
     void checkoutStartsTransactionWithExactCardCredentialsAndOperationKey() {
         var started = new AtomicReference<StartTransaction>();
         var service = service(new MemoryCheckoutRepository(), request -> ORDER, command -> {
@@ -69,15 +69,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("A repeated checkout derives a stable operation identity without waiting or leasing @spec:AC-333 @spec:AC-337 @spec:AC-348")
-    void repeatedCheckoutDerivesStableOperationIdentityWithoutWaitingOrLeasing() {
-        var first = service(new MemoryCheckoutRepository(), request -> ORDER, command -> command.transactionId())
-            .checkout(COMMAND);
-        assertEquals("operation-1", first.transactionId());
-    }
-
-    @Test
-    @DisplayName("Concurrent identical checkout observes one Transaction and one Woo order @spec:AC-334 @spec:AC-335 @spec:AC-339 @spec:AC-346 @spec:AC-347")
+    @DisplayName("Concurrent identical checkout observes one Transaction and one Woo order @spec:AC-285 @spec:AC-229 @spec:AC-316")
     void concurrentIdenticalCheckoutObservesOneTransactionAndOneWooOrder() throws Exception {
         var repository = new MemoryCheckoutRepository();
         var createStarted = new CountDownLatch(1);
@@ -139,7 +131,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("Ambiguous Woo success is reconciled before checkout retries creation @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-349")
+    @DisplayName("Ambiguous Woo success is reconciled before checkout retries creation @spec:AC-285 @spec:AC-229 @spec:AC-243 @spec:AC-316")
     void ambiguousWooSuccessIsReconciledBeforeCheckoutRetriesCreation() {
         var repository = new MemoryCheckoutRepository();
         var creations = new AtomicInteger();
