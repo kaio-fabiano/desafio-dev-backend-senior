@@ -6,6 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.context.ApplicationContext;
+
+import java.time.Clock;
+import java.time.ZoneOffset;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,8 +29,18 @@ class PaymentFederationApplicationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Test
     void healthIsAvailable() {
         assertEquals(HttpStatus.OK, restTemplate.getForEntity("http://localhost:" + port + "/actuator/health", String.class).getStatusCode());
+    }
+
+    @Test
+    @org.junit.jupiter.api.DisplayName("one UTC application Clock owns time composition @spec:AC-319 @spec:AC-322")
+    void applicationClockHasSingleUtcOwner() {
+        assertEquals(1, applicationContext.getBeansOfType(Clock.class).size());
+        assertEquals(ZoneOffset.UTC, applicationContext.getBean(Clock.class).getZone());
     }
 }

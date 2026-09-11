@@ -37,11 +37,6 @@ import java.time.Clock;
 @Configuration(proxyBeanMethods = false)
 public class InventoryConfiguration {
     @Bean
-    Clock inventoryClock() {
-        return Clock.systemUTC();
-    }
-
-    @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
     InventoryRepository inventoryRepository(
         InventoryOperationJpaRepository operations,
