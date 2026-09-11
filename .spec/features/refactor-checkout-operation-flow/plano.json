@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwrlgdx",
+  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwsb3gi",
   "feature": "refactor-checkout-operation-flow",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-09-11 09:39",
+  "geradoEm": "2026-09-11 09:59",
   "branchTrabalho": "spec/refactor-checkout-operation-flow",
   "baseDir": ".spec/features/refactor-checkout-operation-flow",
   "specDir": ".spec",
@@ -15,24 +15,6 @@
   "ondas": [],
   "faixas": [],
   "sequenciais": [
-    {
-      "id": "T-296",
-      "titulo": "Stream checkout operation updates over existing SSE",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java",
-        "apps/payment-federation/src/main/resources/graphql/payment.graphqls",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java"
-      ],
-      "refs": [
-        "US-154",
-        "AC-344",
-        "US-156",
-        "AC-350"
-      ]
-    },
     {
       "id": "T-297",
       "titulo": "Verify deterministic Payment provider idempotency",
@@ -133,7 +115,8 @@
     "T-288",
     "T-289",
     "T-290",
-    "T-295"
+    "T-295",
+    "T-296"
   ],
   "avisos": []
 }

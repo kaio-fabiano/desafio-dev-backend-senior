@@ -48,8 +48,7 @@
 - Esforço: baixo
 - Notas: Depends on T-290. Bounded context: Transaction. Use case: start or observe an idempotent checkout operation. Aggregate: none; the durable checkout-operation record is the application consistency record and `Transaction` remains the existing aggregate. Invariants: operation fields are persisted and owner-scoped; only safe error reasons cross GraphQL; mutation and query expose the same durable state without polling or synthetic Order results. Consistency boundary: one owner-filtered operation projection read or command result. Affected ports: existing Reactor command/query gateways and TransactionReadRepository. Red: assert mutation and owned query return the same operation shape for processing/completed/failed states and reject cross-owner access. Green: make `startCheckout` return `CheckoutOperation` with id, operationKey, status, orderId, paymentId and safe error; reuse the existing query path and security scopes. Preserve current user edits where still valid. Do not return an artificial completed Order, poll, or change unrelated GraphQL contracts. Refactor with focused GraphQL tests green.
 
-## T-296 — Stream checkout operation updates over existing SSE [pendente]
-
+## T-296 — Stream checkout operation updates over existing SSE [concluida]
 - Refs: US-154, AC-344, US-156, AC-350
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java
 - Modelo: gpt-5.6-luna
