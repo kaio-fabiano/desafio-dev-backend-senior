@@ -18,8 +18,7 @@
     (atalho: `onp-spec tarefa <feature> <T-xxx> <status>`)
 -->
 
-## T-302 — Restore the local Gateway runtime boundary [pendente]
-
+## T-302 — Restore the local Gateway runtime boundary [concluida]
 - Refs: US-157, AC-351
 - Arquivos: compose.yaml, test/milestone-7-e2e-contract.test.mjs
 - Modelo: gpt-5.6-sol
