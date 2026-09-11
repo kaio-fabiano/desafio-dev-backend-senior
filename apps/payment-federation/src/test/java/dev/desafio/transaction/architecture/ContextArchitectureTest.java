@@ -7,8 +7,51 @@ import org.junit.jupiter.api.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ContextArchitectureTest {
+    @Test
+    @DisplayName("Framework metadata allowance is narrow @spec:AC-317")
+    void frameworkMetadataAllowanceIsNarrow() {
+        var classes = new ClassFileImporter()
+            .withImportOption(ImportOption.Predefined.DO_NOT_INCLUDE_TESTS)
+            .importPackages("dev.desafio.transaction");
+
+        noClasses().that().resideInAPackage("..domain..")
+            .should().dependOnClassesThat().resideOutsideOfPackages(
+                "java..", "dev.desafio.transaction..domain..",
+                "org.axonframework.eventsourcing.annotations.."
+            ).check(classes);
+        assertTrue(classes.stream().filter(type -> type.getPackageName().contains(".application."))
+            .allMatch(type -> type.getDirectDependenciesFromSelf().stream()
+                .noneMatch(dependency -> dependency.getTargetClass().getPackageName().contains(".adapter."))));
+    }
+
+    @Test
+    @DisplayName("GraphQL and checkout ownership is explicit @spec:AC-318")
+    void graphqlAndCheckoutOwnershipIsExplicit() {
+        var classes = new ClassFileImporter().importPackages("dev.desafio.transaction");
+        assertFalse(classes.stream().anyMatch(type -> type.getPackageName().endsWith(".checkout")));
+        assertTrue(classes.stream().filter(type -> type.getSimpleName().contains("GraphQl"))
+            .allMatch(type -> type.getPackageName().contains(".edge.") || type.getPackageName().contains(".interfaces.graphql")));
+    }
+
+    @Test
+    @DisplayName("Spring composition has one explicit owner @spec:AC-319")
+    void springCompositionHasOneExplicitOwner() {
+        var classes = new ClassFileImporter().importPackages("dev.desafio.transaction");
+        assertFalse(classes.stream().anyMatch(type -> type.getSimpleName().contains("BeanPostProcessor")));
+        assertTrue(classes.stream().filter(type -> type.getSimpleName().contains("Configuration"))
+            .allMatch(type -> type.getPackageName().contains(".configuration")));
+    }
+
+    @Test
+    @DisplayName("Retired execution paths are absent @spec:AC-320")
+    void retiredExecutionPathsAreAbsent() {
+        var classes = new ClassFileImporter().importPackages("dev.desafio.transaction");
+        assertFalse(classes.stream().anyMatch(type -> type.getSimpleName().matches("(PaymentConsumer|PaymentRabbitListener|InventoryRabbitListener)")));
+    }
+
     @Test
     @DisplayName("Context and layer imports point inward without a hidden orchestrator @spec:AC-280 @spec:AC-286")
     void contextAndLayerImportsPointInwardWithoutHiddenOrchestrator() {
