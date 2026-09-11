@@ -5,7 +5,7 @@
 
 ## Contexto
 
-Payment Federation has working Transaction, Inventory, and Payment boundaries, but its Java packages use competing conventions for GraphQL, Axon, checkout, shared persistence, tests, and runtime composition. The cleanup must make ownership obvious without pretending that framework metadata is business coupling: declarative Axon and Spring annotations required to implement CQRS are explicitly allowed in Application, while Domain remains framework-free and transport, persistence, and vendor concerns remain outer adapters.
+Payment Federation has working Transaction, Inventory, and Payment boundaries, but its Java packages use competing conventions for GraphQL, Axon, checkout, shared persistence, tests, and runtime composition. The cleanup must make ownership obvious without pretending that framework metadata is business coupling: declarative Axon annotations required to describe aggregates and domain events are allowed in Domain, Axon and Spring metadata required to implement CQRS are allowed in Application, and transport, persistence, configuration, and vendor concerns remain outer adapters.
 
 ## Histórias
 
@@ -17,7 +17,7 @@ As a maintainer, I want one documented package convention for Payment Federation
 
 - **Dado** Domain and Application classes implementing the Axon CQRS model
 - **Quando** architecture rules inspect their imports and annotations
-- **Então** Domain remains framework-free, Application may use the approved Axon CQRS and reactive primitives plus declarative discovery annotations, and JPA, GraphQL, AMQP, HTTP, and vendor SDK concerns remain in outer packages
+- **Então** Commands live in Application, domain events live in Domain, Domain may use only declarative Axon annotations required to describe aggregates and events, Application may use approved Axon CQRS/reactive primitives and discovery annotations, and JPA, GraphQL, AMQP, HTTP, configuration, gateways, buses, and vendor SDK concerns remain outside Domain
 
 #### AC-318 — GraphQL and checkout classes have explicit owners
 
@@ -66,7 +66,7 @@ As a maintainer, I want disabled migration paths and misleading duplicate files 
 
 | ID | Suposição | Status | Resolução |
 |---|---|---|---|
-| ASM-117 | Declarative Axon and Spring annotations required for CQRS discovery are allowed metadata in Application; the allowance does not admit persistence, transport, HTTP, GraphQL, AMQP, or vendor SDK logic into Domain or Application. | confirmada | Confirmed by the owner on 2026-09-11. |
+| ASM-117 | Declarative Axon annotations required to describe aggregates and domain events are allowed metadata in Domain, and declarative Axon/Spring annotations required for CQRS discovery are allowed in Application; the allowance does not admit runtime gateways, buses, configuration, persistence, transport, HTTP, GraphQL, AMQP, or vendor SDK logic into Domain. | confirmada | Confirmed by the owner on 2026-09-11 together with the decision that events belong to Domain and commands belong to Application. |
 | ASM-118 | No production environment depends on the legacy Payment or Inventory flags. | confirmada | Prior repository decision records state that no production environment exists and the Java Axon cutover is complete; removal still requires focused regression evidence. |
 | ASM-119 | Existing uncommitted GraphQL edits are learning notes to be incorporated safely: keep the intended `@Component` discovery only if it replaces duplicate bean registration, retain the `checkoutService` naming, and correct the inaccurate comment that calls the handler an aggregate. The separate `recover-payment-provider-effects` feature must remain untouched. | confirmada | Inferred from the owner's annotation clarification and the selected files; execution will preserve intent without committing misleading comments or duplicate registration. |
 
