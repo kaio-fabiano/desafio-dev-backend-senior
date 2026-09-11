@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano refactor-checkout-operation-flow` em 2026-09-11 07:53
+# executar-tarefas.sh — gerado por `onp-spec plano refactor-checkout-operation-flow` em 2026-09-11 08:02
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwnslys'
+RUN_ID='desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwo4m76'
 FEATURE='refactor-checkout-operation-flow'
 BASE_BRANCH='spec/refactor-checkout-operation-flow'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -170,15 +170,15 @@ iniciar_resumos() {
 
 # ── sequencial T-287 (ordem do tasks.md) ──
 executar_seq_T_287() {
-  info 'sequencial T-287 — Add the complete failing checkout acceptance matrix'
+  info 'sequencial T-287 — Add focused Red tests for checkout identity and non-blocking duplicates'
   if rodar_tarefa seq 'T-287' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-287 — "Add the complete failing checkout acceptance matrix"
-  critérios/refs: AC-333 (Derive one operation identity and preserve command hashing), AC-334 (Reject reuse with a different semantic payload), AC-335 (Resolve the PostgreSQL creation race), AC-336 (Sequence one operation without global serialization), AC-337 (Return operation state without synchronous checkout waiting), AC-338 (Use one payment-provider idempotency key after crash), AC-339 (Create at most one internal Transaction for one checkout), AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-342 (Keep one deterministic WooCommerce reference), AC-343 (Persist queryable operation outcomes), AC-344 (Emit operation updates over the existing SSE implementation), AC-345 (Commit local state and integration outbox atomically), AC-346 (Publish at least once from multiple instances), AC-347 (Make redelivered integration messages harmless), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/refactor-checkout-operation-flow
-  mensagem de commit: "T-287 refactor-checkout-operation-flow: Add the complete failing checkout acceptance matrix"
+T-287 — "Add focused Red tests for checkout identity and non-blocking duplicates"
+  critérios/refs: AC-333 (Derive one operation identity and preserve command hashing), AC-335 (Resolve the PostgreSQL creation race), AC-337 (Return operation state without synchronous checkout waiting)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java
+  mensagem de commit: "T-287 refactor-checkout-operation-flow: Add focused Red tests for checkout identity and non-blocking duplicates"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -188,7 +188,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-287 refactor-checkout-operation-flow: Add the complete failing checkout acceptance matrix (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-287 refactor-checkout-operation-flow: Add focused Red tests for checkout identity and non-blocking duplicates (auto-commit do plano)'
     fi
     marcar_concluidas T-287
     verde "✔ T-287 concluída"
@@ -202,15 +202,15 @@ Regras inegociáveis:
 
 # ── sequencial T-288 (ordem do tasks.md) ──
 executar_seq_T_288() {
-  info 'sequencial T-288 — Introduce deterministic checkout identity and Axon routing'
+  info 'sequencial T-288 — Implement deterministic checkout identity and command hashing contract'
   if rodar_tarefa seq 'T-288' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-288 — "Introduce deterministic checkout identity and Axon routing"
-  critérios/refs: AC-333 (Derive one operation identity and preserve command hashing), AC-334 (Reject reuse with a different semantic payload), AC-336 (Sequence one operation without global serialization), AC-339 (Create at most one internal Transaction for one checkout), AC-342 (Keep one deterministic WooCommerce reference)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationId.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutResult.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java
-  mensagem de commit: "T-288 refactor-checkout-operation-flow: Introduce deterministic checkout identity and Axon routing"
+T-288 — "Implement deterministic checkout identity and command hashing contract"
+  critérios/refs: AC-333 (Derive one operation identity and preserve command hashing), AC-334 (Reject reuse with a different semantic payload), AC-339 (Create at most one internal Transaction for one checkout), AC-342 (Keep one deterministic WooCommerce reference)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationId.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutResult.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java
+  mensagem de commit: "T-288 refactor-checkout-operation-flow: Implement deterministic checkout identity and command hashing contract"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -220,7 +220,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-288 refactor-checkout-operation-flow: Introduce deterministic checkout identity and Axon routing (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-288 refactor-checkout-operation-flow: Implement deterministic checkout identity and command hashing contract (auto-commit do plano)'
     fi
     marcar_concluidas T-288
     verde "✔ T-288 concluída"
@@ -234,15 +234,15 @@ Regras inegociáveis:
 
 # ── sequencial T-289 (ordem do tasks.md) ──
 executar_seq_T_289() {
-  info 'sequencial T-289 — Replace checkout claims with durable PostgreSQL operation transitions'
+  info 'sequencial T-289 — Configure per-operation Axon sequencing without global serialization'
   if rodar_tarefa seq 'T-289' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-289 — "Replace checkout claims with durable PostgreSQL operation transitions"
-  critérios/refs: AC-334 (Reject reuse with a different semantic payload), AC-335 (Resolve the PostgreSQL creation race), AC-337 (Return operation state without synchronous checkout waiting), AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-343 (Persist queryable operation outcomes), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java, apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java
-  mensagem de commit: "T-289 refactor-checkout-operation-flow: Replace checkout claims with durable PostgreSQL operation transitions"
+T-289 — "Configure per-operation Axon sequencing without global serialization"
+  critérios/refs: AC-336 (Sequence one operation without global serialization)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java
+  mensagem de commit: "T-289 refactor-checkout-operation-flow: Configure per-operation Axon sequencing without global serialization"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -252,7 +252,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-289 refactor-checkout-operation-flow: Replace checkout claims with durable PostgreSQL operation transitions (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-289 refactor-checkout-operation-flow: Configure per-operation Axon sequencing without global serialization (auto-commit do plano)'
     fi
     marcar_concluidas T-289
     verde "✔ T-289 concluída"
@@ -266,15 +266,15 @@ Regras inegociáveis:
 
 # ── sequencial T-290 (ordem do tasks.md) ──
 executar_seq_T_290() {
-  info 'sequencial T-290 — Make checkout return state and dispatch Transaction asynchronously'
+  info 'sequencial T-290 — Replace checkout lease columns with durable operation schema'
   if rodar_tarefa seq 'T-290' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-290 — "Make checkout return state and dispatch Transaction asynchronously"
-  critérios/refs: AC-334 (Reject reuse with a different semantic payload), AC-336 (Sequence one operation without global serialization), AC-337 (Return operation state without synchronous checkout waiting), AC-339 (Create at most one internal Transaction for one checkout), AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-343 (Persist queryable operation outcomes), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java
-  mensagem de commit: "T-290 refactor-checkout-operation-flow: Make checkout return state and dispatch Transaction asynchronously"
+T-290 — "Replace checkout lease columns with durable operation schema"
+  critérios/refs: AC-335 (Resolve the PostgreSQL creation race), AC-343 (Persist queryable operation outcomes), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java, apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java
+  mensagem de commit: "T-290 refactor-checkout-operation-flow: Replace checkout lease columns with durable operation schema"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -284,7 +284,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-290 refactor-checkout-operation-flow: Make checkout return state and dispatch Transaction asynchronously (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-290 refactor-checkout-operation-flow: Replace checkout lease columns with durable operation schema (auto-commit do plano)'
     fi
     marcar_concluidas T-290
     verde "✔ T-290 concluída"
@@ -298,15 +298,15 @@ Regras inegociáveis:
 
 # ── sequencial T-291 (ordem do tasks.md) ──
 executar_seq_T_291() {
-  info 'sequencial T-291 — Preserve WooCommerce uncertain-result reconciliation'
+  info 'sequencial T-291 — Implement race-safe create-or-load and idempotency conflict'
   if rodar_tarefa seq 'T-291' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-291 — "Preserve WooCommerce uncertain-result reconciliation"
-  critérios/refs: AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-342 (Keep one deterministic WooCommerce reference), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java, docs/adrs/006-woocommerce-idempotent-checkout.md
-  mensagem de commit: "T-291 refactor-checkout-operation-flow: Preserve WooCommerce uncertain-result reconciliation"
+T-291 — "Implement race-safe create-or-load and idempotency conflict"
+  critérios/refs: AC-334 (Reject reuse with a different semantic payload), AC-335 (Resolve the PostgreSQL creation race)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java
+  mensagem de commit: "T-291 refactor-checkout-operation-flow: Implement race-safe create-or-load and idempotency conflict"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -316,7 +316,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-291 refactor-checkout-operation-flow: Preserve WooCommerce uncertain-result reconciliation (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-291 refactor-checkout-operation-flow: Implement race-safe create-or-load and idempotency conflict (auto-commit do plano)'
     fi
     marcar_concluidas T-291
     verde "✔ T-291 concluída"
@@ -330,15 +330,15 @@ Regras inegociáveis:
 
 # ── sequencial T-292 (ordem do tasks.md) ──
 executar_seq_T_292() {
-  info 'sequencial T-292 — Return and stream CheckoutOperation through existing GraphQL SSE'
+  info 'sequencial T-292 — Persist monotonic Woo attempt and operation outcomes'
   if rodar_tarefa seq 'T-292' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-292 — "Return and stream CheckoutOperation through existing GraphQL SSE"
-  critérios/refs: AC-337 (Return operation state without synchronous checkout waiting), AC-343 (Persist queryable operation outcomes), AC-344 (Emit operation updates over the existing SSE implementation), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutGraphQlController.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/CheckoutOperationView.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperation.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperationHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java
-  mensagem de commit: "T-292 refactor-checkout-operation-flow: Return and stream CheckoutOperation through existing GraphQL SSE"
+T-292 — "Persist monotonic Woo attempt and operation outcomes"
+  critérios/refs: AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-343 (Persist queryable operation outcomes), AC-349 (Preserve meaningful operation states and retry behavior)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java
+  mensagem de commit: "T-292 refactor-checkout-operation-flow: Persist monotonic Woo attempt and operation outcomes"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -348,7 +348,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-292 refactor-checkout-operation-flow: Return and stream CheckoutOperation through existing GraphQL SSE (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-292 refactor-checkout-operation-flow: Persist monotonic Woo attempt and operation outcomes (auto-commit do plano)'
     fi
     marcar_concluidas T-292
     verde "✔ T-292 concluída"
@@ -362,15 +362,15 @@ Regras inegociáveis:
 
 # ── sequencial T-293 (ordem do tasks.md) ──
 executar_seq_T_293() {
-  info 'sequencial T-293 — Verify deterministic Payment and Transaction external identities'
+  info 'sequencial T-293 — Return current checkout state and dispatch Transaction asynchronously'
   if rodar_tarefa seq 'T-293' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-293 — "Verify deterministic Payment and Transaction external identities"
-  critérios/refs: AC-338 (Use one payment-provider idempotency key after crash), AC-339 (Create at most one internal Transaction for one checkout), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransaction.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransactionHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProvider.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java
-  mensagem de commit: "T-293 refactor-checkout-operation-flow: Verify deterministic Payment and Transaction external identities"
+T-293 — "Return current checkout state and dispatch Transaction asynchronously"
+  critérios/refs: AC-334 (Reject reuse with a different semantic payload), AC-337 (Return operation state without synchronous checkout waiting), AC-339 (Create at most one internal Transaction for one checkout), AC-343 (Persist queryable operation outcomes), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/TransactionCommands.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java
+  mensagem de commit: "T-293 refactor-checkout-operation-flow: Return current checkout state and dispatch Transaction asynchronously"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -380,7 +380,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-293 refactor-checkout-operation-flow: Verify deterministic Payment and Transaction external identities (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-293 refactor-checkout-operation-flow: Return current checkout state and dispatch Transaction asynchronously (auto-commit do plano)'
     fi
     marcar_concluidas T-293
     verde "✔ T-293 concluída"
@@ -394,15 +394,15 @@ Regras inegociáveis:
 
 # ── sequencial T-294 (ordem do tasks.md) ──
 executar_seq_T_294() {
-  info 'sequencial T-294 — Make Transaction state and RabbitMQ outbox one transaction'
+  info 'sequencial T-294 — Preserve WooCommerce uncertain-result reconciliation'
   if rodar_tarefa seq 'T-294' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-294 — "Make Transaction state and RabbitMQ outbox one transaction"
-  critérios/refs: AC-345 (Commit local state and integration outbox atomically), AC-346 (Publish at least once from multiple instances), AC-347 (Make redelivered integration messages harmless), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event/TransactionEventHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionViewStore.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionalTransactionEventHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java
-  mensagem de commit: "T-294 refactor-checkout-operation-flow: Make Transaction state and RabbitMQ outbox one transaction"
+T-294 — "Preserve WooCommerce uncertain-result reconciliation"
+  critérios/refs: AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-342 (Keep one deterministic WooCommerce reference), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java, docs/adrs/006-woocommerce-idempotent-checkout.md
+  mensagem de commit: "T-294 refactor-checkout-operation-flow: Preserve WooCommerce uncertain-result reconciliation"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -412,7 +412,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-294 refactor-checkout-operation-flow: Make Transaction state and RabbitMQ outbox one transaction (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-294 refactor-checkout-operation-flow: Preserve WooCommerce uncertain-result reconciliation (auto-commit do plano)'
     fi
     marcar_concluidas T-294
     verde "✔ T-294 concluída"
@@ -426,15 +426,15 @@ Regras inegociáveis:
 
 # ── sequencial T-295 (ordem do tasks.md) ──
 executar_seq_T_295() {
-  info 'sequencial T-295 — Remove legacy checkout concurrency and close every gate'
+  info 'sequencial T-295 — Expose checkout operation through GraphQL mutation and query'
   if rodar_tarefa seq 'T-295' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
-T-295 — "Remove legacy checkout concurrency and close every gate"
-  critérios/refs: AC-333 (Derive one operation identity and preserve command hashing), AC-334 (Reject reuse with a different semantic payload), AC-335 (Resolve the PostgreSQL creation race), AC-336 (Sequence one operation without global serialization), AC-337 (Return operation state without synchronous checkout waiting), AC-338 (Use one payment-provider idempotency key after crash), AC-339 (Create at most one internal Transaction for one checkout), AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-342 (Keep one deterministic WooCommerce reference), AC-343 (Persist queryable operation outcomes), AC-344 (Emit operation updates over the existing SSE implementation), AC-345 (Commit local state and integration outbox atomically), AC-346 (Publish at least once from multiple instances), AC-347 (Make redelivered integration messages harmless), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/refactor-checkout-operation-flow
-  mensagem de commit: "T-295 refactor-checkout-operation-flow: Remove legacy checkout concurrency and close every gate"
+T-295 — "Expose checkout operation through GraphQL mutation and query"
+  critérios/refs: AC-337 (Return operation state without synchronous checkout waiting), AC-343 (Persist queryable operation outcomes), AC-350 (Correlate safely across every boundary)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutGraphQlController.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/CheckoutOperationView.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperation.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperationHandler.java, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java
+  mensagem de commit: "T-295 refactor-checkout-operation-flow: Expose checkout operation through GraphQL mutation and query"
 
 Regras inegociáveis:
 - Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
@@ -444,7 +444,7 @@ Regras inegociáveis:
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-295 refactor-checkout-operation-flow: Remove legacy checkout concurrency and close every gate (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-295 refactor-checkout-operation-flow: Expose checkout operation through GraphQL mutation and query (auto-commit do plano)'
     fi
     marcar_concluidas T-295
     verde "✔ T-295 concluída"
@@ -453,6 +453,166 @@ Regras inegociáveis:
   vermelho "✘ T-295 falhou (log: $LOG_DIR/seq.log)"
   amarelo "  reexecute só ela: bash .spec/features/refactor-checkout-operation-flow/executar-tarefas.sh --seq T-295"
   FALHAS="$FALHAS T-295"
+  return 1
+}
+
+# ── sequencial T-296 (ordem do tasks.md) ──
+executar_seq_T_296() {
+  info 'sequencial T-296 — Stream checkout operation updates over existing SSE'
+  if rodar_tarefa seq 'T-296' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-296 — "Stream checkout operation updates over existing SSE"
+  critérios/refs: AC-344 (Emit operation updates over the existing SSE implementation), AC-350 (Correlate safely across every boundary)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java
+  mensagem de commit: "T-296 refactor-checkout-operation-flow: Stream checkout operation updates over existing SSE"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-296 refactor-checkout-operation-flow: Stream checkout operation updates over existing SSE (auto-commit do plano)'
+    fi
+    marcar_concluidas T-296
+    verde "✔ T-296 concluída"
+    return 0
+  fi
+  vermelho "✘ T-296 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/refactor-checkout-operation-flow/executar-tarefas.sh --seq T-296"
+  FALHAS="$FALHAS T-296"
+  return 1
+}
+
+# ── sequencial T-297 (ordem do tasks.md) ──
+executar_seq_T_297() {
+  info 'sequencial T-297 — Verify deterministic Payment provider idempotency'
+  if rodar_tarefa seq 'T-297' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-297 — "Verify deterministic Payment provider idempotency"
+  critérios/refs: AC-338 (Use one payment-provider idempotency key after crash), AC-339 (Create at most one internal Transaction for one checkout), AC-350 (Correlate safely across every boundary)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransaction.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransactionHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProvider.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java
+  mensagem de commit: "T-297 refactor-checkout-operation-flow: Verify deterministic Payment provider idempotency"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-297 refactor-checkout-operation-flow: Verify deterministic Payment provider idempotency (auto-commit do plano)'
+    fi
+    marcar_concluidas T-297
+    verde "✔ T-297 concluída"
+    return 0
+  fi
+  vermelho "✘ T-297 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/refactor-checkout-operation-flow/executar-tarefas.sh --seq T-297"
+  FALHAS="$FALHAS T-297"
+  return 1
+}
+
+# ── sequencial T-298 (ordem do tasks.md) ──
+executar_seq_T_298() {
+  info 'sequencial T-298 — Commit Transaction projection and integration outbox atomically'
+  if rodar_tarefa seq 'T-298' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-298 — "Commit Transaction projection and integration outbox atomically"
+  critérios/refs: AC-345 (Commit local state and integration outbox atomically)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event/TransactionEventHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionViewStore.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionalTransactionEventHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java
+  mensagem de commit: "T-298 refactor-checkout-operation-flow: Commit Transaction projection and integration outbox atomically"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-298 refactor-checkout-operation-flow: Commit Transaction projection and integration outbox atomically (auto-commit do plano)'
+    fi
+    marcar_concluidas T-298
+    verde "✔ T-298 concluída"
+    return 0
+  fi
+  vermelho "✘ T-298 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/refactor-checkout-operation-flow/executar-tarefas.sh --seq T-298"
+  FALHAS="$FALHAS T-298"
+  return 1
+}
+
+# ── sequencial T-299 (ordem do tasks.md) ──
+executar_seq_T_299() {
+  info 'sequencial T-299 — Prove existing outbox relay and consumer delivery guarantees'
+  if rodar_tarefa seq 'T-299' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-299 — "Prove existing outbox relay and consumer delivery guarantees"
+  critérios/refs: AC-346 (Publish at least once from multiple instances), AC-347 (Make redelivered integration messages harmless), AC-350 (Correlate safely across every boundary)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/ReliableAmqpConsumer.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/OutboxRelay.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/JpaOutboxStore.java, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java
+  mensagem de commit: "T-299 refactor-checkout-operation-flow: Prove existing outbox relay and consumer delivery guarantees"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-299 refactor-checkout-operation-flow: Prove existing outbox relay and consumer delivery guarantees (auto-commit do plano)'
+    fi
+    marcar_concluidas T-299
+    verde "✔ T-299 concluída"
+    return 0
+  fi
+  vermelho "✘ T-299 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/refactor-checkout-operation-flow/executar-tarefas.sh --seq T-299"
+  FALHAS="$FALHAS T-299"
+  return 1
+}
+
+# ── sequencial T-300 (ordem do tasks.md) ──
+executar_seq_T_300() {
+  info 'sequencial T-300 — Remove obsolete checkout machinery and close all gates'
+  if rodar_tarefa seq 'T-300' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-300 — "Remove obsolete checkout machinery and close all gates"
+  critérios/refs: AC-333 (Derive one operation identity and preserve command hashing), AC-334 (Reject reuse with a different semantic payload), AC-335 (Resolve the PostgreSQL creation race), AC-336 (Sequence one operation without global serialization), AC-337 (Return operation state without synchronous checkout waiting), AC-338 (Use one payment-provider idempotency key after crash), AC-339 (Create at most one internal Transaction for one checkout), AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-342 (Keep one deterministic WooCommerce reference), AC-343 (Persist queryable operation outcomes), AC-344 (Emit operation updates over the existing SSE implementation), AC-345 (Commit local state and integration outbox atomically), AC-346 (Publish at least once from multiple instances), AC-347 (Make redelivered integration messages harmless), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
+  arquivos permitidos (e seus testes): apps/payment-federation, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/refactor-checkout-operation-flow
+  mensagem de commit: "T-300 refactor-checkout-operation-flow: Remove obsolete checkout machinery and close all gates"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-300 refactor-checkout-operation-flow: Remove obsolete checkout machinery and close all gates (auto-commit do plano)'
+    fi
+    marcar_concluidas T-300
+    verde "✔ T-300 concluída"
+    return 0
+  fi
+  vermelho "✘ T-300 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/refactor-checkout-operation-flow/executar-tarefas.sh --seq T-300"
+  FALHAS="$FALHAS T-300"
   return 1
 }
 
@@ -518,6 +678,11 @@ executar_tudo() {
   executar_seq_T_293 || true
   executar_seq_T_294 || true
   executar_seq_T_295 || true
+  executar_seq_T_296 || true
+  executar_seq_T_297 || true
+  executar_seq_T_298 || true
+  executar_seq_T_299 || true
+  executar_seq_T_300 || true
   encerrar tudo
 }
 
@@ -532,6 +697,11 @@ listar() {
   echo "  seq       T-293 (sequencial)"
   echo "  seq       T-294 (sequencial)"
   echo "  seq       T-295 (sequencial)"
+  echo "  seq       T-296 (sequencial)"
+  echo "  seq       T-297 (sequencial)"
+  echo "  seq       T-298 (sequencial)"
+  echo "  seq       T-299 (sequencial)"
+  echo "  seq       T-300 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -575,6 +745,11 @@ case "$MODO" in
       T-293) evento --tipo inicio --escopo "seq:T-293"; iniciar_resumos; executar_seq_T_293 || true; encerrar "seq:T-293" ;;
       T-294) evento --tipo inicio --escopo "seq:T-294"; iniciar_resumos; executar_seq_T_294 || true; encerrar "seq:T-294" ;;
       T-295) evento --tipo inicio --escopo "seq:T-295"; iniciar_resumos; executar_seq_T_295 || true; encerrar "seq:T-295" ;;
+      T-296) evento --tipo inicio --escopo "seq:T-296"; iniciar_resumos; executar_seq_T_296 || true; encerrar "seq:T-296" ;;
+      T-297) evento --tipo inicio --escopo "seq:T-297"; iniciar_resumos; executar_seq_T_297 || true; encerrar "seq:T-297" ;;
+      T-298) evento --tipo inicio --escopo "seq:T-298"; iniciar_resumos; executar_seq_T_298 || true; encerrar "seq:T-298" ;;
+      T-299) evento --tipo inicio --escopo "seq:T-299"; iniciar_resumos; executar_seq_T_299 || true; encerrar "seq:T-299" ;;
+      T-300) evento --tipo inicio --escopo "seq:T-300"; iniciar_resumos; executar_seq_T_300 || true; encerrar "seq:T-300" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

@@ -1,11 +1,11 @@
 # Plano de execução — refactor-checkout-operation-flow
 
-> gerado por `onp-spec plano` em 2026-09-11 07:53 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-11 08:02 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano refactor-checkout-operation-flow --sequencial --modelo gpt-5.6-luna --esforco low`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 9 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
+- **modo SEQUENCIAL (escolha do usuário)**: 14 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - **custo travado pelo usuário**: modelo `gpt-5.6-luna` · esforço `low` em TODAS as tarefas (vence tasks.md e config)
 - tudo acontece na branch de trabalho `spec/refactor-checkout-operation-flow`; levar para a main é decisão sua
@@ -14,15 +14,20 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-287 | Add the complete failing checkout acceptance matrix | `gpt-5.6-luna` | low |
-| T-288 | Introduce deterministic checkout identity and Axon routing | `gpt-5.6-luna` | low |
-| T-289 | Replace checkout claims with durable PostgreSQL operation transitions | `gpt-5.6-luna` | low |
-| T-290 | Make checkout return state and dispatch Transaction asynchronously | `gpt-5.6-luna` | low |
-| T-291 | Preserve WooCommerce uncertain-result reconciliation | `gpt-5.6-luna` | low |
-| T-292 | Return and stream CheckoutOperation through existing GraphQL SSE | `gpt-5.6-luna` | low |
-| T-293 | Verify deterministic Payment and Transaction external identities | `gpt-5.6-luna` | low |
-| T-294 | Make Transaction state and RabbitMQ outbox one transaction | `gpt-5.6-luna` | low |
-| T-295 | Remove legacy checkout concurrency and close every gate | `gpt-5.6-luna` | low |
+| T-287 | Add focused Red tests for checkout identity and non-blocking duplicates | `gpt-5.6-luna` | low |
+| T-288 | Implement deterministic checkout identity and command hashing contract | `gpt-5.6-luna` | low |
+| T-289 | Configure per-operation Axon sequencing without global serialization | `gpt-5.6-luna` | low |
+| T-290 | Replace checkout lease columns with durable operation schema | `gpt-5.6-luna` | low |
+| T-291 | Implement race-safe create-or-load and idempotency conflict | `gpt-5.6-luna` | low |
+| T-292 | Persist monotonic Woo attempt and operation outcomes | `gpt-5.6-luna` | low |
+| T-293 | Return current checkout state and dispatch Transaction asynchronously | `gpt-5.6-luna` | low |
+| T-294 | Preserve WooCommerce uncertain-result reconciliation | `gpt-5.6-luna` | low |
+| T-295 | Expose checkout operation through GraphQL mutation and query | `gpt-5.6-luna` | low |
+| T-296 | Stream checkout operation updates over existing SSE | `gpt-5.6-luna` | low |
+| T-297 | Verify deterministic Payment provider idempotency | `gpt-5.6-luna` | low |
+| T-298 | Commit Transaction projection and integration outbox atomically | `gpt-5.6-luna` | low |
+| T-299 | Prove existing outbox relay and consumer delivery guarantees | `gpt-5.6-luna` | low |
+| T-300 | Remove obsolete checkout machinery and close all gates | `gpt-5.6-luna` | low |
 
 ## Gestão de branches e commits
 
