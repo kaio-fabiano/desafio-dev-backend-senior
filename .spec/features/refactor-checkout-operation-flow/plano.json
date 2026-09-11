@@ -1,0 +1,277 @@
+{
+  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwn8wsn",
+  "feature": "refactor-checkout-operation-flow",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": "gpt-5.6-luna",
+  "esforcoForcado": "low",
+  "geradoEm": "2026-09-11 07:37",
+  "branchTrabalho": "spec/refactor-checkout-operation-flow",
+  "baseDir": ".spec/features/refactor-checkout-operation-flow",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-refactor-checkout-operation-flow-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-287",
+      "titulo": "Add the complete failing checkout acceptance matrix",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java",
+        "test/migrate-order-workflow-to-axon-java.test.mjs",
+        ".spec/features/refactor-checkout-operation-flow"
+      ],
+      "refs": [
+        "US-152",
+        "US-153",
+        "US-154",
+        "US-155",
+        "US-156",
+        "AC-333",
+        "AC-334",
+        "AC-335",
+        "AC-336",
+        "AC-337",
+        "AC-338",
+        "AC-339",
+        "AC-340",
+        "AC-341",
+        "AC-342",
+        "AC-343",
+        "AC-344",
+        "AC-345",
+        "AC-346",
+        "AC-347",
+        "AC-348",
+        "AC-349",
+        "AC-350"
+      ]
+    },
+    {
+      "id": "T-288",
+      "titulo": "Introduce deterministic checkout identity and Axon routing",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationId.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutResult.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java"
+      ],
+      "refs": [
+        "US-152",
+        "AC-333",
+        "AC-334",
+        "AC-336",
+        "US-153",
+        "AC-339",
+        "AC-342"
+      ]
+    },
+    {
+      "id": "T-289",
+      "titulo": "Replace checkout claims with durable PostgreSQL operation transitions",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java",
+        "apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java"
+      ],
+      "refs": [
+        "US-152",
+        "AC-334",
+        "AC-335",
+        "AC-337",
+        "US-153",
+        "AC-340",
+        "AC-341",
+        "US-154",
+        "AC-343",
+        "US-156",
+        "AC-348",
+        "AC-349"
+      ]
+    },
+    {
+      "id": "T-290",
+      "titulo": "Make checkout return state and dispatch Transaction asynchronously",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java"
+      ],
+      "refs": [
+        "US-152",
+        "AC-334",
+        "AC-336",
+        "AC-337",
+        "US-153",
+        "AC-339",
+        "AC-340",
+        "AC-341",
+        "US-154",
+        "AC-343",
+        "US-156",
+        "AC-348",
+        "AC-349",
+        "AC-350"
+      ]
+    },
+    {
+      "id": "T-291",
+      "titulo": "Preserve WooCommerce uncertain-result reconciliation",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java",
+        "docs/adrs/006-woocommerce-idempotent-checkout.md"
+      ],
+      "refs": [
+        "US-153",
+        "AC-340",
+        "AC-341",
+        "AC-342",
+        "US-156",
+        "AC-349",
+        "AC-350"
+      ]
+    },
+    {
+      "id": "T-292",
+      "titulo": "Return and stream CheckoutOperation through existing GraphQL SSE",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutGraphQlController.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/CheckoutOperationView.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperation.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/query/FindCheckoutOperationHandler.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/subscription",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql/TransactionSubscriptionController.java",
+        "apps/payment-federation/src/main/resources/graphql/payment.graphqls",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/subscription/TransactionSubscriptionSseTest.java"
+      ],
+      "refs": [
+        "US-152",
+        "AC-337",
+        "US-154",
+        "AC-343",
+        "AC-344",
+        "US-156",
+        "AC-350"
+      ]
+    },
+    {
+      "id": "T-293",
+      "titulo": "Verify deterministic Payment and Transaction external identities",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransaction.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransactionHandler.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProvider.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java"
+      ],
+      "refs": [
+        "US-153",
+        "AC-338",
+        "AC-339",
+        "US-156",
+        "AC-350"
+      ]
+    },
+    {
+      "id": "T-294",
+      "titulo": "Make Transaction state and RabbitMQ outbox one transaction",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event/TransactionEventHandler.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionViewStore.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionalTransactionEventHandler.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java"
+      ],
+      "refs": [
+        "US-155",
+        "AC-345",
+        "AC-346",
+        "AC-347",
+        "US-156",
+        "AC-350"
+      ]
+    },
+    {
+      "id": "T-295",
+      "titulo": "Remove legacy checkout concurrency and close every gate",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "apps/payment-federation",
+        "test/migrate-order-workflow-to-axon-java.test.mjs",
+        ".spec/features/refactor-checkout-operation-flow"
+      ],
+      "refs": [
+        "US-152",
+        "US-153",
+        "US-154",
+        "US-155",
+        "US-156",
+        "AC-333",
+        "AC-334",
+        "AC-335",
+        "AC-336",
+        "AC-337",
+        "AC-338",
+        "AC-339",
+        "AC-340",
+        "AC-341",
+        "AC-342",
+        "AC-343",
+        "AC-344",
+        "AC-345",
+        "AC-346",
+        "AC-347",
+        "AC-348",
+        "AC-349",
+        "AC-350"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
