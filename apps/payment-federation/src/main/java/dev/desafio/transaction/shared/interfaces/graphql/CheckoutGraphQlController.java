@@ -40,7 +40,7 @@ public class CheckoutGraphQlController {
 
     @MutationMapping
     @PreAuthorize("authentication.name != null && !authentication.name.isBlank() && hasAuthority('SCOPE_cart:write')")
-    public Mono<OrderView> startCheckout(
+    public Mono<CheckoutOperationView> startCheckout(
         @Argument("input") CheckoutInput input,
         Principal principal,
         DataFetchingEnvironment environment
@@ -52,9 +52,10 @@ public class CheckoutGraphQlController {
             context.getOrDefault("cookie", "")
         );
         return commands.send(input.command(principal.getName(), session), CheckoutResult.class)
-            .flatMap(result -> findOrder(result.transactionId(), principal.getName())
-                .switchIfEmpty(Mono.just(OrderView.started(result, input.paymentMethod()))))
-            .subscribeOn(Schedulers.boundedElastic());
+            .map(result -> new CheckoutOperationView(
+                result.operationId(), input.operationKey(), result.status(), result.orderId(),
+                result.paymentId(), result.errorReason()
+            ));
     }
 
     @QueryMapping

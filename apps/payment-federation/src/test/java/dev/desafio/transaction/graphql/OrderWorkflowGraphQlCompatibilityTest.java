@@ -105,15 +105,23 @@ class OrderWorkflowGraphQlCompatibilityTest {
                 .build();
         });
         when(commandGateway.send(any(CheckoutCommand.class), eq(CheckoutResult.class)))
-            .thenReturn(Mono.just(new CheckoutResult("transaction-249", "42")));
+            .thenReturn(Mono.just(new CheckoutResult(
+                "transaction-249", "PROCESSING", "42", "payment:transaction-249", null
+            )));
         when(queryGateway.query(any(FindOwnedTransaction.class), eq(TransactionView.class)))
             .thenReturn(Mono.just(TRANSACTION));
         when(queryGateway.query(any(FindTransactionByWooOrder.class), eq(TransactionView.class)))
             .thenReturn(Mono.just(TRANSACTION));
         when(queryGateway.query(any(FindCheckoutOperation.class), eq(CheckoutOperationView.class)))
-            .thenReturn(Mono.just(new CheckoutOperationView(
-                "transaction-249", "operation-249", "COMPLETED"
-            )));
+            .thenAnswer(invocation -> {
+                var query = invocation.<FindCheckoutOperation>getArgument(0);
+                return query.owner().equals("buyer-249")
+                    ? Mono.just(new CheckoutOperationView(
+                        "transaction-249", "operation-249", "COMPLETED", "42",
+                        "payment:transaction-249", null
+                    ))
+                    : Mono.empty();
+            });
         when(queryGateway.query(any(FindPaymentByTransaction.class), eq(PaymentView.class)))
             .thenReturn(Mono.just(PAYMENT));
         when(queryGateway.query(
@@ -122,7 +130,7 @@ class OrderWorkflowGraphQlCompatibilityTest {
     }
 
     @Test
-    @DisplayName("The Java HTTP endpoint preserves the Order Workflow GraphQL contract @spec:AC-288")
+    @DisplayName("Checkout exposes one durable operation shape @spec:AC-288 @spec:AC-337 @spec:AC-343 @spec:AC-350")
     void javaHttpEndpointPreservesOrderWorkflowGraphQlContract() {
         var response = graphQl("{ _service { sdl } }", "buyer-249", "orders:read cart:write");
         var sdl = nested(nested(response, "data"), "_service").get("sdl").toString();
@@ -144,20 +152,26 @@ class OrderWorkflowGraphQlCompatibilityTest {
                 operationKey: "operation-249"
                 paymentMethod: PIX
                 payerEmail: "buyer@example.test"
-              }) {
-                id wooOrderId paymentMethod pixCode workflow { state }
-              }
+            }) { id operationKey status orderId paymentId errorReason }
             }
             """, "buyer-249", "cart:write", Map.of(
                 "cart-token", "cart-249",
                 "woocommerce-session", "woo-session-249",
                 "cookie", "session=249"
             ));
-        var order = nested(nested(mutation, "data"), "startCheckout");
-        assertEquals("42", order.get("wooOrderId"));
-        assertEquals("PIX", order.get("paymentMethod"));
-        assertEquals("pix-code-249", order.get("pixCode"));
-        assertEquals("PIX_GENERATED", nested(order, "workflow").get("state"));
+        var operation = nested(nested(mutation, "data"), "startCheckout");
+        assertEquals("transaction-249", operation.get("id"));
+        assertEquals("operation-249", operation.get("operationKey"));
+        assertEquals("PROCESSING", operation.get("status"));
+        assertEquals("42", operation.get("orderId"));
+        assertEquals("payment:transaction-249", operation.get("paymentId"));
+        assertNull(operation.get("errorReason"));
+
+        var foreign = graphQl(
+            "{ checkout(id: \"transaction-249\") { id operationKey status } }",
+            "other-buyer", "orders:read"
+        );
+        assertNull(nested(nested(foreign, "data"), "checkout"));
 
         var entity = graphQl("""
             query {
@@ -184,7 +198,7 @@ class OrderWorkflowGraphQlCompatibilityTest {
     }
 
     @Test
-    @DisplayName("Checkout acknowledges the Woo order before the Axon projection catches up @spec:AC-288 @spec:AC-289")
+    @DisplayName("Checkout returns processing without polling @spec:AC-288 @spec:AC-289 @spec:AC-337 @spec:AC-343")
     void checkoutAcknowledgesTheWooOrderBeforeProjectionCatchesUp() {
         when(queryGateway.query(any(FindOwnedTransaction.class), eq(TransactionView.class)))
             .thenReturn(Mono.empty());
@@ -197,15 +211,16 @@ class OrderWorkflowGraphQlCompatibilityTest {
                 payerEmail: "buyer@example.test"
                 providerToken: "provider-token"
                 paymentMethodId: "visa"
-              }) { wooOrderId paymentMethod workflow { state } }
+            }) { id operationKey status orderId paymentId errorReason }
             }
             """, "buyer-249", "cart:write");
 
         assertNull(response.get("errors"), response.toString());
-        var order = nested(nested(response, "data"), "startCheckout");
-        assertEquals("42", order.get("wooOrderId"));
-        assertEquals("CARD", order.get("paymentMethod"));
-        assertEquals("CREATED", nested(order, "workflow").get("state"));
+        var operation = nested(nested(response, "data"), "startCheckout");
+        assertEquals("transaction-249", operation.get("id"));
+        assertEquals("operation-249", operation.get("operationKey"));
+        assertEquals("PROCESSING", operation.get("status"));
+        assertEquals("42", operation.get("orderId"));
     }
 
     @Test

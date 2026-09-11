@@ -45,6 +45,9 @@ type CheckoutOperation @key(fields: "id") {
   id: ID!
   operationKey: ID!
   status: CheckoutStatus!
+  orderId: ID
+  paymentId: ID
+  errorReason: String
 }
 
 type Order @key(fields: "id") {
@@ -60,7 +63,7 @@ type OrderWorkflow {
 }
 
 enum CheckoutStatus {
-  PENDING
+  PROCESSING
   COMPLETED
   FAILED
 }
@@ -94,7 +97,7 @@ type Query {
 
 type Mutation {
   authorizePayment(input: AuthorizePaymentInput!): Payment!
-  startCheckout(input: OrderWorkflowCheckoutInput!): Order!
+  startCheckout(input: OrderWorkflowCheckoutInput!): CheckoutOperation!
 }
 
 type Subscription {

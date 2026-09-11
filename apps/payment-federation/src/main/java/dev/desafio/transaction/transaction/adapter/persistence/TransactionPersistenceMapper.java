@@ -18,7 +18,12 @@ final class TransactionPersistenceMapper {
     static CheckoutOperationView checkoutView(CheckoutOperationEntity entity) {
         return new CheckoutOperationView(
             entity.operationId(), entity.operationKey(),
-            entity.status() == CheckoutOperationRepository.Status.COMPLETED ? "COMPLETED" : "PENDING"
+            switch (entity.status()) {
+                case COMPLETED -> "COMPLETED";
+                case FAILED -> "FAILED";
+                default -> "PROCESSING";
+            },
+            entity.wooOrderId(), entity.paymentId(), entity.errorReason()
         );
     }
 
