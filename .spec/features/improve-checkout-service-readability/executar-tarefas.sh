@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano improve-checkout-service-readability` em 2026-09-11 06:28
+# executar-tarefas.sh — gerado por `onp-spec plano improve-checkout-service-readability` em 2026-09-11 06:41
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-improve-checkout-service-readability-mtwksfr8'
+RUN_ID='desafio-dev-backend-senior-improve-checkout-service-readability-mtwl8h3c'
 FEATURE='improve-checkout-service-readability'
 BASE_BRANCH='spec/improve-checkout-service-readability'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -200,6 +200,38 @@ Regras inegociáveis:
   return 1
 }
 
+# ── sequencial T-275 (ordem do tasks.md) ──
+executar_seq_T_275() {
+  info 'sequencial T-275 — Expose checkout JUnit evidence to the TAP verifier'
+  if rodar_tarefa seq 'T-275' 'Você executa UMA tarefa da feature "improve-checkout-service-readability" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/improve-checkout-service-readability/spec.md, .spec/features/improve-checkout-service-readability/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-275 — "Expose checkout JUnit evidence to the TAP verifier"
+  critérios/refs: AC-316 (Refatoração preserva o comportamento do checkout)
+  arquivos permitidos (e seus testes): test/improve-checkout-service-readability.test.mjs
+  mensagem de commit: "T-275 improve-checkout-service-readability: Expose checkout JUnit evidence to the TAP verifier"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
+    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
+    if [ -n "$(git status --porcelain)" ]; then
+      git add -A && git commit -q -m 'T-275 improve-checkout-service-readability: Expose checkout JUnit evidence to the TAP verifier (auto-commit do plano)'
+    fi
+    marcar_concluidas T-275
+    verde "✔ T-275 concluída"
+    return 0
+  fi
+  vermelho "✘ T-275 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/improve-checkout-service-readability/executar-tarefas.sh --seq T-275"
+  FALHAS="$FALHAS T-275"
+  return 1
+}
+
 # ── gate: quem decide é a máquina ────────────────────────────────────
 rodar_gate() {
   echo
@@ -254,12 +286,14 @@ executar_tudo() {
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
   executar_seq_T_274 || true
+  executar_seq_T_275 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
   echo "  seq       T-274 (sequencial)"
+  echo "  seq       T-275 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -295,6 +329,7 @@ case "$MODO" in
   seq)
     case "$ALVO" in
       T-274) evento --tipo inicio --escopo "seq:T-274"; iniciar_resumos; executar_seq_T_274 || true; encerrar "seq:T-274" ;;
+      T-275) evento --tipo inicio --escopo "seq:T-275"; iniciar_resumos; executar_seq_T_275 || true; encerrar "seq:T-275" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

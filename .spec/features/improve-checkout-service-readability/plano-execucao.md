@@ -1,19 +1,24 @@
 # Plano de execução — improve-checkout-service-readability
 
-> gerado por `onp-spec plano` em 2026-09-11 06:28 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-11 06:41 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano improve-checkout-service-readability --sequencial`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 1 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
+- **modo SEQUENCIAL (escolha do usuário)**: 2 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - tudo acontece na branch de trabalho `spec/improve-checkout-service-readability`; levar para a main é decisão sua
+
+### Avisos
+
+- ⚠ T-274 está [em-andamento] — entrou no plano; se já houver trabalho local, commite antes de executar
 
 ## Ordem de execução (uma tarefa após a outra)
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
 | T-274 | Separate checkout coordination steps | `gpt-5.6-sol` | high |
+| T-275 | Expose checkout JUnit evidence to the TAP verifier | `gpt-5.6-luna` | low |
 
 ## Gestão de branches e commits
 
