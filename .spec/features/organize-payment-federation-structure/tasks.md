@@ -2,56 +2,49 @@
 
 > feature: organize-payment-federation-structure
 
-## T-276 — Codify the Java architecture allowance and failing structure gates [pendente]
-
+## T-276 — Codify the Java architecture allowance and failing structure gates [concluida]
 - Refs: US-147, AC-317, AC-318, AC-319, US-148, AC-320, AC-321
 - Arquivos: AGENTS.md, docs/domain/context-map.md, apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java, test/organize-payment-federation-structure.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: Red-only architecture task followed by the smallest policy update. Bounded contexts: repository governance, Edge, Transaction, Inventory, and Payment. Use case: make allowed metadata and forbidden dependency categories mechanically explicit. Aggregate: none. Invariants: Commands live in Application; domain events live in Domain; Domain may use only declarative Axon annotations required for aggregates/events; Application may use an explicit Axon CQRS/reactive allowlist and declarative discovery annotations; GraphQL/JPA/AMQP/HTTP/configuration/gateways/buses/vendor concerns stay outer; package ownership, legacy absence, and path/package parity are executable checks. Consistency boundary: one production-source snapshot. Affected ports: none. Preserve the user's GraphQL edits and do not touch the active provider-effect feature.
 
-## T-277 — Move GraphQL composition and checkout artifacts to their owners [pendente]
-
+## T-277 — Move GraphQL composition and checkout artifacts to their owners [concluida]
 - Refs: US-147, AC-318, AC-319, US-148, AC-322
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/edge, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/interfaces/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java, apps/payment-federation/src/main/resources/graphql/payment.graphqls, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql, apps/payment-federation/src/test/java/dev/desafio/transaction/subscription
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: Depends on T-276 Red evidence. Bounded contexts: Edge presentation and Transaction checkout. Use cases: GraphQL query/mutation/entity composition and checkout command dispatch. Aggregates: none added; existing Transaction aggregate remains authoritative. Invariants: public schema and authorization are unchanged; the user's `checkoutService` naming and annotation intent are incorporated without duplicate registration; the inaccurate aggregate comment is corrected; configuration uses direct composition rather than a BeanPostProcessor. Consistency boundary: one Spring application context and GraphQL schema. Affected ports: CheckoutOperationRepository, WooCommerceOrderPort, Axon command/query gateways.
 
-## T-278 — Retire disabled legacy messaging and Inventory listener paths [pendente]
-
+## T-278 — Retire disabled legacy messaging and Inventory listener paths [concluida]
 - Refs: US-148, AC-320, AC-322
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/PaymentConsumer.java, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListener.java, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListenerTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListenerTest.java, test/delivery-closure-inventory-saga.test.mjs, test/structural-payment-review.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: Run after the focused Red gate and coordinate with `recover-payment-provider-effects`; do not delete active provider-effect, projection, notification, public API, or shared reliable-delivery code. Bounded contexts: Payment and Inventory. Use cases: remove only the disabled pre-Axon messaging consumer and fallback listener. Aggregates: no change to PaymentAggregate or InventoryReservation. Invariants: active Axon commands/events, provider effects, projections, AMQP delivery, and public contracts remain green; `authorizePayment` stays out of scope until a separate contract decision exists. Consistency boundary: active Spring bean graph plus existing schemas. Affected ports: only ports proven exclusive to the retired paths.
 
-## T-279 — Consolidate application Clock and Spring configuration ownership [pendente]
-
+## T-279 — Consolidate application Clock and Spring configuration ownership [concluida]
 - Refs: US-147, AC-319, US-148, AC-322
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/migration/CutoverRuntimeConfiguration.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration, apps/payment-federation/src/test/java/dev/desafio/transaction/PaymentFederationApplicationTest.java
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: Depends on T-278 so removed legacy configuration is not edited twice. Bounded context: application composition technical boundary. Use case: provide one injectable UTC Clock and remove migration-only bean arbitration. Aggregate: none. Invariants: tests can still override Clock; production time remains UTC; no business behavior changes. Consistency boundary: one Spring application context. Affected ports: Clock injection only.
 
-## T-280 — Align test filesystem paths with declared packages [pendente]
-
+## T-280 — Align test filesystem paths with declared packages [concluida]
 - Refs: US-148, AC-321, AC-322
 - Arquivos: apps/payment-federation/src/test/java/dev/desafio/payment, apps/payment-federation/src/test/java/dev/desafio/transaction, test/organize-payment-federation-structure.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: Mechanical move only after T-276 records the failing path/package check. Bounded contexts: test organization across Transaction, Payment, and Inventory. Use case: make filesystem discovery match Java packages. Aggregate: none. Invariants: test code and assertions are unchanged. Consistency boundary: test source tree. Affected ports: none.
 
-## T-282 — Place CQRS messages in their owning layers [pendente]
-
+## T-282 — Place CQRS messages in their owning layers [concluida]
 - Refs: US-147, AC-317, AC-321, AC-322
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/organize-payment-federation-structure.test.mjs
 - Modelo: gpt-5.6-luna
 - Esforço: baixo
 - Notas: Run after T-276 in the same execution range because both touch the focused architecture gate. Bounded contexts: Transaction, Payment, and Inventory. Use case: place commands in Application and aggregate-emitted events in Domain while keeping event consumers/projection handlers in Application. Aggregates: existing Transaction, Payment, and Inventory aggregates only. Invariants: Axon event names, versions, tags, serialized payloads, replay behavior, and public contracts remain unchanged; declarative Axon metadata is allowed in Domain event/aggregate types, but runtime gateways, buses, configuration, persistence, and transport are not; integration envelopes are not misclassified as domain events. Consistency boundary: each aggregate event stream plus the compiled Java source tree. Affected ports: none.
 
-## T-281 — Integrate structure changes and close all verification gates [pendente]
-
+## T-281 — Integrate structure changes and close all verification gates [concluida]
 - Refs: US-147, US-148, AC-317, AC-318, AC-319, AC-320, AC-321, AC-322
 - Arquivos: apps/payment-federation, test/organize-payment-federation-structure.test.mjs, .spec/features/organize-payment-federation-structure, .spec/verification/organize-payment-federation-structure.json, docs/domain/context-map.md
 - Modelo: gpt-5.6-luna
