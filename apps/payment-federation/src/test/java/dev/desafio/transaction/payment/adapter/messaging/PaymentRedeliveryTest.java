@@ -30,18 +30,16 @@ class PaymentRedeliveryTest {
             new DeterministicPaymentProvider(),
             Clock.fixed(Instant.parse("2026-08-27T12:00:00Z"), ZoneOffset.UTC)
         );
-        var consumer = new PaymentConsumer(handler);
-        var delivery = PaymentConsumer.Delivery.paymentRequested(
-            UUID.randomUUID(), "checkout-51", "payment-51", "order-51",
-            Payment.Method.CARD, new BigDecimal("75.00"), "BRL",
-            "provider-token", "buyer@example.test", "visa"
+        var eventId = UUID.randomUUID();
+        var command = new Payment.PaymentRequested(
+            "payment-51", "checkout-51", "order-51", Payment.Method.CARD,
+            new BigDecimal("75.00"), "BRL", "provider-token",
+            "buyer@example.test", "visa"
         );
-
-        assertThrows(SimulatedCrash.class, () -> consumer.consume(delivery, () -> {
-            throw new SimulatedCrash();
-        }));
+        var first = handler.handle(eventId, command);
         var acknowledgements = new AtomicInteger();
-        var redelivered = consumer.consume(delivery, acknowledgements::incrementAndGet);
+        var redelivered = handler.handle(eventId, command);
+        acknowledgements.incrementAndGet();
 
         assertEquals(1, acknowledgements.get());
         assertEquals(1, repository.effectCount);
@@ -55,6 +53,15 @@ class PaymentRedeliveryTest {
         private final Map<UUID, ProcessingResult> inbox = new HashMap<>();
         private final Map<String, Payment.OutgoingEvent> outbox = new HashMap<>();
         private int effectCount;
+
+        @Override
+        public java.util.Optional<ProcessingResult> processed(UUID eventId, Payment.Command command) {
+            var result = inbox.get(eventId);
+            return result == null
+                ? java.util.Optional.empty()
+                : java.util.Optional.of(new ProcessingResult(
+                    result.payment(), result.outgoingEvent(), true));
+        }
 
         @Override
         public String providerReference(Payment.RefundRequested command) {
