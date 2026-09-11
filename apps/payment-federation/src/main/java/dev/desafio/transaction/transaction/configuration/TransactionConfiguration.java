@@ -6,13 +6,13 @@ import dev.desafio.transaction.transaction.adapter.persistence.JpaCheckoutOperat
 import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionOutbox;
 import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionReadRepository;
 import dev.desafio.transaction.transaction.adapter.persistence.JpaTransactionViewStore;
+import dev.desafio.transaction.transaction.adapter.persistence.TransactionalTransactionEventHandler;
 import dev.desafio.transaction.transaction.adapter.persistence.TransactionOutboxJpaRepository;
 import dev.desafio.transaction.transaction.adapter.persistence.TransactionViewJpaRepository;
 import dev.desafio.transaction.transaction.application.TransactionOutbox;
 import dev.desafio.transaction.transaction.application.TransactionViewStore;
 import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcomeHandler;
 import dev.desafio.transaction.transaction.application.command.StartTransactionHandler;
-import dev.desafio.transaction.transaction.application.event.TransactionEventHandler;
 import dev.desafio.transaction.transaction.application.query.FindTransactionHandler;
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
@@ -175,8 +175,8 @@ public class TransactionConfiguration {
 
     @Bean
     @ConditionalOnExpression("'${spring.datasource.url:}'.startsWith('jdbc:postgresql:')")
-    TransactionEventHandler transactionEventHandler(TransactionViewStore views, TransactionOutbox outbox) {
-        return new TransactionEventHandler(views, outbox);
+    TransactionalTransactionEventHandler transactionEventHandler(TransactionViewStore views, TransactionOutbox outbox) {
+        return new TransactionalTransactionEventHandler(views, outbox);
     }
 
     @Bean

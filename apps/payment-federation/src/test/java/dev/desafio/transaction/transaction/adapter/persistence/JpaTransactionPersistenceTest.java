@@ -240,6 +240,32 @@ class JpaTransactionPersistenceTest {
     }
 
     @Test
+    @DisplayName("projection and integration outbox rollback together on handler failure @spec:AC-345")
+    void projectionAndOutboxRollbackTogetherOnHandlerFailure() {
+        var suffix = java.util.UUID.randomUUID().toString();
+        var event = TransactionEvent.started(new StartTransaction(
+            "transaction-" + suffix, "operation-" + suffix, "buyer-1", "woo-" + suffix,
+            List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
+            "provider-token-" + suffix, "visa"
+        ), NOW);
+        var views = new JpaTransactionViewStore(transactionRecords, transactionManager);
+        var outbox = new JpaTransactionOutbox(
+            new ObjectMapper().findAndRegisterModules(), outboxRecords, entityManager, transactionManager
+        );
+        var handler = new TransactionalTransactionEventHandler(views, (ignored) -> {
+            outbox.enqueueOrderReceived(event);
+            throw new IllegalStateException("forced outbox failure");
+        });
+
+        assertThrows(IllegalStateException.class, () -> new org.springframework.transaction.support.TransactionTemplate(transactionManager)
+            .executeWithoutResult(status -> handler.on(event)));
+
+        entityManager.clear();
+        assertTrue(transactionRecords.findByTransactionId(event.transactionId()).isEmpty());
+        assertTrue(outboxRecords.findBySourceEventId(event.eventId().toString()).isEmpty());
+    }
+
+    @Test
     @DisplayName("Flyway migrations validate Transaction JPA mappings on PostgreSQL @spec:AC-304")
     void flywayMigrationsValidateTransactionJpaMappingsOnPostgres() {
         assertTrue((localUrl() != null ? localUrl() : POSTGRES.getJdbcUrl()).startsWith("jdbc:postgresql:"));

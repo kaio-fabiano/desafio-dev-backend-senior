@@ -35,7 +35,7 @@ public final class JpaTransactionOutbox implements TransactionOutbox {
         this.records = records;
         this.entityManager = entityManager;
         transaction = new TransactionTemplate(transactionManager);
-        transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
     }
 
     @Override

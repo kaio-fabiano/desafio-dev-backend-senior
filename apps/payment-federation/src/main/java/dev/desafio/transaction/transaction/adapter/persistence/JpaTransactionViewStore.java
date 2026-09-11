@@ -20,7 +20,7 @@ public final class JpaTransactionViewStore implements TransactionViewStore {
     ) {
         this.records = records;
         transaction = new TransactionTemplate(transactionManager);
-        transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        transaction.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
     }
 
     @Override
