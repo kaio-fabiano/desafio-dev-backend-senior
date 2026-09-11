@@ -80,26 +80,25 @@ function token(
   return `${signingInput}.${signature}`;
 }
 
-function gatewayRequest(accessToken: string) {
+function gatewayRequest(
+  accessToken: string,
+  sessionHeaders: Readonly<{
+    'cart-token'?: string;
+    'woocommerce-session'?: string;
+  }> = {},
+) {
   const authorization = `Bearer ${accessToken}`;
+  const headers = {
+    authorization,
+    cookie: 'analytics=secret; wp_woocommerce_session_store=cart-session',
+    host: 'attacker.example',
+    'x-request-id': 'request-226',
+    ...sessionHeaders,
+  };
   return {
-    headers: {
-      authorization,
-      cookie: 'analytics=secret; wp_woocommerce_session_store=cart-session',
-      host: 'attacker.example',
-      'x-request-id': 'request-226',
-    },
+    headers,
     method: 'POST',
-    rawHeaders: [
-      'authorization',
-      authorization,
-      'cookie',
-      'analytics=secret; wp_woocommerce_session_store=cart-session',
-      'host',
-      'attacker.example',
-      'x-request-id',
-      'request-226',
-    ],
+    rawHeaders: Object.entries(headers).flat(),
     url: '/graphql',
   };
 }
@@ -147,6 +146,18 @@ async function wordpressDataSource(url: string) {
     .compile();
   return {
     close: () => testingModule.close(),
+    createSource: (name: string, sourceUrl: string) =>
+      new AuthenticatedDataSource(
+        {
+          capabilities: GatewayFederationConfiguration.capabilities(
+            name,
+            sourceUrl,
+          ),
+          url: sourceUrl,
+        },
+        testingModule.get(PrepareFederationRequestUseCase),
+        testingModule.get(CaptureFederationResponseUseCase),
+      ),
     source: new AuthenticatedDataSource(
       {
         capabilities: GatewayFederationConfiguration.capabilities(
@@ -402,7 +413,10 @@ describe('gateway authentication and federation path', () => {
         cart: { contents: { nodes: [{ key: 'product-1' }] } },
       });
       expect(wordpress.identities).toEqual(['buyer-1', 'buyer-1']);
-      expect(context.setResponseHeader).not.toHaveBeenCalled();
+      expect(context.setResponseHeader).toHaveBeenCalledWith(
+        'cart-token',
+        'must-stay-server-side',
+      );
     } finally {
       await gateway.close();
       await wordpress.close();
@@ -441,6 +455,115 @@ describe('gateway authentication and federation path', () => {
     } finally {
       await gateway.close();
       await wordpress.close();
+    }
+  });
+
+  it('keeps one public bearer and reuses WordPress commerce headers across federation @spec:AC-361 @spec:AC-362', async () => {
+    const key = signingKey('commerce-key');
+    const jwksUrl = `https://identity.marketplace.local/jwks/commerce-${Date.now()}`;
+    const wordpressUrl = 'https://wordpress.marketplace.local/graphql';
+    const wordpressExchanges: string[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        async (
+          input: Parameters<typeof fetch>[0],
+          init?: Parameters<typeof fetch>[1],
+        ) => {
+          if (input.toString() === jwksUrl) {
+            return Response.json({ keys: [key.publicJwk] });
+          }
+          if (input.toString() === wordpressUrl) {
+            const body = JSON.parse(init?.body?.toString() ?? '{}') as {
+              variables?: { input?: { identity?: string } };
+            };
+            const identity = body.variables?.input?.identity;
+            if (identity) wordpressExchanges.push(identity);
+            return Response.json({
+              data: { login: { authToken: `wordpress-${identity}` } },
+            });
+          }
+          throw new Error(`Unexpected fetch: ${input.toString()}`);
+        },
+      ),
+    );
+    const accessToken = token(key, 'commerce-key');
+    const factory = await contextFactory(jwksUrl);
+    const gateway = await wordpressDataSource(wordpressUrl);
+    const responseHeaders = new Map<string, string | string[]>();
+    const response = {
+      getHeader: (name: string) => responseHeaders.get(name),
+      setHeader: (name: string, value: string | string[]) => {
+        responseHeaders.set(name, value);
+      },
+    };
+
+    try {
+      const firstContext = await factory.create(
+        gatewayRequest(accessToken),
+        response as never,
+      );
+      const firstWordpressHeaders = new Headers();
+      await gateway.source.willSendRequest({
+        context: firstContext,
+        request: { http: { headers: firstWordpressHeaders } },
+      } as never);
+      gateway.source.didReceiveResponse({
+        context: firstContext,
+        response: {
+          http: {
+            headers: new Headers({
+              'cart-token': 'cart-buyer-1',
+              'woocommerce-session': 'Session woo-buyer-1',
+            }),
+          },
+        },
+      } as never);
+
+      expect(responseHeaders).toEqual(
+        new Map([
+          ['woocommerce-session', 'Session woo-buyer-1'],
+          ['cart-token', 'cart-buyer-1'],
+        ]),
+      );
+
+      const nextContext = await factory.create(
+        gatewayRequest(accessToken, {
+          'cart-token': responseHeaders.get('cart-token') as string,
+          'woocommerce-session': responseHeaders.get(
+            'woocommerce-session',
+          ) as string,
+        }),
+      );
+      const nextWordpressHeaders = new Headers();
+      await gateway.source.willSendRequest({
+        context: nextContext,
+        request: { http: { headers: nextWordpressHeaders } },
+      } as never);
+      const workflowHeaders = new Headers();
+      await gateway
+        .createSource('order-workflow', 'https://workflow.marketplace.local')
+        .willSendRequest({
+          context: nextContext,
+          request: { http: { headers: workflowHeaders } },
+        } as never);
+
+      expect(wordpressExchanges).toEqual(['buyer-1', 'buyer-1']);
+      expect(firstWordpressHeaders.get('authorization')).toBe(
+        'Bearer wordpress-buyer-1',
+      );
+      expect(Object.fromEntries(nextWordpressHeaders)).toMatchObject({
+        authorization: 'Bearer wordpress-buyer-1',
+        'cart-token': 'cart-buyer-1',
+        'woocommerce-session': 'Session woo-buyer-1',
+      });
+      expect(Object.fromEntries(workflowHeaders)).toMatchObject({
+        authorization: `Bearer ${accessToken}`,
+        'cart-token': 'cart-buyer-1',
+        'woocommerce-session': 'Session woo-buyer-1',
+      });
+    } finally {
+      await gateway.close();
     }
   });
 });

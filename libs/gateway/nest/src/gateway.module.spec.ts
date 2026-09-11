@@ -38,6 +38,8 @@ describe('gateway federation policies', () => {
       ),
     ).toEqual({
       origin: 'http://wordpress',
+      requestSession: true,
+      responseSession: true,
       wordpressCredential: true,
     });
     expect(
