@@ -1,11 +1,11 @@
 # Plano de execução — refactor-checkout-operation-flow
 
-> gerado por `onp-spec plano` em 2026-09-11 08:54 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-11 09:32 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano refactor-checkout-operation-flow --sequencial --modelo gpt-5.6-luna --esforco low`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 7 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (3 já concluída(s): T-287, T-288, T-289)
+- **modo SEQUENCIAL (escolha do usuário)**: 6 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (4 já concluída(s): T-287, T-288, T-289, T-290)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - **custo travado pelo usuário**: modelo `gpt-5.6-luna` · esforço `low` em TODAS as tarefas (vence tasks.md e config)
 - tudo acontece na branch de trabalho `spec/refactor-checkout-operation-flow`; levar para a main é decisão sua
@@ -14,7 +14,6 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-290 | Refactor the complete checkout core as one compilable slice | `gpt-5.6-luna` | low |
 | T-295 | Expose checkout operation through GraphQL mutation and query | `gpt-5.6-luna` | low |
 | T-296 | Stream checkout operation updates over existing SSE | `gpt-5.6-luna` | low |
 | T-297 | Verify deterministic Payment provider idempotency | `gpt-5.6-luna` | low |

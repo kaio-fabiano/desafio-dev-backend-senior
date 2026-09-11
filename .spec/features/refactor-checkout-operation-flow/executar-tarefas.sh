@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano refactor-checkout-operation-flow` em 2026-09-11 08:54
+# executar-tarefas.sh — gerado por `onp-spec plano refactor-checkout-operation-flow` em 2026-09-11 09:32
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwpzqvm'
+RUN_ID='desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwrc4y0'
 FEATURE='refactor-checkout-operation-flow'
 BASE_BRANCH='spec/refactor-checkout-operation-flow'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -166,38 +166,6 @@ iniciar_resumos() {
   RESUMO_PID=$!
   # ao sair: para o loop e grava um último resumo (o estado final, do motor)
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
-}
-
-# ── sequencial T-290 (ordem do tasks.md) ──
-executar_seq_T_290() {
-  info 'sequencial T-290 — Refactor the complete checkout core as one compilable slice'
-  if rodar_tarefa seq 'T-290' 'Você executa UMA tarefa da feature "refactor-checkout-operation-flow" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/refactor-checkout-operation-flow/spec.md, .spec/features/refactor-checkout-operation-flow/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-290 — "Refactor the complete checkout core as one compilable slice"
-  critérios/refs: AC-334 (Reject reuse with a different semantic payload), AC-335 (Resolve the PostgreSQL creation race), AC-337 (Return operation state without synchronous checkout waiting), AC-339 (Create at most one internal Transaction for one checkout), AC-340 (Commit WooCommerce creation-requested before create), AC-341 (Reconcile an unknown WooCommerce outcome without blind create), AC-342 (Keep one deterministic WooCommerce reference), AC-343 (Persist queryable operation outcomes), AC-348 (Remove checkout polling, leases, and ownership), AC-349 (Preserve meaningful operation states and retry behavior), AC-350 (Correlate safely across every boundary)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/WooCommerceOrderPort.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java, docs/adrs/006-woocommerce-idempotent-checkout.md
-  mensagem de commit: "T-290 refactor-checkout-operation-flow: Refactor the complete checkout core as one compilable slice"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low >> "$LOG_DIR/seq.log" 2>&1; then
-    # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
-    if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-290 refactor-checkout-operation-flow: Refactor the complete checkout core as one compilable slice (auto-commit do plano)'
-    fi
-    marcar_concluidas T-290
-    verde "✔ T-290 concluída"
-    return 0
-  fi
-  vermelho "✘ T-290 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/refactor-checkout-operation-flow/executar-tarefas.sh --seq T-290"
-  FALHAS="$FALHAS T-290"
-  return 1
 }
 
 # ── sequencial T-295 (ordem do tasks.md) ──
@@ -445,7 +413,6 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_290 || true
   executar_seq_T_295 || true
   executar_seq_T_296 || true
   executar_seq_T_297 || true
@@ -457,7 +424,6 @@ executar_tudo() {
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-290 (sequencial)"
   echo "  seq       T-295 (sequencial)"
   echo "  seq       T-296 (sequencial)"
   echo "  seq       T-297 (sequencial)"
@@ -498,7 +464,6 @@ case "$MODO" in
     esac ;;
   seq)
     case "$ALVO" in
-      T-290) evento --tipo inicio --escopo "seq:T-290"; iniciar_resumos; executar_seq_T_290 || true; encerrar "seq:T-290" ;;
       T-295) evento --tipo inicio --escopo "seq:T-295"; iniciar_resumos; executar_seq_T_295 || true; encerrar "seq:T-295" ;;
       T-296) evento --tipo inicio --escopo "seq:T-296"; iniciar_resumos; executar_seq_T_296 || true; encerrar "seq:T-296" ;;
       T-297) evento --tipo inicio --escopo "seq:T-297"; iniciar_resumos; executar_seq_T_297 || true; encerrar "seq:T-297" ;;
