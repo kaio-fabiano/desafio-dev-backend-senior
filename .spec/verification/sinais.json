@@ -2165,10 +2165,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-6-apollo-mcp",
       "ref": "—",
-      "ocorrencias": 112,
+      "ocorrencias": 113,
       "primeiraVez": "2026-08-27T20:23:18.731Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::milestone-8-compliance-hardening::Q-002": {
       "codigo": "ID_DUPLICADO",
@@ -2354,10 +2354,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-7-e2e-deployment",
       "ref": "—",
-      "ocorrencias": 107,
+      "ocorrencias": 108,
       "primeiraVez": "2026-08-27T22:40:19.926Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::milestone-8-compliance-hardening::T-053": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -2552,10 +2552,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "milestone-8-compliance-hardening",
       "ref": "—",
-      "ocorrencias": 104,
+      "ocorrencias": 105,
       "primeiraVez": "2026-08-28T09:53:04.411Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::import-order-stability::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -2660,10 +2660,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "federated-platform-architecture-refactor",
       "ref": "T-070",
-      "ocorrencias": 19,
+      "ocorrencias": 20,
       "primeiraVez": "2026-08-28T22:13:39.740Z",
-      "ultimaVez": "2026-09-02T15:32:02.755Z",
-      "gitRev": "4d36bf5"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::federated-platform-architecture-refactor::T-070": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -3065,10 +3065,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "federated-platform-architecture-refactor",
       "ref": "—",
-      "ocorrencias": 108,
+      "ocorrencias": 109,
       "primeiraVez": "2026-08-31T08:23:38.011Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::remove-retired-applications::T-081": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -3587,10 +3587,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "delivery-closure",
       "ref": "—",
-      "ocorrencias": 92,
+      "ocorrencias": 93,
       "primeiraVez": "2026-08-31T21:07:21.028Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ASM_STATUS_INVALIDO::federated-platform-architecture-refactor::ASM-032": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -4208,10 +4208,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "structural-improvement-program",
       "ref": "—",
-      "ocorrencias": 91,
+      "ocorrencias": 92,
       "primeiraVez": "2026-09-01T03:06:54.499Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::keep-graphify-current::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -4280,10 +4280,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resolve-gateway-sse-todos",
       "ref": "—",
-      "ocorrencias": 62,
+      "ocorrencias": 63,
       "primeiraVez": "2026-09-01T20:06:19.306Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::milestone-6-apollo-mcp::AC-138": {
       "codigo": "AC_SEM_TESTE",
@@ -4298,10 +4298,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "production-happy-path-hardening",
       "ref": "—",
-      "ocorrencias": 77,
+      "ocorrencias": 78,
       "primeiraVez": "2026-09-01T21:13:57.059Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::transaction-federation-refactor::ASM-001": {
       "codigo": "ID_DUPLICADO",
@@ -4370,10 +4370,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "transaction-federation-refactor",
       "ref": "T-112",
-      "ocorrencias": 6,
+      "ocorrencias": 7,
       "primeiraVez": "2026-09-01T22:10:18.322Z",
-      "ultimaVez": "2026-09-01T22:40:14.199Z",
-      "gitRev": "d217645"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::transaction-federation-refactor::T-114": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -4541,10 +4541,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "delivery-closure",
       "ref": "T-089",
-      "ocorrencias": 8,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-01T22:40:14.199Z",
-      "ultimaVez": "2026-09-10T00:50:09.137Z",
-      "gitRev": "e3972aac"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::production-happy-path-hardening::T-102": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -4676,10 +4676,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "transaction-federation-refactor",
       "ref": "—",
-      "ocorrencias": 69,
+      "ocorrencias": 70,
       "primeiraVez": "2026-09-01T22:40:14.199Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::production-readiness-gap-register::US-077": {
       "codigo": "ID_DUPLICADO",
@@ -4694,19 +4694,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "align-payment-federation-naming",
       "ref": "—",
-      "ocorrencias": 48,
+      "ocorrencias": 49,
       "primeiraVez": "2026-09-02T07:40:08.793Z",
-      "ultimaVez": "2026-09-10T20:28:05.646Z",
-      "gitRev": "a4339258"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-124": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "mercado-pago-payment-provider",
       "ref": "T-124",
-      "ocorrencias": 36,
+      "ocorrencias": 37,
       "primeiraVez": "2026-09-02T08:08:30.519Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-125": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -4721,10 +4721,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "mercado-pago-payment-provider",
       "ref": "T-126",
-      "ocorrencias": 16,
+      "ocorrencias": 17,
       "primeiraVez": "2026-09-02T08:08:30.519Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::mercado-pago-payment-provider::T-128": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -4856,10 +4856,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "align-payment-federation-naming",
       "ref": "T-121",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-02T15:32:02.755Z",
-      "ultimaVez": "2026-09-02T15:32:02.755Z",
-      "gitRev": "4d36bf5"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::payment-federation-clean-architecture::T-129": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -5099,37 +5099,37 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "oauth-resource-server-auth",
       "ref": "T-143",
-      "ocorrencias": 30,
+      "ocorrencias": 31,
       "primeiraVez": "2026-09-02T21:58:55.779Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::mercado-pago-payment-provider::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "mercado-pago-payment-provider",
       "ref": "—",
-      "ocorrencias": 57,
+      "ocorrencias": 58,
       "primeiraVez": "2026-09-02T21:59:31.241Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::payment-federation-clean-architecture::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "payment-federation-clean-architecture",
       "ref": "—",
-      "ocorrencias": 49,
+      "ocorrencias": 50,
       "primeiraVez": "2026-09-02T23:12:59.508Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::oauth-resource-server-auth::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "oauth-resource-server-auth",
       "ref": "—",
-      "ocorrencias": 79,
+      "ocorrencias": 80,
       "primeiraVez": "2026-09-03T00:18:19.513Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "STATUS_INVALIDO::reconcile-architecture-decisions::.spec/features/reconcile-architecture-decisions/spec.md": {
       "codigo": "STATUS_INVALIDO",
@@ -5405,10 +5405,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "mercado-pago-production-deployment",
       "ref": "—",
-      "ocorrencias": 54,
+      "ocorrencias": 55,
       "primeiraVez": "2026-09-04T09:22:38.432Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::sonar-java-full-analysis::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -5441,10 +5441,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "graphql-relay-dataloader-closure",
       "ref": "T-164",
-      "ocorrencias": 13,
+      "ocorrencias": 14,
       "primeiraVez": "2026-09-04T17:46:10.175Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::graphql-relay-dataloader-closure::T-165": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -5666,46 +5666,46 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-oauth-resource-service",
       "ref": "—",
-      "ocorrencias": 49,
+      "ocorrencias": 50,
       "primeiraVez": "2026-09-05T01:07:42.638Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::harden-graphql-oauth-resource-guard::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-graphql-oauth-resource-guard",
       "ref": "—",
-      "ocorrencias": 48,
+      "ocorrencias": 49,
       "primeiraVez": "2026-09-05T01:54:53.014Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::adopt-nestjs-config::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "adopt-nestjs-config",
       "ref": "—",
-      "ocorrencias": 54,
+      "ocorrencias": 55,
       "primeiraVez": "2026-09-05T02:10:16.102Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::harden-oauth-resource-module::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-oauth-resource-module",
       "ref": "—",
-      "ocorrencias": 47,
+      "ocorrencias": 48,
       "primeiraVez": "2026-09-05T02:10:16.102Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::remove-unused-resource-provider::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "remove-unused-resource-provider",
       "ref": "—",
-      "ocorrencias": 41,
+      "ocorrencias": 42,
       "primeiraVez": "2026-09-05T02:10:16.102Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::resolve-node-review-todos::AC-225": {
       "codigo": "AC_SEM_TESTE",
@@ -5783,10 +5783,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "resolve-node-review-todos",
       "ref": "—",
-      "ocorrencias": 65,
+      "ocorrencias": 66,
       "primeiraVez": "2026-09-05T13:04:48.384Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::resolve-node-review-todos::T-183": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -5918,10 +5918,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refactor-registration-boundaries",
       "ref": "T-194",
-      "ocorrencias": 31,
+      "ocorrencias": 32,
       "primeiraVez": "2026-09-05T14:01:15.330Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::refactor-registration-boundaries::AC-236": {
       "codigo": "AC_SEM_TESTE",
@@ -5990,10 +5990,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "resolve-node-review-todos",
       "ref": "T-186",
-      "ocorrencias": 24,
+      "ocorrencias": 26,
       "primeiraVez": "2026-09-05T14:16:20.268Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::resolve-node-review-todos::T-190": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -6098,19 +6098,19 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "refactor-registration-boundaries",
       "ref": "—",
-      "ocorrencias": 51,
+      "ocorrencias": 52,
       "primeiraVez": "2026-09-05T14:45:00.203Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::graphql-relay-dataloader-closure::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "graphql-relay-dataloader-closure",
       "ref": "—",
-      "ocorrencias": 51,
+      "ocorrencias": 52,
       "primeiraVez": "2026-09-05T15:13:09.133Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::refactor-registration-boundaries::T-195": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -6593,28 +6593,28 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "graphql-only-woocommerce",
       "ref": "—",
-      "ocorrencias": 41,
+      "ocorrencias": 42,
       "primeiraVez": "2026-09-05T17:46:38.085Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::modularize-order-workflow-subgraph::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "modularize-order-workflow-subgraph",
       "ref": "—",
-      "ocorrencias": 25,
+      "ocorrencias": 26,
       "primeiraVez": "2026-09-05T17:53:09.082Z",
-      "ultimaVez": "2026-09-10T20:28:05.646Z",
-      "gitRev": "a4339258"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::clarify-gateway-module-boundaries::—": {
       "codigo": "VERIFY_OBSOLETO",
       "feature": "clarify-gateway-module-boundaries",
       "ref": "—",
-      "ocorrencias": 42,
+      "ocorrencias": 43,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::nestjs-vitest-testing-standard::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -6638,10 +6638,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "stabilize-platform-nest-public-api",
       "ref": "—",
-      "ocorrencias": 39,
+      "ocorrencias": 40,
       "primeiraVez": "2026-09-07T16:11:07.837Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::strict-nestjs-ddd-migration::T-209": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -6953,10 +6953,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "strict-nestjs-ddd-migration",
       "ref": "—",
-      "ocorrencias": 44,
+      "ocorrencias": 45,
       "primeiraVez": "2026-09-07T19:16:57.901Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_FALHOU::strict-nestjs-ddd-migration::AC-263": {
       "codigo": "VERIFY_FALHOU",
@@ -7925,10 +7925,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "idiomatic-nestjs-architecture",
       "ref": "—",
-      "ocorrencias": 28,
+      "ocorrencias": 29,
       "primeiraVez": "2026-09-09T04:11:18.612Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::migrate-order-workflow-to-axon-java::T-231": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -8375,10 +8375,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "migrate-order-workflow-to-axon-java",
       "ref": "T-249",
-      "ocorrencias": 88,
+      "ocorrencias": 92,
       "primeiraVez": "2026-09-09T07:00:16.084Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::migrate-order-workflow-to-axon-java::T-250": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -8402,10 +8402,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "migrate-order-workflow-to-axon-java",
       "ref": "T-252",
-      "ocorrencias": 33,
+      "ocorrencias": 35,
       "primeiraVez": "2026-09-09T07:00:16.084Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ASM_STATUS_INVALIDO::migrate-order-workflow-to-axon-java::ASM-100": {
       "codigo": "ASM_STATUS_INVALIDO",
@@ -8672,10 +8672,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "migrate-order-workflow-to-axon-java",
       "ref": "—",
-      "ocorrencias": 14,
+      "ocorrencias": 15,
       "primeiraVez": "2026-09-09T16:28:48.790Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::align-payment-federation-naming::T-122": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -8690,10 +8690,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "mercado-pago-payment-provider",
       "ref": "T-127",
-      "ocorrencias": 6,
+      "ocorrencias": 8,
       "primeiraVez": "2026-09-09T23:17:45.363Z",
-      "ultimaVez": "2026-09-10T00:50:09.137Z",
-      "gitRev": "e3972aac"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::mercado-pago-production-deployment::T-148": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -8798,10 +8798,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refactor-payment-persistence-models",
       "ref": "T-264",
-      "ocorrencias": 1,
+      "ocorrencias": 2,
       "primeiraVez": "2026-09-10T14:25:29.089Z",
-      "ultimaVez": "2026-09-10T14:25:29.089Z",
-      "gitRev": "05de260b"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::refactor-payment-persistence-models::AC-298": {
       "codigo": "AC_SEM_TESTE",
@@ -8888,55 +8888,55 @@
       "codigo": "ID_DUPLICADO",
       "feature": "standardize-error-messages",
       "ref": "US-139",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.306Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::standardize-error-messages::AC-298": {
       "codigo": "ID_DUPLICADO",
       "feature": "standardize-error-messages",
       "ref": "AC-298",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::standardize-error-messages::AC-299": {
       "codigo": "ID_DUPLICADO",
       "feature": "standardize-error-messages",
       "ref": "AC-299",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::standardize-error-messages::AC-300": {
       "codigo": "ID_DUPLICADO",
       "feature": "standardize-error-messages",
       "ref": "AC-300",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::standardize-error-messages::AC-301": {
       "codigo": "ID_DUPLICADO",
       "feature": "standardize-error-messages",
       "ref": "AC-301",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ID_DUPLICADO::standardize-error-messages::AC-302": {
       "codigo": "ID_DUPLICADO",
       "feature": "standardize-error-messages",
       "ref": "AC-302",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_OBSOLETO::fix-payment-federation-ide-compiler::—": {
       "codigo": "VERIFY_OBSOLETO",
@@ -9077,10 +9077,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "propagate-checkout-card-credentials",
       "ref": "T-273",
-      "ocorrencias": 1,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-10T18:47:16.307Z",
-      "gitRev": "c2583297"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::propagate-checkout-card-credentials::AC-314": {
       "codigo": "AC_SEM_TESTE",
@@ -9104,136 +9104,136 @@
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "T-260",
-      "ocorrencias": 36,
+      "ocorrencias": 39,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::refactor-payment-persistence-models::T-261": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "T-261",
-      "ocorrencias": 36,
+      "ocorrencias": 39,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::refactor-payment-persistence-models::T-262": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "T-262",
-      "ocorrencias": 36,
+      "ocorrencias": 39,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::refactor-payment-persistence-models::AC-298": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "AC-298",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::refactor-payment-persistence-models::AC-299": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "AC-299",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::refactor-payment-persistence-models::AC-300": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "AC-300",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::refactor-payment-persistence-models::AC-301": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "AC-301",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::refactor-payment-persistence-models::AC-302": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "AC-302",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::refactor-payment-persistence-models::AC-303": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "AC-303",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::refactor-payment-persistence-models::AC-304": {
       "codigo": "AC_SEM_PROVA",
       "feature": "refactor-payment-persistence-models",
       "ref": "AC-304",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::standardize-error-messages::AC-298": {
       "codigo": "AC_SEM_PROVA",
       "feature": "standardize-error-messages",
       "ref": "AC-298",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::standardize-error-messages::AC-299": {
       "codigo": "AC_SEM_PROVA",
       "feature": "standardize-error-messages",
       "ref": "AC-299",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::standardize-error-messages::AC-300": {
       "codigo": "AC_SEM_PROVA",
       "feature": "standardize-error-messages",
       "ref": "AC-300",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::standardize-error-messages::AC-301": {
       "codigo": "AC_SEM_PROVA",
       "feature": "standardize-error-messages",
       "ref": "AC-301",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_PROVA::standardize-error-messages::AC-302": {
       "codigo": "AC_SEM_PROVA",
       "feature": "standardize-error-messages",
       "ref": "AC-302",
-      "ocorrencias": 12,
+      "ocorrencias": 13,
       "primeiraVez": "2026-09-10T18:47:16.307Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::harden-oauth-runtime-configuration::T-268": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -9392,10 +9392,10 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "harden-oauth-runtime-configuration",
       "ref": "—",
-      "ocorrencias": 9,
+      "ocorrencias": 10,
       "primeiraVez": "2026-09-11T06:28:30.417Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::improve-checkout-service-readability::AC-316": {
       "codigo": "AC_SEM_TESTE",
@@ -9410,28 +9410,28 @@
       "codigo": "VERIFY_OBSOLETO",
       "feature": "propagate-checkout-card-credentials",
       "ref": "—",
-      "ocorrencias": 9,
+      "ocorrencias": 10,
       "primeiraVez": "2026-09-11T06:28:30.417Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::recover-payment-provider-effects::AC-296": {
       "codigo": "AC_SEM_TESTE",
       "feature": "recover-payment-provider-effects",
       "ref": "AC-296",
-      "ocorrencias": 9,
+      "ocorrencias": 10,
       "primeiraVez": "2026-09-11T06:28:30.417Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "AC_SEM_TESTE::recover-payment-provider-effects::AC-297": {
       "codigo": "AC_SEM_TESTE",
       "feature": "recover-payment-provider-effects",
       "ref": "AC-297",
-      "ocorrencias": 9,
+      "ocorrencias": 10,
       "primeiraVez": "2026-09-11T06:28:30.417Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "VERIFY_FALHOU::improve-checkout-service-readability::P-003": {
       "codigo": "VERIFY_FALHOU",
@@ -9455,10 +9455,10 @@
       "codigo": "AC_SEM_PROVA",
       "feature": "improve-checkout-service-readability",
       "ref": "AC-316",
-      "ocorrencias": 8,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-11T06:46:20.831Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::organize-payment-federation-structure::T-276": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -9563,10 +9563,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "organize-payment-federation-structure",
       "ref": "T-278",
-      "ocorrencias": 24,
+      "ocorrencias": 25,
       "primeiraVez": "2026-09-11T07:11:19.196Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "SECAO_AUSENTE::preserve-woocommerce-checkout-reconciliation::.spec/features/preserve-woocommerce-checkout-reconciliation/spec.md": {
       "codigo": "SECAO_AUSENTE",
@@ -9680,19 +9680,19 @@
       "codigo": "SPEC_AUSENTE",
       "feature": "preserve-woocommerce-checkout-reconciliation",
       "ref": "—",
-      "ocorrencias": 4,
+      "ocorrencias": 5,
       "primeiraVez": "2026-09-11T07:37:42.550Z",
-      "ultimaVez": "2026-09-11T10:44:05.669Z",
-      "gitRev": "f2d7480d"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::refactor-checkout-operation-flow::T-288": {
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refactor-checkout-operation-flow",
       "ref": "T-288",
-      "ocorrencias": 1,
+      "ocorrencias": 6,
       "primeiraVez": "2026-09-11T07:37:42.550Z",
-      "ultimaVez": "2026-09-11T07:37:42.550Z",
-      "gitRev": "b4b92987"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "ARQUIVO_INEXISTENTE::refactor-checkout-operation-flow::T-294": {
       "codigo": "ARQUIVO_INEXISTENTE",
@@ -10076,10 +10076,10 @@
       "codigo": "ARQUIVO_INEXISTENTE",
       "feature": "refactor-checkout-operation-flow",
       "ref": "T-290",
-      "ocorrencias": 2,
+      "ocorrencias": 9,
       "primeiraVez": "2026-09-11T10:17:03.378Z",
-      "ultimaVez": "2026-09-11T10:38:18.411Z",
-      "gitRev": "05bf5221"
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     },
     "TASK_CONCLUIDA_SEM_PROVA::refactor-checkout-operation-flow::T-290": {
       "codigo": "TASK_CONCLUIDA_SEM_PROVA",
@@ -10305,6 +10305,159 @@
       "primeiraVez": "2026-09-11T10:17:03.378Z",
       "ultimaVez": "2026-09-11T10:17:03.378Z",
       "gitRev": "a5dc1152"
+    },
+    "ARQUIVO_INEXISTENTE::improve-checkout-service-readability::T-274": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "improve-checkout-service-readability",
+      "ref": "T-274",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::organize-payment-federation-structure::T-277": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "T-277",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::organize-payment-federation-structure::T-279": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "T-279",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::organize-payment-federation-structure::T-280": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "T-280",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::organize-payment-federation-structure::T-281": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "T-281",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "TASK_CONCLUIDA_SEM_PROVA::organize-payment-federation-structure::T-301": {
+      "codigo": "TASK_CONCLUIDA_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "T-301",
+      "ocorrencias": 3,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "AC_SEM_PROVA::organize-payment-federation-structure::AC-318": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "AC-318",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "AC_SEM_PROVA::organize-payment-federation-structure::AC-319": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "AC-319",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "AC_SEM_PROVA::organize-payment-federation-structure::AC-321": {
+      "codigo": "AC_SEM_PROVA",
+      "feature": "organize-payment-federation-structure",
+      "ref": "AC-321",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "VERIFY_OBSOLETO::organize-payment-federation-structure::—": {
+      "codigo": "VERIFY_OBSOLETO",
+      "feature": "organize-payment-federation-structure",
+      "ref": "—",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "ARQUIVO_INEXISTENTE::recover-payment-provider-effects::T-259": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "recover-payment-provider-effects",
+      "ref": "T-259",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "ARQUIVO_INEXISTENTE::refactor-checkout-operation-flow::T-287": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "refactor-checkout-operation-flow",
+      "ref": "T-287",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "ARQUIVO_INEXISTENTE::refactor-checkout-operation-flow::T-289": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "refactor-checkout-operation-flow",
+      "ref": "T-289",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "ARQUIVO_INEXISTENTE::refactor-checkout-operation-flow::T-295": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "refactor-checkout-operation-flow",
+      "ref": "T-295",
+      "ocorrencias": 2,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "ARQUIVO_INEXISTENTE::refactor-checkout-operation-flow::T-298": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "refactor-checkout-operation-flow",
+      "ref": "T-298",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "AC_SEM_TESTE::restore-local-e2e-gateway-runtime::AC-351": {
+      "codigo": "AC_SEM_TESTE",
+      "feature": "restore-local-e2e-gateway-runtime",
+      "ref": "AC-351",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
+    },
+    "ARQUIVO_INEXISTENTE::standardize-error-messages::T-265": {
+      "codigo": "ARQUIVO_INEXISTENTE",
+      "feature": "standardize-error-messages",
+      "ref": "T-265",
+      "ocorrencias": 1,
+      "primeiraVez": "2026-09-11T13:12:30.942Z",
+      "ultimaVez": "2026-09-11T13:12:30.942Z",
+      "gitRev": "c7a89657"
     }
   }
 }
