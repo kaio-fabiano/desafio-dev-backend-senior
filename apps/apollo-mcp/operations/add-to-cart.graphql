@@ -7,8 +7,10 @@ mutation addToCart($productId: Int!, $quantity: Int!) {
           key
           quantity
           product {
-            id
-            name
+            node {
+              id
+              name
+            }
           }
         }
       }

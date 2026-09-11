@@ -53,3 +53,25 @@ test('AC-140: Order Workflow delegates order creation and reconciliation to WooG
   }
   assert.doesNotMatch(adapter, /register_rest_route|\/marketplace\/v1/);
 });
+
+test('AC-356: Cart product selections follow the WooGraphQL edge @spec:AC-356', async () => {
+  const paths = [
+    wordpressSchemaPath,
+    'apps/apollo-mcp/schema.graphql',
+    'apps/apollo-mcp/operations/add-to-cart.graphql',
+    'apps/apollo-mcp/operations/get-my-cart.graphql',
+  ];
+  const [wordpress, mcp, addToCart, getMyCart] = await Promise.all(
+    paths.map((path) => readFile(path, 'utf8')),
+  );
+
+  for (const schema of [wordpress, mcp]) {
+    assert.match(
+      schema,
+      /type CartItem[\s\S]*?product:\s*CartItemToProductConnectionEdge[\s\S]*?type CartItemToProductConnectionEdge[\s\S]*?node:\s*Product/,
+    );
+  }
+  for (const operation of [addToCart, getMyCart]) {
+    assert.match(operation, /product\s*\{\s*node\s*\{\s*id\s+name\s*\}/);
+  }
+});

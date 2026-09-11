@@ -6,8 +6,10 @@ query getMyCart {
         key
         quantity
         product {
-          id
-          name
+          node {
+            id
+            name
+          }
         }
       }
       pageInfo {

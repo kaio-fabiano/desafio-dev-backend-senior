@@ -95,7 +95,11 @@ type CartItemEdge {
 type CartItem {
   key: ID!
   quantity: Int!
-  product: Product
+  product: CartItemToProductConnectionEdge
+}
+
+type CartItemToProductConnectionEdge {
+  node: Product
 }
 
 type Customer {
