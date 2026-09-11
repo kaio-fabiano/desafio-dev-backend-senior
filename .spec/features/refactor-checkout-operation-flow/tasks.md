@@ -9,8 +9,7 @@
 - Esforço: baixo
 - Notas: Red-only task. Read `design.md` completely and add exactly the matrix listed there to the existing fixtures. Every AC-333 through AC-350 appears in a JUnit display name and in one existing Java-to-TAP bridge test. Use two real repository instances for distributed PostgreSQL races, barriers/latches for concurrency, and the existing PostgreSQL/RabbitMQ containers. Run focused tests and record at least one expected behavioral failure caused by the legacy checkout; compilation, Docker setup, timing, or false assertions do not count as Red. Do not edit production, delete tests, create a second test runner, or touch unrelated dirty files.
 
-## T-288 — Introduce deterministic checkout identity and Axon routing [pendente]
-
+## T-288 — Introduce deterministic checkout identity and Axon routing [concluida]
 - Refs: US-152, AC-333, AC-334, AC-336, US-153, AC-339, AC-342
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationId.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutResult.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java
 - Modelo: gpt-5.6-luna
