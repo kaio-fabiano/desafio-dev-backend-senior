@@ -171,6 +171,25 @@ class CheckoutServiceTest {
     }
 
     @Test
+    @DisplayName("Operation identity and semantic command hash are deterministic independently @spec:AC-333")
+    void operationIdentityAndCommandHashAreDeterministicIndependently() {
+        var same = new CheckoutCommand("buyer-1", "operation-1", "CARD", "buyer@example.test", "provider-token", "visa");
+
+        assertEquals(CheckoutOperationId.from("buyer-1", "operation-1"), COMMAND.operationId());
+        assertEquals(COMMAND.operationId(), same.operationId());
+        assertEquals(CheckoutCommandHash.hash(COMMAND), CheckoutCommandHash.hash(same));
+    }
+
+    @Test
+    @DisplayName("Canonical checkout construction rejects an inconsistent explicit operation identity @spec:AC-333")
+    void canonicalCheckoutConstructionRejectsInconsistentExplicitOperationIdentity() {
+        assertThrows(IllegalArgumentException.class, () -> new CheckoutCommand(
+            "buyer-1", "operation-1", "CARD", "buyer@example.test", "provider-token", "visa", null,
+            new CheckoutOperationId("00000000-0000-0000-0000-000000000000")
+        ));
+    }
+
+    @Test
     @DisplayName("The same operation key may be used by different subjects @spec:AC-335")
     void operationKeyIsScopedBySubject() {
         var repository = new MemoryCheckoutRepository();

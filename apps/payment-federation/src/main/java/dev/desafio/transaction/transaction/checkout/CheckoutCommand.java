@@ -1,7 +1,9 @@
 package dev.desafio.transaction.transaction.checkout;
 
 import dev.desafio.transaction.transaction.domain.TransactionErrorMessages;
+import org.axonframework.messaging.commandhandling.annotation.Command;
 
+@Command(namespace = "transaction", name = "Checkout", version = "1.0.0", routingKey = "operationId")
 public record CheckoutCommand(
     String subject,
     String operationKey,
@@ -9,7 +11,8 @@ public record CheckoutCommand(
     String payerEmail,
     String providerToken,
     String paymentMethodId,
-    WooCommerceOrderPort.Session session
+    WooCommerceOrderPort.Session session,
+    CheckoutOperationId operationId
 ) {
     public CheckoutCommand(
         String subject,
@@ -19,12 +22,31 @@ public record CheckoutCommand(
         String providerToken,
         String paymentMethodId
     ) {
-        this(subject, operationKey, paymentMethod, payerEmail, providerToken, paymentMethodId, null);
+        this(subject, operationKey, paymentMethod, payerEmail, providerToken, paymentMethodId, null,
+            CheckoutOperationId.from(subject, operationKey));
+    }
+
+    public CheckoutCommand(
+        String subject,
+        String operationKey,
+        String paymentMethod,
+        String payerEmail,
+        String providerToken,
+        String paymentMethodId,
+        WooCommerceOrderPort.Session session
+    ) {
+        this(subject, operationKey, paymentMethod, payerEmail, providerToken, paymentMethodId, session,
+            CheckoutOperationId.from(subject, operationKey));
     }
 
     public CheckoutCommand {
         subject = required(subject, "subject");
         operationKey = required(operationKey, "operationKey");
+        var canonicalOperationId = CheckoutOperationId.from(subject, operationKey);
+        if (operationId != null && !operationId.equals(canonicalOperationId)) {
+            throw new IllegalArgumentException("operationId does not match checkout identity");
+        }
+        operationId = canonicalOperationId;
         paymentMethod = required(paymentMethod, "paymentMethod").toUpperCase(java.util.Locale.ROOT);
         payerEmail = required(payerEmail, "payerEmail");
         if (!paymentMethod.equals("CARD") && !paymentMethod.equals("PIX")) {

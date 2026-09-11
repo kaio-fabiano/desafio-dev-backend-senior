@@ -20,8 +20,7 @@
 - Esforço: baixo
 - Notas: Red-only task. Preserve every existing assertion and `@spec` tag. Add focused tests proving deterministic subject-scoped identity, subject-scoped operation keys, and prompt duplicate return without waiting. Record focused failures caused by the legacy random ID, global key scope, and synchronous wait. Compilation, infrastructure, timing, or renamed old tests do not count. Do not edit production or task/plan files.
 
-## T-288 — Implement deterministic checkout identity and command hashing contract [pendente]
-
+## T-288 — Implement deterministic checkout identity and command hashing contract [concluida]
 - Refs: US-152, AC-333, AC-334, US-153, AC-339, AC-342
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationId.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutResult.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java
 - Modelo: gpt-5.6-luna
