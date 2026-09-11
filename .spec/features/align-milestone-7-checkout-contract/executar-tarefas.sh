@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano align-milestone-7-checkout-contract` em 2026-09-11 13:36
+# executar-tarefas.sh — gerado por `onp-spec plano align-milestone-7-checkout-contract` em 2026-09-11 13:59
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-align-milestone-7-checkout-contract-mtx02yn6'
+RUN_ID='desafio-dev-backend-senior-align-milestone-7-checkout-contract-mtx0w396'
 FEATURE='align-milestone-7-checkout-contract'
 BASE_BRANCH='spec/align-milestone-7-checkout-contract'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,10 +168,15 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── sequencial T-303 (ordem do tasks.md) ──
-executar_seq_T_303() {
-  info 'sequencial T-303 — Align Gateway and E2E checkout operation shapes'
-  if rodar_tarefa seq 'T-303' 'Você executa UMA tarefa da feature "align-milestone-7-checkout-contract" (fluxo onp-spec, spec-anchored).
+# ── faixa-1: T-303 ──
+executar_faixa_1() {
+  local WT="$WT_BASE-faixa-1"
+  preparar_worktree 'faixa-1' 'spec/align-milestone-7-checkout-contract-faixa-1' "$WT" || return 1
+  evento --tipo faixa --faixa 'faixa-1' --estado executando --tentativa "$(tentativa 'faixa-1')"
+  : > "$LOG_DIR/faixa-1.log"
+  (
+    cd "$WT" || exit 9
+    rodar_tarefa 'faixa-1' 'T-303' 'Você executa UMA tarefa da feature "align-milestone-7-checkout-contract" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/align-milestone-7-checkout-contract/spec.md, .spec/features/align-milestone-7-checkout-contract/tasks.md e .spec/constituicao.md.
 
 Sua tarefa (somente ela):
@@ -185,18 +190,73 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
+  ) >> "$LOG_DIR/faixa-1.log" 2>&1
+  local st=$?
+  mesclar_faixa 'faixa-1' 'spec/align-milestone-7-checkout-contract-faixa-1' "$WT" "$st" || return 1
+  marcar_concluidas T-303
+  return 0
+}
+
+# ── faixa-2: T-304 ──
+executar_faixa_2() {
+  local WT="$WT_BASE-faixa-2"
+  preparar_worktree 'faixa-2' 'spec/align-milestone-7-checkout-contract-faixa-2' "$WT" || return 1
+  evento --tipo faixa --faixa 'faixa-2' --estado executando --tentativa "$(tentativa 'faixa-2')"
+  : > "$LOG_DIR/faixa-2.log"
+  (
+    cd "$WT" || exit 9
+    rodar_tarefa 'faixa-2' 'T-304' 'Você executa UMA tarefa da feature "align-milestone-7-checkout-contract" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/align-milestone-7-checkout-contract/spec.md, .spec/features/align-milestone-7-checkout-contract/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-304 — "Register production checkout query handlers deterministically"
+  critérios/refs: AC-353 (Checkout reads are registered in the production application)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/edge/configuration/GraphQlReadConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java
+  mensagem de commit: "T-304 align-milestone-7-checkout-contract: Register production checkout query handlers deterministically"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high
+  ) >> "$LOG_DIR/faixa-2.log" 2>&1
+  local st=$?
+  mesclar_faixa 'faixa-2' 'spec/align-milestone-7-checkout-contract-faixa-2' "$WT" "$st" || return 1
+  marcar_concluidas T-304
+  return 0
+}
+
+# ── sequencial T-305 (fora da seleção do usuário) ──
+executar_seq_T_305() {
+  info 'sequencial T-305 — Authenticate native WooCommerce checkout as the linked buyer'
+  if rodar_tarefa seq 'T-305' 'Você executa UMA tarefa da feature "align-milestone-7-checkout-contract" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/align-milestone-7-checkout-contract/spec.md, .spec/features/align-milestone-7-checkout-contract/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-305 — "Authenticate native WooCommerce checkout as the linked buyer"
+  critérios/refs: AC-354 (Native WooCommerce checkout preserves the linked buyer)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java, apps/e2e/src/journey.ts, apps/e2e/src/milestone-7.e2e.test.ts
+  mensagem de commit: "T-305 align-milestone-7-checkout-contract: Authenticate native WooCommerce checkout as the linked buyer"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-sol' high >> "$LOG_DIR/seq.log" 2>&1; then
     # commit de segurança se o agente esqueceu (rastreabilidade > perfeição)
     if [ -n "$(git status --porcelain)" ]; then
-      git add -A && git commit -q -m 'T-303 align-milestone-7-checkout-contract: Align Gateway and E2E checkout operation shapes (auto-commit do plano)'
+      git add -A && git commit -q -m 'T-305 align-milestone-7-checkout-contract: Authenticate native WooCommerce checkout as the linked buyer (auto-commit do plano)'
     fi
-    marcar_concluidas T-303
-    verde "✔ T-303 concluída"
+    marcar_concluidas T-305
+    verde "✔ T-305 concluída"
     return 0
   fi
-  vermelho "✘ T-303 falhou (log: $LOG_DIR/seq.log)"
-  amarelo "  reexecute só ela: bash .spec/features/align-milestone-7-checkout-contract/executar-tarefas.sh --seq T-303"
-  FALHAS="$FALHAS T-303"
+  vermelho "✘ T-305 falhou (log: $LOG_DIR/seq.log)"
+  amarelo "  reexecute só ela: bash .spec/features/align-milestone-7-checkout-contract/executar-tarefas.sh --seq T-305"
+  FALHAS="$FALHAS T-305"
   return 1
 }
 
@@ -253,13 +313,21 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  executar_seq_T_303 || true
+  # onda 1: faixa-1 ∥ faixa-2
+  info "onda 1: faixa-1 ∥ faixa-2 — janelas limpas em paralelo"
+  executar_faixa_1 & PID_FAIXA_1=$!
+  executar_faixa_2 & PID_FAIXA_2=$!
+  wait "$PID_FAIXA_1" || true
+  wait "$PID_FAIXA_2" || true
+  executar_seq_T_305 || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  seq       T-303 (sequencial)"
+  echo "  faixa-1  onda 1  T-303"
+  echo "  faixa-2  onda 1  T-304"
+  echo "  seq       T-305 (sequencial)"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -290,11 +358,13 @@ case "$MODO" in
   gate) COM_GATE=1; iniciar_resumos; encerrar gate ;;
   faixa)
     case "$ALVO" in
+      faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
+      faixa-2) evento --tipo inicio --escopo "faixa:faixa-2"; iniciar_resumos; executar_faixa_2 || true; encerrar "faixa:faixa-2" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)
     case "$ALVO" in
-      T-303) evento --tipo inicio --escopo "seq:T-303"; iniciar_resumos; executar_seq_T_303 || true; encerrar "seq:T-303" ;;
+      T-305) evento --tipo inicio --escopo "seq:T-305"; iniciar_resumos; executar_seq_T_305 || true; encerrar "seq:T-305" ;;
       *) falhar "tarefa sequencial desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
 esac

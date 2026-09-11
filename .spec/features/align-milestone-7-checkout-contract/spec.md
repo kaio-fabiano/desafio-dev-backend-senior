@@ -29,23 +29,44 @@ after the refactored topology completes its checkout flows.
   preserve the operation and order identifiers, and the final federated order
   exposes the expected workflow state
 
+#### AC-353 — Checkout reads are registered in the production application
+
+- **Dado** the production Payment Federation starts with its Transaction read
+  repository
+- **Quando** an authenticated buyer reads a checkout operation
+- **Então** Axon dispatches the query to the checkout-operation handler and
+  returns only that buyer's operation instead of reporting that no handler is
+  available
+
+#### AC-354 — Native WooCommerce checkout preserves the linked buyer
+
+- **Dado** the Better Auth subject is linked to a WordPress customer through
+  the `better_auth_user_id` metadata
+- **Quando** Transaction creates an order from that buyer's cart
+- **Então** it authenticates the native WooCommerce checkout as the linked
+  customer, the order stores that customer instead of guest `0`, and the same
+  buyer can read the completed federated order
+
 ## Limites DDD
 
-- **Bounded context:** Edge and shared integration-contract boundary.
-- **Use case:** compose and verify the checkout mutation across Gateway and the
-  Java Transaction owner.
+- **Bounded context:** Edge/shared integration-contract boundary and Java
+  Transaction checkout integration.
+- **Use case:** compose and verify checkout across Gateway and Transaction,
+  including buyer-owned WooCommerce order creation and checkout reads.
 - **Aggregate:** none; this task aligns transport contracts and release proof.
 - **Invariants:** `startCheckout` returns `CheckoutOperation`; an idempotent
-  retry preserves `id` and `orderId`; final order state is read through the
-  federated `Order` entity.
-- **Consistency boundary:** GraphQL request plus the existing terminal SSE
-  event; no new polling or transaction boundary.
-- **Affected ports:** Gateway static subgraph SDL and the Milestone 7 GraphQL
-  acceptance client.
+  retry preserves `id` and `orderId`; checkout queries preserve subject
+  isolation; native WooCommerce checkout records the linked buyer rather than
+  a guest; final order state is read through the federated `Order` entity.
+- **Consistency boundary:** one checkout operation and its native WooCommerce
+  order, synchronized through the existing terminal SSE event.
+- **Affected ports:** Gateway static subgraph SDL, Milestone 7 GraphQL
+  acceptance client, Transaction read repository, Axon query bus, and the
+  WooCommerce GraphQL order port.
 
 ## Fora de escopo
 
-- Changing Java checkout domain behavior or persistence.
+- Changing Java checkout domain behavior or persistence schema.
 - Reintroducing the retired `Order` mutation response.
 - Adding a new synchronization or polling mechanism.
 
@@ -54,6 +75,7 @@ after the refactored topology completes its checkout flows.
 | ID | Suposição | Status | Resolução |
 |---|---|---|---|
 | ASM-129 | The Java runtime SDL is the authoritative checkout response contract. | confirmada | `payment.graphqls` and `OrderWorkflowGraphQlCompatibilityTest` both expose `CheckoutOperation` with `id`, `operationKey`, `status`, `orderId`, `paymentId`, and `errorReason`. |
+| ASM-130 | The existing WPGraphQL Headless Login site-token provider can authenticate a linked buyer without storing or replaying the buyer's password. | confirmada | A live local probe authenticated the Better Auth subject through `SITETOKEN` and resolved WordPress customer database ID 5. |
 
 ## Perguntas em aberto
 

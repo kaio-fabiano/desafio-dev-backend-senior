@@ -38,10 +38,12 @@
 </style>
 <main>
   <h1>Plano de execução — align-milestone-7-checkout-contract</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 13:36 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 13:59 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>1</b> tarefa(s), uma após a outra</div>
-    <div>modo <b>sequencial</b> (escolha do usuário)</div>
+    <div><b>2</b> tarefa(s) em paralelo</div>
+    <div><b>2</b> faixa(s) · <b>1</b> onda(s)</div>
+    <div><b>1</b> sequencial(is)</div>
+    <div>seleção do usuário: <b>T-303, T-304</b></div>
     <div>branch <code>spec/align-milestone-7-checkout-contract</code></div>
   </div>
   
@@ -49,29 +51,54 @@
     <h2>Como executar — via agente</h2>
     <p>Peça ao agente (Codex) para executar o plano. Ele roda:</p>
     <div><code id="cmd">bash .spec/features/align-milestone-7-checkout-contract/executar-tarefas.sh</code></div>
-    <p class="nota">Este arquivo é só visualização. Cada tarefa roda <code>codex exec</code> na árvore principal, uma após a outra, com contexto limpo e modelo/esforço já definidos.
+    <p class="nota">Este arquivo é só visualização. Cada faixa roda <code>codex exec</code> num worktree próprio, com contexto limpo, modelo e esforço já definidos.
     O gate final (verify + audit) roda sozinho; a execução fica em background e, a cada
     1 minuto, o agente posta no chat a <b>tabela de andamento</b>
     (<code>onp-spec resumo align-milestone-7-checkout-contract --tabela</code>) e o
     <b>resumo geral de andamento</b> (<code>onp-spec resumo align-milestone-7-checkout-contract</code>).</p>
   </div>
   
-  
     <section class="onda">
-      <h3>Ordem de execução <small>uma tarefa após a outra, na árvore principal</small></h3>
-      <div class="grade"><div class="faixa">
+      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 — em paralelo, janelas limpas</small></h3>
+      <div class="grade">
+      <div class="faixa">
+        <h4>faixa-1 <small>branch <code>spec/align-milestone-7-checkout-contract-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-align-milestone-7-checkout-contract-faixa-1</code></small></h4>
+        
         <div class="tarefa">
           <span class="tid">T-303</span>
           <span class="ttitulo">Align Gateway and E2E checkout operation shapes</span>
           <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
           <span class="arquivos"><code>libs/contracts/graphql/order-workflow/schema.graphql</code> <code>apps/e2e/src/journey.ts</code> <code>apps/e2e/src/milestone-7.e2e.test.ts</code> <code>test/milestone-7-e2e-contract.test.mjs</code></span>
+        </div>
+      </div>
+      <div class="faixa">
+        <h4>faixa-2 <small>branch <code>spec/align-milestone-7-checkout-contract-faixa-2</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-align-milestone-7-checkout-contract-faixa-2</code></small></h4>
+        
+        <div class="tarefa">
+          <span class="tid">T-304</span>
+          <span class="ttitulo">Register production checkout query handlers deterministically</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/edge/configuration/GraphQlReadConfiguration.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java</code></span>
+        </div>
+      </div></div>
+    </section>
+  
+    <section class="onda">
+      <h3>Sequenciais <small>após as ondas, na árvore principal</small></h3>
+      <div class="grade"><div class="faixa">
+        <div class="tarefa">
+          <span class="tid">T-305</span>
+          <span class="ttitulo">Authenticate native WooCommerce checkout as the linked buyer</span>
+          <span class="meta"><code>gpt-5.6-sol</code> · esforço <b>high</b></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java</code> <code>apps/e2e/src/journey.ts</code> <code>apps/e2e/src/milestone-7.e2e.test.ts</code></span>
         </div></div></div>
     </section>
   <section class="onda">
     <h3>Branches e commits</h3>
     <ol>
       <li>tudo parte da branch de trabalho <code>spec/align-milestone-7-checkout-contract</code></li>
-      <li>as tarefas rodam nela mesma, na ordem; 1 tarefa = 1 commit <code>T-xxx align-milestone-7-checkout-contract: título</code></li>
+      <li>1 faixa = 1 branch + 1 worktree; 1 tarefa = 1 commit <code>T-xxx align-milestone-7-checkout-contract: título</code></li>
+      <li>merge <code>--no-ff</code> por faixa, na ordem; conflito interrompe e pede você</li>
       <li>gate final: <code>onp-spec verify align-milestone-7-checkout-contract</code> + <code>onp-spec audit --ci</code> — exit 0 ou não está pronto</li>
     </ol>
   </section>
