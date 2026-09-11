@@ -50,11 +50,13 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
       url: 'http://identity/graphql',
       capabilities: { bearer: true },
     },
-    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter(), {
+      exchange: async (subject) => `wordpress-${subject}`,
+    }),
     new CaptureFederationResponseUseCase(),
   );
   const headers = new Headers();
-  source.willSendRequest({
+  await source.willSendRequest({
     request: { http: { headers } },
     context: {
       authorization: 'Bearer identity-token',
@@ -67,7 +69,7 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
   assert.equal(headers.get('authorization'), 'Bearer identity-token');
   assert.equal(headers.get('x-authenticated-subject'), null);
   assert.equal(headers.get('x-authenticated-scopes'), null);
-  assert.doesNotThrow(() =>
+  await assert.doesNotReject(() =>
     source.willSendRequest({
       request: { http: { headers: new Headers() } },
       context: undefined,

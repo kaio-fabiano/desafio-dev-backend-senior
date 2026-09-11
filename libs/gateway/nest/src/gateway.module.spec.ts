@@ -38,8 +38,7 @@ describe('gateway federation policies', () => {
       ),
     ).toEqual({
       origin: 'http://wordpress',
-      requestSession: true,
-      responseSession: true,
+      wordpressCredential: true,
     });
     expect(
       GatewayFederationConfiguration.capabilities(
@@ -59,7 +58,9 @@ describe('gateway federation policies', () => {
     const driver = new GatewayFederationConfiguration(
       auth as never,
       config as never,
-      new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+      new PrepareFederationRequestUseCase(new CommerceCookieAdapter(), {
+        exchange: async (subject) => `wordpress-${subject}`,
+      }),
       new CaptureFederationResponseUseCase(),
     ).createGqlOptions();
 

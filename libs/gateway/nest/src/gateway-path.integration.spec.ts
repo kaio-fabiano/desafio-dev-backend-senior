@@ -20,6 +20,8 @@ import { PrepareFederationRequestUseCase } from './application/use-cases/prepare
 import { AuthContextFactory } from './auth/auth-context.factory.ts';
 import { TokenVerifierService } from './auth/token-verifier.service.ts';
 import { AuthenticatedDataSource } from './federation/authenticated-data-source.ts';
+import { GatewayFederationConfiguration } from './federation/gateway-federation.configuration.ts';
+import { GatewayFederationModule } from './federation/gateway-federation.module.ts';
 import { CommerceCookieAdapter } from './infrastructure/http/commerce-cookie.adapter.ts';
 
 const issuer = 'https://identity.marketplace.local/api/auth';
@@ -130,6 +132,121 @@ async function contextFactory(jwksUrl: string) {
   return testingModule.get(AuthContextFactory);
 }
 
+async function wordpressDataSource(url: string) {
+  const testingModule = await Test.createTestingModule({
+    imports: [GatewayFederationModule],
+  })
+    .overrideProvider(ConfigService)
+    .useValue({
+      get: (name: string, fallback?: string) =>
+        ({
+          WORDPRESS_GRAPHQL_URL: url,
+          WPGRAPHQL_SITE_TOKEN: 'site-token',
+        })[name] ?? fallback,
+    })
+    .compile();
+  return {
+    close: () => testingModule.close(),
+    source: new AuthenticatedDataSource(
+      {
+        capabilities: GatewayFederationConfiguration.capabilities(
+          'wordpress',
+          url,
+        ),
+        url,
+      },
+      testingModule.get(PrepareFederationRequestUseCase),
+      testingModule.get(CaptureFederationResponseUseCase),
+    ),
+  };
+}
+
+function wordpressContext(subject: string) {
+  return {
+    authorization: `Bearer oauth-${subject}`,
+    principal: { audience: [audience], scopes: ['cart:write'], subject },
+    requestId: `request-${subject}`,
+    sessionHeaders: {},
+    setResponseHeader: vi.fn(),
+  };
+}
+
+async function wordpressFixture() {
+  const carts = new Map<string, boolean>();
+  const identities: string[] = [];
+  const server = createServer(async (request, response) => {
+    let body = '';
+    for await (const chunk of request) body += chunk;
+    const operation = JSON.parse(body) as {
+      query: string;
+      variables?: { input?: { identity?: string } };
+    };
+    response.setHeader('content-type', 'application/json');
+
+    if (operation.query.includes('LoginGatewayWordPressUser')) {
+      const identity = operation.variables?.input?.identity;
+      if (
+        request.headers['x-wpgraphql-site-token'] !== 'site-token' ||
+        !identity
+      ) {
+        response.end(JSON.stringify({ errors: [{ message: 'Unauthorized' }] }));
+        return;
+      }
+      identities.push(identity);
+      response.end(
+        JSON.stringify({
+          data: { login: { authToken: `wordpress-${identity}` } },
+        }),
+      );
+      return;
+    }
+
+    const subject = request.headers.authorization?.replace(
+      /^Bearer wordpress-/,
+      '',
+    );
+    if (!subject || subject === request.headers.authorization) {
+      response.end(JSON.stringify({ errors: [{ message: 'Unauthorized' }] }));
+      return;
+    }
+    if (operation.query.includes('addToCart')) carts.set(subject, true);
+    response.setHeader('cart-token', 'must-stay-server-side');
+    response.end(
+      JSON.stringify({
+        data: {
+          cart: {
+            contents: {
+              nodes: carts.has(subject) ? [{ key: 'product-1' }] : [],
+            },
+          },
+        },
+      }),
+    );
+  });
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const address = server.address();
+  if (!address || typeof address === 'string') {
+    throw new Error('WordPress fixture did not bind');
+  }
+  return {
+    close: async () => {
+      server.close();
+      await once(server, 'close');
+    },
+    identities,
+    url: `http://127.0.0.1:${address.port}/graphql`,
+  };
+}
+
+async function cartRequest(
+  source: AuthenticatedDataSource,
+  context: ReturnType<typeof wordpressContext>,
+  query: string,
+) {
+  return source.process({ context, request: { query } } as never);
+}
+
 describe('gateway authentication and federation path', () => {
   afterEach(() => {
     vi.unstubAllGlobals();
@@ -199,7 +316,9 @@ describe('gateway authentication and federation path', () => {
           },
           url,
         },
-        new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+        new PrepareFederationRequestUseCase(new CommerceCookieAdapter(), {
+          exchange: async (subject) => `wordpress-${subject}`,
+        }),
         new CaptureFederationResponseUseCase(),
       );
 
@@ -260,5 +379,68 @@ describe('gateway authentication and federation path', () => {
     await expect(
       factory.create(gatewayRequest(token(key, 'outage-key'))),
     ).rejects.toBe(outage);
+  });
+
+  it('AC-357: restores the same native cart from the verified OAuth subject @spec:AC-357', async () => {
+    const wordpress = await wordpressFixture();
+    const gateway = await wordpressDataSource(wordpress.url);
+    const context = wordpressContext('buyer-1');
+
+    try {
+      await cartRequest(
+        gateway.source,
+        context,
+        'mutation Add { addToCart(input: { productId: 1001 }) { cart { contents { nodes { key } } } } }',
+      );
+      const result = await cartRequest(
+        gateway.source,
+        context,
+        'query Cart { cart { contents { nodes { key } } } }',
+      );
+
+      expect(result.data).toEqual({
+        cart: { contents: { nodes: [{ key: 'product-1' }] } },
+      });
+      expect(wordpress.identities).toEqual(['buyer-1', 'buyer-1']);
+      expect(context.setResponseHeader).not.toHaveBeenCalled();
+    } finally {
+      await gateway.close();
+      await wordpress.close();
+    }
+  });
+
+  it('AC-358: isolates native carts by verified OAuth subject @spec:AC-358', async () => {
+    const wordpress = await wordpressFixture();
+    const gateway = await wordpressDataSource(wordpress.url);
+    const buyerOne = wordpressContext('buyer-1');
+    const buyerTwo = wordpressContext('buyer-2');
+
+    try {
+      await cartRequest(
+        gateway.source,
+        buyerOne,
+        'mutation Add { addToCart(input: { productId: 1001 }) { cart { contents { nodes { key } } } } }',
+      );
+      const [ownerCart, otherCart] = await Promise.all([
+        cartRequest(
+          gateway.source,
+          buyerOne,
+          'query OwnerCart { cart { contents { nodes { key } } } }',
+        ),
+        cartRequest(
+          gateway.source,
+          buyerTwo,
+          'query OtherCart { cart { contents { nodes { key } } } }',
+        ),
+      ]);
+
+      expect(ownerCart.data).toEqual({
+        cart: { contents: { nodes: [{ key: 'product-1' }] } },
+      });
+      expect(otherCart.data).toEqual({ cart: { contents: { nodes: [] } } });
+    } finally {
+      await gateway.close();
+      await wordpress.close();
+    }
   });
 });

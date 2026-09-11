@@ -51,7 +51,7 @@ describe('Gateway application orchestration', () => {
     );
   });
 
-  it('prepares and captures only capabilities granted to a federated adapter @spec:AC-265', () => {
+  it('prepares and captures only capabilities granted to a federated adapter @spec:AC-265', async () => {
     const context = new GatewayContext(
       'Bearer access-token',
       { audience: ['gateway'], scopes: [], subject: 'buyer-1' },
@@ -62,14 +62,15 @@ describe('Gateway application orchestration', () => {
         'woocommerce-session': 'session-token',
       },
     );
-    const prepare = new PrepareFederationRequestUseCase({
-      allowlisted: () => 'wp_woocommerce_session_store=session',
-    });
+    const prepare = new PrepareFederationRequestUseCase(
+      { allowlisted: () => 'wp_woocommerce_session_store=session' },
+      { exchange: async (subject) => `wordpress-${subject}` },
+    );
     const capture = new CaptureFederationResponseUseCase();
 
     expect(
       Object.fromEntries(
-        prepare.execute(
+        await prepare.execute(
           { bearer: true, origin: 'http://wordpress', requestSession: true },
           context,
         ),
@@ -120,5 +121,16 @@ describe('Gateway application orchestration', () => {
       value: { data: { orderStatusChanged: { status: 'PAID' } } },
     });
     expect(subscribe).toHaveBeenCalledWith(request, context);
+  });
+
+  it('fails closed before a WordPress request without a verified subject', async () => {
+    const prepare = new PrepareFederationRequestUseCase(
+      { allowlisted: () => undefined },
+      { exchange: vi.fn() },
+    );
+
+    await expect(
+      prepare.execute({ wordpressCredential: true }, undefined),
+    ).rejects.toThrow('Unauthorized');
   });
 });
