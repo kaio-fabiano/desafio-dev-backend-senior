@@ -19,6 +19,7 @@ export type AcceptanceProof = {
     claims: JsonObject;
     gatewayAccepted: boolean;
     mcpAccepted: boolean;
+    nativeOrderIds: number[];
   };
   card: {
     subscriptionOpenedBeforeCheckout: boolean;
@@ -619,6 +620,63 @@ async function setProductStock(
   );
 }
 
+async function linkedBuyerOrderIds(
+  environment: Milestone7Environment,
+  subject: string,
+) {
+  const request = async (
+    query: string,
+    variables: JsonObject,
+    authorization?: string,
+  ) => {
+    const response = await fetch(`${environment.wordpressUrl}/graphql`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        origin: 'http://wordpress',
+        ...(authorization
+          ? { authorization: `Bearer ${authorization}` }
+          : { 'x-wpgraphql-site-token': environment.wordpressSiteToken }),
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+    const payload = (await response.json()) as {
+      data?: JsonObject;
+      errors?: unknown[];
+    };
+    if (!response.ok || payload.errors?.length || !payload.data) {
+      throw new Error(
+        `Linked buyer WooGraphQL read failed: ${JSON.stringify(payload)}`,
+      );
+    }
+    return payload.data;
+  };
+  const authentication = await request(
+    `mutation LoginLinkedBuyer($input: LoginInput!) {
+      login(input: $input) { authToken }
+    }`,
+    { input: { identity: subject, provider: 'SITETOKEN' } },
+  );
+  const authToken = (authentication.login as { authToken?: string } | undefined)
+    ?.authToken;
+  if (!authToken) throw new Error('Linked buyer WooGraphQL login failed');
+  const result = await request(
+    `query LinkedBuyerOrders {
+      customer { orders(first: 20) { nodes { databaseId } } }
+    }`,
+    {},
+    authToken,
+  );
+  const customer = result.customer as
+    | { orders?: { nodes?: Array<{ databaseId?: number }> } }
+    | undefined;
+  return (
+    customer?.orders?.nodes?.flatMap(({ databaseId }) =>
+      databaseId === undefined ? [] : [databaseId],
+    ) ?? []
+  );
+}
+
 export async function runAcceptanceJourney(
   environment: Milestone7Environment,
 ): Promise<AcceptanceProof> {
@@ -723,6 +781,10 @@ export async function runAcceptanceJourney(
     accessToken,
     commerceSession,
   );
+  const nativeOrderIds = await linkedBuyerOrderIds(
+    environment,
+    String(buyer.id),
+  );
 
   const gatewayOnly = await issueToken(
     environment,
@@ -764,6 +826,7 @@ export async function runAcceptanceJourney(
       claims,
       gatewayAccepted: gatewayIdentity.id === buyer.id,
       mcpAccepted: mcpIdentity.id === buyer.id,
+      nativeOrderIds,
     },
     card: {
       subscriptionOpenedBeforeCheckout: card.subscriptionOpenedBeforeCheckout,

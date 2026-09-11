@@ -107,6 +107,19 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     }
   });
 
+  it('authenticates native WooCommerce checkout as the linked buyer @spec:AC-354', () => {
+    expect(proof.identity.nativeOrderIds).toEqual(
+      expect.arrayContaining([
+        Number(proof.card.checkout.orderId),
+        Number(proof.pix.checkout.orderId),
+      ]),
+    );
+    expect(proof.card.meOrder).toMatchObject({
+      wooOrderId: proof.card.checkout.orderId,
+      workflow: { state: 'COMPLETED' },
+    });
+  });
+
   it('compensates an authorized Card payment after inventory failure @spec:AC-114', () => {
     expect(proof.compensation.event).toMatchObject({
       operationKey: 'milestone-7-compensation',
