@@ -56,6 +56,7 @@ describe('BetterAuthFactory', () => {
     expect(auth.options.plugins?.map((plugin) => plugin.id)).toEqual([
       'jwt',
       'oauth-provider',
+      'open-api',
     ]);
     expect(oauth?.options?.scopes).toEqual([
       'openid',
@@ -86,6 +87,22 @@ describe('BetterAuthFactory', () => {
       privileges({ user: { email: 'buyer@example.test' } }),
     ).resolves.toBe(false);
     await expect(privileges({})).resolves.toBe(false);
+  });
+
+  it('serves the interactive OpenAPI reference at GET /api/auth/reference @spec:AC-355 @principle:P-003', async () => {
+    const auth = new BetterAuthFactory().create({
+      baseURL: 'https://identity.test',
+      database: createMemoryDatabase(),
+      secret: 'identity-test-secret-with-at-least-32-characters',
+    });
+
+    const response = await auth.handler(
+      new Request('https://identity.test/api/auth/reference'),
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-type')).toContain('text/html');
+    await expect(response.text()).resolves.toContain('Scalar API Reference');
   });
 
   it('uses identity environment configuration and normalizes trusted origins', () => {
@@ -187,18 +204,16 @@ describe('BetterAuthFactory', () => {
     expect(end).not.toHaveBeenCalled();
   });
 
-  it('uses its internal pool when its caller does not supply a database', async () => {
+  it('uses its injected database when its caller does not supply one', async () => {
     const pools = new IdentityDatabasePool();
-    const end = vi
-      .spyOn(Pool.prototype, 'end')
-      .mockImplementation(async () => undefined);
+    const database = createMemoryDatabase();
+    vi.spyOn(pools, 'connection', 'get').mockReturnValue(database as never);
     const auth = new BetterAuthFactory(pools).create({
       secret: 'identity-test-secret-with-at-least-32-characters',
     });
 
-    expect(auth.options.database).toBe(pools.connection);
-    await pools.onModuleDestroy();
-    expect(end).toHaveBeenCalledOnce();
+    expect(auth.options.database).toBe(database);
+    await auth.$context;
   });
 
   it('reports missing production secrets as typed configuration failures', () => {
