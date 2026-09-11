@@ -69,8 +69,7 @@
 - Esforço: baixo
 - Notas: Depends on T-297. Red: force failure between projection and outbox and prove one rollback/commit boundary. Green: add one outer Spring `@Transactional` infrastructure event handler, make both delegated JPA stores join with REQUIRED, and register only the wrapper. Keep only the explicit version-1 `transaction.order-received.v1` integration mapping; never publish all Axon events. Refactor with focused PostgreSQL tests green.
 
-## T-299 — Prove existing outbox relay and consumer delivery guarantees [pendente]
-
+## T-299 — Prove existing outbox relay and consumer delivery guarantees [concluida]
 - Refs: US-155, AC-346, AC-347, US-156, AC-350
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/ReliableAmqpConsumer.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/OutboxRelay.java, apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/JpaOutboxStore.java, apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java
 - Modelo: gpt-5.6-luna
