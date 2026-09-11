@@ -1,5 +1,6 @@
 package dev.desafio.transaction.inventory.infrastructure;
 
+import dev.desafio.transaction.configuration.ApplicationClockConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.inventory.application.InventoryRepository;
 import dev.desafio.transaction.inventory.application.event.InventoryOutbox;
@@ -202,7 +203,7 @@ class InventoryPostgresIntegrationTest {
     })
     @EntityScan("dev.desafio.transaction.inventory")
     @EnableJpaRepositories("dev.desafio.transaction.inventory")
-    @Import(InventoryConfiguration.class)
+    @Import({InventoryConfiguration.class, ApplicationClockConfiguration.class})
     static class InventoryJpaTestApplication {}
 
     private static Inventory.ReservationRequested request(String operationKey) {

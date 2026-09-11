@@ -11,7 +11,7 @@ import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "InventoryIntegrationOutboxEntity")
 @Table(name = "amqp_outbox", schema = "inventory")
 public class InventoryAmqpOutboxEntity {
     @Id

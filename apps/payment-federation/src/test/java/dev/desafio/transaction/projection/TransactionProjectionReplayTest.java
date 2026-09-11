@@ -13,6 +13,7 @@ import dev.desafio.transaction.inventory.domain.StockItem;
 import dev.desafio.transaction.inventory.domain.event.InventoryCommittedEvent;
 import dev.desafio.transaction.inventory.domain.event.InventoryReservedEvent;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentProjection;
+import dev.desafio.transaction.payment.application.PaymentProjection;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentViewRepository;
 import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentRecordRepository;
 import dev.desafio.transaction.payment.application.event.PaymentProjectionHandler;
@@ -54,6 +55,7 @@ import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfigu
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -244,11 +246,11 @@ class TransactionProjectionReplayTest {
     private void insertCheckout() {
         jdbc.update("""
             insert into transaction.checkout_operation (
-                transaction_id, operation_key, subject, command_hash, woo_reference,
-                woo_order_id, items, amount, currency, status
-            ) values (?, ?, ?, ?, ?, ?, cast(? as jsonb), ?, ?, 'COMPLETED')
+                operation_id, operation_key, subject, command_hash, woo_reference,
+                woo_order_id, items, amount, currency, payment_id, status
+            ) values (?, ?, ?, ?, ?, ?, cast(? as jsonb), ?, ?, ?, 'COMPLETED')
             """, "transaction-249", "operation-249", "buyer-249", "a".repeat(64),
-            "woo-reference-249", "42", "[]", new BigDecimal("19.90"), "BRL");
+            "woo-reference-249", "42", "[]", new BigDecimal("19.90"), "BRL", "payment-249");
     }
 
     private TransactionEvent outcome(
@@ -292,10 +294,8 @@ class TransactionProjectionReplayTest {
         );
     }
 
-    private static JpaPaymentProjection paymentProjection() {
-        return new JpaPaymentProjection(
-            persistence.getBean(SpringDataPaymentRecordRepository.class)
-        );
+    private static PaymentProjection paymentProjection() {
+        return persistence.getBean(PaymentProjection.class);
     }
 
     private static JpaPaymentViewRepository paymentViews() {
@@ -331,7 +331,12 @@ class TransactionProjectionReplayTest {
     })
     @EntityScan("dev.desafio.transaction")
     @EnableJpaRepositories("dev.desafio.transaction")
-    static class ProjectionPersistenceTestApplication {}
+    static class ProjectionPersistenceTestApplication {
+        @Bean
+        PaymentProjection paymentProjection(SpringDataPaymentRecordRepository payments) {
+            return new JpaPaymentProjection(payments);
+        }
+    }
 
     private record History(
         TransactionEvent transaction,

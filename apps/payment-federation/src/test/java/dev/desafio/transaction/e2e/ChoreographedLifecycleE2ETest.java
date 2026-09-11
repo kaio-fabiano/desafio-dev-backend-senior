@@ -25,6 +25,7 @@ import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentEffectLedge
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentProjection;
 import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentEffectRepository;
 import dev.desafio.transaction.payment.adapter.persistence.SpringDataPaymentRecordRepository;
+import dev.desafio.transaction.payment.application.PaymentProjection;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.axon.PaymentAggregate;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
@@ -80,6 +81,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -567,10 +569,8 @@ class ChoreographedLifecycleE2ETest {
             ));
     }
 
-    private static JpaPaymentProjection paymentProjection() {
-        return new JpaPaymentProjection(
-            persistence.getBean(SpringDataPaymentRecordRepository.class)
-        );
+    private static PaymentProjection paymentProjection() {
+        return persistence.getBean(PaymentProjection.class);
     }
 
     private static JpaPaymentEffectLedger paymentEffects() {
@@ -661,7 +661,12 @@ class ChoreographedLifecycleE2ETest {
         SpringDataPaymentRecordRepository.class,
         dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpOutboxJpaRepository.class
     })
-    static class ChoreographyPersistenceTestApplication {}
+    static class ChoreographyPersistenceTestApplication {
+        @Bean
+        PaymentProjection paymentProjection(SpringDataPaymentRecordRepository payments) {
+            return new JpaPaymentProjection(payments);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     private static ObjectProvider<InventoryService> legacyInventory() {

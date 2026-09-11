@@ -84,6 +84,7 @@ class PostgresMigrationIntegrationTest {
                 "payment.payment_inbox",
                 "payment.provider_notification_inbox",
                 "inventory.inventory_operation",
+                "inventory.inventory_reservation_projection",
                 "inventory.inventory_outbox",
                 "inventory.inventory_inbox",
                 "transaction.checkout_operation",
