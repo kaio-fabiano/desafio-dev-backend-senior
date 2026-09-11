@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano organize-payment-federation-structure` em 2026-09-11 06:58
+# executar-tarefas.sh — gerado por `onp-spec plano organize-payment-federation-structure` em 2026-09-11 11:28
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-organize-payment-federation-structure-mtwlujjq'
+RUN_ID='desafio-dev-backend-senior-organize-payment-federation-structure-mtwvhb3v'
 FEATURE='organize-payment-federation-structure'
 BASE_BRANCH='spec/organize-payment-federation-structure'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,7 +168,7 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-276 T-280 T-281 ──
+# ── faixa-1: T-276 T-280 T-282 T-281 ──
 executar_faixa_1() {
   local WT="$WT_BASE-faixa-1"
   preparar_worktree 'faixa-1' 'spec/organize-payment-federation-structure-faixa-1' "$WT" || return 1
@@ -206,6 +206,21 @@ Regras inegociáveis:
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low &&
+    rodar_tarefa 'faixa-1' 'T-282' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
+Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
+
+Sua tarefa (somente ela):
+T-282 — "Place CQRS messages in their owning layers"
+  critérios/refs: AC-317 (Framework metadata has a narrow explicit allowance), AC-321 (Source paths match Java package declarations), AC-322 (Public behavior and quality gates remain green)
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event, apps/payment-federation/src/test/java/dev/desafio/transaction/payment, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction, test/organize-payment-federation-structure.test.mjs
+  mensagem de commit: "T-282 organize-payment-federation-structure: Place CQRS messages in their owning layers"
+
+Regras inegociáveis:
+- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
+- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
+- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
+- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
+- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low &&
     rodar_tarefa 'faixa-1' 'T-281' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
 
@@ -224,7 +239,7 @@ Regras inegociáveis:
   ) >> "$LOG_DIR/faixa-1.log" 2>&1
   local st=$?
   mesclar_faixa 'faixa-1' 'spec/organize-payment-federation-structure-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-276 T-280 T-281
+  marcar_concluidas T-276 T-280 T-282 T-281
   return 0
 }
 
@@ -386,7 +401,7 @@ executar_tudo() {
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-276, T-280, T-281"
+  echo "  faixa-1  onda 1  T-276, T-280, T-282, T-281"
   echo "  faixa-2  onda 1  T-277"
   echo "  faixa-3  onda 1  T-278"
   echo "  faixa-4  onda 1  T-279"

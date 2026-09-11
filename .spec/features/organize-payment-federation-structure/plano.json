@@ -1,5 +1,5 @@
 {
-  "runId": "desafio-dev-backend-senior-organize-payment-federation-structure-mtwlujjq",
+  "runId": "desafio-dev-backend-senior-organize-payment-federation-structure-mtwvhb3v",
   "feature": "organize-payment-federation-structure",
   "agent": "codex",
   "modo": "paralelo",
@@ -9,11 +9,12 @@
     "T-278",
     "T-279",
     "T-280",
+    "T-282",
     "T-281"
   ],
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-09-11 06:58",
+  "geradoEm": "2026-09-11 11:28",
   "branchTrabalho": "spec/organize-payment-federation-structure",
   "baseDir": ".spec/features/organize-payment-federation-structure",
   "specDir": ".spec",
@@ -66,6 +67,30 @@
           ],
           "refs": [
             "US-148",
+            "AC-321",
+            "AC-322"
+          ]
+        },
+        {
+          "id": "T-282",
+          "titulo": "Place CQRS messages in their owning layers",
+          "modelo": "gpt-5.6-luna",
+          "esforco": "low",
+          "arquivos": [
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event",
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/payment",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction",
+            "test/organize-payment-federation-structure.test.mjs"
+          ],
+          "refs": [
+            "US-147",
+            "AC-317",
             "AC-321",
             "AC-322"
           ]

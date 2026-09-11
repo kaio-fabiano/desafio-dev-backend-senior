@@ -1,12 +1,12 @@
 # Plano de execução — organize-payment-federation-structure
 
-> gerado por `onp-spec plano` em 2026-09-11 06:58 — NÃO edite à mão;
-> mudou tasks.md ou a config? Regenere: `onp-spec plano organize-payment-federation-structure --paralelizar T-276,T-277,T-278,T-279,T-280,T-281 --modelo gpt-5.6-luna --esforco low`
+> gerado por `onp-spec plano` em 2026-09-11 11:28 — NÃO edite à mão;
+> mudou tasks.md ou a config? Regenere: `onp-spec plano organize-payment-federation-structure --paralelizar T-276,T-277,T-278,T-279,T-280,T-282,T-281 --modelo gpt-5.6-luna --esforco low`
 
 ## Resumo — o que vai acontecer
 
-- **6 tarefa(s) pendente(s)**: 6 em 4 faixa(s) paralela(s) + 0 sequencial(is)
-- **seleção do usuário**: paralelizar só T-276, T-277, T-278, T-279, T-280, T-281 — as demais rodam uma após a outra, ao final
+- **7 tarefa(s) pendente(s)**: 7 em 4 faixa(s) paralela(s) + 0 sequencial(is)
+- **seleção do usuário**: paralelizar só T-276, T-277, T-278, T-279, T-280, T-282, T-281 — as demais rodam uma após a outra, ao final
 - **1 faixa = 1 worktree + 1 branch + 1 janela de contexto limpa** — faixas não compartilham nenhum arquivo entre si
 - prefere outra seleção ou uma após a outra? Regenere com `onp-spec plano organize-payment-federation-structure --paralelizar T-xxx,T-yyy` ou `--sequencial`
 - **custo travado pelo usuário**: modelo `gpt-5.6-luna` · esforço `low` em TODAS as tarefas (vence tasks.md e config)
@@ -22,6 +22,7 @@
 |---|---|---|---|---|
 | T-276 | Codify the Java architecture allowance and failing structure gates | `gpt-5.6-luna` | low | `AGENTS.md`, `docs/domain/context-map.md`, `apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java`, `test/organize-payment-federation-structure.test.mjs` |
 | T-280 | Align test filesystem paths with declared packages | `gpt-5.6-luna` | low | `apps/payment-federation/src/test/java/dev/desafio/payment`, `apps/payment-federation/src/test/java/dev/desafio/transaction`, `test/organize-payment-federation-structure.test.mjs` |
+| T-282 | Place CQRS messages in their owning layers | `gpt-5.6-luna` | low | `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon`, `apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event`, `apps/payment-federation/src/test/java/dev/desafio/transaction/payment`, `apps/payment-federation/src/test/java/dev/desafio/transaction/inventory`, `apps/payment-federation/src/test/java/dev/desafio/transaction/transaction`, `test/organize-payment-federation-structure.test.mjs` |
 | T-281 | Integrate structure changes and close all verification gates | `gpt-5.6-luna` | low | `apps/payment-federation`, `test/organize-payment-federation-structure.test.mjs`, `.spec/features/organize-payment-federation-structure`, `.spec/verification/organize-payment-federation-structure.json`, `docs/domain/context-map.md` |
 
 #### faixa-2 — branch `spec/organize-payment-federation-structure-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-2`

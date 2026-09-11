@@ -38,12 +38,12 @@
 </style>
 <main>
   <h1>Plano de execução — organize-payment-federation-structure</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 06:58 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 11:28 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>6</b> tarefa(s) em paralelo</div>
+    <div><b>7</b> tarefa(s) em paralelo</div>
     <div><b>4</b> faixa(s) · <b>1</b> onda(s)</div>
     <div><b>0</b> sequencial(is)</div>
-    <div>seleção do usuário: <b>T-276, T-277, T-278, T-279, T-280, T-281</b></div>
+    <div>seleção do usuário: <b>T-276, T-277, T-278, T-279, T-280, T-282, T-281</b></div>
     <div>branch <code>spec/organize-payment-federation-structure</code></div>
   </div>
   
@@ -75,6 +75,12 @@
           <span class="ttitulo">Align test filesystem paths with declared packages</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
           <span class="arquivos"><code>apps/payment-federation/src/test/java/dev/desafio/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
+        </div>
+        <div class="tarefa">
+          <span class="tid">T-282</span>
+          <span class="ttitulo">Place CQRS messages in their owning layers</span>
+          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
+          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
         </div>
         <div class="tarefa">
           <span class="tid">T-281</span>
