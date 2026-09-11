@@ -189,7 +189,7 @@ test('Clean-start migration blocks legacy rows and remains restartable @spec:AC-
   assert.match(xml, /Any current or historical legacy row blocks Java ownership/);
 });
 
-test('Cutover keeps Java as the sole compatible GraphQL, SSE, and AMQP owner @spec:AC-285 @spec:AC-287 @spec:AC-288 @spec:AC-289 @spec:AC-291 @spec:AC-293 @spec:AC-229 @spec:AC-243', async () => {
+test('Cutover keeps Java as the sole compatible GraphQL, SSE, and AMQP owner @spec:AC-285 @spec:AC-287 @spec:AC-288 @spec:AC-289 @spec:AC-291 @spec:AC-293 @spec:AC-229 @spec:AC-243 @spec:AC-316', async () => {
   const [compose, environment, gateway, checkout, woo, projection, graphql, subscription, amqp] =
     await Promise.all([
       readFile('compose.yaml', 'utf8'),
