@@ -1,10 +1,10 @@
 package dev.desafio.transaction.payment.application;
 
-import dev.desafio.transaction.payment.application.event.PaymentApproved;
-import dev.desafio.transaction.payment.application.event.PaymentPending;
-import dev.desafio.transaction.payment.application.event.PaymentRefunded;
-import dev.desafio.transaction.payment.application.event.PaymentRejected;
-import dev.desafio.transaction.payment.application.event.PaymentRequested;
+import dev.desafio.transaction.payment.domain.event.PaymentApproved;
+import dev.desafio.transaction.payment.domain.event.PaymentPending;
+import dev.desafio.transaction.payment.domain.event.PaymentRefunded;
+import dev.desafio.transaction.payment.domain.event.PaymentRejected;
+import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 
 public interface PaymentProjection {
     void project(PaymentRequested event);

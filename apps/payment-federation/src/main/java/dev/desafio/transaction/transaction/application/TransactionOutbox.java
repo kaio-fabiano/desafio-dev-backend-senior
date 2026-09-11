@@ -1,6 +1,6 @@
 package dev.desafio.transaction.transaction.application;
 
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 
 @FunctionalInterface
 public interface TransactionOutbox {

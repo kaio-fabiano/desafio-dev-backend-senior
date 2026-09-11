@@ -58,3 +58,18 @@
 - Do not silently bypass, weaken, or create exceptions to the contract. Any
   exception must be narrow, dedicated to the documented outer-layer artifact,
   and explicitly recorded in the contract and review evidence.
+
+### Payment Federation Java allowance
+
+The Payment Federation architecture gate permits only declarative Axon
+metadata in Domain for aggregate and domain-event descriptions. Application
+may use the approved Axon CQRS/reactive primitives and discovery annotations.
+Commands belong to Application and domain events belong to Domain. JPA,
+GraphQL, AMQP, HTTP, configuration, gateways, buses, and vendor SDKs remain
+outer-layer concerns. Edge owns cross-context GraphQL composition; Transaction
+owns checkout dispatch and checkout application types. Spring composition lives
+in explicit `configuration` packages, with one application `Clock` and direct
+federation configuration rather than a mutating `BeanPostProcessor`.
+
+The Java structure gate also rejects retired Payment/Inventory execution paths
+and compares every Java source path with its declared package.

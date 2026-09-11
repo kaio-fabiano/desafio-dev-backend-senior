@@ -1,4 +1,4 @@
-package dev.desafio.transaction.transaction.application.event;
+package dev.desafio.transaction.transaction.domain.event;
 
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.domain.Transaction;

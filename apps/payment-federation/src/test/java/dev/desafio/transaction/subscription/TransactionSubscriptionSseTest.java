@@ -1,6 +1,6 @@
 package dev.desafio.transaction.subscription;
 
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.application.query.CheckoutOperationView;
 import dev.desafio.transaction.transaction.application.query.TransactionReadRepository;
 import dev.desafio.transaction.transaction.application.query.TransactionView;

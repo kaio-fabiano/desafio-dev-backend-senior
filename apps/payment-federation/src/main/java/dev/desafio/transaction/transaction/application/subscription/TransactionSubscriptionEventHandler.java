@@ -1,6 +1,6 @@
 package dev.desafio.transaction.transaction.application.subscription;
 
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
 import org.axonframework.messaging.core.annotation.Namespace;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;

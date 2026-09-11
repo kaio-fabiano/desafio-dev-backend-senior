@@ -1,4 +1,4 @@
-package dev.desafio.transaction.payment.application.event;
+package dev.desafio.transaction.payment.domain.event;
 
 import org.axonframework.eventsourcing.annotation.EventTag;
 import org.axonframework.messaging.eventhandling.annotation.Event;

@@ -2,11 +2,11 @@ package dev.desafio.transaction.transaction.adapter.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
 import dev.desafio.transaction.transaction.application.checkout.CheckoutIdempotencyConflictException;
 import dev.desafio.transaction.transaction.application.checkout.CheckoutOperationId;
 import dev.desafio.transaction.transaction.application.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.application.checkout.WooCommerceOrderPort;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterAll;

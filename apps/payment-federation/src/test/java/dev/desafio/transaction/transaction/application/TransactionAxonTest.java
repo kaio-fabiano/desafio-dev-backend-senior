@@ -5,7 +5,7 @@ import dev.desafio.transaction.transaction.application.command.RecordTransaction
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.application.command.StartTransactionHandler;
 import dev.desafio.transaction.transaction.application.command.TransactionEventSourcedEntity;
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import org.axonframework.eventsourcing.configuration.EventSourcedEntityModule;
 import org.axonframework.eventsourcing.configuration.EventSourcingConfigurer;

@@ -2,6 +2,7 @@ package dev.desafio.transaction.transaction.application.event;
 
 import dev.desafio.transaction.transaction.application.TransactionOutbox;
 import dev.desafio.transaction.transaction.application.TransactionViewStore;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 
 import java.util.Objects;

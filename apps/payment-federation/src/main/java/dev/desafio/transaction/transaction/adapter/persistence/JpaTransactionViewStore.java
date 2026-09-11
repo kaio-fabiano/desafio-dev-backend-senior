@@ -1,7 +1,7 @@
 package dev.desafio.transaction.transaction.adapter.persistence;
 
 import dev.desafio.transaction.transaction.application.TransactionViewStore;
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.application.query.TransactionView;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.PlatformTransactionManager;

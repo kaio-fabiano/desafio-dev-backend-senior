@@ -1,11 +1,11 @@
 package dev.desafio.transaction.payment.application.axon;
 
 import dev.desafio.transaction.payment.application.PaymentProjection;
-import dev.desafio.transaction.payment.application.event.PaymentApproved;
-import dev.desafio.transaction.payment.application.event.PaymentPending;
-import dev.desafio.transaction.payment.application.event.PaymentRefunded;
-import dev.desafio.transaction.payment.application.event.PaymentRejected;
-import dev.desafio.transaction.payment.application.event.PaymentRequested;
+import dev.desafio.transaction.payment.domain.event.PaymentApproved;
+import dev.desafio.transaction.payment.domain.event.PaymentPending;
+import dev.desafio.transaction.payment.domain.event.PaymentRefunded;
+import dev.desafio.transaction.payment.domain.event.PaymentRejected;
+import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 
 public final class PaymentProjectionHandler {

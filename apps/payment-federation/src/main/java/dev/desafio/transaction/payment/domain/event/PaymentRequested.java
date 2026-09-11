@@ -1,4 +1,4 @@
-package dev.desafio.transaction.payment.application.event;
+package dev.desafio.transaction.payment.domain.event;
 
 import dev.desafio.transaction.payment.application.command.RequestPayment;
 import dev.desafio.transaction.payment.domain.Payment;
