@@ -1,7 +1,6 @@
 package dev.desafio.transaction.payment.configuration;
 
 import dev.desafio.transaction.payment.adapter.mercadopago.MercadoPagoPaymentProvider;
-import dev.desafio.transaction.payment.adapter.messaging.PaymentConsumer;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentRepository;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentViewRepository;
 import dev.desafio.transaction.payment.adapter.persistence.JpaProviderNotificationRepository;
@@ -80,12 +79,6 @@ public class PaymentConfiguration {
     @ConditionalOnBean(PaymentRepository.class)
     PaymentHandler paymentHandler(PaymentRepository repository, PaymentProvider provider) {
         return new PaymentHandler(repository, provider);
-    }
-
-    @Bean
-    @ConditionalOnBean(PaymentHandler.class)
-    PaymentConsumer paymentConsumer(PaymentHandler paymentHandler) {
-        return new PaymentConsumer(paymentHandler);
     }
 
     @Bean
