@@ -62,8 +62,7 @@
 - Esforço: baixo
 - Notas: Depends on T-296 and consumes, but does not redesign, the separate provider-effect recovery contract. Red: simulate a lost local result and capture two provider requests. Green only if needed: preserve deterministic Transaction ID, `payment:<operationId>`, `operationKey:payment`, and the existing `X-Idempotency-Key`; both attempts must carry the identical key and represent one logical payment. Do not couple domain to the provider SDK or change unrelated payment recovery.
 
-## T-298 — Commit Transaction projection and integration outbox atomically [pendente]
-
+## T-298 — Commit Transaction projection and integration outbox atomically [concluida]
 - Refs: US-155, AC-345
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event/TransactionEventHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionViewStore.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionalTransactionEventHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java
 - Modelo: gpt-5.6-luna
