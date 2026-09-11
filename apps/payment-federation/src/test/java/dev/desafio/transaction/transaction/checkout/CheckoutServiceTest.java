@@ -58,7 +58,7 @@ class CheckoutServiceTest {
         var started = new AtomicReference<StartTransaction>();
         var service = service(new MemoryCheckoutRepository(), request -> ORDER, command -> {
             started.set(command);
-            return command.transactionId();
+            return CompletableFuture.completedFuture(command.transactionId());
         });
 
         service.checkout(COMMAND);
@@ -69,7 +69,7 @@ class CheckoutServiceTest {
     }
 
     @Test
-    @DisplayName("Concurrent identical checkout observes one Transaction and one Woo order @spec:AC-285 @spec:AC-229 @spec:AC-316")
+    @DisplayName("Concurrent identical checkout observes one Transaction and one Woo order @spec:AC-335 @spec:AC-339")
     void concurrentIdenticalCheckoutObservesOneTransactionAndOneWooOrder() throws Exception {
         var repository = new MemoryCheckoutRepository();
         var createStarted = new CountDownLatch(1);
@@ -92,7 +92,7 @@ class CheckoutServiceTest {
         var dispatches = new AtomicInteger();
         var service = service(repository, woo, command -> {
             dispatches.incrementAndGet();
-            return command.transactionId();
+            return CompletableFuture.completedFuture(command.transactionId());
         });
 
         var first = CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
@@ -100,16 +100,16 @@ class CheckoutServiceTest {
         var second = CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
         releaseCreation.countDown();
 
-        assertEquals(first.get(2, TimeUnit.SECONDS), second.get(2, TimeUnit.SECONDS));
+        assertEquals(first.get(2, TimeUnit.SECONDS).operationId(), second.get(2, TimeUnit.SECONDS).operationId());
         assertEquals(1, creations.get());
         assertEquals(1, dispatches.get());
     }
 
     @Test
-    @DisplayName("Checkout credential retries conflict deterministically and bound a busy lease wait @spec:AC-285 @spec:AC-229 @spec:AC-315 @spec:AC-316")
-    void checkoutConflictsDeterministicallyAndBoundsABusyLeaseWait() {
+    @DisplayName("Checkout credential retries conflict deterministically without side effects @spec:AC-334")
+    void checkoutConflictsDeterministicallyWithoutSideEffects() {
         var repository = new MemoryCheckoutRepository();
-        var service = service(repository, request -> ORDER, command -> command.transactionId());
+        var service = service(repository, request -> ORDER, command -> CompletableFuture.completedFuture(command.transactionId()));
         service.checkout(COMMAND);
 
         assertThrows(
@@ -119,19 +119,10 @@ class CheckoutServiceTest {
             ))
         );
 
-        var busyRepository = new MemoryCheckoutRepository();
-        busyRepository.alwaysBusy = true;
-        var started = System.nanoTime();
-        assertThrows(CheckoutBusyException.class, () -> service(
-            busyRepository,
-            request -> ORDER,
-            command -> command.transactionId()
-        ).checkout(COMMAND));
-        assertTrue(Duration.ofNanos(System.nanoTime() - started).compareTo(Duration.ofSeconds(1)) < 0);
     }
 
     @Test
-    @DisplayName("Ambiguous Woo success is reconciled before checkout retries creation @spec:AC-285 @spec:AC-229 @spec:AC-243 @spec:AC-316")
+    @DisplayName("Ambiguous Woo success is reconciled before checkout retries creation @spec:AC-341")
     void ambiguousWooSuccessIsReconciledBeforeCheckoutRetriesCreation() {
         var repository = new MemoryCheckoutRepository();
         var creations = new AtomicInteger();
@@ -147,7 +138,7 @@ class CheckoutServiceTest {
                 return ORDER;
             }
         };
-        var service = service(repository, woo, command -> command.transactionId());
+        var service = service(repository, woo, command -> CompletableFuture.completedFuture(command.transactionId()));
 
         assertThrows(WooCommerceOrderPort.AmbiguousResponseException.class, () -> service.checkout(COMMAND));
         var result = service.checkout(COMMAND);
@@ -160,14 +151,13 @@ class CheckoutServiceTest {
     @Test
     @DisplayName("Checkout identity is deterministic and scoped by subject and operation key @spec:AC-333")
     void checkoutIdentityIsDeterministicAndScopedBySubjectAndOperationKey() {
-        var first = service(new MemoryCheckoutRepository(), request -> ORDER, command -> command.transactionId())
+        var first = service(new MemoryCheckoutRepository(), request -> ORDER, command -> CompletableFuture.completedFuture(command.transactionId()))
             .checkout(COMMAND);
-        var otherSubject = service(new MemoryCheckoutRepository(), request -> ORDER, command -> command.transactionId())
+        var otherSubject = service(new MemoryCheckoutRepository(), request -> ORDER, command -> CompletableFuture.completedFuture(command.transactionId()))
             .checkout(new CheckoutCommand("buyer-2", "operation-1", "CARD", "buyer@example.test", "provider-token", "visa"));
 
-        assertEquals(first.transactionId(), service(new MemoryCheckoutRepository(), request -> ORDER, command -> command.transactionId())
-            .checkout(COMMAND).transactionId());
-        assertTrue(!first.transactionId().equals(otherSubject.transactionId()), "different subjects must not share checkout identity");
+        assertEquals(first.operationId(), service(new MemoryCheckoutRepository(), request -> ORDER, command -> CompletableFuture.completedFuture(command.transactionId())).checkout(COMMAND).operationId());
+        assertEquals(CheckoutOperationId.from("buyer-2", "operation-1").value(), otherSubject.operationId());
     }
 
     @Test
@@ -193,7 +183,7 @@ class CheckoutServiceTest {
     @DisplayName("The same operation key may be used by different subjects @spec:AC-335")
     void operationKeyIsScopedBySubject() {
         var repository = new MemoryCheckoutRepository();
-        var service = service(repository, request -> ORDER, command -> command.transactionId());
+        var service = service(repository, request -> ORDER, command -> CompletableFuture.completedFuture(command.transactionId()));
 
         service.checkout(COMMAND);
 
@@ -219,17 +209,59 @@ class CheckoutServiceTest {
                 return ORDER;
             }
         };
-        var service = service(repository, woo, command -> command.transactionId());
+        var service = service(repository, woo, command -> CompletableFuture.completedFuture(command.transactionId()));
         CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
         assertTrue(creationStarted.await(2, TimeUnit.SECONDS));
 
         var duplicate = CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
 
         try {
-            assertTrue(duplicate.isDone(), "duplicate must return current durable state promptly");
+            assertTrue(duplicate.get(1, TimeUnit.SECONDS) != null, "duplicate must return current durable state promptly");
         } finally {
             releaseCreation.countDown();
         }
+    }
+
+    @Test
+    @DisplayName("Woo creation is requested before the first external create @spec:AC-340")
+    void wooCreationIsRequestedBeforeExternalCreate() {
+        var repository = new MemoryCheckoutRepository();
+        var requested = new AtomicReference<CheckoutOperationRepository.Status>();
+        var service = service(repository, request -> { requested.set(repository.operation.status()); return ORDER; }, command -> CompletableFuture.completedFuture(command.transactionId()));
+
+        service.checkout(COMMAND);
+
+        assertEquals(CheckoutOperationRepository.Status.WOO_CREATION_REQUESTED, requested.get());
+    }
+
+    @Test
+    @DisplayName("A missing reconciliation result keeps the requested state and never creates again @spec:AC-341 @spec:AC-349")
+    void missingReconciliationResultKeepsRequestedState() {
+        var repository = new MemoryCheckoutRepository();
+        var creations = new AtomicInteger();
+        WooCommerceOrderPort woo = new WooCommerceOrderPort() {
+            public Order createOrFind(Request request) { creations.incrementAndGet(); throw new WooCommerceOrderPort.AmbiguousResponseException(); }
+            public Order findByReference(Request request) { return null; }
+        };
+        var service = service(repository, woo, command -> CompletableFuture.completedFuture(command.transactionId()));
+
+        assertThrows(WooCommerceOrderPort.AmbiguousResponseException.class, () -> service.checkout(COMMAND));
+        assertThrows(WooCommerceOrderPort.AmbiguousResponseException.class, () -> service.checkout(COMMAND));
+        assertEquals(1, creations.get());
+        assertEquals(CheckoutOperationRepository.Status.WOO_CREATION_REQUESTED, repository.operation.status());
+    }
+
+    @Test
+    @DisplayName("Async Transaction failure leaves Woo confirmation retryable @spec:AC-349")
+    void asyncTransactionFailureLeavesWooConfirmationRetryable() {
+        var repository = new MemoryCheckoutRepository();
+        var failure = new CompletableFuture<String>();
+        var service = service(repository, request -> ORDER, command -> failure);
+
+        service.checkout(COMMAND);
+        failure.completeExceptionally(new IllegalStateException("retryable"));
+
+        assertEquals(CheckoutOperationRepository.Status.WOO_CONFIRMED, repository.operation.status());
     }
 
     private CheckoutService service(
@@ -237,66 +269,23 @@ class CheckoutServiceTest {
         WooCommerceOrderPort woo,
         CheckoutService.TransactionCommands commands
     ) {
-        return new CheckoutService(repository, woo, commands, CLOCK, Duration.ofMillis(200));
+        return new CheckoutService(repository, woo, commands, CLOCK);
     }
 
     private static final class MemoryCheckoutRepository implements CheckoutOperationRepository {
         private Operation operation;
-        private String owner;
-        private boolean alwaysBusy;
-
-        @Override
-        public synchronized Claim claim(ClaimRequest request, Instant now, Duration lease) {
-            if (operation == null) {
-                operation = new Operation(
-                    "transaction-1", request.operationKey(), request.subject(), request.commandHash(),
-                    request.wooReference(), null, Status.PENDING_WOO
-                );
-            }
-            if (!operation.subject().equals(request.subject())
-                || !operation.commandHash().equals(request.commandHash())) {
-                throw new CheckoutIdempotencyConflictException();
-            }
-            if (operation.status() == Status.COMPLETED) return new Claim(operation, null);
-            if (alwaysBusy || owner != null) return new Claim(operation, null);
-            owner = "owner-1";
-            return new Claim(operation, owner);
-        }
-
-        @Override
-        public synchronized void beginWooCreation(String transactionId, String ownerToken, Instant now) {
-            requireOwner(ownerToken);
-            operation = operation.withStatus(Status.CREATING_WOO);
-        }
-
-        @Override
-        public synchronized Operation recordWooOrder(
-            String transactionId,
-            String ownerToken,
-            WooCommerceOrderPort.Order order,
-            Instant now
-        ) {
-            requireOwner(ownerToken);
-            operation = operation.withWooOrder(order).withStatus(Status.WOO_CONFIRMED);
+        @Override public synchronized Operation createOrLoad(CreateRequest request, Instant now) {
+            if (operation == null || !operation.subject().equals(request.subject())) operation = new Operation(request.operationId(), request.operationKey(), request.subject(), request.commandHash(), request.wooReference(), null, Status.PENDING_WOO);
+            else if (!operation.commandHash().equals(request.commandHash())) throw new CheckoutIdempotencyConflictException();
             return operation;
         }
-
-        @Override
-        public synchronized Operation complete(String transactionId, String ownerToken, Instant now) {
-            requireOwner(ownerToken);
-            operation = operation.withStatus(Status.COMPLETED);
-            owner = null;
-            return operation;
+        @Override public synchronized boolean markWooCreationRequested(String id, Instant now) {
+            if (operation.status() != Status.PENDING_WOO) return false;
+            operation = operation.withStatus(Status.WOO_CREATION_REQUESTED); return true;
         }
-
-        @Override
-        public synchronized void release(String transactionId, String ownerToken, Instant now) {
-            requireOwner(ownerToken);
-            owner = null;
-        }
-
-        private void requireOwner(String ownerToken) {
-            if (!ownerToken.equals(owner)) throw new IllegalStateException("checkout lease was lost");
-        }
+        @Override public synchronized Operation recordWooOrder(String id, WooCommerceOrderPort.Order order, Instant now) { operation = operation.withWooOrder(order).withStatus(Status.WOO_CONFIRMED); return operation; }
+        @Override public synchronized Operation complete(String id, Instant now) { operation = operation.withStatus(Status.COMPLETED); return operation; }
+        @Override public synchronized Operation fail(String id, String reason, Instant now) { operation = operation.withError(reason); return operation; }
+        @Override public synchronized java.util.Optional<Operation> find(String id, String subject) { return operation == null ? java.util.Optional.empty() : java.util.Optional.of(operation); }
     }
 }

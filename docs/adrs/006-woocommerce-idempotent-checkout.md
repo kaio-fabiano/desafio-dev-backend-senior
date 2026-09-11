@@ -23,9 +23,11 @@ The adapter writes it to the order metadata key
 `_order_workflow_operation_reference`, queries
 `orders(where: { search: reference })`, and validates the metadata value for an
 exact match before creation. It exposes the same lookup for reconciliation.
-Sequential retries therefore return the existing commercial order. The local
-unique operation constraint and checkout service remain responsible for
-preventing concurrent callers from reaching remote creation together.
+The adapter's `createOrFind` contract is explicitly lookup-then-create; it is
+not an atomic WooCommerce idempotency primitive. Sequential retries therefore
+return the existing commercial order. The local conditional state transition
+and checkout service remain responsible for preventing concurrent callers from
+reaching remote creation together.
 
 The reference is integration metadata, not a customer identity or a copy of
 the order. The adapter obtains a short-lived service bearer token through

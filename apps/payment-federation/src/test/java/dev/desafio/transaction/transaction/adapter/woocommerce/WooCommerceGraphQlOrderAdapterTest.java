@@ -18,7 +18,7 @@ class WooCommerceGraphQlOrderAdapterTest {
     private static final ObjectMapper JSON = new ObjectMapper();
 
     @Test
-    @DisplayName("Woo ACL authenticates with its trusted origin and reconciles ambiguous checkout @spec:AC-285 @spec:AC-288 @spec:AC-243")
+    @DisplayName("Woo createOrFind is lookup-then-create, not atomic idempotency @spec:AC-342")
     void wooAclReconcilesAnAmbiguousCheckoutByItsOperationReference() throws Exception {
         var lookups = new AtomicInteger();
         var calls = new ArrayList<WooCommerceGraphQlOrderAdapter.Call>();

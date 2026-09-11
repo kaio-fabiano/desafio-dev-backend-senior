@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
 import dev.desafio.transaction.transaction.application.event.TransactionEvent;
 import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictException;
+import dev.desafio.transaction.transaction.checkout.CheckoutOperationId;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;
 import dev.desafio.transaction.transaction.checkout.WooCommerceOrderPort;
 import dev.desafio.transaction.transaction.domain.Transaction;
@@ -25,10 +26,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -47,24 +49,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(classes = JpaTransactionPersistenceTest.TransactionPersistenceTestConfiguration.class)
 class JpaTransactionPersistenceTest {
-    private static final PostgreSQLContainer<?> POSTGRES =
-        new PostgreSQLContainer<>("postgres:16-alpine");
+    private static final PostgreSQLContainer<?> POSTGRES = localUrl() == null
+        ? new PostgreSQLContainer<>("postgres:16-alpine") : null;
     private static final Instant NOW = Instant.parse("2026-09-09T12:00:00Z");
 
     static {
-        POSTGRES.start();
+        if (POSTGRES != null) POSTGRES.start();
     }
 
     @DynamicPropertySource
     static void databaseProperties(DynamicPropertyRegistry properties) {
-        properties.add("spring.datasource.url", POSTGRES::getJdbcUrl);
-        properties.add("spring.datasource.username", POSTGRES::getUsername);
-        properties.add("spring.datasource.password", POSTGRES::getPassword);
+        properties.add("spring.datasource.url", () -> localUrl() != null ? localUrl() : POSTGRES.getJdbcUrl());
+        properties.add("spring.datasource.username", () -> env("TEST_POSTGRES_USER", POSTGRES == null ? "postgres" : POSTGRES.getUsername()));
+        properties.add("spring.datasource.password", () -> env("TEST_POSTGRES_PASSWORD", POSTGRES == null ? "postgres" : POSTGRES.getPassword()));
     }
 
     @AfterAll
     static void stopPostgres() {
-        POSTGRES.stop();
+        if (POSTGRES != null) POSTGRES.stop();
     }
 
     @Autowired
@@ -99,48 +101,77 @@ class JpaTransactionPersistenceTest {
     }
 
     @Test
-    @DisplayName("concurrent checkout claims preserve one lease and JSON items across reload @spec:AC-301")
-    void concurrentCheckoutClaimsPreserveOneLeaseAndJsonItemsAcrossReload() {
-        var repository = checkoutRepository();
+    @DisplayName("concurrent checkout creation preserves one operation and JSON items across reload @spec:AC-335")
+    void concurrentCheckoutCreationPreservesOneOperationAndJsonItemsAcrossReload() {
+        var firstRepository = checkoutRepository();
+        var secondRepository = checkoutRepository();
+        var barrier = new CyclicBarrier(2);
         var operationKey = "operation-" + java.util.UUID.randomUUID();
-        var request = new CheckoutOperationRepository.ClaimRequest(
-            "buyer-1", operationKey, "a".repeat(64), "reference-" + operationKey
-        );
+        var request = request("buyer-1", operationKey, "a".repeat(64));
 
         var claims = List.of(
-            CompletableFuture.supplyAsync(() -> repository.claim(request, NOW, Duration.ofSeconds(30))),
-            CompletableFuture.supplyAsync(() -> repository.claim(request, NOW, Duration.ofSeconds(30)))
+            CompletableFuture.supplyAsync(() -> { await(barrier); return firstRepository.createOrLoad(request, NOW); }),
+            CompletableFuture.supplyAsync(() -> { await(barrier); return secondRepository.createOrLoad(request, NOW); })
         ).stream().map(CompletableFuture::join).toList();
-
-        assertEquals(1, claims.stream().filter(claim -> claim.ownerToken() != null).count());
-        assertEquals(1, claims.stream().map(claim -> claim.operation().transactionId()).distinct().count());
-        var first = claims.stream().filter(claim -> claim.ownerToken() != null).findFirst().orElseThrow();
-        repository.beginWooCreation(first.operation().transactionId(), first.ownerToken(), NOW);
-
-        var recovered = repository.claim(request, NOW.plusSeconds(31), Duration.ofSeconds(30));
-        assertNotNull(recovered.ownerToken());
-        assertEquals(CheckoutOperationRepository.Status.CREATING_WOO, recovered.operation().status());
+        assertEquals(1, claims.stream().map(CheckoutOperationRepository.Operation::operationId).distinct().count());
+        assertTrue(firstRepository.markWooCreationRequested(request.operationId(), NOW));
 
         var items = List.of(new Transaction.Item("1001", 2));
         var order = new WooCommerceOrderPort.Order("woo-42-" + operationKey, items, new BigDecimal("39.80"), "BRL");
-        repository.recordWooOrder(
-            recovered.operation().transactionId(), recovered.ownerToken(), order, NOW.plusSeconds(31)
+        firstRepository.recordWooOrder(
+            request.operationId(), order, NOW.plusSeconds(31)
         );
-        repository.complete(
-            recovered.operation().transactionId(), recovered.ownerToken(), NOW.plusSeconds(31)
+        firstRepository.complete(
+            request.operationId(), NOW.plusSeconds(31)
         );
         entityManager.clear();
 
-        var reloaded = repository.claim(request, NOW.plusSeconds(90), Duration.ofSeconds(30));
-        assertNull(reloaded.ownerToken());
-        assertEquals(items, reloaded.operation().items());
-        assertEquals(new BigDecimal("39.800000"), reloaded.operation().amount());
-        assertEquals(CheckoutOperationRepository.Status.COMPLETED, reloaded.operation().status());
-        assertThrows(CheckoutIdempotencyConflictException.class, () -> repository.claim(
-            new CheckoutOperationRepository.ClaimRequest(
-                request.subject(), request.operationKey(), request.commandHash(), "another-reference-" + operationKey
-            ), NOW.plusSeconds(90), Duration.ofSeconds(30)
-        ));
+        var reloaded = secondRepository.createOrLoad(request, NOW.plusSeconds(90));
+        assertEquals(items, reloaded.items());
+        assertEquals(new BigDecimal("39.800000"), reloaded.amount());
+        assertEquals(CheckoutOperationRepository.Status.COMPLETED, reloaded.status());
+        assertThrows(CheckoutIdempotencyConflictException.class, () -> secondRepository.createOrLoad(new CheckoutOperationRepository.CreateRequest(request.operationId(), request.subject(), request.operationKey(), "b".repeat(64), request.wooReference()), NOW));
+    }
+
+    @Test
+    @DisplayName("Concurrent creation-requested transition commits exactly once and is independently visible @spec:AC-340")
+    void concurrentCreationRequestedTransitionCommitsExactlyOnce() {
+        var first = checkoutRepository();
+        var second = checkoutRepository();
+        var key = "requested-" + java.util.UUID.randomUUID();
+        var request = request("buyer-1", key, "c".repeat(64));
+        first.createOrLoad(request, NOW);
+        var barrier = new CyclicBarrier(2);
+        var results = List.of(
+            CompletableFuture.supplyAsync(() -> { await(barrier); return first.markWooCreationRequested(request.operationId(), NOW); }),
+            CompletableFuture.supplyAsync(() -> { await(barrier); return second.markWooCreationRequested(request.operationId(), NOW); })
+        ).stream().map(CompletableFuture::join).toList();
+        assertEquals(1, results.stream().filter(Boolean::booleanValue).count());
+        assertEquals(CheckoutOperationRepository.Status.WOO_CREATION_REQUESTED, second.createOrLoad(request, NOW).status());
+    }
+
+    @Test
+    @DisplayName("Concurrent checkout state writes never regress or overwrite a confirmed order @spec:AC-335 @spec:AC-349")
+    void concurrentCheckoutStateWritesAreMonotonic() {
+        var first = checkoutRepository();
+        var second = checkoutRepository();
+        var request = request("buyer-1", "monotonic-" + java.util.UUID.randomUUID(), "d".repeat(64));
+        first.createOrLoad(request, NOW);
+        first.markWooCreationRequested(request.operationId(), NOW);
+        var firstOrder = new WooCommerceOrderPort.Order("woo-first", List.of(new Transaction.Item("1001", 1)), new BigDecimal("10.00"), "BRL");
+        var secondOrder = new WooCommerceOrderPort.Order("woo-second", List.of(new Transaction.Item("1002", 1)), new BigDecimal("20.00"), "BRL");
+        var barrier = new CyclicBarrier(2);
+        List.of(
+            CompletableFuture.runAsync(() -> { await(barrier); first.recordWooOrder(request.operationId(), firstOrder, NOW.plusSeconds(1)); }),
+            CompletableFuture.runAsync(() -> { await(barrier); second.recordWooOrder(request.operationId(), secondOrder, NOW.plusSeconds(1)); })
+        ).forEach(CompletableFuture::join);
+
+        var confirmed = first.createOrLoad(request, NOW.plusSeconds(2));
+        assertEquals(CheckoutOperationRepository.Status.WOO_CONFIRMED, confirmed.status());
+        assertTrue(confirmed.wooOrderId().equals("woo-first") || confirmed.wooOrderId().equals("woo-second"));
+        first.complete(request.operationId(), NOW.plusSeconds(3));
+        second.recordWooOrder(request.operationId(), secondOrder, NOW.plusSeconds(4));
+        assertEquals(CheckoutOperationRepository.Status.COMPLETED, second.createOrLoad(request, NOW.plusSeconds(5)).status());
     }
 
     @Test
@@ -199,7 +230,7 @@ class JpaTransactionPersistenceTest {
     @Test
     @DisplayName("Flyway migrations validate Transaction JPA mappings on PostgreSQL @spec:AC-304")
     void flywayMigrationsValidateTransactionJpaMappingsOnPostgres() {
-        assertTrue(POSTGRES.getJdbcUrl().startsWith("jdbc:postgresql:"));
+        assertTrue((localUrl() != null ? localUrl() : POSTGRES.getJdbcUrl()).startsWith("jdbc:postgresql:"));
         assertEquals(3, jdbc.queryForObject("""
             select count(*) from information_schema.tables
              where table_schema = 'transaction'
@@ -209,14 +240,40 @@ class JpaTransactionPersistenceTest {
             "select count(*) > 0 from axon.flyway_schema_history where success",
             Boolean.class
         ));
+        assertEquals(1, jdbc.queryForObject("select count(*) from information_schema.key_column_usage where table_schema = 'transaction' and table_name = 'checkout_operation' and constraint_name in (select constraint_name from information_schema.table_constraints where table_schema = 'transaction' and table_name = 'checkout_operation' and constraint_type = 'PRIMARY KEY') and column_name = 'operation_id'", Integer.class));
+        assertEquals(1, jdbc.queryForObject("select count(*) from pg_indexes where schemaname = 'transaction' and tablename = 'checkout_operation' and indexdef like '%(subject, operation_key)%'", Integer.class));
+        assertEquals(0, jdbc.queryForObject("select count(*) from information_schema.columns where table_schema = 'transaction' and table_name = 'checkout_operation' and column_name in ('owner_token', 'lease_until')", Integer.class));
+        assertEquals(0, jdbc.queryForObject("select count(*) from pg_indexes where schemaname = 'transaction' and tablename = 'checkout_operation' and indexname like '%lease%'", Integer.class));
+        assertTrue(jdbc.queryForObject("select count(*) from information_schema.columns where table_schema = 'transaction' and table_name = 'checkout_operation' and is_nullable = 'NO' and column_name in ('operation_id','operation_key','subject','command_hash','woo_reference','payment_id','status','created_at','updated_at')", Integer.class) >= 9);
     }
 
     private JpaCheckoutOperationRepository checkoutRepository() {
         return new JpaCheckoutOperationRepository(checkoutRecords, entityManager, transactionManager);
     }
 
+    private static CheckoutOperationRepository.CreateRequest request(
+        String subject,
+        String operationKey,
+        String commandHash
+    ) {
+        return new CheckoutOperationRepository.CreateRequest(
+            CheckoutOperationId.from(subject, operationKey).value(),
+            subject,
+            operationKey,
+            commandHash,
+            "reference-" + operationKey
+        );
+    }
+
+    private static void await(CyclicBarrier barrier) {
+        try { barrier.await(); } catch (Exception error) { throw new IllegalStateException(error); }
+    }
+
     @TestConfiguration(proxyBeanMethods = false)
     @EntityScan(basePackageClasses = CheckoutOperationEntity.class)
     @EnableJpaRepositories(basePackageClasses = CheckoutOperationJpaRepository.class)
     static class TransactionPersistenceTestConfiguration {}
+
+    private static String localUrl() { return System.getenv("TEST_POSTGRES_URL"); }
+    private static String env(String name, String fallback) { return System.getenv().getOrDefault(name, fallback); }
 }
