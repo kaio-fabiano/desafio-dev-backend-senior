@@ -76,8 +76,7 @@
 - Esforço: baixo
 - Notas: Depends on T-298. Red: extend the existing real PostgreSQL/RabbitMQ integration fixture for broker outage retention, later publication, two relay instances and duplicate redelivery. Green only where evidence exposes a gap: reuse current row claims, publisher confirms, retry and durable inbox. Delivery remains at-least-once; outbox coordination may use its own bounded PostgreSQL claim but checkout may not. Do not use RabbitMQ or the outbox lease as checkout exclusion.
 
-## T-300 — Remove obsolete checkout machinery and close all gates [pendente]
-
+## T-300 — Remove obsolete checkout machinery and close all gates [concluida]
 - Refs: US-152, US-153, US-154, US-155, US-156, AC-333, AC-334, AC-335, AC-336, AC-337, AC-338, AC-339, AC-340, AC-341, AC-342, AC-343, AC-344, AC-345, AC-346, AC-347, AC-348, AC-349, AC-350
 - Arquivos: apps/payment-federation, test/migrate-order-workflow-to-axon-java.test.mjs, .spec/features/refactor-checkout-operation-flow
 - Modelo: gpt-5.6-luna

@@ -1,0 +1,123 @@
+{
+  "feature": "refactor-checkout-operation-flow",
+  "timestamp": "2026-09-11T10:17:03.195Z",
+  "gitRev": "a5dc1152",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 123,
+  "testsParsed": 339,
+  "results": {
+    "AC-333": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-334": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-335": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-336": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-337": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-338": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-339": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-340": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-341": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-342": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-343": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-344": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-345": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-346": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-347": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-348": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-349": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    },
+    "AC-350": {
+      "status": "fail",
+      "testName": "The checkout refactor closes every acceptance criterion without skipped Java evidence @spec:AC-333 @spec:AC-334 @spec:AC-335 @spec:AC-336 @spec:AC-337 @spec:AC-338 @spec:AC-339 @spec:AC-340 @spec:AC-341 @spec:AC-342 @spec:AC-343 @spec:AC-344 @spec:AC-345 @spec:AC-346 @spec:AC-347 @spec:AC-348 @spec:AC-349 @spec:AC-350",
+      "method": "tap"
+    }
+  },
+  "principles": {
+    "P-003": {
+      "status": "fail",
+      "testName": "Gateway TypeScript exception construction uses named messages @spec:AC-298 @principle:P-003"
+    },
+    "P-006": {
+      "status": "pass",
+      "testName": "the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006"
+    },
+    "P-007": {
+      "status": "pass",
+      "testName": "unlayered orchestration and unknown production roots fail the repository gate @spec:AC-261 @principle:P-007"
+    },
+    "P-005": {
+      "status": "pass",
+      "testName": "AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005"
+    },
+    "P-004": {
+      "status": "pass",
+      "testName": "AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004"
+    }
+  }
+}
