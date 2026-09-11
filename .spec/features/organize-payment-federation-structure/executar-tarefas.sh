@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano organize-payment-federation-structure` em 2026-09-11 11:28
+# executar-tarefas.sh — gerado por `onp-spec plano organize-payment-federation-structure` em 2026-09-11 11:38
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-organize-payment-federation-structure-mtwvhb3v'
+RUN_ID='desafio-dev-backend-senior-organize-payment-federation-structure-mtwvud41'
 FEATURE='organize-payment-federation-structure'
 BASE_BRANCH='spec/organize-payment-federation-structure'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -168,7 +168,7 @@ iniciar_resumos() {
   trap 'parar_resumos; node "$ENGINE" resumo "$FEATURE" --gravar >/dev/null 2>&1 || true' EXIT
 }
 
-# ── faixa-1: T-276 T-280 T-282 T-281 ──
+# ── faixa-1: T-276 T-282 ──
 executar_faixa_1() {
   local WT="$WT_BASE-faixa-1"
   preparar_worktree 'faixa-1' 'spec/organize-payment-federation-structure-faixa-1' "$WT" || return 1
@@ -191,21 +191,6 @@ Regras inegociáveis:
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low &&
-    rodar_tarefa 'faixa-1' 'T-280' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-280 — "Align test filesystem paths with declared packages"
-  critérios/refs: AC-321 (Source paths match Java package declarations), AC-322 (Public behavior and quality gates remain green)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/test/java/dev/desafio/payment, apps/payment-federation/src/test/java/dev/desafio/transaction, test/organize-payment-federation-structure.test.mjs
-  mensagem de commit: "T-280 organize-payment-federation-structure: Align test filesystem paths with declared packages"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low &&
     rodar_tarefa 'faixa-1' 'T-282' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
 Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
 
@@ -220,26 +205,11 @@ Regras inegociáveis:
 - NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
 - Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
 - NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low &&
-    rodar_tarefa 'faixa-1' 'T-281' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-281 — "Integrate structure changes and close all verification gates"
-  critérios/refs: AC-317 (Framework metadata has a narrow explicit allowance), AC-318 (GraphQL and checkout classes have explicit owners), AC-319 (Spring composition is located and named consistently), AC-320 (Retired Payment and Inventory execution paths are absent), AC-321 (Source paths match Java package declarations), AC-322 (Public behavior and quality gates remain green)
-  arquivos permitidos (e seus testes): apps/payment-federation, test/organize-payment-federation-structure.test.mjs, .spec/features/organize-payment-federation-structure, .spec/verification/organize-payment-federation-structure.json, docs/domain/context-map.md
-  mensagem de commit: "T-281 organize-payment-federation-structure: Integrate structure changes and close all verification gates"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
 - Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low
   ) >> "$LOG_DIR/faixa-1.log" 2>&1
   local st=$?
   mesclar_faixa 'faixa-1' 'spec/organize-payment-federation-structure-faixa-1' "$WT" "$st" || return 1
-  marcar_concluidas T-276 T-280 T-282 T-281
+  marcar_concluidas T-276 T-282
   return 0
 }
 
@@ -270,66 +240,6 @@ Regras inegociáveis:
   local st=$?
   mesclar_faixa 'faixa-2' 'spec/organize-payment-federation-structure-faixa-2' "$WT" "$st" || return 1
   marcar_concluidas T-277
-  return 0
-}
-
-# ── faixa-3: T-278 ──
-executar_faixa_3() {
-  local WT="$WT_BASE-faixa-3"
-  preparar_worktree 'faixa-3' 'spec/organize-payment-federation-structure-faixa-3' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-3' --estado executando --tentativa "$(tentativa 'faixa-3')"
-  : > "$LOG_DIR/faixa-3.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-3' 'T-278' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-278 — "Retire disabled legacy messaging and Inventory listener paths"
-  critérios/refs: AC-320 (Retired Payment and Inventory execution paths are absent), AC-322 (Public behavior and quality gates remain green)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/PaymentConsumer.java, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListener.java, apps/payment-federation/src/main/resources/application.yaml, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListenerTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListenerTest.java, test/delivery-closure-inventory-saga.test.mjs, test/structural-payment-review.test.mjs
-  mensagem de commit: "T-278 organize-payment-federation-structure: Retire disabled legacy messaging and Inventory listener paths"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low
-  ) >> "$LOG_DIR/faixa-3.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-3' 'spec/organize-payment-federation-structure-faixa-3' "$WT" "$st" || return 1
-  marcar_concluidas T-278
-  return 0
-}
-
-# ── faixa-4: T-279 ──
-executar_faixa_4() {
-  local WT="$WT_BASE-faixa-4"
-  preparar_worktree 'faixa-4' 'spec/organize-payment-federation-structure-faixa-4' "$WT" || return 1
-  evento --tipo faixa --faixa 'faixa-4' --estado executando --tentativa "$(tentativa 'faixa-4')"
-  : > "$LOG_DIR/faixa-4.log"
-  (
-    cd "$WT" || exit 9
-    rodar_tarefa 'faixa-4' 'T-279' 'Você executa UMA tarefa da feature "organize-payment-federation-structure" (fluxo onp-spec, spec-anchored).
-Leia primeiro: .spec/features/organize-payment-federation-structure/spec.md, .spec/features/organize-payment-federation-structure/tasks.md e .spec/constituicao.md.
-
-Sua tarefa (somente ela):
-T-279 — "Consolidate application Clock and Spring configuration ownership"
-  critérios/refs: AC-319 (Spring composition is located and named consistently), AC-322 (Public behavior and quality gates remain green)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/migration/CutoverRuntimeConfiguration.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration, apps/payment-federation/src/test/java/dev/desafio/transaction/PaymentFederationApplicationTest.java
-  mensagem de commit: "T-279 organize-payment-federation-structure: Consolidate application Clock and Spring configuration ownership"
-
-Regras inegociáveis:
-- Todo critério de aceite referenciado vira teste com @spec:AC-xxx no título.
-- NUNCA enfraqueça, pule (skip/todo) ou apague um teste para passar — teste pulado não é prova e o audit acusa.
-- Rode os testes localmente com `find test -maxdepth 1 -name '\''*.test.mjs'\'' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap` até passarem.
-- NÃO edite tasks.md, NÃO rode onp-spec verify/audit e NÃO toque em outras tarefas — o orquestrador cuida disso.
-- Ao final de CADA tarefa: `git add` só no que você tocou e um commit próprio.' 'gpt-5.6-luna' low
-  ) >> "$LOG_DIR/faixa-4.log" 2>&1
-  local st=$?
-  mesclar_faixa 'faixa-4' 'spec/organize-payment-federation-structure-faixa-4' "$WT" "$st" || return 1
-  marcar_concluidas T-279
   return 0
 }
 
@@ -386,25 +296,19 @@ executar_tudo() {
   iniciar_resumos
   info "logs em: $LOG_DIR"
   info "resumo geral de andamento: a cada 1 min aqui no terminal (e via: onp-spec resumo)"
-  # onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3 ∥ faixa-4
-  info "onda 1: faixa-1 ∥ faixa-2 ∥ faixa-3 ∥ faixa-4 — janelas limpas em paralelo"
+  # onda 1: faixa-1 ∥ faixa-2
+  info "onda 1: faixa-1 ∥ faixa-2 — janelas limpas em paralelo"
   executar_faixa_1 & PID_FAIXA_1=$!
   executar_faixa_2 & PID_FAIXA_2=$!
-  executar_faixa_3 & PID_FAIXA_3=$!
-  executar_faixa_4 & PID_FAIXA_4=$!
   wait "$PID_FAIXA_1" || true
   wait "$PID_FAIXA_2" || true
-  wait "$PID_FAIXA_3" || true
-  wait "$PID_FAIXA_4" || true
   encerrar tudo
 }
 
 listar() {
   echo "execução: $RUN_ID (feature $FEATURE, branch $BASE_BRANCH)"
-  echo "  faixa-1  onda 1  T-276, T-280, T-282, T-281"
+  echo "  faixa-1  onda 1  T-276, T-282"
   echo "  faixa-2  onda 1  T-277"
-  echo "  faixa-3  onda 1  T-278"
-  echo "  faixa-4  onda 1  T-279"
   echo
   echo "reexecutar uma faixa:    --faixa <id>"
   echo "reexecutar sequencial:   --seq <T-xxx>"
@@ -437,8 +341,6 @@ case "$MODO" in
     case "$ALVO" in
       faixa-1) evento --tipo inicio --escopo "faixa:faixa-1"; iniciar_resumos; executar_faixa_1 || true; encerrar "faixa:faixa-1" ;;
       faixa-2) evento --tipo inicio --escopo "faixa:faixa-2"; iniciar_resumos; executar_faixa_2 || true; encerrar "faixa:faixa-2" ;;
-      faixa-3) evento --tipo inicio --escopo "faixa:faixa-3"; iniciar_resumos; executar_faixa_3 || true; encerrar "faixa:faixa-3" ;;
-      faixa-4) evento --tipo inicio --escopo "faixa:faixa-4"; iniciar_resumos; executar_faixa_4 || true; encerrar "faixa:faixa-4" ;;
       *) falhar "faixa desconhecida: '$ALVO' — veja as disponíveis com --listar" ;;
     esac ;;
   seq)

@@ -38,12 +38,12 @@
 </style>
 <main>
   <h1>Plano de execução — organize-payment-federation-structure</h1>
-  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 11:28 · regenere após mudar tasks.md</p>
+  <p class="sub">gerado por <code>onp-spec plano</code> em 2026-09-11 11:38 · regenere após mudar tasks.md</p>
   <div class="resumo">
-    <div><b>7</b> tarefa(s) em paralelo</div>
-    <div><b>4</b> faixa(s) · <b>1</b> onda(s)</div>
+    <div><b>3</b> tarefa(s) em paralelo</div>
+    <div><b>2</b> faixa(s) · <b>1</b> onda(s)</div>
     <div><b>0</b> sequencial(is)</div>
-    <div>seleção do usuário: <b>T-276, T-277, T-278, T-279, T-280, T-282, T-281</b></div>
+    <div>seleção do usuário: <b>T-276, T-277, T-282</b></div>
     <div>branch <code>spec/organize-payment-federation-structure</code></div>
   </div>
   
@@ -59,7 +59,7 @@
   </div>
   
     <section class="onda">
-      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 ∥ faixa-3 ∥ faixa-4 — em paralelo, janelas limpas</small></h3>
+      <h3>Onda 1 <small>faixa-1 ∥ faixa-2 — em paralelo, janelas limpas</small></h3>
       <div class="grade">
       <div class="faixa">
         <h4>faixa-1 <small>branch <code>spec/organize-payment-federation-structure-faixa-1</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-1</code></small></h4>
@@ -71,22 +71,10 @@
           <span class="arquivos"><code>AGENTS.md</code> <code>docs/domain/context-map.md</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
         </div>
         <div class="tarefa">
-          <span class="tid">T-280</span>
-          <span class="ttitulo">Align test filesystem paths with declared packages</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/test/java/dev/desafio/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
           <span class="tid">T-282</span>
           <span class="ttitulo">Place CQRS messages in their owning layers</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
           <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/transaction</code> <code>test/organize-payment-federation-structure.test.mjs</code></span>
-        </div>
-        <div class="tarefa">
-          <span class="tid">T-281</span>
-          <span class="ttitulo">Integrate structure changes and close all verification gates</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation</code> <code>test/organize-payment-federation-structure.test.mjs</code> <code>.spec/features/organize-payment-federation-structure</code> <code>.spec/verification/organize-payment-federation-structure.json</code> <code>docs/domain/context-map.md</code></span>
         </div>
       </div>
       <div class="faixa">
@@ -97,26 +85,6 @@
           <span class="ttitulo">Move GraphQL composition and checkout artifacts to their owners</span>
           <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
           <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/edge</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/interfaces/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/axon</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java</code> <code>apps/payment-federation/src/main/resources/graphql/payment.graphqls</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/graphql</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/subscription</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-3 <small>branch <code>spec/organize-payment-federation-structure-faixa-3</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-3</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-278</span>
-          <span class="ttitulo">Retire disabled legacy messaging and Inventory listener paths</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/PaymentConsumer.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListener.java</code> <code>apps/payment-federation/src/main/resources/application.yaml</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListenerTest.java</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListenerTest.java</code> <code>test/delivery-closure-inventory-saga.test.mjs</code> <code>test/structural-payment-review.test.mjs</code></span>
-        </div>
-      </div>
-      <div class="faixa">
-        <h4>faixa-4 <small>branch <code>spec/organize-payment-federation-structure-faixa-4</code> · worktree <code>../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-4</code></small></h4>
-        
-        <div class="tarefa">
-          <span class="tid">T-279</span>
-          <span class="ttitulo">Consolidate application Clock and Spring configuration ownership</span>
-          <span class="meta"><code>gpt-5.6-luna</code> · esforço <b>low</b></span>
-          <span class="arquivos"><code>apps/payment-federation/src/main/java/dev/desafio/transaction/configuration</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/migration/CutoverRuntimeConfiguration.java</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration</code> <code>apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration</code> <code>apps/payment-federation/src/test/java/dev/desafio/transaction/PaymentFederationApplicationTest.java</code></span>
         </div>
       </div></div>
     </section>

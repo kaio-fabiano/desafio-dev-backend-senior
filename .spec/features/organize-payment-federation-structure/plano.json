@@ -1,20 +1,16 @@
 {
-  "runId": "desafio-dev-backend-senior-organize-payment-federation-structure-mtwvhb3v",
+  "runId": "desafio-dev-backend-senior-organize-payment-federation-structure-mtwvud41",
   "feature": "organize-payment-federation-structure",
   "agent": "codex",
   "modo": "paralelo",
   "paralelizar": [
     "T-276",
     "T-277",
-    "T-278",
-    "T-279",
-    "T-280",
-    "T-282",
-    "T-281"
+    "T-282"
   ],
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-09-11 11:28",
+  "geradoEm": "2026-09-11 11:38",
   "branchTrabalho": "spec/organize-payment-federation-structure",
   "baseDir": ".spec/features/organize-payment-federation-structure",
   "specDir": ".spec",
@@ -23,9 +19,7 @@
   "ondas": [
     [
       "faixa-1",
-      "faixa-2",
-      "faixa-3",
-      "faixa-4"
+      "faixa-2"
     ]
   ],
   "faixas": [
@@ -56,22 +50,6 @@
           ]
         },
         {
-          "id": "T-280",
-          "titulo": "Align test filesystem paths with declared packages",
-          "modelo": "gpt-5.6-luna",
-          "esforco": "low",
-          "arquivos": [
-            "apps/payment-federation/src/test/java/dev/desafio/payment",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction",
-            "test/organize-payment-federation-structure.test.mjs"
-          ],
-          "refs": [
-            "US-148",
-            "AC-321",
-            "AC-322"
-          ]
-        },
-        {
           "id": "T-282",
           "titulo": "Place CQRS messages in their owning layers",
           "modelo": "gpt-5.6-luna",
@@ -91,29 +69,6 @@
           "refs": [
             "US-147",
             "AC-317",
-            "AC-321",
-            "AC-322"
-          ]
-        },
-        {
-          "id": "T-281",
-          "titulo": "Integrate structure changes and close all verification gates",
-          "modelo": "gpt-5.6-luna",
-          "esforco": "low",
-          "arquivos": [
-            "apps/payment-federation",
-            "test/organize-payment-federation-structure.test.mjs",
-            ".spec/features/organize-payment-federation-structure",
-            ".spec/verification/organize-payment-federation-structure.json",
-            "docs/domain/context-map.md"
-          ],
-          "refs": [
-            "US-147",
-            "US-148",
-            "AC-317",
-            "AC-318",
-            "AC-319",
-            "AC-320",
             "AC-321",
             "AC-322"
           ]
@@ -153,65 +108,14 @@
           ]
         }
       ]
-    },
-    {
-      "id": "faixa-3",
-      "branch": "spec/organize-payment-federation-structure-faixa-3",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-3",
-      "tarefas": [
-        {
-          "id": "T-278",
-          "titulo": "Retire disabled legacy messaging and Inventory listener paths",
-          "modelo": "gpt-5.6-luna",
-          "esforco": "low",
-          "arquivos": [
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/PaymentConsumer.java",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListener.java",
-            "apps/payment-federation/src/main/resources/application.yaml",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListenerTest.java",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListenerTest.java",
-            "test/delivery-closure-inventory-saga.test.mjs",
-            "test/structural-payment-review.test.mjs"
-          ],
-          "refs": [
-            "US-148",
-            "AC-320",
-            "AC-322"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "faixa-4",
-      "branch": "spec/organize-payment-federation-structure-faixa-4",
-      "worktree": "../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-4",
-      "tarefas": [
-        {
-          "id": "T-279",
-          "titulo": "Consolidate application Clock and Spring configuration ownership",
-          "modelo": "gpt-5.6-luna",
-          "esforco": "low",
-          "arquivos": [
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/configuration",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/migration/CutoverRuntimeConfiguration.java",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration",
-            "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration",
-            "apps/payment-federation/src/test/java/dev/desafio/transaction/PaymentFederationApplicationTest.java"
-          ],
-          "refs": [
-            "US-147",
-            "AC-319",
-            "US-148",
-            "AC-322"
-          ]
-        }
-      ]
     }
   ],
   "sequenciais": [],
-  "concluidas": [],
+  "concluidas": [
+    "T-278",
+    "T-279",
+    "T-280",
+    "T-281"
+  ],
   "avisos": []
 }

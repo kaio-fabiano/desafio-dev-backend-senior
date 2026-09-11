@@ -1,12 +1,12 @@
 # Plano de execução — organize-payment-federation-structure
 
-> gerado por `onp-spec plano` em 2026-09-11 11:28 — NÃO edite à mão;
-> mudou tasks.md ou a config? Regenere: `onp-spec plano organize-payment-federation-structure --paralelizar T-276,T-277,T-278,T-279,T-280,T-282,T-281 --modelo gpt-5.6-luna --esforco low`
+> gerado por `onp-spec plano` em 2026-09-11 11:38 — NÃO edite à mão;
+> mudou tasks.md ou a config? Regenere: `onp-spec plano organize-payment-federation-structure --paralelizar T-276,T-277,T-282 --modelo gpt-5.6-luna --esforco low`
 
 ## Resumo — o que vai acontecer
 
-- **7 tarefa(s) pendente(s)**: 7 em 4 faixa(s) paralela(s) + 0 sequencial(is)
-- **seleção do usuário**: paralelizar só T-276, T-277, T-278, T-279, T-280, T-282, T-281 — as demais rodam uma após a outra, ao final
+- **3 tarefa(s) pendente(s)**: 3 em 2 faixa(s) paralela(s) + 0 sequencial(is) (4 já concluída(s): T-278, T-279, T-280, T-281)
+- **seleção do usuário**: paralelizar só T-276, T-277, T-282 — as demais rodam uma após a outra, ao final
 - **1 faixa = 1 worktree + 1 branch + 1 janela de contexto limpa** — faixas não compartilham nenhum arquivo entre si
 - prefere outra seleção ou uma após a outra? Regenere com `onp-spec plano organize-payment-federation-structure --paralelizar T-xxx,T-yyy` ou `--sequencial`
 - **custo travado pelo usuário**: modelo `gpt-5.6-luna` · esforço `low` em TODAS as tarefas (vence tasks.md e config)
@@ -14,34 +14,20 @@
 
 ## Faixas e ondas
 
-### Onda 1 — faixa-1 ∥ faixa-2 ∥ faixa-3 ∥ faixa-4
+### Onda 1 — faixa-1 ∥ faixa-2
 
 #### faixa-1 — branch `spec/organize-payment-federation-structure-faixa-1` — worktree `../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-1`
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
 | T-276 | Codify the Java architecture allowance and failing structure gates | `gpt-5.6-luna` | low | `AGENTS.md`, `docs/domain/context-map.md`, `apps/payment-federation/src/test/java/dev/desafio/transaction/architecture/ContextArchitectureTest.java`, `test/organize-payment-federation-structure.test.mjs` |
-| T-280 | Align test filesystem paths with declared packages | `gpt-5.6-luna` | low | `apps/payment-federation/src/test/java/dev/desafio/payment`, `apps/payment-federation/src/test/java/dev/desafio/transaction`, `test/organize-payment-federation-structure.test.mjs` |
 | T-282 | Place CQRS messages in their owning layers | `gpt-5.6-luna` | low | `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/domain/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/application/axon`, `apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/domain/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/event`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event`, `apps/payment-federation/src/test/java/dev/desafio/transaction/payment`, `apps/payment-federation/src/test/java/dev/desafio/transaction/inventory`, `apps/payment-federation/src/test/java/dev/desafio/transaction/transaction`, `test/organize-payment-federation-structure.test.mjs` |
-| T-281 | Integrate structure changes and close all verification gates | `gpt-5.6-luna` | low | `apps/payment-federation`, `test/organize-payment-federation-structure.test.mjs`, `.spec/features/organize-payment-federation-structure`, `.spec/verification/organize-payment-federation-structure.json`, `docs/domain/context-map.md` |
 
 #### faixa-2 — branch `spec/organize-payment-federation-structure-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-2`
 
 | tarefa | título | modelo | esforço | arquivos |
 |---|---|---|---|---|
 | T-277 | Move GraphQL composition and checkout artifacts to their owners | `gpt-5.6-luna` | low | `apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql`, `apps/payment-federation/src/main/java/dev/desafio/transaction/edge`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/graphql`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/interfaces/graphql`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/interfaces/graphql`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/axon`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java`, `apps/payment-federation/src/main/resources/graphql/payment.graphqls`, `apps/payment-federation/src/test/java/dev/desafio/transaction/graphql`, `apps/payment-federation/src/test/java/dev/desafio/transaction/subscription` |
-
-#### faixa-3 — branch `spec/organize-payment-federation-structure-faixa-3` — worktree `../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-3`
-
-| tarefa | título | modelo | esforço | arquivos |
-|---|---|---|---|---|
-| T-278 | Retire disabled legacy messaging and Inventory listener paths | `gpt-5.6-luna` | low | `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentMessagingConfiguration.java`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListener.java`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/PaymentConsumer.java`, `apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListener.java`, `apps/payment-federation/src/main/resources/application.yaml`, `apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/messaging/PaymentRabbitListenerTest.java`, `apps/payment-federation/src/test/java/dev/desafio/transaction/inventory/interfaces/messaging/InventoryRabbitListenerTest.java`, `test/delivery-closure-inventory-saga.test.mjs`, `test/structural-payment-review.test.mjs` |
-
-#### faixa-4 — branch `spec/organize-payment-federation-structure-faixa-4` — worktree `../onp-worktrees/desafio-dev-backend-senior-organize-payment-federation-structure-faixa-4`
-
-| tarefa | título | modelo | esforço | arquivos |
-|---|---|---|---|---|
-| T-279 | Consolidate application Clock and Spring configuration ownership | `gpt-5.6-luna` | low | `apps/payment-federation/src/main/java/dev/desafio/transaction/configuration`, `apps/payment-federation/src/main/java/dev/desafio/transaction/migration/CutoverRuntimeConfiguration.java`, `apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration`, `apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/configuration`, `apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration`, `apps/payment-federation/src/test/java/dev/desafio/transaction/PaymentFederationApplicationTest.java` |
 
 ## Gestão de branches e commits
 
