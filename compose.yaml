@@ -225,6 +225,7 @@ services:
     build: *federated-node-build
     command: ['node', '--import', 'tsx', 'apps/gateway/src/main.ts']
     environment:
+      NODE_ENV: test
       NODE_OPTIONS: ${OTEL_NODE_OPTIONS:-}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
       OTEL_SERVICE_NAME: gateway
