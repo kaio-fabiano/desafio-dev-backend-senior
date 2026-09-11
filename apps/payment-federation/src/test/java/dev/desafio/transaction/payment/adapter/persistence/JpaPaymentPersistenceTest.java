@@ -5,7 +5,7 @@ import dev.desafio.transaction.payment.application.PaymentProjection;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.PaymentRepository;
 import dev.desafio.transaction.payment.application.ProviderNotificationHandler;
-import dev.desafio.transaction.payment.application.event.PaymentRequested;
+import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 import dev.desafio.transaction.payment.application.query.PaymentViewRepository;
 import dev.desafio.transaction.payment.domain.Payment;
 import jakarta.persistence.EntityManager;

@@ -31,9 +31,9 @@ import dev.desafio.transaction.payment.application.command.RequestPayment;
 import dev.desafio.transaction.payment.application.command.RecordPaymentOutcome;
 import dev.desafio.transaction.payment.application.command.RefundPayment;
 import dev.desafio.transaction.payment.application.axon.PaymentIntegrationEventHandler;
-import dev.desafio.transaction.payment.application.event.PaymentApproved;
-import dev.desafio.transaction.payment.application.event.PaymentRequested;
-import dev.desafio.transaction.payment.application.event.PaymentRejected;
+import dev.desafio.transaction.payment.domain.event.PaymentApproved;
+import dev.desafio.transaction.payment.domain.event.PaymentRequested;
+import dev.desafio.transaction.payment.domain.event.PaymentRejected;
 import dev.desafio.transaction.payment.application.axon.PaymentProjectionHandler;
 import dev.desafio.transaction.payment.adapter.messaging.OutboxPaymentIntegrationEventPublisher;
 import dev.desafio.transaction.shared.infrastructure.messaging.AmqpRetryRouter;
@@ -52,7 +52,7 @@ import dev.desafio.transaction.transaction.adapter.persistence.TransactionOutbox
 import dev.desafio.transaction.transaction.adapter.persistence.TransactionViewJpaRepository;
 import dev.desafio.transaction.transaction.application.command.RecordTransactionOutcome;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import jakarta.persistence.EntityManager;
 import org.flywaydb.core.Flyway;
@@ -346,7 +346,7 @@ class ChoreographedLifecycleE2ETest {
         effects.execute(refundRequested).join();
         assertEquals(1, providerCalls.get());
 
-        var refunded = (dev.desafio.transaction.payment.application.event.PaymentRefunded)
+        var refunded = (dev.desafio.transaction.payment.domain.event.PaymentRefunded)
             aggregate.record(outcome.get(), CLOCK.instant());
         aggregate.on(refunded);
         projection.on(refunded);

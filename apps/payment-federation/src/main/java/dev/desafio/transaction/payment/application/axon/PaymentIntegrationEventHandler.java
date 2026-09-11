@@ -1,10 +1,10 @@
 package dev.desafio.transaction.payment.application.axon;
 
 import dev.desafio.transaction.payment.application.PaymentIntegrationEventPublisher;
-import dev.desafio.transaction.payment.application.event.PaymentApproved;
-import dev.desafio.transaction.payment.application.event.PaymentPending;
-import dev.desafio.transaction.payment.application.event.PaymentRefunded;
-import dev.desafio.transaction.payment.application.event.PaymentRejected;
+import dev.desafio.transaction.payment.domain.event.PaymentApproved;
+import dev.desafio.transaction.payment.domain.event.PaymentPending;
+import dev.desafio.transaction.payment.domain.event.PaymentRefunded;
+import dev.desafio.transaction.payment.domain.event.PaymentRejected;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 
 import java.util.LinkedHashMap;

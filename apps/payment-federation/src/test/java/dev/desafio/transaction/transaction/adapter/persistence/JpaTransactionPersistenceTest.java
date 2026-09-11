@@ -2,7 +2,7 @@ package dev.desafio.transaction.transaction.adapter.persistence;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.desafio.transaction.transaction.application.command.StartTransaction;
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.checkout.CheckoutIdempotencyConflictException;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationId;
 import dev.desafio.transaction.transaction.checkout.CheckoutOperationRepository;

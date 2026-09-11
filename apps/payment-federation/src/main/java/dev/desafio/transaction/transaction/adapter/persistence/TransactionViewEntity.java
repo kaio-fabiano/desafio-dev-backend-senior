@@ -1,6 +1,6 @@
 package dev.desafio.transaction.transaction.adapter.persistence;
 
-import dev.desafio.transaction.transaction.application.event.TransactionEvent;
+import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import dev.desafio.transaction.transaction.domain.Transaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

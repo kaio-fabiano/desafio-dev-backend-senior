@@ -4,7 +4,7 @@ import dev.desafio.transaction.payment.adapter.axon.PaymentProviderEffectHandler
 import dev.desafio.transaction.payment.application.PaymentEffectLedger;
 import dev.desafio.transaction.payment.application.PaymentProvider;
 import dev.desafio.transaction.payment.application.command.RequestPayment;
-import dev.desafio.transaction.payment.application.event.PaymentRequested;
+import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 import dev.desafio.transaction.payment.domain.Payment;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.junit.jupiter.api.DisplayName;
