@@ -106,7 +106,7 @@ class OrderWorkflowGraphQlCompatibilityTest {
         });
         when(commandGateway.send(any(CheckoutCommand.class), eq(CheckoutResult.class)))
             .thenReturn(Mono.just(new CheckoutResult(
-                "transaction-249", "PROCESSING", "42", "payment:transaction-249", null
+                "transaction-249", "PENDING_WOO", "42", "payment:transaction-249", null
             )));
         when(queryGateway.query(any(FindOwnedTransaction.class), eq(TransactionView.class)))
             .thenReturn(Mono.just(TRANSACTION));

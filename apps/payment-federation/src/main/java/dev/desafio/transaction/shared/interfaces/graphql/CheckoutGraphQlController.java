@@ -53,9 +53,17 @@ public class CheckoutGraphQlController {
         );
         return commands.send(input.command(principal.getName(), session), CheckoutResult.class)
             .map(result -> new CheckoutOperationView(
-                result.operationId(), input.operationKey(), result.status(), result.orderId(),
+                result.operationId(), input.operationKey(), checkoutStatus(result.status()), result.orderId(),
                 result.paymentId(), result.errorReason()
             ));
+    }
+
+    private static String checkoutStatus(String status) {
+        return switch (status) {
+            case "PENDING_WOO", "WOO_CREATION_REQUESTED", "WOO_CONFIRMED" -> "PROCESSING";
+            case "COMPLETED", "FAILED" -> status;
+            default -> throw new IllegalArgumentException("Unsupported checkout status");
+        };
     }
 
     @QueryMapping
