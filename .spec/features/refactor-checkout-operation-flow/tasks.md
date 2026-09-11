@@ -27,8 +27,7 @@
 - Esforço: baixo
 - Notas: Depends on T-287. Read `design.md` completely. Red: add focused value-object/hash tests before production changes. Green: add the framework-free length-prefixed name-based `CheckoutOperationId`, expose it from the command, preserve the independent semantic hash and the byte-compatible Woo reference, and make the result operation-shaped only as far as these tests require. No random checkout or Transaction identity and no new dependency. Refactor with the focused suite green.
 
-## T-289 — Configure per-operation Axon sequencing without global serialization [pendente]
-
+## T-289 — Configure per-operation Axon sequencing without global serialization [concluida]
 - Refs: US-152, AC-336
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java
 - Modelo: gpt-5.6-luna

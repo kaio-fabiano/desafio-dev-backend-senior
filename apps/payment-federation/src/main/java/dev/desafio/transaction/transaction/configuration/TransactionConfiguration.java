@@ -32,6 +32,9 @@ import dev.desafio.transaction.shared.infrastructure.persistence.OutboxStore;
 import dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpInboxJpaRepository;
 import dev.desafio.transaction.shared.infrastructure.persistence.TransactionAmqpOutboxJpaRepository;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.commandhandling.CommandMessage;
+import org.axonframework.messaging.commandhandling.interception.CommandSequencingInterceptor;
+import org.axonframework.messaging.core.sequencing.RoutingKeySequencingPolicy;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -50,6 +53,11 @@ import java.time.Duration;
 @Configuration(proxyBeanMethods = false)
 // Jpa adapters replace JdbcCheckoutOperationRepository and JdbcTransactionViewStore at runtime.
 public class TransactionConfiguration {
+    @Bean
+    public CommandSequencingInterceptor<CommandMessage> commandSequencingInterceptor() {
+        return new CommandSequencingInterceptor<>(RoutingKeySequencingPolicy.INSTANCE);
+    }
+
     @Bean
     @ConditionalOnMissingBean(Clock.class)
     Clock transactionClock() {
