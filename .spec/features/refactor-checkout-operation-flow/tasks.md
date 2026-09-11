@@ -55,8 +55,7 @@
 - Esforço: baixo
 - Notas: Depends on T-295. Red: prove owner-scoped `PROCESSING -> COMPLETED` or failed updates, stale-version suppression, cancellation, and durable reconnect. Green: add `checkoutUpdated(operationId)` to the existing GraphQL-over-SSE controller/transport and emit only committed operation versions through the minimum application port/adapter needed. Do not add another endpoint, poll GraphQL, or alter existing Order subscriptions. Refactor with focused SSE tests green.
 
-## T-297 — Verify deterministic Payment provider idempotency [pendente]
-
+## T-297 — Verify deterministic Payment provider idempotency [concluida]
 - Refs: US-153, AC-338, AC-339, US-156, AC-350
 - Arquivos: apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransaction.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransactionHandler.java, apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java, apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProvider.java, apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/adapter/mercadopago/MercadoPagoPaymentProviderTest.java
 - Modelo: gpt-5.6-luna
