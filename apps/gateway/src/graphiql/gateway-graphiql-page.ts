@@ -23,7 +23,34 @@ export default `<!DOCTYPE html>
     <script src="https://unpkg.com/graphiql@3.8.3/graphiql.min.js"></script>
     <script src="https://unpkg.com/graphql-sse@2.6.1/umd/graphql-sse.min.js"></script>
     <script>
-      const httpFetcher = GraphiQL.createFetcher({ url: '/graphql' });
+      const sessionHeaders = new Headers();
+      const mergeHeaders = (headers) => {
+        const merged = new Headers(sessionHeaders);
+        new Headers(headers).forEach((value, name) => merged.set(name, value));
+        return Object.fromEntries(merged);
+      };
+      const sessionFetch = async (url, init) => {
+        const response = await fetch(url, {
+          ...init,
+          method: 'POST',
+          headers: mergeHeaders(init?.headers),
+        });
+        ['woocommerce-session', 'cart-token'].forEach((name) => {
+          const value = response.headers.get(name);
+          if (!value) return;
+          sessionHeaders.set(
+            name,
+            name === 'woocommerce-session' && !/^Session\\s/i.test(value)
+              ? 'Session ' + value
+              : value,
+          );
+        });
+        return response;
+      };
+      const httpFetcher = GraphiQL.createFetcher({
+        url: '/graphql',
+        fetch: sessionFetch,
+      });
       const fetcher = (request, options) => {
         const isSubscription = options?.documentAST?.definitions.some(
           ({ kind, name, operation }) =>
@@ -35,7 +62,7 @@ export default `<!DOCTYPE html>
 
         const client = graphqlSse.createClient({
           url: '/graphql/stream',
-          headers: options?.headers,
+          headers: mergeHeaders(options?.headers),
         });
         return {
           subscribe(observer) {
