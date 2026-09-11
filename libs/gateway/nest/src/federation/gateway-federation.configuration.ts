@@ -78,8 +78,7 @@ export class GatewayFederationConfiguration {
     if (name === 'wordpress')
       return {
         origin: new URL(url).origin,
-        requestSession: true,
-        responseSession: true,
+        wordpressCredential: true,
       };
     if (name === 'order-workflow')
       return { bearer: true, requestSession: true };

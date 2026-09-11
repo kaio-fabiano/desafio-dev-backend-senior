@@ -236,6 +236,7 @@ services:
       ORDER_WORKFLOW_SUBSCRIPTION_URL: ${ORDER_WORKFLOW_SUBSCRIPTION_URL:-http://payment-federation:8080/graphql}
       PORT: 3000
       WORDPRESS_GRAPHQL_URL: http://wordpress/graphql
+      WPGRAPHQL_SITE_TOKEN: ${WPGRAPHQL_SITE_TOKEN:-wordpress-local-only}
     depends_on:
       wordpress-setup:
         condition: service_healthy

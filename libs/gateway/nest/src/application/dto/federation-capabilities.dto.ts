@@ -3,4 +3,5 @@ export declare class FederationCapabilities {
   readonly origin?: string;
   readonly requestSession?: boolean;
   readonly responseSession?: boolean;
+  readonly wordpressCredential?: boolean;
 }

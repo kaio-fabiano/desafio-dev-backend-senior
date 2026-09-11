@@ -2,24 +2,37 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import type { FederationCapabilities } from '../dto/federation-capabilities.dto.ts';
 import type { GatewayContext } from '../dto/gateway-context.dto.ts';
+import { GatewayErrorMessages } from '../gateway-error-messages.ts';
 import { CommerceCookiePort } from '../ports/commerce-cookie.port.ts';
+import { WordPressCredentialPort } from '../ports/wordpress-credential.port.ts';
 
 @Injectable()
 export class PrepareFederationRequestUseCase {
   constructor(
     @Inject(CommerceCookiePort)
     private readonly cookies: CommerceCookiePort,
+    @Inject(WordPressCredentialPort)
+    private readonly wordpressCredentials: WordPressCredentialPort,
   ) {}
 
-  execute(
+  async execute(
     capabilities: FederationCapabilities,
     context: GatewayContext | undefined,
-  ): ReadonlyMap<string, string> {
+  ): Promise<ReadonlyMap<string, string>> {
     const headers = new Map<string, string>();
     if (capabilities.origin) headers.set('origin', capabilities.origin);
     if (context?.requestId) headers.set('x-request-id', context.requestId);
     if (capabilities.bearer && context?.authorization) {
       headers.set('authorization', context.authorization);
+    }
+    if (capabilities.wordpressCredential) {
+      if (!context?.principal.subject) {
+        throw new Error(GatewayErrorMessages.unauthorized);
+      }
+      const credential = await this.wordpressCredentials.exchange(
+        context.principal.subject,
+      );
+      headers.set('authorization', `Bearer ${credential}`);
     }
     if (!capabilities.requestSession) return headers;
 

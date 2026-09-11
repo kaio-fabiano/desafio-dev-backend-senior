@@ -12,6 +12,8 @@ export class GatewayErrorMessages {
   static readonly requestTargetMustBeAbsolutePath =
     'Gateway request target must be an absolute path';
   static readonly unauthorized = 'Unauthorized';
+  static readonly wordpressCredentialExchangeFailed =
+    'WordPress credential exchange failed';
 
   static subgraphUrlIsRequired(name: string): string {
     return `Subgraph ${name} URL is required`;
