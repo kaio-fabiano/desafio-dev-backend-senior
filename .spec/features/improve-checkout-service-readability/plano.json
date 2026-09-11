@@ -1,0 +1,35 @@
+{
+  "runId": "desafio-dev-backend-senior-improve-checkout-service-readability-mtwksfr8",
+  "feature": "improve-checkout-service-readability",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 06:28",
+  "branchTrabalho": "spec/improve-checkout-service-readability",
+  "baseDir": ".spec/features/improve-checkout-service-readability",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-improve-checkout-service-readability-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-274",
+      "titulo": "Separate checkout coordination steps",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java"
+      ],
+      "refs": [
+        "US-146",
+        "AC-316"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
