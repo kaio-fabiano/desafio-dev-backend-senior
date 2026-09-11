@@ -32,47 +32,16 @@ public final class CheckoutService {
     }
 
     public CheckoutResult checkout(CheckoutCommand command) {
-        var request = new CheckoutOperationRepository.ClaimRequest(
-            command.subject(), command.operationKey(), CheckoutCommandHash.hash(command),
-            CheckoutCommandHash.wooReference(command.subject(), command.operationKey())
-        );
-        var deadline = System.nanoTime() + waitTimeout.toNanos();
-        CheckoutOperationRepository.Claim claim;
-        for (;;) {
-            claim = operations.claim(request, clock.instant(), LEASE);
-            if (claim.operation().status() == CheckoutOperationRepository.Status.COMPLETED) {
-                return result(claim.operation());
-            }
-            if (claim.ownerToken() != null) break;
-            if (System.nanoTime() >= deadline) throw new CheckoutBusyException();
-            sleep();
+        var claim = awaitClaim(command);
+        if (claim.operation().status() == CheckoutOperationRepository.Status.COMPLETED) {
+            return result(claim.operation());
         }
 
         var operation = claim.operation();
         var owner = claim.ownerToken();
         try {
-            if (operation.status() == CheckoutOperationRepository.Status.PENDING_WOO) {
-                operations.beginWooCreation(operation.transactionId(), owner, clock.instant());
-                operation = operations.recordWooOrder(
-                    operation.transactionId(), owner, woo.createOrFind(wooRequest(operation, command)), clock.instant()
-                );
-            } else if (operation.status() == CheckoutOperationRepository.Status.CREATING_WOO) {
-                var reconciled = woo.findByReference(wooRequest(operation, command));
-                if (reconciled == null) throw new WooCommerceOrderPort.AmbiguousResponseException();
-                operation = operations.recordWooOrder(
-                    operation.transactionId(), owner, reconciled, clock.instant()
-                );
-            }
-
-            if (operation.status() == CheckoutOperationRepository.Status.WOO_CONFIRMED) {
-                var order = requireOrder(operation);
-                commands.start(new StartTransaction(
-                    operation.transactionId(), operation.operationKey(), operation.subject(), order.id(),
-                    order.items(), order.amount(), order.currency(), command.paymentMethod(),
-                    command.providerToken(), command.paymentMethodId()
-                ));
-                operation = operations.complete(operation.transactionId(), owner, clock.instant());
-            }
+            operation = synchronizeWooOrder(operation, owner, command);
+            operation = startTransaction(operation, owner, command);
             return result(operation);
         } catch (RuntimeException error) {
             operations.release(operation.transactionId(), owner, clock.instant());
@@ -81,6 +50,58 @@ public final class CheckoutService {
             operations.release(operation.transactionId(), owner, clock.instant());
             throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_CHECKOUT_FAILED, error);
         }
+    }
+
+    private CheckoutOperationRepository.Claim awaitClaim(CheckoutCommand command) {
+        var request = new CheckoutOperationRepository.ClaimRequest(
+            command.subject(), command.operationKey(), CheckoutCommandHash.hash(command),
+            CheckoutCommandHash.wooReference(command.subject(), command.operationKey())
+        );
+        var deadline = System.nanoTime() + waitTimeout.toNanos();
+        for (;;) {
+            var claim = operations.claim(request, clock.instant(), LEASE);
+            if (claim.operation().status() == CheckoutOperationRepository.Status.COMPLETED) {
+                return claim;
+            }
+            if (claim.ownerToken() != null) return claim;
+            if (System.nanoTime() >= deadline) throw new CheckoutBusyException();
+            sleep();
+        }
+    }
+
+    private CheckoutOperationRepository.Operation synchronizeWooOrder(
+        CheckoutOperationRepository.Operation operation,
+        String owner,
+        CheckoutCommand command
+    ) throws Exception {
+        if (operation.status() == CheckoutOperationRepository.Status.PENDING_WOO) {
+            operations.beginWooCreation(operation.transactionId(), owner, clock.instant());
+            return operations.recordWooOrder(
+                operation.transactionId(), owner, woo.createOrFind(wooRequest(operation, command)), clock.instant()
+            );
+        }
+        if (operation.status() == CheckoutOperationRepository.Status.CREATING_WOO) {
+            var reconciled = woo.findByReference(wooRequest(operation, command));
+            if (reconciled == null) throw new WooCommerceOrderPort.AmbiguousResponseException();
+            return operations.recordWooOrder(operation.transactionId(), owner, reconciled, clock.instant());
+        }
+        return operation;
+    }
+
+    private CheckoutOperationRepository.Operation startTransaction(
+        CheckoutOperationRepository.Operation operation,
+        String owner,
+        CheckoutCommand command
+    ) {
+        if (operation.status() != CheckoutOperationRepository.Status.WOO_CONFIRMED) return operation;
+
+        var order = requireOrder(operation);
+        commands.start(new StartTransaction(
+            operation.transactionId(), operation.operationKey(), operation.subject(), order.id(),
+            order.items(), order.amount(), order.currency(), command.paymentMethod(),
+            command.providerToken(), command.paymentMethodId()
+        ));
+        return operations.complete(operation.transactionId(), owner, clock.instant());
     }
 
     private WooCommerceOrderPort.Order requireOrder(CheckoutOperationRepository.Operation operation) {
