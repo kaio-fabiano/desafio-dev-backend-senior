@@ -46,11 +46,6 @@ public class AxonPaymentMessagingConfiguration {
     static final String PAYMENT_QUEUE = "payment.events.v1";
 
     @Bean
-    Clock paymentClock() {
-        return Clock.systemUTC();
-    }
-
-    @Bean
     PaymentCommandHandler paymentCommandHandler(Clock clock) {
         return new PaymentCommandHandler(clock);
     }

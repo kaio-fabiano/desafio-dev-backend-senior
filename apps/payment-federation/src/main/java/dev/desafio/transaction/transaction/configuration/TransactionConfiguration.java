@@ -36,7 +36,6 @@ import org.axonframework.messaging.commandhandling.CommandMessage;
 import org.axonframework.messaging.commandhandling.interception.CommandSequencingInterceptor;
 import org.axonframework.messaging.core.sequencing.RoutingKeySequencingPolicy;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.beans.factory.annotation.Value;
@@ -56,12 +55,6 @@ public class TransactionConfiguration {
     @Bean
     public CommandSequencingInterceptor<CommandMessage> commandSequencingInterceptor() {
         return new CommandSequencingInterceptor<>(RoutingKeySequencingPolicy.INSTANCE);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(Clock.class)
-    Clock transactionClock() {
-        return Clock.systemUTC();
     }
 
     @Bean
