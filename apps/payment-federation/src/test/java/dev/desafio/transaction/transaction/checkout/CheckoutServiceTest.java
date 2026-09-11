@@ -157,6 +157,62 @@ class CheckoutServiceTest {
         assertEquals(CheckoutOperationRepository.Status.COMPLETED, repository.operation.status());
     }
 
+    @Test
+    @DisplayName("Checkout identity is deterministic and scoped by subject and operation key @spec:AC-333")
+    void checkoutIdentityIsDeterministicAndScopedBySubjectAndOperationKey() {
+        var first = service(new MemoryCheckoutRepository(), request -> ORDER, command -> command.transactionId())
+            .checkout(COMMAND);
+        var otherSubject = service(new MemoryCheckoutRepository(), request -> ORDER, command -> command.transactionId())
+            .checkout(new CheckoutCommand("buyer-2", "operation-1", "CARD", "buyer@example.test", "provider-token", "visa"));
+
+        assertEquals(first.transactionId(), service(new MemoryCheckoutRepository(), request -> ORDER, command -> command.transactionId())
+            .checkout(COMMAND).transactionId());
+        assertTrue(!first.transactionId().equals(otherSubject.transactionId()), "different subjects must not share checkout identity");
+    }
+
+    @Test
+    @DisplayName("The same operation key may be used by different subjects @spec:AC-335")
+    void operationKeyIsScopedBySubject() {
+        var repository = new MemoryCheckoutRepository();
+        var service = service(repository, request -> ORDER, command -> command.transactionId());
+
+        service.checkout(COMMAND);
+
+        service.checkout(new CheckoutCommand("buyer-2", "operation-1", "CARD", "buyer@example.test", "provider-token", "visa"));
+    }
+
+    @Test
+    @DisplayName("Duplicate checkout returns without waiting for the first request @spec:AC-337")
+    void duplicateCheckoutDoesNotWaitForAnotherRequest() throws Exception {
+        var repository = new MemoryCheckoutRepository();
+        var creationStarted = new CountDownLatch(1);
+        var releaseCreation = new CountDownLatch(1);
+        var woo = new WooCommerceOrderPort() {
+            @Override
+            public Order createOrFind(Request request) throws Exception {
+                creationStarted.countDown();
+                assertTrue(releaseCreation.await(2, TimeUnit.SECONDS));
+                return ORDER;
+            }
+
+            @Override
+            public Order findByReference(Request request) {
+                return ORDER;
+            }
+        };
+        var service = service(repository, woo, command -> command.transactionId());
+        CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
+        assertTrue(creationStarted.await(2, TimeUnit.SECONDS));
+
+        var duplicate = CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
+
+        try {
+            assertTrue(duplicate.isDone(), "duplicate must return current durable state promptly");
+        } finally {
+            releaseCreation.countDown();
+        }
+    }
+
     private CheckoutService service(
         CheckoutOperationRepository repository,
         WooCommerceOrderPort woo,
