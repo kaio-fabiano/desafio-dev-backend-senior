@@ -1,12 +1,12 @@
 {
-  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwo4m76",
+  "runId": "desafio-dev-backend-senior-refactor-checkout-operation-flow-mtwpp386",
   "feature": "refactor-checkout-operation-flow",
   "agent": "codex",
   "modo": "sequencial",
   "paralelizar": null,
   "modeloForcado": "gpt-5.6-luna",
   "esforcoForcado": "low",
-  "geradoEm": "2026-09-11 08:02",
+  "geradoEm": "2026-09-11 08:46",
   "branchTrabalho": "spec/refactor-checkout-operation-flow",
   "baseDir": ".spec/features/refactor-checkout-operation-flow",
   "specDir": ".spec",
@@ -16,63 +16,17 @@
   "faixas": [],
   "sequenciais": [
     {
-      "id": "T-287",
-      "titulo": "Add focused Red tests for checkout identity and non-blocking duplicates",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java"
-      ],
-      "refs": [
-        "US-152",
-        "AC-333",
-        "AC-335",
-        "AC-337"
-      ]
-    },
-    {
-      "id": "T-288",
-      "titulo": "Implement deterministic checkout identity and command hashing contract",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationId.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommandHash.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutResult.java",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java"
-      ],
-      "refs": [
-        "US-152",
-        "AC-333",
-        "AC-334",
-        "US-153",
-        "AC-339",
-        "AC-342"
-      ]
-    },
-    {
-      "id": "T-289",
-      "titulo": "Configure per-operation Axon sequencing without global serialization",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutCommand.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java"
-      ],
-      "refs": [
-        "US-152",
-        "AC-336"
-      ]
-    },
-    {
       "id": "T-290",
-      "titulo": "Replace checkout lease columns with durable operation schema",
+      "titulo": "Implement the durable race-safe checkout persistence slice",
       "modelo": "gpt-5.6-luna",
       "esforco": "low",
       "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationEntity.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/TransactionPersistenceMapper.java",
         "apps/payment-federation/src/main/resources/db/migration/transaction/R__transaction_checkout.sql",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java"
@@ -88,46 +42,6 @@
       ]
     },
     {
-      "id": "T-291",
-      "titulo": "Implement race-safe create-or-load and idempotency conflict",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutIdempotencyConflictException.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java"
-      ],
-      "refs": [
-        "US-152",
-        "AC-334",
-        "AC-335"
-      ]
-    },
-    {
-      "id": "T-292",
-      "titulo": "Persist monotonic Woo attempt and operation outcomes",
-      "modelo": "gpt-5.6-luna",
-      "esforco": "low",
-      "arquivos": [
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutOperationRepository.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/CheckoutOperationJpaRepository.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaCheckoutOperationRepository.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionReadRepository.java",
-        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java"
-      ],
-      "refs": [
-        "US-153",
-        "AC-340",
-        "AC-341",
-        "US-154",
-        "AC-343",
-        "US-156",
-        "AC-349"
-      ]
-    },
-    {
       "id": "T-293",
       "titulo": "Return current checkout state and dispatch Transaction asynchronously",
       "modelo": "gpt-5.6-luna",
@@ -135,7 +49,6 @@
       "arquivos": [
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutService.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/CheckoutBusyException.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/checkout/TransactionCommands.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/interfaces/graphql/CheckoutCommandHandler.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/configuration/TransactionConfiguration.java",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/checkout/CheckoutServiceTest.java",
@@ -266,7 +179,7 @@
       "arquivos": [
         "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/ReliableAmqpConsumer.java",
         "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/OutboxRelay.java",
-        "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/messaging/JpaOutboxStore.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/shared/infrastructure/persistence/JpaOutboxStore.java",
         "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/messaging/RabbitMqBoundaryIntegrationTest.java"
       ],
       "refs": [
@@ -314,6 +227,10 @@
       ]
     }
   ],
-  "concluidas": [],
+  "concluidas": [
+    "T-287",
+    "T-288",
+    "T-289"
+  ],
   "avisos": []
 }

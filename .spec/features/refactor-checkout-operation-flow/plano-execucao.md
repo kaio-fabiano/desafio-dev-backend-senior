@@ -1,11 +1,11 @@
 # Plano de execução — refactor-checkout-operation-flow
 
-> gerado por `onp-spec plano` em 2026-09-11 08:02 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-11 08:46 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano refactor-checkout-operation-flow --sequencial --modelo gpt-5.6-luna --esforco low`
 
 ## Resumo — o que vai acontecer
 
-- **modo SEQUENCIAL (escolha do usuário)**: 14 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal
+- **modo SEQUENCIAL (escolha do usuário)**: 9 tarefa(s) pendente(s), UMA APÓS A OUTRA, na árvore principal (3 já concluída(s): T-287, T-288, T-289)
 - sem worktrees e sem paralelismo — cada tarefa roda numa janela de contexto limpa, na ordem do tasks.md
 - **custo travado pelo usuário**: modelo `gpt-5.6-luna` · esforço `low` em TODAS as tarefas (vence tasks.md e config)
 - tudo acontece na branch de trabalho `spec/refactor-checkout-operation-flow`; levar para a main é decisão sua
@@ -14,12 +14,7 @@
 
 | tarefa | título | modelo | esforço |
 |---|---|---|---|
-| T-287 | Add focused Red tests for checkout identity and non-blocking duplicates | `gpt-5.6-luna` | low |
-| T-288 | Implement deterministic checkout identity and command hashing contract | `gpt-5.6-luna` | low |
-| T-289 | Configure per-operation Axon sequencing without global serialization | `gpt-5.6-luna` | low |
-| T-290 | Replace checkout lease columns with durable operation schema | `gpt-5.6-luna` | low |
-| T-291 | Implement race-safe create-or-load and idempotency conflict | `gpt-5.6-luna` | low |
-| T-292 | Persist monotonic Woo attempt and operation outcomes | `gpt-5.6-luna` | low |
+| T-290 | Implement the durable race-safe checkout persistence slice | `gpt-5.6-luna` | low |
 | T-293 | Return current checkout state and dispatch Transaction asynchronously | `gpt-5.6-luna` | low |
 | T-294 | Preserve WooCommerce uncertain-result reconciliation | `gpt-5.6-luna` | low |
 | T-295 | Expose checkout operation through GraphQL mutation and query | `gpt-5.6-luna` | low |
