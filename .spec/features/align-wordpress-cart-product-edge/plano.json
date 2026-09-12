@@ -1,0 +1,38 @@
+{
+  "runId": "desafio-dev-backend-senior-align-wordpress-cart-product-edge-mtx3hfck",
+  "feature": "align-wordpress-cart-product-edge",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 15:12",
+  "branchTrabalho": "spec/align-wordpress-cart-product-edge",
+  "baseDir": ".spec/features/align-wordpress-cart-product-edge",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-align-wordpress-cart-product-edge-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-307",
+      "titulo": "Align cart product contracts with WooGraphQL",
+      "modelo": "gpt-5.6-luna",
+      "esforco": "low",
+      "arquivos": [
+        "libs/contracts/graphql/wordpress/schema.graphql",
+        "apps/apollo-mcp/schema.graphql",
+        "apps/apollo-mcp/operations/add-to-cart.graphql",
+        "apps/apollo-mcp/operations/get-my-cart.graphql",
+        "test/wordpress-native-commerce.test.mjs"
+      ],
+      "refs": [
+        "US-160",
+        "AC-356"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

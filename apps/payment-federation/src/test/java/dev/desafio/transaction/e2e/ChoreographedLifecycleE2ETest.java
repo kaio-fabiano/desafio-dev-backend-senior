@@ -179,7 +179,7 @@ class ChoreographedLifecycleE2ETest {
         var started = StartTransaction.started(new StartTransaction(
             "transaction-251", "operation-251", "buyer@example.test", "order-251",
             List.of(new Transaction.Item("sku-251", 1)), new BigDecimal("42.50"), "BRL", "CARD",
-            "provider-token-251", "visa"
+            "provider-token-251", "visa", "buyer@example.test"
         ), CLOCK.instant());
         transactionOutbox().enqueueOrderReceived(started);
         var transaction = new AtomicReference<>(Transaction.replay(List.of(started.toDomainEvent())));
@@ -264,7 +264,7 @@ class ChoreographedLifecycleE2ETest {
         var started = StartTransaction.started(new StartTransaction(
             "transaction-refund", "operation-refund", "buyer@example.test", "order-refund",
             List.of(new Transaction.Item("sku-refund", 1)), new BigDecimal("42.50"), "BRL", "CARD",
-            "provider-token-refund", "visa"
+            "provider-token-refund", "visa", "buyer@example.test"
         ), CLOCK.instant());
         var transaction = Transaction.replay(List.of(started.toDomainEvent()));
         apply(transaction, Transaction.Outcome.INVENTORY_RESERVED, "reservation-refund");
@@ -369,7 +369,8 @@ class ChoreographedLifecycleE2ETest {
     void inventoryAndPaymentRejectionsRemainIndependentOverRabbitMq() throws Exception {
         var firstStarted = StartTransaction.started(new StartTransaction(
             "transaction-no-stock", "operation-no-stock", "buyer@example.test", "order-no-stock",
-            List.of(new Transaction.Item("sku-empty", 1)), new BigDecimal("10.00"), "BRL", "PIX", null, null
+            List.of(new Transaction.Item("sku-empty", 1)), new BigDecimal("10.00"), "BRL", "PIX", null, null,
+            "buyer@example.test"
         ), CLOCK.instant());
         var noStockTransaction = new AtomicReference<>(Transaction.replay(List.of(firstStarted.toDomainEvent())));
         var noStockViews = transactionViews();
@@ -393,7 +394,7 @@ class ChoreographedLifecycleE2ETest {
         var secondStarted = StartTransaction.started(new StartTransaction(
             "transaction-payment-rejected", "operation-payment-rejected", "buyer@example.test",
             "order-payment-rejected", List.of(new Transaction.Item("sku-available", 1)),
-            new BigDecimal("10.00"), "BRL", "CARD", "provider-token-rejected", "master"
+            new BigDecimal("10.00"), "BRL", "CARD", "provider-token-rejected", "master", "buyer@example.test"
         ), CLOCK.instant());
         var paymentRejectedTransaction = Transaction.replay(List.of(secondStarted.toDomainEvent()));
         apply(paymentRejectedTransaction, Transaction.Outcome.INVENTORY_RESERVED, "reservation-rejected");
@@ -444,7 +445,7 @@ class ChoreographedLifecycleE2ETest {
         var started = StartTransaction.started(new StartTransaction(
             "transaction-out-of-order", "operation-out-of-order", "buyer@example.test",
             "order-out-of-order", List.of(new Transaction.Item("sku-order", 1)),
-            new BigDecimal("12.00"), "BRL", "PIX", null, null
+            new BigDecimal("12.00"), "BRL", "PIX", null, null, "buyer@example.test"
         ), CLOCK.instant());
         var transaction = new AtomicReference<>(Transaction.replay(List.of(started.toDomainEvent())));
         var views = transactionViews();

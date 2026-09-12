@@ -27,14 +27,17 @@ class TransactionProjectionTest {
         var event = StartTransaction.started(new StartTransaction(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)),
-            new BigDecimal("19.90"), "BRL", "PIX", null, null
+            new BigDecimal("19.90"), "BRL", "PIX", null, null, "buyer-1@example.test"
         ), Instant.parse("2026-09-09T12:00:00Z"));
         TransactionView expected = TransactionView.from(event);
         TransactionViewStore views = new TransactionViewStore() {
             @Override public void upsert(TransactionEvent ignored) { writes.incrementAndGet(); }
             @Override public Optional<TransactionView> find(String id) { return Optional.of(expected); }
         };
-        TransactionOutbox outbox = ignored -> outboxWrites.incrementAndGet();
+        TransactionOutbox outbox = new TransactionOutbox() {
+            @Override public void enqueueOrderReceived(TransactionEvent ignored) { outboxWrites.incrementAndGet(); }
+            @Override public void enqueueCancelled(TransactionEvent ignored) {}
+        };
 
         new TransactionEventHandler(views, outbox).on(event);
         var result = new FindTransactionHandler(views).handle(new FindTransaction("transaction-1"));
@@ -51,19 +54,22 @@ class TransactionProjectionTest {
         var event = StartTransaction.started(new StartTransaction(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)),
-            new BigDecimal("19.90"), "BRL", "CARD", "provider-token", "visa"
+            new BigDecimal("19.90"), "BRL", "CARD", "provider-token", "visa", "buyer-1@example.test"
         ), Instant.parse("2026-09-09T12:00:00Z"));
         TransactionViewStore views = new TransactionViewStore() {
             @Override public void upsert(TransactionEvent ignored) {}
             @Override public Optional<TransactionView> find(String id) { return Optional.empty(); }
         };
-        var handler = new TransactionEventHandler(views, ignored -> outboxWrites.incrementAndGet());
+        var handler = new TransactionEventHandler(views, new TransactionOutbox() {
+            @Override public void enqueueOrderReceived(TransactionEvent ignored) { outboxWrites.incrementAndGet(); }
+            @Override public void enqueueCancelled(TransactionEvent ignored) {}
+        });
 
         handler.on(event);
         handler.on(TransactionEvent.outcome(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
-            "provider-token", "visa",
+            "provider-token", "visa", "buyer-1@example.test",
             Transaction.Outcome.INVENTORY_RESERVED, "reservation-1",
             Transaction.Status.INVENTORY_RESERVED, 2, event.occurredAt().plusSeconds(1)
         ));

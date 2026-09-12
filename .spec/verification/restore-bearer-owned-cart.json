@@ -1,0 +1,32 @@
+{
+  "feature": "restore-bearer-owned-cart",
+  "timestamp": "2026-09-11T16:25:44.855Z",
+  "gitRev": "01783963",
+  "command": "find test -maxdepth 1 -name '*.test.mjs' -print0 | xargs -0 env NODE_ENV=test TSX_TSCONFIG_PATH=$PWD/tsconfig.base.json node --import tsx --test --test-reporter=tap && pnpm exec vitest run --reporter=tap",
+  "reporter": "tap",
+  "exitCode": 123,
+  "testsParsed": 351,
+  "results": {},
+  "principles": {
+    "P-003": {
+      "status": "fail",
+      "testName": "Gateway TypeScript exception construction uses named messages @spec:AC-298 @principle:P-003"
+    },
+    "P-006": {
+      "status": "pass",
+      "testName": "the repository inventory has only the two approved application exclusions @spec:AC-260 @principle:P-006"
+    },
+    "P-007": {
+      "status": "pass",
+      "testName": "unlayered orchestration and unknown production roots fail the repository gate @spec:AC-261 @principle:P-007"
+    },
+    "P-005": {
+      "status": "pass",
+      "testName": "AC-252: the strict DDD contract is explicit @spec:AC-252 @principle:P-005"
+    },
+    "P-004": {
+      "status": "pass",
+      "testName": "AC-253: agents cannot silently bypass the contract @spec:AC-253 @principle:P-004"
+    }
+  }
+}

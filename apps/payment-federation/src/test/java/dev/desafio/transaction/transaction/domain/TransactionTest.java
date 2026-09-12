@@ -27,6 +27,7 @@ class TransactionTest {
             "CARD",
             "provider-token",
             "visa",
+            "buyer-1@example.test",
             NOW
         );
         var transaction = Transaction.replay(List.of(started));
@@ -62,7 +63,7 @@ class TransactionTest {
         var started = Transaction.start(
             "transaction-1", "operation-1", "buyer-1", "woo-42",
             List.of(new Transaction.Item("1001", 1)),
-            new BigDecimal("19.90"), "BRL", "PIX", null, null, NOW
+            new BigDecimal("19.90"), "BRL", "PIX", null, null, "buyer-1@example.test", NOW
         );
         var transaction = Transaction.replay(List.of(started));
 

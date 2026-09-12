@@ -158,7 +158,8 @@ class TransactionProjectionReplayTest {
     private History projectHistory() {
         var started = StartTransaction.started(new StartTransaction(
             "transaction-249", "operation-249", "buyer-249", "42",
-            List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX", null, null
+            List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX", null, null,
+            "buyer-249@example.test"
         ), NOW);
         var reservedTransaction = outcome(
             Transaction.Outcome.INVENTORY_RESERVED,
@@ -173,7 +174,7 @@ class TransactionProjectionReplayTest {
             3
         );
         var transactionHandler = new TransactionEventHandler(
-            transactionViews(), ignored -> {}
+            transactionViews(), noopOutbox()
         );
         transactionHandler.on(started);
         transactionHandler.on(reservedTransaction);
@@ -217,7 +218,7 @@ class TransactionProjectionReplayTest {
     }
 
     private void projectStaleEvents(History events) {
-        new TransactionEventHandler(transactionViews(), ignored -> {})
+        new TransactionEventHandler(transactionViews(), noopOutbox())
             .on(events.transaction());
         new InventoryProjectionHandler(inventoryProjections())
             .on(events.inventory());
@@ -262,9 +263,16 @@ class TransactionProjectionReplayTest {
         return TransactionEvent.outcome(
             "transaction-249", "operation-249", "buyer-249", "42",
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX",
-            null, null,
+            null, null, "buyer-249@example.test",
             outcome, reference, status, version, NOW.plusSeconds(version - 1L)
         );
+    }
+
+    private static dev.desafio.transaction.transaction.application.TransactionOutbox noopOutbox() {
+        return new dev.desafio.transaction.transaction.application.TransactionOutbox() {
+            @Override public void enqueueOrderReceived(TransactionEvent ignored) {}
+            @Override public void enqueueCancelled(TransactionEvent ignored) {}
+        };
     }
 
     private static JpaTransactionViewStore transactionViews() {

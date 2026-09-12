@@ -1,0 +1,37 @@
+{
+  "runId": "desafio-dev-backend-senior-preserve-wordpress-commerce-session-mtx91c8s",
+  "feature": "preserve-wordpress-commerce-session",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 17:47",
+  "branchTrabalho": "spec/preserve-wordpress-commerce-session",
+  "baseDir": ".spec/features/preserve-wordpress-commerce-session",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-preserve-wordpress-commerce-session-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-311",
+      "titulo": "Preserve WordPress commerce headers through the gateway",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/gateway/nest/src/federation/gateway-federation.configuration.ts",
+        "libs/gateway/nest/src/gateway-path.integration.spec.ts",
+        "libs/gateway/nest/src/gateway.module.spec.ts"
+      ],
+      "refs": [
+        "US-164",
+        "AC-361",
+        "AC-362"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

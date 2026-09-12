@@ -1,0 +1,35 @@
+{
+  "runId": "desafio-dev-backend-senior-enable-better-auth-openapi-mtx33xk6",
+  "feature": "enable-better-auth-openapi",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 15:01",
+  "branchTrabalho": "spec/enable-better-auth-openapi",
+  "baseDir": ".spec/features/enable-better-auth-openapi",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-enable-better-auth-openapi-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-306",
+      "titulo": "Enable Better Auth OpenAPI reference",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/identity/nest/src/better-auth/better-auth.factory.spec.ts",
+        "libs/identity/nest/src/better-auth/better-auth.factory.ts"
+      ],
+      "refs": [
+        "US-159",
+        "AC-355"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

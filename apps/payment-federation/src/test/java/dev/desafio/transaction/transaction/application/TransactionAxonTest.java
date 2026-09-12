@@ -123,6 +123,7 @@ class TransactionAxonTest {
                 "CARD",
                 "provider-token",
                 "visa",
+                "buyer-1@example.test",
                 Transaction.Outcome.INVENTORY_RESERVED,
                 "reservation-1",
                 Transaction.Status.INVENTORY_RESERVED,
@@ -215,7 +216,8 @@ class TransactionAxonTest {
             "BRL",
             "CARD",
             "provider-token",
-            "visa"
+            "visa",
+            "buyer-1@example.test"
         );
     }
 

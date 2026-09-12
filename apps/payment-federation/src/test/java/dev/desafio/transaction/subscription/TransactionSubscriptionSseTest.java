@@ -352,7 +352,8 @@ class TransactionSubscriptionSseTest {
         return new TransactionEvent(
             UUID.randomUUID(), transactionId, "operation-" + transactionId, owner, "42",
             List.of(new Transaction.Item("product-250", 1)), new BigDecimal("19.90"),
-            "BRL", "PIX", null, null, Transaction.Outcome.PAYMENT_PENDING, "PIX:provider-250",
+            "BRL", "PIX", null, null, owner + "@example.test",
+            Transaction.Outcome.PAYMENT_PENDING, "PIX:provider-250",
             Transaction.Status.PAYMENT_PENDING, version, Instant.now()
         );
     }

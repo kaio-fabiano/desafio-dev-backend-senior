@@ -106,23 +106,32 @@ public final class WooInventoryAdapter implements StockPort {
 
     private void assertAvailable(Inventory.ReservationRequested request) {
         for (var item : request.items()) {
-            var operation = Map.of(
-                "operationName", "InventoryAvailability",
-                "query", "query InventoryAvailability($id: ID!) { product(id: $id, idType: DATABASE_ID) { databaseId ... on SimpleProduct { stockQuantity stockStatus } ... on VariableProduct { stockQuantity stockStatus } } }",
-                "variables", Map.of("id", item.productId())
-            );
-            var product = send(operation).path("data").path("product");
-            if (product.isMissingNode() || product.isNull()) {
-                throw new IllegalStateException(
-                    InventoryErrorMessages.productNotResolved(item.productId())
-                );
-            }
-            if ("OUT_OF_STOCK".equals(product.path("stockStatus").asText())
-                || product.path("stockQuantity").isInt()
-                && product.path("stockQuantity").asInt() < item.quantity()) {
+            if (!hasStock(item.productId(), item.quantity())) {
                 throw new Inventory.InsufficientStockException();
             }
         }
+    }
+
+    @Override
+    public boolean isAvailable(java.util.List<dev.desafio.transaction.inventory.domain.StockItem> items) {
+        for (var item : items) {
+            if (!hasStock(item.productId(), item.quantity())) return false;
+        }
+        return true;
+    }
+
+    private boolean hasStock(String productId, int quantity) {
+        var operation = Map.of(
+            "operationName", "InventoryAvailability",
+            "query", "query InventoryAvailability($id: ID!) { product(id: $id, idType: DATABASE_ID) { databaseId ... on SimpleProduct { stockQuantity stockStatus } ... on VariableProduct { stockQuantity stockStatus } } }",
+            "variables", Map.of("id", productId)
+        );
+        var product = send(operation).path("data").path("product");
+        if (product.isMissingNode() || product.isNull()) {
+            throw new IllegalStateException(InventoryErrorMessages.productNotResolved(productId));
+        }
+        return !"OUT_OF_STOCK".equals(product.path("stockStatus").asText())
+            && (!product.path("stockQuantity").isInt() || product.path("stockQuantity").asInt() >= quantity);
     }
 
     private JsonNode send(Object operation) {

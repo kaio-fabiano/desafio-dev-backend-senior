@@ -2,6 +2,7 @@ package dev.desafio.transaction.transaction.application.event;
 
 import dev.desafio.transaction.transaction.application.TransactionOutbox;
 import dev.desafio.transaction.transaction.application.TransactionViewStore;
+import dev.desafio.transaction.transaction.domain.Transaction;
 import dev.desafio.transaction.transaction.domain.event.TransactionEvent;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
 
@@ -20,5 +21,6 @@ public final class TransactionEventHandler {
     public void on(TransactionEvent event) {
         views.upsert(event);
         if (event.version() == 1) outbox.enqueueOrderReceived(event);
+        if (event.status() == Transaction.Status.REJECTED) outbox.enqueueCancelled(event);
     }
 }

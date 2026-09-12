@@ -30,6 +30,12 @@ export class GatewayFederationConfiguration {
     return {
       server: {
         path: '/graphql',
+        graphiql: true,
+        playground: {
+          settings: {
+            'request.credentials': 'include',
+          },
+        },
         context: ({
           req,
           res,

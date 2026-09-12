@@ -22,7 +22,8 @@ public record StartTransaction(
     String currency,
     String paymentMethod,
     String providerToken,
-    String paymentMethodId
+    String paymentMethodId,
+    String payerEmail
 ) {
     public StartTransaction {
         transactionId = required(transactionId, "transactionId");
@@ -39,13 +40,14 @@ public record StartTransaction(
         } else if (hasText(providerToken) || hasText(paymentMethodId)) {
             throw new IllegalArgumentException(TransactionErrorMessages.PIX_CARD_FIELDS_FORBIDDEN);
         }
+        payerEmail = required(payerEmail, "payerEmail");
     }
 
     public static TransactionEvent started(StartTransaction command, Instant occurredAt) {
         return TransactionEvent.from(Transaction.start(
             command.transactionId(), command.operationKey(), command.owner(), command.wooOrderId(),
             command.items(), command.amount(), command.currency(), command.paymentMethod(),
-            command.providerToken(), command.paymentMethodId(), occurredAt
+            command.providerToken(), command.paymentMethodId(), command.payerEmail(), occurredAt
         ));
     }
 

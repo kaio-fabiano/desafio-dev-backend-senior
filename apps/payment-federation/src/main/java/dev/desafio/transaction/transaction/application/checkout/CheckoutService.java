@@ -117,7 +117,8 @@ public final class CheckoutService {
             order.currency(),
             command.paymentMethod(),
             command.providerToken(),
-            command.paymentMethodId()
+            command.paymentMethodId(),
+            command.payerEmail()
         )).whenComplete((ignored, error) -> {
             if (error == null) operations.complete(operationId, clock.instant());
         });

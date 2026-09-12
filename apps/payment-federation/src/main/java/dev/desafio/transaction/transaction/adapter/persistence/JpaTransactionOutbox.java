@@ -47,7 +47,7 @@ public final class JpaTransactionOutbox implements TransactionOutbox {
         payload.put("currency", event.currency());
         payload.put("paymentId", "payment:" + event.transactionId());
         payload.put("paymentOperationKey", event.operationKey() + ":payment");
-        payload.put("payerEmail", event.owner());
+        payload.put("payerEmail", event.payerEmail());
         if ("CARD".equals(event.paymentMethod())) {
             payload.put("providerCredentialReference", event.providerToken());
             payload.put("paymentMethodId", event.paymentMethodId());
@@ -61,6 +61,25 @@ public final class JpaTransactionOutbox implements TransactionOutbox {
         var entity = new TransactionOutboxEntity(
             event.eventId(), event.eventId().toString(), envelope.eventType(), document, event.occurredAt()
         );
+        persist(event, document, entity);
+    }
+
+    @Override
+    public void enqueueCancelled(TransactionEvent event) {
+        var payload = json.createObjectNode();
+        payload.put("reason", event.reference() != null ? event.reference() : event.status().name());
+        var envelope = new IntegrationEventEnvelope<JsonNode>(
+            event.eventId(), "transaction.cancelled.v1", 1, event.transactionId(),
+            event.transactionId(), event.operationKey(), event.eventId().toString(), event.occurredAt(), payload
+        );
+        var document = json.valueToTree(envelope);
+        var entity = new TransactionOutboxEntity(
+            event.eventId(), event.eventId().toString(), envelope.eventType(), document, event.occurredAt()
+        );
+        persist(event, document, entity);
+    }
+
+    private void persist(TransactionEvent event, JsonNode document, TransactionOutboxEntity entity) {
         try {
             transaction.executeWithoutResult(ignored -> {
                 entityManager.persist(entity);

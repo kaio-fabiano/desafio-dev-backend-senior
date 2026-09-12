@@ -101,8 +101,10 @@ public class InventoryConfiguration {
     }
 
     @Bean
-    CommitInventoryCommandHandler commitInventoryCommandHandler(Clock clock) {
-        return new CommitInventoryCommandHandler(clock);
+    CommitInventoryCommandHandler commitInventoryCommandHandler(Clock clock, java.util.Optional<StockPort> stock) {
+        return new CommitInventoryCommandHandler(
+            clock, (reservationId, items) -> stock.map(port -> port.isAvailable(items)).orElse(true)
+        );
     }
 
     @Bean

@@ -58,7 +58,7 @@ public final class AxonPaymentRabbitListener {
 
     private RefundPayment refund(IntegrationEventEnvelope<JsonNode> event) {
         return new RefundPayment(
-            event.transactionId(), event.correlationId() + ":payment", event.transactionId(),
+            "payment:" + event.transactionId(), event.correlationId() + ":payment", event.transactionId(),
             event.payload().path("reason").asText("INVENTORY_COMMIT_REJECTED"),
             event.correlationId(), event.eventId().toString()
         );

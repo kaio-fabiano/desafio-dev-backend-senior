@@ -48,6 +48,10 @@ public final class InventoryEventSourcedEntity {
         return reservation.status();
     }
 
+    public List<StockItem> items() {
+        return reservation.items();
+    }
+
     public boolean isSameRequest(String orderId, List<StockItem> items) {
         return reservation.isSameRequest(orderId, items);
     }
