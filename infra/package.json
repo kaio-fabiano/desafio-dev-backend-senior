@@ -15,7 +15,7 @@
     "deploy": "bash -o pipefail -c 'test \"$SST_DEPLOY_APPROVAL\" = \"DEPLOY\" && test -n \"$SST_STAGE\" && test \"$SST_STAGE\" != \"production\" && test \"$SST_APPROVED_STAGE\" = \"$SST_STAGE\" && test -n \"$SST_APPROVED_MONTHLY_COST_USD\" && test -n \"$SST_APPROVED_DIFF_SHA256\" && pnpm run validate && diff_file=$(mktemp) && trap '\"'\"'rm -f \"$diff_file\"'\"'\"' EXIT && sst diff --stage \"$SST_STAGE\" > \"$diff_file\" && cat \"$diff_file\" >&2 && current_diff_sha256=$(sed -E '\"'\"'/Permalink/d; s/ \\([0-9.]+s\\)$//'\"'\"' \"$diff_file\" | sed '\"'\"'/^[[:space:]]*$/d'\"'\"' | LC_ALL=C sort | sha256sum | cut -d \" \" -f 1) && test \"$SST_APPROVED_DIFF_SHA256\" = \"$current_diff_sha256\" && sst deploy --stage \"$SST_STAGE\"'"
   },
   "devDependencies": {
-    "sst": "3.17.37",
+    "sst": "4.17.1",
     "typescript": "5.7.2"
   }
 }

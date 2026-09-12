@@ -8,12 +8,12 @@ export default $config({
     return {
       name: 'marketplace',
       home: 'aws',
-      version: '3.17.37',
+      version: '4.17.1',
       protect: production,
       removal: production ? 'retain-all' : 'remove',
       providers: {
         aws: {
-          version: '6.66.2',
+          version: '7.39.0',
           region: 'us-east-1',
         },
       },
@@ -57,9 +57,14 @@ export default $config({
     );
     const mercadoPagoAccessToken = new sst.Secret('MercadoPagoAccessToken');
     const mercadoPagoWebhookSecret = new sst.Secret('MercadoPagoWebhookSecret');
+    const asaasApiKey = new sst.Secret('AsaasApiKey');
+    const asaasCustomerDocument = new sst.Secret('AsaasCustomerDocument');
+    const asaasWebhookToken = new sst.Secret('AsaasWebhookToken');
 
-    const serviceHost = (name: string, port: number) =>
-      `http://${name}.${$app.stage}.${$app.name}.sst:${port}`;
+    const serviceHost = (name: string, port: number) => {
+      const host = `${name.toLowerCase()}.${$app.stage}.${$app.name}.sst`;
+      return port === 80 ? `http://${host}` : `http://${host}:${port}`;
+    };
 
     const rabbitMq = new sst.aws.Service('RabbitMq', {
       cluster,
@@ -147,6 +152,12 @@ export default $config({
     const paymentFederation = new sst.aws.Service('PaymentFederation', {
       cluster,
       environment: {
+        ASAAS_API_BASE_URL: 'https://api-sandbox.asaas.com/v3',
+        ASAAS_API_KEY: asaasApiKey.value,
+        ASAAS_CONNECTION_TIMEOUT: '5s',
+        ASAAS_CUSTOMER_DOCUMENT: asaasCustomerDocument.value,
+        ASAAS_READ_TIMEOUT: '15s',
+        ASAAS_WEBHOOK_TOKEN: asaasWebhookToken.value,
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         MERCADO_PAGO_ACCESS_TOKEN: mercadoPagoAccessToken.value,
         MERCADO_PAGO_API_BASE_URL: 'https://api.mercadopago.com',
@@ -154,12 +165,14 @@ export default $config({
         MERCADO_PAGO_READ_TIMEOUT: '15s',
         MERCADO_PAGO_WEBHOOK_SECRET: mercadoPagoWebhookSecret.value,
         OAUTH_ISSUER: publicOAuthIssuer,
-        PAYMENT_PROVIDER_MODE: 'mercado-pago',
+        PAYMENT_PROVIDER_MODE: 'asaas',
         RABBITMQ_URL: serviceHost('RabbitMq', 5672).replace('http', 'amqp'),
         SERVER_PORT: '8080',
         SPRING_DATASOURCE_PASSWORD: paymentDatabase.password,
         SPRING_DATASOURCE_URL: $interpolate`jdbc:postgresql://${paymentDatabase.host}:${paymentDatabase.port}/${paymentDatabase.database}`,
         SPRING_DATASOURCE_USERNAME: paymentDatabase.username,
+        TRANSACTION_CHECKOUT_SITE_TOKEN: wordpressGraphQLSiteToken.value,
+        TRANSACTION_CHECKOUT_WORDPRESS_URL: `${serviceHost('WordPress', 80)}/graphql`,
         WORDPRESS_GRAPHQL_URL: `${serviceHost('WordPress', 80)}/graphql`,
         WPGRAPHQL_SITE_TOKEN: wordpressGraphQLSiteToken.value,
       },
@@ -168,7 +181,7 @@ export default $config({
           'CMD-SHELL',
           'curl --fail --silent http://127.0.0.1:8080/actuator/health',
         ],
-        startPeriod: '60 seconds',
+        startPeriod: '210 seconds',
       },
       image: {
         context: '..',
@@ -185,6 +198,9 @@ export default $config({
         wordpressGraphQLSiteToken,
         mercadoPagoAccessToken,
         mercadoPagoWebhookSecret,
+        asaasApiKey,
+        asaasCustomerDocument,
+        asaasWebhookToken,
       ],
       serviceRegistry: { port: 8080 },
     });
@@ -194,7 +210,6 @@ export default $config({
       environment: {
         DPOP_REPLAY_TABLE: gatewayDpopReplay.name,
         GATEWAY_AUDIENCE: 'https://gateway.marketplace.local',
-        GATEWAY_ORIGIN: publicApi.url,
         IDENTITY_GRAPHQL_URL: `${serviceHost('IdentitySubgraph', 3001)}/graphql`,
         IDENTITY_JWKS_URL: `${serviceHost('IdentitySubgraph', 3001)}/api/auth/jwks`,
         NODE_ENV: 'production',
@@ -204,6 +219,7 @@ export default $config({
         PAYMENT_GRAPHQL_URL: `${serviceHost('PaymentFederation', 8080)}/graphql`,
         PORT: '3000',
         WORDPRESS_GRAPHQL_URL: `${serviceHost('WordPress', 80)}/graphql`,
+        WPGRAPHQL_SITE_TOKEN: wordpressGraphQLSiteToken.value,
       },
       health: {
         command: [
@@ -221,9 +237,23 @@ export default $config({
         image: (_args, options) => {
           options.retainOnDelete = true;
         },
+        loadBalancer: (args) => {
+          args.idleTimeout = 300;
+        },
       },
-      link: [gatewayDpopReplay, identity, paymentFederation, wordpress],
+      link: [
+        gatewayDpopReplay,
+        identity,
+        paymentFederation,
+        wordpress,
+        wordpressGraphQLSiteToken,
+      ],
       serviceRegistry: { port: 3000 },
+      loadBalancer: {
+        public: true,
+        rules: [{ listen: '80/http', forward: '3000/http' }],
+        health: { '3000/http': { path: '/health' } },
+      },
     });
 
     const apolloMcp = new sst.aws.Service('ApolloMcp', {
@@ -273,17 +303,26 @@ export default $config({
       'POST /webhooks/mercado-pago',
       paymentFederation.nodes.cloudmapService.arn,
     );
+    publicApi.routePrivate(
+      'POST /webhooks/asaas',
+      paymentFederation.nodes.cloudmapService.arn,
+    );
+    publicApi.routePrivate(
+      'ANY /wp-json/{proxy+}',
+      wordpress.nodes.cloudmapService.arn,
+    );
     publicApi.routePrivate('ANY /mcp', apolloMcp.nodes.cloudmapService.arn);
     publicApi.routePrivate(
       'ANY /mcp/{proxy+}',
       apolloMcp.nodes.cloudmapService.arn,
     );
     publicApi.routePrivate('GET /health', apolloMcp.nodes.cloudmapService.arn);
-    publicApi.routePrivate('$default', gateway.nodes.cloudmapService.arn);
 
     return {
       apolloMcpUrl: $interpolate`${publicApi.url}/mcp`,
-      gatewayUrl: publicApi.url,
+      asaasWebhookUrl: $interpolate`${publicApi.url}/webhooks/asaas`,
+      authUrl: publicApi.url,
+      gatewayUrl: gateway.url,
       mercadoPagoWebhookUrl: $interpolate`${publicApi.url}/webhooks/mercado-pago`,
       resourceNames: [
         'ApolloMcp',

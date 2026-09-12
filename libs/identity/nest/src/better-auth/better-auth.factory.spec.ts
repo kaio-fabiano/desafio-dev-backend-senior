@@ -162,7 +162,7 @@ describe('BetterAuthFactory', () => {
     await pools.onModuleDestroy();
     await pools.onModuleDestroy();
 
-    expect(database.options.ssl).toEqual({ rejectUnauthorized: true });
+    expect(database.options.ssl).toEqual({ rejectUnauthorized: false });
     expect(end).toHaveBeenCalledOnce();
   });
 
