@@ -810,15 +810,15 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/graphql/identity.resolver.ts": {
-    "mtime": 1789072212.212097,
-    "seen": 1789193304.4678614,
-    "ast_hash": "47202191dba6acb21564fe1974e69683",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2534528,
+    "ast_hash": "a1e54df960edf30782d535d11d5b5ae1",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/identity.module.ts": {
-    "mtime": 1789072212.212097,
-    "seen": 1789193304.4678917,
-    "ast_hash": "cab06e1c8f3a17705847785066e91311",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2534814,
+    "ast_hash": "b5c5287406912b1c220cc3116dd63e80",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/index.ts": {
@@ -936,9 +936,9 @@
     "semantic_hash": ""
   },
   "test/identity-federation-refactor.test.mjs": {
-    "mtime": 1789072212.215097,
-    "seen": 1789193304.4689357,
-    "ast_hash": "9385e7b15c1fdbdc92198fee9e1018cc",
+    "mtime": 1789196251.7865193,
+    "seen": 1789196969.255123,
+    "ast_hash": "be346f7955bdafdd1bcae1b6c4e6eb3c",
     "semantic_hash": ""
   },
   "test/milestone-6-apollo-mcp.spec.test.js": {
@@ -960,9 +960,9 @@
     "semantic_hash": ""
   },
   "test/milestone-6-mcp-oauth.test.mjs": {
-    "mtime": 1788807438.3274016,
-    "seen": 1788896194.080964,
-    "ast_hash": "7e31d2540798cf64ced0bbb800b2e64f",
+    "mtime": 1789196314.4548662,
+    "seen": 1789196969.2552722,
+    "ast_hash": "35909ad60235d7f57b1ae85a0d7ef2c3",
     "semantic_hash": ""
   },
   "test/milestone-6-mcp-operations.test.mjs": {
@@ -1032,9 +1032,9 @@
     "semantic_hash": "cbff934a3d846dda33d31fe91c92d026"
   },
   "test/milestone-8-identity-gateway.test.mjs": {
-    "mtime": 1789143635.158748,
-    "seen": 1789193304.469177,
-    "ast_hash": "2f912b6cf3dcc494ab37a3a369045dce",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2553966,
+    "ast_hash": "96e2006dcd7cf7809c8240dc886f7cbd",
     "semantic_hash": ""
   },
   "test/milestone-8-import-order-stability.test.mjs": {
@@ -2250,9 +2250,9 @@
     "semantic_hash": "6562e000e59b63b106cad97392c9b963"
   },
   "test/oauth-resource-server-auth.spec.test.mjs": {
-    "mtime": 1788982146.052631,
-    "seen": 1789007216.0337806,
-    "ast_hash": "cd5f4334f4f766bead6bfb2718cf7677",
+    "mtime": 1789196430.2782876,
+    "seen": 1789196969.2554963,
+    "ast_hash": "eb6f7336eb8822bce1e2b95418a4436c",
     "semantic_hash": ""
   },
   ".spec/features/mercado-pago-payment-provider/design.md": {
@@ -2874,15 +2874,15 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/graphql/identity.graphql.integration.spec.ts": {
-    "mtime": 1789072212.211097,
-    "seen": 1789193304.4678595,
-    "ast_hash": "604cce5f986e6f4ef37568b2f961b918",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2534513,
+    "ast_hash": "019e77c8ac32303d946761b5ad4e202f",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/graphql/identity.resolver.spec.ts": {
-    "mtime": 1789072212.212097,
-    "seen": 1789193304.4678605,
-    "ast_hash": "ff1f8bb13b772ef1dfefe2fed9cd0d37",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.253452,
+    "ast_hash": "4f0ceac69f217fa5bcd397e85b76be00",
     "semantic_hash": ""
   },
   "libs/platform/nest/src/oauth-resource/graphql/oauth-subject.decorator.spec.ts": {
@@ -3528,9 +3528,9 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/wordpress/wordpress-error-code.d.ts": {
-    "mtime": 1788807438.3244016,
-    "seen": 1788896194.0808618,
-    "ast_hash": "3feea5090b8d8477af367d795f69b8cd",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2538943,
+    "ast_hash": "d7d71b063b53c1cbfb32e77df116182f",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/wordpress/wordpress-identity.service.spec.ts": {
@@ -3540,9 +3540,9 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/wordpress/wordpress-identity.service.ts": {
-    "mtime": 1789056750.4393616,
-    "seen": 1789193304.4681804,
-    "ast_hash": "4a5deb6d263be1d037178ee1ec6804b0",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.253911,
+    "ast_hash": "416358003ed0c4f5b6346888f420daae",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/wordpress/wordpress.error.ts": {
@@ -4842,15 +4842,15 @@
     "semantic_hash": ""
   },
   "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java": {
-    "mtime": 1789187749.4957085,
-    "seen": 1789193304.4666154,
-    "ast_hash": "423c84f61402f9db856d14ad79e5e4e4",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2510974,
+    "ast_hash": "05da27d007eaa9bef2393faa273bba76",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java": {
-    "mtime": 1789130267.3007355,
-    "seen": 1789193304.4666162,
-    "ast_hash": "f4f0cd8063324b1ff234cdcae5ed7148",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2510982,
+    "ast_hash": "40192378e3f3762023f3ae078abbac96",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/test/java/dev/desafio/transaction/infrastructure/axon/AxonPersistenceRestartTest.java": {
@@ -5532,9 +5532,9 @@
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/edge/CheckoutGraphQlController.java": {
-    "mtime": 1789130267.2977355,
-    "seen": 1789193304.4657528,
-    "ast_hash": "04c8f561bdb301a23a4db8869d5c9512",
+    "mtime": 1789196183.2370756,
+    "seen": 1789196969.246598,
+    "ast_hash": "d958bd0bb852784d2be0181a8aa5e7db",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/edge/CheckoutInput.java": {
@@ -5568,9 +5568,9 @@
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/edge/OrderView.java": {
-    "mtime": 1789130267.2982142,
-    "seen": 1789193304.4657567,
-    "ast_hash": "5e4a2af2a7c887aafa83cbb36453ef94",
+    "mtime": 1789196183.2370756,
+    "seen": 1789196969.246692,
+    "ast_hash": "7b17efe119497a17ad92822605e54a1b",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/edge/configuration/FederationGraphqlConfiguration.java": {
@@ -5580,9 +5580,9 @@
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/edge/configuration/GraphQlReadConfiguration.java": {
-    "mtime": 1789130267.2983289,
-    "seen": 1789193304.4657586,
-    "ast_hash": "de004b58cd5a58a8283b105718e2e40b",
+    "mtime": 1789196183.2370756,
+    "seen": 1789196969.2467134,
+    "ast_hash": "b6ceb0eb6fc87b30283279bfc48f7657",
     "semantic_hash": ""
   },
   "apps/payment-federation/src/main/java/dev/desafio/transaction/inventory/adapter/messaging/AxonInventoryRabbitListener.java": {
@@ -6312,9 +6312,9 @@
     "semantic_hash": ""
   },
   "libs/identity/nest/src/application/errors/identity-error-messages.ts": {
-    "mtime": 1789056750.4383614,
-    "seen": 1789193304.467603,
-    "ast_hash": "c6040f5c84abcc17f16453253b31aaea",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.253005,
+    "ast_hash": "883bf61d634fb188b99bceec5a42a090",
     "semantic_hash": ""
   },
   "libs/identity/nest/src/application/policies/identity-user-visibility.policy.spec.ts": {
@@ -6954,9 +6954,9 @@
     "semantic_hash": ""
   },
   "compose.override.yaml": {
-    "mtime": 1789186981.2163458,
-    "seen": 1789193304.4725773,
-    "ast_hash": "953a078119563bff6ad85387a8b5a942",
+    "mtime": 1789196183.2371573,
+    "seen": 1789196969.2597632,
+    "ast_hash": "4735dd520ef7c8259e17adeea536040b",
     "semantic_hash": ""
   },
   "docs/evidence/harden-oauth-runtime-configuration/T-268.md": {
