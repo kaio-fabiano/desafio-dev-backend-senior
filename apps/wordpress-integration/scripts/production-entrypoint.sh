@@ -22,6 +22,8 @@ if ! "${wp[@]}" core is-installed >/dev/null 2>&1; then
     --admin_user=marketplace-admin --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
     --admin_email=admin@marketplace.local --skip-email
 fi
+"${wp[@]}" option update siteurl "$WORDPRESS_URL"
+"${wp[@]}" option update home "$WORDPRESS_URL"
 
 "${wp[@]}" plugin activate woocommerce wp-graphql wp-graphql-woocommerce \
   wp-graphql-headless-login wp-graphql-federations order-workflow-reconciliation
