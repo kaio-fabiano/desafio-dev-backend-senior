@@ -37,7 +37,10 @@ public class JpaPaymentProjection implements PaymentProjection {
 
     @Override
     public void project(PaymentApproved event) {
-        update(event.paymentId(), Payment.Status.AUTHORIZED, event.providerReference(), null, 3);
+        var payment = payments.lockByPaymentId(event.paymentId())
+            .orElseThrow(() -> new IllegalStateException("Payment projection has no requested event"));
+        var status = payment.method() == Payment.Method.PIX ? Payment.Status.PIX_PAID : Payment.Status.AUTHORIZED;
+        payment.project(status, event.providerReference(), null, 3);
     }
 
     @Override

@@ -99,6 +99,9 @@ public class JpaProviderNotificationRepository
                 case PIX -> target == Payment.Status.PIX_GENERATED || target == Payment.Status.REJECTED;
             };
         }
+        if (payment.status() == Payment.Status.PIX_GENERATED) {
+            return target == Payment.Status.PIX_PAID || target == Payment.Status.REJECTED;
+        }
         return payment.status() == Payment.Status.AUTHORIZED && target == Payment.Status.REFUNDED;
     }
 
@@ -118,6 +121,7 @@ public class JpaProviderNotificationRepository
         return switch (status) {
             case AUTHORIZED -> "CARD_AUTHORIZATION";
             case PIX_GENERATED -> "PIX_CODE_GENERATION";
+            case PIX_PAID -> "PIX_PAYMENT_CONFIRMATION";
             case REFUNDED -> "REFUND";
             case REJECTED -> "PAYMENT_REJECTION";
             case PENDING -> throw new IllegalArgumentException("status does not produce a payment effect");

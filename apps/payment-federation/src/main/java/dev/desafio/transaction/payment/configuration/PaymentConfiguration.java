@@ -1,5 +1,6 @@
 package dev.desafio.transaction.payment.configuration;
 
+import dev.desafio.transaction.payment.adapter.asaas.AsaasPaymentProvider;
 import dev.desafio.transaction.payment.adapter.mercadopago.MercadoPagoPaymentProvider;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentRepository;
 import dev.desafio.transaction.payment.adapter.persistence.JpaPaymentViewRepository;
@@ -24,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(MercadoPagoProperties.class)
+@EnableConfigurationProperties({MercadoPagoProperties.class, AsaasProperties.class})
 public class PaymentConfiguration {
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.url")
@@ -73,6 +74,16 @@ public class PaymentConfiguration {
     )
     PaymentProvider deterministicPaymentProvider() {
         return new DeterministicPaymentProvider();
+    }
+
+    @Bean
+    @ConditionalOnProperty(
+        prefix = "payment.provider",
+        name = "mode",
+        havingValue = "asaas"
+    )
+    PaymentProvider asaasPaymentProvider(AsaasProperties properties) {
+        return new AsaasPaymentProvider(properties.validatedForAsaas());
     }
 
     @Bean

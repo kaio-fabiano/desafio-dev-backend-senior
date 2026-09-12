@@ -139,11 +139,13 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
         if (payment == null || payment.getId() == null) {
             throw new IllegalStateException(PaymentErrorMessages.MERCADO_PAGO_RETURNED_NO_PAYMENT_REFERENCE);
         }
-        var pixCode = pixCode(payment);
+        var isPix = "bank_transfer".equals(payment.getPaymentTypeId());
+        var rawPixCode = isPix ? pixCode(payment) : null;
+        var status = status(payment.getStatus(), isPix, rawPixCode != null);
         return new Result(
             payment.getId().toString(),
-            status(payment.getStatus(), pixCode != null),
-            pixCode
+            status,
+            status == Payment.Status.PIX_GENERATED ? rawPixCode : null
         );
     }
 
@@ -156,9 +158,19 @@ public final class MercadoPagoPaymentProvider implements PaymentProvider {
         return pixCode == null || pixCode.isBlank() ? null : pixCode;
     }
 
-    private Payment.Status status(String providerStatus, boolean hasPixCode) {
-        if (hasPixCode) return Payment.Status.PIX_GENERATED;
-        return switch (requireText(providerStatus, "providerStatus")) {
+    private Payment.Status status(String providerStatus, boolean isPix, boolean hasPixCode) {
+        var normalized = requireText(providerStatus, "providerStatus");
+        if (isPix) {
+            return switch (normalized) {
+                case "approved" -> Payment.Status.PIX_PAID;
+                case "pending", "in_process", "in_mediation" -> hasPixCode
+                    ? Payment.Status.PIX_GENERATED
+                    : Payment.Status.PENDING;
+                case "rejected", "cancelled" -> Payment.Status.REJECTED;
+                default -> throw new IllegalStateException(PaymentErrorMessages.UNSUPPORTED_MERCADO_PAGO_PAYMENT_STATUS);
+            };
+        }
+        return switch (normalized) {
             case "approved" -> Payment.Status.AUTHORIZED;
             case "pending", "in_process", "in_mediation" -> Payment.Status.PENDING;
             case "refunded" -> Payment.Status.REFUNDED;

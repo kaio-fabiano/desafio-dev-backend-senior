@@ -65,7 +65,7 @@ class PostgresMigrationIntegrationTest {
             assertEquals(Set.of("transaction", "inventory", "payment", "axon"),
                 schemas.stream().filter(Set.of("transaction", "inventory", "payment", "axon")::contains)
                     .collect(java.util.stream.Collectors.toSet()));
-            assertEquals(6, jdbc.queryForObject(
+            assertEquals(7, jdbc.queryForObject(
                 "select count(*) from axon.flyway_schema_history where version is not null and success",
                 Integer.class
             ));

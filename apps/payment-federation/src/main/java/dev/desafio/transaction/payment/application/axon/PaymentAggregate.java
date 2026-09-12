@@ -82,7 +82,8 @@ public final class PaymentAggregate {
         if (command.status() == Payment.Status.REFUNDED) {
             throw new IllegalStateException(PaymentErrorMessages.REFUND_REQUIRES_APPROVED_PAYMENT);
         }
-        if (method == Payment.Method.CARD && command.status() == Payment.Status.PIX_GENERATED) {
+        if (method == Payment.Method.CARD
+            && (command.status() == Payment.Status.PIX_GENERATED || command.status() == Payment.Status.PIX_PAID)) {
             throw new IllegalArgumentException(PaymentErrorMessages.CARD_PAYMENTS_CANNOT_HAVE_PIX_STATUS);
         }
         if (method == Payment.Method.PIX && command.status() == Payment.Status.AUTHORIZED) {
@@ -93,7 +94,7 @@ public final class PaymentAggregate {
                 paymentId, transactionId, command.providerReference(), command.pixCode(),
                 command.correlationId(), command.causationId(), now
             );
-            case AUTHORIZED -> new PaymentApproved(
+            case AUTHORIZED, PIX_PAID -> new PaymentApproved(
                 paymentId, transactionId, command.providerReference(),
                 command.correlationId(), command.causationId(), now
             );
@@ -171,7 +172,8 @@ public final class PaymentAggregate {
         return switch (stage) {
             case PENDING -> command.status() == Payment.Status.PENDING
                 || command.status() == Payment.Status.PIX_GENERATED;
-            case APPROVED -> command.status() == Payment.Status.AUTHORIZED;
+            case APPROVED -> command.status() == Payment.Status.AUTHORIZED
+                || command.status() == Payment.Status.PIX_PAID;
             case REJECTED -> command.status() == Payment.Status.REJECTED;
             case REFUNDED -> command.status() == Payment.Status.REFUNDED;
             default -> false;

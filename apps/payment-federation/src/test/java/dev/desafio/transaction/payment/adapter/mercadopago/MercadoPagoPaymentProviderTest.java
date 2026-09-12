@@ -82,6 +82,21 @@ class MercadoPagoPaymentProviderTest {
     }
 
     @Test
+    @DisplayName("A settled Pix payment reports PIX_PAID, not Card AUTHORIZED")
+    void settledPixPaymentReportsPixPaid() throws Exception {
+        var client = mock(PaymentClient.class);
+        var payment = providerPayment(84L, "approved", null, true);
+        when(client.get(any(), any())).thenReturn(payment);
+        var provider = new MercadoPagoPaymentProvider(client, properties());
+
+        var result = provider.findByProviderReference("84");
+
+        assertEquals("84", result.providerReference());
+        assertEquals(Payment.Status.PIX_PAID, result.status());
+        assertNull(result.pixCode());
+    }
+
+    @Test
     @DisplayName("AC-165: ambiguous creation is retried only with the original key @spec:AC-165")
     void repeatedCreationKeepsTheOriginalKey() throws Exception {
         var client = mock(PaymentClient.class);
@@ -226,9 +241,19 @@ class MercadoPagoPaymentProviderTest {
         String status,
         String pixCode
     ) {
+        return providerPayment(id, status, pixCode, pixCode != null);
+    }
+
+    private com.mercadopago.resources.payment.Payment providerPayment(
+        Long id,
+        String status,
+        String pixCode,
+        boolean isPix
+    ) {
         var payment = mock(com.mercadopago.resources.payment.Payment.class);
         when(payment.getId()).thenReturn(id);
         when(payment.getStatus()).thenReturn(status);
+        when(payment.getPaymentTypeId()).thenReturn(isPix ? "bank_transfer" : "credit_card");
         if (pixCode != null) {
             var interaction = mock(PaymentPointOfInteraction.class);
             var transaction = mock(PaymentTransactionData.class);
