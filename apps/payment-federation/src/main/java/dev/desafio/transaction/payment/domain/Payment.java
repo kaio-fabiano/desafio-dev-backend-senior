@@ -33,7 +33,7 @@ public record Payment(
         }
         Objects.requireNonNull(status, "status");
         providerReference = requireText(providerReference, "providerReference");
-        if (method == Method.CARD && status == Status.PIX_GENERATED) {
+        if (method == Method.CARD && (status == Status.PIX_GENERATED || status == Status.PIX_PAID)) {
             throw new IllegalArgumentException(PaymentErrorMessages.CARD_PAYMENTS_CANNOT_HAVE_PIX_STATUS);
         }
         if (method == Method.PIX && status == Status.AUTHORIZED) {
@@ -48,7 +48,7 @@ public record Payment(
         Objects.requireNonNull(command, "command");
         Objects.requireNonNull(result, "result");
         if (result.status() == Status.REFUNDED
-            || (command.method() == Method.CARD && result.status() == Status.PIX_GENERATED)
+            || (command.method() == Method.CARD && (result.status() == Status.PIX_GENERATED || result.status() == Status.PIX_PAID))
             || (command.method() == Method.PIX && result.status() == Status.AUTHORIZED)) {
             throw new IllegalArgumentException(PaymentErrorMessages.PROVIDER_RESULT_IS_INCOMPATIBLE_WITH_PAYMENT_REQUEST);
         }
@@ -117,6 +117,7 @@ public record Payment(
         var eventType = switch (resultStatus) {
             case AUTHORIZED -> "payment.authorized";
             case PIX_GENERATED -> "payment.pix-generated";
+            case PIX_PAID -> "payment.pix-paid";
             case REFUNDED -> "payment.refunded";
             case REJECTED -> "payment.failed";
             case PENDING -> throw new IllegalStateException(PaymentErrorMessages.PENDING_PAYMENTS_DO_NOT_EMIT_RESULT_EVENTS);
@@ -127,7 +128,7 @@ public record Payment(
             payload.put("reason", "PROVIDER_REJECTED");
         } else {
             payload.put("orderId", payment.orderId);
-            if (resultStatus == Status.AUTHORIZED || resultStatus == Status.PIX_GENERATED) {
+            if (resultStatus == Status.AUTHORIZED || resultStatus == Status.PIX_GENERATED || resultStatus == Status.PIX_PAID) {
                 payload.put("providerReference", payment.providerReference);
             }
             if (resultStatus == Status.PIX_GENERATED) payload.put("pixCode", payment.pixCode);
@@ -160,7 +161,7 @@ public record Payment(
 
     public enum Method { CARD, PIX }
 
-    public enum Status { PENDING, AUTHORIZED, PIX_GENERATED, REFUNDED, REJECTED }
+    public enum Status { PENDING, AUTHORIZED, PIX_GENERATED, PIX_PAID, REFUNDED, REJECTED }
 
     public sealed interface ProviderRequest permits PaymentRequested, RefundRequested {
         String operationKey();
