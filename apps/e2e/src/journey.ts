@@ -56,7 +56,11 @@ async function graphql(
   sessionHeaders: Record<string, string> = {},
 ) {
   const documents: Record<string, { query: string; responseField?: string }> = {
-    me: { query: 'query me { me { id email } }', responseField: 'me' },
+    me: {
+      query:
+        'query me($first: Int = 20) { me { id email orders(first: $first) { id status paymentMethod workflow { state } pixCode lineItems(first: 20) { nodes { quantity product { node { id name } } } } } } }',
+      responseField: 'me',
+    },
     orderAndProducts: {
       query:
         'query orderAndProducts($orderId: ID!) { order(id: $orderId, idType: DATABASE_ID) { id wooOrderId paymentMethod workflow { state } pixCode } products(first: 20) { edges { cursor node { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } } }',
