@@ -1,0 +1,47 @@
+{
+  "runId": "desafio-dev-backend-senior-propagate-checkout-payer-email-mtxs82n7",
+  "feature": "propagate-checkout-payer-email",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-12 02:44",
+  "branchTrabalho": "spec/propagate-checkout-payer-email",
+  "baseDir": ".spec/features/propagate-checkout-payer-email",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-propagate-checkout-payer-email-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-312",
+      "titulo": "Carry payer email through Transaction",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/checkout/CheckoutService.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/command/StartTransaction.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/application/axon/TransactionEventSourcedEntity.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/Transaction.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/domain/event/TransactionEvent.java",
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionOutbox.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/checkout/CheckoutServiceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionAxonTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/application/TransactionProjectionTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/domain/TransactionTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/persistence/JpaTransactionPersistenceTest.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/e2e/ChoreographedLifecycleE2ETest.java",
+        "test/propagate-checkout-payer-email.test.mjs",
+        "docs/evidence/propagate-checkout-payer-email/T-312.md"
+      ],
+      "refs": [
+        "US-165",
+        "AC-363"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}
