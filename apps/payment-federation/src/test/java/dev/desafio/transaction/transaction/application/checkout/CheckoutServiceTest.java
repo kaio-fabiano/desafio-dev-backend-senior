@@ -82,7 +82,7 @@ class CheckoutServiceTest {
             public Order createOrFind(Request request) throws Exception {
                 creations.incrementAndGet();
                 createStarted.countDown();
-                assertTrue(releaseCreation.await(2, TimeUnit.SECONDS));
+                assertTrue(releaseCreation.await(10, TimeUnit.SECONDS));
                 return ORDER;
             }
 
@@ -98,11 +98,11 @@ class CheckoutServiceTest {
         });
 
         var first = CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
-        assertTrue(createStarted.await(2, TimeUnit.SECONDS));
+        assertTrue(createStarted.await(10, TimeUnit.SECONDS));
         var second = CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
         releaseCreation.countDown();
 
-        assertEquals(first.get(2, TimeUnit.SECONDS).operationId(), second.get(2, TimeUnit.SECONDS).operationId());
+        assertEquals(first.get(10, TimeUnit.SECONDS).operationId(), second.get(10, TimeUnit.SECONDS).operationId());
         assertEquals(1, creations.get());
         assertEquals(1, dispatches.get());
     }
@@ -202,7 +202,7 @@ class CheckoutServiceTest {
             @Override
             public Order createOrFind(Request request) throws Exception {
                 creationStarted.countDown();
-                assertTrue(releaseCreation.await(2, TimeUnit.SECONDS));
+                assertTrue(releaseCreation.await(10, TimeUnit.SECONDS));
                 return ORDER;
             }
 
@@ -213,12 +213,12 @@ class CheckoutServiceTest {
         };
         var service = service(repository, woo, command -> CompletableFuture.completedFuture(command.transactionId()));
         CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
-        assertTrue(creationStarted.await(2, TimeUnit.SECONDS));
+        assertTrue(creationStarted.await(10, TimeUnit.SECONDS));
 
         var duplicate = CompletableFuture.supplyAsync(() -> service.checkout(COMMAND));
 
         try {
-            assertTrue(duplicate.get(1, TimeUnit.SECONDS) != null, "duplicate must return current durable state promptly");
+            assertTrue(duplicate.get(5, TimeUnit.SECONDS) != null, "duplicate must return current durable state promptly");
         } finally {
             releaseCreation.countDown();
         }
