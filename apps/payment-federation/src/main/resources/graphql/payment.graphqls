@@ -37,6 +37,7 @@ enum PaymentStatus {
   PENDING
   AUTHORIZED
   PIX_GENERATED
+  PIX_PAID
   REFUNDED
   REJECTED
 }

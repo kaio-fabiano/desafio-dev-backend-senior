@@ -2,6 +2,14 @@ package dev.desafio.transaction.payment.domain;
 
 public final class PaymentErrorMessages {
     public static final String AMOUNT_MUST_BE_POSITIVE = "amount must be positive";
+    public static final String ASAAS_CUSTOMER_CREATION_FAILED = "Asaas customer creation failed";
+    public static final String ASAAS_CUSTOMER_LOOKUP_FAILED = "Asaas customer lookup failed";
+    public static final String ASAAS_PAYMENT_CREATION_FAILED = "Asaas payment creation failed";
+    public static final String ASAAS_PAYMENT_LOOKUP_FAILED = "Asaas payment lookup failed";
+    public static final String ASAAS_PAYMENT_REFUND_FAILED = "Asaas payment refund failed";
+    public static final String ASAAS_PAYMENTS_REQUIRE_BRL = "Asaas payments require BRL";
+    public static final String ASAAS_RETURNED_NO_PAYMENT_REFERENCE = "Asaas returned no payment reference";
+    public static final String UNSUPPORTED_ASAAS_PAYMENT_STATUS = "Unsupported Asaas payment status";
     public static final String AUTHORIZED_PAYMENT_DOES_NOT_EXIST = "authorized payment does not exist";
     public static final String AUTHORIZED_PAYMENT_DOES_NOT_MATCH_REFUND_REQUEST =
         "authorized payment does not match the refund request";

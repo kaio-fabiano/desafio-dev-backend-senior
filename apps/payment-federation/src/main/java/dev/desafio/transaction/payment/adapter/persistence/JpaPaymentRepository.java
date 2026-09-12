@@ -156,6 +156,7 @@ public class JpaPaymentRepository implements PaymentRepository {
         return switch (status) {
             case AUTHORIZED -> "CARD_AUTHORIZATION";
             case PIX_GENERATED -> "PIX_CODE_GENERATION";
+            case PIX_PAID -> "PIX_PAYMENT_CONFIRMATION";
             case REFUNDED -> "REFUND";
             case REJECTED -> "PAYMENT_REJECTION";
             case PENDING -> throw new IllegalArgumentException("pending payments have no effect");

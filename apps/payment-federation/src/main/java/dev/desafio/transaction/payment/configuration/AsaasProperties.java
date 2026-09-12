@@ -6,27 +6,30 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.net.URI;
 import java.time.Duration;
 
-@ConfigurationProperties("payment.provider")
-public record MercadoPagoProperties(
-    Mode mode,
-    String accessToken,
-    String webhookSecret,
+@ConfigurationProperties("payment.asaas")
+public record AsaasProperties(
+    String apiKey,
     URI apiBaseUrl,
+    String customerDocument,
+    String webhookToken,
     Duration connectionTimeout,
     Duration readTimeout
 ) {
-    private static final URI OFFICIAL_API_BASE_URL = URI.create("https://api.mercadopago.com");
     private static final Duration MAXIMUM_TIMEOUT = Duration.ofSeconds(60);
 
-    public MercadoPagoProperties validatedForMercadoPago() {
-        if (mode != Mode.MERCADO_PAGO) {
-            throw new IllegalStateException(PaymentErrorMessages.PAYMENT_PROVIDER_MODE_MUST_BE_MERCADO_PAGO);
+    public AsaasProperties validatedForAsaas() {
+        requireText(apiKey, "payment.asaas.api-key");
+        if (apiBaseUrl == null) {
+            throw new IllegalStateException(PaymentErrorMessages.required("payment.asaas.api-base-url"));
         }
-        requireText(accessToken, "payment.provider.access-token");
-        requireText(webhookSecret, "payment.provider.webhook-secret");
-        requireOfficialEndpoint(apiBaseUrl, "payment.provider.api-base-url");
-        requirePositive(connectionTimeout, "payment.provider.connection-timeout");
-        requirePositive(readTimeout, "payment.provider.read-timeout");
+        requireText(customerDocument, "payment.asaas.customer-document");
+        requirePositive(connectionTimeout, "payment.asaas.connection-timeout");
+        requirePositive(readTimeout, "payment.asaas.read-timeout");
+        return this;
+    }
+
+    public AsaasProperties validatedForWebhook() {
+        requireText(webhookToken, "payment.asaas.webhook-token");
         return this;
     }
 
@@ -44,12 +47,6 @@ public record MercadoPagoProperties(
         }
     }
 
-    private static void requireOfficialEndpoint(URI value, String name) {
-        if (!OFFICIAL_API_BASE_URL.equals(value)) {
-            throw new IllegalStateException(PaymentErrorMessages.mustBe(name, OFFICIAL_API_BASE_URL));
-        }
-    }
-
     private static void requirePositive(Duration value, String name) {
         if (value == null
             || value.isZero()
@@ -57,11 +54,5 @@ public record MercadoPagoProperties(
             || value.compareTo(MAXIMUM_TIMEOUT) > 0) {
             throw new IllegalStateException(PaymentErrorMessages.timeoutMustBeValid(name));
         }
-    }
-
-    public enum Mode {
-        DETERMINISTIC,
-        MERCADO_PAGO,
-        ASAAS
     }
 }
