@@ -10,6 +10,7 @@ import { OrderWorkflowSubscriptionClient } from '../apps/gateway/src/subscriptio
 import { CommerceCookiePort } from '../libs/gateway/nest/src/application/ports/commerce-cookie.port.ts';
 import { GatewayTokenVerifierPort } from '../libs/gateway/nest/src/application/ports/gateway-token-verifier.port.ts';
 import { OrderWorkflowSubscriptionPort } from '../libs/gateway/nest/src/application/ports/order-workflow-subscription.port.ts';
+import { WordPressCredentialPort } from '../libs/gateway/nest/src/application/ports/wordpress-credential.port.ts';
 import { CaptureFederationResponseUseCase } from '../libs/gateway/nest/src/application/use-cases/capture-federation-response.use-case.ts';
 import { CreateGatewayContextUseCase } from '../libs/gateway/nest/src/application/use-cases/create-gateway-context.use-case.ts';
 import { ForwardGatewaySubscriptionUseCase } from '../libs/gateway/nest/src/application/use-cases/forward-gateway-subscription.use-case.ts';
@@ -19,6 +20,7 @@ import { TokenVerifierService } from '../libs/gateway/nest/src/auth/token-verifi
 import { AuthenticatedDataSource } from '../libs/gateway/nest/src/federation/authenticated-data-source.ts';
 import { GatewayFederationConfiguration } from '../libs/gateway/nest/src/federation/gateway-federation.configuration.ts';
 import { CommerceCookieAdapter } from '../libs/gateway/nest/src/infrastructure/http/commerce-cookie.adapter.ts';
+import { WpGraphqlCredentialAdapter } from '../libs/gateway/nest/src/infrastructure/http/wp-graphql-credential.adapter.ts';
 
 const libraryRoot = 'libs/gateway/nest/src';
 const config = {
@@ -33,6 +35,7 @@ const gatewayCoreFiles = [
   'application/ports/commerce-cookie.port.ts',
   'application/ports/gateway-token-verifier.port.ts',
   'application/ports/order-workflow-subscription.port.ts',
+  'application/ports/wordpress-credential.port.ts',
   'application/use-cases/capture-federation-response.use-case.ts',
   'application/use-cases/create-gateway-context.use-case.ts',
   'application/use-cases/forward-gateway-subscription.use-case.ts',
@@ -42,7 +45,9 @@ const gatewayCoreFiles = [
 function dataSource(config) {
   return new AuthenticatedDataSource(
     config,
-    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter(), {
+      exchange: async (subject) => `wordpress-${subject}`,
+    }),
     new CaptureFederationResponseUseCase(),
   );
 }
@@ -67,6 +72,10 @@ test('AC-274: Gateway flows are resolved as NestJS-managed providers @spec:AC-27
     assert.equal(
       testingModule.get(CommerceCookiePort),
       testingModule.get(CommerceCookieAdapter),
+    );
+    assert.equal(
+      testingModule.get(WordPressCredentialPort),
+      testingModule.get(WpGraphqlCredentialAdapter),
     );
     assert.equal(
       testingModule.get(OrderWorkflowSubscriptionPort),
@@ -274,7 +283,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   });
   const headers = new Headers();
 
-  source.willSendRequest({
+  await source.willSendRequest({
     request: { http: { headers } },
     context: {
       authorization: 'Bearer access-token',
@@ -306,7 +315,7 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
     url: 'http://payment-federation:8080/graphql',
   });
   const orderWorkflowHeaders = new Headers();
-  orderWorkflow.willSendRequest({
+  await orderWorkflow.willSendRequest({
     request: { http: { headers: orderWorkflowHeaders } },
     context: {
       authorization: 'Bearer workflow-token',
@@ -360,13 +369,12 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
   const wordpress = dataSource({
     capabilities: {
       origin: 'http://wordpress',
-      requestSession: true,
-      responseSession: true,
+      wordpressCredential: true,
     },
     url: 'http://wordpress/graphql',
   });
   const wordpressHeaders = new Headers();
-  wordpress.willSendRequest({
+  await wordpress.willSendRequest({
     request: { http: { headers: wordpressHeaders } },
     context: {
       authorization: '',
@@ -383,8 +391,12 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
     },
   });
   assert.equal(wordpressHeaders.get('origin'), 'http://wordpress');
-  assert.equal(wordpressHeaders.get('woocommerce-session'), 'session-token');
-  assert.equal(wordpressHeaders.get('cart-token'), 'cart-token');
+  assert.equal(
+    wordpressHeaders.get('authorization'),
+    'Bearer wordpress-supplier-user',
+  );
+  assert.equal(wordpressHeaders.get('woocommerce-session'), null);
+  assert.equal(wordpressHeaders.get('cart-token'), null);
   wordpress.didReceiveResponse({
     response: {
       http: {
@@ -407,15 +419,11 @@ test('AC-096: Gateway propagates verified identity and leaves sensitive authoriz
       setResponseHeader: (name, value) => returnedHeaders.push([name, value]),
     },
   });
-  assert.deepEqual(returnedHeaders, [
-    ['woocommerce-session', 'next-session-token'],
-    ['cart-token', 'next-cart-token'],
-    ['set-cookie', ['wp_woocommerce_session=value; Path=/; HttpOnly']],
-  ]);
+  assert.deepEqual(returnedHeaders, []);
   assert.doesNotMatch(gatewayModule, /ForbiddenException|assertOwnership/);
 
   const unauthenticatedHeaders = new Headers();
-  source.willSendRequest({
+  await source.willSendRequest({
     request: { http: { headers: unauthenticatedHeaders } },
     context: undefined,
   });

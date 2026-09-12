@@ -10,7 +10,9 @@ import { CommerceCookieAdapter } from '../libs/gateway/nest/src/infrastructure/h
 function dataSource(config) {
   return new AuthenticatedDataSource(
     config,
-    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter(), {
+      exchange: async (subject) => `wordpress-${subject}`,
+    }),
     new CaptureFederationResponseUseCase(),
   );
 }
@@ -35,7 +37,7 @@ test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => 
     url: 'http://identity-subgraph:3001/graphql',
   });
   const identityHeaders = new Headers();
-  identity.willSendRequest({
+  await identity.willSendRequest({
     request: { http: { headers: identityHeaders } },
     context,
   });
@@ -64,17 +66,20 @@ test('AC-121: Gateway remains a thin and secure edge @spec:AC-121', async () => 
     url: 'http://wordpress/graphql',
     capabilities: {
       origin: 'http://wordpress',
-      requestSession: true,
-      responseSession: true,
+      wordpressCredential: true,
     },
   });
   const wordpressHeaders = new Headers();
-  wordpress.willSendRequest({
+  await wordpress.willSendRequest({
     request: { http: { headers: wordpressHeaders } },
     context,
   });
   assert.equal(wordpressHeaders.get('origin'), 'http://wordpress');
-  assert.equal(wordpressHeaders.get('cart-token'), 'cart-token');
+  assert.equal(
+    wordpressHeaders.get('authorization'),
+    'Bearer wordpress-buyer-1',
+  );
+  assert.equal(wordpressHeaders.get('cart-token'), null);
 
   const [handler, federationConfiguration] = await Promise.all([
     readFile('apps/gateway/src/subscriptions/sse-handler.ts', 'utf8'),

@@ -31,11 +31,17 @@ test('AC-080: Identity resolves authorized users, user, me and federated referen
   const loader = {
     load: async (id) => records.find((user) => user.id === id) ?? null,
   };
-  const resolver = new IdentityResolver(repository, loader);
+  const resolver = new IdentityResolver(repository, loader, {});
+  const adminContext = {
+    auth: { audience: [], claims: {}, scopes: ['identity:users:read'], subject: 'admin' },
+  };
   assert.deepEqual(await resolver.me('u-1'), records[0]);
-  assert.deepEqual(await resolver.user('u-2'), records[1]);
+  assert.deepEqual(await resolver.user('u-2', adminContext), records[1]);
   assert.equal((await resolver.users(1)).pageInfo.hasNextPage, true);
-  assert.deepEqual(await resolver.resolveReference({ id: 'u-2' }), records[1]);
+  assert.deepEqual(
+    await resolver.resolveReference({ id: 'u-2' }, adminContext),
+    records[1],
+  );
   const sdl = await readFile(
     'libs/contracts/graphql/identity/schema.graphql',
     'utf8',
@@ -50,11 +56,13 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
       url: 'http://identity/graphql',
       capabilities: { bearer: true },
     },
-    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter(), {
+      exchange: async (subject) => `wordpress-${subject}`,
+    }),
     new CaptureFederationResponseUseCase(),
   );
   const headers = new Headers();
-  source.willSendRequest({
+  await source.willSendRequest({
     request: { http: { headers } },
     context: {
       authorization: 'Bearer identity-token',
@@ -67,7 +75,7 @@ test('AC-081: Gateway composes Federation v2 services and propagates verified id
   assert.equal(headers.get('authorization'), 'Bearer identity-token');
   assert.equal(headers.get('x-authenticated-subject'), null);
   assert.equal(headers.get('x-authenticated-scopes'), null);
-  assert.doesNotThrow(() =>
+  await assert.doesNotReject(() =>
     source.willSendRequest({
       request: { http: { headers: new Headers() } },
       context: undefined,

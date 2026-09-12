@@ -119,7 +119,7 @@ test('AC-063: Tool scopes are enforced @spec:AC-063', async () => {
     })),
     [...Object.values(OAUTH_RESOURCES)].map((identifier) => ({
       identifier,
-      allowedScopes: [...DELEGATED_OAUTH_SCOPES],
+      allowedScopes: [...OAuthResources.resourceScopes[identifier]],
     })),
   );
 

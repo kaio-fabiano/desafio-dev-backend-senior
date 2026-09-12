@@ -25,7 +25,7 @@ public final class TransactionEventSourcedEntity {
         return transaction.matches(
             command.operationKey(), command.owner(), command.wooOrderId(), command.items(),
             command.amount(), command.currency(), command.paymentMethod(),
-            command.providerToken(), command.paymentMethodId()
+            command.providerToken(), command.paymentMethodId(), command.payerEmail()
         );
     }
 

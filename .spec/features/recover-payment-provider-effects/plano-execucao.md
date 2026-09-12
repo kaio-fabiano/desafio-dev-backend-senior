@@ -1,6 +1,6 @@
 # Plano de execução — recover-payment-provider-effects
 
-> gerado por `onp-spec plano` em 2026-09-10 14:03 — NÃO edite à mão;
+> gerado por `onp-spec plano` em 2026-09-12 01:50 — NÃO edite à mão;
 > mudou tasks.md ou a config? Regenere: `onp-spec plano recover-payment-provider-effects --sequencial`
 
 ## Resumo — o que vai acontecer

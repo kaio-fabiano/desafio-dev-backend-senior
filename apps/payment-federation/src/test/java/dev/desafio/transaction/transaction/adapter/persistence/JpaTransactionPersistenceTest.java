@@ -1,5 +1,6 @@
 package dev.desafio.transaction.transaction.adapter.persistence;
 
+import dev.desafio.transaction.transaction.application.TransactionOutbox;
 import dev.desafio.transaction.transaction.application.event.TransactionalTransactionEventHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -195,12 +196,12 @@ class JpaTransactionPersistenceTest {
         var started = StartTransaction.started(new StartTransaction(
             "transaction-" + suffix, "operation-" + suffix, "buyer-1", "woo-" + suffix,
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
-            "provider-token-" + suffix, "visa"
+            "provider-token-" + suffix, "visa", "buyer-1@example.test"
         ), NOW);
         var reserved = TransactionEvent.outcome(
             started.transactionId(), started.operationKey(), started.owner(), started.wooOrderId(),
             started.items(), started.amount(), started.currency(), started.paymentMethod(),
-            started.providerToken(), started.paymentMethodId(),
+            started.providerToken(), started.paymentMethodId(), started.payerEmail(),
             Transaction.Outcome.INVENTORY_RESERVED, "reservation-1", Transaction.Status.INVENTORY_RESERVED,
             2, NOW.plusSeconds(1)
         );
@@ -234,7 +235,7 @@ class JpaTransactionPersistenceTest {
         var collision = new TransactionEvent(
             started.eventId(), started.transactionId(), started.operationKey(), "another-buyer",
             started.wooOrderId(), started.items(), started.amount(), started.currency(),
-            started.paymentMethod(), started.providerToken(), started.paymentMethodId(),
+            started.paymentMethod(), started.providerToken(), started.paymentMethodId(), "another-buyer@example.test",
             started.outcome(), started.reference(), started.status(),
             started.version(), started.occurredAt()
         );
@@ -248,15 +249,18 @@ class JpaTransactionPersistenceTest {
         var event = StartTransaction.started(new StartTransaction(
             "transaction-" + suffix, "operation-" + suffix, "buyer-1", "woo-" + suffix,
             List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "CARD",
-            "provider-token-" + suffix, "visa"
+            "provider-token-" + suffix, "visa", "buyer-1@example.test"
         ), NOW);
         var views = new JpaTransactionViewStore(transactionRecords, transactionManager);
         var outbox = new JpaTransactionOutbox(
             new ObjectMapper().findAndRegisterModules(), outboxRecords, entityManager, transactionManager
         );
-        var handler = new TransactionalTransactionEventHandler(views, (ignored) -> {
-            outbox.enqueueOrderReceived(event);
-            throw new IllegalStateException("forced outbox failure");
+        var handler = new TransactionalTransactionEventHandler(views, new TransactionOutbox() {
+            @Override public void enqueueOrderReceived(TransactionEvent ignored) {
+                outbox.enqueueOrderReceived(event);
+                throw new IllegalStateException("forced outbox failure");
+            }
+            @Override public void enqueueCancelled(TransactionEvent ignored) {}
         });
 
         var boundary = new org.springframework.transaction.support.TransactionTemplate(transactionManager);

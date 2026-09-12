@@ -122,10 +122,10 @@ public class CheckoutGraphQlController {
     private static String wooOrderId(String id) {
         try {
             var decoded = new String(Base64.getDecoder().decode(id), StandardCharsets.UTF_8);
-            if (!decoded.matches("post:[1-9]\\d*")) {
+            if (!decoded.matches("order:[1-9]\\d*")) {
                 throw new IllegalArgumentException(GraphQlErrorMessages.WOO_ORDER_ID);
             }
-            return decoded.substring("post:".length());
+            return decoded.substring("order:".length());
         } catch (IllegalArgumentException error) {
             throw new IllegalArgumentException(GraphQlErrorMessages.WOO_ORDER_ID, error);
         }

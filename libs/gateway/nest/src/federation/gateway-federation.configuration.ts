@@ -30,6 +30,12 @@ export class GatewayFederationConfiguration {
     return {
       server: {
         path: '/graphql',
+        graphiql: true,
+        playground: {
+          settings: {
+            'request.credentials': 'include',
+          },
+        },
         context: ({
           req,
           res,
@@ -80,6 +86,7 @@ export class GatewayFederationConfiguration {
         origin: new URL(url).origin,
         requestSession: true,
         responseSession: true,
+        wordpressCredential: true,
       };
     if (name === 'order-workflow')
       return { bearer: true, requestSession: true };

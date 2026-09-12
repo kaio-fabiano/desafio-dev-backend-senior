@@ -1,0 +1,18 @@
+services:
+  wordpress:
+    ports:
+      - '80:80'
+  gateway:
+    ports:
+      - '3000:3000'
+  identity-subgraph:
+    ports:
+      - '3001:3001'
+  payment-federation:
+    ports:
+      - '8080:8080'
+    environment:
+      LOGGING_LEVEL_COM_MERCADOPAGO: DEBUG
+      LOGGING_LEVEL_ORG_APACHE_HTTP: DEBUG
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_GRAPHQL: TRACE
+      LOGGING_LEVEL_ORG_AXONFRAMEWORK: DEBUG

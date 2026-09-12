@@ -21,16 +21,17 @@ export class AuthenticatedDataSource extends RemoteGraphQLDataSource<GatewayCont
     this.capabilities = { ...config.capabilities };
   }
 
-  override willSendRequest({
+  override async willSendRequest({
     request,
     context,
   }: GraphQLDataSourceProcessOptions<GatewayContext>) {
     const headers = request.http?.headers;
     if (!headers) return;
-    for (const [name, value] of this.prepareRequest.execute(
+    const prepared = await this.prepareRequest.execute(
       this.capabilities,
       context as GatewayContext | undefined,
-    )) {
+    );
+    for (const [name, value] of prepared) {
       headers.set(name, value);
     }
   }

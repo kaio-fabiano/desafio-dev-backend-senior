@@ -20,6 +20,7 @@ public final class Transaction {
     private String paymentMethod;
     private String providerToken;
     private String paymentMethodId;
+    private String payerEmail;
     private Status status;
     private int version;
 
@@ -36,11 +37,12 @@ public final class Transaction {
         String paymentMethod,
         String providerToken,
         String paymentMethodId,
+        String payerEmail,
         Instant occurredAt
     ) {
         return event(
             transactionId, operationKey, owner, wooOrderId, items, amount,
-            currency, paymentMethod, providerToken, paymentMethodId,
+            currency, paymentMethod, providerToken, paymentMethodId, payerEmail,
             null, null, Status.ACCEPTED, 1, occurredAt
         );
     }
@@ -62,7 +64,7 @@ public final class Transaction {
         if (next == null || next == status) return Optional.empty();
         return Optional.of(event(
             transactionId, operationKey, owner, wooOrderId, items, amount,
-            currency, paymentMethod, providerToken, paymentMethodId,
+            currency, paymentMethod, providerToken, paymentMethodId, payerEmail,
             outcome, reference, next, version + 1, occurredAt
         ));
     }
@@ -79,7 +81,7 @@ public final class Transaction {
         if (version > 0 && !matches(
             event.operationKey(), event.owner(), event.wooOrderId(), event.items(),
             event.amount(), event.currency(), event.paymentMethod(),
-            event.providerToken(), event.paymentMethodId()
+            event.providerToken(), event.paymentMethodId(), event.payerEmail()
         )) {
             throw new IllegalArgumentException(TransactionErrorMessages.TRANSACTION_FACTS_IMMUTABLE);
         }
@@ -93,6 +95,7 @@ public final class Transaction {
         paymentMethod = event.paymentMethod();
         providerToken = event.providerToken();
         paymentMethodId = event.paymentMethodId();
+        payerEmail = event.payerEmail();
         status = event.status();
         version = event.version();
     }
@@ -106,7 +109,8 @@ public final class Transaction {
         String expectedCurrency,
         String expectedPaymentMethod,
         String expectedProviderToken,
-        String expectedPaymentMethodId
+        String expectedPaymentMethodId,
+        String expectedPayerEmail
     ) {
         return operationKey.equals(expectedOperationKey)
             && owner.equals(expectedOwner)
@@ -116,7 +120,8 @@ public final class Transaction {
             && currency.equals(expectedCurrency.toUpperCase(Locale.ROOT))
             && paymentMethod.equals(expectedPaymentMethod.toUpperCase(Locale.ROOT))
             && Objects.equals(providerToken, expectedProviderToken)
-            && Objects.equals(paymentMethodId, expectedPaymentMethodId);
+            && Objects.equals(paymentMethodId, expectedPaymentMethodId)
+            && payerEmail.equals(expectedPayerEmail);
     }
 
     private static Status nextStatus(Status current, Outcome outcome) {
@@ -170,6 +175,7 @@ public final class Transaction {
         String paymentMethod,
         String providerToken,
         String paymentMethodId,
+        String payerEmail,
         Outcome outcome,
         String reference,
         Status status,
@@ -198,13 +204,14 @@ public final class Transaction {
         } else if (hasText(providerToken) || hasText(paymentMethodId)) {
             throw new IllegalArgumentException(TransactionErrorMessages.PIX_CARD_FIELDS_FORBIDDEN);
         }
+        payerEmail = required(payerEmail, "payerEmail");
         Objects.requireNonNull(status, "status");
         Objects.requireNonNull(occurredAt, "occurredAt");
         var material = transactionId + "\u0000" + version + "\u0000" + status;
         return new Event(
             UUID.nameUUIDFromBytes(material.getBytes(StandardCharsets.UTF_8)),
             transactionId, operationKey, owner, wooOrderId, items, amount,
-            currency, paymentMethod, providerToken, paymentMethodId,
+            currency, paymentMethod, providerToken, paymentMethodId, payerEmail,
             outcome, reference, status, version, occurredAt
         );
     }
@@ -230,6 +237,7 @@ public final class Transaction {
     public String paymentMethod() { return paymentMethod; }
     public String providerToken() { return providerToken; }
     public String paymentMethodId() { return paymentMethodId; }
+    public String payerEmail() { return payerEmail; }
     public Status status() { return status; }
     public int version() { return version; }
     public boolean awaits(Outcome outcome) { return isFuture(status, outcome); }
@@ -283,6 +291,7 @@ public final class Transaction {
         String paymentMethod,
         String providerToken,
         String paymentMethodId,
+        String payerEmail,
         Outcome outcome,
         String reference,
         Status status,
@@ -299,6 +308,7 @@ public final class Transaction {
             Objects.requireNonNull(amount, "amount");
             currency = required(currency, "currency");
             paymentMethod = required(paymentMethod, "paymentMethod");
+            payerEmail = required(payerEmail, "payerEmail");
             Objects.requireNonNull(status, "status");
             if ((version == 1) != (outcome == null && reference == null)) {
                 throw new IllegalArgumentException(TransactionErrorMessages.INITIAL_EVENT_OUTCOME_INVALID);

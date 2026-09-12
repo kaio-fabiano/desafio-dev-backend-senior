@@ -76,14 +76,15 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
 
   it('converges Card checkout across RabbitMQ, subscription, federation, and persistence exactly once @spec:AC-069 @spec:AC-084', () => {
     expect(proof.card.subscriptionOpenedBeforeCheckout).toBe(true);
-    expect(proof.card.retry.wooOrderId).toBe(proof.card.checkout.wooOrderId);
+    expect(proof.card.retry.id).toBe(proof.card.checkout.id);
+    expect(proof.card.retry.orderId).toBe(proof.card.checkout.orderId);
     expect(proof.card.event).toMatchObject({
       operationKey: 'milestone-7-card',
-      orderId: proof.card.checkout.wooOrderId,
+      orderId: proof.card.checkout.orderId,
       state: 'COMPLETED',
     });
     expect(proof.card.meOrder).toMatchObject({
-      wooOrderId: proof.card.checkout.wooOrderId,
+      wooOrderId: proof.card.checkout.orderId,
       paymentMethod: 'CARD',
       workflow: { state: 'COMPLETED' },
     });
@@ -92,10 +93,37 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     );
   });
 
+  it('preserves checkout operation identifiers and resolves final orders separately @spec:AC-352', () => {
+    for (const proofByMethod of [proof.card, proof.pix]) {
+      expect(proofByMethod.retry.id).toBe(proofByMethod.checkout.id);
+      expect(proofByMethod.retry.orderId).toBe(proofByMethod.checkout.orderId);
+      expect(proofByMethod.event.orderId).toBe(proofByMethod.checkout.orderId);
+      expect(proofByMethod.meOrder.wooOrderId).toBe(
+        proofByMethod.checkout.orderId,
+      );
+      expect(proofByMethod.meOrder.workflow).toMatchObject({
+        state: proofByMethod.event.state,
+      });
+    }
+  });
+
+  it('authenticates native WooCommerce checkout as the linked buyer @spec:AC-354', () => {
+    expect(proof.identity.nativeOrderIds).toEqual(
+      expect.arrayContaining([
+        Number(proof.card.checkout.orderId),
+        Number(proof.pix.checkout.orderId),
+      ]),
+    );
+    expect(proof.card.meOrder).toMatchObject({
+      wooOrderId: proof.card.checkout.orderId,
+      workflow: { state: 'COMPLETED' },
+    });
+  });
+
   it('compensates an authorized Card payment after inventory failure @spec:AC-114', () => {
     expect(proof.compensation.event).toMatchObject({
       operationKey: 'milestone-7-compensation',
-      orderId: proof.compensation.checkout.wooOrderId,
+      orderId: proof.compensation.checkout.orderId,
       state: 'CANCELLED',
     });
   });
@@ -104,12 +132,12 @@ describe.sequential('Milestone 7 complete acceptance journey', () => {
     expect(proof.pix.subscriptionOpenedBeforeCheckout).toBe(true);
     expect(proof.pix.event).toMatchObject({
       operationKey: 'milestone-7-pix',
-      orderId: proof.pix.checkout.wooOrderId,
+      orderId: proof.pix.checkout.orderId,
       state: 'PIX_GENERATED',
       pixCode: expect.stringMatching(/\S/),
     });
     expect(proof.pix.meOrder).toMatchObject({
-      wooOrderId: proof.pix.checkout.wooOrderId,
+      wooOrderId: proof.pix.checkout.orderId,
       paymentMethod: 'PIX',
       workflow: { state: 'PIX_GENERATED' },
       pixCode: proof.pix.event.pixCode,

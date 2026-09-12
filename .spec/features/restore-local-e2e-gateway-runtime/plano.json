@@ -1,0 +1,35 @@
+{
+  "runId": "desafio-dev-backend-senior-restore-local-e2e-gateway-runtime-mtwz7ha3",
+  "feature": "restore-local-e2e-gateway-runtime",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 13:12",
+  "branchTrabalho": "spec/restore-local-e2e-gateway-runtime",
+  "baseDir": ".spec/features/restore-local-e2e-gateway-runtime",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-restore-local-e2e-gateway-runtime-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-302",
+      "titulo": "Restore the local Gateway runtime boundary",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "compose.yaml",
+        "test/milestone-7-e2e-contract.test.mjs"
+      ],
+      "refs": [
+        "US-157",
+        "AC-351"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

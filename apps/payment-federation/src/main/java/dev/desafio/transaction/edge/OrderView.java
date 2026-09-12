@@ -22,7 +22,7 @@ public record OrderView(
     static OrderView started(CheckoutResult checkout, String paymentMethod) {
         return new OrderView(
             Base64.getEncoder().encodeToString(
-                ("post:" + checkout.wooOrderId()).getBytes(StandardCharsets.UTF_8)
+                ("order:" + checkout.wooOrderId()).getBytes(StandardCharsets.UTF_8)
             ),
             checkout.wooOrderId(),
             paymentMethod,
@@ -38,7 +38,7 @@ public record OrderView(
     ) {
         return new OrderView(
             Base64.getEncoder().encodeToString(
-                ("post:" + transaction.wooOrderId()).getBytes(StandardCharsets.UTF_8)
+                ("order:" + transaction.wooOrderId()).getBytes(StandardCharsets.UTF_8)
             ),
             transaction.wooOrderId(),
             transaction.paymentMethod(),

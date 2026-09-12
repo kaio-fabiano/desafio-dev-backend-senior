@@ -175,7 +175,7 @@ class OrderWorkflowGraphQlCompatibilityTest {
 
         var entity = graphQl("""
             query {
-              _entities(representations: [{__typename: "Order", id: "cG9zdDo0Mg=="}]) {
+              _entities(representations: [{__typename: "Order", id: "b3JkZXI6NDI="}]) {
                 ... on Order { id wooOrderId workflow { state } }
               }
             }

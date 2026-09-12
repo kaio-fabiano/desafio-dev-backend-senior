@@ -1,0 +1,90 @@
+{
+  "runId": "desafio-dev-backend-senior-align-milestone-7-checkout-contract-mtx0w396",
+  "feature": "align-milestone-7-checkout-contract",
+  "agent": "codex",
+  "modo": "paralelo",
+  "paralelizar": [
+    "T-303",
+    "T-304"
+  ],
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 13:59",
+  "branchTrabalho": "spec/align-milestone-7-checkout-contract",
+  "baseDir": ".spec/features/align-milestone-7-checkout-contract",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-align-milestone-7-checkout-contract-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/align-milestone-7-checkout-contract-faixa-1",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-align-milestone-7-checkout-contract-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-303",
+          "titulo": "Align Gateway and E2E checkout operation shapes",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "libs/contracts/graphql/order-workflow/schema.graphql",
+            "apps/e2e/src/journey.ts",
+            "apps/e2e/src/milestone-7.e2e.test.ts",
+            "test/milestone-7-e2e-contract.test.mjs"
+          ],
+          "refs": [
+            "US-158",
+            "AC-352"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/align-milestone-7-checkout-contract-faixa-2",
+      "worktree": "../onp-worktrees/desafio-dev-backend-senior-align-milestone-7-checkout-contract-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-304",
+          "titulo": "Register production checkout query handlers deterministically",
+          "modelo": "gpt-5.6-sol",
+          "esforco": "high",
+          "arquivos": [
+            "apps/payment-federation/src/main/java/dev/desafio/transaction/edge/configuration/GraphQlReadConfiguration.java",
+            "apps/payment-federation/src/test/java/dev/desafio/transaction/graphql/OrderWorkflowGraphQlCompatibilityTest.java"
+          ],
+          "refs": [
+            "US-158",
+            "AC-353"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [
+    {
+      "id": "T-305",
+      "titulo": "Authenticate native WooCommerce checkout as the linked buyer",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/payment-federation/src/main/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapter.java",
+        "apps/payment-federation/src/test/java/dev/desafio/transaction/transaction/adapter/woocommerce/WooCommerceGraphQlOrderAdapterTest.java",
+        "apps/e2e/src/journey.ts",
+        "apps/e2e/src/milestone-7.e2e.test.ts"
+      ],
+      "refs": [
+        "US-158",
+        "AC-354"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

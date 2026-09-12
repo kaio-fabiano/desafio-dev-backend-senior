@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# executar-tarefas.sh — gerado por `onp-spec plano recover-payment-provider-effects` em 2026-09-10 14:03
+# executar-tarefas.sh — gerado por `onp-spec plano recover-payment-provider-effects` em 2026-09-12 01:50
 # NÃO edite à mão: mudou tasks.md ou a config, regenere o plano.
 #
 # uso:
@@ -14,7 +14,7 @@
 set -u
 set -o pipefail
 
-RUN_ID='desafio-dev-backend-senior-recover-payment-provider-effects-mtvlks8r'
+RUN_ID='desafio-dev-backend-senior-recover-payment-provider-effects-mtxqaqso'
 FEATURE='recover-payment-provider-effects'
 BASE_BRANCH='spec/recover-payment-provider-effects'
 ENGINE='.agents/skills/onp-spec-driven/scripts/onp-spec.mjs'
@@ -177,7 +177,7 @@ Leia primeiro: .spec/features/recover-payment-provider-effects/spec.md, .spec/fe
 Sua tarefa (somente ela):
 T-259 — "Make payment provider effects retryable and observable"
   critérios/refs: AC-296 (Axon observes effect completion), AC-297 (Incomplete claims remain retryable)
-  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment/adapter/axon/PaymentProviderEffectHandler.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/axon/PaymentProviderEffectHandlerTest.java
+  arquivos permitidos (e seus testes): apps/payment-federation/src/main/java/dev/desafio/transaction/payment/application/event/PaymentProviderEffectHandler.java, apps/payment-federation/src/test/java/dev/desafio/transaction/payment/application/axon/PaymentProviderEffectHandlerTest.java, test/recover-payment-provider-effects.test.mjs
   mensagem de commit: "T-259 recover-payment-provider-effects: Make payment provider effects retryable and observable"
 
 Regras inegociáveis:

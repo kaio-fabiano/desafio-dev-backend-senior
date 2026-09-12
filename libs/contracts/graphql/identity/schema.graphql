@@ -8,6 +8,11 @@ extend schema
 type User @key(fields: "id") {
   id: ID!
   email: String!
+  orders(first: Int = 20): [Order!]!
+}
+
+extend type Order @key(fields: "id", resolvable: false) {
+  id: ID!
 }
 
 type SupplierCompany @key(fields: "id") {

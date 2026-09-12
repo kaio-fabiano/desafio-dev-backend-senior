@@ -1,0 +1,35 @@
+{
+  "runId": "desafio-dev-backend-senior-persist-graphiql-commerce-session-mtx7e1kt",
+  "feature": "persist-graphiql-commerce-session",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 17:01",
+  "branchTrabalho": "spec/persist-graphiql-commerce-session",
+  "baseDir": ".spec/features/persist-graphiql-commerce-session",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-persist-graphiql-commerce-session-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-310",
+      "titulo": "Preserve commerce session headers in GraphiQL",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/gateway/src/graphiql/gateway-graphiql-page.spec.ts",
+        "apps/gateway/src/graphiql/gateway-graphiql-page.ts"
+      ],
+      "refs": [
+        "US-163",
+        "AC-360"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

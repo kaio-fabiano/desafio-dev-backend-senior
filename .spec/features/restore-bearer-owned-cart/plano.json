@@ -1,0 +1,39 @@
+{
+  "runId": "desafio-dev-backend-senior-restore-bearer-owned-cart-mtx5af1p",
+  "feature": "restore-bearer-owned-cart",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 16:02",
+  "branchTrabalho": "spec/restore-bearer-owned-cart",
+  "baseDir": ".spec/features/restore-bearer-owned-cart",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-restore-bearer-owned-cart-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-308",
+      "titulo": "Resolve the native WooCommerce cart from the OAuth subject",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "libs/gateway/nest/src",
+        "compose.yaml",
+        "test",
+        ".spec/features/restore-bearer-owned-cart",
+        ".spec/verification/restore-bearer-owned-cart.json"
+      ],
+      "refs": [
+        "US-161",
+        "AC-357",
+        "AC-358"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

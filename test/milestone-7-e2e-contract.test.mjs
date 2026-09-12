@@ -16,6 +16,8 @@ const [
   acceptance,
   vitestConfig,
   compose,
+  sstConfig,
+  orderWorkflowSchema,
 ] =
   await Promise.all([
     readFile('package.json', 'utf8').then(JSON.parse),
@@ -25,6 +27,8 @@ const [
     readFile('apps/e2e/src/milestone-7.e2e.test.ts', 'utf8'),
     readFile('vitest.config.ts', 'utf8'),
     readFile('compose.yaml', 'utf8'),
+    readFile('infra/sst.config.ts', 'utf8'),
+    readFile('libs/contracts/graphql/order-workflow/schema.graphql', 'utf8'),
   ]);
 
 test('AC-067: one Vitest target owns real Compose startup and unconditional teardown @spec:AC-067', () => {
@@ -83,6 +87,48 @@ test('AC-075: Compose preserves decorator-capable Node image commands @spec:AC-0
   assert.match(compose, /ENV TSX_TSCONFIG_PATH=tsconfig\.base\.json/);
 });
 
+test('AC-351: Compose and AWS preserve their distinct replay-storage boundaries @spec:AC-351', () => {
+  const composeGateway = compose
+    .split('\n  gateway:\n')[1]
+    .split('\n  apollo-mcp:\n')[0];
+  const awsGateway = sstConfig
+    .split("const gateway = new sst.aws.Service('Gateway'")[1]
+    .split("const apolloMcp = new sst.aws.Service('ApolloMcp'")[0];
+
+  assert.match(composeGateway, /NODE_ENV: test/);
+  assert.doesNotMatch(composeGateway, /DPOP_REPLAY_TABLE/);
+  assert.match(awsGateway, /NODE_ENV: 'production'/);
+  assert.match(awsGateway, /DPOP_REPLAY_TABLE: gatewayDpopReplay\.name/);
+});
+
+test('AC-352: Gateway and E2E use the durable checkout operation contract @spec:AC-352', () => {
+  assert.match(
+    orderWorkflowSchema,
+    /type CheckoutOperation[\s\S]*orderId: ID[\s\S]*paymentId: ID[\s\S]*errorReason: String/,
+  );
+  assert.match(
+    orderWorkflowSchema,
+    /startCheckout\(input: OrderWorkflowCheckoutInput!\): CheckoutOperation!/,
+  );
+  assert.match(
+    orderWorkflowSchema,
+    /enum CheckoutStatus \{\s+PROCESSING\s+COMPLETED\s+FAILED\s+\}/,
+  );
+  assert.match(
+    journey,
+    /startCheckout\(input: \$input\) \{ id operationKey status orderId paymentId errorReason \}/,
+  );
+  assert.match(
+    journey,
+    /order\(id: \$orderId, idType: DATABASE_ID\) \{ id wooOrderId paymentMethod workflow \{ state \} pixCode \}/,
+  );
+  assert.match(
+    journey,
+    /'orderAndProducts',\s+\{ orderId: card\.checkout\.orderId \},\s+accessToken,\s+commerceSession/,
+  );
+  assert.match(acceptance, /@spec:AC-352/);
+});
+
 test('AC-071: OAuth distinguishes direct redirects from consent challenges @spec:AC-071', () => {
   assert.deepEqual(
     classifyAuthorizationResult(
@@ -126,7 +172,7 @@ test('AC-068..AC-071: the journey uses Gateway, MCP, and federated SSE @spec:AC-
     /updateOrder|recordPixPaymentV1|recordCardPaymentV1/,
   );
   assert.match(journey, /cardRetry/);
-  assert.match(journey, /meAndProducts/);
+  assert.match(journey, /orderAndProducts/);
   assert.match(journey, /startCheckout/);
   assert.match(journey, /rejectionStatuses/);
   for (const criterion of ['AC-068', 'AC-069', 'AC-070', 'AC-071']) {
@@ -151,7 +197,7 @@ test('AC-114: acceptance proves the complete public buyer contract @spec:AC-114'
   for (const assertion of [
     /cardRetry/,
     /compensation/,
-    /meAndProducts/,
+    /orderAndProducts/,
     /rejectionStatuses/,
     /'PIX'/,
   ]) {

@@ -19,6 +19,7 @@ export type AcceptanceProof = {
     claims: JsonObject;
     gatewayAccepted: boolean;
     mcpAccepted: boolean;
+    nativeOrderIds: number[];
   };
   card: {
     subscriptionOpenedBeforeCheckout: boolean;
@@ -31,6 +32,7 @@ export type AcceptanceProof = {
   pix: {
     subscriptionOpenedBeforeCheckout: boolean;
     checkout: JsonObject;
+    retry: JsonObject;
     event: JsonObject;
     meOrder: JsonObject;
     products: JsonObject[];
@@ -54,10 +56,14 @@ async function graphql(
   sessionHeaders: Record<string, string> = {},
 ) {
   const documents: Record<string, { query: string; responseField?: string }> = {
-    me: { query: 'query me { me { id email } }', responseField: 'me' },
-    meAndProducts: {
+    me: {
       query:
-        'query meAndProducts { me { id email } products(first: 20) { edges { cursor node { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } } }',
+        'query me($first: Int = 20) { me { id email orders(first: $first) { id status paymentMethod workflow { state } pixCode lineItems(first: 20) { nodes { quantity product { node { id name } } } } } } }',
+      responseField: 'me',
+    },
+    orderAndProducts: {
+      query:
+        'query orderAndProducts($orderId: ID!) { order(id: $orderId, idType: DATABASE_ID) { id wooOrderId paymentMethod workflow { state } pixCode } products(first: 20) { edges { cursor node { id databaseId name sku ... on SimpleProduct { stockQuantity } ... on VariableProduct { stockQuantity } } } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } } }',
       responseField: undefined,
     },
     addToCart: {
@@ -67,7 +73,7 @@ async function graphql(
     },
     startCheckout: {
       query:
-        'mutation startCheckout($input: OrderWorkflowCheckoutInput!) { startCheckout(input: $input) { id wooOrderId paymentMethod workflow { state } pixCode } }',
+        'mutation startCheckout($input: OrderWorkflowCheckoutInput!) { startCheckout(input: $input) { id operationKey status orderId paymentId errorReason } }',
       responseField: 'startCheckout',
     },
   };
@@ -618,6 +624,63 @@ async function setProductStock(
   );
 }
 
+async function linkedBuyerOrderIds(
+  environment: Milestone7Environment,
+  subject: string,
+) {
+  const request = async (
+    query: string,
+    variables: JsonObject,
+    authorization?: string,
+  ) => {
+    const response = await fetch(`${environment.wordpressUrl}/graphql`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        origin: 'http://wordpress',
+        ...(authorization
+          ? { authorization: `Bearer ${authorization}` }
+          : { 'x-wpgraphql-site-token': environment.wordpressSiteToken }),
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+    const payload = (await response.json()) as {
+      data?: JsonObject;
+      errors?: unknown[];
+    };
+    if (!response.ok || payload.errors?.length || !payload.data) {
+      throw new Error(
+        `Linked buyer WooGraphQL read failed: ${JSON.stringify(payload)}`,
+      );
+    }
+    return payload.data;
+  };
+  const authentication = await request(
+    `mutation LoginLinkedBuyer($input: LoginInput!) {
+      login(input: $input) { authToken }
+    }`,
+    { input: { identity: subject, provider: 'SITETOKEN' } },
+  );
+  const authToken = (authentication.login as { authToken?: string } | undefined)
+    ?.authToken;
+  if (!authToken) throw new Error('Linked buyer WooGraphQL login failed');
+  const result = await request(
+    `query LinkedBuyerOrders {
+      customer { orders(first: 20) { nodes { databaseId } } }
+    }`,
+    {},
+    authToken,
+  );
+  const customer = result.customer as
+    | { orders?: { nodes?: Array<{ databaseId?: number }> } }
+    | undefined;
+  return (
+    customer?.orders?.nodes?.flatMap(({ databaseId }) =>
+      databaseId === undefined ? [] : [databaseId],
+    ) ?? []
+  );
+}
+
 export async function runAcceptanceJourney(
   environment: Milestone7Environment,
 ): Promise<AcceptanceProof> {
@@ -664,11 +727,12 @@ export async function runAcceptanceJourney(
     accessToken,
     commerceSession,
   );
-  const meAfterCard = await graphql(
+  const cardOrderAndProducts = await graphql(
     environment,
-    'meAndProducts',
-    {},
+    'orderAndProducts',
+    { orderId: card.checkout.orderId },
     accessToken,
+    commerceSession,
   );
 
   const pixOperationKey = 'milestone-7-pix';
@@ -714,11 +778,16 @@ export async function runAcceptanceJourney(
   } finally {
     await setProductStock(environment, 100);
   }
-  const meAfterPix = await graphql(
+  const pixOrderAndProducts = await graphql(
     environment,
-    'meAndProducts',
-    {},
+    'orderAndProducts',
+    { orderId: pix.checkout.orderId },
     accessToken,
+    commerceSession,
+  );
+  const nativeOrderIds = await linkedBuyerOrderIds(
+    environment,
+    String(buyer.id),
   );
 
   const gatewayOnly = await issueToken(
@@ -761,23 +830,25 @@ export async function runAcceptanceJourney(
       claims,
       gatewayAccepted: gatewayIdentity.id === buyer.id,
       mcpAccepted: mcpIdentity.id === buyer.id,
+      nativeOrderIds,
     },
     card: {
       subscriptionOpenedBeforeCheckout: card.subscriptionOpenedBeforeCheckout,
       checkout: card.checkout,
       retry: cardRetry,
       event: card.event,
-      meOrder: cardRetry,
-      products: meAfterCard.products.edges.map(
+      meOrder: cardOrderAndProducts.order,
+      products: cardOrderAndProducts.products.edges.map(
         ({ node }: { node: JsonObject }) => node,
       ),
     },
     pix: {
       subscriptionOpenedBeforeCheckout: pix.subscriptionOpenedBeforeCheckout,
       checkout: pix.checkout,
+      retry: pixRetry,
       event: pix.event,
-      meOrder: pixRetry,
-      products: meAfterPix.products.edges.map(
+      meOrder: pixOrderAndProducts.order,
+      products: pixOrderAndProducts.products.edges.map(
         ({ node }: { node: JsonObject }) => node,
       ),
     },

@@ -60,14 +60,16 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
             "paymentMethod", "cod",
             "metaData", List.of(Map.of("key", REFERENCE_KEY, "value", request.reference()))
         );
+        var checkoutHeaders = new java.util.LinkedHashMap<>(sessionHeaders(request));
+        checkoutHeaders.put("authorization", "Bearer " + login(request.subject()));
         var checkout = client.execute(new Call(
             """
                 mutation TransactionCheckout($input: CheckoutInput!) {
                   checkout(input: $input) { order { databaseId } }
                 }
-                """,
+            """,
             Map.of("input", input),
-            sessionHeaders(request)
+            Map.copyOf(checkoutHeaders)
         ));
         var id = checkout.path("checkout").path("order").path("databaseId").asLong();
         if (id > 0) return new Order(Long.toString(id), cart.items(), cart.amount(), cart.currency());
@@ -78,17 +80,7 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
 
     @Override
     public Order findByReference(Request request) throws Exception {
-        var login = client.execute(new Call(
-            """
-                mutation LoginTransaction($input: LoginInput!) {
-                  login(input: $input) { authToken }
-                }
-                """,
-            Map.of("input", Map.of("identity", serviceIdentity, "provider", "SITETOKEN")),
-            Map.of("origin", origin, "x-wpgraphql-site-token", siteToken)
-        ));
-        var token = login.path("login").path("authToken").asText();
-        if (token.isBlank()) throw new IllegalStateException(TransactionErrorMessages.WOO_GRAPHQL_LOGIN_FAILED);
+        var token = login(serviceIdentity);
         var data = client.execute(new Call(
             """
                 query FindOrderByTransactionReference($reference: String!) {
@@ -119,6 +111,21 @@ public final class WooCommerceGraphQlOrderAdapter implements WooCommerceOrderPor
             throw new IllegalStateException(TransactionErrorMessages.WOO_COMMERCE_REFERENCE_NOT_UNIQUE);
         }
         return matches.isEmpty() ? null : order(matches.getFirst());
+    }
+
+    private String login(String identity) throws Exception {
+        var login = client.execute(new Call(
+            """
+                mutation LoginTransaction($input: LoginInput!) {
+                  login(input: $input) { authToken }
+                }
+                """,
+            Map.of("input", Map.of("identity", identity, "provider", "SITETOKEN")),
+            Map.of("origin", origin, "x-wpgraphql-site-token", siteToken)
+        ));
+        var token = login.path("login").path("authToken").asText();
+        if (token.isBlank()) throw new IllegalStateException(TransactionErrorMessages.WOO_GRAPHQL_LOGIN_FAILED);
+        return token;
     }
 
     private Cart currentCart(Request request) throws Exception {

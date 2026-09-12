@@ -122,7 +122,8 @@ class PostgresMigrationIntegrationTest {
             var transactionId = "shared-" + UUID.randomUUID();
             commands.sendAndWait(new StartTransaction(
                 transactionId, "operation-shared", "buyer", "1004",
-                List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX", null, null
+                List.of(new Transaction.Item("1001", 1)), new BigDecimal("19.90"), "BRL", "PIX", null, null,
+                "buyer@example.test"
             ), String.class);
 
             var status = commands.sendAndWait(new ReserveInventoryCommand(

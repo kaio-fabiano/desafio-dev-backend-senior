@@ -61,3 +61,9 @@ Thumbs.db
 !/graphify-out/manifest.json
 !/graphify-out/GRAPH_REPORT.md
 !/graphify-out/graph.html
+
+# Playwright CLI debug artifacts
+.playwright-cli/
+
+# Locally installed Claude Code skills (agent tooling, not project source)
+.claude/skills/

@@ -7,7 +7,6 @@ import dev.desafio.transaction.payment.domain.event.PaymentRefundRequested;
 import dev.desafio.transaction.payment.domain.event.PaymentRequested;
 import org.axonframework.messaging.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.eventhandling.annotation.EventHandler;
-import org.axonframework.messaging.core.unitofwork.ProcessingContext;
 
 import java.time.Clock;
 import java.util.UUID;
@@ -32,13 +31,13 @@ public final class PaymentProviderEffectHandler {
     }
 
     @EventHandler
-    public void on(PaymentRequested event, ProcessingContext context) {
-        context.onAfterCommit(ignored -> execute(event));
+    public CompletableFuture<Void> on(PaymentRequested event) {
+        return execute(event);
     }
 
     @EventHandler
-    public void on(PaymentRefundRequested event, ProcessingContext context) {
-        context.onAfterCommit(ignored -> execute(event));
+    public CompletableFuture<Void> on(PaymentRefundRequested event) {
+        return execute(event);
     }
 
     public CompletableFuture<Void> execute(PaymentRequested event) {
@@ -80,9 +79,8 @@ public final class PaymentProviderEffectHandler {
         var completed = effects.completed(effect.effectId());
         if (completed.isPresent()) return completed.orElseThrow();
 
-        var result = effects.claim(effect)
-            ? provider.execute(providerCommand)
-            : provider.reconcile(providerCommand);
+        effects.claim(effect);
+        var result = provider.execute(providerCommand);
         effects.complete(effect.effectId(), result, clock.instant());
         return result;
     }

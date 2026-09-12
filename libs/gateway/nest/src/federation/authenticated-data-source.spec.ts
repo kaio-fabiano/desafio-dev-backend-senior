@@ -30,18 +30,20 @@ function dataSource(
 ) {
   return new AuthenticatedDataSource(
     config,
-    new PrepareFederationRequestUseCase(new CommerceCookieAdapter()),
+    new PrepareFederationRequestUseCase(new CommerceCookieAdapter(), {
+      exchange: async (subject) => `wordpress-${subject}`,
+    }),
     new CaptureFederationResponseUseCase(),
   );
 }
 
 describe('AuthenticatedDataSource', () => {
-  it('AC-226: makes bearer and commerce forwarding explicit capabilities @spec:AC-226', () => {
+  it('AC-226: makes bearer and commerce forwarding explicit capabilities @spec:AC-226', async () => {
     const implicit = dataSource({
       url: 'http://identity-subgraph:3001/graphql',
     });
     const implicitRequest = requestHeaders();
-    implicit.willSendRequest({
+    await implicit.willSendRequest({
       context,
       request: implicitRequest.request,
     } as never);
@@ -57,7 +59,7 @@ describe('AuthenticatedDataSource', () => {
       url: 'http://wordpress/graphql',
     } as never);
     const explicitRequest = requestHeaders();
-    explicit.willSendRequest({
+    await explicit.willSendRequest({
       context,
       request: explicitRequest.request,
     } as never);
@@ -72,13 +74,13 @@ describe('AuthenticatedDataSource', () => {
     });
   });
 
-  it('forwards correlation IDs without depending on an authenticated subject', () => {
+  it('forwards correlation IDs without depending on an authenticated subject', async () => {
     const source = dataSource({
       url: 'http://identity-subgraph:3001/graphql',
     });
     const outgoing = requestHeaders();
 
-    source.willSendRequest({
+    await source.willSendRequest({
       context: { requestId: 'anonymous-request' },
       request: outgoing.request,
     } as never);
@@ -86,15 +88,15 @@ describe('AuthenticatedDataSource', () => {
     expect(outgoing.headers.get('x-request-id')).toBe('anonymous-request');
   });
 
-  it('ignores requests without an Apollo HTTP transport', () => {
+  it('ignores requests without an Apollo HTTP transport', async () => {
     const source = dataSource({
       capabilities: { bearer: true, requestSession: true },
       url: 'http://identity-subgraph:3001/graphql',
     });
 
-    expect(() =>
+    await expect(
       source.willSendRequest({ context, request: {} } as never),
-    ).not.toThrow();
+    ).resolves.toBeUndefined();
   });
 
   it('preserves every Set-Cookie value from Apollo response headers', () => {

@@ -1,0 +1,36 @@
+{
+  "runId": "desafio-dev-backend-senior-connect-graphiql-sse-mtx6ehq9",
+  "feature": "connect-graphiql-sse",
+  "agent": "codex",
+  "modo": "sequencial",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-11 16:33",
+  "branchTrabalho": "spec/connect-graphiql-sse",
+  "baseDir": ".spec/features/connect-graphiql-sse",
+  "specDir": ".spec",
+  "repoName": "desafio-dev-backend-senior",
+  "logsDir": "../onp-worktrees/desafio-dev-backend-senior-connect-graphiql-sse-logs",
+  "ondas": [],
+  "faixas": [],
+  "sequenciais": [
+    {
+      "id": "T-309",
+      "titulo": "Serve an SSE-aware GraphiQL page",
+      "modelo": "gpt-5.6-sol",
+      "esforco": "high",
+      "arquivos": [
+        "apps/gateway/src/graphiql/gateway-graphiql-page.spec.ts",
+        "apps/gateway/src/graphiql/gateway-graphiql-page.ts",
+        "apps/gateway/src/main.ts"
+      ],
+      "refs": [
+        "US-162",
+        "AC-359"
+      ]
+    }
+  ],
+  "concluidas": [],
+  "avisos": []
+}

@@ -1,10 +1,10 @@
 import { oauthProvider } from '@better-auth/oauth-provider';
 import { Inject, Injectable } from '@nestjs/common';
 import { betterAuth } from 'better-auth';
-import { jwt } from 'better-auth/plugins';
+import { jwt, openAPI } from 'better-auth/plugins';
 
-import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 import { IdentityErrorMessages } from '../application/errors/identity-error-messages.ts';
+import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 import { BetterAuthError } from './better-auth.error.ts';
 import type {
   IdentityAuth,
@@ -77,6 +77,7 @@ export class BetterAuthFactory {
           ),
           clientPrivileges: async ({ user }) => user?.email === seedAdminEmail,
         }) as never,
+        openAPI(),
       ],
     }) as unknown as IdentityAuth;
   }

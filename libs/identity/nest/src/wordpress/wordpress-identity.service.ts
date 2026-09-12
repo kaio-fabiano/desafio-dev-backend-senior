@@ -119,6 +119,52 @@ export class WordPressIdentityService {
     }
   }
 
+  async findOrderReferences(
+    subject: string,
+    first: number,
+  ): Promise<Array<{ id: string }>> {
+    const authToken = await this.subjectToken(subject);
+    const result = await this.graphql<{
+      customer?: { orders?: { nodes?: Array<{ id?: string }> } };
+    }>(
+      `
+        query IdentityUserOrders($first: Int!) {
+          customer { orders(first: $first) { nodes { id } } }
+        }
+      `,
+      { first },
+      authToken,
+    );
+    if (result.errors?.length) {
+      throw new WordPressError(
+        'WORDPRESS_ORDERS_FAILED',
+        IdentityErrorMessages.wordpress.WORDPRESS_ORDERS_FAILED,
+      );
+    }
+    return (result.data?.customer?.orders?.nodes ?? []).flatMap((node) =>
+      node.id ? [{ id: node.id }] : [],
+    );
+  }
+
+  private async subjectToken(subject: string): Promise<string> {
+    const result = await this.graphql<{ login?: { authToken?: string } }>(
+      `
+        mutation LoginIdentitySubject($input: LoginInput!) {
+          login(input: $input) { authToken }
+        }
+      `,
+      { input: { identity: subject, provider: 'SITETOKEN' } },
+    );
+    const authToken = result.data?.login?.authToken;
+    if (result.errors?.length || !authToken) {
+      throw new WordPressError(
+        'WORDPRESS_ORDERS_FAILED',
+        IdentityErrorMessages.wordpress.WORDPRESS_ORDERS_FAILED,
+      );
+    }
+    return authToken;
+  }
+
   private async registrarToken(
     errorCode: 'WORDPRESS_DELETE_FAILED' | 'WORDPRESS_LINK_FAILED',
   ): Promise<string> {

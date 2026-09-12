@@ -86,6 +86,42 @@ class WooCommerceGraphQlOrderAdapterTest {
         );
     }
 
+    @Test
+    @DisplayName("Woo checkout authenticates the linked buyer and preserves the cart session @spec:AC-354")
+    void wooCheckoutAuthenticatesTheLinkedBuyer() throws Exception {
+        var calls = new ArrayList<WooCommerceGraphQlOrderAdapter.Call>();
+        WooCommerceGraphQlOrderAdapter.GraphQlClient client = call -> {
+            calls.add(call);
+            if (call.query().contains("LoginTransaction")) {
+                var identity = call.variables().get("input").toString();
+                return json(identity.contains("buyer-1")
+                    ? "{\"login\":{\"authToken\":\"buyer-token\"}}"
+                    : "{\"login\":{\"authToken\":\"service-token\"}}");
+            }
+            if (call.query().contains("FindOrderByTransactionReference")) {
+                return json("{\"orders\":{\"nodes\":[]}}");
+            }
+            if (call.query().contains("TransactionCart")) return json(cartPayload());
+            return json("{\"checkout\":{\"order\":{\"databaseId\":42}}}");
+        };
+
+        adapter(client).createOrFind(new WooCommerceOrderPort.Request(
+            "buyer-1", "operation-reference", "PIX",
+            new WooCommerceOrderPort.Session("cart-token", "woo-session", "buyer-cookie")
+        ));
+
+        var checkout = calls.stream()
+            .filter(call -> call.query().contains("TransactionCheckout"))
+            .toList();
+        assertEquals(1, checkout.size());
+        assertEquals("Bearer buyer-token", checkout.getFirst().headers().get("authorization"));
+        assertEquals("cart-token", checkout.getFirst().headers().get("cart-token"));
+        assertTrue(calls.stream().anyMatch(call ->
+            call.query().contains("LoginTransaction")
+                && call.variables().get("input").toString().contains("buyer-1")
+        ));
+    }
+
     private static WooCommerceGraphQlOrderAdapter adapter(
         WooCommerceGraphQlOrderAdapter.GraphQlClient client
     ) {
