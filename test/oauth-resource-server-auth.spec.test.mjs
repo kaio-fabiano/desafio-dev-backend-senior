@@ -90,18 +90,26 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
   // Dado: Better Auth configured as the platform authorization server
   // Quando: a Gateway, MCP, Order Workflow, Identity, or Payment token is issued
   // Então: each owned protected resource has an explicit audience and allowed scopes, while WordPress session integration remains outside this OAuth trust model
-  const [resources, factory, provisioning, journey] = await Promise.all([
-    readFile('libs/identity/nest/src/oauth-issuer/oauth-resources.ts', 'utf8'),
-    readFile(
-      'libs/identity/nest/src/better-auth/better-auth.factory.ts',
-      'utf8',
-    ),
-    readFile(
-      'libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts',
-      'utf8',
-    ),
-    readFile('apps/e2e/src/journey.ts', 'utf8'),
-  ]);
+  const [resources, factory, provisioning, journey, visibilityPolicy] =
+    await Promise.all([
+      readFile(
+        'libs/identity/nest/src/oauth-issuer/oauth-resources.ts',
+        'utf8',
+      ),
+      readFile(
+        'libs/identity/nest/src/better-auth/better-auth.factory.ts',
+        'utf8',
+      ),
+      readFile(
+        'libs/identity/nest/src/oauth-issuer/oauth-client-provisioning.service.ts',
+        'utf8',
+      ),
+      readFile('apps/e2e/src/journey.ts', 'utf8'),
+      readFile(
+        'libs/identity/nest/src/application/policies/identity-user-visibility.policy.ts',
+        'utf8',
+      ),
+    ]);
   for (const resource of [
     'gateway',
     'identity',
@@ -120,8 +128,13 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
         /\[OAuthResources\.resources\.[^\]]+\]: OAuthResources\.delegatedScopes/g,
       ),
     ].length,
-    5,
+    4,
   );
+  assert.match(
+    resources,
+    /\[OAuthResources\.resources\.identity\]: \[\s*\.\.\.OAuthResources\.delegatedScopes,\s*OAuthResources\.identityUsersReadScope,?\s*\]/,
+  );
+  const resourcesAndPolicy = `${resources}\n${visibilityPolicy}`;
   for (const scope of [
     'mcp:tools',
     'marketplace:read',
@@ -129,7 +142,7 @@ test('AC-174: Tokens are issued for every owned protected resource @spec:AC-174'
     'orders:read',
     'cart:write',
   ]) {
-    assert.match(resources, new RegExp(`['"]${scope}['"]`));
+    assert.match(resourcesAndPolicy, new RegExp(`['"]${scope}['"]`));
   }
   for (const audience of [
     'GATEWAY',
@@ -251,7 +264,7 @@ test('AC-177: Payment is a standard Spring OAuth resource server @spec:AC-177', 
         'utf8',
       ),
       readFile(
-        'apps/payment-federation/src/main/java/dev/desafio/transaction/payment/configuration/PaymentGraphqlConfiguration.java',
+        'apps/payment-federation/src/main/java/dev/desafio/transaction/edge/configuration/FederationGraphqlConfiguration.java',
         'utf8',
       ),
       readFile(

@@ -4,6 +4,7 @@ import {
   Context,
   Parent,
   Query,
+  ResolveField,
   ResolveReference,
   Resolver,
 } from '@nestjs/graphql';
@@ -20,6 +21,7 @@ import { FindIdentityUsersUseCase } from '../application/use-cases/find-identity
 import { ListIdentityUsersUseCase } from '../application/use-cases/list-identity-users.use-case.ts';
 import { OAuthResources } from '../oauth-issuer/oauth-resources.ts';
 import { UserCursorDecoder } from '../presentation/graphql/user-cursor.decoder.ts';
+import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
 
 @Resolver('User')
 export class IdentityResolver {
@@ -30,6 +32,11 @@ export class IdentityResolver {
       | Pick<IdentityUserQueryPort, 'findPage'>,
     @Inject(FindIdentityUsersUseCase)
     private readonly usersById: Pick<FindIdentityUsersUseCase, 'load'>,
+    @Inject(WordPressIdentityService)
+    private readonly wordpressOrders: Pick<
+      WordPressIdentityService,
+      'findOrderReferences'
+    >,
   ) {}
 
   @Query('users')
@@ -55,6 +62,18 @@ export class IdentityResolver {
   @RequireScopes(OAuthResources.marketplaceReadScope)
   me(@OAuthSubject() subject: string) {
     return this.usersById.load(subject);
+  }
+
+  @ResolveField('orders')
+  @RequireScopes(OAuthResources.marketplaceReadScope)
+  async orders(
+    @Parent() user: { id: string },
+    @Args('first') first = 20,
+  ) {
+    if (!Number.isInteger(first) || first < 1 || first > 100) {
+      throw new BadRequestException(IdentityErrorMessages.invalidUserPageSize);
+    }
+    return this.wordpressOrders.findOrderReferences(user.id, first);
   }
 
   @ResolveReference()

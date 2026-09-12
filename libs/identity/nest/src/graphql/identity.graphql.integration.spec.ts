@@ -20,6 +20,7 @@ import { IdentityUserQueryPort } from '../application/ports/identity-user-query.
 import { FindIdentityUsersUseCase } from '../application/use-cases/find-identity-users.use-case.ts';
 import { ListIdentityUsersUseCase } from '../application/use-cases/list-identity-users.use-case.ts';
 import { IdentityModule } from '../identity.module.ts';
+import { WordPressIdentityService } from '../wordpress/wordpress-identity.service.ts';
 import { IdentityResolver } from './identity.resolver.ts';
 
 const users = [
@@ -85,6 +86,10 @@ const repository = {
       },
     },
     { provide: APP_GUARD, useExisting: GraphqlOAuthResourceGuard },
+    {
+      provide: WordPressIdentityService,
+      useValue: { findOrderReferences: async () => [] },
+    },
   ],
 })
 class IdentityGraphqlTestModule {}

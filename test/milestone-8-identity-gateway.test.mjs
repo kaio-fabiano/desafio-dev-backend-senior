@@ -31,11 +31,17 @@ test('AC-080: Identity resolves authorized users, user, me and federated referen
   const loader = {
     load: async (id) => records.find((user) => user.id === id) ?? null,
   };
-  const resolver = new IdentityResolver(repository, loader);
+  const resolver = new IdentityResolver(repository, loader, {});
+  const adminContext = {
+    auth: { audience: [], claims: {}, scopes: ['identity:users:read'], subject: 'admin' },
+  };
   assert.deepEqual(await resolver.me('u-1'), records[0]);
-  assert.deepEqual(await resolver.user('u-2'), records[1]);
+  assert.deepEqual(await resolver.user('u-2', adminContext), records[1]);
   assert.equal((await resolver.users(1)).pageInfo.hasNextPage, true);
-  assert.deepEqual(await resolver.resolveReference({ id: 'u-2' }), records[1]);
+  assert.deepEqual(
+    await resolver.resolveReference({ id: 'u-2' }, adminContext),
+    records[1],
+  );
   const sdl = await readFile(
     'libs/contracts/graphql/identity/schema.graphql',
     'utf8',

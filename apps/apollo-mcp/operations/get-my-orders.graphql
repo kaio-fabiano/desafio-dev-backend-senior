@@ -12,9 +12,11 @@ query getMyOrders($first: Int, $after: String) {
           nodes {
             quantity
             product {
-              id
-              name
-              price
+              node {
+                id
+                name
+                price
+              }
             }
           }
         }

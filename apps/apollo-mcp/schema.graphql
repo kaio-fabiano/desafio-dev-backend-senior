@@ -2,6 +2,7 @@
 type User {
   id: ID!
   email: String!
+  orders(first: Int = 20): [Order!]!
 }
 
 type SupplierCompany {
@@ -101,7 +102,11 @@ type OrderLineItemEdge {
 
 type OrderLineItem {
   quantity: Int
-  product: Product
+  product: LineItemToProductConnectionEdge
+}
+
+type LineItemToProductConnectionEdge {
+  node: Product
 }
 
 type Customer {

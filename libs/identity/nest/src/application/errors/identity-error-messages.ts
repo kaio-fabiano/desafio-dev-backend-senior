@@ -30,6 +30,7 @@ export class IdentityErrorMessages {
     WORDPRESS_DELETE_FAILED: 'WordPress identity rollback failed',
     WORDPRESS_IDENTITY_ALREADY_EXISTS: 'WordPress identity already exists',
     WORDPRESS_LINK_FAILED: 'WordPress identity link failed',
+    WORDPRESS_ORDERS_FAILED: 'WordPress order lookup failed',
     WORDPRESS_REGISTRAR_AUTHENTICATION_FAILED:
       'WordPress registrar authentication failed',
   } as const;

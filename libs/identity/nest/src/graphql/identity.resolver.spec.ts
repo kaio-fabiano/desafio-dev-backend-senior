@@ -19,7 +19,7 @@ describe('IdentityResolver', () => {
     const users = {
       findPage: vi.fn(),
     };
-    const resolver = new IdentityResolver(users as never, {} as never);
+    const resolver = new IdentityResolver(users as never, {} as never, {} as never);
 
     await expect(resolver.users(20, 'not a cursor')).rejects.toBeInstanceOf(
       BadRequestException,
@@ -45,7 +45,7 @@ describe('IdentityResolver', () => {
     });
     const repository = { findByIds, findPage };
     const usersById = new FindIdentityUsersUseCase(repository);
-    const resolver = new IdentityResolver(repository, usersById);
+    const resolver = new IdentityResolver(repository, usersById, {} as never);
 
     await expect(resolver.users(0)).rejects.toBeInstanceOf(BadRequestException);
     await resolver.users(1);
@@ -67,6 +67,7 @@ describe('IdentityResolver', () => {
     const resolver = new IdentityResolver(
       { findPage: vi.fn() } as never,
       { load } as never,
+      {} as never,
     );
 
     await expect(resolver.me('one')).resolves.toMatchObject({ id: 'one' });
@@ -96,6 +97,28 @@ describe('IdentityResolver', () => {
     expect(load).toHaveBeenNthCalledWith(2, 'one');
     expect(load).toHaveBeenNthCalledWith(3, 'two');
     expect(load).toHaveBeenNthCalledWith(4, 'two');
+  });
+
+  it('resolves federated orders for the parent user via WordPress @spec:AC-354', async () => {
+    const findOrderReferences = vi
+      .fn()
+      .mockResolvedValue([{ id: 'order-1' }, { id: 'order-2' }]);
+    const resolver = new IdentityResolver({ findPage: vi.fn() } as never, {
+      load: vi.fn(),
+    } as never, { findOrderReferences } as never);
+
+    await expect(resolver.orders({ id: 'buyer-1' }, 5)).resolves.toEqual([
+      { id: 'order-1' },
+      { id: 'order-2' },
+    ]);
+    expect(findOrderReferences).toHaveBeenCalledWith('buyer-1', 5);
+
+    await expect(
+      resolver.orders({ id: 'buyer-1' }, 0),
+    ).rejects.toBeInstanceOf(BadRequestException);
+    await expect(
+      resolver.orders({ id: 'buyer-1' }, 101),
+    ).rejects.toBeInstanceOf(BadRequestException);
   });
 
   it('returns nulls and propagates repository failures to every queued load @spec:AC-228', async () => {

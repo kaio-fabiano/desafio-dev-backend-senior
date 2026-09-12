@@ -1,7 +1,27 @@
 # Owner: Apollo MCP integration-contract boundary
-query me {
+query me($first: Int = 20) {
   me {
     id
     email
+    orders(first: $first) {
+      id
+      status
+      paymentMethod
+      workflow {
+        state
+      }
+      pixCode
+      lineItems(first: 20) {
+        nodes {
+          quantity
+          product {
+            node {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
   }
 }

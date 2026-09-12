@@ -311,7 +311,7 @@ class ChoreographedLifecycleE2ETest {
         assertEquals(1, refundCommands.get());
 
         var requested = new PaymentRequested(
-            "transaction-refund", "operation-refund:payment", "transaction-refund",
+            "payment:transaction-refund", "operation-refund:payment", "transaction-refund",
             dev.desafio.transaction.payment.domain.Payment.Method.CARD, new BigDecimal("42.50"),
             "BRL", "opaque-test-reference", "buyer@example.test", "visa",
             "operation-refund", "inventory-reserved", CLOCK.instant()

@@ -63,7 +63,7 @@ test('AC-093: Better Auth uses direct plugins and its NestJS integration @spec:A
 
   assert.deepEqual(
     auth.options.plugins?.map((plugin) => plugin.id),
-    ['jwt', 'oauth-provider'],
+    ['jwt', 'oauth-provider', 'open-api'],
   );
   assert.match(
     moduleSource,

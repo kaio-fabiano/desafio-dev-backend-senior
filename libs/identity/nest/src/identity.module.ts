@@ -18,11 +18,13 @@ import { ListIdentityUsersUseCase } from './application/use-cases/list-identity-
 import { IdentityResolver } from './graphql/identity.resolver.ts';
 import { BetterAuthIdentityUserAdapter } from './infrastructure/persistence/better-auth-identity-user.adapter.ts';
 import { OAuthIssuerModule } from './oauth-issuer/oauth-issuer.module.ts';
+import { WordPressModule } from './wordpress/wordpress.module.ts';
 
 @Module({
   imports: [
     BetterAuthModule,
     OAuthIssuerModule,
+    WordPressModule,
     OAuthResourceModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
