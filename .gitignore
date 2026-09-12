@@ -64,3 +64,6 @@ Thumbs.db
 
 # Playwright CLI debug artifacts
 .playwright-cli/
+
+# Locally installed Claude Code skills (agent tooling, not project source)
+.claude/skills/
