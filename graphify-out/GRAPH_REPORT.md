@@ -1,7 +1,7 @@
 # Graph Report - desafio-dev-backend-senior  (2026-09-12)
 
 ## Corpus Check
-- 1094 files · ~545,284 words
+- 1094 files · ~545,315 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3878e598`
+- Built from commit: `1a98fcfe`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
