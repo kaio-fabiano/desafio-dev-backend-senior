@@ -1,24 +1,23 @@
 # Graph Report - desafio-dev-backend-senior  (2026-09-12)
 
 ## Corpus Check
-- 1117 files · ~551,736 words
+- 1094 files · ~545,284 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 7852 nodes · 16343 edges · 584 communities (444 shown, 82 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 400 edges (avg confidence: 0.82)
+- 7720 nodes · 16145 edges · 558 communities (421 shown, 78 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 394 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `215f58db`
+- Built from commit: `072ebdc8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- org.springframework.context.annotation.Bean
+- SpringDataPaymentRecordRepository
 - dependencies
-- graphiql-lib.mjs
-- PaymentApproved
+- PaymentRequested
 - Transaction
 - mercado-pago-sandbox.ts
 - Operation
@@ -29,16 +28,16 @@
 - spec.js
 - org.junit.jupiter.api.Test
 - index.js
-- @nestjs/common
-- TransactionConfiguration.java
+- WordPressIdentityService
+- ReliableAmqpConsumer
 - ADR 002 — OAuth multi-resource access token
 - ledger.js
-- PaymentErrorMessages
+- MercadoPagoProperties
 - Mapa do Projeto
 - onp-spec-driven
 - plano.js
-- org.axonframework.messaging.commandhandling.annotation.Command
-- ProviderNotificationHandler
+- Payment
+- MercadoPagoWebhookController.java
 - cli.js
 - Índice dos PRDs do marketplace
 - structural-improvement-program/executar-tarefas.sh
@@ -52,13 +51,13 @@
 - Histórias
 - Design: Strict NestJS DDD migration
 - schema.json
-- org.axonframework.messaging.queryhandling.annotation.QueryHandler
+- TransactionReadRepository
 - milestone-6-apollo-mcp/executar-tarefas.sh
 - oauth-resource-server-auth/executar-tarefas.sh
 - payment-federation-clean-architecture/executar-tarefas.sh
 - remove-wordpress-federation-runtime/executar-tarefas.sh
 - Gateway Authentication Hardening Review
-- CheckoutGraphQlController.java
+- OrderWorkflowGraphQlCompatibilityTest.java
 - align-payment-federation-naming/executar-tarefas.sh
 - User stories
 - auth-server.ts
@@ -84,12 +83,12 @@
 - identity/nest/project.json
 - resolve-node-review-todos/executar-tarefas.sh
 - devDependencies
-- Payment
+- ProviderRequest
 - Spec: Mercado Pago production deployment
 - Spec: Milestone 7 — E2E, quality, and deployment
 - Marketplace B2B federado com MCP e saga de pagamentos
 - targets
-- TransactionAxonTest.java
+- Item
 - Spec: Challenge compliance and delivery closure
 - Spec: Production happy path hardening
 - Plano de execução — structural-improvement-program
@@ -116,7 +115,7 @@
 - registration.service.spec.ts
 - gateway/project.json
 - identity/nest/tsconfig.spec.json
-- TransactionViewJpaRepository
+- MercadoPagoPaymentProviderTest
 - gateway/nest/project.json
 - Plano de execução — milestone-6-apollo-mcp
 - Spec: Payment Federation clean architecture
@@ -124,7 +123,7 @@
 - Spec: Refactor registration boundaries
 - compilerOptions
 - Tasks: Challenge compliance and delivery closure
-- InventoryService
+- InventoryConfiguration.java
 - Tasks: OAuth resource-server authentication
 - Plano de execução — remove-wordpress-federation-runtime
 - targets
@@ -175,7 +174,7 @@
 - Spec: Sonar java full analysis
 - Tasks: Resolve Node review findings
 - compilerOptions
-- Transaction.java
+- CheckoutServiceTest.java
 - wordpress-integration/project.json
 - Federated platform architecture review
 - infra/package.json
@@ -207,12 +206,12 @@
 - Mercado Pago sandbox runbook
 - gateway/nest/tsconfig.lib.json
 - Order Workflow Reconciliation architecture
-- PaymentProvider
+- PaymentView
 - Plano de execução — adopt-nestjs-config
 - CheckoutOperationEntity
 - Design: Milestone 8 — Challenge compliance and production hardening
 - Design: Native commerce and Order Workflow Federation
-- error-message-gateway.test.mjs
+- gateway/src/app.module.ts
 - ADR 0012: Native-first security boundaries
 - ADR 006: Reconcile WooCommerce checkout by a stable operation reference
 - ADR 008: Native commerce and a focused Order Workflow Federation
@@ -229,7 +228,7 @@
 - Tasks: Remove wordpress federation runtime
 - T-183 — Decorator runtime, test ownership, and coverage evidence
 - T-184 gateway authentication, federation, and loader evidence
-- gateway-federation-refactor.test.mjs
+- @nestjs/common
 - Spec: Idiomatic NestJS architecture
 - challenge-compliance.md
 - Deployment runbook
@@ -340,13 +339,13 @@
 - Evidence: Modularize order workflow subgraph
 - Plano de execução — idiomatic-nestjs-architecture
 - OutboxStore
-- InMemoryLedger
+- Effect
 - invalid-mixed-service.ts
 - Spec: Migrate Order Workflow to Axon Java
-- gateway/nest/src/index.ts
+- gateway-federation-refactor.test.mjs
 - architecture-boundaries.test.mjs
-- org.springframework.amqp.core.Message
-- TransactionSubscriptionEventHandler
+- BetterAuthOAuthClientProvisioningAdapter
+- org.springframework.context.annotation.Bean
 - Tasks: Clarify gateway module boundaries
 - Tasks: GraphQL-only WooCommerce integration
 - gateway/tsconfig.json
@@ -355,14 +354,14 @@
 - PostgresMigrationIntegrationTest.java
 - PaymentOutboxEntity
 - invalid-multi-export.config.ts
-- @nestjs/config
+- CheckoutInput
 - RegisterIdentityUseCase
 - auth-context.factory.ts
 - jakarta.persistence.Entity
 - oauth-resource.module.spec.ts
-- InventoryConfiguration.java
+- InventoryReservationProjectionJpaRepository
 - harden-oauth-runtime-configuration/executar-tarefas.sh
-- Inventory
+- TransactionSubscriptionEventHandler
 - Design: Idiomatic NestJS architecture
 - Tasks: Idiomatic NestJS architecture
 - identity-core.spec.ts
@@ -370,7 +369,7 @@
 - idiomatic-nestjs-architecture.test.mjs
 - migrate-order-workflow-to-axon-java/executar-tarefas.sh
 - Design: Java/Axon Transaction Runtime
-- PaymentFederationApplication
+- PaymentMigrationTest
 - TransactionEvent
 - WooCommerceGraphQlOrderAdapter
 - Tasks: Audit and Plan the Java/Axon Migration
@@ -382,10 +381,9 @@
 - PaymentRecordEntity
 - T-240 — Current Java Runtime and Axon 5 Reference Audit
 - Java/Axon 5 Refactor Audit and Plan
-- OrderWorkflowGraphQlCompatibilityTest.java
+- OrderWorkflowGraphQlCompatibilityTest
 - TransactionProjectionReplayTest
 - align-milestone-7-checkout-contract/executar-tarefas.sh
-- OAuthClaims
 - PaymentSecurityConfiguration.java
 - organize-payment-federation-structure/executar-tarefas.sh
 - InventoryReservation
@@ -398,16 +396,13 @@
 - Stage
 - improve-checkout-service-readability/executar-tarefas.sh
 - Plano de execução — migrate-order-workflow-to-axon-java
-- TransactionEventSourcedEntity
 - oauth-resource.service.integration.spec.ts
-- Status
 - align-wordpress-cart-product-edge/executar-tarefas.sh
 - connect-graphiql-sse/executar-tarefas.sh
 - Q: Create a refactoring plan to move order-workflow-subgraph responsibilities to Java using Axon Framework 5.3 CQRS, DDD, Clean Architecture, annotations, and the local axon-graphql-posts example
 - 8. GraphQL Federation, OAuth, and SSE
 - enable-better-auth-openapi/executar-tarefas.sh
 - migrate-order-workflow-to-axon-java.test.mjs
-- ConsumerModule
 - 4. Current checkout and idempotency behavior
 - migrate-order-workflow-to-axon-java-transaction.test.mjs
 - fix-payment-federation-ide-compiler/executar-tarefas.sh
@@ -420,36 +415,29 @@
 - restore-local-e2e-gateway-runtime/executar-tarefas.sh
 - Histórias
 - CheckoutOperationView
-- PaymentEffectLedger
+- org.axonframework.messaging.commandhandling.gateway.CommandGateway
 - Onda 1 — faixa-1 ∥ faixa-2 ∥ faixa-3 ∥ faixa-4 ∥ faixa-5 ∥ faixa-6 ∥ faixa-7
 - InventoryResultEventEntity
-- TransactionViewEntity
-- RequestPayment
 - MemoryRepository
-- Playwright Skill - Complete API Reference
 - error-message-policy.mjs
-- gateway-path.integration.spec.ts
 - Spec: Organize Payment Federation structure
 - Design: Refactor checkout operation flow
 - Plano de execução — refactor-payment-persistence-models
 - US-139 — Persist Payment Federation through explicit ORM models
 - Pipeline CI
 - InventoryOperationEntity
-- JpaTransactionPersistenceTest.java
-- vitest
-- PaymentView
-- Notification
+- JpaTransactionPersistenceTest
+- RequireScopes
+- FederationGraphqlConfiguration.java
 - Tasks: Refactor checkout operation flow
 - Spec: Standardize error messages
 - InventoryReservationProjectionEntity
-- AxonPersistenceRestartTest.java
+- AxonPersistenceRestartTest
 - Plano de execução — align-milestone-7-checkout-contract
 - Spec: Align milestone 7 checkout contract
-- PaymentRequested
-- AtomicRepository
+- DeterministicPaymentProvider
 - PaymentEffectEntity
-- Playwright Browser Automation
-- node-review-tooling.spec.ts
+- vitest
 - Spec: Fix Payment Federation IDE compiler diagnostics
 - Tasks: Organize Payment Federation structure
 - Spec: Preserve WordPress commerce session
@@ -457,7 +445,6 @@
 - Spec: Recover payment provider effects
 - Spec: Restore bearer-owned cart
 - Tasks: Standardize error messages
-- run.js
 - Spec: Align wordpress cart product edge
 - Spec: Connect GraphiQL to GraphQL SSE
 - Spec: Enable Better Auth OpenAPI
@@ -466,7 +453,6 @@
 - Spec: Persist graphiql commerce session
 - Spec: Propagate checkout payer email
 - Spec: Restore local e2e gateway runtime
-- InventoryPostgresIntegrationTest
 - T-268 — Align OAuth defaults and resolve configuration lazily
 - T-270 — Add canonical and replay-safe Gateway DPoP configuration
 - T-271 — Enforce Identity query visibility and use the production batch provider
@@ -492,13 +478,10 @@
 - error-message-java-inventory.test.mjs
 - error-message-java-payment.test.mjs
 - error-message-java-shared.test.mjs
-- PostgresMigrationIntegrationTest
 - ADR 010: Mercado Pago payment provider
 - T-273 — Propagate tokenized Card credentials
 - Design: Standardize error messages
 - IntegrationEventErrorMessages
-- Common Patterns & Solutions
-- Common tasks
 - Q: consegue resolve esses erros do compilador?
 - Q: me explique cada linha desse arquivo
 - Q: preciso que voce me explique o fluxo de compra de produto, até a parte do pagamento, no final, mostrando os arquivos
@@ -510,19 +493,12 @@
 - error-message-java-transaction.test.mjs
 - gradlew
 - HealthController
-- MessagingErrorMessages
-- Common Actions
 - T-272 — OAuth audience and DPoP presentation guidance
 - PaymentInboxEntity
 - Tasks: Fix Payment Federation IDE compiler diagnostics
 - Tasks: Improve checkout service readability
 - refactor-checkout-operation-flow.test.mjs
 - PersistenceErrorMessages
-- Selectors & Locators
-- Core Patterns
-- Installation & Setup
-- Network & API Testing
-- Debugging
 - Tasks: Align wordpress cart product edge
 - Tasks: Connect GraphiQL to GraphQL SSE
 - Tasks: Enable Better Auth OpenAPI
@@ -534,9 +510,6 @@
 - Tasks: Restore bearer-owned cart
 - Tasks: Restore local e2e gateway runtime
 - refactor-payment-persistence-inventory.test.mjs
-- Assertions
-- Troubleshooting
-- Visual Testing
 - error-message-catalogs.md
 - payment-federation-gradle-wrapper.test.mjs
 - ProviderNotificationEntity
@@ -576,27 +549,23 @@
 - **Entrega orientada às PoCs de maior risco** — docs_prds_07_roadmap_critical_compatibility_pocs, docs_prds_08_riscos_e_decisoes_pendentes_sse_protocol_incompatibility, docs_prds_08_riscos_e_decisoes_pendentes_audience_same_token_risk, docs_prds_08_riscos_e_decisoes_pendentes_order_authority_risk [EXTRACTED 1.00]
 - **Fluxo de rastreabilidade da especificação à prova** — agents_skills_onp_spec_driven_skill_traceability_chain, agents_skills_onp_spec_driven_references_escrevendo_specs_auditable_acceptance_criteria, agents_skills_onp_spec_driven_scripts_lib_templates_tasks_feature_tasks_template, agents_skills_onp_spec_driven_references_fluxo_runner_evidence [EXTRACTED 1.00]
 
-## Communities (584 total, 82 thin omitted)
+## Communities (558 total, 78 thin omitted)
 
-### Community 1 - "org.springframework.context.annotation.Bean"
-Cohesion: 0.09
-Nodes (16): Claim, Outcome, Override, JpaProviderNotificationRepository, SpringDataPaymentEffectRepository, SpringDataPaymentInboxRepository, SpringDataPaymentOutboxRepository, SpringDataPaymentRecordRepository (+8 more)
+### Community 1 - "SpringDataPaymentRecordRepository"
+Cohesion: 0.06
+Nodes (28): InventoryInboxJpaRepository, InventoryOperationJpaRepository, InventoryResultEventJpaRepository, TransactionTemplate, InventoryConfiguration, JpaPaymentViewRepository, Claim, Outcome (+20 more)
 
 ### Community 2 - "dependencies"
 Cohesion: 0.06
 Nodes (31): dependencies, ajv, amqplib, @apollo/gateway, @apollo/server, @apollo/subgraph, @as-integrations/express5, @aws-sdk/client-dynamodb (+23 more)
 
-### Community 4 - "graphiql-lib.mjs"
-Cohesion: 0.06
-Nodes (33): productId, productId, productId, addTab(), execute(), getResponseText(), setHeaders(), setQuery() (+25 more)
-
-### Community 5 - "PaymentApproved"
-Cohesion: 0.21
-Nodes (10): Override, Status, JpaPaymentProjection, PaymentProjectionHandler, PaymentProjection, PaymentApproved, PaymentPending, PaymentRefunded (+2 more)
+### Community 5 - "PaymentRequested"
+Cohesion: 0.09
+Nodes (19): Override, Status, JpaPaymentProjection, PaymentAggregate, PaymentCommandHandler, Status, RecordPaymentOutcome, RefundPayment (+11 more)
 
 ### Community 6 - "Transaction"
-Cohesion: 0.07
-Nodes (21): Event, Outcome, INVENTORY_COMMIT_REJECTED, INVENTORY_COMMITTED, INVENTORY_REJECTED, INVENTORY_RESERVED, PAYMENT_APPROVED, PAYMENT_PENDING (+13 more)
+Cohesion: 0.05
+Nodes (23): Status, Event, Outcome, INVENTORY_COMMIT_REJECTED, INVENTORY_COMMITTED, INVENTORY_REJECTED, INVENTORY_RESERVED, PAYMENT_APPROVED (+15 more)
 
 ### Community 7 - "mercado-pago-sandbox.ts"
 Cohesion: 0.08
@@ -616,7 +585,7 @@ Nodes (26): executor, inputs, options, outputs, name, command, projectType, $sch
 
 ### Community 11 - "com.fasterxml.jackson.databind.ObjectMapper"
 Cohesion: 0.08
-Nodes (20): TransactionTemplate, JpaPaymentEffectLedger, AmqpOutboxJpaRepository, InventoryAmqpOutboxJpaRepository, TransactionTemplate, FunctionalInterface, Override, TransactionTemplate (+12 more)
+Nodes (26): InventoryAmqpOutboxJpaRepository, TransactionTemplate, JpaInventoryOutbox, TransactionTemplate, JpaInventoryProjectionRepository, InventoryOutbox, TransactionTemplate, JpaPaymentEffectLedger (+18 more)
 
 ### Community 12 - "journey.ts"
 Cohesion: 0.10
@@ -627,20 +596,20 @@ Cohesion: 0.12
 Nodes (30): auditProject(), CI_ESCALATES, finding(), latestMtime(), loadProject(), grepPattern(), scanAnnotations(), staticDirOf() (+22 more)
 
 ### Community 14 - "org.junit.jupiter.api.Test"
-Cohesion: 0.07
-Nodes (16): SonarConfigurationTest, AxonBaselineContractTest, ContextArchitectureTest, IntegrationEventEnvelopeContractTest, OrderReceived, InventoryIntegrationEventHandlerTest, PaymentRequested, MercadoPagoPaymentProviderTest (+8 more)
+Cohesion: 0.06
+Nodes (14): SonarConfigurationTest, AxonBaselineContractTest, ContextArchitectureTest, IntegrationEventEnvelopeContractTest, OrderReceived, PostgresMigrationIntegrationTest, InventoryIntegrationEventHandlerTest, InventoryReservationTest (+6 more)
 
 ### Community 15 - "index.js"
 Cohesion: 0.14
 Nodes (32): cmdLicoes(), linhaLicao(), DEFAULT_CONFIG, adicionarLicao(), agora(), caminhoRender(), caminhoStore(), campo() (+24 more)
 
-### Community 16 - "@nestjs/common"
+### Community 16 - "WordPressIdentityService"
 Cohesion: 0.08
-Nodes (24): RegisterIdentityCommand, IdentityErrorMessages, CustomerIdentityPort, Inject, Injectable, WordPressCustomerIdentityAdapter, RegistrationModule, Module (+16 more)
+Nodes (20): RegisterIdentityCommand, CustomerIdentityPort, Inject, Injectable, WordPressCustomerIdentityAdapter, RegistrationModule, Module, Inject (+12 more)
 
-### Community 17 - "TransactionConfiguration.java"
-Cohesion: 0.12
-Nodes (21): ApplicationClockConfiguration, AxonInventoryRabbitListener, InventoryMessagingConfiguration, AxonPaymentRabbitListener, AxonPaymentMessagingConfiguration, AmqpRetryRouter, ConfirmedAmqpPublisher, IntegrationEventJson (+13 more)
+### Community 17 - "ReliableAmqpConsumer"
+Cohesion: 0.09
+Nodes (17): MarketplaceAmqp, InventoryMessagingConfiguration, AmqpRetryRouter, ConfirmedAmqpPublisher, IntegrationEventJson, BusinessRejection, EventDispatcher, FunctionalInterface (+9 more)
 
 ### Community 18 - "ADR 002 — OAuth multi-resource access token"
 Cohesion: 0.06
@@ -650,9 +619,9 @@ Nodes (29): ADR 001: GraphQL subscriptions over SSE at the federated edge, Conse
 Cohesion: 0.13
 Nodes (31): cmdResumo(), caminhos(), caminhoStream(), corta(), ESTADOS_FAIXA, homeOnp(), lerEventos(), lerStream() (+23 more)
 
-### Community 20 - "PaymentErrorMessages"
-Cohesion: 0.06
-Nodes (16): Override, WordPressOrderPaymentAdapter, WpGraphqlAuthentication, OrderPaymentPort, MercadoPagoProperties, Mode, DETERMINISTIC, MERCADO_PAGO (+8 more)
+### Community 20 - "MercadoPagoProperties"
+Cohesion: 0.08
+Nodes (11): Override, WordPressOrderPaymentAdapter, WpGraphqlAuthentication, MercadoPagoProperties, Mode, DETERMINISTIC, MERCADO_PAGO, HttpGraphQlClient (+3 more)
 
 ### Community 22 - "Mapa do Projeto"
 Cohesion: 0.16
@@ -666,13 +635,13 @@ Nodes (17): Verificação executável de princípios, Preset LGPD + Educação, 
 Cohesion: 0.13
 Nodes (30): cmdPlano(), cmdTarefa(), definirCampoTarefa(), gerarArtefatosPlano(), AGENTES, allowedTools(), descreveTarefa(), ehModeloClaude() (+22 more)
 
-### Community 25 - "org.axonframework.messaging.commandhandling.annotation.Command"
-Cohesion: 0.14
-Nodes (10): ReleaseInventoryCommand, PaymentAggregate, PaymentCommandHandler, Status, RecordPaymentOutcome, Status, RecordProviderNotification, RefundPayment (+2 more)
+### Community 25 - "Payment"
+Cohesion: 0.10
+Nodes (11): ReleaseInventoryCommand, Status, RecordProviderNotification, PaymentHandler, FunctionalInterface, PaymentProvider, ProviderNotificationHandler, Payment (+3 more)
 
-### Community 26 - "ProviderNotificationHandler"
-Cohesion: 0.11
-Nodes (17): AxonProviderNotificationHandler, Outcome, FunctionalInterface, MercadoPagoWebhookController, NotificationHandler, Claim, Outcome, APPLIED (+9 more)
+### Community 26 - "MercadoPagoWebhookController.java"
+Cohesion: 0.19
+Nodes (9): FunctionalInterface, MercadoPagoWebhookController, NotificationHandler, Notification, ProviderNotificationHandlerTest, org.springframework.http.ResponseEntity, org.springframework.web.bind.annotation.PostMapping, org.springframework.web.bind.annotation.RequestMapping (+1 more)
 
 ### Community 27 - "cli.js"
 Cohesion: 0.14
@@ -695,8 +664,8 @@ Cohesion: 0.07
 Nodes (27): AC-090 — Only the intended deployable applications remain, AC-091 — Architectural dependencies follow context boundaries, AC-092 — NestJS owns runtime dependencies, AC-093 — Better Auth uses its NestJS integration, AC-094 — Identity does not duplicate Better Auth persistence, AC-095 — Gateway contains only edge responsibilities, AC-096 — Subgraphs enforce sensitive authorization, AC-097 — WordPress plugins provide the commercial graph (+19 more)
 
 ### Community 32 - "graphql"
-Cohesion: 0.12
-Nodes (8): OrderWorkflowSubscriptionClient, graphql, appDir, expectedTools, operationFiles, operationsDir, root, schema
+Cohesion: 0.15
+Nodes (7): graphql, appDir, expectedTools, operationFiles, operationsDir, root, schema
 
 ### Community 33 - "Gateway GraphQL federado"
 Cohesion: 0.09
@@ -726,9 +695,9 @@ Nodes (25): Adapters and NestJS, Aggregates and entities, Application layer, Can
 Cohesion: 0.12
 Nodes (15): minLength, pattern, type, properties, name, scope, type, required (+7 more)
 
-### Community 40 - "org.axonframework.messaging.queryhandling.annotation.QueryHandler"
-Cohesion: 0.11
-Nodes (9): GraphQlReadConfiguration, FindInventoryReservationByTransaction, FindInventoryReservationByTransactionHandler, InventoryViewRepository, FindPaymentByTransaction, FindPaymentByTransactionHandler, PaymentViewRepository, FindOwnedTransactionHandler (+1 more)
+### Community 40 - "TransactionReadRepository"
+Cohesion: 0.09
+Nodes (10): GraphQlReadConfiguration, FindInventoryReservationByTransactionHandler, InventoryViewRepository, FindPaymentByTransactionHandler, PaymentViewRepository, FindCheckoutOperationHandler, FindOwnedTransactionHandler, FindTransactionByWooOrderHandler (+2 more)
 
 ### Community 41 - "milestone-6-apollo-mcp/executar-tarefas.sh"
 Cohesion: 0.28
@@ -750,9 +719,9 @@ Nodes (22): amarelo(), encerrar(), evento(), executar_faixa_1(), executar_faixa_
 Cohesion: 0.07
 Nodes (29): Completed execution order, Constraints, Federation data source, Gateway Authentication Hardening Review, High priority, Medium priority, Purpose, Required tests (+21 more)
 
-### Community 46 - "CheckoutGraphQlController.java"
+### Community 46 - "OrderWorkflowGraphQlCompatibilityTest.java"
 Cohesion: 0.10
-Nodes (15): CheckoutGraphQlController, CheckoutInput, GraphQlErrorMessages, PaymentController, FindCheckoutOperation, FindOwnedTransaction, FindTransactionByWooOrder, org.axonframework.extension.reactor.messaging.commandhandling.gateway.ReactorCommandGateway (+7 more)
+Nodes (17): CheckoutGraphQlController, OrderStateView, OrderView, FindInventoryReservationByTransaction, PaymentController, FindPaymentByTransaction, CheckoutResult, FindCheckoutOperation (+9 more)
 
 ### Community 47 - "align-payment-federation-naming/executar-tarefas.sh"
 Cohesion: 0.28
@@ -763,15 +732,15 @@ Cohesion: 0.08
 Nodes (23): AC-174 — Tokens are issued for every owned protected resource, AC-175 — Federation preserves the standard bearer credential, AC-176 — NestJS resource servers use Better Auth verification, AC-177 — Payment is a standard Spring OAuth resource server, AC-178 — SSE validates the same bearer token, AC-179 — Native-first boundaries are documented and executable, AC-180 — DPoP verification receives the original request target, AC-181 — Authentication and scope authorization have distinct outcomes (+15 more)
 
 ### Community 49 - "auth-server.ts"
-Cohesion: 0.12
-Nodes (24): @better-auth/oauth-provider, AuthServerOptions, CART_READ_SCOPE, CART_WRITE_SCOPE, close(), GATEWAY_AUDIENCE, listen(), MCP_AUDIENCE (+16 more)
+Cohesion: 0.11
+Nodes (25): OAuthResources, @better-auth/oauth-provider, AuthServerOptions, CART_READ_SCOPE, CART_WRITE_SCOPE, close(), GATEWAY_AUDIENCE, listen() (+17 more)
 
 ### Community 50 - "clarify-gateway-module-boundaries/executar-tarefas.sh"
 Cohesion: 0.26
 Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_202(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
 ### Community 51 - "WooCommerceOrderPort"
-Cohesion: 0.18
+Cohesion: 0.19
 Nodes (5): CheckoutOperationId, AmbiguousResponseException, WooCommerceOrderPort, CheckoutServiceTest, MemoryCheckoutRepository
 
 ### Community 52 - "identity-subgraph/tsconfig.spec.json"
@@ -854,9 +823,9 @@ Nodes (23): amarelo(), encerrar(), evento(), executar_faixa_1(), executar_faixa_
 Cohesion: 0.11
 Nodes (19): devDependencies, eslint, @modelcontextprotocol/sdk, @nestjs/testing, nx, @nx/eslint, @nx/eslint-plugin, @nx/gradle (+11 more)
 
-### Community 72 - "Payment"
+### Community 72 - "ProviderRequest"
 Cohesion: 0.05
-Nodes (36): Override, PaymentRequested, ProcessingResult, Status, JpaPaymentRepository, OutgoingEvent, ProcessingResult, OutgoingEvent (+28 more)
+Nodes (40): Override, PaymentRequested, ProcessingResult, Status, JpaPaymentRepository, Override, OutgoingEvent, PaymentRepository (+32 more)
 
 ### Community 73 - "Spec: Mercado Pago production deployment"
 Cohesion: 0.10
@@ -874,9 +843,9 @@ Nodes (10): MCP Inspector summary, MCP Inspector evidence, Milestone 7 quality g
 Cohesion: 0.06
 Nodes (36): executor, inputs, options, outputs, executor, options, dependsOn, executor (+28 more)
 
-### Community 77 - "TransactionAxonTest.java"
-Cohesion: 0.20
-Nodes (6): StartTransactionHandler, CommandSequencingInterceptor, TransactionAxonTest, ComponentBuilder, org.axonframework.messaging.commandhandling.CommandMessage, org.axonframework.messaging.commandhandling.interception.CommandSequencingInterceptor
+### Community 77 - "Item"
+Cohesion: 0.11
+Nodes (15): TransactionEventSourcedEntity, Outcome, RecordTransactionOutcome, RecordTransactionOutcomeHandler, StartTransaction, StartTransactionHandler, Item, TransactionAxonTest (+7 more)
 
 ### Community 78 - "Spec: Challenge compliance and delivery closure"
 Cohesion: 0.11
@@ -903,8 +872,8 @@ Cohesion: 0.05
 Nodes (39): additionalProperties, $comment, format, type, minLength, type, pattern, type (+31 more)
 
 ### Community 84 - "ChoreographedLifecycleE2ETest.java"
-Cohesion: 0.14
-Nodes (30): InventoryAmqpInboxJpaRepository, TransactionAmqpInboxEntity, TransactionAmqpInboxJpaRepository, TransactionAmqpOutboxJpaRepository, ChoreographyPersistenceTestApplication, SharedAmqpJpaTestApplication, AmqpPersistenceTestApplication, InventoryJpaTestApplication (+22 more)
+Cohesion: 0.10
+Nodes (39): InventoryAmqpInboxJpaRepository, TransactionAmqpInboxEntity, TransactionAmqpInboxJpaRepository, TransactionAmqpOutboxJpaRepository, CheckoutIdempotencyConflictException, ChoreographyPersistenceTestApplication, CachingConnectionFactory, ObjectMapper (+31 more)
 
 ### Community 85 - "Tasks: Federated platform architecture refactor"
 Cohesion: 0.11
@@ -923,16 +892,16 @@ Cohesion: 0.24
 Nodes (7): ../apps/order-workflow-subgraph/src/checkout/checkout.service.ts, ../apps/order-workflow-subgraph/src/checkout/woo-checkout.adapter.ts, ../apps/order-workflow-subgraph/src/order-events/order-event-broker.ts, ../apps/order-workflow-subgraph/src/order-events/order-events.subscription.ts, ../apps/order-workflow-subgraph/src/order-events/postgres/postgres-order-event.relay.ts, ../apps/order-workflow-subgraph/src/persistence/entities/checkout-operation.entity.ts, proveRecoverableCheckout()
 
 ### Community 89 - "identity.module.ts"
-Cohesion: 0.08
-Nodes (28): IdentityUserConnection, IdentityUser, IdentityUserQueryPort, FindIdentityUsersUseCase, Inject, Injectable, ListIdentityUsersUseCase, Inject (+20 more)
+Cohesion: 0.07
+Nodes (29): IdentityUserConnection, IdentityUser, IdentityUserVisibilityPolicy, IdentityUserQueryPort, FindIdentityUsersUseCase, Inject, Injectable, ListIdentityUsersUseCase (+21 more)
 
 ### Community 90 - "gateway/nest/tsconfig.json"
 Cohesion: 0.40
 Nodes (4): extends, files, ../../../tsconfig.base.json, references
 
 ### Community 91 - "RabbitMqBoundaryIntegrationTest"
-Cohesion: 0.10
-Nodes (11): AmqpTopologyConfiguration, MarketplaceAmqp, CachingConnectionFactory, JsonNode, Message, ObjectMapper, RabbitTemplate, RabbitMqBoundaryIntegrationTest (+3 more)
+Cohesion: 0.18
+Nodes (6): CachingConnectionFactory, JsonNode, ObjectMapper, RabbitTemplate, RabbitMqBoundaryIntegrationTest, org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 
 ### Community 92 - "nx.json"
 Cohesion: 0.11
@@ -955,8 +924,8 @@ Cohesion: 0.26
 Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_230(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
 ### Community 97 - "TransactionView"
-Cohesion: 0.17
-Nodes (10): Status, TransactionView, OnTransactionUpdated, OnTransactionUpdatedHandler, TransactionSubscriptionGateway, OrderEventView, TransactionSubscriptionController, java.security.Principal (+2 more)
+Cohesion: 0.14
+Nodes (10): Override, Status, TransactionView, OnTransactionUpdated, OnTransactionUpdatedHandler, TransactionSubscriptionGateway, OrderEventView, TransactionSubscriptionController (+2 more)
 
 ### Community 98 - "refactor-registration-boundaries/executar-tarefas.sh"
 Cohesion: 0.26
@@ -971,8 +940,8 @@ Cohesion: 0.26
 Nodes (19): amarelo(), encerrar(), evento(), executar_seq_T_224(), executar_tudo(), falhar(), gerar_resumo(), info() (+11 more)
 
 ### Community 101 - "registration.service.spec.ts"
-Cohesion: 0.10
-Nodes (15): RegistrationCompensationFailure, RegistrationError, IdentityAccountPort, CompensateRegistrationUseCase, Inject, Injectable, RegisterIdentityUseCase, Inject (+7 more)
+Cohesion: 0.08
+Nodes (17): RegistrationCompensationFailure, RegistrationError, IdentityAccountPort, CompensateRegistrationUseCase, Inject, Injectable, RegisterIdentityUseCase, Inject (+9 more)
 
 ### Community 102 - "gateway/project.json"
 Cohesion: 0.09
@@ -981,10 +950,6 @@ Nodes (26): executor, inputs, options, outputs, name, command, projectType, $sch
 ### Community 103 - "identity/nest/tsconfig.spec.json"
 Cohesion: 0.22
 Nodes (8): compilerOptions, noEmit, rootDir, tsBuildInfoFile, exclude, extends, include, ./tsconfig.lib.json
-
-### Community 104 - "TransactionViewJpaRepository"
-Cohesion: 0.19
-Nodes (6): Override, JpaTransactionReadRepository, Override, TransactionTemplate, JpaTransactionViewStore, TransactionViewJpaRepository
 
 ### Community 105 - "gateway/nest/project.json"
 Cohesion: 0.09
@@ -1014,9 +979,9 @@ Nodes (13): compilerOptions, allowImportingTsExtensions, noImplicitAny, outDir, 
 Cohesion: 0.15
 Nodes (12): T-085 — Encode the immutable challenge compliance gate [concluida], T-086 — Restore durable checkout and RabbitMQ choreography [concluida], T-087 — Reactivate the Java Payment Federation event runtime [concluida], T-088 — Add inventory reaction and compensation to Payment Federation [concluida], T-089 — Repair the complete Testcontainers acceptance journey [concluida], T-090 — Add optional end-to-end observability [concluida], T-091 — Reconcile documentation and close every gate [concluida], T-148 — Refresh challenge compliance and MCP evidence [concluida] (+4 more)
 
-### Community 112 - "InventoryService"
-Cohesion: 0.08
-Nodes (25): Claim, OutgoingEvent, Override, JpaInventoryRepository, EventAppender, Status, ReserveInventoryCommandHandler, Claim (+17 more)
+### Community 112 - "InventoryConfiguration.java"
+Cohesion: 0.04
+Nodes (37): Claim, OutgoingEvent, Override, JpaInventoryRepository, Override, StockItem, WooInventoryAdapter, EventAppender (+29 more)
 
 ### Community 113 - "Tasks: OAuth resource-server authentication"
 Cohesion: 0.15
@@ -1075,12 +1040,12 @@ Cohesion: 0.17
 Nodes (11): AC-197 — User pagination exposes the complete Relay contract, AC-198 — Federated user references are batched per request, AC-199 — Runtime evidence rejects N+1 behavior, AC-200 — Commercial lists preserve Relay edges through federation, Context, Out of scope, Perguntas em aberto, Spec: GraphQL Relay and DataLoader closure (+3 more)
 
 ### Community 127 - "com.fasterxml.jackson.databind.JsonNode"
-Cohesion: 0.05
-Nodes (23): IntegrationEventEnvelope, AmqpInboxEntity, AmqpInboxId, Override, AmqpInboxJpaRepository, AmqpOutboxEntity, Disposition, BUSINESS_REJECTED (+15 more)
+Cohesion: 0.04
+Nodes (28): IntegrationEventEnvelope, AxonInventoryRabbitListener, InventoryAmqpOutboxEntity, InventoryAmqpOutboxEntity, Override, Override, MessagingErrorMessages, AmqpInboxEntity (+20 more)
 
 ### Community 128 - "RegistrationService"
-Cohesion: 0.09
-Nodes (11): AfterHook, Hook, IdentityRegistrationPolicy, BetterAuthIdentityAccountAdapter, RegistrationConsumer, Inject, Injectable, RegistrationService (+3 more)
+Cohesion: 0.12
+Nodes (9): AfterHook, Hook, IdentityRegistrationPolicy, RegistrationConsumer, Inject, Injectable, RegistrationService, Inject (+1 more)
 
 ### Community 129 - "compilerOptions"
 Cohesion: 0.22
@@ -1088,7 +1053,7 @@ Nodes (8): compilerOptions, module, moduleResolution, noEmit, skipLibCheck, stri
 
 ### Community 130 - "package.json"
 Cohesion: 0.04
-Nodes (49): exports, ./gateway-nest, ./identity-nest, ./platform-nest, typescript, license, name, packageManager (+41 more)
+Nodes (48): exports, ./gateway-nest, ./identity-nest, ./platform-nest, typescript, license, name, packageManager (+40 more)
 
 ### Community 131 - "Tasks: Milestone 7 — E2E, quality, and deployment"
 Cohesion: 0.15
@@ -1103,8 +1068,8 @@ Cohesion: 0.14
 Nodes (13): compilerOptions, allowImportingTsExtensions, module, moduleResolution, outDir, tsBuildInfoFile, typeRoots, types (+5 more)
 
 ### Community 134 - "gateway-federation.configuration.ts"
-Cohesion: 0.13
-Nodes (16): FederationCapabilities, CaptureFederationResponseUseCase, Injectable, PrepareFederationRequestUseCase, Injectable, AuthenticatedDataSource, context, dataSource() (+8 more)
+Cohesion: 0.11
+Nodes (17): FederationCapabilities, CaptureFederationResponseUseCase, Injectable, PrepareFederationRequestUseCase, Injectable, AuthenticatedDataSource, context, dataSource() (+9 more)
 
 ### Community 135 - "Design: Mercado Pago payment provider"
 Cohesion: 0.20
@@ -1338,17 +1303,17 @@ Nodes (7): Credential-free gate, Evidence and cleanup, Mercado Pago sandbox runb
 Cohesion: 0.18
 Nodes (10): compilerOptions, allowImportingTsExtensions, outDir, typeRoots, types, exclude, extends, include (+2 more)
 
-### Community 195 - "PaymentProvider"
-Cohesion: 0.09
-Nodes (19): DeterministicPaymentProvider, AuthorizePayment, PaymentRequested, AuthorizePaymentHandler, PaymentRequested, PaymentHandler, FunctionalInterface, PaymentProvider (+11 more)
+### Community 195 - "PaymentView"
+Cohesion: 0.10
+Nodes (12): AuthorizePayment, PaymentRequested, AuthorizePaymentHandler, PaymentRequested, OrderPaymentPort, FindPayment, FindPaymentHandler, Status (+4 more)
 
 ### Community 196 - "Plano de execução — adopt-nestjs-config"
 Cohesion: 0.25
 Nodes (7): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — adopt-nestjs-config, Resumo — o que vai acontecer
 
 ### Community 197 - "CheckoutOperationEntity"
-Cohesion: 0.09
-Nodes (9): CheckoutOperationEntity, Status, CheckoutOperationJpaRepository, Override, TransactionTemplate, JpaCheckoutOperationRepository, TransactionPersistenceMapper, org.axonframework.messaging.eventhandling.gateway.EventGateway (+1 more)
+Cohesion: 0.06
+Nodes (13): CheckoutOperationEntity, Status, CheckoutOperationJpaRepository, Override, TransactionTemplate, JpaCheckoutOperationRepository, Override, JpaTransactionReadRepository (+5 more)
 
 ### Community 198 - "Design: Milestone 8 — Challenge compliance and production hardening"
 Cohesion: 0.29
@@ -1358,9 +1323,9 @@ Nodes (6): AWS boundary, Dependency direction, Design: Milestone 8 — Challenge
 Cohesion: 0.29
 Nodes (6): Decision, Design: Native commerce and Order Workflow Federation, Existence test, Migration sequence, Ownership and dependency rules, Target topology
 
-### Community 200 - "error-message-gateway.test.mjs"
+### Community 200 - "gateway/src/app.module.ts"
 Cohesion: 0.07
-Nodes (20): AppModule, Module, FetcherOptions, GraphqlRequest, HealthController, Controller, Get, GatewayRuntimeMessages (+12 more)
+Nodes (17): AppModule, Module, FetcherOptions, GraphqlRequest, HealthController, Controller, Get, GatewayRuntimeMessages (+9 more)
 
 ### Community 201 - "ADR 0012: Native-first security boundaries"
 Cohesion: 0.33
@@ -1426,9 +1391,9 @@ Nodes (6): Commands, Follow-up Red and Green, Green, Nx cache ownership, Red, T-
 Cohesion: 0.29
 Nodes (6): Detailed review dispositions, Green and refactor gates, Red, Scope and decisions, Source-marker dispositions, T-184 gateway authentication, federation, and loader evidence
 
-### Community 217 - "gateway-federation-refactor.test.mjs"
+### Community 217 - "@nestjs/common"
 Cohesion: 0.09
-Nodes (21): CommerceCookiePort, AuthContextFactory, Injectable, GatewayAuthModule, AuthConsumer, ConsumerModule, Inject, Injectable (+13 more)
+Nodes (20): WordPressCredentialPort, GatewayAuthModule, AuthConsumer, ConsumerModule, Inject, Injectable, Module, Module (+12 more)
 
 ### Community 218 - "Spec: Idiomatic NestJS architecture"
 Cohesion: 0.11
@@ -1491,8 +1456,8 @@ Cohesion: 0.40
 Nodes (4): allOf, $id, $schema, title
 
 ### Community 233 - "Result"
-Cohesion: 0.16
-Nodes (8): Override, PaymentRequested, Status, MercadoPagoPaymentProvider, Override, Override, Status, Result
+Cohesion: 0.08
+Nodes (18): Outcome, Override, PaymentRequested, Status, MercadoPagoPaymentProvider, Override, Status, Result (+10 more)
 
 ### Community 234 - "T-187 checkout and persistence review evidence"
 Cohesion: 0.29
@@ -1515,8 +1480,8 @@ Cohesion: 0.06
 Nodes (30): Green and refactor, Investigation and decisions, Marker dispositions, Red, T-185 — Better Auth lifecycle, registration, and resource scopes, Verification, Green, Marker dispositions (+22 more)
 
 ### Community 240 - "oauth-resource.guard.ts"
-Cohesion: 0.18
-Nodes (9): OAuthCredentialError, OAuthCredentialMessages, RequiredScopesPolicy, Resolver, OAuthAuthenticationMessages, RequiredScopesMetadata, better-auth, sourceRoot (+1 more)
+Cohesion: 0.14
+Nodes (10): OAuthCredentialError, OAuthCredentialMessages, RequiredScopesPolicy, OAuthClaims, GraphqlOAuthResourceGuard, Resolver, Injectable, OAuthAuthenticationMessages (+2 more)
 
 ### Community 241 - "US-117 — Navigate and evolve the subgraph by responsibility"
 Cohesion: 0.14
@@ -1615,8 +1580,8 @@ Cohesion: 0.19
 Nodes (7): OAuthSubject, subjectFactory(), OAuthResourceVerificationMessages, OAuthHttpRequest, OAuthGraphQLContext, OAuthRequestAdapter, execFileAsync
 
 ### Community 300 - "better-auth.factory.spec.ts"
-Cohesion: 0.09
-Nodes (21): BetterAuthError, BetterAuthFactory, BootstrapAdapter, Inject, Injectable, BetterAuthModule, Module, IdentityAuthProvider (+13 more)
+Cohesion: 0.08
+Nodes (24): IdentityErrorMessages, BetterAuthError, BetterAuthFactory, BootstrapAdapter, Inject, Injectable, BetterAuthModule, Module (+16 more)
 
 ### Community 301 - "Q: Qual é o próximo passo depois do T-123?"
 Cohesion: 0.40
@@ -1663,8 +1628,8 @@ Cohesion: 0.29
 Nodes (6): NestJS ownership, Outcome, Protocol decision, Registration boundary refactor review, TDD evidence, Verification
 
 ### Community 356 - "ChoreographedLifecycleE2ETest"
-Cohesion: 0.10
-Nodes (12): InventoryIntegrationEventHandler, PaymentIntegrationEventHandler, StartTransaction, Item, ChoreographedLifecycleE2ETest, Delivery, FunctionalInterface, Message (+4 more)
+Cohesion: 0.12
+Nodes (10): InventoryIntegrationEventHandler, InventoryIntegrationMessage, PaymentIntegrationEventHandler, ChoreographedLifecycleE2ETest, Delivery, FunctionalInterface, Message, Outcome (+2 more)
 
 ### Community 357 - "Design: GraphQL identity registration and NestJS feature modules"
 Cohesion: 0.29
@@ -1695,72 +1660,68 @@ Cohesion: 0.25
 Nodes (7): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — idiomatic-nestjs-architecture, Resumo — o que vai acontecer
 
 ### Community 364 - "OutboxStore"
-Cohesion: 0.13
-Nodes (6): Override, OutboxPaymentIntegrationEventPublisher, PaymentIntegrationEventPublisher, OutboxStore, PendingMessage, org.springframework.scheduling.annotation.Scheduled
+Cohesion: 0.12
+Nodes (8): OutboxPaymentIntegrationEventPublisher, PaymentIntegrationEventPublisher, AxonPaymentMessagingConfiguration, OutboxRelay, OutboxRelayScheduler, OutboxStore, PendingMessage, org.springframework.scheduling.annotation.Scheduled
 
-### Community 366 - "InMemoryLedger"
-Cohesion: 0.33
-Nodes (3): InMemoryLedger, Override, PaymentProviderEffectHandlerTest
+### Community 366 - "Effect"
+Cohesion: 0.18
+Nodes (7): Effect, Type, PROVIDER_PAYMENT, PROVIDER_REFUND, InMemoryLedger, Override, PaymentProviderEffectHandlerTest
 
 ### Community 368 - "Spec: Migrate Order Workflow to Axon Java"
 Cohesion: 0.08
 Nodes (25): AC-280 — Java sources follow the approved boundaries, AC-281 — Commands, events, and queries have distinct paths, AC-282 — Axon state is durable and replayable, AC-283 — Payment invariants and provider idempotency survive conversion, AC-284 — Inventory remains independently consistent, AC-285 — Checkout remains idempotent across concurrency and ambiguity, AC-286 — The distributed lifecycle is strictly choreographed, AC-287 — Transaction projections preserve observable state (+17 more)
 
-### Community 369 - "gateway/nest/src/index.ts"
-Cohesion: 0.11
-Nodes (16): AuthenticationPrincipal, CommerceSessionHeaders, GatewayAuthenticationRequest, GatewayContext, GatewayTokenVerifierPort, OrderWorkflowSubscriptionPort, CreateGatewayContextUseCase, Inject (+8 more)
+### Community 369 - "gateway-federation-refactor.test.mjs"
+Cohesion: 0.14
+Nodes (14): AuthenticationPrincipal, CommerceSessionHeaders, GatewayAuthenticationRequest, GatewayContext, GatewayTokenVerifierPort, OrderWorkflowSubscriptionPort, ForwardGatewaySubscriptionUseCase, Inject (+6 more)
 
 ### Community 370 - "architecture-boundaries.test.mjs"
 Cohesion: 0.18
 Nodes (5): contexts, forbiddenDependencies, ignoredDirectories, sourceExtensions, sourceFiles()
 
-### Community 371 - "org.springframework.amqp.core.Message"
-Cohesion: 0.24
-Nodes (5): EventDispatcher, FunctionalInterface, com.rabbitmq.client.Channel, org.springframework.amqp.core.Message, org.springframework.amqp.rabbit.annotation.RabbitListener
+### Community 371 - "BetterAuthOAuthClientProvisioningAdapter"
+Cohesion: 0.18
+Nodes (3): BetterAuthOAuthClientProvisioningAdapter, Inject, Injectable
 
-### Community 372 - "TransactionSubscriptionEventHandler"
-Cohesion: 0.20
-Nodes (7): CheckoutOperationSubscriptionEventHandler, TransactionSubscriptionEventHandler, TestAxonConfiguration, org.axonframework.messaging.core.annotation.Namespace, org.axonframework.messaging.eventhandling.processing.streaming.token.store.TokenStore, org.axonframework.messaging.queryhandling.QueryUpdateEmitter, org.springframework.boot.test.context.TestConfiguration
+### Community 372 - "org.springframework.context.annotation.Bean"
+Cohesion: 0.08
+Nodes (17): AmqpTopologyConfiguration, ApplicationClockConfiguration, PaymentProjectionHandler, PaymentProjection, TransactionViewJpaRepository, CommandSequencingInterceptor, EventGateway, TransactionConfiguration (+9 more)
 
 ### Community 377 - "standardize-error-messages/executar-tarefas.sh"
 Cohesion: 0.29
 Nodes (26): amarelo(), encerrar(), evento(), executar_faixa_1(), executar_faixa_2(), executar_faixa_3(), executar_faixa_4(), executar_faixa_5() (+18 more)
 
 ### Community 378 - "PostgresMigrationIntegrationTest.java"
-Cohesion: 0.14
-Nodes (14): CommitInventoryCommand, ReserveInventoryCommand, InventoryIntegrationMessage, InventoryCommitRejectedAxonEvent, InventoryCommitRejectedEvent, InventoryCommittedAxonEvent, InventoryCommittedEvent, InventoryReleasedAxonEvent (+6 more)
+Cohesion: 0.12
+Nodes (19): CommitInventoryCommand, ReserveInventoryCommand, InventoryAxonEvents, InventoryCommitRejectedAxonEvent, InventoryCommitRejectedEvent, InventoryCommittedAxonEvent, InventoryCommittedEvent, InventoryReleasedAxonEvent (+11 more)
 
 ### Community 379 - "PaymentOutboxEntity"
 Cohesion: 0.19
 Nodes (6): OutgoingEvent, Override, PaymentOutboxEntity, jakarta.persistence.PostLoad, jakarta.persistence.PostPersist, org.springframework.data.domain.Persistable
 
-### Community 381 - "@nestjs/config"
-Cohesion: 0.18
-Nodes (8): GatewayErrorMessages, WordPressCredentialPort, Inject, adapter(), Inject, Injectable, WpGraphqlCredentialAdapter, @nestjs/config
-
 ### Community 383 - "auth-context.factory.ts"
-Cohesion: 0.23
-Nodes (4): Inject, GatewayRequestAdapter, GatewayRequest, GatewayUnauthenticatedError
+Cohesion: 0.10
+Nodes (20): GatewayErrorMessages, CreateGatewayContextUseCase, Injectable, AuthContextFactory, Inject, Injectable, GatewayJwtHeaderAdapter, GatewayRequestAdapter (+12 more)
 
 ### Community 386 - "jakarta.persistence.Entity"
-Cohesion: 0.14
-Nodes (9): InventoryAmqpOutboxEntity, InventoryInboxEntity, InventoryAmqpInboxEntity, InventoryAmqpOutboxEntity, PaymentAmqpInboxEntity, PaymentAmqpOutboxEntity, TransactionAmqpOutboxEntity, jakarta.persistence.Entity (+1 more)
+Cohesion: 0.17
+Nodes (8): InventoryInboxEntity, InventoryAmqpInboxEntity, InventoryAmqpOutboxEntity, PaymentAmqpInboxEntity, PaymentAmqpOutboxEntity, TransactionAmqpOutboxEntity, jakarta.persistence.Entity, jakarta.persistence.Table
 
 ### Community 389 - "oauth-resource.module.spec.ts"
-Cohesion: 0.19
-Nodes (13): OAuthCredentialVerification, OAuthCredentialVerifierPort, Inject, Injectable, VerifyOAuthCredentialUseCase, credential, options, verifyAccessToken (+5 more)
+Cohesion: 0.16
+Nodes (15): OAuthCredentialVerification, OAuthCredentialVerifierPort, Inject, Injectable, VerifyOAuthCredentialUseCase, credential, options, verifyAccessToken (+7 more)
 
-### Community 390 - "InventoryConfiguration.java"
-Cohesion: 0.07
-Nodes (22): InventoryAmqpOutboxJpaRepository, InventoryInboxJpaRepository, InventoryOperationJpaRepository, InventoryReservationProjectionJpaRepository, InventoryResultEventJpaRepository, InventoryAmqpOutboxEntity, Override, TransactionTemplate (+14 more)
+### Community 390 - "InventoryReservationProjectionJpaRepository"
+Cohesion: 0.36
+Nodes (3): InventoryReservationProjectionJpaRepository, Override, JpaInventoryViewRepository
 
 ### Community 391 - "harden-oauth-runtime-configuration/executar-tarefas.sh"
 Cohesion: 0.30
 Nodes (23): amarelo(), encerrar(), evento(), executar_seq_T_268(), executar_seq_T_269(), executar_seq_T_270(), executar_seq_T_271(), executar_seq_T_272() (+15 more)
 
-### Community 392 - "Inventory"
-Cohesion: 0.09
-Nodes (10): Override, StockItem, WooInventoryAdapter, InsufficientStockException, Inventory, InventoryConflictException, OutgoingEvent, ProcessingResult (+2 more)
+### Community 392 - "TransactionSubscriptionEventHandler"
+Cohesion: 0.31
+Nodes (4): TransactionSubscriptionEventHandler, SuppressWarnings, org.axonframework.messaging.core.annotation.Namespace, org.axonframework.messaging.queryhandling.QueryUpdateEmitter
 
 ### Community 393 - "Design: Idiomatic NestJS architecture"
 Cohesion: 0.25
@@ -1771,8 +1732,8 @@ Cohesion: 0.25
 Nodes (7): Mandatory execution isolation, T-225 — Align the executable DDD contract with NestJS injection [concluida], T-226 — Make Identity use cases NestJS-managed providers [concluida], T-227 — Make OAuth verification a NestJS-managed use case [concluida], T-228 — Make Gateway flows NestJS-managed providers [concluida], T-229 — Audit every NestJS module and close repository evidence [concluida], Tasks: Idiomatic NestJS architecture
 
 ### Community 395 - "identity-core.spec.ts"
-Cohesion: 0.07
-Nodes (24): OAuthClientDefinition, OAuthClientIds, OAuthSeedCredentials, OAuthError, OAuthClientProvisioningPolicy, OAuthClientProvisioningPort, OAuthSeedCredentialsPort, ProvisionOAuthClientsUseCase (+16 more)
+Cohesion: 0.09
+Nodes (21): OAuthClientDefinition, OAuthClientIds, OAuthSeedCredentials, OAuthError, OAuthClientProvisioningPolicy, OAuthClientProvisioningPort, OAuthSeedCredentialsPort, ProvisionOAuthClientsUseCase (+13 more)
 
 ### Community 396 - "Current Workflow and Integration Contract Audit"
 Cohesion: 0.09
@@ -1791,12 +1752,12 @@ Cohesion: 0.10
 Nodes (20): AMQP inbound reliability, Architecture enforcement, Bounded-context map, Consistency boundaries, CQRS projections and SSE, Decision summary, Dependency and annotation policy, Design: Java/Axon Transaction Runtime (+12 more)
 
 ### Community 401 - "TransactionEvent"
-Cohesion: 0.12
-Nodes (12): TransactionalTransactionEventHandler, TransactionEventHandler, FindTransaction, FindTransactionHandler, TransactionOutbox, TransactionViewStore, Outcome, Status (+4 more)
+Cohesion: 0.09
+Nodes (14): TransactionalTransactionEventHandler, TransactionEventHandler, FindTransaction, FindTransactionHandler, TransactionOutbox, TransactionViewStore, Outcome, Status (+6 more)
 
 ### Community 402 - "WooCommerceGraphQlOrderAdapter"
 Cohesion: 0.20
-Nodes (9): Call, Cart, GraphQlClient, HttpGraphQlClient, FunctionalInterface, Override, WooCommerceGraphQlOrderAdapter, Order (+1 more)
+Nodes (8): Call, Cart, GraphQlClient, FunctionalInterface, Override, WooCommerceGraphQlOrderAdapter, Order, Request
 
 ### Community 403 - "Tasks: Audit and Plan the Java/Axon Migration"
 Cohesion: 0.11
@@ -1815,16 +1776,16 @@ Cohesion: 0.29
 Nodes (22): amarelo(), encerrar(), evento(), executar_seq_T_297(), executar_seq_T_298(), executar_seq_T_299(), executar_seq_T_300(), executar_tudo() (+14 more)
 
 ### Community 407 - "TransactionSubscriptionSseTest"
-Cohesion: 0.20
-Nodes (4): SuppressWarnings, TransactionSubscriptionSseTest, java.net.http.HttpRequest, TransactionSubscriptionSseTest.TestAxonConfiguration
+Cohesion: 0.22
+Nodes (3): TransactionSubscriptionSseTest, java.net.http.HttpRequest, TransactionSubscriptionSseTest.TestAxonConfiguration
 
 ### Community 408 - "InventoryReservationView"
-Cohesion: 0.13
-Nodes (8): OrderStateView, OrderView, Status, FindInventoryReservationQuery, InventoryReservationView, Status, CheckoutResult, org.axonframework.messaging.queryhandling.annotation.Query
+Cohesion: 0.11
+Nodes (10): InventoryReservationProjectionMapper, Override, InventoryProjectionHandler, Status, FindInventoryReservationQuery, FindInventoryReservationQueryHandler, InventoryProjectionRepository, InventoryReservationView (+2 more)
 
 ### Community 409 - "PaymentRecordEntity"
-Cohesion: 0.16
-Nodes (4): Status, Override, Status, PaymentRecordEntity
+Cohesion: 0.12
+Nodes (8): Override, Status, Override, Status, PaymentRecordEntity, Method, CARD, PIX
 
 ### Community 410 - "T-240 — Current Java Runtime and Axon 5 Reference Audit"
 Cohesion: 0.12
@@ -1834,21 +1795,17 @@ Nodes (16): Complete local reference inventory and comparison, Current module an
 Cohesion: 0.12
 Nodes (16): A. Executive Summary, B. Effective Versions Found, C. Current Project Map, D. Violations Found, E. Comparison with `axon-graphql-posts`, F. Proposed Bounded Context Map, G. Event Catalog, H. Command Catalog (+8 more)
 
-### Community 412 - "OrderWorkflowGraphQlCompatibilityTest.java"
-Cohesion: 0.17
-Nodes (9): BearerClaims, SuppressWarnings, OrderWorkflowGraphQlCompatibilityTest, PaymentFederationApplicationTest, org.junit.jupiter.api.BeforeEach, org.springframework.beans.factory.annotation.Autowired, org.springframework.boot.test.context.SpringBootTest, org.springframework.boot.test.web.client.TestRestTemplate (+1 more)
+### Community 412 - "OrderWorkflowGraphQlCompatibilityTest"
+Cohesion: 0.24
+Nodes (7): BearerClaims, SuppressWarnings, OrderWorkflowGraphQlCompatibilityTest, PaymentFederationApplicationTest, org.springframework.boot.test.context.SpringBootTest, org.springframework.boot.test.web.client.TestRestTemplate, org.springframework.context.ApplicationContext
 
 ### Community 413 - "TransactionProjectionReplayTest"
-Cohesion: 0.19
-Nodes (5): InventoryProjectionHandler, History, PaymentRequested, Snapshot, TransactionProjectionReplayTest
+Cohesion: 0.20
+Nodes (3): Snapshot, TransactionProjectionReplayTest, org.junit.jupiter.api.BeforeEach
 
 ### Community 414 - "align-milestone-7-checkout-contract/executar-tarefas.sh"
 Cohesion: 0.28
 Nodes (21): amarelo(), encerrar(), evento(), executar_faixa_1(), executar_faixa_2(), executar_seq_T_305(), executar_tudo(), falhar() (+13 more)
-
-### Community 415 - "OAuthClaims"
-Cohesion: 0.17
-Nodes (6): OAuthClaims, GraphqlOAuthResourceGuard, Injectable, OAuthConsumer, Inject, Injectable
 
 ### Community 416 - "PaymentSecurityConfiguration.java"
 Cohesion: 0.36
@@ -1859,12 +1816,12 @@ Cohesion: 0.28
 Nodes (21): amarelo(), encerrar(), evento(), executar_seq_T_276(), executar_seq_T_282(), executar_seq_T_301(), executar_tudo(), falhar() (+13 more)
 
 ### Community 418 - "InventoryReservation"
-Cohesion: 0.08
-Nodes (14): InventoryEventSourcedEntity, Status, EventAppender, Status, EventAppender, Status, ReleaseInventoryCommandHandler, InventoryAxonEvents (+6 more)
+Cohesion: 0.09
+Nodes (16): InventoryEventSourcedEntity, Status, EventAppender, Status, EventAppender, Status, ReleaseInventoryCommandHandler, InventoryEventPublisher (+8 more)
 
 ### Community 419 - "GraphQlErrorResolver.java"
-Cohesion: 0.16
-Nodes (13): CheckoutRequestHeaderInterceptor, Override, GraphQlErrorResolver, Override, CheckoutIdempotencyConflictException, Chain, graphql.GraphQLError, graphql.schema.DataFetchingEnvironment (+5 more)
+Cohesion: 0.18
+Nodes (12): CheckoutRequestHeaderInterceptor, Override, GraphQlErrorResolver, Override, Chain, graphql.GraphQLError, graphql.schema.DataFetchingEnvironment, org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter (+4 more)
 
 ### Community 420 - "Java Axon order workflow operations"
 Cohesion: 0.18
@@ -1879,8 +1836,8 @@ Cohesion: 0.22
 Nodes (5): Acceptance-criterion traceability, Java/Axon 5 Migration Test Matrix, Phase gate command set, Required behavioral and infrastructure coverage, Test policy
 
 ### Community 423 - "InventoryAxonPathsTest"
-Cohesion: 0.14
-Nodes (10): CommitDecision, CommitInventoryCommandHandler, FunctionalInterface, InventoryAxonPathsTest, Claim, OutgoingEvent, Override, MemoryRepository (+2 more)
+Cohesion: 0.17
+Nodes (8): CommitDecision, CommitInventoryCommandHandler, FunctionalInterface, InventoryAxonPathsTest, Claim, OutgoingEvent, Override, MemoryRepository
 
 ### Community 425 - "Stage"
 Cohesion: 0.25
@@ -1894,17 +1851,9 @@ Nodes (20): amarelo(), encerrar(), evento(), executar_seq_T_274(), executar_seq_
 Cohesion: 0.25
 Nodes (7): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), Gestão de branches e commits, Ordem de execução (uma tarefa após a outra), Plano de execução — migrate-order-workflow-to-axon-java, Resumo — o que vai acontecer
 
-### Community 428 - "TransactionEventSourcedEntity"
-Cohesion: 0.16
-Nodes (8): Status, TransactionEventSourcedEntity, Outcome, RecordTransactionOutcome, RecordTransactionOutcomeHandler, org.axonframework.eventsourcing.annotation.EventSourcingHandler, org.axonframework.eventsourcing.annotation.reflection.EntityCreator, org.axonframework.extension.spring.stereotype.EventSourced
-
 ### Community 429 - "oauth-resource.service.integration.spec.ts"
-Cohesion: 0.12
-Nodes (12): Inject, BetterAuthOAuthCredentialVerifierAdapter, Inject, Injectable, createService(), encode(), issueToken(), options (+4 more)
-
-### Community 430 - "Status"
-Cohesion: 0.33
-Nodes (6): Status, COMMIT_REJECTED, COMMITTED, REJECTED, RELEASED, RESERVED
+Cohesion: 0.10
+Nodes (15): Inject, BetterAuthOAuthCredentialVerifierAdapter, Inject, Injectable, OAuthConsumer, Inject, Injectable, createService() (+7 more)
 
 ### Community 431 - "align-wordpress-cart-product-edge/executar-tarefas.sh"
 Cohesion: 0.26
@@ -1967,40 +1916,28 @@ Cohesion: 0.10
 Nodes (20): AC-305 — Resolve compatible issuer configuration after Nest config loading, AC-306 — Reserve DPoP proof identifiers atomically across instances, AC-307 — Deploy canonical origin and shared replay storage, AC-308 — Separate OAuth orchestration from Better Auth verification, AC-309 — Restrict the user list to an administrative scope, AC-310 — Hide other users from point lookup and federation references, AC-311 — Exercise the production request-scoped batch provider, AC-312 — Report previous pages from persisted rows (+12 more)
 
 ### Community 454 - "CheckoutOperationView"
-Cohesion: 0.10
-Nodes (9): CheckoutOperationView, FindCheckoutOperationHandler, FindTransactionByWooOrderHandler, TransactionReadRepository, CheckoutOperationCommitted, CheckoutOperationUpdated, CheckoutOperationUpdatedHandler, CheckoutSubscriptionGateway (+1 more)
+Cohesion: 0.12
+Nodes (10): CheckoutOperationView, CheckoutOperationCommitted, CheckoutOperationSubscriptionEventHandler, CheckoutOperationUpdated, CheckoutOperationUpdatedHandler, CheckoutSubscriptionGateway, TransactionSubscriptionConfiguration, CheckoutSubscriptionTest (+2 more)
 
-### Community 455 - "PaymentEffectLedger"
+### Community 455 - "org.axonframework.messaging.commandhandling.gateway.CommandGateway"
 Cohesion: 0.17
-Nodes (7): PaymentProviderEffectHandler, Effect, PaymentEffectLedger, Type, PROVIDER_PAYMENT, PROVIDER_REFUND, PaymentRefundRequested
+Nodes (7): AxonProviderNotificationHandler, AxonPaymentRabbitListener, PaymentProviderEffectHandler, PaymentEffectLedger, Repository, TransactionRabbitListener, org.axonframework.messaging.commandhandling.gateway.CommandGateway
 
 ### Community 456 - "Onda 1 — faixa-1 ∥ faixa-2 ∥ faixa-3 ∥ faixa-4 ∥ faixa-5 ∥ faixa-6 ∥ faixa-7"
 Cohesion: 0.12
 Nodes (16): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como executar, ▶ Execução — Codex headless (codex exec), faixa-1 — branch `spec/standardize-error-messages-faixa-1` — worktree `../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-1`, faixa-2 — branch `spec/standardize-error-messages-faixa-2` — worktree `../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-2`, faixa-3 — branch `spec/standardize-error-messages-faixa-3` — worktree `../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-3`, faixa-4 — branch `spec/standardize-error-messages-faixa-4` — worktree `../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-4`, faixa-5 — branch `spec/standardize-error-messages-faixa-5` — worktree `../onp-worktrees/desafio-dev-backend-senior-standardize-error-messages-faixa-5` (+8 more)
 
 ### Community 457 - "InventoryResultEventEntity"
-Cohesion: 0.21
+Cohesion: 0.23
 Nodes (3): InventoryResultEventEntity, InventoryResultEventMapper, OutgoingEvent
-
-### Community 459 - "RequestPayment"
-Cohesion: 0.19
-Nodes (6): PaymentRequested, RequestPayment, Method, CARD, PIX, PaymentAxonFixtureTest
 
 ### Community 460 - "MemoryRepository"
 Cohesion: 0.24
 Nodes (6): InventoryServiceTest, Claim, OutgoingEvent, Override, MemoryRepository, StoredOperation
 
-### Community 461 - "Playwright Skill - Complete API Reference"
-Cohesion: 0.12
-Nodes (16): Accessibility Testing, Additional Resources, Basic Page Object, Best Practices, CI/CD Integration, Data-Driven Testing, GitHub Actions, Mobile Testing (+8 more)
-
 ### Community 462 - "error-message-policy.mjs"
 Cohesion: 0.26
 Nodes (13): approvedProductionRoots, assertErrorMessagePolicy(), isCatalogReference(), isExceptionName(), javaMessageTypes(), javaViolations(), lineAt(), scanErrorMessagePolicy() (+5 more)
-
-### Community 463 - "gateway-path.integration.spec.ts"
-Cohesion: 0.13
-Nodes (8): GatewayFederationConfiguration, Injectable, GatewayFederationModule, Module, encode(), SigningKey, token(), wordpressDataSource()
 
 ### Community 464 - "Spec: Organize Payment Federation structure"
 Cohesion: 0.13
@@ -2026,21 +1963,17 @@ Nodes (14): Códigos globais de rastreio, Template de tarefas de feature, Gate o
 Cohesion: 0.14
 Nodes (4): InventoryOperationEntity, State, CLAIMED, COMPLETED
 
-### Community 470 - "JpaTransactionPersistenceTest.java"
-Cohesion: 0.20
+### Community 470 - "JpaTransactionPersistenceTest"
+Cohesion: 0.18
 Nodes (7): JpaTransactionPersistenceTest, JpaTransactionPersistenceTest.TransactionPersistenceTestConfiguration, org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase, org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest, org.springframework.test.context.ContextConfiguration, org.springframework.test.context.DynamicPropertyRegistry, org.springframework.test.context.DynamicPropertySource
 
-### Community 471 - "vitest"
-Cohesion: 0.10
-Nodes (12): Args, Context, IdentityUserVisibilityPolicy, Query, coreFiles, UserCursorDecoder, RequireScopes(), Resolver (+4 more)
-
-### Community 472 - "PaymentView"
+### Community 471 - "RequireScopes"
 Cohesion: 0.15
-Nodes (8): FederationGraphqlConfiguration, Override, JpaPaymentViewRepository, Status, PaymentView, FederationSchemaFactory, org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer, org.springframework.graphql.data.federation.FederationSchemaFactory
+Nodes (9): Args, Context, Query, UserCursorDecoder, RequireScopes(), Resolver, Parent, ResolveField (+1 more)
 
-### Community 473 - "Notification"
-Cohesion: 0.23
-Nodes (3): Notification, MercadoPagoWebhookControllerTest, ProviderNotificationHandlerTest
+### Community 472 - "FederationGraphqlConfiguration.java"
+Cohesion: 0.36
+Nodes (4): FederationGraphqlConfiguration, FederationSchemaFactory, org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer, org.springframework.graphql.data.federation.FederationSchemaFactory
 
 ### Community 474 - "Tasks: Refactor checkout operation flow"
 Cohesion: 0.15
@@ -2050,13 +1983,9 @@ Nodes (12): Execution authorization, T-287 — Add focused Red tests for checkou
 Cohesion: 0.15
 Nodes (12): AC-298 — TypeScript throw sites use named messages, AC-299 — Java throw sites use named messages, AC-300 — Custom exceptions provide documented messages, AC-301 — Existing observable error text remains compatible, AC-302 — Future regressions fail the quality gate, Context, Out of scope, Perguntas em aberto (+4 more)
 
-### Community 476 - "InventoryReservationProjectionEntity"
-Cohesion: 0.21
-Nodes (3): InventoryReservationProjectionEntity, Status, InventoryReservationProjectionMapper
-
-### Community 477 - "AxonPersistenceRestartTest.java"
-Cohesion: 0.28
-Nodes (4): AxonPersistenceRestartTest, EventMessage, org.axonframework.eventsourcing.eventstore.EventStorageEngine, org.springframework.jdbc.core.JdbcTemplate
+### Community 477 - "AxonPersistenceRestartTest"
+Cohesion: 0.29
+Nodes (3): AxonPersistenceRestartTest, EventMessage, org.axonframework.eventsourcing.eventstore.EventStorageEngine
 
 ### Community 478 - "Plano de execução — align-milestone-7-checkout-contract"
 Cohesion: 0.17
@@ -2066,21 +1995,17 @@ Nodes (11): 📣 Acompanhamento — tabela + resumo no chat (a cada 1 min), Como
 Cohesion: 0.17
 Nodes (11): AC-352 — Gateway checkout composition matches the Java runtime, AC-353 — Checkout reads are registered in the production application, AC-354 — Native WooCommerce checkout preserves the linked buyer, Contexto, Fora de escopo, Histórias, Limites DDD, Perguntas em aberto (+3 more)
 
-### Community 481 - "AtomicRepository"
-Cohesion: 0.27
-Nodes (3): AtomicRepository, OutgoingEvent, PaymentHandlerTest
+### Community 481 - "DeterministicPaymentProvider"
+Cohesion: 0.26
+Nodes (4): DeterministicPaymentProvider, AtomicRepository, OutgoingEvent, PaymentHandlerTest
 
 ### Community 482 - "PaymentEffectEntity"
-Cohesion: 0.24
+Cohesion: 0.23
 Nodes (6): Override, Status, PaymentEffectEntity, State, CLAIMED, COMPLETED
 
-### Community 483 - "Playwright Browser Automation"
-Cohesion: 0.20
-Nodes (8): Configuration, Current Playwright patterns, Helpers, Minimal example, Path resolution, Playwright Browser Automation, Setup, Workflow
-
-### Community 484 - "node-review-tooling.spec.ts"
-Cohesion: 0.20
-Nodes (5): ./apps/gateway/src/health.controller.ts, DecoratedProvider, execFileAsync, Inject, Injectable
+### Community 484 - "vitest"
+Cohesion: 0.08
+Nodes (15): CommerceCookiePort, Inject, Inject, ./apps/gateway/src/health.controller.ts, encode(), SigningKey, token(), CommerceCookieAdapter (+7 more)
 
 ### Community 485 - "Spec: Fix Payment Federation IDE compiler diagnostics"
 Cohesion: 0.20
@@ -2109,10 +2034,6 @@ Nodes (9): AC-357 — The same bearer resolves the same cart, AC-358 — Carts r
 ### Community 491 - "Tasks: Standardize error messages"
 Cohesion: 0.20
 Nodes (9): T-260 — Add final executable error-message governance [em-andamento], T-261 — Standardize Gateway TypeScript errors [em-andamento], T-262 — Standardize Java Transaction errors [em-andamento], T-263 — Standardize Java Inventory errors [em-andamento], T-264 — Standardize Java Payment errors [em-andamento], T-265 — Standardize Java shared-boundary errors [em-andamento], T-266 — Standardize Identity TypeScript errors [em-andamento], T-267 — Standardize Platform OAuth TypeScript errors [em-andamento] (+1 more)
-
-### Community 492 - "run.js"
-Cohesion: 0.22
-Nodes (5): args, fs, nodeModules, path, { spawn }
 
 ### Community 493 - "Spec: Align wordpress cart product edge"
 Cohesion: 0.22
@@ -2145,10 +2066,6 @@ Nodes (8): AC-363 — Payment receives the checkout payer email, Context, Out of
 ### Community 500 - "Spec: Restore local e2e gateway runtime"
 Cohesion: 0.22
 Nodes (8): AC-351 — Compose and AWS preserve their distinct replay-storage boundaries, Contexto, Fora de escopo, Histórias, Perguntas em aberto, Spec: Restore local e2e gateway runtime, Suposições, US-157 — Run the isolated acceptance topology without weakening production DPoP
-
-### Community 501 - "InventoryPostgresIntegrationTest"
-Cohesion: 0.18
-Nodes (6): CachingConnectionFactory, ObjectMapper, RabbitTemplate, InventoryPostgresIntegrationTest, ConfigurableApplicationContext, DriverManagerDataSource
 
 ### Community 502 - "T-268 — Align OAuth defaults and resolve configuration lazily"
 Cohesion: 0.25
@@ -2250,10 +2167,6 @@ Nodes (5): closingDelimiter(), customExceptionViolations(), exceptionConstructio
 Cohesion: 0.43
 Nodes (6): customExceptionViolations(), inlineMessageViolations(), javaSources(), lineNumber(), roots, sources()
 
-### Community 527 - "PostgresMigrationIntegrationTest"
-Cohesion: 0.28
-Nodes (3): InventoryStockTestConfiguration, PostgresMigrationIntegrationTest, org.springframework.context.annotation.Primary
-
 ### Community 528 - "ADR 010: Mercado Pago payment provider"
 Cohesion: 0.33
 Nodes (6): ADR 010: Mercado Pago payment provider, Alternatives considered, Consequences and replacement condition, Context, Decision, Operational boundary
@@ -2265,14 +2178,6 @@ Nodes (5): DDD record, Green and refactor, Red, T-273 — Propagate tokenized Ca
 ### Community 530 - "Design: Standardize error messages"
 Cohesion: 0.33
 Nodes (5): Decision, Dependency direction, Design: Standardize error messages, Scope boundary, Verification
-
-### Community 532 - "Common Patterns & Solutions"
-Cohesion: 0.40
-Nodes (5): Common Patterns & Solutions, File Downloads, Handling Popups, iFrames, Infinite Scroll
-
-### Community 533 - "Common tasks"
-Cohesion: 0.40
-Nodes (5): Common tasks, Connect to an existing Chrome session, Login flow, Responsive checks, Save scripts and artifacts
 
 ### Community 534 - "Q: consegue resolve esses erros do compilador?"
 Cohesion: 0.40
@@ -2307,12 +2212,8 @@ Cohesion: 0.83
 Nodes (3): gradlew script, die(), warn()
 
 ### Community 544 - "HealthController"
-Cohesion: 0.21
-Nodes (5): AppModule, Module, HealthController, Controller, Get
-
-### Community 546 - "Common Actions"
-Cohesion: 0.50
-Nodes (4): Common Actions, Form Interactions, Keyboard Actions, Mouse Actions
+Cohesion: 0.19
+Nodes (6): AppModule, Module, HealthController, Controller, Get, reflect-metadata
 
 ### Community 547 - "T-272 — OAuth audience and DPoP presentation guidance"
 Cohesion: 0.50
@@ -2330,34 +2231,14 @@ Nodes (3): T-274 — Separate checkout coordination steps [em-andamento], T-275 
 Cohesion: 0.50
 Nodes (3): checkoutBaseline, classes, execute
 
-### Community 554 - "Selectors & Locators"
-Cohesion: 0.67
-Nodes (3): Advanced Locator Patterns, Best Practices for Selectors, Selectors & Locators
-
-### Community 555 - "Core Patterns"
-Cohesion: 0.67
-Nodes (3): Basic Browser Automation, Core Patterns, Test Structure
-
-### Community 556 - "Installation & Setup"
-Cohesion: 0.67
-Nodes (3): Basic Configuration, Installation & Setup, Prerequisites
-
-### Community 557 - "Network & API Testing"
-Cohesion: 0.67
-Nodes (3): Custom Headers via Environment Variables, Intercepting Requests, Network & API Testing
-
-### Community 558 - "Debugging"
-Cohesion: 0.67
-Nodes (3): Debug Mode, Debugging, In-Code Debugging
-
 ### Community 582 - "ProviderNotificationEntity"
-Cohesion: 0.28
+Cohesion: 0.32
 Nodes (4): Outcome, Override, Status, ProviderNotificationEntity
 
 ## Knowledge Gaps
-- **2357 isolated node(s):** `__dirname`, `TEMPLATES_DIR`, `SKILL_DIR_POR_AGENTE`, `SKILLS_DIR_PROJETO`, `CI_ESCALATES` (+2352 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 3272 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **82 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **2289 isolated node(s):** `__dirname`, `TEMPLATES_DIR`, `SKILL_DIR_POR_AGENTE`, `SKILLS_DIR_PROJETO`, `CI_ESCALATES` (+2284 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 3187 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **78 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Work-memory lessons
 
@@ -2370,17 +2251,17 @@ Nodes (4): Outcome, Override, Status, ProviderNotificationEntity
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Transaction` connect `Transaction` to `TransactionView`, `jakarta.persistence.Entity`, `Transaction.java`, `ChoreographedLifecycleE2ETest`, `TransactionEventSourcedEntity`, `TransactionAxonTest.java`, `TransactionConfiguration.java`, `TransactionEvent`, `ChoreographedLifecycleE2ETest.java`, `JpaTransactionPersistenceTest.java`, `InventoryReservationView`, `PostgresMigrationIntegrationTest.java`, `OrderWorkflowGraphQlCompatibilityTest.java`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `Payment` connect `Payment` to `PaymentApproved`, `org.junit.jupiter.api.Test`, `PaymentErrorMessages`, `InventoryReservationView`, `PaymentRecordEntity`, `ProviderNotificationHandler`, `org.axonframework.messaging.commandhandling.annotation.Command`, `OrderWorkflowGraphQlCompatibilityTest.java`, `PaymentProvider`, `RequestPayment`, `ChoreographedLifecycleE2ETest.java`, `PaymentView`, `Notification`, `PaymentRequested`, `AtomicRepository`, `Result`, `OutboxStore`, `org.springframework.amqp.core.Message`, `PaymentOutboxEntity`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
-- **Why does `@nestjs/common` connect `@nestjs/common` to `HealthController`, `identity.module.ts`, `package.json`, `node-review-tooling.spec.ts`, `registration.service.spec.ts`, `gateway-federation.configuration.ts`, `oauth-resource.module.spec.ts`, `error-message-gateway.test.mjs`, `platform/nest/src/index.ts`, `identity-core.spec.ts`, `better-auth.factory.spec.ts`, `oauth-resource.guard.ts`, `gateway/nest/src/index.ts`, `gateway-federation-refactor.test.mjs`, `@nestjs/config`, `auth-context.factory.ts`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
+- **Why does `Payment` connect `Payment` to `SpringDataPaymentRecordRepository`, `PaymentEffectEntity`, `PaymentView`, `DeterministicPaymentProvider`, `PaymentRequested`, `ProviderRequest`, `Result`, `MercadoPagoPaymentProviderTest`, `OutboxStore`, `OrderWorkflowGraphQlCompatibilityTest.java`, `ChoreographedLifecycleE2ETest.java`, `FederationGraphqlConfiguration.java`, `PaymentRecordEntity`, `PaymentOutboxEntity`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
+- **Why does `Transaction` connect `Transaction` to `TransactionView`, `jakarta.persistence.Entity`, `CheckoutServiceTest.java`, `ChoreographedLifecycleE2ETest`, `Item`, `OrderWorkflowGraphQlCompatibilityTest.java`, `ReliableAmqpConsumer`, `TransactionEvent`, `MercadoPagoProperties`, `ChoreographedLifecycleE2ETest.java`, `Payment`, `PostgresMigrationIntegrationTest.java`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
+- **Why does `TransactionEvent` connect `TransactionEvent` to `TransactionView`, `jakarta.persistence.Entity`, `CheckoutOperationEntity`, `Transaction`, `TransactionSubscriptionEventHandler`, `com.fasterxml.jackson.databind.ObjectMapper`, `Item`, `ChoreographedLifecycleE2ETest.java`, `TransactionSubscriptionSseTest`, `PostgresMigrationIntegrationTest.java`, `com.fasterxml.jackson.databind.JsonNode`?**
+  _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `__dirname`, `TEMPLATES_DIR`, `SKILL_DIR_POR_AGENTE` to the rest of the system?**
-  _2357 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `org.springframework.context.annotation.Bean` be split into smaller, more focused modules?**
-  _Cohesion score 0.09158249158249158 - nodes in this community are weakly interconnected._
+  _2289 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `SpringDataPaymentRecordRepository` be split into smaller, more focused modules?**
+  _Cohesion score 0.06111111111111111 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
-- **Should `graphiql-lib.mjs` be split into smaller, more focused modules?**
-  _Cohesion score 0.05926251097453907 - nodes in this community are weakly interconnected._
+- **Should `PaymentRequested` be split into smaller, more focused modules?**
+  _Cohesion score 0.08960573476702509 - nodes in this community are weakly interconnected._
