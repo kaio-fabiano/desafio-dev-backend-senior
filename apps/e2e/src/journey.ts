@@ -58,7 +58,7 @@ async function graphql(
   const documents: Record<string, { query: string; responseField?: string }> = {
     me: {
       query:
-        'query me($first: Int = 20) { me { id email orders(first: $first) { id status paymentMethod workflow { state } pixCode lineItems(first: 20) { nodes { quantity product { node { id name } } } } } } }',
+        'query me($first: Int = 20) { me { id email orders(first: $first) { edges { cursor node { id status paymentMethod workflow { state } pixCode lineItems(first: 20) { nodes { quantity product { node { id name } } } } } } pageInfo { hasNextPage hasPreviousPage startCursor endCursor } } } }',
       responseField: 'me',
     },
     orderAndProducts: {

@@ -69,11 +69,12 @@ export class IdentityResolver {
   async orders(
     @Parent() user: { id: string },
     @Args('first') first = 20,
+    @Args('after') after?: string,
   ) {
     if (!Number.isInteger(first) || first < 1 || first > 100) {
       throw new BadRequestException(IdentityErrorMessages.invalidUserPageSize);
     }
-    return this.wordpressOrders.findOrderReferences(user.id, first);
+    return this.wordpressOrders.findOrderReferences(user.id, first, after);
   }
 
   @ResolveReference()

@@ -122,17 +122,41 @@ export class WordPressIdentityService {
   async findOrderReferences(
     subject: string,
     first: number,
-  ): Promise<Array<{ id: string }>> {
+    after?: string,
+  ): Promise<{
+    edges: Array<{ cursor: string; node: { id: string } }>;
+    pageInfo: {
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor: string | null;
+      endCursor: string | null;
+    };
+  }> {
     const authToken = await this.subjectToken(subject);
     const result = await this.graphql<{
-      customer?: { orders?: { nodes?: Array<{ id?: string }> } };
+      customer?: {
+        orders?: {
+          edges?: Array<{ cursor?: string; node?: { id?: string } }>;
+          pageInfo?: {
+            hasNextPage?: boolean;
+            hasPreviousPage?: boolean;
+            startCursor?: string | null;
+            endCursor?: string | null;
+          };
+        };
+      };
     }>(
       `
-        query IdentityUserOrders($first: Int!) {
-          customer { orders(first: $first) { nodes { id } } }
+        query IdentityUserOrders($first: Int!, $after: String) {
+          customer {
+            orders(first: $first, after: $after) {
+              edges { cursor node { id } }
+              pageInfo { hasNextPage hasPreviousPage startCursor endCursor }
+            }
+          }
         }
       `,
-      { first },
+      { first, after: after ?? null },
       authToken,
     );
     if (result.errors?.length) {
@@ -141,9 +165,20 @@ export class WordPressIdentityService {
         IdentityErrorMessages.wordpress.WORDPRESS_ORDERS_FAILED,
       );
     }
-    return (result.data?.customer?.orders?.nodes ?? []).flatMap((node) =>
-      node.id ? [{ id: node.id }] : [],
-    );
+    const orders = result.data?.customer?.orders;
+    return {
+      edges: (orders?.edges ?? []).flatMap((edge) =>
+        edge.node?.id
+          ? [{ cursor: edge.cursor ?? '', node: { id: edge.node.id } }]
+          : [],
+      ),
+      pageInfo: {
+        hasNextPage: orders?.pageInfo?.hasNextPage ?? false,
+        hasPreviousPage: orders?.pageInfo?.hasPreviousPage ?? false,
+        startCursor: orders?.pageInfo?.startCursor ?? null,
+        endCursor: orders?.pageInfo?.endCursor ?? null,
+      },
+    };
   }
 
   private async subjectToken(subject: string): Promise<string> {
